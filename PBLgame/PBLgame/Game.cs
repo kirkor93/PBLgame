@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using PBLgame.Engine.Component;
+using PBLgame.Engine.GameObject;
 
 namespace PBLgame
 {
@@ -70,6 +72,7 @@ namespace PBLgame
             vertexBuffer.SetData(verts);
 
             effect = new BasicEffect(GraphicsDevice);
+
             //------------------------
 
             // TODO: use this.Content to load your game content here
@@ -108,6 +111,9 @@ namespace PBLgame
             if (keyboardState.IsKeyDown(Keys.Right))
             worldT *= Matrix.CreateTranslation(0.01f, 0, 0);
 
+
+            
+
             //-----------------------------
 
 
@@ -128,8 +134,8 @@ namespace PBLgame
             GraphicsDevice.SetVertexBuffer(vertexBuffer);
 
             effect.World = worldR * worldT;
-            effect.View = mainCamera.View;
-            effect.Projection = mainCamera.Projection;
+            effect.View = mainCamera.ViewMatrix;
+            effect.Projection = mainCamera.ProjectionMatrix;
             effect.VertexColorEnabled = true;
 
             foreach (EffectPass pass in effect.CurrentTechnique.Passes)

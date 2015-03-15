@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
 
-namespace Engine.Component
+namespace PBLgame.Engine.Component
 {
-    class IComponent
+    public interface IComponent
     {
         #region Methods
-        public void Initialize()
-        {
 
-        }
+        //void Initialize();
+        //void Update();
 
-        public void Update()
-        {
-
-        }
         #endregion
+
     }
 }

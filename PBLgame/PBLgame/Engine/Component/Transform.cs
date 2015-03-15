@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
-
-namespace Engine.Component
+namespace PBLgame.Engine.Component
 {
-    class Transform : IComponent
+    public class Transform : IComponent
     {
         #region Variables
         #region Public
         #endregion
         #region Private
-        private Vector3 position;
-        private Vector3 rotation;
-        private Vector3 scale;
+        private Vector3 _position;
+        private Vector3 _rotation;
+        private Vector3 _scale;
 
-        private Matrix worldTranslate;
-        private Matrix worldRotation;
-        private Matrix worldScale;
+        private Matrix _worldTranslate;
+        private Matrix _worldRotation;
+        private Matrix _worldScale;
         #endregion
         #endregion
 
@@ -28,33 +23,33 @@ namespace Engine.Component
         {
             get
             {
-                return this.position;
+                return this._position;
             }
             set
             {
-                this.position = value;
+                this._position = value;
             }
         }
         public Vector3 Rotation
         {
             get
             {
-                return this.rotation;
+                return this._rotation;
             }
             set
             {
-                this.rotation = value;
+                this._rotation = value;
             }
         }
         public Vector3 Scale
         {
             get
             {
-                return this.scale;
+                return this._scale;
             }
             set
             {
-                this.scale = value;
+                this._scale = value;
             }
         }
         #endregion
@@ -69,5 +64,6 @@ namespace Engine.Component
 
         }
         #endregion
+
     }
 }

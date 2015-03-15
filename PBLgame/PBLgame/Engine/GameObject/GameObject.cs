@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using PBLgame.Engine.Component;
 
-namespace Engine.GameObject
+namespace PBLgame.Engine.GameObject
 {
     class GameObject
     {
@@ -15,13 +15,13 @@ namespace Engine.GameObject
             #endregion
             #region Private
             //Components list attached to game object
-            List<Engine.Component.IComponent> components = new List<Component.IComponent>();
-            //Most common components             
-            private Engine.Component.IComponent transform;
-            private Engine.Component.IComponent renderer;
-            private Engine.Component.IComponent collision;
-            private Engine.Component.IComponent animator;
-            private Engine.Component.IComponent particleSystem;          
+            List<Engine.Component.IComponent> _components = new List<Component.IComponent>();
+            //Most common _components             
+            private Engine.Component.IComponent _transform;
+            private Engine.Component.IComponent _renderer;
+            private Engine.Component.IComponent _collision;
+            private Engine.Component.IComponent _animator;
+            private Engine.Component.IComponent _particleSystem;          
             #endregion
         #endregion
 
@@ -30,43 +30,61 @@ namespace Engine.GameObject
         {
             get
             {
-                return this.transform;
+                return this._transform;
             }   
         }
         public Engine.Component.IComponent Renderer
         {
             get
             {
-                return this.renderer;
+                return this._renderer;
             }
         }
         public Engine.Component.IComponent Collision
         {
             get
             {
-                return this.collision;
+                return this._collision;
             }
         }
         public Engine.Component.IComponent Animator
         {
             get
             {
-                return this.animator;
+                return this._animator;
             }
         }
         public Engine.Component.IComponent ParticleSystem
         {
             get
             {
-                return this.particleSystem;
+                return this._particleSystem;
             }
         }
         #endregion  
 
         #region Methods
-        public Engine.Component.IComponent GetComponent<T>(ref T component )
+
+        public GameObject()
         {
-            return new Engine.Component.IComponent();
+            _transform = new Transform();
+            _components.Add(_transform);
+        }
+
+
+        public T GetComponent<T>() where T : class, IComponent
+        {
+            IEnumerable<IComponent> list = 
+                from component in _components
+                where component.GetType() == typeof(T)
+                select component;
+
+            if (list.Any())
+            {
+                return list.First() as T;
+            }
+
+            return null;
         }
         #endregion
     }
