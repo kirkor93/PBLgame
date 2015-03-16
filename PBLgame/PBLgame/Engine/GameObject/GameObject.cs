@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PBLgame.Engine.Component;
+
+using PBLgame.Engine.Components;
 
 namespace PBLgame.Engine.GameObject
 {
@@ -15,46 +16,46 @@ namespace PBLgame.Engine.GameObject
             #endregion
             #region Private
             //Components list attached to game object
-            List<Engine.Component.IComponent> _components = new List<Component.IComponent>();
+            List<Engine.Components.Component> _components = new List<Components.Component>();
             //Most common _components             
-            private Engine.Component.IComponent _transform;
-            private Engine.Component.IComponent _renderer;
-            private Engine.Component.IComponent _collision;
-            private Engine.Component.IComponent _animator;
-            private Engine.Component.IComponent _particleSystem;          
+            private Engine.Components.Component _transform;
+            private Engine.Components.Component _renderer;
+            private Engine.Components.Component _collision;
+            private Engine.Components.Component _animator;
+            private Engine.Components.Component _particleSystem;          
             #endregion
         #endregion
 
         #region Properties
-        public Engine.Component.IComponent Transform
+        public Engine.Components.Component Transform
         {
             get
             {
                 return this._transform;
             }   
         }
-        public Engine.Component.IComponent Renderer
+        public Engine.Components.Component Renderer
         {
             get
             {
                 return this._renderer;
             }
         }
-        public Engine.Component.IComponent Collision
+        public Engine.Components.Component Collision
         {
             get
             {
                 return this._collision;
             }
         }
-        public Engine.Component.IComponent Animator
+        public Engine.Components.Component Animator
         {
             get
             {
                 return this._animator;
             }
         }
-        public Engine.Component.IComponent ParticleSystem
+        public Engine.Components.Component ParticleSystem
         {
             get
             {
@@ -67,14 +68,14 @@ namespace PBLgame.Engine.GameObject
 
         public GameObject()
         {
-            _transform = new Transform();
+            _transform = new Components.Transform();
             _components.Add(_transform);
         }
 
 
-        public T GetComponent<T>() where T : class, IComponent
+        public T GetComponent<T>() where T : Component
         {
-            IEnumerable<IComponent> list = 
+            IEnumerable<Component> list = 
                 from component in _components
                 where component.GetType() == typeof(T)
                 select component;

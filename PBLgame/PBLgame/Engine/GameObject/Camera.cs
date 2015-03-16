@@ -13,6 +13,8 @@ namespace PBLgame.Engine.GameObject
         private float _near;
         private float _far;
         private float _foV;
+        private Components.Transform _transform;
+        private Vector3 _direction;
         #endregion
         #endregion
 
@@ -21,6 +23,7 @@ namespace PBLgame.Engine.GameObject
         {
             get
             {
+                _viewMatrix = Matrix.CreateLookAt(_transform.Position, _direction+_transform.Position, Vector3.Up);
                 return this._viewMatrix;
             }
         }
@@ -31,16 +34,43 @@ namespace PBLgame.Engine.GameObject
                 return this._projectionMatrix;
             }
         }
+        public Components.Transform Transform
+        {
+            get
+            {
+                return this._transform;
+            }
+            set
+            {
+                _transform = value;
+            }
+        }
+        public Vector3 Direction
+        {
+            get
+            {
+                return _direction;
+            }
+            set
+            {
+                _direction = value;
+            }
+        }
         #endregion
 
         #region Methods
-        public Camera(Microsoft.Xna.Framework.Game game, Vector3 pos, Vector3 target, Vector3 up,
+        public Camera(Vector3 pos, Vector3 target, Vector3 up,
             float FoV, float screenWidth, float screenHeight,float near, float far)
         {
+            _transform = new Components.Transform();
+            _transform.Position = pos;
+            _direction = target - pos;
+            _direction.Normalize();
+
             this._foV = FoV;
             this._near = near;
             this._far = far;
-            _viewMatrix = Matrix.CreateLookAt(pos, target, up);
+            _viewMatrix = Matrix.CreateLookAt(_transform.Position, _direction+pos, up);
 
             _projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
                 _foV,
@@ -55,7 +85,7 @@ namespace PBLgame.Engine.GameObject
 
         public void Update(GameTime gameTime)
         {
-
+            _viewMatrix = Matrix.CreateLookAt(_transform.Position, _direction + _transform.Position, Vector3.Up);
         }
         #endregion
     }

@@ -72,8 +72,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\Component\IComponent.cs" />
-    <Compile Include="Engine\Component\Transform.cs" />
+    <Compile Include="Engine\Components\Component.cs" />
+    <Compile Include="Engine\Components\Transform.cs" />
     <Compile Include="Engine\GameObject\Camera.cs" />
     <Compile Include="Engine\GameObject\GameObject.cs" />
     <Compile Include="Engine\Singleton\InputManager.cs" />

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using PBLgame.Engine.Component;
+using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObject;
 
 namespace PBLgame
@@ -48,7 +48,7 @@ namespace PBLgame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            mainCamera = new Engine.GameObject.Camera(this, new Vector3(0, 0, 5), Vector3.Zero, Vector3.Up,
+            mainCamera = new Camera( new Vector3(0, 0, 5), Vector3.Zero, Vector3.Up,
                 MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,100);
             base.Initialize();
         }
@@ -99,18 +99,28 @@ namespace PBLgame
                 this.Exit();
             
             //ForTetting-----------------------
+
+            mainCamera.Update(gameTime);
+
             // Rotation
             worldR *= Matrix.CreateFromYawPitchRoll(
             MathHelper.PiOver4 / 60,
             0,
             0);
             //Translate
-                        KeyboardState keyboardState = Keyboard.GetState( );
+            KeyboardState keyboardState = Keyboard.GetState( );
             if (keyboardState.IsKeyDown(Keys.Left))
-            worldT *= Matrix.CreateTranslation(-0.01f, 0.0f, 0.0f);
+            {
+                worldT *= Matrix.CreateTranslation(-0.01f, 0.0f, 0.0f);
+                mainCamera.Transform.Translate(-0.01f, 0.0f, 0.0f);
+            }
             if (keyboardState.IsKeyDown(Keys.Right))
-            worldT *= Matrix.CreateTranslation(0.01f, 0, 0);
+            {
+                worldT *= Matrix.CreateTranslation(0.01f, 0, 0);
+                mainCamera.Transform.Translate(0.01f, 0.0f, 0.0f);
+            }
 
+            Console.WriteLine(mainCamera.Transform.Position.ToString());
 
             
 
