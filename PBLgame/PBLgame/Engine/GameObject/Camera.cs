@@ -24,21 +24,21 @@ namespace PBLgame.Engine.GameObject
             get
             {
                 _viewMatrix = Matrix.CreateLookAt(_transform.Position, _direction+_transform.Position, Vector3.Up);
-                return this._viewMatrix;
+                return _viewMatrix;
             }
         }
         public Matrix ProjectionMatrix
         {
             get
             {
-                return this._projectionMatrix;
+                return _projectionMatrix;
             }
         }
         public Components.Transform Transform
         {
             get
             {
-                return this._transform;
+                return _transform;
             }
             set
             {
@@ -67,9 +67,9 @@ namespace PBLgame.Engine.GameObject
             _direction = target - pos;
             _direction.Normalize();
 
-            this._foV = FoV;
-            this._near = near;
-            this._far = far;
+            _foV = FoV;
+            _near = near;
+            _far = far;
             _viewMatrix = Matrix.CreateLookAt(_transform.Position, _direction+pos, up);
 
             _projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
@@ -87,6 +87,15 @@ namespace PBLgame.Engine.GameObject
         {
             _viewMatrix = Matrix.CreateLookAt(_transform.Position, _direction + _transform.Position, Vector3.Up);
         }
+
         #endregion
+
+        // FOR TESTING INPUT EVENTS================
+        public void EventMove(object obj, Singleton.MoveArgs args)
+        {
+            args.AxisValue = args.AxisValue * 0.01f;
+            this.Transform.Translate(args.AxisValue.X, args.AxisValue.Y, 0.0f);
+        }
+        //=======================================
     }
 }

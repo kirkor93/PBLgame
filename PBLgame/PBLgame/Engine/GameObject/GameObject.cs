@@ -16,50 +16,50 @@ namespace PBLgame.Engine.GameObject
             #endregion
             #region Private
             //Components list attached to game object
-            List<Engine.Components.Component> _components = new List<Components.Component>();
+            List<Component> _components = new List<Components.Component>();
             //Most common _components             
-            private Engine.Components.Component _transform;
-            private Engine.Components.Component _renderer;
-            private Engine.Components.Component _collision;
-            private Engine.Components.Component _animator;
-            private Engine.Components.Component _particleSystem;          
+            private Component _transform;
+            private Component _renderer;
+            private Component _collision;
+            private Component _animator;
+            private Component _particleSystem;          
             #endregion
         #endregion
 
         #region Properties
-        public Engine.Components.Component Transform
+        public Component Transform
         {
             get
             {
-                return this._transform;
+                return _transform;
             }   
         }
-        public Engine.Components.Component Renderer
+        public Component Renderer
         {
             get
             {
-                return this._renderer;
+                return _renderer;
             }
         }
-        public Engine.Components.Component Collision
+        public Component Collision
         {
             get
             {
-                return this._collision;
+                return _collision;
             }
         }
-        public Engine.Components.Component Animator
+        public Component Animator
         {
             get
             {
-                return this._animator;
+                return _animator;
             }
         }
-        public Engine.Components.Component ParticleSystem
+        public Component ParticleSystem
         {
             get
             {
-                return this._particleSystem;
+                return _particleSystem;
             }
         }
         #endregion  

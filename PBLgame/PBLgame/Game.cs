@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObject;
 using PBLgame.Engine.Singleton;
@@ -19,8 +20,6 @@ namespace PBLgame
     /// </summary>
     public class Game : Microsoft.Xna.Framework.Game
     {
-        public static Game GameInstance { get; private set; }
-
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -39,13 +38,14 @@ namespace PBLgame
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
-            GameInstance = this;
             Content.RootDirectory = "Content";
         }
 
-        static Game()
+
+        public void TriangleTranslate(Object o, MoveArgs e)
         {
-            GameInstance = null;
+            e.AxisValue *= 0.01f;
+            worldT *= Matrix.CreateTranslation(e.AxisValue.X, e.AxisValue.Y, 0.0f);
         }
 
         /// <summary>
@@ -57,12 +57,13 @@ namespace PBLgame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            mainCamera = new Camera( new Vector3(0, 0, 5), Vector3.Zero, Vector3.Up,
+            mainCamera = new Engine.GameObject.Camera( new Vector3(0, 0, 5), Vector3.Zero, Vector3.Up,
                 MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,100);
 
-            ResourceManager.Instance.LoadMeshes();
+            InputManager.Instance.Initialize();
 
-            Model model = Game.GameInstance.Content.Load<Model>(@"Models\Helmet");
+            InputManager.Instance.OnMove += mainCamera.EventMove;
+            //InputManager.Instance.OnMove += TriangleTranslate;
 
             base.Initialize();
         }
@@ -114,6 +115,8 @@ namespace PBLgame
             
             //ForTetting-----------------------
 
+            InputManager.Instance.Update();
+
             mainCamera.Update(gameTime);
 
             // Rotation
@@ -126,18 +129,13 @@ namespace PBLgame
             if (keyboardState.IsKeyDown(Keys.Left))
             {
                 worldT *= Matrix.CreateTranslation(-0.01f, 0.0f, 0.0f);
-                mainCamera.Transform.Translate(-0.01f, 0.0f, 0.0f);
+                //mainCamera.Transform.Translate(-0.01f, 0.0f, 0.0f);
             }
             if (keyboardState.IsKeyDown(Keys.Right))
             {
                 worldT *= Matrix.CreateTranslation(0.01f, 0, 0);
-                mainCamera.Transform.Translate(0.01f, 0.0f, 0.0f);
+                //mainCamera.Transform.Translate(0.01f, 0.0f, 0.0f);
             }
-
-            Console.WriteLine(mainCamera.Transform.Position.ToString());
-
-            
-
             //-----------------------------
 
 
@@ -145,6 +143,7 @@ namespace PBLgame
 
             base.Update(gameTime);
         }
+
 
         /// <summary>
         /// This is called when the game should draw itself.
