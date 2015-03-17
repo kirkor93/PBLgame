@@ -94,7 +94,7 @@ namespace PBLgame.Engine.Singleton
                 //Right stick
                 if (_gamePadState.ThumbSticks.Right.Length() != 0.0f)
                 {
-                    if (OnMove != null)
+                    if (OnTurn != null)
                     {
                         OnTurn(this, new MoveArgs(_gamePadState.ThumbSticks.Right));
                     }
