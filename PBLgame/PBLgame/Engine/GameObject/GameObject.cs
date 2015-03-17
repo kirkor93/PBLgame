@@ -6,7 +6,7 @@ using PBLgame.Engine.Components;
 
 namespace PBLgame.Engine.GameObject
 {
-    class GameObject
+    public class GameObject
     {
         #region Variables
             #region Public
