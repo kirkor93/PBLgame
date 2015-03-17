@@ -8,8 +8,10 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObject;
+using PBLgame.Engine.Singleton;
 
 namespace PBLgame
 {
@@ -99,6 +101,8 @@ namespace PBLgame
                 this.Exit();
             
             //ForTetting-----------------------
+
+            InputManager.Instance.Update();
 
             mainCamera.Update(gameTime);
 

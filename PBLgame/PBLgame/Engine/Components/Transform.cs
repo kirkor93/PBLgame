@@ -24,36 +24,36 @@ namespace PBLgame.Engine.Components
         {
             get
             {
-                return this._position;
+                return _position;
             }
             set
             {
                 _worldTranslation = Matrix.CreateTranslation(value);
-                this._position = value;
+                _position = value;
             }
         }
         public Vector3 Rotation
         {
             get
             {
-                return this._rotation;
+                return _rotation;
             }
             set
             {
                 _worldRotation = Matrix.CreateFromYawPitchRoll(value.X,value.Y,value.Z);
-                this._rotation = value;
+                _rotation = value;
             }
         }
         public Vector3 Scale
         {
             get
             {
-                return this._scale;
+                return _scale;
             }
             set
             {
                 _worldScale = Matrix.CreateScale(value);
-                this._scale = value;
+                _scale = value;
             }
         }
         public Matrix World
