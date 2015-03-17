@@ -2,7 +2,7 @@
 
 namespace PBLgame.Engine.GameObject
 {
-    class Camera : GameObject
+    public class Camera : GameObject
     {
         #region Variables
         #region Public

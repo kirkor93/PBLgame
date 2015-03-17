@@ -76,7 +76,10 @@
     <Compile Include="Engine\Components\Transform.cs" />
     <Compile Include="Engine\GameObject\Camera.cs" />
     <Compile Include="Engine\GameObject\GameObject.cs" />
+    <Compile Include="Engine\GameObject\Mesh.cs" />
+    <Compile Include="Engine\GameObject\Renderer.cs" />
     <Compile Include="Engine\Singleton\InputManager.cs" />
+    <Compile Include="Engine\Singleton\ResourceManager.cs" />
     <Compile Include="Engine\Singleton\Singleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
