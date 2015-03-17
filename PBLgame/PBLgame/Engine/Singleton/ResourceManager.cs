@@ -1,14 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 using Microsoft.Xna.Framework.Graphics;
+using PBLgame.Engine.GameObject;
 
 namespace PBLgame.Engine.Singleton
 {
+
     public class ResourceManager : Singleton<ResourceManager>
     {
         #region Variables
         #region Private
 
+        private const string MESHES_LIST_PATH = @"meshes.xml";
 
+        private IList<Mesh> _meshes;
+        private IList<Texture2D> _textures;
 
         #endregion
         #region Protected
@@ -25,8 +35,6 @@ namespace PBLgame.Engine.Singleton
 
         #region Properties
 
-        
-
         #endregion
 
         #region Methods
@@ -41,23 +49,47 @@ namespace PBLgame.Engine.Singleton
 
         #endregion
         #region Public
+        #region Constructors
 
-        public Model GetModel()
+        public ResourceManager()
+        {
+            _meshes = new List<Mesh>();
+            _textures = new List<Texture2D>();
+        }
+
+        #endregion
+
+        public void LoadMeshes()
+        {
+
+            Model model = Game.GameInstance.Content.Load<Model>(@"Models\Helmet");
+            _meshes.Add(new Mesh(0, "", model));
+
+        }
+
+        public void LoadTextures(string path)
         {
             throw new NotImplementedException();
         }
 
-        public Model GetModel(string name)
+        public Mesh GetModel()
         {
             throw new NotImplementedException();
         }
 
-        public Model GetModel(int id)
+        public Mesh GetModel(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Mesh GetModel(int id)
         {
             throw new NotImplementedException();
         }
 
         #endregion
         #endregion
+
+
     }
 }

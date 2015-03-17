@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObject;
+using PBLgame.Engine.Singleton;
 
 namespace PBLgame
 {
@@ -18,6 +19,8 @@ namespace PBLgame
     /// </summary>
     public class Game : Microsoft.Xna.Framework.Game
     {
+        public static Game GameInstance { get; private set; }
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -36,7 +39,13 @@ namespace PBLgame
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
+            GameInstance = this;
             Content.RootDirectory = "Content";
+        }
+
+        static Game()
+        {
+            GameInstance = null;
         }
 
         /// <summary>
@@ -50,6 +59,11 @@ namespace PBLgame
             // TODO: Add your initialization logic here
             mainCamera = new Camera( new Vector3(0, 0, 5), Vector3.Zero, Vector3.Up,
                 MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,100);
+
+            ResourceManager.Instance.LoadMeshes();
+
+            Model model = Game.GameInstance.Content.Load<Model>(@"Models\Helmet");
+
             base.Initialize();
         }
 
