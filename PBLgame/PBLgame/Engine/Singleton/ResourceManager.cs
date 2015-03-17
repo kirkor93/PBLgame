@@ -62,8 +62,8 @@ namespace PBLgame.Engine.Singleton
         public void LoadMeshes()
         {
 
-            Model model = Game.GameInstance.Content.Load<Model>(@"Models\Helmet");
-            _meshes.Add(new Mesh(0, "", model));
+//            Model model = Game.GameInstance.Content.Load<Model>(@"Models\Helmet");
+//            _meshes.Add(new Mesh(0, "", model));
 
         }
 
