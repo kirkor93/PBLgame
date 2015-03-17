@@ -6,7 +6,8 @@ using Microsoft.Xna.Framework.Input;
 namespace PBLgame.Engine.Singleton
 {
     #region Event Helpers
-    public delegate void EventHandler(Object sender, EventArgs e);
+    public delegate void StickHandler(Object sender, MoveArgs e);
+    public delegate void ButtonHandler(Object sender, ButtonArgs e);
 
         public class MoveArgs : EventArgs
     {
@@ -19,6 +20,11 @@ namespace PBLgame.Engine.Singleton
             public MoveArgs(Vector2 stick)
             {
                 AxisValue = stick;
+            }
+
+            public override string ToString()
+            {
+                return "X=" + AxisValue.X + " ,Y=" + AxisValue.Y;
             }
     }
     
@@ -47,19 +53,15 @@ namespace PBLgame.Engine.Singleton
     {
         #region Variables
             #region Public
-            public event EventHandler OnMove;
-            public event EventHandler OnTurn;
-            public event EventHandler OnButton;
+            public event StickHandler OnMove;
+            public event StickHandler OnTurn;
+            public event ButtonHandler OnButton;
             #endregion
 
             #region Private
             private GamePadState _gamePadState;
-            //private GamePadButtons _buttons;
-            //private GamePadThumbSticks _sticks;
-            //private GamePadTriggers _triggers;
             #endregion
         #endregion
-
 
         #region Methods
         public InputManager()
@@ -72,15 +74,13 @@ namespace PBLgame.Engine.Singleton
         public void Initialize()
         {
             _gamePadState = new GamePadState();
-            //_buttons = new GamePadButtons();
-            //_sticks = new GamePadThumbSticks();
-            //_triggers = new GamePadTriggers();
-            OnMove += Debug;
         }
 
         public void Update()
         {
-            if(_gamePadState.IsConnected)
+
+            _gamePadState = GamePad.GetState(PlayerIndex.One);
+            if (_gamePadState.IsConnected)
             {
                 //Left stick
                 if (_gamePadState.ThumbSticks.Left.Length() != 0.0f)
@@ -144,11 +144,6 @@ namespace PBLgame.Engine.Singleton
                     }
                 }
             }
-        }
-
-        void Debug(Object obj, EventArgs e)
-        {
-            e.ToString();
         }
     #endregion
     }

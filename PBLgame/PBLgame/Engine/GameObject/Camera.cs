@@ -87,6 +87,15 @@ namespace PBLgame.Engine.GameObject
         {
             _viewMatrix = Matrix.CreateLookAt(_transform.Position, _direction + _transform.Position, Vector3.Up);
         }
+
         #endregion
+
+        // FOR TESTING INPUT EVENTS================
+        public void EventMove(object obj, Singleton.MoveArgs args)
+        {
+            args.AxisValue = args.AxisValue * 0.01f;
+            this.Transform.Translate(args.AxisValue.X, args.AxisValue.Y, 0.0f);
+        }
+        //=======================================
     }
 }

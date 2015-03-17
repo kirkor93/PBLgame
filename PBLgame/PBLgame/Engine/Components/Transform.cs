@@ -80,7 +80,7 @@ namespace PBLgame.Engine.Components
         {
             _position += trans;
             _worldTranslation = Matrix.CreateTranslation(_position);
-            
+            _world = _worldTranslation;            
         }
         public void Translate(float x,float y, float z)
         {

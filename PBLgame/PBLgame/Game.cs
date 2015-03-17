@@ -41,6 +41,13 @@ namespace PBLgame
             Content.RootDirectory = "Content";
         }
 
+
+        public void TriangleTranslate(Object o, MoveArgs e)
+        {
+            e.AxisValue *= 0.01f;
+            worldT *= Matrix.CreateTranslation(e.AxisValue.X, e.AxisValue.Y, 0.0f);
+        }
+
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -50,8 +57,14 @@ namespace PBLgame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            mainCamera = new Camera( new Vector3(0, 0, 5), Vector3.Zero, Vector3.Up,
+            mainCamera = new Engine.GameObject.Camera( new Vector3(0, 0, 5), Vector3.Zero, Vector3.Up,
                 MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,100);
+
+            InputManager.Instance.Initialize();
+
+            InputManager.Instance.OnMove += mainCamera.EventMove;
+            //InputManager.Instance.OnMove += TriangleTranslate;
+
             base.Initialize();
         }
 
@@ -116,18 +129,13 @@ namespace PBLgame
             if (keyboardState.IsKeyDown(Keys.Left))
             {
                 worldT *= Matrix.CreateTranslation(-0.01f, 0.0f, 0.0f);
-                mainCamera.Transform.Translate(-0.01f, 0.0f, 0.0f);
+                //mainCamera.Transform.Translate(-0.01f, 0.0f, 0.0f);
             }
             if (keyboardState.IsKeyDown(Keys.Right))
             {
                 worldT *= Matrix.CreateTranslation(0.01f, 0, 0);
-                mainCamera.Transform.Translate(0.01f, 0.0f, 0.0f);
+                //mainCamera.Transform.Translate(0.01f, 0.0f, 0.0f);
             }
-
-            Console.WriteLine(mainCamera.Transform.Position.ToString());
-
-            
-
             //-----------------------------
 
 
@@ -135,6 +143,7 @@ namespace PBLgame
 
             base.Update(gameTime);
         }
+
 
         /// <summary>
         /// This is called when the game should draw itself.
