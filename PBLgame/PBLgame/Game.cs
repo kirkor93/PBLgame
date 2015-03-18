@@ -74,8 +74,8 @@ namespace PBLgame
             InputManager.Instance.Initialize();
             InputManager.Instance.OnMove += mainCamera.EventMove;
 
-            ResourceManager.Instance.LoadMeshes();
-            mesh = ResourceManager.Instance.GetModel("");
+            ResourceManager.Instance.LoadContent();
+            mesh = ResourceManager.Instance.GetMesh(1);
             
 
             //InputManager.Instance.OnMove += TriangleTranslate;
