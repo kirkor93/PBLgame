@@ -39,6 +39,7 @@ namespace PBLgame
 
         private Mesh mesh;
 
+        
         //------------------------
 
         public Game()
@@ -75,6 +76,8 @@ namespace PBLgame
 
             ResourceManager.Instance.LoadMeshes();
             mesh = ResourceManager.Instance.GetModel("");
+            
+
             //InputManager.Instance.OnMove += TriangleTranslate;
 
             base.Initialize();
@@ -100,6 +103,10 @@ namespace PBLgame
 
             effect = new BasicEffect(GraphicsDevice);
 
+            GameObject obj = new GameObject();
+            obj.transform.Translate(new Vector3(2.0f, 2.0f, 1.0f));
+            Transform t = obj.GetComponent<Transform>();
+            t.Translate(new Vector3(0.0f, 10.0f, 0.0f));
             //------------------------
 
             // TODO: use this.Content to load your game content here
@@ -126,6 +133,8 @@ namespace PBLgame
                 this.Exit();
             
             //ForTetting-----------------------
+
+            
 
             InputManager.Instance.Update();
 

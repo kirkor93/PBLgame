@@ -91,7 +91,6 @@ namespace PBLgame.Engine.Components
                 foreach (BasicEffect effect in modelMesh.Effects)
                 {
                     effect.EnableDefaultLighting();
-                    //tmp
                     effect.World = _boneTransforms[modelMesh.ParentBone.Index];
                     effect.View = Camera.MainCamera.ViewMatrix;
                     effect.Projection = Camera.MainCamera.ProjectionMatrix;

@@ -16,7 +16,7 @@ namespace PBLgame.Engine.GameObjects
             #endregion
             #region Private
             //Components list attached to game object
-            List<Component> _components = new List<Components.Component>();
+            List<Component> _components = new List<Component>();
             //Most common _components             
             private Transform _transform;
             private Renderer _renderer;
@@ -88,13 +88,33 @@ namespace PBLgame.Engine.GameObjects
 
         public GameObject()
         {
-            _transform = new Components.Transform();
-            _components.Add(_transform);
+            this.transform = new Transform();
         }
-
 
         public T GetComponent<T>() where T : Component
         {
+            //I know it's ugly, but I have no idea how to implement it better
+            if (typeof (T) == typeof (Transform))
+            {
+                return this.transform as T;
+            }
+            if (typeof(T) == typeof(Renderer))
+            {
+                return this.renderer as T;
+            }
+            if (typeof(T) == typeof(Collision))
+            {
+                return this.collision as T;
+            }
+            if (typeof(T) == typeof(Animator))
+            {
+                return this.animator as T;
+            }
+            if (typeof(T) == typeof(ParticleSystem))
+            {
+                return this.particleSystem as T;
+            }
+
             IEnumerable<Component> list = 
                 from component in _components
                 where component.GetType() == typeof(T)
@@ -107,6 +127,7 @@ namespace PBLgame.Engine.GameObjects
 
             return null;
         }
+
         #endregion
     }
 }
