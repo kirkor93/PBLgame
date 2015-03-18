@@ -91,6 +91,11 @@ namespace PBLgame.Engine.GameObjects
             this.transform = new Transform(this);
         }
 
+        public void AddComponent<T>(T component) where T : Component
+        {
+            _components.Add(component);
+        }
+
         public T GetComponent<T>() where T : Component
         {
             //I know it's ugly, but I have no idea how to implement it better

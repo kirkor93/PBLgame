@@ -41,8 +41,9 @@ namespace PBLgame.Engine.Components
             }
             set
             {
-                _worldRotation = Matrix.CreateFromYawPitchRoll(value.X,value.Y,value.Z);
                 _rotation = value;
+                RotationLimit();
+                _worldRotation = Matrix.CreateFromYawPitchRoll(value.X, value.Y, value.Z);
             }
         }
         public Vector3 Scale
@@ -94,7 +95,15 @@ namespace PBLgame.Engine.Components
         public void Rotate(Vector3 rot)
         {
             _rotation += rot;
+            RotationLimit();
             _worldRotation = Matrix.CreateFromYawPitchRoll(_rotation.X,_rotation.Y,_rotation.Z);
+            _world = _worldRotation;
+        }
+        public void Rotate(float x, float y, float z)
+        {
+            _rotation += new Vector3(x, y, z);
+            RotationLimit();
+            _worldRotation = Matrix.CreateFromYawPitchRoll(x, y, z);
             _world = _worldRotation;
         }
         #endregion
@@ -107,6 +116,13 @@ namespace PBLgame.Engine.Components
         public override void Draw()
         {
             throw new System.NotImplementedException();
+        }
+
+        private void RotationLimit()
+        {
+            _rotation.X = _rotation.X % 360;
+            _rotation.Y = _rotation.Y % 360;
+            _rotation.Z = _rotation.Z % 360;
         }
     }
 }
