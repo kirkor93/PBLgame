@@ -77,8 +77,8 @@ namespace PBLgame
             //Camera Movement
             //InputManager.Instance.OnMove += mainCamera.EventMove;
 
-            ResourceManager.Instance.LoadMeshes();
-            mesh = ResourceManager.Instance.GetModel("");
+            ResourceManager.Instance.LoadContent();
+            mesh = ResourceManager.Instance.GetMesh(@"Models\Helmet");
 
             player = new GameObject();
             player.AddComponent<GamePlay.PlayerScript>(new GamePlay.PlayerScript(player));
