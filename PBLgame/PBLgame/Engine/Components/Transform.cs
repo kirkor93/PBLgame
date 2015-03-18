@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using PBLgame.Engine.GameObjects;
 
 namespace PBLgame.Engine.Components
 {
@@ -66,7 +67,8 @@ namespace PBLgame.Engine.Components
         #endregion
 
         #region Methods
-        public Transform()
+
+        public Transform(GameObject owner) : base(owner)
         {
             _position = Vector3.Zero;
             _rotation = Vector3.Zero;
@@ -76,6 +78,7 @@ namespace PBLgame.Engine.Components
             _worldRotation = Matrix.Identity;
             _worldScale = Matrix.Identity;
         }
+
         public void Translate(Vector3 trans)
         {
             _position += trans;

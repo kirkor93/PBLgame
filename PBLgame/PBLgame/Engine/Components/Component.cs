@@ -34,10 +34,10 @@ namespace PBLgame.Engine.Components
 
         protected Component()
         {
-            
+            Enabled = true;
         }
 
-        protected Component(GameObject owner)
+        protected Component(GameObject owner) : this()
         {
             _gameObject = owner;
         }

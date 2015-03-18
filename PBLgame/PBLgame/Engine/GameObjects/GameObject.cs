@@ -88,7 +88,7 @@ namespace PBLgame.Engine.GameObjects
 
         public GameObject()
         {
-            this.transform = new Transform();
+            this.transform = new Transform(this);
         }
 
         public T GetComponent<T>() where T : Component
