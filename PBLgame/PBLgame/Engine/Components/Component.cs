@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
+using PBLgame.Engine.GameObjects;
 
 namespace PBLgame.Engine.Components
 {
     public abstract class Component
     {
         #region Variables
-        private bool _enabled;
+        protected bool _enabled;
+        protected GameObject _gameObject;
         #endregion
         #region Properties
         public bool Enabled
@@ -19,8 +21,26 @@ namespace PBLgame.Engine.Components
                 _enabled = value;
             }
         }
+
+        public GameObject GameObject
+        {
+            get
+            {
+                return _gameObject;
+            }
+        }
         #endregion
         #region Methods
+
+        protected Component()
+        {
+            
+        }
+
+        protected Component(GameObject owner)
+        {
+            _gameObject = owner;
+        }
 
         //void Initialize();
         //void Update();

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using PBLgame.Engine.Components;
 
-namespace PBLgame.Engine.GameObject
+namespace PBLgame.Engine.Components
 {
-    public class Renderer : Component
+    public class Collision : Component 
     {
-        
     }
 }

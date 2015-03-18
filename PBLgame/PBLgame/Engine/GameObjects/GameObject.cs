@@ -4,7 +4,7 @@ using System.Linq;
 
 using PBLgame.Engine.Components;
 
-namespace PBLgame.Engine.GameObject
+namespace PBLgame.Engine.GameObjects
 {
     public class GameObject
     {
@@ -18,48 +18,68 @@ namespace PBLgame.Engine.GameObject
             //Components list attached to game object
             List<Component> _components = new List<Components.Component>();
             //Most common _components             
-            private Component _transform;
-            private Component _renderer;
-            private Component _collision;
-            private Component _animator;
-            private Component _particleSystem;          
+            private Transform _transform;
+            private Renderer _renderer;
+            private Collision _collision;
+            private Animator _animator;
+            private ParticleSystem _particleSystem;          
             #endregion
         #endregion
 
         #region Properties
-        public Component Transform
+        public Transform transform
         {
             get
             {
                 return _transform;
-            }   
+            }
+            set
+            {
+                _transform = value;
+            }
         }
-        public Component Renderer
+        public Renderer renderer
         {
             get
             {
                 return _renderer;
             }
+            set
+            {
+                _renderer = value;
+            }
         }
-        public Component Collision
+        public Collision collision
         {
             get
             {
                 return _collision;
             }
+            set
+            {
+                _collision = value;
+            }
         }
-        public Component Animator
+        public Animator animator
         {
             get
             {
                 return _animator;
             }
+            set
+            {
+                _animator = value;
+            }
         }
-        public Component ParticleSystem
+        public ParticleSystem particleSystem
         {
             get
             {
                 return _particleSystem;
+            }
+            set
+            {
+                _particleSystem = value;
             }
         }
         #endregion  

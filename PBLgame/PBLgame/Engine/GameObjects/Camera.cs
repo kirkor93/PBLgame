@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Dynamic;
+using Microsoft.Xna.Framework;
 
-namespace PBLgame.Engine.GameObject
+namespace PBLgame.Engine.GameObjects
 {
     public class Camera : GameObject
     {
@@ -13,8 +14,10 @@ namespace PBLgame.Engine.GameObject
         private float _near;
         private float _far;
         private float _foV;
-        private Components.Transform _transform;
         private Vector3 _direction;
+
+        //static reference to first camera created for other classes
+        private static Camera _mainCamera = null;
         #endregion
         #endregion
 
@@ -23,7 +26,7 @@ namespace PBLgame.Engine.GameObject
         {
             get
             {
-                _viewMatrix = Matrix.CreateLookAt(_transform.Position, _direction+_transform.Position, Vector3.Up);
+                _viewMatrix = Matrix.CreateLookAt(base.transform.Position, _direction + base.transform.Position, Vector3.Up);
                 return _viewMatrix;
             }
         }
@@ -34,17 +37,7 @@ namespace PBLgame.Engine.GameObject
                 return _projectionMatrix;
             }
         }
-        public Components.Transform Transform
-        {
-            get
-            {
-                return _transform;
-            }
-            set
-            {
-                _transform = value;
-            }
-        }
+
         public Vector3 Direction
         {
             get
@@ -56,26 +49,46 @@ namespace PBLgame.Engine.GameObject
                 _direction = value;
             }
         }
+
+        public static Camera MainCamera 
+        {
+            get
+            {
+                return _mainCamera;
+            }
+            private set
+            {
+                _mainCamera = value;
+            }
+        }
+    
         #endregion
 
         #region Methods
         public Camera(Vector3 pos, Vector3 target, Vector3 up,
             float FoV, float screenWidth, float screenHeight,float near, float far)
         {
-            _transform = new Components.Transform();
-            _transform.Position = pos;
+            base.transform.Position = pos;
             _direction = target - pos;
             _direction.Normalize();
 
             _foV = FoV;
             _near = near;
             _far = far;
-            _viewMatrix = Matrix.CreateLookAt(_transform.Position, _direction+pos, up);
+            _viewMatrix = Matrix.CreateLookAt(base.transform.Position, _direction+pos, up);
 
             _projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
                 _foV,
                 screenWidth / screenHeight,
                 near, far);
+
+
+            //first camera created is main camera for game
+            if (MainCamera == null)
+            {
+                MainCamera = this;
+            }
+
         }
 
         public void Initialize()
@@ -85,7 +98,7 @@ namespace PBLgame.Engine.GameObject
 
         public void Update(GameTime gameTime)
         {
-            _viewMatrix = Matrix.CreateLookAt(_transform.Position, _direction + _transform.Position, Vector3.Up);
+            _viewMatrix = Matrix.CreateLookAt(base.transform.Position, _direction + base.transform.Position, Vector3.Up);
         }
 
         #endregion
@@ -94,7 +107,7 @@ namespace PBLgame.Engine.GameObject
         public void EventMove(object obj, Singleton.MoveArgs args)
         {
             args.AxisValue = args.AxisValue * 0.01f;
-            this.Transform.Translate(args.AxisValue.X, args.AxisValue.Y, 0.0f);
+            base.transform.Translate(args.AxisValue.X, args.AxisValue.Y, 0.0f);
         }
         //=======================================
     }

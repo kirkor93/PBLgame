@@ -72,12 +72,15 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\Components\Animator.cs" />
     <Compile Include="Engine\Components\Component.cs" />
+    <Compile Include="Engine\Components\ParticleSystem.cs" />
     <Compile Include="Engine\Components\Transform.cs" />
-    <Compile Include="Engine\GameObject\Camera.cs" />
-    <Compile Include="Engine\GameObject\GameObject.cs" />
-    <Compile Include="Engine\GameObject\Mesh.cs" />
-    <Compile Include="Engine\GameObject\Renderer.cs" />
+    <Compile Include="Engine\GameObjects\Camera.cs" />
+    <Compile Include="Engine\Components\Collision.cs" />
+    <Compile Include="Engine\GameObjects\GameObject.cs" />
+    <Compile Include="Engine\Components\Mesh.cs" />
+    <Compile Include="Engine\Components\Renderer.cs" />
     <Compile Include="Engine\Singleton\InputManager.cs" />
     <Compile Include="Engine\Singleton\ResourceManager.cs" />
     <Compile Include="Engine\Singleton\Singleton.cs" />

@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 using PBLgame.Engine.Components;
-using PBLgame.Engine.GameObject;
+using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Singleton;
 
 namespace PBLgame
@@ -20,10 +20,12 @@ namespace PBLgame
     /// </summary>
     public class Game : Microsoft.Xna.Framework.Game
     {
+        public static Game Instance { get; private set; }
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Engine.GameObject.Camera mainCamera;
+        Camera mainCamera;
 
         //For teting-----------------
         VertexPositionColor[] verts;
@@ -33,12 +35,20 @@ namespace PBLgame
 
         Matrix worldT = Matrix.Identity;
         Matrix worldR = Matrix.Identity;
+
+
+        private Mesh mesh;
+
         //------------------------
 
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            if (Instance == null)
+            {
+                Instance = this;
+            }
         }
 
 
@@ -57,12 +67,14 @@ namespace PBLgame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            mainCamera = new Engine.GameObject.Camera( new Vector3(0, 0, 5), Vector3.Zero, Vector3.Up,
+            mainCamera = new Camera( new Vector3(0, 0, 5), Vector3.Zero, Vector3.Up,
                 MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,100);
 
             InputManager.Instance.Initialize();
-
             InputManager.Instance.OnMove += mainCamera.EventMove;
+
+            ResourceManager.Instance.LoadMeshes();
+            mesh = ResourceManager.Instance.GetModel("");
             //InputManager.Instance.OnMove += TriangleTranslate;
 
             base.Initialize();
@@ -154,6 +166,8 @@ namespace PBLgame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //For Teting----------------
+            mesh.Draw();
+
             GraphicsDevice.SetVertexBuffer(vertexBuffer);
 
             effect.World = worldR * worldT;

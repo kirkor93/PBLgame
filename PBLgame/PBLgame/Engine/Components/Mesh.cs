@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PBLgame.Engine.Singleton;
+using PBLgame.Engine.GameObjects;
 
-namespace PBLgame.Engine.GameObject
+namespace PBLgame.Engine.Components
 {
     public class Mesh : IXmlSerializable
     {
@@ -89,17 +86,19 @@ namespace PBLgame.Engine.GameObject
 
         public void Draw()
         {
-//            foreach (ModelMesh modelMesh in this.Model.Meshes)
-//            {
-//                foreach (BasicEffect effect in modelMesh.Effects)
-//                {
-//                    effect.EnableDefaultLighting();
-//                    //tmp
-//                    effect.World = _boneTransforms[modelMesh.ParentBone.Index] = Matrix.CreateTranslation(Vector3.Zero);
-//                    effect.View = 
-//                }
-//
-//            }
+            foreach (ModelMesh modelMesh in this.Model.Meshes)
+            {
+                foreach (BasicEffect effect in modelMesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                    //tmp
+                    effect.World = _boneTransforms[modelMesh.ParentBone.Index];
+                    effect.View = Camera.MainCamera.ViewMatrix;
+                    effect.Projection = Camera.MainCamera.ProjectionMatrix;
+                }
+
+                modelMesh.Draw();
+            }
         }
 
         #region Serialization

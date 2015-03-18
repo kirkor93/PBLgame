@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework.Graphics;
-using PBLgame.Engine.GameObject;
+using PBLgame.Engine.Components;
 
 namespace PBLgame.Engine.Singleton
 {
@@ -62,8 +63,8 @@ namespace PBLgame.Engine.Singleton
         public void LoadMeshes()
         {
 
-//            Model model = Game.GameInstance.Content.Load<Model>(@"Models\Helmet");
-//            _meshes.Add(new Mesh(0, "", model));
+            Model model = Game.Instance.Content.Load<Model>(@"Models\Helmet");
+            _meshes.Add(new Mesh(0, "", model));
 
         }
 
@@ -77,9 +78,18 @@ namespace PBLgame.Engine.Singleton
             throw new NotImplementedException();
         }
 
-        public Mesh GetModel(string name)
+        public Mesh GetModel(string path)
         {
-            throw new NotImplementedException();
+            IEnumerable<Mesh> list =
+                from mesh in _meshes
+                where mesh.Path == path
+                select mesh;
+
+            if (list.Any())
+            {
+                return list.First();
+            }
+            return null;
         }
 
         public Mesh GetModel(int id)
