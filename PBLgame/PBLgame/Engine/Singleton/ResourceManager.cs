@@ -16,7 +16,7 @@ namespace PBLgame.Engine.Singleton
         #region Variables
         #region Private
 
-        private const string MESHES_LIST_PATH = @"meshes.xml";
+        private const string CONTENT_LIST_PATH = @"content.xml";
 
         private IList<Mesh> _meshes;
         private IList<Texture2D> _textures;
@@ -60,6 +60,11 @@ namespace PBLgame.Engine.Singleton
 
         #endregion
 
+        public void LoadContent()
+        {
+            
+        }
+
         public void LoadMeshes()
         {
 
@@ -99,7 +104,5 @@ namespace PBLgame.Engine.Singleton
 
         #endregion
         #endregion
-
-
     }
 }

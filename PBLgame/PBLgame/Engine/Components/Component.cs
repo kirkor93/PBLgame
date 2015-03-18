@@ -42,8 +42,8 @@ namespace PBLgame.Engine.Components
             _gameObject = owner;
         }
 
-        //void Initialize();
-        //void Update();
+        public abstract void Update();
+        public abstract void Draw();
 
         #endregion
 

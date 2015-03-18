@@ -99,5 +99,14 @@ namespace PBLgame.Engine.Components
         }
         #endregion
 
+        public override void Update()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Draw()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

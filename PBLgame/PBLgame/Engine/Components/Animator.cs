@@ -12,5 +12,15 @@ namespace PBLgame.Engine.Components
         {
 
         }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Draw()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
