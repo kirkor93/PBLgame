@@ -93,6 +93,32 @@ namespace PBLgame.Engine.GameObjects
 
         public void AddComponent<T>(T component) where T : Component
         {
+            if (typeof(T) == typeof(Transform))
+            {
+                _transform = component as Transform;
+                return;
+            }
+            if(typeof(T) == typeof (Renderer))
+            {
+                _renderer = component as Renderer;
+                return;
+            }
+            if (typeof(T) == typeof(Collision))
+            {
+                _collision = component as Collision;
+                return;
+            }
+            if (typeof(T) == typeof(Animator))
+            {
+                _animator = component as Animator;
+                return;
+            }
+            if (typeof(T) == typeof(ParticleSystem))
+            {
+                _particleSystem = component as ParticleSystem;
+                return;
+            }
+
             _components.Add(component);
         }
 

@@ -39,6 +39,7 @@ namespace PBLgame
 
         private Mesh mesh;
 
+        public GameObject player;
         
         //------------------------
 
@@ -72,15 +73,18 @@ namespace PBLgame
                 MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,100);
 
             InputManager.Instance.Initialize();
-            InputManager.Instance.OnMove += mainCamera.EventMove;
+
+            //Camera Movement
+            //InputManager.Instance.OnMove += mainCamera.EventMove;
 
             ResourceManager.Instance.LoadMeshes();
             mesh = ResourceManager.Instance.GetModel("");
 
-            GameObject player = new GameObject();
+            player = new GameObject();
             player.AddComponent<GamePlay.PlayerScript>(new GamePlay.PlayerScript(player));
-            player.AddComponent<Transform>(new Transform(player));
-
+            player.AddComponent<Renderer>(new Renderer(player));
+            player.renderer.MyMesh = mesh;
+            player.renderer.MyMesh.AssignRenderer(player.renderer);
             player.GetComponent<GamePlay.PlayerScript>().Initialize();
 
 
@@ -181,8 +185,8 @@ namespace PBLgame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //For Teting----------------
-            mesh.Draw();
-
+            //mesh.Draw();
+            player.GetComponent<Renderer>().Draw();
             GraphicsDevice.SetVertexBuffer(vertexBuffer);
 
             effect.World = worldR * worldT;

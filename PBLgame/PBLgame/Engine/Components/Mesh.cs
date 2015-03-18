@@ -17,6 +17,8 @@ namespace PBLgame.Engine.Components
         private string _path;
         private int _id;
 
+        private Renderer _myRenderer;
+
         private Matrix[] _boneTransforms;
 
         #endregion
@@ -39,7 +41,6 @@ namespace PBLgame.Engine.Components
             get { return _model; }
             private set { _model = value; }
         }
-
         public string Path
         {
             get { return _path; }
@@ -91,13 +92,18 @@ namespace PBLgame.Engine.Components
                 foreach (BasicEffect effect in modelMesh.Effects)
                 {
                     effect.EnableDefaultLighting();
-                    effect.World = _boneTransforms[modelMesh.ParentBone.Index];
+                    effect.World = _boneTransforms[modelMesh.ParentBone.Index] * _myRenderer.GameObject.transform.World;
                     effect.View = Camera.MainCamera.ViewMatrix;
                     effect.Projection = Camera.MainCamera.ProjectionMatrix;
                 }
 
                 modelMesh.Draw();
             }
+        }
+
+        public void AssignRenderer(Renderer renderer)
+        {
+            _myRenderer = renderer;
         }
 
         #region Serialization
