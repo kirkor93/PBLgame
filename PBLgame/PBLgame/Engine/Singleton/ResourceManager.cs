@@ -16,7 +16,7 @@ namespace PBLgame.Engine.Singleton
         #region Variables
         #region Private
 
-        private const string CONTENT_LIST_PATH = @"content.xml";
+        private const string CONTENT_LIST_PATH = @"..\..\..\content.xml";
 
         private IList<Mesh> _meshes;
         private IList<Texture2D> _textures;
@@ -39,17 +39,6 @@ namespace PBLgame.Engine.Singleton
         #endregion
 
         #region Methods
-        #region Private
-
-
-
-        #endregion
-        #region Protected
-
-
-
-        #endregion
-        #region Public
         #region Constructors
 
         public ResourceManager()
@@ -62,28 +51,21 @@ namespace PBLgame.Engine.Singleton
 
         public void LoadContent()
         {
-            
+            XmlContent content;
+
+            XmlSerializer serializer = new XmlSerializer(typeof(XmlContent), new XmlRootAttribute("Content"));
+            using (FileStream file = new FileStream(CONTENT_LIST_PATH, FileMode.Open))
+            {
+                content = (XmlContent) serializer.Deserialize(file);
+            }
+
+
+            this._meshes = content.Meshes;
+            this._textures = content.Textures;
+
         }
 
-        public void LoadMeshes()
-        {
-
-            Model model = Game.Instance.Content.Load<Model>(@"Models\Helmet");
-            _meshes.Add(new Mesh(0, "", model));
-
-        }
-
-        public void LoadTextures(string path)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Mesh GetModel()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Mesh GetModel(string path)
+        public Mesh GetMesh(string path)
         {
             IEnumerable<Mesh> list =
                 from mesh in _meshes
@@ -97,12 +79,70 @@ namespace PBLgame.Engine.Singleton
             return null;
         }
 
-        public Mesh GetModel(int id)
+        public Mesh GetMesh(int id)
+        {
+            IEnumerable<Mesh> list =
+                from mesh in _meshes
+                where mesh.Id == id
+                select mesh;
+
+            if (list.Any())
+            {
+                return list.First();
+            }
+            return null;
+        }
+
+
+        #endregion
+
+    }
+
+    #region XML serialization
+
+    public class XmlContent : IXmlSerializable
+    {
+        public IList<Mesh> Meshes { get; set; }
+        public IList<Texture2D> Textures { get; set; } 
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            Textures = new List<Texture2D>();
+            Meshes = new List<Mesh>();
+
+            reader.MoveToContent();
+            reader.ReadStartElement();
+
+            do
+            {
+                if (reader.Name == "Mesh")
+                {
+                    int id = Convert.ToInt32(reader.GetAttribute("Id"));
+                    string path = reader.GetAttribute("Path");
+                    Model model = LoadModel(path);
+                    Meshes.Add(new Mesh(id, path, model));
+                }
+
+
+            } while (reader.Read());
+        }
+
+        public void WriteXml(XmlWriter writer)
         {
             throw new NotImplementedException();
         }
 
-        #endregion
-        #endregion
+        private Model LoadModel(string path)
+        {
+            return Game.Instance.Content.Load<Model>(path);
+        }
     }
+
+
+    #endregion
 }
