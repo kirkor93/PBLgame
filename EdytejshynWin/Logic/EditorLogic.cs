@@ -11,23 +11,25 @@ namespace Edytejshyn.Logic
     {
         #region Variables
         #region Private
-        private string _filename = null;
+
         #endregion
+
+        #region Public
+        public readonly EditorLogger Logger = new EditorLogger();
+        #endregion
+
         #endregion
 
 
         #region Properties
-        public string FilePath
+        public string FilePath { get; private set; }
+
+        public string SimpleFileName
         {
-            get
-            {
-                return _filename;
-            }
-            private set
-            {
-                _filename = value;
-            }
+            get { return Path.GetFileName(this.FilePath); }
         }
+
+
         #endregion
         
 
@@ -39,13 +41,16 @@ namespace Edytejshyn.Logic
 
         public void LoadFile(string path)
         {
-            throw new EditorException("Please, implement me");
+            this.FilePath = path;
+            this.Logger.Log(LoggerLevel.Warning, "Loading files not implemented");
+            //throw new EditorException("Please, implement opening files");
+            //this.Logger.Log(LoggerLevel.Info, string.Format("Loaded file {0}", path));
             //try
             //{
             //    // TODO deserialize
             //    using(FileStream stream = File.Open(file, FileMode.Open))
             //    {
-            //        this.Filename = file;
+            //        this.Filename = path;
             //    }
             //}
             //catch 
@@ -61,7 +66,22 @@ namespace Edytejshyn.Logic
         /// <param name="path">Path to destination file</param>
         public void SaveFile(string path)
         {
-            throw new EditorException("Not yet implemented");
+            this.Logger.Log(LoggerLevel.Warning, "Saving not implemented.");
+            try
+            {
+                // TODO serialize to xml
+
+                if (!File.Exists(path))
+                {
+                    File.Create(path);
+                    this.Logger.Log(LoggerLevel.Warning, "Saving not implemented. Created empty file.");
+                }
+                this.FilePath = path;
+            }
+            catch (Exception ex)
+            {
+                throw new EditorException("Failed to save XML file", ex);
+            }
         }
 
         /// <summary>
@@ -73,5 +93,6 @@ namespace Edytejshyn.Logic
         }
 
         #endregion
+
     }
 }

@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Linq;
+using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using Edytejshyn.Logic;
-// ReSharper disable All
 
 namespace Edytejshyn
 {
@@ -18,10 +12,12 @@ namespace Edytejshyn
     {
 
         #region Variables
-        private readonly string appName = "Edytejszyn (Build " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
+        private readonly string _appName = "Edytejszyn (Build " + Assembly.GetExecutingAssembly().GetName().Version + ")";
         private bool _dataChanged = false;
-        private OpenFileDialog openDialog;
-        private SaveFileDialog saveDialog;
+        private OpenFileDialog _openDialog;
+        private SaveFileDialog _saveDialog;
+        private GUIExceptionHandler _exceptionHandler;
+
         #endregion
 
         #region Properties
@@ -51,11 +47,14 @@ namespace Edytejshyn
         public MainForm(EditorLogic logic)
         {
             this.Logic = logic;
+            this._exceptionHandler = new GUIExceptionHandler(this);
             InitializeComponent();
             UpdateTitle();
-            this.openDialog = new OpenFileDialog();
-            this.saveDialog = new SaveFileDialog();
-            openDialog.Filter = saveDialog.Filter = "XML file (*.*)|*.xml|All files (*.*)|*.*";
+            SetFileControlsEnabled(false);
+            _openDialog = new OpenFileDialog();
+            _saveDialog = new SaveFileDialog();
+            _openDialog.Filter = _saveDialog.Filter = "XML file (*.*)|*.xml|All files (*.*)|*.*";
+            this.Logic.Logger.LogEvent += ShowLogMessage;
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -73,15 +72,13 @@ namespace Edytejshyn
         /// <returns>true if safe to close</returns>
         private bool IsSafeToUnload()
         {
-            if(this.DataChanged)
+            if (!this.DataChanged) return true;
+            DialogResult result = MessageBox.Show("Data has been changed. Shall I save?", "Possible data lose", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+            switch (result)
             {
-                DialogResult result = MessageBox.Show("Data has been changed. Shall I save?", "Possible data lose", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-                switch (result)
-                {
-                    case DialogResult.Yes:      return SaveFile();
-                    case DialogResult.No:       return true;
-                    case DialogResult.Cancel:   return false;
-                }
+                case DialogResult.Yes:      return SaveFile();
+                case DialogResult.No:       return true;
+                case DialogResult.Cancel:   return false;
             }
             return true;
         }
@@ -100,7 +97,28 @@ namespace Edytejshyn
             }
             catch(Exception ex)
             {
-                GUIExceptionHandler.ShowMessage(ex);
+                _exceptionHandler.HandleException(ex);
+            }
+            return false;
+        }
+
+
+        /// <summary>
+        /// Saves opened data in new file and switches to that file as current.
+        /// </summary>
+        /// <returns><code>true</code> value if saved correctly.</returns>
+        private bool SaveFileAs()
+        {
+            DialogResult result = _saveDialog.ShowDialog();
+            if (result != DialogResult.OK) return false;
+            try
+            {
+                this.Logic.SaveFile(_saveDialog.FileName);
+                this.DataChanged = false;
+            }
+            catch (Exception ex)
+            {
+                _exceptionHandler.HandleException(ex);
             }
             return false;
         }
@@ -111,27 +129,80 @@ namespace Edytejshyn
         private void UpdateTitle()
         {
             StringBuilder sb = new StringBuilder();
-            string file = Logic.FilePath;
+            string file = Logic.SimpleFileName;
             if (file != null)
             {
                 sb.Append(file);
                 if (this.DataChanged) sb.Append("* ");
                 sb.Append(" - ");
             }
-            sb.Append(this.appName);
+            sb.Append(this._appName);
             this.Text = sb.ToString();
         }
 
+        private void SetFileControlsEnabled(bool mode)
+        {
+            saveMenuItem.Enabled = mode;
+            saveAsMenuItem.Enabled = mode;
+        }
+
+        public void ShowLogMessage(LoggerLevel level, string message)
+        {
+            if(level != LoggerLevel.Debug)
+                statusBarLabel.Text = string.Format("{0}: {1}", level, message);
+            statusBarLabel.ForeColor = level.GetColor(DefaultForeColor);
+        }
+
         #region Events
-        private void ExitMenuItem_Click(object sender, EventArgs e)
+        private void ExitEvent(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        private void OpenEvent(object sender, EventArgs e)
+        {
+            DialogResult result = this._openDialog.ShowDialog();
+            if (result != DialogResult.OK) return;
+            try
+            {
+                this.Logic.LoadFile(this._openDialog.FileName);
+                SetFileControlsEnabled(true);
+                this.DataChanged = false;
+            }
+            catch (Exception ex)
+            {
+                _exceptionHandler.HandleException(ex);
+            }
+        }
+
+        private void SaveEvent(object sender, EventArgs e)
+        {
+            SaveFile();
+        }
+
+        private void SaveAsEvent(object sender, EventArgs e)
+        {
+            SaveFileAs();
+        }
+
+        private void AboutMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox.Instance.ShowDialog();
+        }
+
+        private void TreeViewObjects_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                treeViewObjects.SelectedNode.Remove();
+                this.DataChanged = true;
+            }
+        }
         #endregion
 
-        #endregion
 
+
+        #endregion
 
     }
 }

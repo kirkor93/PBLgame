@@ -63,8 +63,6 @@
             this.undoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.duplicateMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.deleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenuBar = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerVert = new System.Windows.Forms.SplitContainer();
@@ -114,24 +112,31 @@
             // openMenuItem
             // 
             this.openMenuItem.Name = "openMenuItem";
-            this.openMenuItem.ShortcutKeyDisplayString = "Ctrl+O";
+            this.openMenuItem.ShortcutKeyDisplayString = "";
+            this.openMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openMenuItem.Text = "&Open..";
+            this.openMenuItem.Click += new System.EventHandler(this.OpenEvent);
             // 
             // saveMenuItem
             // 
             this.saveMenuItem.Enabled = false;
             this.saveMenuItem.Name = "saveMenuItem";
-            this.saveMenuItem.ShortcutKeyDisplayString = "Ctrl+S";
+            this.saveMenuItem.ShortcutKeyDisplayString = "";
+            this.saveMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveMenuItem.Text = "&Save";
+            this.saveMenuItem.Click += new System.EventHandler(this.SaveEvent);
             // 
             // saveAsMenuItem
             // 
             this.saveAsMenuItem.Enabled = false;
             this.saveAsMenuItem.Name = "saveAsMenuItem";
+            this.saveAsMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12;
+            this.saveAsMenuItem.ShowShortcutKeys = false;
             this.saveAsMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsMenuItem.Text = "&Save As..";
+            this.saveAsMenuItem.Click += new System.EventHandler(this.SaveAsEvent);
             // 
             // toolStripMenuItem1
             // 
@@ -143,16 +148,14 @@
             this.exitMenuItem.Name = "exitMenuItem";
             this.exitMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitMenuItem.Text = "&Exit";
-            this.exitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
+            this.exitMenuItem.Click += new System.EventHandler(this.ExitEvent);
             // 
             // editMenuBar
             // 
             this.editMenuBar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.undoMenuItem,
             this.redoMenuItem,
-            this.duplicateMenuItem,
-            this.toolStripMenuItem2,
-            this.deleteMenuItem});
+            this.duplicateMenuItem});
             this.editMenuBar.Name = "editMenuBar";
             this.editMenuBar.Size = new System.Drawing.Size(39, 20);
             this.editMenuBar.Text = "&Edit";
@@ -161,7 +164,8 @@
             // 
             this.undoMenuItem.Enabled = false;
             this.undoMenuItem.Name = "undoMenuItem";
-            this.undoMenuItem.ShortcutKeyDisplayString = "Ctrl+Z";
+            this.undoMenuItem.ShortcutKeyDisplayString = "";
+            this.undoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
             this.undoMenuItem.Size = new System.Drawing.Size(166, 22);
             this.undoMenuItem.Text = "&Undo";
             // 
@@ -169,27 +173,18 @@
             // 
             this.redoMenuItem.Enabled = false;
             this.redoMenuItem.Name = "redoMenuItem";
-            this.redoMenuItem.ShortcutKeyDisplayString = "Ctrl+Y";
+            this.redoMenuItem.ShortcutKeyDisplayString = "";
+            this.redoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
             this.redoMenuItem.Size = new System.Drawing.Size(166, 22);
             this.redoMenuItem.Text = "&Redo";
             // 
             // duplicateMenuItem
             // 
             this.duplicateMenuItem.Name = "duplicateMenuItem";
-            this.duplicateMenuItem.ShortcutKeyDisplayString = "Ctrl+D";
+            this.duplicateMenuItem.ShortcutKeyDisplayString = "";
+            this.duplicateMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.duplicateMenuItem.Size = new System.Drawing.Size(166, 22);
             this.duplicateMenuItem.Text = "&Duplicate";
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(163, 6);
-            // 
-            // deleteMenuItem
-            // 
-            this.deleteMenuItem.Name = "deleteMenuItem";
-            this.deleteMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.deleteMenuItem.Text = "&Delete";
             // 
             // helpMenuBar
             // 
@@ -202,8 +197,9 @@
             // aboutMenuItem
             // 
             this.aboutMenuItem.Name = "aboutMenuItem";
-            this.aboutMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutMenuItem.Text = "&About";
+            this.aboutMenuItem.Click += new System.EventHandler(this.AboutMenuItem_Click);
             // 
             // splitContainerVert
             // 
@@ -273,6 +269,7 @@
             treeNode13});
             this.treeViewObjects.Size = new System.Drawing.Size(285, 179);
             this.treeViewObjects.TabIndex = 0;
+            this.treeViewObjects.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeViewObjects_KeyDown);
             // 
             // propertyGrid
             // 
@@ -295,8 +292,8 @@
             // statusBarLabel
             // 
             this.statusBarLabel.Name = "statusBarLabel";
-            this.statusBarLabel.Size = new System.Drawing.Size(118, 17);
-            this.statusBarLabel.Text = "toolStripStatusLabel1";
+            this.statusBarLabel.Size = new System.Drawing.Size(221, 17);
+            this.statusBarLabel.Text = "Welcome to Edytejszyn. Have a nice day.";
             // 
             // toolStrip1
             // 
@@ -360,8 +357,6 @@
         private System.Windows.Forms.ToolStripMenuItem undoMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoMenuItem;
         private System.Windows.Forms.ToolStripMenuItem duplicateMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem deleteMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpMenuBar;
         private System.Windows.Forms.ToolStripMenuItem aboutMenuItem;
         private System.Windows.Forms.SplitContainer splitContainerVert;
