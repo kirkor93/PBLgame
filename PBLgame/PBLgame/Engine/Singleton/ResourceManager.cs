@@ -45,6 +45,7 @@ namespace PBLgame.Engine.Singleton
         {
             _meshes = new List<Mesh>();
             _textures = new List<Texture2D>();
+            
         }
 
         #endregion
@@ -93,6 +94,12 @@ namespace PBLgame.Engine.Singleton
             return null;
         }
 
+        public Texture2D GetTexture(string path)
+        {
+//start here
+            return null;
+        }
+
 
         #endregion
 
@@ -118,6 +125,7 @@ namespace PBLgame.Engine.Singleton
             reader.MoveToContent();
             reader.ReadStartElement();
 
+            //reading the XML loop
             do
             {
                 if (reader.Name == "Mesh")
@@ -127,7 +135,13 @@ namespace PBLgame.Engine.Singleton
                     Model model = LoadModel(path);
                     Meshes.Add(new Mesh(id, path, model));
                 }
-
+                else if (reader.Name == "Texture")
+                {
+                    int id = Convert.ToInt32(reader.GetAttribute("Id"));
+                    string path = reader.GetAttribute("Path");
+                    Texture2D texture = LoadTexture(path);
+                    Textures.Add(texture);
+                }
 
             } while (reader.Read());
         }
@@ -140,6 +154,11 @@ namespace PBLgame.Engine.Singleton
         private Model LoadModel(string path)
         {
             return Game.Instance.Content.Load<Model>(path);
+        }
+
+        private Texture2D LoadTexture(string path)
+        {
+            return Game.Instance.Content.Load<Texture2D>(path);
         }
     }
 

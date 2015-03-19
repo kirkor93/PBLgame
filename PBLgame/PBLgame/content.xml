@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
 <Content>
 	<Mesh Id="1" Path="Models\Helmet"/>
+	<Texture Id="1" Path="Textures\Helmet_d"/>
 </Content>
