@@ -13,10 +13,13 @@ namespace PBLgame.GamePlay
     class PlayerScript : Engine.Components.Component
     {
         #region Variables
+        #region Public
+        #endregion
         #region Private
-        private float angle;
+        private float _angle;
         #endregion
         #endregion
+
         #region Methods
         public PlayerScript(Engine.GameObjects.GameObject gameObj) : base(gameObj)
         {
@@ -26,7 +29,7 @@ namespace PBLgame.GamePlay
         public void Initialize()
         {
             InputManager.Instance.OnTurn += CharacterRotation;
-            InputManager.Instance.OnMove += PlayerTranslate;
+            InputManager.Instance.OnMove += CharacterTranslate;
         }
 
         public override void Draw()
@@ -36,39 +39,23 @@ namespace PBLgame.GamePlay
 
         public override void Update()
         {
-
-        //Unity Code
-        //if(Input.GetAxis("AxisX") != 0 || -Input.GetAxis("AxisY")!= 0)
-        //{
-        //    float angleTmp = Mathf.Atan2(Input.GetAxis("AxisX") , -Input.GetAxis("AxisY"));
-        //    angleTmp = angleTmp * 180.0f / Math.PI;
-        //    angleTmp = Mathf.Round((angleTmp * 10.0f) / 10.0f);
-        //    if(angle!=angleTmp)
-        //    {
-        //        transform.rotation = Quaternion.AngleAxis(angleTmp, transform.up);
-        //        angle = angleTmp;
-        //    }
-        //}
+            throw new NotImplementedException();
         }
 
         void CharacterRotation(Object obj, MoveArgs args)
         {
-            float angleTMp = Convert.ToSingle(Math.Atan2(Convert.ToDouble(args.AxisValue.X), Convert.ToDouble(args.AxisValue.Y)));
-            angleTMp = angleTMp * 180.0f / Convert.ToSingle(Math.PI);
-            angleTMp = Convert.ToSingle(Math.Round((angleTMp * 10.0f) / 10.0f));
-            if(angle != angleTMp)
+            float angle = Convert.ToSingle(Math.Atan2(Convert.ToDouble(-args.AxisValue.Y), Convert.ToDouble(-args.AxisValue.X)));            
+            if(angle - _angle != 0.0f)
             {
-                _gameObject.transform.Rotate(angleTMp, 0.0f, 0.0f);
+                _gameObject.transform.Rotation = Vector3.Lerp(_gameObject.transform.Rotation,new Vector3(MathHelper.ToDegrees(angle), 0.0f, 0.0f),0.5f);
+                _angle = angle;
             }
-            Console.WriteLine(_gameObject.transform.Rotation.ToString());
-
         }
-        void PlayerTranslate(Object o, MoveArgs e)
+        void CharacterTranslate(Object o, MoveArgs e)
         {
             e.AxisValue *= 0.01f;
             _gameObject.transform.Translate(e.AxisValue.X, e.AxisValue.Y, 0.0f);
 
-            Console.WriteLine(_gameObject.transform.Position.ToString());
         }
         #endregion
     }

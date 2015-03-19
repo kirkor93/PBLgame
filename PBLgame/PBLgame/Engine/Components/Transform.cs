@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using PBLgame.Engine.GameObjects;
 
 namespace PBLgame.Engine.Components
@@ -43,7 +45,8 @@ namespace PBLgame.Engine.Components
             {
                 _rotation = value;
                 RotationLimit();
-                _worldRotation = Matrix.CreateFromYawPitchRoll(value.X, value.Y, value.Z);
+                _worldRotation = Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(value.X),
+                                                               MathHelper.ToRadians(value.Y), MathHelper.ToRadians(value.Z));
             }
         }
         public Vector3 Scale
@@ -62,7 +65,7 @@ namespace PBLgame.Engine.Components
         {
             get
             {
-                return _world = _worldScale * _worldRotation * _worldTranslation;
+                return _world = _worldScale * _worldRotation *_worldTranslation;
             }
         }
         #endregion
@@ -83,30 +86,27 @@ namespace PBLgame.Engine.Components
         public void Translate(Vector3 trans)
         {
             _position += trans;
-            _worldTranslation = Matrix.CreateTranslation(_position);
-            _world = _worldTranslation;            
+            _worldTranslation *= Matrix.CreateTranslation(trans);  
         }
         public void Translate(float x,float y, float z)
         {
             _position += new Vector3(x,y,z);
-            _worldTranslation = Matrix.CreateTranslation(_position);
-            _world = _worldTranslation;
+            _worldTranslation *= Matrix.CreateTranslation(new Vector3(x,y,z));
         }
         public void Rotate(Vector3 rot)
         {
             _rotation += rot;
             RotationLimit();
-            _worldRotation = Matrix.CreateFromYawPitchRoll(_rotation.X,_rotation.Y,_rotation.Z);
-            _world = _worldRotation;
+            _worldRotation *= Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(rot.X), 
+                                                            MathHelper.ToRadians(rot.Y), MathHelper.ToRadians(rot.Z));
         }
         public void Rotate(float x, float y, float z)
         {
             _rotation += new Vector3(x, y, z);
             RotationLimit();
-            _worldRotation = Matrix.CreateFromYawPitchRoll(x, y, z);
-            _world = _worldRotation;
+            _worldRotation *= Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(x),
+                                                                       MathHelper.ToRadians(y), MathHelper.ToRadians(z));
         }
-        #endregion
 
         public override void Update()
         {
@@ -120,9 +120,12 @@ namespace PBLgame.Engine.Components
 
         private void RotationLimit()
         {
-            _rotation.X = _rotation.X % 360;
-            _rotation.Y = _rotation.Y % 360;
-            _rotation.Z = _rotation.Z % 360;
+            _rotation.X = _rotation.X % 360.0f;
+            _rotation.Y = _rotation.Y % 360.0f;
+            _rotation.Z = _rotation.Z % 360.0f;
         }
+
+
+        #endregion
     }
 }

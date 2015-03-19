@@ -79,7 +79,7 @@ namespace PBLgame.Engine.Singleton
         public void Update()
         {
 
-            _gamePadState = GamePad.GetState(PlayerIndex.One);
+            _gamePadState = GamePad.GetState(PlayerIndex.One, GamePadDeadZone.Circular);
             if (_gamePadState.IsConnected)
             {
                 //Left stick
@@ -92,7 +92,7 @@ namespace PBLgame.Engine.Singleton
                 }
                 
                 //Right stick
-                if (_gamePadState.ThumbSticks.Right.Length() != 0.0f)
+                if (_gamePadState.ThumbSticks.Right.Length() > 0.3f)
                 {
                     if (OnTurn != null)
                     {
