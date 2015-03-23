@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Edytejshyn.GUI;
 using Edytejshyn.Logic;
 
 namespace Edytejshyn
@@ -16,10 +16,16 @@ namespace Edytejshyn
         [STAThread]
         static void Main()
         {
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(new EditorLogic()));
+
+            MainForm mainForm = new MainForm(new EditorLogic());
+            mainForm.Show();
+
+            EditorXna xna = new EditorXna(mainForm);
+            xna.Run();
+
+            //Application.Run();
         }
     }
 }

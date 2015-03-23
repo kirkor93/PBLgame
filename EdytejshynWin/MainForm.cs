@@ -4,7 +4,9 @@ using System.Drawing;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using Edytejshyn.GUI;
 using Edytejshyn.Logic;
+using Microsoft.Xna.Framework;
 
 namespace Edytejshyn
 {
@@ -40,6 +42,17 @@ namespace Edytejshyn
             private set;
         }
 
+        public PictureBox RenderWindow
+        {
+            get { return renderWindow; }
+        }
+
+        public EditorXna XnaGame
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Methods
@@ -55,15 +68,9 @@ namespace Edytejshyn
             _saveDialog = new SaveFileDialog();
             _openDialog.Filter = _saveDialog.Filter = "XML file (*.*)|*.xml|All files (*.*)|*.*";
             this.Logic.Logger.LogEvent += ShowLogMessage;
+            
         }
 
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            if (!IsSafeToUnload())
-            {
-                e.Cancel = true;
-            }
-        }
 
         /// <summary>
         /// Call me before possible data lose like closing program or loading other file.
@@ -81,6 +88,26 @@ namespace Edytejshyn
                 case DialogResult.Cancel:   return false;
             }
             return true;
+        }
+
+        private void OpenFile(string path = null)
+        {
+            if (!IsSafeToUnload()) return;
+            if (path == null)
+            {
+                DialogResult result = this._openDialog.ShowDialog();
+                if (result != DialogResult.OK) return;
+            }
+            try
+            {
+                this.Logic.LoadFile(path ?? _openDialog.FileName);
+                SetFileControlsEnabled(true);
+                this.DataChanged = false;
+            }
+            catch (Exception ex)
+            {
+                _exceptionHandler.HandleException(ex);
+            }
         }
 
         /// <summary>
@@ -156,23 +183,12 @@ namespace Edytejshyn
         #region Events
         private void ExitEvent(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void OpenEvent(object sender, EventArgs e)
         {
-            DialogResult result = this._openDialog.ShowDialog();
-            if (result != DialogResult.OK) return;
-            try
-            {
-                this.Logic.LoadFile(this._openDialog.FileName);
-                SetFileControlsEnabled(true);
-                this.DataChanged = false;
-            }
-            catch (Exception ex)
-            {
-                _exceptionHandler.HandleException(ex);
-            }
+            OpenFile();
         }
 
         private void SaveEvent(object sender, EventArgs e)
@@ -184,6 +200,7 @@ namespace Edytejshyn
         {
             SaveFileAs();
         }
+
 
         private void AboutMenuItem_Click(object sender, EventArgs e)
         {
@@ -198,9 +215,35 @@ namespace Edytejshyn
                 this.DataChanged = true;
             }
         }
+
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
+            OpenFile(files[0]);
+
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!IsSafeToUnload())
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (XnaGame != null)
+            {
+                XnaGame.Exit();
+            }
+        }
         #endregion
-
-
 
         #endregion
 
