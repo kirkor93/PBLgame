@@ -2,10 +2,12 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 using Edytejshyn.GUI;
 using Edytejshyn.Logic;
+using Edytejshyn.Logic.Commands;
 using Microsoft.Xna.Framework;
 
 namespace Edytejshyn
@@ -68,7 +70,8 @@ namespace Edytejshyn
             _saveDialog = new SaveFileDialog();
             _openDialog.Filter = _saveDialog.Filter = "XML file (*.*)|*.xml|All files (*.*)|*.*";
             this.Logic.Logger.LogEvent += ShowLogMessage;
-            
+            this.Logic.History.UpdateEvent += UpdateHistory;
+            Logic.History.NewAction(new WelcomeCommand(this));
         }
 
 
@@ -180,6 +183,36 @@ namespace Edytejshyn
             statusBarLabel.ForeColor = level.GetColor(DefaultForeColor);
         }
 
+        /// <summary>
+        /// Update menu entries of Undo and Redo.
+        /// </summary>
+        /// <param name="manager">Reference to calling history manager</param>
+        public void UpdateHistory(HistoryManager manager)
+        {
+         
+            // I hate duplicated code, so i maade that:
+
+            var entries = new[]
+            {
+                new {cmd = manager.NextUndo, item = undoMenuItem, caption = "Undo"},
+                new {cmd = manager.NextRedo, item = redoMenuItem, caption = "Redo"}
+            };
+
+            foreach (var entry in entries)
+            {
+                if (entry.cmd != null)
+                {
+                    entry.item.Enabled = true;
+                    entry.item.Text = string.Format("{0}: {1}", entry.caption, entry.cmd.Description);
+                }
+                else
+                {
+                    entry.item.Enabled = false;
+                    entry.item.Text = entry.caption;
+                }
+            }
+        }
+
         #region Events
         private void ExitEvent(object sender, EventArgs e)
         {
@@ -211,7 +244,7 @@ namespace Edytejshyn
         {
             if (e.KeyCode == Keys.Delete)
             {
-                treeViewObjects.SelectedNode.Remove();
+                hierarchyTreeView.SelectedNode.Remove();
                 this.DataChanged = true;
             }
         }
@@ -243,9 +276,18 @@ namespace Edytejshyn
                 XnaGame.Exit();
             }
         }
-        #endregion
+
+        private void UndoMenuItem_Click(object sender, EventArgs e)
+        {
+            Logic.History.Undo();
+        }
+
+        private void RedoMenuItem_Click(object sender, EventArgs e)
+        {
+            Logic.History.Redo();
+        }
 
         #endregion
-
+        #endregion
     }
 }

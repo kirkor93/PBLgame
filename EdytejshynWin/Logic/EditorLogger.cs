@@ -23,7 +23,7 @@ namespace Edytejshyn.Logic
 
     public enum LoggerLevel
     {
-        Debug, Info, Warning, Error
+        Debug, Info, Success, Warning, Error
     }
 
     public static class LoggerExtensions
@@ -32,12 +32,10 @@ namespace Edytejshyn.Logic
         {
             switch (level)
             {
-                case LoggerLevel.Debug:
-                    return Color.RoyalBlue;
-                case LoggerLevel.Warning:
-                    return Color.OrangeRed;
-                case LoggerLevel.Error:
-                    return Color.Red;
+                case LoggerLevel.Debug:     return Color.RoyalBlue;
+                case LoggerLevel.Success:   return Color.Green;
+                case LoggerLevel.Warning:   return Color.OrangeRed;
+                case LoggerLevel.Error:     return Color.Red;
             }
             return defaultColor;
         }

@@ -15,7 +15,8 @@ namespace Edytejshyn.Logic
         #endregion
 
         #region Public
-        public readonly EditorLogger Logger = new EditorLogger();
+        public readonly EditorLogger   Logger  = new EditorLogger();
+        public readonly HistoryManager History;
         #endregion
 
         #endregion
@@ -37,6 +38,7 @@ namespace Edytejshyn.Logic
         public EditorLogic()
         {
             // TODO init serializer
+             History = new HistoryManager(this);
         }
 
         public void LoadFile(string path)
