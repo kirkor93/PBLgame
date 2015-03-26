@@ -26,18 +26,6 @@ namespace Edytejshyn
         #endregion
 
         #region Properties
-        public bool DataChanged
-        {
-            get
-            {
-                return _dataChanged;
-            }
-            set
-            {
-                _dataChanged = value;
-                UpdateTitle();
-            }
-        }
 
         public EditorLogic Logic
         {
@@ -58,10 +46,10 @@ namespace Edytejshyn
             SetFileControlsEnabled(false);
             _openDialog = new OpenFileDialog();
             _saveDialog = new SaveFileDialog();
-            _openDialog.Filter = _saveDialog.Filter = "XML file (*.*)|*.xml|All files (*.*)|*.*";
+            _openDialog.Filter = _saveDialog.Filter = "XML file (*.xml)|*.xml|All files (*.*)|*.*";
             this.Logic.Logger.LogEvent += ShowLogMessage;
             this.Logic.History.UpdateEvent += UpdateHistory;
-            Logic.History.NewAction(new WelcomeCommand(this));
+            this.Logic.History.Clear();
         }
 
 
@@ -72,7 +60,7 @@ namespace Edytejshyn
         /// <returns>true if safe to close</returns>
         private bool IsSafeToUnload()
         {
-            if (!this.DataChanged) return true;
+            if (Logic.History.AheadSaved == 0) return true;
             DialogResult result = MessageBox.Show("Data has been changed. Shall I save?", "Possible data lose", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
             switch (result)
             {
@@ -95,7 +83,6 @@ namespace Edytejshyn
             {
                 this.Logic.LoadFile(path ?? _openDialog.FileName);
                 SetFileControlsEnabled(true);
-                this.DataChanged = false;
             }
             catch (Exception ex)
             {
@@ -112,7 +99,6 @@ namespace Edytejshyn
             try
             {
                 this.Logic.SaveFile();
-                this.DataChanged = false;
                 return true;
             }
             catch(Exception ex)
@@ -134,7 +120,6 @@ namespace Edytejshyn
             try
             {
                 this.Logic.SaveFile(_saveDialog.FileName);
-                this.DataChanged = false;
             }
             catch (Exception ex)
             {
@@ -153,7 +138,7 @@ namespace Edytejshyn
             if (file != null)
             {
                 sb.Append(file);
-                if (this.DataChanged) sb.Append("* ");
+                if (this.Logic.History.AheadSaved != 0) sb.Append("* ");
                 sb.Append(" - ");
             }
             sb.Append(this._appName);
@@ -162,8 +147,9 @@ namespace Edytejshyn
 
         private void SetFileControlsEnabled(bool mode)
         {
-            saveMenuItem.Enabled = mode;
-            saveAsMenuItem.Enabled = mode;
+            saveMenuItem       .Enabled = mode;
+            saveAsMenuItem     .Enabled = mode;
+            saveToolStripButton.Enabled = mode;
         }
 
         public void ShowLogMessage(LoggerLevel level, string message)
@@ -179,28 +165,28 @@ namespace Edytejshyn
         /// <param name="manager">Reference to calling history manager</param>
         public void UpdateHistory(HistoryManager manager)
         {
-         
             // I hate duplicated code, so i made that:
 
             var entries = new[]
             {
-                new {cmd = manager.NextUndo, item = undoMenuItem, caption = "Undo"},
-                new {cmd = manager.NextRedo, item = redoMenuItem, caption = "Redo"}
+                new {cmd = manager.NextUndo, item = undoMenuItem, toolstrip = undoToolStripButton, caption = "&Undo"},
+                new {cmd = manager.NextRedo, item = redoMenuItem, toolstrip = redoToolStripButton, caption = "&Redo"},
             };
 
             foreach (var entry in entries)
             {
                 if (entry.cmd != null)
                 {
-                    entry.item.Enabled = true;
-                    entry.item.Text = string.Format("{0}: {1}", entry.caption, entry.cmd.Description);
+                    entry.item.Enabled = entry.toolstrip.Enabled = true;
+                    entry.item.Text = entry.toolstrip.Text = string.Format("{0}: {1}", entry.caption, entry.cmd.Description);
                 }
                 else
                 {
-                    entry.item.Enabled = false;
-                    entry.item.Text = entry.caption;
+                    entry.item.Enabled = entry.toolstrip.Enabled = false;
+                    entry.item.Text = entry.toolstrip.Text = entry.caption;
                 }
             }
+            UpdateTitle();
         }
 
         #region Events
@@ -234,8 +220,8 @@ namespace Edytejshyn
         {
             if (e.KeyCode == Keys.Delete)
             {
-                hierarchyTreeView.SelectedNode.Remove();
-                this.DataChanged = true;
+                if (hierarchyTreeView.SelectedNode != null)
+                    this.Logic.History.NewAction(hierarchyTreeView.GetRemoveSelectedNodeCommand());
             }
         }
 
@@ -276,11 +262,7 @@ namespace Edytejshyn
 
         #endregion
 
-        private void Viewport_MouseMove(object sender, MouseEventArgs e)
-        {
-            viewport.Text = string.Format("{0}, {1}", e.X, e.Y);
-            viewport.Invalidate();
-        }
+
         #endregion
     }
 }

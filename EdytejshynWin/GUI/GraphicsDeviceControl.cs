@@ -155,16 +155,18 @@ namespace Edytejshyn.GUI
             // largest of these controls. But what if we are currently drawing
             // a smaller control? To avoid unwanted stretching, we set the
             // viewport to only use the top left portion of the full backbuffer.
-            Viewport viewport = new Viewport();
+            Viewport viewport = new Viewport
+            {
+                X = 0,
+                Y = 0,
+                Width = ClientSize.Width,
+                Height = ClientSize.Height,
+                MinDepth = 0,
+                MaxDepth = 1
+            };
 
-            viewport.X = 0;
-            viewport.Y = 0;
 
-            viewport.Width = ClientSize.Width;
-            viewport.Height = ClientSize.Height;
 
-            viewport.MinDepth = 0;
-            viewport.MaxDepth = 1;
 
             GraphicsDevice.Viewport = viewport;
 

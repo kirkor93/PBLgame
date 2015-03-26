@@ -45,6 +45,7 @@ namespace Edytejshyn.Logic
         {
             this.FilePath = path;
             this.Logger.Log(LoggerLevel.Warning, "Loading files not implemented");
+            this.History.Clear();
             //throw new EditorException("Please, implement opening files");
             //this.Logger.Log(LoggerLevel.Info, string.Format("Loaded file {0}", path));
             //try
@@ -79,6 +80,7 @@ namespace Edytejshyn.Logic
                     this.Logger.Log(LoggerLevel.Warning, "Saving not implemented. Created empty file.");
                 }
                 this.FilePath = path;
+                this.History.SetSavedPoint();
             }
             catch (Exception ex)
             {

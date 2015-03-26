@@ -11,6 +11,11 @@ namespace Edytejshyn.GUI
         private SpriteBatch _spriteBatch;
         private SpriteFont _osdFont;
 
+        public ViewportControl()
+        {
+            this.MouseMove += ViewportControl_MouseMove;
+        }
+
         protected override void Initialize()
         {
             _content = new ContentManager(Services, "EditorContent");
@@ -33,6 +38,12 @@ namespace Edytejshyn.GUI
             _spriteBatch.Begin();
             _spriteBatch.DrawString(_osdFont, Text, new Vector2(2, 2), Color.Black);
             _spriteBatch.End();
+        }
+
+        public void ViewportControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            Text = string.Format("{0}, {1}", e.X, e.Y);
+            Invalidate();
         }
     }
 }

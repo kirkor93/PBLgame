@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Edytejshyn.Logic
 {
@@ -30,6 +27,15 @@ namespace Edytejshyn.Logic
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Contains actions ahead of state saved in currently opened file.
+        /// Increases every new action done after save. Decreases when undoing.
+        /// Value == 0 means editor state is identical as in file (like after opening).
+        /// Value &gt; 0 indicates how many actions have been done after saving.
+        /// Value &lt; 0 is when history has been reverted (undone) beyond saved point.
+        /// </summary>
+        public int AheadSaved { get; private set; }
+
         /// <summary>
         /// Gets next undo Command or null if nothing to undo.
         /// </summary>
@@ -64,30 +70,45 @@ namespace Edytejshyn.Logic
             command.Do();
             _backwardStack.Push(command);
             _logic.Logger.Log(LoggerLevel.Info, command.Message);
+            AheadSaved++;
             UpdateEvent(this);
         }
 
         public void Undo()
         {
-            if (_backwardStack.Count != 0)
-            {
-                ICommand cmd = _backwardStack.Pop();
-                cmd.Undo();
-                _forwardStack.Push(cmd);
-                _logic.Logger.Log(LoggerLevel.Info, String.Format("Undo: {0}", cmd.Message));
-            }
+            if (_backwardStack.Count == 0) return;
+
+            ICommand cmd = _backwardStack.Pop();
+            cmd.Undo();
+            _forwardStack.Push(cmd);
+            _logic.Logger.Log(LoggerLevel.Info, String.Format("Undo: {0}", cmd.Message));
+            AheadSaved--;
             UpdateEvent(this);
         }
 
         public void Redo()
         {
-            if (_forwardStack.Count != 0)
-            {
-                ICommand cmd = _forwardStack.Pop();
-                cmd.Do();
-                _backwardStack.Push(cmd);
-                _logic.Logger.Log(LoggerLevel.Info, String.Format("Redo: {0}", cmd.Message));
-            }
+            if (_forwardStack.Count == 0) return;
+
+            ICommand cmd = _forwardStack.Pop();
+            cmd.Do();
+            _backwardStack.Push(cmd);
+            _logic.Logger.Log(LoggerLevel.Info, String.Format("Redo: {0}", cmd.Message));
+            AheadSaved++;
+            UpdateEvent(this);
+        }
+
+        public void Clear()
+        {
+            AheadSaved = 0;
+            _backwardStack.Clear();
+            _forwardStack.Clear();
+            UpdateEvent(this);
+        }
+
+        public void SetSavedPoint()
+        {
+            AheadSaved = 0;
             UpdateEvent(this);
         }
 
