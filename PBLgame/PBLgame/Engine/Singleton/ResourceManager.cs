@@ -20,6 +20,7 @@ namespace PBLgame.Engine.Singleton
 
         private IList<Mesh> _meshes;
         private IList<Texture2D> _textures;
+        private IList<MeshMaterial> _materials; 
 
         #endregion
         #region Protected
@@ -54,7 +55,7 @@ namespace PBLgame.Engine.Singleton
         {
             XmlContent content;
 
-            XmlSerializer serializer = new XmlSerializer(typeof(XmlContent), new XmlRootAttribute("Content"));
+            XmlSerializer serializer = new XmlSerializer(typeof(XmlContent), new XmlRootAttribute("XmlContent"));
             using (FileStream file = new FileStream(CONTENT_LIST_PATH, FileMode.Open))
             {
                 content = (XmlContent) serializer.Deserialize(file);
@@ -63,8 +64,23 @@ namespace PBLgame.Engine.Singleton
 
             _meshes = content.Meshes;
             _textures = content.Textures;
+            _materials = content.Materials;
 
-            
+        }
+
+        public void SaveContent()
+        {
+            XmlContent content = new XmlContent();
+
+            content.Materials = _materials;
+            content.Meshes = _meshes;
+            content.Textures = _textures;
+
+            XmlSerializer serializer = new XmlSerializer(typeof(XmlContent));
+            using (FileStream writer = new FileStream(CONTENT_LIST_PATH, FileMode.Create))
+            {
+                serializer.Serialize(writer, content);
+            }
         }
 
         public Mesh GetMesh(string path)
@@ -98,9 +114,23 @@ namespace PBLgame.Engine.Singleton
         public Texture2D GetTexture(string path)
         {
             IEnumerable<Texture2D> list =
-            from texture in _textures
-            where texture.Name == path
-            select texture;
+                from texture in _textures
+                where texture.Name == path
+                select texture;
+
+            if (list.Any())
+            {
+                return list.First();
+            }
+            return null;
+        }
+
+        public MeshMaterial GetMaterial(int id)
+        {
+            IEnumerable<MeshMaterial> list =
+                from meshMaterial in _materials
+                where meshMaterial.Id == id
+                select meshMaterial;
 
             if (list.Any())
             {
@@ -177,7 +207,41 @@ namespace PBLgame.Engine.Singleton
 
         public void WriteXml(XmlWriter writer)
         {
-            throw new NotImplementedException();
+            writer.WriteStartElement("Metadata");
+            writer.WriteEndElement();
+            writer.WriteStartElement("Content");
+            writer.WriteStartElement("Textures");
+            foreach (Texture2D texture2D in Textures)
+            {
+                writer.WriteStartElement("Texture");
+                writer.WriteAttributeString("Path", texture2D.Name);
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+            writer.WriteStartElement("Materials");
+            foreach (MeshMaterial meshMaterial in Materials)
+            {
+                writer.WriteStartElement("Material");
+                writer.WriteAttributeString("Id", meshMaterial.Id.ToString());
+                writer.WriteAttributeString("Diffuse", meshMaterial.Diffuse.Name);
+                writer.WriteAttributeString("Normal", meshMaterial.Normal.Name);
+                writer.WriteAttributeString("Specular", meshMaterial.Specular.Name);
+                writer.WriteAttributeString("Emissive", meshMaterial.Emissive.Name);
+                writer.WriteAttributeString("ShaderId", meshMaterial.ShaderId.ToString());
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+            writer.WriteStartElement("Meshes");
+            foreach (Mesh mesh in Meshes)
+            {
+                writer.WriteStartElement("Mesh");
+                writer.WriteAttributeString("Id", mesh.Id.ToString());
+                writer.WriteAttributeString("Path", mesh.Path);
+                writer.WriteAttributeString("MaterialId", mesh.MaterialId.ToString());
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+            writer.WriteEndElement();
         }
 
         private Model LoadModel(string path)
