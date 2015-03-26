@@ -1,5 +1,16 @@
 <?xml version="1.0"?>
 <Content>
-	<Mesh Id="1" Path="Models\Helmet"/>
-	<Texture Id="1" Path="Textures\Helmet_d"/>
+
+	<Textures>
+		<Texture Path="Textures\Helmet_d"/>
+	</Textures>
+	
+	<Materials>
+		<Material Id="1" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_d" Specular="Textures\Helmet_d" Emissive="Textures\Helmet_d" ShaderId="0"/>
+	</Materials>
+
+	<Meshes>
+		<Mesh Id="1" Path="Models\Helmet" MaterialId="1"/>
+	</Meshes>
+	
 </Content>

@@ -61,9 +61,10 @@ namespace PBLgame.Engine.Singleton
             }
 
 
-            this._meshes = content.Meshes;
-            this._textures = content.Textures;
+            _meshes = content.Meshes;
+            _textures = content.Textures;
 
+            
         }
 
         public Mesh GetMesh(string path)
@@ -96,7 +97,15 @@ namespace PBLgame.Engine.Singleton
 
         public Texture2D GetTexture(string path)
         {
-//start here
+            IEnumerable<Texture2D> list =
+            from texture in _textures
+            where texture.Name == path
+            select texture;
+
+            if (list.Any())
+            {
+                return list.First();
+            }
             return null;
         }
 
@@ -110,7 +119,8 @@ namespace PBLgame.Engine.Singleton
     public class XmlContent : IXmlSerializable
     {
         public IList<Mesh> Meshes { get; set; }
-        public IList<Texture2D> Textures { get; set; } 
+        public IList<Texture2D> Textures { get; set; }
+        public IList<MeshMaterial> Materials { get; set; } 
 
         public XmlSchema GetSchema()
         {
@@ -121,28 +131,47 @@ namespace PBLgame.Engine.Singleton
         {
             Textures = new List<Texture2D>();
             Meshes = new List<Mesh>();
+            Materials = new List<MeshMaterial>();
 
             reader.MoveToContent();
             reader.ReadStartElement();
 
-            //reading the XML loop
             do
             {
-                if (reader.Name == "Mesh")
+                if (reader.Name == "Texture")
                 {
-                    int id = Convert.ToInt32(reader.GetAttribute("Id"));
-                    string path = reader.GetAttribute("Path");
-                    Model model = LoadModel(path);
-                    Meshes.Add(new Mesh(id, path, model));
-                }
-                else if (reader.Name == "Texture")
-                {
-                    int id = Convert.ToInt32(reader.GetAttribute("Id"));
                     string path = reader.GetAttribute("Path");
                     Texture2D texture = LoadTexture(path);
+                    texture.Name = path;
                     Textures.Add(texture);
                 }
-
+                    else if (reader.Name == "Material")
+                {
+                    int id = Convert.ToInt32(reader.GetAttribute("Id"));
+                    string diffuseTex = reader.GetAttribute("Diffuse");
+                    string normalTex = reader.GetAttribute("Normal");
+                    string specularTex = reader.GetAttribute("Specular");
+                    string emissiveTex = reader.GetAttribute("Emissive");
+                    int shaderId = Convert.ToInt32(reader.GetAttribute("ShaderId"));
+                    
+                    Materials.Add(new MeshMaterial(id,
+                                                    FindTexture(diffuseTex),
+                                                    FindTexture(normalTex),
+                                                    FindTexture(specularTex),
+                                                    FindTexture(emissiveTex),
+                                                    shaderId));
+                }
+                else if (reader.Name == "Mesh")
+                {
+                    int id = Convert.ToInt32(reader.GetAttribute("Id"));
+                    string path = reader.GetAttribute("Path");
+                    int materialId = Convert.ToInt32(reader.GetAttribute("MaterialId"));
+                    Model model = LoadModel(path);
+                    Mesh mesh = new Mesh(id, path, model, materialId);
+                    mesh.AssignMaterial(FindMaterial(materialId));
+                    Meshes.Add(mesh);
+                }
+                
             } while (reader.Read());
         }
 
@@ -159,6 +188,30 @@ namespace PBLgame.Engine.Singleton
         private Texture2D LoadTexture(string path)
         {
             return Game.Instance.Content.Load<Texture2D>(path);
+        }
+
+        private MeshMaterial FindMaterial(int id)
+        {
+            foreach (MeshMaterial meshMaterial in Materials)
+            {
+                if (meshMaterial.Id == id)
+                {
+                    return meshMaterial;
+                }
+            }
+            return null;
+        }
+
+        private Texture2D FindTexture(string path)
+        {
+            foreach (Texture2D texture2D in Textures)
+            {
+                if (texture2D.Name == path)
+                {
+                    return texture2D;
+                }
+            }
+            return null;
         }
     }
 
