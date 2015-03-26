@@ -79,6 +79,7 @@
     <Compile Include="Engine\Components\Animator.cs" />
     <Compile Include="Engine\Components\AudioSource.cs" />
     <Compile Include="Engine\Components\Component.cs" />
+    <Compile Include="Engine\Components\MeshMaterial.cs" />
     <Compile Include="Engine\Components\ParticleSystem.cs" />
     <Compile Include="Engine\Components\Transform.cs" />
     <Compile Include="Engine\GameObjects\Camera.cs" />

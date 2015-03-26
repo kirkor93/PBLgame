@@ -20,7 +20,8 @@ namespace Edytejshyn
         private bool _dataChanged = false;
         private OpenFileDialog _openDialog;
         private SaveFileDialog _saveDialog;
-        private GUIExceptionHandler _exceptionHandler;
+
+        public readonly GUIExceptionHandler ExceptionHandler;
 
         #endregion
 
@@ -44,17 +45,6 @@ namespace Edytejshyn
             private set;
         }
 
-        public PictureBox RenderWindow
-        {
-            get { return renderWindow; }
-        }
-
-        public EditorXna XnaGame
-        {
-            get;
-            set;
-        }
-
         #endregion
 
         #region Methods
@@ -62,7 +52,7 @@ namespace Edytejshyn
         public MainForm(EditorLogic logic)
         {
             this.Logic = logic;
-            this._exceptionHandler = new GUIExceptionHandler(this);
+            this.ExceptionHandler = new GUIExceptionHandler(this);
             InitializeComponent();
             UpdateTitle();
             SetFileControlsEnabled(false);
@@ -109,7 +99,7 @@ namespace Edytejshyn
             }
             catch (Exception ex)
             {
-                _exceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(ex);
             }
         }
 
@@ -127,7 +117,7 @@ namespace Edytejshyn
             }
             catch(Exception ex)
             {
-                _exceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(ex);
             }
             return false;
         }
@@ -148,7 +138,7 @@ namespace Edytejshyn
             }
             catch (Exception ex)
             {
-                _exceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(ex);
             }
             return false;
         }
@@ -190,7 +180,7 @@ namespace Edytejshyn
         public void UpdateHistory(HistoryManager manager)
         {
          
-            // I hate duplicated code, so i maade that:
+            // I hate duplicated code, so i made that:
 
             var entries = new[]
             {
@@ -271,10 +261,7 @@ namespace Edytejshyn
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (XnaGame != null)
-            {
-                XnaGame.Exit();
-            }
+
         }
 
         private void UndoMenuItem_Click(object sender, EventArgs e)
@@ -288,6 +275,12 @@ namespace Edytejshyn
         }
 
         #endregion
+
+        private void Viewport_MouseMove(object sender, MouseEventArgs e)
+        {
+            viewport.Text = string.Format("{0}, {1}", e.X, e.Y);
+            viewport.Invalidate();
+        }
         #endregion
     }
 }

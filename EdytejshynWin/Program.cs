@@ -18,14 +18,7 @@ namespace Edytejshyn
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            MainForm mainForm = new MainForm(new EditorLogic());
-            mainForm.Show();
-
-            EditorXna xna = new EditorXna(mainForm);
-            xna.Run();
-
-            //Application.Run();
+            Application.Run(new MainForm(new EditorLogic()));
         }
     }
 }

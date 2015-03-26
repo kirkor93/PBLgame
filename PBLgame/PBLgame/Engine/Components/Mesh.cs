@@ -5,10 +5,11 @@ using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Singleton;
 
 namespace PBLgame.Engine.Components
 {
-    public class Mesh : IXmlSerializable
+    public class Mesh
     {
         #region Variables
         #region Private
@@ -16,10 +17,12 @@ namespace PBLgame.Engine.Components
         private Model _model;
         private string _path;
         private int _id;
+        private MeshMaterial _meshMaterial;
 
         private Renderer _myRenderer;
 
         private Matrix[] _boneTransforms;
+        private int _materialId;
 
         #endregion
         #region Protected
@@ -53,41 +56,64 @@ namespace PBLgame.Engine.Components
             private set { _id = value; }
         }
 
+        public MeshMaterial Material
+        {
+            get { return _meshMaterial; }
+            set { _meshMaterial = value; }
+        }
+
+        public int MaterialId
+        {
+            get { return _materialId; }
+            set { _materialId = value; } 
+            
+        }
+
         #endregion
 
         #region Methods
 
         public Mesh()
         {
-            this.Id = -1;
-            this.Path = "";
-            this.Model = null;
+            Id = -1;
+            Path = "";
+            Model = null;
         }
 
-        public Mesh(int id, string path)
+        public Mesh(int id, string path, Model model, int materialId)
         {
-            this.Id = id;
-            this.Path = path;
-            this.Model = null;
-        }
-
-        public Mesh(int id, string path, Model model)
-        {
-            this.Id = id;
-            this.Path = path;
+            Id = id;
+            Path = path;
             AttatchModel(model);
+            MaterialId = materialId;
         }
+
+        
 
         public void AttatchModel(Model model)
         {
-            this.Model = model;
+            Model = model;
             _boneTransforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(_boneTransforms);
         }
 
+        public void AssignMaterial(MeshMaterial material)
+        {
+            Material = material;
+
+            foreach (ModelMesh modelMesh in Model.Meshes)
+            {
+                foreach (BasicEffect basicEffect in modelMesh.Effects)
+                {
+                    basicEffect.TextureEnabled = true;
+                    basicEffect.Texture = Material.Diffuse;
+                }
+            }
+        }
+
         public void Draw()
         {
-            foreach (ModelMesh modelMesh in this.Model.Meshes)
+            foreach (ModelMesh modelMesh in Model.Meshes)
             {
                 foreach (BasicEffect effect in modelMesh.Effects)
                 {
@@ -105,27 +131,6 @@ namespace PBLgame.Engine.Components
         {
             _myRenderer = renderer;
         }
-
-        #region Serialization
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            reader.MoveToContent();
-            this.Id = Convert.ToInt32(reader.GetAttribute("ID"));
-            this.Path = reader.GetAttribute("Path");
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
 
         #endregion
 

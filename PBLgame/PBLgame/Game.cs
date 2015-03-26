@@ -43,12 +43,6 @@ namespace PBLgame
         
         //------------------------
 
-        //Sounds tetin
-        AudioEngine _audioEngine; //Have to be in final version
-        WaveBank _waveBank; //Have to be in final version
-        SoundBank _soundBank;//Have to be in final version
-
-        //////////////
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -89,11 +83,11 @@ namespace PBLgame
             player = new GameObject();
             player.AddComponent<GamePlay.PlayerScript>(new GamePlay.PlayerScript(player));
             player.AddComponent<Renderer>(new Renderer(player));
-            player.AddComponent<AudioSource>(new AudioSource(player));
             player.renderer.MyMesh = mesh;
             player.renderer.MyMesh.AssignRenderer(player.renderer);
             player.GetComponent<GamePlay.PlayerScript>().Initialize();
 
+            ResourceManager.Instance.SaveContent();
             //InputManager.Instance.OnMove += TriangleTranslate;
 
             base.Initialize();
@@ -123,17 +117,6 @@ namespace PBLgame
             obj.transform.Translate(new Vector3(2.0f, 2.0f, 1.0f));
             Transform t = obj.GetComponent<Transform>();
             t.Translate(new Vector3(0.0f, 10.0f, 0.0f));
-
-            _audioEngine = new AudioEngine(@"Content\Audio\GameAudio.xgs");
-            _waveBank = new WaveBank(_audioEngine, @"Content\Audio\WaveBank.xwb");
-            _soundBank = new SoundBank(_audioEngine, @"Content\Audio\SoundBank.xsb");
-            ///
-
-            player.audioSource.TrackCue = _soundBank.GetCue("Tanelorn");
-            player.audioSource.Set3D(mainCamera.audioListener);
-            player.audioSource.Play();
-            
-            
             //------------------------
 
             // TODO: use this.Content to load your game content here
@@ -161,7 +144,7 @@ namespace PBLgame
             
             //ForTetting-----------------------
 
-
+            
 
             InputManager.Instance.Update();
 
@@ -184,12 +167,6 @@ namespace PBLgame
                 worldT *= Matrix.CreateTranslation(0.01f, 0, 0);
                 //mainCamera.Transform.Translate(0.01f, 0.0f, 0.0f);
             }
-            player.transform.Translate(0.02f, 0.0f, -0.02f);
-
-            player.audioSource.Update();
-            player.audioSource.Set3D(mainCamera.audioListener);
-
-            _audioEngine.Update(); //Have to be in final version
             //-----------------------------
 
 

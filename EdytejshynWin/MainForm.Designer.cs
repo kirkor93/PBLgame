@@ -66,7 +66,7 @@
             this.helpMenuBar = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerVert = new System.Windows.Forms.SplitContainer();
-            this.renderWindow = new System.Windows.Forms.PictureBox();
+            this.viewport = new Edytejshyn.GUI.ViewportControl();
             this.splitContainerRightHoriz = new System.Windows.Forms.SplitContainer();
             this.hierarchyTreeView = new System.Windows.Forms.TreeView();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
@@ -79,7 +79,6 @@
             this.splitContainerVert.Panel1.SuspendLayout();
             this.splitContainerVert.Panel2.SuspendLayout();
             this.splitContainerVert.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.renderWindow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerRightHoriz)).BeginInit();
             this.splitContainerRightHoriz.Panel1.SuspendLayout();
             this.splitContainerRightHoriz.Panel2.SuspendLayout();
@@ -214,7 +213,7 @@
             // 
             // splitContainerVert.Panel1
             // 
-            this.splitContainerVert.Panel1.Controls.Add(this.renderWindow);
+            this.splitContainerVert.Panel1.Controls.Add(this.viewport);
             // 
             // splitContainerVert.Panel2
             // 
@@ -223,15 +222,16 @@
             this.splitContainerVert.SplitterDistance = 519;
             this.splitContainerVert.TabIndex = 1;
             // 
-            // renderWindow
+            // viewport
             // 
-            this.renderWindow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.renderWindow.InitialImage = null;
-            this.renderWindow.Location = new System.Drawing.Point(0, 0);
-            this.renderWindow.Name = "renderWindow";
-            this.renderWindow.Size = new System.Drawing.Size(519, 495);
-            this.renderWindow.TabIndex = 0;
-            this.renderWindow.TabStop = false;
+            this.viewport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.viewport.Location = new System.Drawing.Point(0, 0);
+            this.viewport.Name = "viewport";
+            this.viewport.Size = new System.Drawing.Size(519, 495);
+            this.viewport.TabIndex = 0;
+            this.viewport.TabStop = false;
+            this.viewport.Text = "XNA Viewport";
+            this.viewport.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Viewport_MouseMove);
             // 
             // splitContainerRightHoriz
             // 
@@ -356,7 +356,6 @@
             this.splitContainerVert.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerVert)).EndInit();
             this.splitContainerVert.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.renderWindow)).EndInit();
             this.splitContainerRightHoriz.Panel1.ResumeLayout(false);
             this.splitContainerRightHoriz.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerRightHoriz)).EndInit();
@@ -393,7 +392,7 @@
         private System.Windows.Forms.PropertyGrid propertyGrid;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.PictureBox renderWindow;
+        private GUI.ViewportControl viewport;
     }
 }
 
