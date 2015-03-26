@@ -376,6 +376,11 @@ Sound Bank
             Name = Default;
         }
 
+        RPC Entry
+        {
+            RPC Name = RPC Preset;
+        }
+
         Track
         {
             Volume = 0;
