@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace PBLgame.Engine.GameObjects
 {
@@ -16,12 +17,26 @@ namespace PBLgame.Engine.GameObjects
         private float _foV;
         private Vector3 _direction;
 
+        private AudioListener _listener;
+
         //static reference to first camera created for other classes
         private static Camera _mainCamera = null;
         #endregion
         #endregion
 
         #region Properites
+        public AudioListener audioListener
+        {
+            get
+            {
+                _listener.Position = base.transform.Position;
+                return _listener;
+            }
+            set
+            {
+                _listener = value;
+            }
+        }
         public Matrix ViewMatrix
         {
             get
@@ -82,12 +97,13 @@ namespace PBLgame.Engine.GameObjects
                 screenWidth / screenHeight,
                 near, far);
 
-
             //first camera created is main camera for game
             if (MainCamera == null)
             {
                 MainCamera = this;
             }
+
+            _listener = new AudioListener();
 
         }
 
@@ -103,12 +119,5 @@ namespace PBLgame.Engine.GameObjects
 
         #endregion
 
-        // FOR TESTING INPUT EVENTS================
-        public void EventMove(object obj, Singleton.MoveArgs args)
-        {
-            args.AxisValue = args.AxisValue * 0.01f;
-            base.transform.Translate(args.AxisValue.X, args.AxisValue.Y, 0.0f);
-        }
-        //=======================================
     }
 }

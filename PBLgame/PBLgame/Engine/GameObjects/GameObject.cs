@@ -15,6 +15,7 @@ namespace PBLgame.Engine.GameObjects
             public int ID;
             #endregion
             #region Private
+            GameObject _parent = null;
             //Components list attached to game object
             List<Component> _components = new List<Component>();
             //Most common _components             
@@ -22,11 +23,23 @@ namespace PBLgame.Engine.GameObjects
             private Renderer _renderer;
             private Collision _collision;
             private Animator _animator;
-            private ParticleSystem _particleSystem;          
+            private ParticleSystem _particleSystem;
+            private AudioSource _audioSource;
             #endregion
         #endregion
 
         #region Properties
+        public GameObject parent
+        {
+            get
+            {
+                return _parent;
+            }
+            set
+            {
+                _parent = value;
+            }
+        }
         public Transform transform
         {
             get
@@ -82,13 +95,24 @@ namespace PBLgame.Engine.GameObjects
                 _particleSystem = value;
             }
         }
+        public AudioSource audioSource
+        {
+            get
+            {
+                return _audioSource;
+            }
+            set
+            {
+                _audioSource = value;
+            }
+        }
         #endregion  
 
         #region Methods
 
         public GameObject()
         {
-            this.transform = new Transform(this);
+            _transform = new Transform(this);
         }
 
         public void AddComponent<T>(T component) where T : Component
@@ -118,6 +142,11 @@ namespace PBLgame.Engine.GameObjects
                 _particleSystem = component as ParticleSystem;
                 return;
             }
+            if (typeof(T) == typeof(AudioSource))
+            {
+                _audioSource = component as AudioSource;
+                return;
+            }
 
             _components.Add(component);
         }
@@ -127,23 +156,27 @@ namespace PBLgame.Engine.GameObjects
             //I know it's ugly, but I have no idea how to implement it better
             if (typeof (T) == typeof (Transform))
             {
-                return this.transform as T;
+                return _transform as T;
             }
             if (typeof(T) == typeof(Renderer))
             {
-                return this.renderer as T;
+                return _renderer as T;
             }
             if (typeof(T) == typeof(Collision))
             {
-                return this.collision as T;
+                return _collision as T;
             }
             if (typeof(T) == typeof(Animator))
             {
-                return this.animator as T;
+                return _animator as T;
             }
             if (typeof(T) == typeof(ParticleSystem))
             {
-                return this.particleSystem as T;
+                return _particleSystem as T;
+            }
+            if (typeof(T) == typeof(AudioSource))
+            {
+                return _audioSource as T;
             }
 
             IEnumerable<Component> list = 

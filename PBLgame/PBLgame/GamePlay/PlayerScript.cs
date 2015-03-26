@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Microsoft.Xna.Framework;
 
@@ -18,6 +15,9 @@ namespace PBLgame.GamePlay
         #region Private
         private float _angle;
         #endregion
+        #endregion
+
+        #region Properties
         #endregion
 
         #region Methods
@@ -42,16 +42,17 @@ namespace PBLgame.GamePlay
             throw new NotImplementedException();
         }
 
-        void CharacterRotation(Object obj, MoveArgs args)
+        private void CharacterRotation(Object obj, MoveArgs args)
         {
-            float angle = Convert.ToSingle(Math.Atan2(Convert.ToDouble(-args.AxisValue.Y), Convert.ToDouble(-args.AxisValue.X)));            
+            float angle = Convert.ToSingle(Math.Atan2(Convert.ToDouble(-args.AxisValue.Y), Convert.ToDouble(-args.AxisValue.X))); 
+            
             if(angle - _angle != 0.0f)
             {
                 _gameObject.transform.Rotation = Vector3.Lerp(_gameObject.transform.Rotation,new Vector3(MathHelper.ToDegrees(angle), 0.0f, 0.0f),0.5f);
                 _angle = angle;
             }
         }
-        void CharacterTranslate(Object o, MoveArgs e)
+        private void CharacterTranslate(Object o, MoveArgs e)
         {
             e.AxisValue *= 0.01f;
             _gameObject.transform.Translate(e.AxisValue.X, e.AxisValue.Y, 0.0f);
