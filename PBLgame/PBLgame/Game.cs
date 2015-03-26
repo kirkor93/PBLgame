@@ -87,7 +87,7 @@ namespace PBLgame
             player.renderer.MyMesh.AssignRenderer(player.renderer);
             player.GetComponent<GamePlay.PlayerScript>().Initialize();
 
-
+            ResourceManager.Instance.SaveContent();
             //InputManager.Instance.OnMove += TriangleTranslate;
 
             base.Initialize();
