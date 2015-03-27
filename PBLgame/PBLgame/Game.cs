@@ -93,6 +93,7 @@ namespace PBLgame
             player.AddComponent<AudioSource>(new AudioSource(player));
             player.renderer.MyMesh = mesh;
             player.renderer.MyMesh.AssignRenderer(player.renderer);
+            player.renderer.AssignMaterial(ResourceManager.Instance.GetMaterial(1));
             player.GetComponent<GamePlay.PlayerScript>().Initialize();
 
             ResourceManager.Instance.SaveContent();

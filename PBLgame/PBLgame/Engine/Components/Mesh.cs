@@ -22,7 +22,6 @@ namespace PBLgame.Engine.Components
         private Renderer _myRenderer;
 
         private Matrix[] _boneTransforms;
-        private int _materialId;
 
         #endregion
         #region Protected
@@ -62,13 +61,6 @@ namespace PBLgame.Engine.Components
             set { _meshMaterial = value; }
         }
 
-        public int MaterialId
-        {
-            get { return _materialId; }
-            set { _materialId = value; } 
-            
-        }
-
         #endregion
 
         #region Methods
@@ -80,12 +72,11 @@ namespace PBLgame.Engine.Components
             Model = null;
         }
 
-        public Mesh(int id, string path, Model model, int materialId)
+        public Mesh(int id, string path, Model model)
         {
             Id = id;
             Path = path;
             AttatchModel(model);
-            MaterialId = materialId;
         }
 
         
@@ -95,20 +86,6 @@ namespace PBLgame.Engine.Components
             Model = model;
             _boneTransforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(_boneTransforms);
-        }
-
-        public void AssignMaterial(MeshMaterial material)
-        {
-            Material = material;
-
-            foreach (ModelMesh modelMesh in Model.Meshes)
-            {
-                foreach (BasicEffect basicEffect in modelMesh.Effects)
-                {
-                    basicEffect.TextureEnabled = true;
-                    basicEffect.Texture = Material.Diffuse;
-                }
-            }
         }
 
         public void Draw()

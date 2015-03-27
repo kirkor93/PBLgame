@@ -195,10 +195,8 @@ namespace PBLgame.Engine.Singleton
                 {
                     int id = Convert.ToInt32(reader.GetAttribute("Id"));
                     string path = reader.GetAttribute("Path");
-                    int materialId = Convert.ToInt32(reader.GetAttribute("MaterialId"));
                     Model model = LoadModel(path);
-                    Mesh mesh = new Mesh(id, path, model, materialId);
-                    mesh.AssignMaterial(FindMaterial(materialId));
+                    Mesh mesh = new Mesh(id, path, model);
                     Meshes.Add(mesh);
                 }
                 
@@ -237,7 +235,6 @@ namespace PBLgame.Engine.Singleton
                 writer.WriteStartElement("Mesh");
                 writer.WriteAttributeString("Id", mesh.Id.ToString());
                 writer.WriteAttributeString("Path", mesh.Path);
-                writer.WriteAttributeString("MaterialId", mesh.MaterialId.ToString());
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();
