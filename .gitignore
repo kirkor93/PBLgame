@@ -30,3 +30,7 @@ PBLgame/PBLgame/bin/
 PBLgame/PBLgameContent/bin/
 EdytejshynWin/bin/
 EdytejshynWin/obj/
+EdytejshynWin/ContentLibrary/bin/
+EdytejshynWin/ContentLibrary/obj/
+EdytejshynWin/EditorContent/obj/
+*.cachefile
