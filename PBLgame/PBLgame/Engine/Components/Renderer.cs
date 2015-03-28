@@ -89,7 +89,7 @@ namespace PBLgame.Engine.Components
                     MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
                     MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
                     MyEffect.Parameters["worldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World)));
-                    MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
+                    MyEffect.Parameters["diffuseTexture"].SetValue(_material.Normal);
                     MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
                     MyEffect.Parameters["useBump"].SetValue(0);
                 }
