@@ -47,6 +47,8 @@ namespace PBLgame
         SoundBank _soundBank;//Have to be in final version
 
         //////////////
+
+        public Effect phEffect;
         
         //------------------------
 
@@ -120,13 +122,16 @@ namespace PBLgame
             vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), verts.Length, BufferUsage.None);
             vertexBuffer.SetData(verts);
 
+            phEffect = Content.Load<Effect>("Effects/Shader");
+
             effect = new BasicEffect(GraphicsDevice);
 
             GameObject obj = new GameObject();
             obj.transform.Translate(new Vector3(2.0f, 2.0f, 1.0f));
             Transform t = obj.GetComponent<Transform>();
             t.Translate(new Vector3(0.0f, 10.0f, 0.0f));
-            
+
+            player.renderer.MyEffect = phEffect;
             
             _audioEngine = new AudioEngine(@"Content\Audio\GameAudio.xgs");
             _waveBank = new WaveBank(_audioEngine, @"Content\Audio\WaveBank.xwb");
@@ -209,7 +214,7 @@ namespace PBLgame
 
             //For Teting----------------
             //mesh.Draw();
-            player.GetComponent<Renderer>().Draw();
+            player.renderer.Draw();
             GraphicsDevice.SetVertexBuffer(vertexBuffer);
 
             effect.World = worldR * worldT;

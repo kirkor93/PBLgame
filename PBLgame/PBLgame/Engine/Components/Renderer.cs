@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.GameObjects;
 
 namespace PBLgame.Engine.Components
@@ -9,7 +10,7 @@ namespace PBLgame.Engine.Components
         #region Private
         private Mesh _myMesh;
         private MeshMaterial _material;
-
+        private Effect _myEffect;
         #endregion
         #endregion  
 
@@ -38,6 +39,18 @@ namespace PBLgame.Engine.Components
                 _material = value;
             }
         }
+        public Effect MyEffect
+        {
+            get
+            {
+                return _myEffect;
+
+            }
+            set
+            {
+                _myEffect = value;
+            }
+        }
         #endregion
 
         #region Methods
@@ -52,13 +65,13 @@ namespace PBLgame.Engine.Components
 
             foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
             {
-                foreach (BasicEffect basicEffect in modelMesh.Effects)
+                foreach (ModelMeshPart part in modelMesh.MeshParts)
                 {
-                    basicEffect.TextureEnabled = true;
-                    basicEffect.Texture = Material.Diffuse;
+
                 }
             }
         }
+
 
         public override void Update()
         {
@@ -67,7 +80,21 @@ namespace PBLgame.Engine.Components
 
         public override void Draw()
         {
-            _myMesh.Draw();
+            foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
+            {
+                foreach (ModelMeshPart part in modelMesh.MeshParts)
+                {
+                    part.Effect = MyEffect;
+                    MyEffect.Parameters["world"].SetValue(MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World);
+                    MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
+                    MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
+                    MyEffect.Parameters["worldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World)));
+                    MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
+                    MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
+                    MyEffect.Parameters["useBump"].SetValue(0);
+                }
+                modelMesh.Draw();
+            }
         }
         #endregion
     }

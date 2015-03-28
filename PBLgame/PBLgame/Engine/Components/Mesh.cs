@@ -60,6 +60,17 @@ namespace PBLgame.Engine.Components
             get { return _meshMaterial; }
             set { _meshMaterial = value; }
         }
+        public Matrix[] BonesTransorms
+        {
+            get
+            {
+                return _boneTransforms;
+            }
+            set
+            {
+                _boneTransforms = value;
+            }
+        }
 
         #endregion
 
@@ -90,18 +101,7 @@ namespace PBLgame.Engine.Components
 
         public void Draw()
         {
-            foreach (ModelMesh modelMesh in Model.Meshes)
-            {
-                foreach (BasicEffect effect in modelMesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                    effect.World = _boneTransforms[modelMesh.ParentBone.Index] * _myRenderer.GameObject.transform.World;
-                    effect.View = Camera.MainCamera.ViewMatrix;
-                    effect.Projection = Camera.MainCamera.ProjectionMatrix;
-                }
 
-                modelMesh.Draw();
-            }
         }
 
         public void AssignRenderer(Renderer renderer)
