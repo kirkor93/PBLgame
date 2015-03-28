@@ -1,5 +1,7 @@
 Content\Models\Helmet.xnb
 Content\Textures\Helmet_d.xnb
+Content\Textures\Helmet_n.xnb
+Content\Textures\Helmet_s.xnb
 Content\Audio\GameAudio.xgs
 Content\Audio\WaveBank.xwb
 Content\Audio\SoundBank.xsb
