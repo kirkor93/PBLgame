@@ -1,14 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Drawing;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
-using Edytejshyn.GUI;
 using Edytejshyn.Logic;
-using Edytejshyn.Logic.Commands;
-using Microsoft.Xna.Framework;
 
 namespace Edytejshyn
 {
@@ -17,7 +11,6 @@ namespace Edytejshyn
 
         #region Variables
         private readonly string _appName = "Edytejszyn (Build " + Assembly.GetExecutingAssembly().GetName().Version + ")";
-        private bool _dataChanged = false;
         private OpenFileDialog _openDialog;
         private SaveFileDialog _saveDialog;
 
@@ -47,6 +40,9 @@ namespace Edytejshyn
             _openDialog = new OpenFileDialog();
             _saveDialog = new SaveFileDialog();
             _openDialog.Filter = _saveDialog.Filter = "XML file (*.xml)|*.xml|All files (*.*)|*.*";
+
+            viewportControl.AfterInitializeEvent += () => { this.Logic.GameContent = viewportControl.GameContent; };
+
             this.Logic.Logger.LogEvent += ShowLogMessage;
             this.Logic.History.UpdateEvent += UpdateHistory;
             this.Logic.History.Clear();
@@ -83,6 +79,32 @@ namespace Edytejshyn
             {
                 this.Logic.LoadFile(path ?? _openDialog.FileName);
                 SetFileControlsEnabled(true);
+                hierarchyTreeView.Nodes.Clear();
+                hierarchyTreeView.Nodes.Add("!! PREVIEW ONLY !!");
+
+
+                TreeNode texturesNode = new TreeNode("Textures");
+                foreach (var tex in this.Logic.Content.Textures)
+                {
+                    texturesNode.Nodes.Add(new TreeNode(tex.Name));
+                }
+                hierarchyTreeView.Nodes.Add(texturesNode);
+
+                TreeNode materialsNode = new TreeNode("Materials");
+                foreach (var mat in this.Logic.Content.Materials)
+                {
+                    materialsNode.Nodes.Add(new TreeNode(string.Format("ID: {0}", mat.Id)));
+                }
+                hierarchyTreeView.Nodes.Add(materialsNode);
+
+                TreeNode meshesNode = new TreeNode("Meshes");
+                foreach (var mesh in this.Logic.Content.Meshes)
+                {
+                    meshesNode.Nodes.Add(new TreeNode(mesh.Path));
+                }
+                hierarchyTreeView.Nodes.Add(meshesNode);
+
+
             }
             catch (Exception ex)
             {

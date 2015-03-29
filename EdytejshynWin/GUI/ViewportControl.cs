@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Forms;
@@ -7,27 +8,41 @@ namespace Edytejshyn.GUI
 {
     public class ViewportControl : GraphicsDeviceControl
     {
-        private ContentManager _content;
+
+        #region Variables
+        private ContentManager _editorContent, _gameContent;
         private SpriteBatch _spriteBatch;
         private SpriteFont _osdFont;
 
-        public ViewportControl()
+        public delegate void VoidHandler();
+        public event VoidHandler AfterInitializeEvent = () => { };
+        #endregion
+
+        #region Properties
+        public ContentManager GameContent
         {
-            this.MouseMove += ViewportControl_MouseMove;
+            get { return _gameContent; }
         }
 
+        #endregion
+
+        #region Methods
         protected override void Initialize()
         {
-            _content = new ContentManager(Services, "EditorContent");
+            this.MouseMove += ViewportControl_MouseMove;
+            _editorContent = new ContentManager(Services, "EditorContent");
+            _gameContent   = new ContentManager(Services, "Content");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _osdFont = _content.Load<SpriteFont>("OSDFont");
+            _osdFont = _editorContent.Load<SpriteFont>("OSDFont");
+            AfterInitializeEvent();
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                _content.Unload();
+                _editorContent.Unload();
+                _gameContent.Unload();
             }
             base.Dispose(disposing);
         }
@@ -36,7 +51,7 @@ namespace Edytejshyn.GUI
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
-            _spriteBatch.DrawString(_osdFont, Text, new Vector2(2, 2), Color.Black);
+            _spriteBatch.DrawString(_osdFont, Text, new Vector2(2, 2), Color.White);
             _spriteBatch.End();
         }
 
@@ -45,5 +60,6 @@ namespace Edytejshyn.GUI
             Text = string.Format("{0}, {1}", e.X, e.Y);
             Invalidate();
         }
+        #endregion
     }
 }
