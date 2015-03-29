@@ -9,7 +9,6 @@ namespace Edytejshyn.GUI
 
         public EditorTreeView()
         {
-            PathSeparator = "->";
         }
 
         #region Commands

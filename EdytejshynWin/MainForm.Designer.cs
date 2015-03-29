@@ -250,7 +250,8 @@
             this.hierarchyTreeView.PathSeparator = "->";
             this.hierarchyTreeView.Size = new System.Drawing.Size(285, 149);
             this.hierarchyTreeView.TabIndex = 0;
-            this.hierarchyTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeViewObjects_KeyDown);
+            this.hierarchyTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.HierarchyTreeView_AfterSelect);
+            this.hierarchyTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HierarchyTreeViewObjects_KeyDown);
             // 
             // propertyGrid
             // 

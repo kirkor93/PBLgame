@@ -74,6 +74,7 @@
     <Compile Include="GUIExceptionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GUI\EditorTreeNode.cs" />
     <Compile Include="GUI\EditorTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -81,6 +82,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GUI\GraphicsDeviceService.cs" />
+    <Compile Include="GUI\EditorMouseState.cs" />
     <Compile Include="GUI\ServiceContainer.cs" />
     <Compile Include="GUI\ViewportControl.cs">
       <SubType>Component</SubType>

@@ -2,7 +2,10 @@
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using Edytejshyn.GUI;
 using Edytejshyn.Logic;
+using PBLgame.Engine.Components;
+using PBLgame.Engine.GameObjects;
 
 namespace Edytejshyn
 {
@@ -40,6 +43,7 @@ namespace Edytejshyn
             _openDialog = new OpenFileDialog();
             _saveDialog = new SaveFileDialog();
             _openDialog.Filter = _saveDialog.Filter = "XML file (*.xml)|*.xml|All files (*.*)|*.*";
+            _openDialog.InitialDirectory = ".";
 
             viewportControl.AfterInitializeEvent += () => { this.Logic.GameContent = viewportControl.GameContent; };
 
@@ -86,24 +90,31 @@ namespace Edytejshyn
                 TreeNode texturesNode = new TreeNode("Textures");
                 foreach (var tex in this.Logic.Content.Textures)
                 {
-                    texturesNode.Nodes.Add(new TreeNode(tex.Name));
+                    texturesNode.Nodes.Add(new EditorTreeNode(tex.Name, tex));
                 }
                 hierarchyTreeView.Nodes.Add(texturesNode);
 
                 TreeNode materialsNode = new TreeNode("Materials");
                 foreach (var mat in this.Logic.Content.Materials)
                 {
-                    materialsNode.Nodes.Add(new TreeNode(string.Format("ID: {0}", mat.Id)));
+                    materialsNode.Nodes.Add(new EditorTreeNode(string.Format("ID: {0}", mat.Id), mat));
                 }
                 hierarchyTreeView.Nodes.Add(materialsNode);
 
                 TreeNode meshesNode = new TreeNode("Meshes");
                 foreach (var mesh in this.Logic.Content.Meshes)
                 {
-                    meshesNode.Nodes.Add(new TreeNode(mesh.Path));
+                    meshesNode.Nodes.Add(new EditorTreeNode(mesh.Path, mesh));
                 }
                 hierarchyTreeView.Nodes.Add(meshesNode);
 
+                GameObject sampleGameObject = new GameObject();
+                sampleGameObject.AddComponent(new Renderer(sampleGameObject));
+                sampleGameObject.renderer.MyMesh = Logic.Content.Meshes[0];
+                sampleGameObject.renderer.MyMesh.AssignRenderer(sampleGameObject.renderer);
+                sampleGameObject.renderer.AssignMaterial(Logic.Content.Materials[0]);
+
+                viewportControl.SampleObject = sampleGameObject;
 
             }
             catch (Exception ex)
@@ -238,15 +249,6 @@ namespace Edytejshyn
             AboutBox.Instance.ShowDialog();
         }
 
-        private void TreeViewObjects_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Delete)
-            {
-                if (hierarchyTreeView.SelectedNode != null)
-                    this.Logic.History.NewAction(hierarchyTreeView.GetRemoveSelectedNodeCommand());
-            }
-        }
-
         private void MainForm_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
@@ -282,9 +284,23 @@ namespace Edytejshyn
             Logic.History.Redo();
         }
 
+        private void HierarchyTreeViewObjects_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                if (hierarchyTreeView.SelectedNode != null)
+                    this.Logic.History.NewAction(hierarchyTreeView.GetRemoveSelectedNodeCommand());
+            }
+        }
+
+        private void HierarchyTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            TreeNode treeNode = e.Node;
+            EditorTreeNode editorNode = treeNode as EditorTreeNode;
+            propertyGrid.SelectedObject = (editorNode == null) ? null : editorNode.Data;
+        }
+
         #endregion
-
-
         #endregion
     }
 }

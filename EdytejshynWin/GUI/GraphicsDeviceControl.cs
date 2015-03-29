@@ -165,9 +165,6 @@ namespace Edytejshyn.GUI
                 MaxDepth = 1
             };
 
-
-
-
             GraphicsDevice.Viewport = viewport;
 
             return null;

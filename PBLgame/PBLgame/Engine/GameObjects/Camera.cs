@@ -81,7 +81,7 @@ namespace PBLgame.Engine.GameObjects
 
         #region Methods
         public Camera(Vector3 pos, Vector3 target, Vector3 up,
-            float FoV, float screenWidth, float screenHeight,float near, float far)
+            float FoV, float screenWidth, float screenHeight, float near, float far)
         {
             base.transform.Position = pos;
             _direction = target - pos;
@@ -95,7 +95,7 @@ namespace PBLgame.Engine.GameObjects
             _projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
                 _foV,
                 screenWidth / screenHeight,
-                near, far);
+                _near, _far);
 
             //first camera created is main camera for game
             if (MainCamera == null)
@@ -105,6 +105,15 @@ namespace PBLgame.Engine.GameObjects
 
             _listener = new AudioListener();
 
+        }
+
+        public void SetAspect(float screenWidth, float screenHeight)
+        {
+            _projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
+                _foV,
+                screenWidth / screenHeight,
+                _near, _far
+            );
         }
 
         public void Initialize()
