@@ -53,9 +53,9 @@ namespace Edytejshyn.Logic
             {
                 using (FileStream stream = File.Open(path, FileMode.Open))
                 {
-                    Content = (XmlContent) _serializer.Deserialize(new GameXmlReader(stream, GameContent));
-                    this.History.Clear();
+                    Content = (XmlContent)_serializer.Deserialize(new GameXmlReader(stream, GameContent));
                     this.FilePath = path;
+                    this.History.Clear();
                     this.Logger.Log(LoggerLevel.Info, string.Format("Loaded file {0}", path));
                 }
             }

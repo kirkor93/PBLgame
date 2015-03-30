@@ -56,6 +56,7 @@ namespace Edytejshyn.GUI
             parameters.DeviceWindowHandle = windowHandle;
             parameters.PresentationInterval = PresentInterval.Immediate;
             parameters.IsFullScreen = false;
+            parameters.MultiSampleCount = 2;
 
             graphicsDevice = new GraphicsDevice(GraphicsAdapter.DefaultAdapter,
                                                 GraphicsProfile.Reach,

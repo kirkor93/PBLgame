@@ -18,6 +18,7 @@ namespace Edytejshyn
         private SaveFileDialog _saveDialog;
 
         public readonly GUIExceptionHandler ExceptionHandler;
+        private bool _hotkeysDisabled;
 
         #endregion
 
@@ -33,7 +34,7 @@ namespace Edytejshyn
 
         #region Methods
 
-        public MainForm(EditorLogic logic)
+        public MainForm(EditorLogic logic, string fileToOpen = null)
         {
             this.Logic = logic;
             this.ExceptionHandler = new GUIExceptionHandler(this);
@@ -45,7 +46,12 @@ namespace Edytejshyn
             _openDialog.Filter = _saveDialog.Filter = "XML file (*.xml)|*.xml|All files (*.*)|*.*";
             _openDialog.InitialDirectory = ".";
 
-            viewportControl.AfterInitializeEvent += () => { this.Logic.GameContent = viewportControl.GameContent; };
+            viewportControl.AfterInitializeEvent += () =>
+            {
+                this.Logic.GameContent = viewportControl.GameContent;
+                if (fileToOpen != null)
+                    OpenFile(fileToOpen);
+            };
 
             this.Logic.Logger.LogEvent += ShowLogMessage;
             this.Logic.History.UpdateEvent += UpdateHistory;
@@ -114,6 +120,7 @@ namespace Edytejshyn
                 sampleGameObject.renderer.MyMesh.AssignRenderer(sampleGameObject.renderer);
                 sampleGameObject.renderer.AssignMaterial(Logic.Content.Materials[0]);
 
+                viewportControl.Reset();
                 viewportControl.SampleObject = sampleGameObject;
 
             }
