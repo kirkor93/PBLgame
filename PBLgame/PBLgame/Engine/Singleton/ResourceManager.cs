@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 
@@ -20,7 +21,9 @@ namespace PBLgame.Engine.Singleton
 
         private IList<Mesh> _meshes;
         private IList<Texture2D> _textures;
-        private IList<MeshMaterial> _materials; 
+        private IList<MeshMaterial> _materials;
+
+        private readonly XmlSerializer _serializer;
 
         #endregion
         #region Protected
@@ -36,7 +39,10 @@ namespace PBLgame.Engine.Singleton
         #endregion
 
         #region Properties
-
+        public XmlSerializer Serializer
+        {
+            get { return _serializer; }
+        }
         #endregion
 
         #region Methods
@@ -46,19 +52,18 @@ namespace PBLgame.Engine.Singleton
         {
             _meshes = new List<Mesh>();
             _textures = new List<Texture2D>();
-            
+            _serializer = new XmlSerializer(typeof(XmlContent), new XmlRootAttribute("XmlContent"));
         }
 
         #endregion
 
-        public void LoadContent()
+        public void LoadContent(string path = CONTENT_LIST_PATH)
         {
             XmlContent content;
 
-            XmlSerializer serializer = new XmlSerializer(typeof(XmlContent), new XmlRootAttribute("XmlContent"));
-            using (FileStream file = new FileStream(CONTENT_LIST_PATH, FileMode.Open))
+            using (FileStream file = new FileStream(path, FileMode.Open))
             {
-                content = (XmlContent) serializer.Deserialize(file);
+                content = (XmlContent) _serializer.Deserialize(new GameXmlReader(file, Game.Instance.Content));
             }
 
 
@@ -68,7 +73,7 @@ namespace PBLgame.Engine.Singleton
 
         }
 
-        public void SaveContent()
+        public void SaveContent(string path = CONTENT_LIST_PATH)
         {
             XmlContent content = new XmlContent();
 
@@ -76,10 +81,9 @@ namespace PBLgame.Engine.Singleton
             content.Meshes = _meshes;
             content.Textures = _textures;
 
-            XmlSerializer serializer = new XmlSerializer(typeof(XmlContent));
-            using (FileStream writer = new FileStream(CONTENT_LIST_PATH, FileMode.Create))
+            using (FileStream writer = new FileStream(path, FileMode.Create))
             {
-                serializer.Serialize(writer, content);
+                _serializer.Serialize(writer, content);
             }
         }
 
@@ -146,11 +150,21 @@ namespace PBLgame.Engine.Singleton
 
     #region XML serialization
 
+    public class GameXmlReader : XmlTextReader
+    {
+        public readonly ContentManager UsedContentManager;
+
+        public GameXmlReader(Stream stream, ContentManager contentManager) : base(stream)
+        {
+            UsedContentManager = contentManager;
+        }
+    }
+
     public class XmlContent : IXmlSerializable
     {
         public IList<Mesh> Meshes { get; set; }
         public IList<Texture2D> Textures { get; set; }
-        public IList<MeshMaterial> Materials { get; set; } 
+        public IList<MeshMaterial> Materials { get; set; }
 
         public XmlSchema GetSchema()
         {
@@ -159,6 +173,7 @@ namespace PBLgame.Engine.Singleton
 
         public void ReadXml(XmlReader reader)
         {
+            ContentManager content = ((GameXmlReader) reader).UsedContentManager;
             Textures = new List<Texture2D>();
             Meshes = new List<Mesh>();
             Materials = new List<MeshMaterial>();
@@ -171,7 +186,7 @@ namespace PBLgame.Engine.Singleton
                 if (reader.Name == "Texture")
                 {
                     string path = reader.GetAttribute("Path");
-                    Texture2D texture = LoadTexture(path);
+                    Texture2D texture = LoadTexture(path, content);
                     texture.Name = path;
                     Textures.Add(texture);
                 }
@@ -195,7 +210,7 @@ namespace PBLgame.Engine.Singleton
                 {
                     int id = Convert.ToInt32(reader.GetAttribute("Id"));
                     string path = reader.GetAttribute("Path");
-                    Model model = LoadModel(path);
+                    Model model = LoadModel(path, content);
                     Mesh mesh = new Mesh(id, path, model);
                     Meshes.Add(mesh);
                 }
@@ -241,14 +256,14 @@ namespace PBLgame.Engine.Singleton
             writer.WriteEndElement();
         }
 
-        private Model LoadModel(string path)
+        private Model LoadModel(string path, ContentManager content)
         {
-            return Game.Instance.Content.Load<Model>(path);
+            return content.Load<Model>(path);
         }
 
-        private Texture2D LoadTexture(string path)
+        private Texture2D LoadTexture(string path, ContentManager content)
         {
-            return Game.Instance.Content.Load<Texture2D>(path);
+            return content.Load<Texture2D>(path);
         }
 
         private MeshMaterial FindMaterial(int id)

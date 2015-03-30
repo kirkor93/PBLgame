@@ -28,29 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Node11");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Node12");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Node1", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Node2");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Node3");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Node0", new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4,
-            treeNode5});
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Node5");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Node6");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Node4", new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8});
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Node8");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Node9");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Node10");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Node7", new System.Windows.Forms.TreeNode[] {
-            treeNode10,
-            treeNode11,
-            treeNode12});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileMenuBar = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,7 +81,7 @@
             this.helpMenuBar});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(808, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(984, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -122,6 +99,7 @@
             // 
             // openMenuItem
             // 
+            this.openMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openMenuItem.Image")));
             this.openMenuItem.Name = "openMenuItem";
             this.openMenuItem.ShortcutKeyDisplayString = "";
             this.openMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
@@ -132,6 +110,7 @@
             // saveMenuItem
             // 
             this.saveMenuItem.Enabled = false;
+            this.saveMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveMenuItem.Image")));
             this.saveMenuItem.Name = "saveMenuItem";
             this.saveMenuItem.ShortcutKeyDisplayString = "";
             this.saveMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
@@ -174,6 +153,7 @@
             // undoMenuItem
             // 
             this.undoMenuItem.Enabled = false;
+            this.undoMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("undoMenuItem.Image")));
             this.undoMenuItem.Name = "undoMenuItem";
             this.undoMenuItem.ShortcutKeyDisplayString = "";
             this.undoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
@@ -184,6 +164,7 @@
             // redoMenuItem
             // 
             this.redoMenuItem.Enabled = false;
+            this.redoMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("redoMenuItem.Image")));
             this.redoMenuItem.Name = "redoMenuItem";
             this.redoMenuItem.ShortcutKeyDisplayString = "";
             this.redoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
@@ -227,8 +208,8 @@
             // splitContainerVert.Panel2
             // 
             this.splitContainerVert.Panel2.Controls.Add(this.splitContainerRightHoriz);
-            this.splitContainerVert.Size = new System.Drawing.Size(808, 495);
-            this.splitContainerVert.SplitterDistance = 519;
+            this.splitContainerVert.Size = new System.Drawing.Size(984, 633);
+            this.splitContainerVert.SplitterDistance = 679;
             this.splitContainerVert.TabIndex = 1;
             this.splitContainerVert.TabStop = false;
             // 
@@ -237,9 +218,8 @@
             this.viewportControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewportControl.Location = new System.Drawing.Point(0, 0);
             this.viewportControl.Name = "viewportControl";
-            this.viewportControl.Size = new System.Drawing.Size(519, 495);
-            this.viewportControl.TabIndex = 5;
-            this.viewportControl.TabStop = false;
+            this.viewportControl.Size = new System.Drawing.Size(679, 633);
+            this.viewportControl.TabIndex = 2;
             this.viewportControl.Text = "XNA Viewport";
             // 
             // splitContainerRightHoriz
@@ -256,8 +236,8 @@
             // splitContainerRightHoriz.Panel2
             // 
             this.splitContainerRightHoriz.Panel2.Controls.Add(this.propertyGrid);
-            this.splitContainerRightHoriz.Size = new System.Drawing.Size(285, 495);
-            this.splitContainerRightHoriz.SplitterDistance = 149;
+            this.splitContainerRightHoriz.Size = new System.Drawing.Size(301, 633);
+            this.splitContainerRightHoriz.SplitterDistance = 190;
             this.splitContainerRightHoriz.TabIndex = 0;
             this.splitContainerRightHoriz.TabStop = false;
             // 
@@ -266,55 +246,27 @@
             this.hierarchyTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.hierarchyTreeView.Location = new System.Drawing.Point(0, 0);
             this.hierarchyTreeView.Name = "hierarchyTreeView";
-            treeNode1.Name = "Node11";
-            treeNode1.Text = "Node11";
-            treeNode2.Name = "Node12";
-            treeNode2.Text = "Node12";
-            treeNode3.Name = "Node1";
-            treeNode3.Text = "Node1";
-            treeNode4.Name = "Node2";
-            treeNode4.Text = "Node2";
-            treeNode5.Name = "Node3";
-            treeNode5.Text = "Node3";
-            treeNode6.Name = "Node0";
-            treeNode6.Text = "Node0";
-            treeNode7.Name = "Node5";
-            treeNode7.Text = "Node5";
-            treeNode8.Name = "Node6";
-            treeNode8.Text = "Node6";
-            treeNode9.Name = "Node4";
-            treeNode9.Text = "Node4";
-            treeNode10.Name = "Node8";
-            treeNode10.Text = "Node8";
-            treeNode11.Name = "Node9";
-            treeNode11.Text = "Node9";
-            treeNode12.Name = "Node10";
-            treeNode12.Text = "Node10";
-            treeNode13.Name = "Node7";
-            treeNode13.Text = "Node7";
-            this.hierarchyTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode9,
-            treeNode13});
-            this.hierarchyTreeView.Size = new System.Drawing.Size(285, 149);
+            this.hierarchyTreeView.PathSeparator = "->";
+            this.hierarchyTreeView.Size = new System.Drawing.Size(301, 190);
             this.hierarchyTreeView.TabIndex = 0;
-            this.hierarchyTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeViewObjects_KeyDown);
+            this.hierarchyTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.HierarchyTreeView_AfterSelect);
+            this.hierarchyTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HierarchyTreeViewObjects_KeyDown);
             // 
             // propertyGrid
             // 
             this.propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(285, 342);
+            this.propertyGrid.Size = new System.Drawing.Size(301, 439);
             this.propertyGrid.TabIndex = 1;
             // 
             // statusBar
             // 
             this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusBarLabel});
-            this.statusBar.Location = new System.Drawing.Point(0, 522);
+            this.statusBar.Location = new System.Drawing.Point(0, 660);
             this.statusBar.Name = "statusBar";
-            this.statusBar.Size = new System.Drawing.Size(808, 22);
+            this.statusBar.Size = new System.Drawing.Size(984, 22);
             this.statusBar.TabIndex = 4;
             this.statusBar.Text = "statusStrip1";
             // 
@@ -339,7 +291,7 @@
             this.toolStripSeparator1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(808, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(984, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -437,7 +389,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(808, 544);
+            this.ClientSize = new System.Drawing.Size(984, 682);
             this.Controls.Add(this.statusBar);
             this.Controls.Add(this.splitContainerVert);
             this.Controls.Add(this.toolStrip1);

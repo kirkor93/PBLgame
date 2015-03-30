@@ -87,11 +87,11 @@ VertexShaderOutput VS(VertexShaderInput input)
 
 float4 PS(VertexShaderOutput input) : COLOR0
 {
+	float3 dLight = normalize(DiffuseLightDirection);
+
 	//Normal calc
 	float3 bump = useBump * (tex2D(bumpSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
 	float3 bumpNormal = input.Normal + (bump.x * input.Tangent + bump.y * input.Binormal);
-
-	float3 dLight = normalize(DiffuseLightDirection);
 	//Diffuse light with normals 
 	float diffuseIntensity = dot(dLight, normalize(bumpNormal));
 	//Specular
