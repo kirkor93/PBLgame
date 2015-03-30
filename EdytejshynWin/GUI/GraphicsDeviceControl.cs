@@ -30,7 +30,7 @@ namespace Edytejshyn.GUI
 
         // However many GraphicsDeviceControl instances you have, they all share
         // the same underlying GraphicsDevice, managed by this helper service.
-        GraphicsDeviceService graphicsDeviceService;
+        protected GraphicsDeviceService graphicsDeviceService;
 
 
         #endregion
@@ -134,7 +134,7 @@ namespace Edytejshyn.GUI
         /// if this was not possible, which can happen if the graphics device is
         /// lost, or if we are running inside the Form designer.
         /// </summary>
-        string BeginDraw()
+        protected string BeginDraw()
         {
             // If we have no graphics device, we must be running in the designer.
             if (graphicsDeviceService == null)
@@ -165,9 +165,6 @@ namespace Edytejshyn.GUI
                 MaxDepth = 1
             };
 
-
-
-
             GraphicsDevice.Viewport = viewport;
 
             return null;
@@ -180,7 +177,7 @@ namespace Edytejshyn.GUI
         /// the finished image onto the screen, using the appropriate WinForms
         /// control handle to make sure it shows up in the right place.
         /// </summary>
-        void EndDraw()
+        protected void EndDraw()
         {
             try
             {
@@ -204,7 +201,7 @@ namespace Edytejshyn.GUI
         /// that the device is not lost. Returns an error string if the device
         /// could not be reset.
         /// </summary>
-        string HandleDeviceReset()
+        protected string HandleDeviceReset()
         {
             bool deviceNeedsReset = false;
 

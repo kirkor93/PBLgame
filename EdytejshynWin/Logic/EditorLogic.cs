@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Microsoft.Xna.Framework.Content;
+using PBLgame.Engine.Singleton;
 
 namespace Edytejshyn.Logic
 {
@@ -12,11 +11,16 @@ namespace Edytejshyn.Logic
         #region Variables
         #region Private
 
+        private ResourceManager _resourceManager;
+        private readonly XmlSerializer _serializer;
+
         #endregion
 
         #region Public
         public readonly EditorLogger   Logger  = new EditorLogger();
         public readonly HistoryManager History;
+        public ContentManager GameContent;
+
         #endregion
 
         #endregion
@@ -30,6 +34,7 @@ namespace Edytejshyn.Logic
             get { return Path.GetFileName(this.FilePath); }
         }
 
+        public XmlContent Content { get; private set; }
 
         #endregion
         
@@ -37,30 +42,27 @@ namespace Edytejshyn.Logic
         #region Methods
         public EditorLogic()
         {
-            // TODO init serializer
-             History = new HistoryManager(this);
+            _resourceManager = ResourceManager.Instance;
+            _serializer = _resourceManager.Serializer;
+            History = new HistoryManager(this);
         }
 
         public void LoadFile(string path)
         {
-            this.FilePath = path;
-            this.Logger.Log(LoggerLevel.Warning, "Loading files not implemented");
-            this.History.Clear();
-            //throw new EditorException("Please, implement opening files");
-            //this.Logger.Log(LoggerLevel.Info, string.Format("Loaded file {0}", path));
-            //try
-            //{
-            //    // TODO deserialize
-            //    using(FileStream stream = File.Open(file, FileMode.Open))
-            //    {
-            //        this.Filename = path;
-            //    }
-            //}
-            //catch 
-            //{
-            //    // TODO handle exception
-            //    throw new EditorException("Error while loading XML file", ex);
-            //}
+            try
+            {
+                using (FileStream stream = File.Open(path, FileMode.Open))
+                {
+                    Content = (XmlContent)_serializer.Deserialize(new GameXmlReader(stream, GameContent));
+                    this.FilePath = path;
+                    this.History.Clear();
+                    this.Logger.Log(LoggerLevel.Info, string.Format("Loaded file {0}", path));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new EditorException("Error while loading XML file", ex);
+            }
         }
 
         /// <summary>
@@ -69,18 +71,15 @@ namespace Edytejshyn.Logic
         /// <param name="path">Path to destination file</param>
         public void SaveFile(string path)
         {
-            this.Logger.Log(LoggerLevel.Warning, "Saving not implemented.");
             try
             {
-                // TODO serialize to xml
-
-                if (!File.Exists(path))
+                using (FileStream stream = File.Open(path, FileMode.Create))
                 {
-                    File.Create(path);
-                    this.Logger.Log(LoggerLevel.Warning, "Saving not implemented. Created empty file.");
+                    _serializer.Serialize(stream, Content);
+                    this.FilePath = path;
+                    this.History.SetSavedPoint();
+                    this.Logger.Log(LoggerLevel.Info, string.Format("Saved file {0}", path));
                 }
-                this.FilePath = path;
-                this.History.SetSavedPoint();
             }
             catch (Exception ex)
             {

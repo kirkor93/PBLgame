@@ -1,10 +1,15 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 using Edytejshyn.Logic;
 
 namespace Edytejshyn.GUI
 {
     public class EditorTreeView : TreeView
     {
+
+        public EditorTreeView()
+        {
+        }
 
         #region Commands
         public class RemoveNodeCommand : ICommand
@@ -22,19 +27,8 @@ namespace Edytejshyn.GUI
                 _treeView = node.TreeView;
                 _parent = _node.Parent;
                 _path = _node.FullPath;
-                if (_parent == null)
-                {
-                    if (_treeView.Nodes.Contains(node))
-                    {
-                        _index = _treeView.Nodes.IndexOf(_node);
-                        _nodes = _treeView.Nodes;
-                    }
-                }
-                else
-                {
-                    _index = _parent.Nodes.IndexOf(_node);
-                    _nodes = _parent.Nodes;
-                }
+                _index = _node.Index;
+                _nodes = (_parent == null) ? _treeView.Nodes : _parent.Nodes;
             }
 
             public string Description

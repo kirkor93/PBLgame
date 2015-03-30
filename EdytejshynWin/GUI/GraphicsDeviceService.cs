@@ -25,17 +25,17 @@ namespace Edytejshyn.GUI
     /// interface, which provides notification events for when the device is reset
     /// or disposed.
     /// </summary>
-    class GraphicsDeviceService : IGraphicsDeviceService
+    public class GraphicsDeviceService : IGraphicsDeviceService
     {
         #region Fields
 
 
         // Singleton device service instance.
-        static GraphicsDeviceService singletonInstance;
+        private static GraphicsDeviceService singletonInstance;
 
 
         // Keep track of how many controls are sharing the singletonInstance.
-        static int referenceCount;
+        private static int referenceCount;
 
 
         #endregion
@@ -45,7 +45,7 @@ namespace Edytejshyn.GUI
         /// Constructor is private, because this is a singleton class:
         /// client controls should use the public AddRef method instead.
         /// </summary>
-        GraphicsDeviceService(IntPtr windowHandle, int width, int height)
+        private GraphicsDeviceService(IntPtr windowHandle, int width, int height)
         {
             parameters = new PresentationParameters();
 
