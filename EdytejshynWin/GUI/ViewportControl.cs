@@ -128,7 +128,7 @@ namespace Edytejshyn.GUI
                 for(int i = 0; i < modelMeshes.Count; i++)
                 {
                     var mesh = modelMeshes[i];
-                    float? d = picker.Intersects(mesh.BoundingSphere);
+                    float? d = picker.Intersects(mesh.BoundingSphere.Transform(SampleObject.transform.World));
                     if ( (d.HasValue)  &&  (distance == null || d > distance) )
                     {
                         distance = d;

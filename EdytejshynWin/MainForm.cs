@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using Edytejshyn.GUI;
 using Edytejshyn.Logic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
