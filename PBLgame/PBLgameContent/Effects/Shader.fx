@@ -37,17 +37,17 @@ sampler2D bumpSampler = sampler_state{
 float shininess = 200;
 float4 specularColor = float4(1, 1, 1, 1);
 float specularIntensity = 1;
-float3 viewVector;
+float3 direction;
 
-//int useSpecular;
-//texture specularTexture;
-//sampler2D specularSampler = sampler_state{
-//	Texture = (specularTexture);
-//	MinFilter = Linear;
-//	MagFilter = Linear;
-//	AddressU = Clamp;
-//	AddressV = Clamp;
-//};
+int useSpecular;
+texture specularTexture;
+sampler2D specularSampler = sampler_state{
+	Texture = (specularTexture);
+	MinFilter = Linear;
+	MagFilter = Linear;
+	AddressU = Clamp;
+	AddressV = Clamp;
+};
 
 
 struct VertexShaderInput
@@ -90,16 +90,18 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	float3 dLight = normalize(DiffuseLightDirection);
 
 	//Normal calc
-	float3 bump = useBump * (tex2D(bumpSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
-	float3 bumpNormal = input.Normal + (bump.x * input.Tangent + bump.y * input.Binormal);
+	float3 bump = (tex2D(bumpSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
+	float3 bumpNormal = useBump * (input.Normal + (bump.x * input.Tangent + bump.y * input.Binormal));
 	//Diffuse light with normals 
 	float diffuseIntensity = dot(dLight, normalize(bumpNormal));
 	//Specular
 	float3 r = normalize(2 * dot(dLight, bumpNormal) * bumpNormal - dLight);
-	float3 v = normalize(mul(normalize(viewVector), world));
+	float3 v = normalize(mul(normalize(direction), world));
 	float dotProduct = dot(r, v);
 
-	float4 specular = specularIntensity * specularColor * max(pow(dotProduct, shininess), 0) * diffuseIntensity;
+	float4 specular = useSpecular * (tex2D(specularSampler, input.TextureCoordinate) *  specularIntensity 
+						* specularColor * max(pow(dotProduct, shininess), 0) * diffuseIntensity);
+
 	//Texture color
 	float4 textureColor = tex2D(diffuseSampler, input.TextureCoordinate);
 	textureColor.a = 1;

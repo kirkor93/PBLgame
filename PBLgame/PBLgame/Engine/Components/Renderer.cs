@@ -92,7 +92,9 @@ namespace PBLgame.Engine.Components
                     MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
                     MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
                     MyEffect.Parameters["useBump"].SetValue(1);
-                    MyEffect.Parameters["viewVector"].SetValue(Camera.MainCamera.Direction);
+                    MyEffect.Parameters["direction"].SetValue(Camera.MainCamera.Direction);
+                    MyEffect.Parameters["useSpecular"].SetValue(1);
+                    MyEffect.Parameters["specularTexture"].SetValue(_material.Specular);
                 }
                 modelMesh.Draw();
             }
