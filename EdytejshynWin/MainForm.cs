@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using Edytejshyn.GUI;
 using Edytejshyn.Logic;
+using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 
@@ -119,6 +120,7 @@ namespace Edytejshyn
                 sampleGameObject.renderer.MyMesh = Logic.Content.Meshes[0];
                 sampleGameObject.renderer.MyMesh.AssignRenderer(sampleGameObject.renderer);
                 sampleGameObject.renderer.AssignMaterial(Logic.Content.Materials[0]);
+                sampleGameObject.renderer.MyEffect = Logic.GameContent.Load<Effect>("Effects/Shader");
 
                 viewportControl.Reset();
                 viewportControl.SampleObject = sampleGameObject;

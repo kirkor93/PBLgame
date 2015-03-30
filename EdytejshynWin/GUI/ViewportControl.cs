@@ -172,6 +172,7 @@ namespace Edytejshyn.GUI
 
         private void TimerOnTick(object sender, EventArgs e)
         {
+            if (!_currentMouse.Right) return;
             if (_moveX != 0)
             {
                 Vector3 cameraStrafe = Vector3.Cross(Camera.Direction, Vector3.Up);

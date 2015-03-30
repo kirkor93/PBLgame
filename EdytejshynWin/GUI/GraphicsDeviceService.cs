@@ -45,7 +45,7 @@ namespace Edytejshyn.GUI
         /// Constructor is private, because this is a singleton class:
         /// client controls should use the public AddRef method instead.
         /// </summary>
-        GraphicsDeviceService(IntPtr windowHandle, int width, int height)
+        private GraphicsDeviceService(IntPtr windowHandle, int width, int height)
         {
             parameters = new PresentationParameters();
 
@@ -56,7 +56,6 @@ namespace Edytejshyn.GUI
             parameters.DeviceWindowHandle = windowHandle;
             parameters.PresentationInterval = PresentInterval.Immediate;
             parameters.IsFullScreen = false;
-            parameters.MultiSampleCount = 2;
 
             graphicsDevice = new GraphicsDevice(GraphicsAdapter.DefaultAdapter,
                                                 GraphicsProfile.Reach,
