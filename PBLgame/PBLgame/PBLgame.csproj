@@ -87,7 +87,7 @@
     <Compile Include="Engine\GameObjects\GameObject.cs" />
     <Compile Include="Engine\Components\Mesh.cs" />
     <Compile Include="Engine\Components\Renderer.cs" />
-    <Compile Include="Engine\Scene\Scene.cs" />
+    <Compile Include="Engine\Scenes\Scene.cs" />
     <Compile Include="Engine\Singleton\InputManager.cs" />
     <Compile Include="Engine\Singleton\ResourceManager.cs" />
     <Compile Include="Engine\Singleton\Singleton.cs" />

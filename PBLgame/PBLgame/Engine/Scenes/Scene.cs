@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
@@ -14,6 +16,8 @@ namespace PBLgame.Engine.Scene
         //It's gonna be scene graph later
         private List<GameObject> _sceneGameObjects;
         private Camera _mainCamera;
+
+        private XmlSerializer _serializer;
 
         #endregion
         #endregion
@@ -33,6 +37,7 @@ namespace PBLgame.Engine.Scene
         public Scene()
         {
             _sceneGameObjects = new List<GameObject>();
+            _serializer = new XmlSerializer(typeof(Scene));
         }
         
         public void AddGameObject(GameObject obj)
@@ -50,6 +55,24 @@ namespace PBLgame.Engine.Scene
             _sceneGameObjects.RemoveAll(item => item.Name == name);
         }
 
+        public void RemoveGameObject(int id)
+        {
+            _sceneGameObjects.RemoveAll(item => item.ID == id);
+        }
+
+        public void Save(string path)
+        {
+            using (FileStream writer = new FileStream(path, FileMode.Create))
+            {
+                _serializer.Serialize(writer, this);
+            }
+        }
+
+        public void Load(string path)
+        {
+            
+        }
+
         public XmlSchema GetSchema()
         {
             return null;
@@ -62,7 +85,12 @@ namespace PBLgame.Engine.Scene
 
         public void WriteXml(XmlWriter writer)
         {
-            throw new System.NotImplementedException();
+            writer.WriteStartElement("GameObjects");
+            foreach (GameObject sceneGameObject in _sceneGameObjects)
+            {
+                (sceneGameObject as IXmlSerializable).WriteXml(writer);
+            }
+            writer.WriteEndElement();
         }
 
         #endregion

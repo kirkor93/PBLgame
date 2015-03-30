@@ -1,9 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
+using Microsoft.Xna.Framework;
 using PBLgame.Engine.GameObjects;
 
 namespace PBLgame.Engine.Components
 {
-    public abstract class Component
+    public abstract class Component : IXmlSerializable
     {
         #region Variables
         protected bool _enabled;
@@ -45,7 +48,22 @@ namespace PBLgame.Engine.Components
         public abstract void Update();
         public abstract void Draw();
 
-        #endregion
+        #region XML serialization
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
 
+        public virtual void ReadXml(XmlReader reader)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public virtual void WriteXml(XmlWriter writer)
+        {
+            
+        }
+        #endregion
+        #endregion
     }
 }

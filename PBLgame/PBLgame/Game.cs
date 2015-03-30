@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Scene;
 using PBLgame.Engine.Singleton;
 
 namespace PBLgame
@@ -97,6 +98,10 @@ namespace PBLgame
             player.renderer.MyMesh.AssignRenderer(player.renderer);
             player.renderer.AssignMaterial(ResourceManager.Instance.GetMaterial(1));
             player.GetComponent<GamePlay.PlayerScript>().Initialize();
+
+            Scene scene = new Scene();
+            scene.AddGameObject(player);
+            scene.Save("Scene 1.xml");
 
             ResourceManager.Instance.SaveContent();
             //InputManager.Instance.OnMove += TriangleTranslate;
