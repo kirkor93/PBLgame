@@ -11,6 +11,7 @@ namespace PBLgame.Engine.Components
         private Mesh _myMesh;
         private MeshMaterial _material;
         private Effect _myEffect;
+        private Vector3 _viewVector;
         #endregion
         #endregion  
 
@@ -75,7 +76,6 @@ namespace PBLgame.Engine.Components
 
         public override void Update()
         {
-            throw new System.NotImplementedException();
         }
 
         public override void Draw()
@@ -89,9 +89,10 @@ namespace PBLgame.Engine.Components
                     MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
                     MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
                     MyEffect.Parameters["worldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World)));
-                    MyEffect.Parameters["diffuseTexture"].SetValue(_material.Normal);
+                    MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
                     MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
-                    MyEffect.Parameters["useBump"].SetValue(0);
+                    MyEffect.Parameters["useBump"].SetValue(1);
+                    MyEffect.Parameters["viewVector"].SetValue(Camera.MainCamera.Direction);
                 }
                 modelMesh.Draw();
             }

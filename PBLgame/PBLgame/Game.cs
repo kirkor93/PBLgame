@@ -25,7 +25,7 @@ namespace PBLgame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Camera mainCamera;
+        public Camera mainCamera;
 
         //For teting-----------------
         VertexPositionColor[] verts;
@@ -190,8 +190,6 @@ namespace PBLgame
             }
             //-----------------------------
 
-
-            player.transform.Translate(0.02f, 0.0f, -0.02f);
 
             player.audioSource.Update();
             player.audioSource.Set3D(mainCamera.audioListener);

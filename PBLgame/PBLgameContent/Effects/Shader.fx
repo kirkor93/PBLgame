@@ -10,7 +10,7 @@ float4x4 worldInverseTranspose;
 //float lightIntensities[maxLights];
 //float lightsCount;
 
-float3 DiffuseLightDirection = float3(1, 0, 0);
+float3 DiffuseLightDirection = float3(1, 1, 0);
 float4 DiffuseColor = float4(1, 1, 1, 1);
 float DiffuseIntensity = 1.0;
 
@@ -33,6 +33,11 @@ sampler2D bumpSampler = sampler_state{
 	AddressU = Wrap;
 	AddressV = Wrap;
 };
+
+float shininess = 200;
+float4 specularColor = float4(1, 1, 1, 1);
+float specularIntensity = 1;
+float3 viewVector;
 
 //int useSpecular;
 //texture specularTexture;
@@ -63,7 +68,7 @@ struct VertexShaderOutput
 	float3 Binormal : TEXCOORD3;
 };
 
-VertexShaderOutput VS_PhongBlinn(VertexShaderInput input)
+VertexShaderOutput VS(VertexShaderInput input)
 {
     VertexShaderOutput output;
 
@@ -80,24 +85,33 @@ VertexShaderOutput VS_PhongBlinn(VertexShaderInput input)
     return output;
 }
 
-float4 PS_PhongBlinn(VertexShaderOutput input) : COLOR0
+float4 PS(VertexShaderOutput input) : COLOR0
 {
+	//Normal calc
 	float3 bump = useBump * (tex2D(bumpSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
 	float3 bumpNormal = input.Normal + (bump.x * input.Tangent + bump.y * input.Binormal);
 
-	float diffuseIntensity = dot(normalize(DiffuseLightDirection), normalize(bumpNormal));
-	//float diffuseIntensity = normalize(DiffuseLightDirection);
+	float3 dLight = normalize(DiffuseLightDirection);
+	//Diffuse light with normals 
+	float diffuseIntensity = dot(dLight, normalize(bumpNormal));
+	//Specular
+	float3 r = normalize(2 * dot(dLight, bumpNormal) * bumpNormal - dLight);
+	float3 v = normalize(mul(normalize(viewVector), world));
+	float dotProduct = dot(r, v);
+
+	float4 specular = specularIntensity * specularColor * max(pow(dotProduct, shininess), 0) * diffuseIntensity;
+	//Texture color
 	float4 textureColor = tex2D(diffuseSampler, input.TextureCoordinate);
 	textureColor.a = 1;
 
-	return saturate(textureColor * (diffuseIntensity));
+	return saturate(textureColor * (diffuseIntensity) + specular);
 }
 
 technique PhongBlinn
 {
     pass Pass1
     {
-        VertexShader = compile vs_2_0 VS_PhongBlinn();
-        PixelShader = compile ps_2_0  PS_PhongBlinn();
+        VertexShader = compile vs_2_0 VS();
+        PixelShader = compile ps_2_0  PS();
     }
 }

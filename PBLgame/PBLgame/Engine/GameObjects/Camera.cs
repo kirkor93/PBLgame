@@ -16,7 +16,7 @@ namespace PBLgame.Engine.GameObjects
         private float _far;
         private float _foV;
         private Vector3 _direction;
-
+        private Vector3 _viewVector;
         private AudioListener _listener;
 
         //static reference to first camera created for other classes
@@ -75,8 +75,7 @@ namespace PBLgame.Engine.GameObjects
             {
                 _mainCamera = value;
             }
-        }
-    
+        }    
         #endregion
 
         #region Methods
