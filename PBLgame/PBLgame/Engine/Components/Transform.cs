@@ -65,7 +65,15 @@ namespace PBLgame.Engine.Components
         {
             get
             {
-                return _world = _worldScale * _worldRotation *_worldTranslation;
+                if(gameObject.parent == null)
+                {
+                    return _world = _worldScale * _worldRotation *_worldTranslation;
+                }
+                else
+                {
+                    return _world = gameObject.parent.transform.World * _worldScale * _worldRotation * _worldTranslation;
+                }
+
             }
         }
         #endregion

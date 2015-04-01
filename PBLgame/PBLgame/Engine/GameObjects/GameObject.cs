@@ -18,6 +18,8 @@ namespace PBLgame.Engine.GameObjects
             #endregion
             #region Private
             GameObject _parent = null;
+            //Children list of this gameObject
+            List<GameObject> _children = new List<GameObject>();
             //Components list attached to game object
             List<Component> _components = new List<Component>();
             //Most common _components             
@@ -258,6 +260,77 @@ namespace PBLgame.Engine.GameObjects
             }
 
             return null;
+        }
+
+        public void AddChild(GameObject child)
+        {
+            _children.Add(child);
+        }
+
+        public GameObject[] GetChildren()
+        {
+            return _children.ToArray();
+        }
+
+        public GameObject GetChild(int id)
+        {
+           IEnumerable<GameObject> list =
+                from child in _children
+                where child.ID == id
+                select child;
+
+            if (list.Any())
+            {
+                return list.First() as GameObject;
+            }
+
+            return null;
+        }
+
+        public GameObject GetChild(string name)
+        {
+            IEnumerable<GameObject> list =
+                from child in _children
+                where child.Name == name
+                select child;
+
+            if (list.Any())
+            {
+                return list.First() as GameObject;
+            }
+
+            return null;
+        }
+
+        public T[] GetComponentInChildren<T>() where T : Component
+        {
+            List<T> components = new List<T>();
+            foreach(GameObject child in _children)
+            {
+                if(child.GetComponent<T>() != null)
+                {
+                    components.Add(child.GetComponent<T>());
+                }
+            }
+
+            if (components.Any())
+            {
+                return components.ToArray();
+            }
+
+            return null;
+        }
+
+        public T GetComponentInChild<T>(int id) where T : Component
+        {
+            GameObject tmp = GetChild(id);
+            return tmp.GetComponent<T>();
+        }
+
+        public T GetComponentInChild<T>(string name) where T : Component
+        {
+            GameObject tmp = GetChild(name);
+            return tmp.GetComponent<T>();
         }
 
         #region XML serialization

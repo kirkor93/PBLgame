@@ -89,12 +89,14 @@ namespace PBLgame.Engine.Components
                     MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
                     MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
                     MyEffect.Parameters["worldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World)));
-                    MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
-                    MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
-                    MyEffect.Parameters["useBump"].SetValue(1);
                     MyEffect.Parameters["direction"].SetValue(Camera.MainCamera.Direction);
-                    MyEffect.Parameters["useSpecular"].SetValue(1);
+                    MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
+                    MyEffect.Parameters["normalIntensity"].SetValue(1);
+                    MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
+                    MyEffect.Parameters["specularIntensity"].SetValue(1);
                     MyEffect.Parameters["specularTexture"].SetValue(_material.Specular);
+                    MyEffect.Parameters["emissiveIntensity"].SetValue(0);
+                    MyEffect.Parameters["emissiveTexture"].SetValue(_material.Emissive);
                 }
                 modelMesh.Draw();
             }
