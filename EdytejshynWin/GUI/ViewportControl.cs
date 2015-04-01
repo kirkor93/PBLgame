@@ -82,6 +82,13 @@ namespace Edytejshyn.GUI
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            // wrong stencil fix:
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+            //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
+
             if (SampleObject != null)
             {
                 SampleObject.renderer.Draw();
@@ -110,7 +117,11 @@ namespace Edytejshyn.GUI
         {
             _prevMouse = _currentMouse;
             _currentMouse = new EditorMouseState(_prevMouse) {X = e.X, Y = e.Y};
-            if (_currentMouse.Left)
+            if (_currentMouse.AnyMiddle)
+            {
+                // surface strafe
+            }
+            else if (_currentMouse.Left)
             {
                 // if(!gizmo_collision)
                 // find rayed object
@@ -144,10 +155,6 @@ namespace Edytejshyn.GUI
                 Camera.RotateYawPitch(rot.X, rot.Y);
                 Text = string.Format("Lookaround: {0}, {1}", rot.X, rot.Y);
                 Camera.Update();
-            }
-            else if (_currentMouse.AnyMiddle)
-            {
-                // surface strafe
             }
             else
             {
