@@ -20,7 +20,7 @@ namespace Edytejshyn.GUI
         private EditorMouseState _currentMouse, _prevMouse;
         private Timer _timer;
         private int _moveX, _moveY;
-        private const float BaseRotateSensitivity = 0.01f, BaseMoveSensitivity = 0.2f;
+        private const float BaseRotateSensitivity = 0.005f, BaseMoveSensitivity = 0.15f;
         private float _rotateSensitivity = BaseRotateSensitivity, _moveSensitivity = BaseMoveSensitivity;
 
         public delegate void VoidHandler();
@@ -43,7 +43,7 @@ namespace Edytejshyn.GUI
         protected override void Initialize()
         {
             _timer = new Timer();
-            _timer.Interval = 20;
+            _timer.Interval = 15;
             _timer.Tick += TimerOnTick;
             _timer.Start();
 
