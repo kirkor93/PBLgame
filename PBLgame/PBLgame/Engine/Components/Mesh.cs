@@ -19,8 +19,6 @@ namespace PBLgame.Engine.Components
         private int _id;
         private MeshMaterial _meshMaterial;
 
-        private Renderer _myRenderer;
-
         private Matrix[] _boneTransforms;
 
         #endregion
@@ -92,11 +90,6 @@ namespace PBLgame.Engine.Components
         public void Draw()
         {
 
-        }
-
-        public void AssignRenderer(Renderer renderer)
-        {
-            _myRenderer = renderer;
         }
 
         #endregion

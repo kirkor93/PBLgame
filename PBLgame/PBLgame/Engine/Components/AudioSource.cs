@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Singleton;
 
 namespace PBLgame.Engine.Components
 {
@@ -82,7 +83,11 @@ namespace PBLgame.Engine.Components
 
         public override void ReadXml(XmlReader reader)
         {
+            reader.MoveToContent();
             base.ReadXml(reader);
+            string cue = reader.GetAttribute("Cue");
+            TrackCue = ResourceManager.Instance.GetAudioCue(cue);
+            reader.Read();
         }
 
         public override void WriteXml(XmlWriter writer)

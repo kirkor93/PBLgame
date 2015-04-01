@@ -14,7 +14,7 @@ namespace PBLgame.Engine.Scene
         #region Variables
         #region Private
         //It's gonna be scene graph later
-        private List<GameObject> _sceneGameObjects;
+        private List<GameObject> _gameObjects;
         private Camera _mainCamera;
 
         private XmlSerializer _serializer;
@@ -30,34 +30,40 @@ namespace PBLgame.Engine.Scene
             set { _mainCamera = value; }
         }
 
+        public List<GameObject> GameObjects
+        {
+            get { return _gameObjects; }
+            private set { _gameObjects = value; }
+        }
+
         #endregion
 
         #region Methods
 
         public Scene()
         {
-            _sceneGameObjects = new List<GameObject>();
+            _gameObjects = new List<GameObject>();
             _serializer = new XmlSerializer(typeof(Scene));
         }
         
         public void AddGameObject(GameObject obj)
         {
-            _sceneGameObjects.Add(obj);
+            _gameObjects.Add(obj);
         }
 
         public void RemoveGameObject(GameObject obj)
         {
-            _sceneGameObjects.Remove(obj);
+            _gameObjects.Remove(obj);
         }
 
         public void RemoveGameObject(string name)
         {
-            _sceneGameObjects.RemoveAll(item => item.Name == name);
+            _gameObjects.RemoveAll(item => item.Name == name);
         }
 
         public void RemoveGameObject(int id)
         {
-            _sceneGameObjects.RemoveAll(item => item.ID == id);
+            _gameObjects.RemoveAll(item => item.ID == id);
         }
 
         public void Save(string path)
@@ -70,7 +76,11 @@ namespace PBLgame.Engine.Scene
 
         public void Load(string path)
         {
-            
+            using (FileStream file = new FileStream(path, FileMode.Open))
+            {
+                Scene scene = (Scene) _serializer.Deserialize(file);
+                _gameObjects = scene._gameObjects;
+            }
         }
 
         public XmlSchema GetSchema()
@@ -80,13 +90,28 @@ namespace PBLgame.Engine.Scene
 
         public void ReadXml(XmlReader reader)
         {
-            throw new System.NotImplementedException();
+            reader.MoveToContent();
+            reader.ReadStartElement();
+            while (reader.NodeType != XmlNodeType.EndElement)
+            {
+                reader.ReadStartElement();
+                if (reader.Name == "GameObject")
+                {
+                    GameObject obj = new GameObject();
+                    (obj as IXmlSerializable).ReadXml(reader);
+                    GameObjects.Add(obj);
+                }
+                reader.ReadEndElement();
+
+            }
+
+            reader.ReadEndElement();
         }
 
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteStartElement("GameObjects");
-            foreach (GameObject sceneGameObject in _sceneGameObjects)
+            foreach (GameObject sceneGameObject in GameObjects)
             {
                 writer.WriteStartElement("GameObject");
                 (sceneGameObject as IXmlSerializable).WriteXml(writer);

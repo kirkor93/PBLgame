@@ -13,16 +13,16 @@ namespace PBLgame.Engine.Components
         public Texture2D Normal { get; set; }
         public Texture2D Specular { get; set; }
         public Texture2D Emissive { get; set; }
-        public string ShaderName { get; set; }
+        public Effect ShaderEffect { get; set; }
 
-        public MeshMaterial(int id, Texture2D diffuse, Texture2D normal, Texture2D specular, Texture2D emissive, string shaderName)
+        public MeshMaterial(int id, Texture2D diffuse, Texture2D normal, Texture2D specular, Texture2D emissive, Effect shaderEffect)
         {
             Id = id;
             Diffuse = diffuse;
             Normal = normal;
             Specular = specular;
             Emissive = emissive;
-            ShaderName = shaderName;
+            ShaderEffect = shaderEffect;
         }
     }
 }

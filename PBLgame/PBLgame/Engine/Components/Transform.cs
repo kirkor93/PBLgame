@@ -137,7 +137,37 @@ namespace PBLgame.Engine.Components
 
         public override void ReadXml(XmlReader reader)
         {
+            reader.MoveToContent();
             base.ReadXml(reader);
+            reader.ReadStartElement();
+            if (reader.Name == "Position")
+            {
+                Vector3 tmp = Vector3.Zero;
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"));
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"));
+                tmp.Z = Convert.ToSingle(reader.GetAttribute("z"));
+                Position = tmp;
+            }
+            reader.ReadStartElement();
+            if (reader.Name == "Rotation")
+            {
+                Vector3 tmp = Vector3.Zero;
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"));
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"));
+                tmp.Z = Convert.ToSingle(reader.GetAttribute("z"));
+                Rotation = tmp;
+            }
+            reader.ReadStartElement();
+            if (reader.Name == "Scale")
+            {
+                Vector3 tmp = Vector3.Zero;
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"));
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"));
+                tmp.Z = Convert.ToSingle(reader.GetAttribute("z"));
+                Scale = tmp;
+            }
+            reader.Read();
+            reader.ReadEndElement();
         }
 
         public override void WriteXml(XmlWriter writer)

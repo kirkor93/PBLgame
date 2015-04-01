@@ -84,7 +84,6 @@ namespace PBLgame.Engine.Singleton
                 content = (XmlContent) _serializer.Deserialize(new GameXmlReader(file, Game.Instance.Content));
             }
 
-
             _meshes = content.Meshes;
             _textures = content.Textures;
             _materials = content.Materials;
@@ -236,7 +235,7 @@ namespace PBLgame.Engine.Singleton
                                                     FindTexture(normalTex),
                                                     FindTexture(specularTex),
                                                     FindTexture(emissiveTex),
-                                                    shaderPath));
+                                                    FindShaderEffect(shaderPath)));
                 }
                 else if (reader.Name == "Mesh")
                 {
@@ -291,7 +290,7 @@ namespace PBLgame.Engine.Singleton
                 writer.WriteAttributeString("Normal", meshMaterial.Normal.Name);
                 writer.WriteAttributeString("Specular", meshMaterial.Specular.Name);
                 writer.WriteAttributeString("Emissive", meshMaterial.Emissive.Name);
-                writer.WriteAttributeString("ShaderPath", meshMaterial.ShaderName);
+                writer.WriteAttributeString("ShaderPath", meshMaterial.ShaderEffect.Name);
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();
@@ -330,6 +329,18 @@ namespace PBLgame.Engine.Singleton
                 if (texture2D.Name == path)
                 {
                     return texture2D;
+                }
+            }
+            return null;
+        }
+
+        private Effect FindShaderEffect(string path)
+        {
+            foreach (Effect shaderEffect in ShaderEffects)
+            {
+                if (shaderEffect.Name == path)
+                {
+                    return shaderEffect;
                 }
             }
             return null;

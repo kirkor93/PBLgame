@@ -296,7 +296,7 @@ namespace PBLgame.Engine.GameObjects
 
             if (list.Any())
             {
-                return list.First() as GameObject;
+                return list.First();
             }
 
             return null;
@@ -342,7 +342,49 @@ namespace PBLgame.Engine.GameObjects
 
         public void ReadXml(XmlReader reader)
         {
-            throw new NotImplementedException();
+            reader.MoveToContent();
+            Name = reader.GetAttribute("Name");
+            Tag = reader.GetAttribute("Tag");
+            ID = Convert.ToInt32(reader.GetAttribute("Id"));
+
+            //TODO add parent loading
+
+            reader.ReadStartElement();
+            if (reader.Name == "Transform")
+            {
+                transform = new Transform(this);
+                (transform as IXmlSerializable).ReadXml(reader);
+            }
+
+            if (reader.Name == "Renderer")
+            {
+                renderer = new Renderer(this);
+                (renderer as IXmlSerializable).ReadXml(reader);
+            }
+
+            if (reader.Name == "Collision")
+            {
+                collision = new Collision(this);
+                (collision as IXmlSerializable).ReadXml(reader);
+            }
+
+            if (reader.Name == "Animator")
+            {
+                animator = new Animator(this);
+                (animator as IXmlSerializable).ReadXml(reader);
+            }
+
+            if (reader.Name == "AudioSource")
+            {
+                audioSource = new AudioSource(this);
+                (audioSource as IXmlSerializable).ReadXml(reader);
+            }
+
+            if (reader.Name == "ParticleSystem")
+            {
+                particleSystem = new ParticleSystem(this);
+                (particleSystem as IXmlSerializable).ReadXml(reader);
+            }
         }
 
         public void WriteXml(XmlWriter writer)
