@@ -14,7 +14,7 @@ namespace Edytejshyn.GUI
     {
 
         #region Variables
-        private ContentManager _editorContent, _gameContent;
+        private ContentManager _editorContent;
         private SpriteBatch _spriteBatch;
         private SpriteFont _osdFont;
         private EditorMouseState _currentMouse, _prevMouse;
@@ -32,10 +32,7 @@ namespace Edytejshyn.GUI
         #endregion
 
         #region Properties
-        public ContentManager GameContent
-        {
-            get { return _gameContent; }
-        }
+        public ContentManager GameContentManager { get; private set; }
 
         #endregion
 
@@ -60,7 +57,7 @@ namespace Edytejshyn.GUI
             _prevMouse    = new EditorMouseState();
             
             _editorContent = new ContentManager(Services, "EditorContent");
-            _gameContent   = new ContentManager(Services, "Content");
+            GameContentManager   = new ContentManager(Services, "Content");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _osdFont = _editorContent.Load<SpriteFont>("OSDFont");
             Camera = new Camera(new Vector3(0, 10, 10), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 1000);
@@ -73,7 +70,7 @@ namespace Edytejshyn.GUI
             if (disposing)
             {
                 _editorContent.Unload();
-                _gameContent.Unload();
+                GameContentManager.Unload();
             }
             base.Dispose(disposing);
         }

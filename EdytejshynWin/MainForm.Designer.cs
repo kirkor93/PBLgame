@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileMenuBar = new System.Windows.Forms.ToolStripMenuItem();
+            this.sceneMenuBar = new System.Windows.Forms.ToolStripMenuItem();
             this.openMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,7 +45,7 @@
             this.splitContainerVert = new System.Windows.Forms.SplitContainer();
             this.viewportControl = new Edytejshyn.GUI.ViewportControl();
             this.splitContainerRightHoriz = new System.Windows.Forms.SplitContainer();
-            this.hierarchyTreeView = new Edytejshyn.GUI.EditorTreeView();
+            this.contentTreeView = new Edytejshyn.GUI.EditorTreeView();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.statusBarLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -60,6 +60,8 @@
             this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.sceneTreeView = new Edytejshyn.GUI.EditorTreeView();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerVert)).BeginInit();
             this.splitContainerVert.Panel1.SuspendLayout();
@@ -71,31 +73,35 @@
             this.splitContainerRightHoriz.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileMenuBar,
+            this.sceneMenuBar,
             this.editMenuBar,
             this.helpMenuBar});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(984, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1077, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // fileMenuBar
+            // sceneMenuBar
             // 
-            this.fileMenuBar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sceneMenuBar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openMenuItem,
             this.saveMenuItem,
             this.saveAsMenuItem,
             this.toolStripMenuItem1,
             this.exitMenuItem});
-            this.fileMenuBar.Name = "fileMenuBar";
-            this.fileMenuBar.Size = new System.Drawing.Size(37, 20);
-            this.fileMenuBar.Text = "&File";
+            this.sceneMenuBar.Name = "sceneMenuBar";
+            this.sceneMenuBar.Size = new System.Drawing.Size(50, 20);
+            this.sceneMenuBar.Text = "&Scene";
             // 
             // openMenuItem
             // 
@@ -208,8 +214,8 @@
             // splitContainerVert.Panel2
             // 
             this.splitContainerVert.Panel2.Controls.Add(this.splitContainerRightHoriz);
-            this.splitContainerVert.Size = new System.Drawing.Size(984, 633);
-            this.splitContainerVert.SplitterDistance = 679;
+            this.splitContainerVert.Size = new System.Drawing.Size(1077, 611);
+            this.splitContainerVert.SplitterDistance = 663;
             this.splitContainerVert.TabIndex = 1;
             this.splitContainerVert.TabStop = false;
             // 
@@ -218,7 +224,7 @@
             this.viewportControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewportControl.Location = new System.Drawing.Point(0, 0);
             this.viewportControl.Name = "viewportControl";
-            this.viewportControl.Size = new System.Drawing.Size(679, 633);
+            this.viewportControl.Size = new System.Drawing.Size(663, 611);
             this.viewportControl.TabIndex = 2;
             this.viewportControl.Text = "XNA Viewport";
             // 
@@ -227,37 +233,36 @@
             this.splitContainerRightHoriz.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerRightHoriz.Location = new System.Drawing.Point(0, 0);
             this.splitContainerRightHoriz.Name = "splitContainerRightHoriz";
-            this.splitContainerRightHoriz.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainerRightHoriz.Panel1
             // 
-            this.splitContainerRightHoriz.Panel1.Controls.Add(this.hierarchyTreeView);
+            this.splitContainerRightHoriz.Panel1.Controls.Add(this.splitContainer1);
             // 
             // splitContainerRightHoriz.Panel2
             // 
             this.splitContainerRightHoriz.Panel2.Controls.Add(this.propertyGrid);
-            this.splitContainerRightHoriz.Size = new System.Drawing.Size(301, 633);
-            this.splitContainerRightHoriz.SplitterDistance = 190;
+            this.splitContainerRightHoriz.Size = new System.Drawing.Size(410, 611);
+            this.splitContainerRightHoriz.SplitterDistance = 232;
             this.splitContainerRightHoriz.TabIndex = 0;
             this.splitContainerRightHoriz.TabStop = false;
             // 
-            // hierarchyTreeView
+            // contentTreeView
             // 
-            this.hierarchyTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.hierarchyTreeView.Location = new System.Drawing.Point(0, 0);
-            this.hierarchyTreeView.Name = "hierarchyTreeView";
-            this.hierarchyTreeView.PathSeparator = "->";
-            this.hierarchyTreeView.Size = new System.Drawing.Size(301, 190);
-            this.hierarchyTreeView.TabIndex = 0;
-            this.hierarchyTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.HierarchyTreeView_AfterSelect);
-            this.hierarchyTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HierarchyTreeViewObjects_KeyDown);
+            this.contentTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.contentTreeView.Location = new System.Drawing.Point(0, 0);
+            this.contentTreeView.Name = "contentTreeView";
+            this.contentTreeView.PathSeparator = "->";
+            this.contentTreeView.Size = new System.Drawing.Size(114, 611);
+            this.contentTreeView.TabIndex = 0;
+            this.contentTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ContentTreeView_AfterSelect);
+            this.contentTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ContentTreeViewObjects_KeyDown);
             // 
             // propertyGrid
             // 
             this.propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(301, 439);
+            this.propertyGrid.Size = new System.Drawing.Size(174, 611);
             this.propertyGrid.TabIndex = 1;
             // 
             // statusBar
@@ -266,7 +271,7 @@
             this.statusBarLabel});
             this.statusBar.Location = new System.Drawing.Point(0, 660);
             this.statusBar.Name = "statusBar";
-            this.statusBar.Size = new System.Drawing.Size(984, 22);
+            this.statusBar.Size = new System.Drawing.Size(1077, 22);
             this.statusBar.TabIndex = 4;
             this.statusBar.Text = "statusStrip1";
             // 
@@ -291,7 +296,7 @@
             this.toolStripSeparator1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(984, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1077, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -302,7 +307,7 @@
             this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripButton.Name = "openToolStripButton";
             this.openToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.openToolStripButton.Text = "&Open";
+            this.openToolStripButton.Text = "&Open scene";
             this.openToolStripButton.Click += new System.EventHandler(this.OpenEvent);
             // 
             // saveToolStripButton
@@ -313,7 +318,7 @@
             this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripButton.Name = "saveToolStripButton";
             this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.saveToolStripButton.Text = "&Save";
+            this.saveToolStripButton.Text = "&Save scene";
             this.saveToolStripButton.Click += new System.EventHandler(this.SaveEvent);
             // 
             // toolStripSeparator
@@ -384,16 +389,42 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.sceneTreeView);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.contentTreeView);
+            this.splitContainer1.Size = new System.Drawing.Size(232, 611);
+            this.splitContainer1.SplitterDistance = 114;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // sceneTreeView
+            // 
+            this.sceneTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sceneTreeView.Location = new System.Drawing.Point(0, 0);
+            this.sceneTreeView.Name = "sceneTreeView";
+            this.sceneTreeView.PathSeparator = "->";
+            this.sceneTreeView.Size = new System.Drawing.Size(114, 611);
+            this.sceneTreeView.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 682);
-            this.Controls.Add(this.statusBar);
+            this.ClientSize = new System.Drawing.Size(1077, 682);
             this.Controls.Add(this.splitContainerVert);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.statusBar);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Edytejshyn v.xxxx";
@@ -415,6 +446,10 @@
             this.statusBar.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -423,7 +458,7 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileMenuBar;
+        private System.Windows.Forms.ToolStripMenuItem sceneMenuBar;
         private System.Windows.Forms.ToolStripMenuItem openMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsMenuItem;
@@ -439,7 +474,7 @@
         private System.Windows.Forms.SplitContainer splitContainerRightHoriz;
         private System.Windows.Forms.StatusStrip statusBar;
         private System.Windows.Forms.ToolStripStatusLabel statusBarLabel;
-        private GUI.EditorTreeView hierarchyTreeView;
+        private GUI.EditorTreeView contentTreeView;
         private System.Windows.Forms.PropertyGrid propertyGrid;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private GUI.ViewportControl viewportControl;
@@ -453,6 +488,8 @@
         private System.Windows.Forms.ToolStripButton copyToolStripButton;
         private System.Windows.Forms.ToolStripButton pasteToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private GUI.EditorTreeView sceneTreeView;
     }
 }
 
