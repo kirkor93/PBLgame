@@ -88,7 +88,9 @@ namespace PBLgame.Engine.Scene
             writer.WriteStartElement("GameObjects");
             foreach (GameObject sceneGameObject in _sceneGameObjects)
             {
+                writer.WriteStartElement("GameObject");
                 (sceneGameObject as IXmlSerializable).WriteXml(writer);
+                writer.WriteEndElement();
             }
             writer.WriteEndElement();
         }

@@ -34,12 +34,12 @@ namespace PBLgame.GamePlay
 
         public override void Draw()
         {
-            throw new NotImplementedException();
+            
         }
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            
         }
 
         private void CharacterRotation(Object obj, MoveArgs args)

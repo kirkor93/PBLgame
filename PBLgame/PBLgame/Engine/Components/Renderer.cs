@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Xml;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.GameObjects;
 
@@ -11,7 +12,6 @@ namespace PBLgame.Engine.Components
         private Mesh _myMesh;
         private MeshMaterial _material;
         private Effect _myEffect;
-        private Vector3 _viewVector;
         #endregion
         #endregion  
 
@@ -99,6 +99,19 @@ namespace PBLgame.Engine.Components
                 modelMesh.Draw();
             }
         }
+
+        public override void ReadXml(XmlReader reader)
+        {
+            base.ReadXml(reader);
+        }
+
+        public override void WriteXml(XmlWriter writer)
+        {
+            base.WriteXml(writer);
+            writer.WriteAttributeString("MeshId", MyMesh.Id.ToString());
+            writer.WriteAttributeString("MaterialId", Material.Id.ToString());
+        }
+
         #endregion
     }
 }

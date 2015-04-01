@@ -117,6 +117,72 @@ namespace PBLgame.Engine.GameObjects
             _transform = new Transform(this);
         }
 
+        public void Update()
+        {
+            if (transform != null)
+            {
+                transform.Update();
+            }
+            if (renderer != null)
+            {
+                renderer.Update();
+            }
+            if (collision != null)
+            {
+                collision.Update();
+            }
+            if (animator != null)
+            {
+                animator.Update();
+            }
+            if (particleSystem != null)
+            {
+                particleSystem.Update();
+            }
+            if (audioSource != null)
+            {
+                audioSource.Update();
+            }
+
+            foreach (Component component in _components)
+            {
+                component.Update();
+            }
+        }
+
+        public void Draw()
+        {
+            if (transform != null)
+            {
+                transform.Draw();
+            }
+            if (renderer != null)
+            {
+                renderer.Draw();
+            }
+            if (collision != null)
+            {
+                collision.Draw();
+            }
+            if (animator != null)
+            {
+                animator.Draw();
+            }
+            if (particleSystem != null)
+            {
+                particleSystem.Draw();
+            }
+            if (audioSource != null)
+            {
+                audioSource.Draw();
+            }
+
+            foreach (Component component in _components)
+            {
+                component.Draw();
+            }
+        }
+
         public void AddComponent<T>(T component) where T : Component
         {
             if (typeof(T) == typeof(Transform))
@@ -208,7 +274,6 @@ namespace PBLgame.Engine.GameObjects
 
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteStartElement("GameObject");
             writer.WriteAttributeString("Name", Name);
             writer.WriteAttributeString("Tag", Tag);
             writer.WriteAttributeString("Id", ID.ToString());
@@ -260,10 +325,6 @@ namespace PBLgame.Engine.GameObjects
                 (component as IXmlSerializable).WriteXml(writer);
                 writer.WriteEndElement();
             }
-
-            writer.WriteEndElement();
-
-            
         }
 
         #endregion

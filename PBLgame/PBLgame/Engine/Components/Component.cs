@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿using System;
+using System.Diagnostics;
+using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
@@ -25,7 +27,7 @@ namespace PBLgame.Engine.Components
             }
         }
 
-        public GameObject GameObject
+        public GameObject gameObject
         {
             get
             {
@@ -45,23 +47,30 @@ namespace PBLgame.Engine.Components
             _gameObject = owner;
         }
 
-        public abstract void Update();
-        public abstract void Draw();
+        public virtual void Update()
+        {
+            
+        }
+
+        public virtual void Draw()
+        {
+            
+        }
 
         #region XML serialization
-        public XmlSchema GetSchema()
+        public virtual XmlSchema GetSchema()
         {
             return null;
         }
 
         public virtual void ReadXml(XmlReader reader)
         {
-            throw new System.NotImplementedException();
+            Enabled = Convert.ToBoolean(reader.GetAttribute("Enabled"));
         }
 
         public virtual void WriteXml(XmlWriter writer)
         {
-            
+            writer.WriteAttributeString("Enabled", Enabled.ToString());
         }
         #endregion
         #endregion

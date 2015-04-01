@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Xml;
 using Microsoft.Xna.Framework;
 using PBLgame.Engine.GameObjects;
 
@@ -110,12 +110,12 @@ namespace PBLgame.Engine.Components
 
         public override void Update()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public override void Draw()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         private void RotationLimit()
@@ -124,6 +124,35 @@ namespace PBLgame.Engine.Components
             _rotation.Y = _rotation.Y % 360.0f;
             _rotation.Z = _rotation.Z % 360.0f;
         }
+
+        #region XML serialization
+
+        public override void ReadXml(XmlReader reader)
+        {
+            base.ReadXml(reader);
+        }
+
+        public override void WriteXml(XmlWriter writer)
+        {
+            base.WriteXml(writer);
+            writer.WriteStartElement("Position");
+            writer.WriteAttributeString("x", Position.X.ToString("G"));
+            writer.WriteAttributeString("y", Position.Y.ToString("G"));
+            writer.WriteAttributeString("z", Position.Z.ToString("G"));
+            writer.WriteEndElement();
+            writer.WriteStartElement("Rotation");
+            writer.WriteAttributeString("x", Rotation.X.ToString("G"));
+            writer.WriteAttributeString("y", Rotation.Y.ToString("G"));
+            writer.WriteAttributeString("z", Rotation.Z.ToString("G"));
+            writer.WriteEndElement();
+            writer.WriteStartElement("Scale");
+            writer.WriteAttributeString("x", Scale.X.ToString("G"));
+            writer.WriteAttributeString("y", Scale.Y.ToString("G"));
+            writer.WriteAttributeString("z", Scale.Z.ToString("G"));
+            writer.WriteEndElement();
+        }
+
+        #endregion
 
 
         #endregion
