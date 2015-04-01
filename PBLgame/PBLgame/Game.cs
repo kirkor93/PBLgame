@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Scene;
 using PBLgame.Engine.Singleton;
 
 namespace PBLgame
@@ -28,23 +29,14 @@ namespace PBLgame
         public Camera mainCamera;
 
         //For teting-----------------
-        VertexPositionColor[] verts;
-        VertexBuffer vertexBuffer;
-
-        BasicEffect effect;
-
-        Matrix worldT = Matrix.Identity;
-        Matrix worldR = Matrix.Identity;
-
-
         private Mesh mesh;
 
         public GameObject player;
 
         //Sounds tetin
-        AudioEngine _audioEngine; //Have to be in final version
-        WaveBank _waveBank; //Have to be in final version
-        SoundBank _soundBank;//Have to be in final version
+        AudioEngine _audioEngine; //Has to be in final version
+        WaveBank _waveBank; //Has to be in final version
+        SoundBank _soundBank;//Hae to be in final version
 
         //////////////
 
@@ -62,13 +54,6 @@ namespace PBLgame
             }
         }
 
-
-        public void TriangleTranslate(Object o, MoveArgs e)
-        {
-            e.AxisValue *= 0.01f;
-            worldT *= Matrix.CreateTranslation(e.AxisValue.X, e.AxisValue.Y, 0.0f);
-        }
-
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -83,24 +68,6 @@ namespace PBLgame
 
             InputManager.Instance.Initialize();
 
-            //Camera Movement
-            //InputManager.Instance.OnMove += mainCamera.EventMove;
-
-            ResourceManager.Instance.LoadContent();
-            mesh = ResourceManager.Instance.GetMesh(@"Models\Helmet");
-
-            player = new GameObject();
-            player.AddComponent<GamePlay.PlayerScript>(new GamePlay.PlayerScript(player));
-            player.AddComponent<Renderer>(new Renderer(player));
-            player.AddComponent<AudioSource>(new AudioSource(player));
-            player.renderer.MyMesh = mesh;
-            player.renderer.MyMesh.AssignRenderer(player.renderer);
-            player.renderer.AssignMaterial(ResourceManager.Instance.GetMaterial(1));
-            player.GetComponent<GamePlay.PlayerScript>().Initialize();
-
-            ResourceManager.Instance.SaveContent();
-            //InputManager.Instance.OnMove += TriangleTranslate;
-
             base.Initialize();
         }
 
@@ -113,33 +80,39 @@ namespace PBLgame
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //For Teting-----------------------
-            verts = new VertexPositionColor[3];
-            verts[0] = new VertexPositionColor(new Vector3(0, 1, 0), Color.Blue);
-            verts[1] = new VertexPositionColor(new Vector3(1, -1, 0), Color.Red);
-            verts[2] = new VertexPositionColor(new Vector3(-1, -1, 0), Color.Green);
-
-            vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(VertexPositionColor), verts.Length, BufferUsage.None);
-            vertexBuffer.SetData(verts);
-
-            phEffect = Content.Load<Effect>("Effects/Shader");
-
-            effect = new BasicEffect(GraphicsDevice);
-
-            GameObject obj = new GameObject();
-            obj.transform.Translate(new Vector3(2.0f, 2.0f, 1.0f));
-            Transform t = obj.GetComponent<Transform>();
-            t.Translate(new Vector3(0.0f, 10.0f, 0.0f));
-
-            player.renderer.MyEffect = phEffect;
-            
             _audioEngine = new AudioEngine(@"Content\Audio\GameAudio.xgs");
             _waveBank = new WaveBank(_audioEngine, @"Content\Audio\WaveBank.xwb");
             _soundBank = new SoundBank(_audioEngine, @"Content\Audio\SoundBank.xsb");
 
-            player.audioSource.TrackCue = _soundBank.GetCue("Tanelorn");
+            //For Teting-----------------------
+
+            ResourceManager.Instance.LoadContent();
+            ResourceManager.Instance.AssignAudioBank(_soundBank);
+            mesh = ResourceManager.Instance.GetMesh(@"Models\Helmet");
+
+            player = new GameObject();
+            player.AddComponent<GamePlay.PlayerScript>(new GamePlay.PlayerScript(player));
+            player.AddComponent<Renderer>(new Renderer(player));
+            player.AddComponent<AudioSource>(new AudioSource(player));
+            player.renderer.MyMesh = mesh;
+            player.renderer.MyMesh.AssignRenderer(player.renderer);
+            player.renderer.AssignMaterial(ResourceManager.Instance.GetMaterial(1));
+            player.GetComponent<GamePlay.PlayerScript>().Initialize();
+
+            player.audioSource.TrackCue = ResourceManager.Instance.GetAudioCue("Tanelorn");
             player.audioSource.Set3D(mainCamera.audioListener);
             player.audioSource.Play();
+
+            Scene scene = new Scene();
+            scene.AddGameObject(player);
+            scene.Save("Scene 1.xml");
+
+
+            phEffect = Content.Load<Effect>("Effects/Shader");
+
+            player.renderer.MyEffect = phEffect;
+            
+            
             // TODO: use this.Content to load your game content here
         }
 
@@ -164,34 +137,13 @@ namespace PBLgame
                 this.Exit();
             
             //ForTetting-----------------------
-
-            
-
             InputManager.Instance.Update();
-
             mainCamera.Update(gameTime);
 
-            // Rotation
-            worldR *= Matrix.CreateFromYawPitchRoll(
-            MathHelper.PiOver4 / 60,
-            0,
-            0);
-            //Translate
-            KeyboardState keyboardState = Keyboard.GetState( );
-            if (keyboardState.IsKeyDown(Keys.Left))
-            {
-                worldT *= Matrix.CreateTranslation(-0.01f, 0.0f, 0.0f);
-                //mainCamera.Transform.Translate(-0.01f, 0.0f, 0.0f);
-            }
-            if (keyboardState.IsKeyDown(Keys.Right))
-            {
-                worldT *= Matrix.CreateTranslation(0.01f, 0, 0);
-                //mainCamera.Transform.Translate(0.01f, 0.0f, 0.0f);
-            }
             //-----------------------------
 
 
-            player.audioSource.Update();
+            player.Update();
             player.audioSource.Set3D(mainCamera.audioListener);
 
             _audioEngine.Update(); //Have to be in final version
@@ -211,21 +163,9 @@ namespace PBLgame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //For Teting----------------
-            //mesh.Draw();
-            player.renderer.Draw();
-            GraphicsDevice.SetVertexBuffer(vertexBuffer);
 
-            effect.World = worldR * worldT;
-            effect.View = mainCamera.ViewMatrix;
-            effect.Projection = mainCamera.ProjectionMatrix;
-            effect.VertexColorEnabled = true;
+            player.Draw();
 
-            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-
-                GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, verts, 0, 1);
-            }
             //---------------------
 
             base.Draw(gameTime);

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 using PBLgame.Engine.Components;
 
 namespace PBLgame.Engine.GameObjects
 {
-    public class GameObject
+    public class GameObject : IXmlSerializable
     {
         #region Variables
             #region Public
@@ -115,6 +117,72 @@ namespace PBLgame.Engine.GameObjects
             _transform = new Transform(this);
         }
 
+        public void Update()
+        {
+            if (transform != null)
+            {
+                transform.Update();
+            }
+            if (renderer != null)
+            {
+                renderer.Update();
+            }
+            if (collision != null)
+            {
+                collision.Update();
+            }
+            if (animator != null)
+            {
+                animator.Update();
+            }
+            if (particleSystem != null)
+            {
+                particleSystem.Update();
+            }
+            if (audioSource != null)
+            {
+                audioSource.Update();
+            }
+
+            foreach (Component component in _components)
+            {
+                component.Update();
+            }
+        }
+
+        public void Draw()
+        {
+            if (transform != null)
+            {
+                transform.Draw();
+            }
+            if (renderer != null)
+            {
+                renderer.Draw();
+            }
+            if (collision != null)
+            {
+                collision.Draw();
+            }
+            if (animator != null)
+            {
+                animator.Draw();
+            }
+            if (particleSystem != null)
+            {
+                particleSystem.Draw();
+            }
+            if (audioSource != null)
+            {
+                audioSource.Draw();
+            }
+
+            foreach (Component component in _components)
+            {
+                component.Draw();
+            }
+        }
+
         public void AddComponent<T>(T component) where T : Component
         {
             if (typeof(T) == typeof(Transform))
@@ -192,6 +260,74 @@ namespace PBLgame.Engine.GameObjects
             return null;
         }
 
+        #region XML serialization
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteAttributeString("Name", Name);
+            writer.WriteAttributeString("Tag", Tag);
+            writer.WriteAttributeString("Id", ID.ToString());
+            if (parent != null)
+            {
+                writer.WriteAttributeString("Parent", parent.ID.ToString());
+            }
+
+            if (transform != null)
+            {
+                writer.WriteStartElement("Transform");
+                (transform as IXmlSerializable).WriteXml(writer);
+                writer.WriteEndElement();
+            }
+            if (renderer != null)
+            {
+                writer.WriteStartElement("Renderer");
+                (renderer as IXmlSerializable).WriteXml(writer);
+                writer.WriteEndElement();
+            }
+            if (collision != null)
+            {
+                writer.WriteStartElement("Collision");
+                (collision as IXmlSerializable).WriteXml(writer);
+                writer.WriteEndElement();
+            }
+            if (animator != null)
+            {
+                writer.WriteStartElement("Animator");
+                (animator as IXmlSerializable).WriteXml(writer);
+                writer.WriteEndElement();
+            }
+            if (particleSystem != null)
+            {
+                writer.WriteStartElement("ParticleSystem");
+                (particleSystem as IXmlSerializable).WriteXml(writer);
+                writer.WriteEndElement();
+            }
+            if (audioSource != null)
+            {
+                writer.WriteStartElement("AudioSource");
+                (audioSource as IXmlSerializable).WriteXml(writer);
+                writer.WriteEndElement();
+            }
+
+            foreach (Component component in _components)
+            {
+                writer.WriteStartElement(component.GetType().ToString());
+                (component as IXmlSerializable).WriteXml(writer);
+                writer.WriteEndElement();
+            }
+        }
+
+        #endregion
         #endregion
     }
 }

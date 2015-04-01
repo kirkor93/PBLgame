@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Xml;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using PBLgame.Engine.GameObjects;
@@ -21,7 +22,7 @@ namespace PBLgame.Engine.Components
         {
             get
             {
-                _emitter.Position = GameObject.transform.Position;
+                _emitter.Position = gameObject.transform.Position;
                 return _emitter;
             }
             set
@@ -55,7 +56,7 @@ namespace PBLgame.Engine.Components
 
         public override void Update()
         {
-            _emitter.Position = GameObject.transform.Position;
+            _emitter.Position = gameObject.transform.Position;
         }
         public override void Draw()
         {
@@ -76,6 +77,21 @@ namespace PBLgame.Engine.Components
         {
             _trackCue.Stop(AudioStopOptions.Immediate);
         }
+
+        #region XML Serialization
+
+        public override void ReadXml(XmlReader reader)
+        {
+            base.ReadXml(reader);
+        }
+
+        public override void WriteXml(XmlWriter writer)
+        {
+            base.WriteXml(writer);
+            writer.WriteAttributeString("Cue", TrackCue.Name);
+        }
+
+        #endregion
         #endregion
     }
 }

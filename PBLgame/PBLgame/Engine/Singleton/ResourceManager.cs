@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
@@ -22,6 +23,7 @@ namespace PBLgame.Engine.Singleton
         private IList<Mesh> _meshes;
         private IList<Texture2D> _textures;
         private IList<MeshMaterial> _materials;
+        private SoundBank _soundBank;
 
         private readonly XmlSerializer _serializer;
 
@@ -53,10 +55,24 @@ namespace PBLgame.Engine.Singleton
             _meshes = new List<Mesh>();
             _textures = new List<Texture2D>();
             _serializer = new XmlSerializer(typeof(XmlContent), new XmlRootAttribute("XmlContent"));
+            _soundBank = null;
         }
 
         #endregion
 
+        /// <summary>
+        /// Method used to give ResourceManager access to all avilable in game game sounds
+        /// </summary>
+        /// <param name="bank">Bank object</param>
+        public void AssignAudioBank(SoundBank bank)
+        {
+            _soundBank = bank;
+        }
+
+        /// <summary>
+        /// Loads all content saved in XML file 
+        /// </summary>
+        /// <param name="path">Path to content XML file</param>
         public void LoadContent(string path = CONTENT_LIST_PATH)
         {
             XmlContent content;
@@ -73,13 +89,13 @@ namespace PBLgame.Engine.Singleton
 
         }
 
+        /// <summary>
+        /// Saves all content in XML file
+        /// </summary>
+        /// <param name="path">Path to content XML file</param>
         public void SaveContent(string path = CONTENT_LIST_PATH)
         {
-            XmlContent content = new XmlContent();
-
-            content.Materials = _materials;
-            content.Meshes = _meshes;
-            content.Textures = _textures;
+            XmlContent content = new XmlContent {Materials = _materials, Meshes = _meshes, Textures = _textures};
 
             using (FileStream writer = new FileStream(path, FileMode.Create))
             {
@@ -140,9 +156,14 @@ namespace PBLgame.Engine.Singleton
             {
                 return list.First();
             }
+
             return null;
         }
 
+        public Cue GetAudioCue(string audioName)
+        {
+            return _soundBank.GetCue(audioName);
+        }
 
         #endregion
 
@@ -264,18 +285,6 @@ namespace PBLgame.Engine.Singleton
         private Texture2D LoadTexture(string path, ContentManager content)
         {
             return content.Load<Texture2D>(path);
-        }
-
-        private MeshMaterial FindMaterial(int id)
-        {
-            foreach (MeshMaterial meshMaterial in Materials)
-            {
-                if (meshMaterial.Id == id)
-                {
-                    return meshMaterial;
-                }
-            }
-            return null;
         }
 
         private Texture2D FindTexture(string path)

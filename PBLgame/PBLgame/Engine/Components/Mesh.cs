@@ -24,16 +24,6 @@ namespace PBLgame.Engine.Components
         private Matrix[] _boneTransforms;
 
         #endregion
-        #region Protected
-
-
-
-        #endregion
-        #region Public
-
-
-
-        #endregion
         #endregion
 
         #region Properties

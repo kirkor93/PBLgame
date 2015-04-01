@@ -2,7 +2,7 @@
 
 namespace PBLgame.Engine.Singleton
 {
-    public class Singleton<T> where T : new()
+    public abstract class Singleton<T> where T : new()
     {
         protected static T _instance;
 
