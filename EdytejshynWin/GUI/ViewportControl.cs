@@ -51,8 +51,9 @@ namespace Edytejshyn.GUI
             this.MouseDown += ViewportControl_MouseDown;
             this.MouseUp   += ViewportControl_MouseUp;
 
-            this.KeyDown   += ViewportControl_KeyDown;
-            this.KeyUp     += ViewportControl_KeyUp;
+            this.PreviewKeyDown += ViewportControl_PreviewKeyDown;
+            this.KeyDown        += ViewportControl_KeyDown;
+            this.KeyUp          += ViewportControl_KeyUp;
             this.SizeChanged += HandleSizeChanged;
             
             _currentMouse = new EditorMouseState();
@@ -80,6 +81,13 @@ namespace Edytejshyn.GUI
         protected override void Draw()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            // wrong stencil fix:
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+            //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
 
             if (SampleObject != null)
             {
@@ -115,7 +123,31 @@ namespace Edytejshyn.GUI
             }
             else if (_currentMouse.Left)
             {
-                // select rayed object
+                // if(!gizmo_collision)
+                // find rayed object
+                Vector3 nearVector = new Vector3(_currentMouse.Vector, 0f);
+                Vector3 farVector  = new Vector3(_currentMouse.Vector, 1f);
+                Vector3 nearUnproj = GraphicsDevice.Viewport.Unproject(nearVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
+                Vector3 farUnproj  = GraphicsDevice.Viewport.Unproject(farVector , Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
+                Vector3 direction = farUnproj - nearUnproj;
+                direction.Normalize();
+                Ray picker = new Ray(nearUnproj, direction);
+
+                var modelMeshes = SampleObject.renderer.MyMesh.Model.Meshes;
+                float? distance = null;
+                int id = 0;
+                for(int i = 0; i < modelMeshes.Count; i++)
+                {
+                    var mesh = modelMeshes[i];
+                    float? d = picker.Intersects(mesh.BoundingSphere.Transform(SampleObject.transform.World));
+                    if ( (d.HasValue)  &&  (distance == null || d > distance) )
+                    {
+                        distance = d;
+                        id = i;
+                    }
+                }
+                Text = distance.HasValue ? string.Format("Collision: [{1}] {0}\ndist = {2}", modelMeshes[id].Name, id, distance) : string.Format("Ray: origin {0}\ndir {1}", nearUnproj, direction);
+
             }
             else if (_currentMouse.Right)
             {
@@ -126,7 +158,7 @@ namespace Edytejshyn.GUI
             }
             else
             {
-                // TODO search ray collision
+                // TODO search collision with gizmo
                 Text = string.Format("-");
             }
             Invalidate();
@@ -192,6 +224,29 @@ namespace Edytejshyn.GUI
             }
         }
 
+        private void ViewportControl_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            // Allows to catch arrow keys and hotkey combinations like Ctrl+S,
+            // which are swallowed by MainForm otherwise.
+            if (!_currentMouse.Right) return;
+
+            switch (e.KeyCode)
+            {
+                case Keys.Up:
+                case Keys.Down:
+                case Keys.Left:
+                case Keys.Right:
+                case Keys.W:
+                case Keys.S:
+                case Keys.A:
+                case Keys.D:
+                case Keys.ControlKey:
+                case Keys.ShiftKey:
+                    e.IsInputKey = true;
+                    break;
+            }
+        }
+
         private void ViewportControl_KeyDown(object sender, KeyEventArgs e)
         {
             if (!_currentMouse.Right) return;
@@ -233,7 +288,7 @@ namespace Edytejshyn.GUI
 
         private void ViewportControl_KeyUp(object sender, KeyEventArgs e)
         {
-            if (!_currentMouse.Right) return;
+            //if (!_currentMouse.Right) return;
 
             switch (e.KeyCode)
             {
