@@ -23,6 +23,7 @@ namespace PBLgame.Engine.Singleton
         private IList<Mesh> _meshes;
         private IList<Texture2D> _textures;
         private IList<MeshMaterial> _materials;
+        private IList<Effect> _shaderEffects; 
         private SoundBank _soundBank;
 
         private readonly XmlSerializer _serializer;
@@ -54,6 +55,7 @@ namespace PBLgame.Engine.Singleton
         {
             _meshes = new List<Mesh>();
             _textures = new List<Texture2D>();
+            _shaderEffects = new List<Effect>();
             _serializer = new XmlSerializer(typeof(XmlContent), new XmlRootAttribute("XmlContent"));
             _soundBank = null;
         }
@@ -86,6 +88,7 @@ namespace PBLgame.Engine.Singleton
             _meshes = content.Meshes;
             _textures = content.Textures;
             _materials = content.Materials;
+            _shaderEffects = content.ShaderEffects;
 
         }
 
@@ -95,7 +98,13 @@ namespace PBLgame.Engine.Singleton
         /// <param name="path">Path to content XML file</param>
         public void SaveContent(string path = CONTENT_LIST_PATH)
         {
-            XmlContent content = new XmlContent {Materials = _materials, Meshes = _meshes, Textures = _textures};
+            XmlContent content = new XmlContent 
+            {
+                Materials = _materials, 
+                Meshes = _meshes, 
+                Textures = _textures, 
+                ShaderEffects = _shaderEffects
+            };
 
             using (FileStream writer = new FileStream(path, FileMode.Create))
             {
@@ -186,6 +195,7 @@ namespace PBLgame.Engine.Singleton
         public IList<Mesh> Meshes { get; set; }
         public IList<Texture2D> Textures { get; set; }
         public IList<MeshMaterial> Materials { get; set; }
+        public IList<Effect> ShaderEffects { get; set; } 
 
         public XmlSchema GetSchema()
         {
@@ -198,6 +208,7 @@ namespace PBLgame.Engine.Singleton
             Textures = new List<Texture2D>();
             Meshes = new List<Mesh>();
             Materials = new List<MeshMaterial>();
+            ShaderEffects = new List<Effect>();
 
             reader.MoveToContent();
             reader.ReadStartElement();
@@ -211,21 +222,21 @@ namespace PBLgame.Engine.Singleton
                     texture.Name = path;
                     Textures.Add(texture);
                 }
-                    else if (reader.Name == "Material")
+                else if (reader.Name == "Material")
                 {
                     int id = Convert.ToInt32(reader.GetAttribute("Id"));
                     string diffuseTex = reader.GetAttribute("Diffuse");
                     string normalTex = reader.GetAttribute("Normal");
                     string specularTex = reader.GetAttribute("Specular");
                     string emissiveTex = reader.GetAttribute("Emissive");
-                    int shaderId = Convert.ToInt32(reader.GetAttribute("ShaderId"));
+                    string shaderPath = reader.GetAttribute("ShaderPath");
                     
                     Materials.Add(new MeshMaterial(id,
                                                     FindTexture(diffuseTex),
                                                     FindTexture(normalTex),
                                                     FindTexture(specularTex),
                                                     FindTexture(emissiveTex),
-                                                    shaderId));
+                                                    shaderPath));
                 }
                 else if (reader.Name == "Mesh")
                 {
@@ -235,6 +246,13 @@ namespace PBLgame.Engine.Singleton
                     Mesh mesh = new Mesh(id, path, model);
                     Meshes.Add(mesh);
                 }
+                else if(reader.Name == "ShaderEffect")
+                {
+                    string path = reader.GetAttribute("Path");
+                    Effect effect = LoadShaderEffect(path, content);
+                    effect.Name = path;
+                    ShaderEffects.Add(effect);
+                }
                 
             } while (reader.Read());
         }
@@ -243,7 +261,18 @@ namespace PBLgame.Engine.Singleton
         {
             writer.WriteStartElement("Metadata");
             writer.WriteEndElement();
+
             writer.WriteStartElement("Content");
+
+            writer.WriteStartElement("ShaderEffects");
+            foreach (Effect shaderEffect in ShaderEffects)
+            {
+                writer.WriteStartElement("ShaderEffect");
+                writer.WriteAttributeString("Path", shaderEffect.Name);
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+
             writer.WriteStartElement("Textures");
             foreach (Texture2D texture2D in Textures)
             {
@@ -252,6 +281,7 @@ namespace PBLgame.Engine.Singleton
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();
+
             writer.WriteStartElement("Materials");
             foreach (MeshMaterial meshMaterial in Materials)
             {
@@ -261,10 +291,11 @@ namespace PBLgame.Engine.Singleton
                 writer.WriteAttributeString("Normal", meshMaterial.Normal.Name);
                 writer.WriteAttributeString("Specular", meshMaterial.Specular.Name);
                 writer.WriteAttributeString("Emissive", meshMaterial.Emissive.Name);
-                writer.WriteAttributeString("ShaderId", meshMaterial.ShaderId.ToString());
+                writer.WriteAttributeString("ShaderPath", meshMaterial.ShaderName);
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();
+
             writer.WriteStartElement("Meshes");
             foreach (Mesh mesh in Meshes)
             {
@@ -285,6 +316,11 @@ namespace PBLgame.Engine.Singleton
         private Texture2D LoadTexture(string path, ContentManager content)
         {
             return content.Load<Texture2D>(path);
+        }
+
+        private Effect LoadShaderEffect(string path, ContentManager content)
+        {
+            return content.Load<Effect>(path);
         }
 
         private Texture2D FindTexture(string path)

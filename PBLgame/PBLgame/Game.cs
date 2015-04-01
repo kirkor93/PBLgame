@@ -29,8 +29,6 @@ namespace PBLgame
         public Camera mainCamera;
 
         //For teting-----------------
-        private Mesh mesh;
-
         public GameObject player;
 
         //Sounds tetin
@@ -88,13 +86,12 @@ namespace PBLgame
 
             ResourceManager.Instance.LoadContent();
             ResourceManager.Instance.AssignAudioBank(_soundBank);
-            mesh = ResourceManager.Instance.GetMesh(@"Models\Helmet");
 
             player = new GameObject();
             player.AddComponent<GamePlay.PlayerScript>(new GamePlay.PlayerScript(player));
             player.AddComponent<Renderer>(new Renderer(player));
             player.AddComponent<AudioSource>(new AudioSource(player));
-            player.renderer.MyMesh = mesh;
+            player.renderer.MyMesh = ResourceManager.Instance.GetMesh(@"Models\Helmet");
             player.renderer.MyMesh.AssignRenderer(player.renderer);
             player.renderer.AssignMaterial(ResourceManager.Instance.GetMaterial(1));
             player.GetComponent<GamePlay.PlayerScript>().Initialize();
@@ -108,10 +105,11 @@ namespace PBLgame
             scene.Save("Scene 1.xml");
 
 
-            phEffect = Content.Load<Effect>("Effects/Shader");
+            phEffect = Content.Load<Effect>(@"Effects\Shader");
 
             player.renderer.MyEffect = phEffect;
             
+            ResourceManager.Instance.SaveContent();
             
             // TODO: use this.Content to load your game content here
         }
