@@ -109,6 +109,7 @@ namespace Edytejshyn.Logic
 
         public void LoadScene(string path)
         {
+            if (ContentFile == null) throw new EditorException("Cannot load scene without content. Open content first.");
             try
             {
                 // TODO load scene
@@ -132,14 +133,15 @@ namespace Edytejshyn.Logic
         {
             try
             {
-                using (FileStream stream = File.Open(path, FileMode.Create))
-                {
-                    _serializer.Serialize(stream, XmlContent);
-                    path = Path.GetFullPath(path);
-                    this.SceneFile = path;
-                    this.History.SetSavedPoint();
-                    this.Logger.Log(LoggerLevel.Info, string.Format("Saved scene {0}", path));
-                }
+                this.Logger.Log(LoggerLevel.Warning, string.Format("Scene saving not yet implemented"));
+                //using (FileStream stream = File.Open(path, FileMode.Create))
+                //{
+                //    _serializer.Serialize(stream, XmlContent);
+                //    path = Path.GetFullPath(path);
+                //    this.SceneFile = path;
+                //    this.History.SetSavedPoint();
+                //    this.Logger.Log(LoggerLevel.Info, string.Format("Saved scene {0}", path));
+                //}
             }
             catch (Exception ex)
             {

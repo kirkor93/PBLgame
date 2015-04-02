@@ -24,7 +24,7 @@ namespace Edytejshyn
             sb.AppendLine().AppendLine().Append(ex.ToString());
             if (ex.InnerException != null)
             {
-                sb.AppendLine("Caused by:").AppendLine().Append(ex.InnerException.ToString());
+                sb.AppendLine().AppendLine("Caused by:").AppendLine().Append(ex.InnerException.ToString());
             }
             MessageBox.Show(sb.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 

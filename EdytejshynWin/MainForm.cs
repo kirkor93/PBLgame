@@ -19,7 +19,6 @@ namespace Edytejshyn
         private SaveFileDialog _saveContentDialog, _saveSceneDialog;
 
         public readonly GUIExceptionHandler ExceptionHandler;
-        private bool _hotkeysDisabled;
 
         #endregion
 
@@ -41,7 +40,8 @@ namespace Edytejshyn
             this.ExceptionHandler = new GUIExceptionHandler(this);
             InitializeComponent();
             UpdateTitle();
-            SetFileControlsEnabled(false);
+            SetSceneControlsEnabled(false);
+            SetEditingControlsEnabled(false);
 
             _openContentDialog = new OpenFileDialog();
             _openSceneDialog   = new OpenFileDialog();
@@ -61,7 +61,7 @@ namespace Edytejshyn
                 this.Logic.GameContentManager = viewportControl.GameContentManager;
                 if (contentToOpen == null) return;
 
-                OpenContent(contentToOpen);
+                if (!OpenContent(contentToOpen)) return;
                 if (sceneToOpen != null)
                 {
                     OpenScene(sceneToOpen);
@@ -94,18 +94,18 @@ namespace Edytejshyn
 
         #region Content loaders
 
-        private void OpenContent(string path = null)
+        private bool OpenContent(string path = null)
         {
-            if (!IsSafeToUnload()) return;
+            if (!IsSafeToUnload()) return false;
             if (path == null)
             {
                 DialogResult result = this._openContentDialog.ShowDialog();
-                if (result != DialogResult.OK) return;
+                if (result != DialogResult.OK) return false;
             }
             try
             {
                 this.Logic.LoadContent(path ?? _openContentDialog.FileName);
-                //SetFileControlsEnabled(true);
+                SetSceneControlsEnabled(true);
                 UpdateTitle();
                 contentTreeView.Nodes.Clear();
 
@@ -139,12 +139,13 @@ namespace Edytejshyn
 
                 viewportControl.Reset();
                 viewportControl.SampleObject = sampleGameObject;
-
             }
             catch (Exception ex)
             {
                 ExceptionHandler.HandleException(ex);
+                return false;
             }
+            return true;
         }
 
         /// <summary>
@@ -202,8 +203,7 @@ namespace Edytejshyn
             try
             {
                 this.Logic.LoadScene(path ?? _openSceneDialog.FileName);
-                SetFileControlsEnabled(true);
-
+                SetEditingControlsEnabled(true);
                 viewportControl.Reset();
                 //viewportControl.SampleObject = sampleGameObject;
 
@@ -279,17 +279,40 @@ namespace Edytejshyn
             this.Text = sb.ToString();
         }
 
-        private void SetFileControlsEnabled(bool mode)
+        /// <summary>
+        /// Used after content loading to allow opening scene.
+        /// Enables or disables controls for scene opening.
+        /// </summary>
+        /// <param name="mode">make controls enabled?</param>
+        private void SetSceneControlsEnabled(bool mode)
         {
-            saveMenuItem       .Enabled = mode;
-            saveAsMenuItem     .Enabled = mode;
-            saveToolStripButton.Enabled = mode;
+            openMenuItem        .Enabled = mode;
+            openToolStripButton .Enabled = mode;
+        }
+
+        /// <summary>
+        /// Used after opening scene to allow editing.
+        /// </summary>
+        /// <param name="mode">make controls enabled?</param>
+        private void SetEditingControlsEnabled(bool mode)
+        {
+            saveMenuItem        .Enabled = mode;
+            saveAsMenuItem      .Enabled = mode;
+            saveToolStripButton .Enabled = mode;
         }
 
         public void ShowLogMessage(LoggerLevel level, string message)
         {
-            if(level != LoggerLevel.Debug)
-                statusBarLabel.Text = string.Format("{0}: {1}", level, message);
+            if (level != LoggerLevel.Debug)
+            {
+                StringBuilder sb = new StringBuilder();
+                if (level != LoggerLevel.Info)
+                {
+                    sb.Append(level).Append(": ");
+                }
+                sb.Append(message);
+                statusBarLabel.Text = sb.ToString();
+            }
             statusBarLabel.ForeColor = level.GetColor(DefaultForeColor);
         }
 

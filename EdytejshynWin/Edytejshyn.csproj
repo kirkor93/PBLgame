@@ -71,7 +71,7 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUIExceptionHandler.cs">
+    <Compile Include="GUI\GUIExceptionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\EditorTreeNode.cs" />
