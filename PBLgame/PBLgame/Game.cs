@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
-using PBLgame.Engine.Scene;
+using PBLgame.Engine.Scenes;
 using PBLgame.Engine.Singleton;
 
 namespace PBLgame
@@ -87,18 +87,6 @@ namespace PBLgame
             ResourceManager.Instance.LoadContent();
             ResourceManager.Instance.AssignAudioBank(_soundBank);
 
-//            player = new GameObject();
-//            player.AddComponent<GamePlay.PlayerScript>(new GamePlay.PlayerScript(player));
-//            player.AddComponent<Renderer>(new Renderer(player));
-//            player.AddComponent<AudioSource>(new AudioSource(player));
-//            player.renderer.MyMesh = ResourceManager.Instance.GetMesh(@"Models\Helmet");
-//            player.renderer.AssignMaterial(ResourceManager.Instance.GetMaterial(1));
-//            player.GetComponent<GamePlay.PlayerScript>().Initialize();
-//
-//            player.audioSource.TrackCue = ResourceManager.Instance.GetAudioCue("Tanelorn");
-//            player.audioSource.Set3D(mainCamera.audioListener);
-//            player.audioSource.Play();
-
             Scene scene = new Scene();
             scene.Load("Scene 1.xml");
             player = scene.GameObjects.First();
@@ -106,10 +94,6 @@ namespace PBLgame
             player.audioSource.Play();
             scene.Save("Scene 1.xml");
 
-
-//            phEffect = Content.Load<Effect>(@"Effects\Shader");
-
-//            player.renderer.MyEffect = phEffect;
             
             ResourceManager.Instance.SaveContent();
             

@@ -21,12 +21,8 @@ namespace PBLgame.GamePlay
         #endregion
 
         #region Methods
-        public PlayerScript(Engine.GameObjects.GameObject gameObj) : base(gameObj)
-        {
-           
-        }
 
-        public void Initialize()
+        public PlayerScript(Engine.GameObjects.GameObject gameObj) : base(gameObj)
         {
             InputManager.Instance.OnTurn += CharacterRotation;
             InputManager.Instance.OnMove += CharacterTranslate;

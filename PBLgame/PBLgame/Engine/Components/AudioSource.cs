@@ -83,7 +83,6 @@ namespace PBLgame.Engine.Components
 
         public override void ReadXml(XmlReader reader)
         {
-            reader.MoveToContent();
             base.ReadXml(reader);
             string cue = reader.GetAttribute("Cue");
             TrackCue = ResourceManager.Instance.GetAudioCue(cue);

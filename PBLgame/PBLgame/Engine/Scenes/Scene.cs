@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using PBLgame.Engine.GameObjects;
 
-namespace PBLgame.Engine.Scene
+namespace PBLgame.Engine.Scenes
 {
     public class Scene : IXmlSerializable
     {
@@ -17,7 +15,7 @@ namespace PBLgame.Engine.Scene
         private List<GameObject> _gameObjects;
         private Camera _mainCamera;
 
-        private XmlSerializer _serializer;
+        private readonly XmlSerializer _serializer;
 
         #endregion
         #endregion
@@ -48,22 +46,22 @@ namespace PBLgame.Engine.Scene
         
         public void AddGameObject(GameObject obj)
         {
-            _gameObjects.Add(obj);
+            GameObjects.Add(obj);
         }
 
         public void RemoveGameObject(GameObject obj)
         {
-            _gameObjects.Remove(obj);
+            GameObjects.Remove(obj);
         }
 
         public void RemoveGameObject(string name)
         {
-            _gameObjects.RemoveAll(item => item.Name == name);
+            GameObjects.RemoveAll(item => item.Name == name);
         }
 
         public void RemoveGameObject(int id)
         {
-            _gameObjects.RemoveAll(item => item.ID == id);
+            GameObjects.RemoveAll(item => item.ID == id);
         }
 
         public void Save(string path)
@@ -79,7 +77,7 @@ namespace PBLgame.Engine.Scene
             using (FileStream file = new FileStream(path, FileMode.Open))
             {
                 Scene scene = (Scene) _serializer.Deserialize(file);
-                _gameObjects = scene._gameObjects;
+                GameObjects = scene._gameObjects;
             }
         }
 

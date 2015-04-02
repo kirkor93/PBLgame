@@ -106,7 +106,6 @@ namespace PBLgame.Engine.Components
 
         public override void ReadXml(XmlReader reader)
         {
-            reader.MoveToContent();
             base.ReadXml(reader);
             int meshId = Convert.ToInt32(reader.GetAttribute("MeshId"));
             int materialId = Convert.ToInt32(reader.GetAttribute("MaterialId"));
