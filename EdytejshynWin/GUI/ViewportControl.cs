@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Forms;
+using Edytejshyn.GUI.XNA;
 using PBLgame.Engine.GameObjects;
 using Color = Microsoft.Xna.Framework.Color;
 using Keys = System.Windows.Forms.Keys;
@@ -27,6 +28,8 @@ namespace Edytejshyn.GUI
         public event VoidHandler AfterInitializeEvent = () => { };
 
         public Camera Camera { get; private set; }
+        public Grid Grid { get; private set; }
+
         public GameObject SampleObject;
 
         #endregion
@@ -61,6 +64,7 @@ namespace Edytejshyn.GUI
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _osdFont = _editorContent.Load<SpriteFont>("OSDFont");
             Camera = new Camera(new Vector3(0, 10, 10), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 1000);
+            Grid = new Grid(this, 2, 100);
             Reset();
             AfterInitializeEvent();
         }
@@ -85,6 +89,7 @@ namespace Edytejshyn.GUI
             //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
             //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
+            Grid.Draw();
 
             if (SampleObject != null)
             {

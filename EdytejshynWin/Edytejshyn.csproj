@@ -71,6 +71,7 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\XNA\Grid.cs" />
     <Compile Include="GUI\GUIExceptionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
