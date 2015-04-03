@@ -88,12 +88,14 @@
     <Compile Include="GUI\ViewportControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Logic\Commands\CameraCommand.cs" />
     <Compile Include="Logic\Commands\WelcomeCommand.cs" />
     <Compile Include="Logic\EditorException.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logic\EditorLogger.cs" />
     <Compile Include="Logic\EditorLogic.cs" />
+    <Compile Include="Logic\Extensions.cs" />
     <Compile Include="Logic\HistoryManager.cs" />
     <Compile Include="Logic\ICommand.cs" />
     <Compile Include="MainForm.cs">

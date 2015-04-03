@@ -133,7 +133,8 @@ namespace PBLgame.Engine.GameObjects
 
         public void Update(GameTime gameTime = null)
         {
-            _viewMatrix = Matrix.CreateLookAt(base.transform.Position, _direction + base.transform.Position, Vector3.Up);
+            //_viewMatrix = Matrix.CreateLookAt(base.transform.Position, _direction + base.transform.Position, Vector3.Up);
+            _viewMatrix = ViewMatrix;
         }
 
         /// <summary>

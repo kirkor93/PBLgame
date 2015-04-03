@@ -59,6 +59,7 @@ namespace Edytejshyn
             viewportControl.AfterInitializeEvent += () =>
             {
                 this.Logic.GameContentManager = viewportControl.GameContentManager;
+                viewportControl.MainForm = this;
                 if (contentToOpen == null) return;
 
                 if (!OpenContent(contentToOpen)) return;

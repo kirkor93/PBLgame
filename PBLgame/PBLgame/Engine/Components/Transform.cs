@@ -91,6 +91,13 @@ namespace PBLgame.Engine.Components
             _worldScale = Matrix.Identity;
         }
 
+        public Transform(Transform src) : base(src._gameObject)
+        {
+            _position = src._position;
+            _rotation = src._rotation;
+            _scale    = src._scale;
+        }
+
         public void Translate(Vector3 trans)
         {
             _position += trans;

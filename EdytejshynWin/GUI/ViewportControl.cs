@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Forms;
 using Edytejshyn.GUI.XNA;
+using Edytejshyn.Logic;
+using Edytejshyn.Logic.Commands;
 using PBLgame.Engine.GameObjects;
 using Color = Microsoft.Xna.Framework.Color;
 using Keys = System.Windows.Forms.Keys;
@@ -23,6 +25,7 @@ namespace Edytejshyn.GUI
         private int _moveX, _moveY;
         private const float BaseRotateSensitivity = 0.005f, BaseMoveSensitivity = 0.15f;
         private float _rotateSensitivity = BaseRotateSensitivity, _moveSensitivity = BaseMoveSensitivity;
+        private CameraCommand _cameraCommand;
 
         public delegate void VoidHandler();
         public event VoidHandler AfterInitializeEvent = () => { };
@@ -31,6 +34,7 @@ namespace Edytejshyn.GUI
         public Grid Grid { get; private set; }
 
         public GameObject SampleObject;
+        public MainForm MainForm;
 
         #endregion
 
@@ -66,7 +70,12 @@ namespace Edytejshyn.GUI
             Camera = new Camera(new Vector3(0, 10, 10), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 1000);
             Grid = new Grid(this, 2, 100);
             Reset();
+            
             AfterInitializeEvent();
+            this.MainForm.Logic.History.UpdateEvent += delegate(HistoryManager manager)
+            {
+                Invalidate();
+            };
         }
 
         protected override void Dispose(bool disposing)
@@ -181,6 +190,8 @@ namespace Edytejshyn.GUI
                     break;
                 case MouseButtons.Right:
                     // FPS camera lookaround
+
+                    _cameraCommand = new CameraCommand(Camera);
                     _currentMouse.Right = true;
                     Cursor.Current = Cursors.SizeAll;
                     break;
@@ -200,6 +211,9 @@ namespace Edytejshyn.GUI
                 case MouseButtons.Right:
                     _currentMouse.Right = false;
                     Cursor.Current = Cursors.Default;
+                    _cameraCommand.SaveFinalState();
+                    this.MainForm.Logic.History.NewAction(_cameraCommand);
+                    _cameraCommand = null;
                     break;
             }
         }
