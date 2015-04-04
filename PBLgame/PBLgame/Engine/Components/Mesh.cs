@@ -43,11 +43,6 @@ namespace PBLgame.Engine.Components
             private set { _id = value; }
         }
 
-        public MeshMaterial Material
-        {
-            get { return _meshMaterial; }
-            set { _meshMaterial = value; }
-        }
         public Matrix[] BonesTransorms
         {
             get

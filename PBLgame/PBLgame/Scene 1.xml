@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Scene>
+  <GameObjects>
+    <GameObject Name="Helmet_child" Tag="Player" Id="1">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="2" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="1" MaterialId="1" />
+      <AudioSource Enabled="True" Cue="Tanelorn" />
+      <PBLgame.GamePlay.PlayerScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Helmet_child" Tag="Player" Id="2" Parent="1">
+      <Transform Enabled="True">
+        <Position x="-5" y="-5" z="-5" />
+        <Rotation x="2" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="1" MaterialId="1" />
+    </GameObject>
+  </GameObjects>
+</Scene>

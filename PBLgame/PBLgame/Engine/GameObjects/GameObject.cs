@@ -266,6 +266,7 @@ namespace PBLgame.Engine.GameObjects
         public void AddChild(GameObject child)
         {
             _children.Add(child);
+            child.parent = this;
         }
 
         public GameObject[] GetChildren()
@@ -403,7 +404,13 @@ namespace PBLgame.Engine.GameObjects
             Tag = reader.GetAttribute("Tag");
             ID = Convert.ToInt32(reader.GetAttribute("Id"));
 
-            //TODO: add parent loading
+            parent = null;
+            int parentId = Convert.ToInt32(reader.GetAttribute("Parent"));
+            if (parentId != 0)
+            {
+                parent = new GameObject();
+                parent.ID = parentId;
+            } 
 
             reader.ReadStartElement();
             if (reader.Name == "Transform")

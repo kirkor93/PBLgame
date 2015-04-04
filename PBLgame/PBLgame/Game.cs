@@ -13,6 +13,7 @@ using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
 using PBLgame.Engine.Singleton;
+using PBLgame.GamePlay;
 
 namespace PBLgame
 {
@@ -30,16 +31,14 @@ namespace PBLgame
 
         //For teting-----------------
         public GameObject player;
+        private Scene _scene;
 
         //Sounds tetin
         AudioEngine _audioEngine; //Has to be in final version
         WaveBank _waveBank; //Has to be in final version
         SoundBank _soundBank;//Hae to be in final version
 
-        //////////////
-
-        public Effect phEffect;
-        
+        //////////////        
         //------------------------
 
         public Game()
@@ -87,12 +86,12 @@ namespace PBLgame
             ResourceManager.Instance.LoadContent();
             ResourceManager.Instance.AssignAudioBank(_soundBank);
 
-            Scene scene = new Scene();
-            scene.Load("Scene 1.xml");
-            player = scene.GameObjects.First();
+            _scene = new Scene();
+            _scene.Load(@"..\..\..\Scene 1.xml");
+            player = _scene.GameObjects.First();
             player.audioSource.Set3D(mainCamera.audioListener);
             player.audioSource.Play();
-            scene.Save("Scene 1.xml");
+            _scene.Save(@"..\..\..\Scene 1.xml");
 
             
             ResourceManager.Instance.SaveContent();
@@ -127,9 +126,7 @@ namespace PBLgame
             //-----------------------------
 
 
-            player.Update();
-            player.audioSource.Set3D(mainCamera.audioListener);
-
+            _scene.Update();
             _audioEngine.Update(); //Have to be in final version
 
             // TODO: Add your update logic here
@@ -148,7 +145,7 @@ namespace PBLgame
 
             //For Teting----------------
 
-            player.Draw();
+            _scene.Draw();
 
             //---------------------
 

@@ -13,6 +13,7 @@ namespace PBLgame.Engine.Scenes
         #region Private
         //It's gonna be scene graph later
         private List<GameObject> _gameObjects;
+        private List<int> _takenIdNumbers; 
         private Camera _mainCamera;
 
         private readonly XmlSerializer _serializer;
@@ -42,6 +43,23 @@ namespace PBLgame.Engine.Scenes
         {
             _gameObjects = new List<GameObject>();
             _serializer = new XmlSerializer(typeof(Scene));
+            _takenIdNumbers = new List<int> {0};
+        }
+
+        public void Draw()
+        {
+            foreach (GameObject gameObject in GameObjects)
+            {
+                gameObject.Draw();
+            }
+        }
+
+        public void Update()
+        {
+            foreach (GameObject gameObject in GameObjects)
+            {
+                gameObject.Update();
+            }
         }
         
         public void AddGameObject(GameObject obj)
@@ -51,16 +69,23 @@ namespace PBLgame.Engine.Scenes
 
         public void RemoveGameObject(GameObject obj)
         {
+            _takenIdNumbers.Remove(obj.ID);
             GameObjects.Remove(obj);
         }
 
         public void RemoveGameObject(string name)
         {
-            GameObjects.RemoveAll(item => item.Name == name);
+            List<GameObject> gameObjects = GameObjects.FindAll(item => item.Name == name);
+            foreach (GameObject gameObject in gameObjects)
+            {
+                _takenIdNumbers.Remove(gameObject.ID);
+                GameObjects.Remove(gameObject);
+            }
         }
 
         public void RemoveGameObject(int id)
         {
+            _takenIdNumbers.RemoveAll(item => item == id);
             GameObjects.RemoveAll(item => item.ID == id);
         }
 
@@ -79,7 +104,21 @@ namespace PBLgame.Engine.Scenes
                 Scene scene = (Scene) _serializer.Deserialize(file);
                 GameObjects = scene._gameObjects;
             }
+            //finding parents
+            foreach (GameObject gameObject in GameObjects)
+            {
+                if (gameObject.parent != null)
+                {
+                    gameObject.parent = GameObjects.Find(parent => parent.ID == gameObject.parent.ID);
+                    gameObject.parent.AddChild(gameObject);
+                }
+
+                //setting unique Id list
+                _takenIdNumbers.Add(gameObject.ID);
+            }
         }
+
+        #region XML Serialization
 
         public XmlSchema GetSchema()
         {
@@ -90,9 +129,11 @@ namespace PBLgame.Engine.Scenes
         {
             reader.MoveToContent();
             reader.ReadStartElement();
+            reader.MoveToContent();
+            reader.ReadStartElement();
+            reader.MoveToContent();
             while (reader.NodeType != XmlNodeType.EndElement)
             {
-                reader.ReadStartElement();
                 if (reader.Name == "GameObject")
                 {
                     GameObject obj = new GameObject();
@@ -117,7 +158,7 @@ namespace PBLgame.Engine.Scenes
             }
             writer.WriteEndElement();
         }
-
+        #endregion
         #endregion
 
 
