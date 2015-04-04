@@ -6,6 +6,11 @@
     public interface ICommand
     {
         /// <summary>
+        /// Tells manager whether the command changes data which should be saved.
+        /// </summary>
+        bool AffectsData { get; }
+
+        /// <summary>
         /// Short description of the command action. Could be visible in Edit -> Undo: The Description.
         /// </summary>
         string Description { get; }

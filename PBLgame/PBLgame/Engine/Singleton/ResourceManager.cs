@@ -46,6 +46,32 @@ namespace PBLgame.Engine.Singleton
         {
             get { return _serializer; }
         }
+
+        public IList<Mesh> Meshes
+        {
+            get { return _meshes; }
+        }
+
+        public IList<Texture2D> Textures
+        {
+            get { return _textures; }
+        }
+
+        public IList<MeshMaterial> Materials
+        {
+            get { return _materials; }
+        }
+
+        public IList<Effect> ShaderEffects
+        {
+            get { return _shaderEffects; }
+        }
+
+        public SoundBank SoundBank
+        {
+            get { return _soundBank; }
+        }
+
         #endregion
 
         #region Methods
@@ -75,13 +101,15 @@ namespace PBLgame.Engine.Singleton
         /// Loads all content saved in XML file 
         /// </summary>
         /// <param name="path">Path to content XML file</param>
-        public void LoadContent(string path = CONTENT_LIST_PATH)
+        /// <param name="manager">ContentManager which load data into. Game default Content by default</param>
+        public void LoadContent(string path = CONTENT_LIST_PATH, ContentManager manager = null)
         {
+            if (manager == null) manager = Game.Instance.Content;
             XmlContent content;
 
             using (FileStream file = new FileStream(path, FileMode.Open))
             {
-                content = (XmlContent) _serializer.Deserialize(new GameXmlReader(file, Game.Instance.Content));
+                content = (XmlContent) _serializer.Deserialize(new GameXmlReader(file, manager));
             }
 
             _meshes = content.Meshes;

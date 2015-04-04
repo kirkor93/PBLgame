@@ -31,6 +31,11 @@ namespace Edytejshyn.GUI
                 _nodes = (_parent == null) ? _treeView.Nodes : _parent.Nodes;
             }
 
+            public bool AffectsData
+            {
+                get { return true; }
+            }
+
             public string Description
             {
                 get { return "Remove node"; }

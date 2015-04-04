@@ -11,6 +11,11 @@ namespace Edytejshyn.Logic.Commands
             _form = form;
         }
 
+        public bool AffectsData
+        {
+            get { return false; }
+        }
+
         public string Description
         {
             get { return "Welcome"; }

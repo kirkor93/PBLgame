@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
@@ -7,6 +8,7 @@ using Edytejshyn.Logic;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Scenes;
 
 namespace Edytejshyn
 {
@@ -111,35 +113,33 @@ namespace Edytejshyn
                 contentTreeView.Nodes.Clear();
 
                 TreeNode texturesNode = new TreeNode("Textures");
-                foreach (var tex in this.Logic.XmlContent.Textures)
+                foreach (var tex in this.Logic.ResourceManager.Textures)
                 {
                     texturesNode.Nodes.Add(new EditorTreeNode(tex.Name, tex));
                 }
                 contentTreeView.Nodes.Add(texturesNode);
 
                 TreeNode materialsNode = new TreeNode("Materials");
-                foreach (var mat in this.Logic.XmlContent.Materials)
+                foreach (var mat in this.Logic.ResourceManager.Materials)
                 {
                     materialsNode.Nodes.Add(new EditorTreeNode(string.Format("ID: {0}", mat.Id), mat));
                 }
                 contentTreeView.Nodes.Add(materialsNode);
 
                 TreeNode meshesNode = new TreeNode("Meshes");
-                foreach (var mesh in this.Logic.XmlContent.Meshes)
+                foreach (var mesh in this.Logic.ResourceManager.Meshes)
                 {
                     meshesNode.Nodes.Add(new EditorTreeNode(mesh.Path, mesh));
                 }
                 contentTreeView.Nodes.Add(meshesNode);
 
-                GameObject sampleGameObject = new GameObject();
-                sampleGameObject.AddComponent(new Renderer(sampleGameObject));
-                sampleGameObject.renderer.MyMesh = Logic.XmlContent.Meshes[0];
-                sampleGameObject.renderer.MyMesh.AssignRenderer(sampleGameObject.renderer);
-                sampleGameObject.renderer.AssignMaterial(Logic.XmlContent.Materials[0]);
-                sampleGameObject.renderer.MyEffect = Logic.GameContentManager.Load<Effect>("Effects/Shader");
+                //GameObject sampleGameObject = new GameObject();
+                //sampleGameObject.AddComponent(new Renderer(sampleGameObject));
+                //sampleGameObject.renderer.MyMesh = Logic.XmlContent.Meshes[0];
+                //sampleGameObject.renderer.MyMesh.AssignRenderer(sampleGameObject.renderer);
+                //sampleGameObject.renderer.AssignMaterial(Logic.XmlContent.Materials[0]);
+                //sampleGameObject.renderer.MyEffect = Logic.GameContentManager.Load<Effect>("Effects/Shader");
 
-                viewportControl.Reset();
-                viewportControl.SampleObject = sampleGameObject;
             }
             catch (Exception ex)
             {
@@ -206,7 +206,7 @@ namespace Edytejshyn
                 this.Logic.LoadScene(path ?? _openSceneDialog.FileName);
                 SetEditingControlsEnabled(true);
                 viewportControl.Reset();
-                //viewportControl.SampleObject = sampleGameObject;
+                //viewportControl.SampleObject = Logic.CurrentScene.GameObjects.First();
 
             }
             catch (Exception ex)

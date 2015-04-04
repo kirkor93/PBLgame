@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using PBLgame.Engine.Scene;
+using PBLgame.Engine.Scenes;
 using PBLgame.Engine.Singleton;
 
 namespace Edytejshyn.Logic
@@ -12,7 +13,6 @@ namespace Edytejshyn.Logic
         #region Variables
         #region Private
 
-        private ResourceManager _resourceManager;
         private readonly XmlSerializer _serializer;
 
         #endregion
@@ -21,6 +21,9 @@ namespace Edytejshyn.Logic
         public readonly EditorLogger   Logger  = new EditorLogger();
         public readonly HistoryManager History;
         public ContentManager GameContentManager;
+        private AudioEngine _audioEngine;
+        private WaveBank _waveBank;
+        private SoundBank _soundBank;
 
         #endregion
 
@@ -41,7 +44,7 @@ namespace Edytejshyn.Logic
             get { return Path.GetFileName(this.SceneFile); }
         }
 
-        public XmlContent XmlContent { get; private set; }
+        public ResourceManager ResourceManager { get; private set; }
         public Scene CurrentScene { get; private set; }
 
         #endregion
@@ -50,8 +53,8 @@ namespace Edytejshyn.Logic
         #region Methods
         public EditorLogic()
         {
-            _resourceManager = ResourceManager.Instance;
-            _serializer = _resourceManager.Serializer;
+            ResourceManager = ResourceManager.Instance;
+            _serializer = ResourceManager.Serializer;
             History = new HistoryManager(this);
         }
 
@@ -59,14 +62,23 @@ namespace Edytejshyn.Logic
         {
             try
             {
-                using (FileStream stream = File.Open(path, FileMode.Open))
-                {
-                    XmlContent = (XmlContent)_serializer.Deserialize(new GameXmlReader(stream, GameContentManager));
-                    path = Path.GetFullPath(path);
-                    this.ContentFile = path;
-                    //this.History.Clear();
-                    this.Logger.Log(LoggerLevel.Info, string.Format("Loaded content {0}", path));
-                }
+                _audioEngine = new AudioEngine(@"Content\Audio\GameAudio.xgs");
+                _waveBank = new WaveBank(_audioEngine, @"Content\Audio\WaveBank.xwb");
+                _soundBank = new SoundBank(_audioEngine, @"Content\Audio\SoundBank.xsb");
+
+                ResourceManager.AssignAudioBank(_soundBank);
+                ResourceManager.LoadContent(path, GameContentManager);
+                path = Path.GetFullPath(path);
+                this.ContentFile = path;
+                this.Logger.Log(LoggerLevel.Info, string.Format("Loaded content {0}", path));
+
+                //using (FileStream stream = File.Open(path, FileMode.Open))
+                //{
+                //    XmlContent = (XmlContent)_serializer.Deserialize(new GameXmlReader(stream, GameContentManager));
+                //    path = Path.GetFullPath(path);
+                //    this.ContentFile = path;
+                //    this.Logger.Log(LoggerLevel.Info, string.Format("Loaded content {0}", path));
+                //}
             }
             catch (Exception ex)
             {
@@ -83,13 +95,18 @@ namespace Edytejshyn.Logic
         {
             try
             {
-                using (FileStream stream = File.Open(path, FileMode.Create))
-                {
-                    _serializer.Serialize(stream, XmlContent);
-                    path = Path.GetFullPath(path);
-                    this.ContentFile = path;
-                    this.Logger.Log(LoggerLevel.Info, string.Format("Saved content {0}", path));
-                }
+                ResourceManager.SaveContent(path);
+                path = Path.GetFullPath(path);
+                this.ContentFile = path;
+                this.Logger.Log(LoggerLevel.Info, string.Format("Saved content {0}", path));
+
+                //using (FileStream stream = File.Open(path, FileMode.Create))
+                //{
+                //    _serializer.Serialize(stream, XmlContent);
+                //    path = Path.GetFullPath(path);
+                //    this.ContentFile = path;
+                //    this.Logger.Log(LoggerLevel.Info, string.Format("Saved content {0}", path));
+                //}
             }
             catch (Exception ex)
             {
@@ -112,12 +129,11 @@ namespace Edytejshyn.Logic
             if (ContentFile == null) throw new EditorException("Cannot load scene without content. Open content first.");
             try
             {
-                // TODO load scene
-                //CurrentScene = new Scene();
-                //this.SceneFile = path;
-                //this.History.Clear();
-                //this.Logger.Log(LoggerLevel.Info, string.Format("Loaded scene {0}", path));
-                this.Logger.Log(LoggerLevel.Warning, string.Format("Scene loading not implemented"));
+                CurrentScene = new Scene();
+                CurrentScene.Load(path);
+                path = Path.GetFullPath(path);
+                this.History.Clear();
+                this.Logger.Log(LoggerLevel.Info, string.Format("Loaded scene {0}", path));
             }
             catch (Exception ex)
             {
@@ -133,15 +149,11 @@ namespace Edytejshyn.Logic
         {
             try
             {
-                this.Logger.Log(LoggerLevel.Warning, string.Format("Scene saving not yet implemented"));
-                //using (FileStream stream = File.Open(path, FileMode.Create))
-                //{
-                //    _serializer.Serialize(stream, XmlContent);
-                //    path = Path.GetFullPath(path);
-                //    this.SceneFile = path;
-                //    this.History.SetSavedPoint();
-                //    this.Logger.Log(LoggerLevel.Info, string.Format("Saved scene {0}", path));
-                //}
+                CurrentScene.Save(path);
+                path = Path.GetFullPath(path);
+                this.SceneFile = path;
+                this.History.SetSavedPoint();
+                this.Logger.Log(LoggerLevel.Info, string.Format("Saved scene {0}", path));
             }
             catch (Exception ex)
             {

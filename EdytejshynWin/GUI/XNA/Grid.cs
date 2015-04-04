@@ -32,7 +32,7 @@ namespace Edytejshyn.GUI.XNA
         private readonly GraphicsDevice _graphics;
         private VertexPositionColor[] _vertexData;
 
-        private readonly Color _lineColor = Color.SkyBlue;
+        private readonly Color _lineColor = Color.LightGray;
         private readonly Color _highlightColor = Color.White;
 
         /// <summary>
@@ -74,9 +74,12 @@ namespace Edytejshyn.GUI.XNA
         {
             _viewport = viewport;
              _graphics = _viewport.GraphicsDevice;
-            _effect = new BasicEffect(_graphics);
-            _effect.VertexColorEnabled = true;
-            _effect.World = Matrix.Identity;
+            _effect = new BasicEffect(_graphics)
+            {
+                VertexColorEnabled = true,
+                World = Matrix.Identity,
+                Alpha = 0.4f
+            };
 
             _spacing = gridspacing;
             _gridSize = gridSize;
@@ -164,8 +167,7 @@ namespace Edytejshyn.GUI.XNA
         public void Draw()
         {
             if (!Enabled) return;
-            //_graphics.DepthStencilState = DepthStencilState.Default;
-
+            
             _effect.View = Camera.MainCamera.ViewMatrix;
             _effect.Projection = Camera.MainCamera.ProjectionMatrix;
 

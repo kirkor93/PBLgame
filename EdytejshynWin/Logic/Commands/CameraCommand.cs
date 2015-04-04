@@ -22,6 +22,11 @@ namespace Edytejshyn.Logic.Commands
             SaveState(1);
         }
 
+        public bool AffectsData
+        {
+            get { return false; }
+        }
+
         public string Description
         {
             get { return "Camera move"; }
@@ -44,13 +49,13 @@ namespace Edytejshyn.Logic.Commands
 
         private void SaveState(int i)
         {
-            _direction[i] = _camera.Direction.GetCopy();
+            _direction[i] = _camera.Direction;
             _transform[i] = new Transform(_camera.transform);
         }
 
         private void ApplyState(int i)
         {
-            _camera.Direction = _direction[i].GetCopy();
+            _camera.Direction = _direction[i];
             _camera.transform = new Transform(_transform[i]);
         }
 

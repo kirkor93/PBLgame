@@ -45,6 +45,8 @@
             this.splitContainerVert = new System.Windows.Forms.SplitContainer();
             this.viewportControl = new Edytejshyn.GUI.ViewportControl();
             this.splitContainerRightHoriz = new System.Windows.Forms.SplitContainer();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.sceneTreeView = new Edytejshyn.GUI.EditorTreeView();
             this.contentTreeView = new Edytejshyn.GUI.EditorTreeView();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.statusBar = new System.Windows.Forms.StatusStrip();
@@ -60,8 +62,6 @@
             this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.sceneTreeView = new Edytejshyn.GUI.EditorTreeView();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerVert)).BeginInit();
             this.splitContainerVert.Panel1.SuspendLayout();
@@ -71,12 +71,12 @@
             this.splitContainerRightHoriz.Panel1.SuspendLayout();
             this.splitContainerRightHoriz.Panel2.SuspendLayout();
             this.splitContainerRightHoriz.SuspendLayout();
-            this.statusBar.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.statusBar.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -246,6 +246,32 @@
             this.splitContainerRightHoriz.TabIndex = 0;
             this.splitContainerRightHoriz.TabStop = false;
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.sceneTreeView);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.contentTreeView);
+            this.splitContainer1.Size = new System.Drawing.Size(232, 611);
+            this.splitContainer1.SplitterDistance = 114;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // sceneTreeView
+            // 
+            this.sceneTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sceneTreeView.Location = new System.Drawing.Point(0, 0);
+            this.sceneTreeView.Name = "sceneTreeView";
+            this.sceneTreeView.PathSeparator = "->";
+            this.sceneTreeView.Size = new System.Drawing.Size(114, 611);
+            this.sceneTreeView.TabIndex = 1;
+            // 
             // contentTreeView
             // 
             this.contentTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -389,32 +415,6 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.sceneTreeView);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.contentTreeView);
-            this.splitContainer1.Size = new System.Drawing.Size(232, 611);
-            this.splitContainer1.SplitterDistance = 114;
-            this.splitContainer1.TabIndex = 0;
-            // 
-            // sceneTreeView
-            // 
-            this.sceneTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sceneTreeView.Location = new System.Drawing.Point(0, 0);
-            this.sceneTreeView.Name = "sceneTreeView";
-            this.sceneTreeView.PathSeparator = "->";
-            this.sceneTreeView.Size = new System.Drawing.Size(114, 611);
-            this.sceneTreeView.TabIndex = 1;
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -442,14 +442,14 @@
             this.splitContainerRightHoriz.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerRightHoriz)).EndInit();
             this.splitContainerRightHoriz.ResumeLayout(false);
-            this.statusBar.ResumeLayout(false);
-            this.statusBar.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.statusBar.ResumeLayout(false);
+            this.statusBar.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,6 +7,7 @@ using Edytejshyn.GUI.XNA;
 using Edytejshyn.Logic;
 using Edytejshyn.Logic.Commands;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Scenes;
 using Color = Microsoft.Xna.Framework.Color;
 using Keys = System.Windows.Forms.Keys;
 
@@ -23,8 +23,8 @@ namespace Edytejshyn.GUI
         private EditorMouseState _currentMouse, _prevMouse;
         private Timer _timer;
         private int _moveX, _moveY;
-        private const float BaseRotateSensitivity = 0.005f, BaseMoveSensitivity = 0.15f;
-        private float _rotateSensitivity = BaseRotateSensitivity, _moveSensitivity = BaseMoveSensitivity;
+        private const float BASE_ROTATE_SENSITIVITY = 0.004f, BASE_MOVE_SENSITIVITY = 0.15f;
+        private float _rotateSensitivity = BASE_ROTATE_SENSITIVITY, _moveSensitivity = BASE_MOVE_SENSITIVITY;
         private CameraCommand _cameraCommand;
 
         public delegate void VoidHandler();
@@ -33,7 +33,7 @@ namespace Edytejshyn.GUI
         public Camera Camera { get; private set; }
         public Grid Grid { get; private set; }
 
-        public GameObject SampleObject;
+        //public GameObject SampleObject;
         public MainForm MainForm;
 
         #endregion
@@ -91,19 +91,20 @@ namespace Edytejshyn.GUI
         protected override void Draw()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // wrong stencil fix:
-            GraphicsDevice.BlendState = BlendState.Opaque;
-            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
-            //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
-
-            Grid.Draw();
-
-            if (SampleObject != null)
+            Scene scene = MainForm.Logic.CurrentScene;
+            if (scene != null)
             {
-                SampleObject.renderer.Draw();
+                // wrong stencil fix:
+                GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+                GraphicsDevice.BlendState = BlendState.Opaque;
+                //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+                //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
+                MainForm.Logic.CurrentScene.Draw();
             }
+
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            Grid.Draw();
 
             _spriteBatch.Begin();
             Vector2 position = new Vector2(5, 5);
@@ -137,27 +138,28 @@ namespace Edytejshyn.GUI
                 // if(!gizmo_collision)
                 // find rayed object
                 Vector3 nearVector = new Vector3(_currentMouse.Vector, 0f);
-                Vector3 farVector  = new Vector3(_currentMouse.Vector, 1f);
+                Vector3 farVector = new Vector3(_currentMouse.Vector, 1f);
                 Vector3 nearUnproj = GraphicsDevice.Viewport.Unproject(nearVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
-                Vector3 farUnproj  = GraphicsDevice.Viewport.Unproject(farVector , Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
+                Vector3 farUnproj = GraphicsDevice.Viewport.Unproject(farVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
                 Vector3 direction = farUnproj - nearUnproj;
                 direction.Normalize();
                 Ray picker = new Ray(nearUnproj, direction);
 
-                var modelMeshes = SampleObject.renderer.MyMesh.Model.Meshes;
-                float? distance = null;
-                int id = 0;
-                for(int i = 0; i < modelMeshes.Count; i++)
-                {
-                    var mesh = modelMeshes[i];
-                    float? d = picker.Intersects(mesh.BoundingSphere.Transform(SampleObject.transform.World));
-                    if ( (d.HasValue)  &&  (distance == null || d > distance) )
-                    {
-                        distance = d;
-                        id = i;
-                    }
-                }
-                Text = distance.HasValue ? string.Format("Collision: [{1}] {0}\ndist = {2}", modelMeshes[id].Name, id, distance) : string.Format("Ray: origin {0}\ndir {1}", nearUnproj, direction);
+                // TODO collision with scene objects
+                //var modelMeshes = SampleObject.renderer.MyMesh.Model.Meshes;
+                //float? distance = null;
+                //int id = 0;
+                //for(int i = 0; i < modelMeshes.Count; i++)
+                //{
+                //    var mesh = modelMeshes[i];
+                //    float? d = picker.Intersects(mesh.BoundingSphere.Transform(SampleObject.transform.World));
+                //    if ( (d.HasValue)  &&  (distance == null || d > distance) )
+                //    {
+                //        distance = d;
+                //        id = i;
+                //    }
+                //}
+                //Text = distance.HasValue ? string.Format("Collision: [{1}] {0}\ndist = {2}", modelMeshes[id].Name, id, distance) : string.Format("Ray: origin {0}\ndir {1}", nearUnproj, direction);
 
             }
             else if (_currentMouse.Right)
@@ -290,12 +292,12 @@ namespace Edytejshyn.GUI
                     break;
 
                 case Keys.ShiftKey:
-                    _moveSensitivity = BaseMoveSensitivity * 10f;
+                    _moveSensitivity = BASE_MOVE_SENSITIVITY * 10f;
                     break;
 
                 case Keys.ControlKey:
-                    _moveSensitivity   = BaseMoveSensitivity * 0.1f;
-                    _rotateSensitivity = BaseRotateSensitivity * 0.1f;
+                    _moveSensitivity   = BASE_MOVE_SENSITIVITY * 0.1f;
+                    _rotateSensitivity = BASE_ROTATE_SENSITIVITY * 0.1f;
                     break;
             }
 
@@ -323,12 +325,12 @@ namespace Edytejshyn.GUI
                     break;
 
                 case Keys.ShiftKey:
-                    _moveSensitivity = BaseMoveSensitivity;
+                    _moveSensitivity = BASE_MOVE_SENSITIVITY;
                     break;
 
                 case Keys.ControlKey:
-                    _moveSensitivity   = BaseMoveSensitivity;
-                    _rotateSensitivity = BaseRotateSensitivity;
+                    _moveSensitivity   = BASE_MOVE_SENSITIVITY;
+                    _rotateSensitivity = BASE_ROTATE_SENSITIVITY;
                     break;
             }
         }
