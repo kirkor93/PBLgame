@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -265,6 +266,7 @@ namespace PBLgame.Engine.GameObjects
         public void AddChild(GameObject child)
         {
             _children.Add(child);
+            child.parent = this;
         }
 
         public GameObject[] GetChildren()
@@ -296,7 +298,7 @@ namespace PBLgame.Engine.GameObjects
 
             if (list.Any())
             {
-                return list.First() as GameObject;
+                return list.First();
             }
 
             return null;
@@ -338,11 +340,6 @@ namespace PBLgame.Engine.GameObjects
         public XmlSchema GetSchema()
         {
             return null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            throw new NotImplementedException();
         }
 
         public void WriteXml(XmlWriter writer)
@@ -397,6 +394,74 @@ namespace PBLgame.Engine.GameObjects
                 writer.WriteStartElement(component.GetType().ToString());
                 (component as IXmlSerializable).WriteXml(writer);
                 writer.WriteEndElement();
+            }
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            reader.MoveToContent();
+            Name = reader.GetAttribute("Name");
+            Tag = reader.GetAttribute("Tag");
+            ID = Convert.ToInt32(reader.GetAttribute("Id"));
+
+            parent = null;
+            int parentId = Convert.ToInt32(reader.GetAttribute("Parent"));
+            if (parentId != 0)
+            {
+                parent = new GameObject();
+                parent.ID = parentId;
+            } 
+
+            reader.ReadStartElement();
+            if (reader.Name == "Transform")
+            {
+                transform = new Transform(this);
+                (transform as IXmlSerializable).ReadXml(reader);
+            }
+
+            if (reader.Name == "Renderer")
+            {
+                renderer = new Renderer(this);
+                (renderer as IXmlSerializable).ReadXml(reader);
+            }
+
+            if (reader.Name == "Collision")
+            {
+                collision = new Collision(this);
+                (collision as IXmlSerializable).ReadXml(reader);
+            }
+
+            if (reader.Name == "Animator")
+            {
+                animator = new Animator(this);
+                (animator as IXmlSerializable).ReadXml(reader);
+            }
+
+            if (reader.Name == "AudioSource")
+            {
+                audioSource = new AudioSource(this);
+                (audioSource as IXmlSerializable).ReadXml(reader);
+            }
+
+            if (reader.Name == "ParticleSystem")
+            {
+                particleSystem = new ParticleSystem(this);
+                (particleSystem as IXmlSerializable).ReadXml(reader);
+            }
+
+            while (reader.NodeType != XmlNodeType.EndElement)
+            {
+                string readerName = reader.Name;
+                Type type = TypeDelegator.GetType(readerName);
+                ConstructorInfo ctor = type.GetConstructor(new Type[] {typeof (GameObject)});
+
+                Component component = ctor.Invoke(new object[] { this }) as Component;
+                (component as IXmlSerializable).ReadXml(reader);
+                _components.Add(component);
+                if (reader.Name == readerName)
+                {
+                    reader.Read();
+                }
             }
         }
 

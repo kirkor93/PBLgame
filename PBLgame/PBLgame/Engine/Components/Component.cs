@@ -33,18 +33,23 @@ namespace PBLgame.Engine.Components
             {
                 return _gameObject;
             }
+            private set
+            {
+                _gameObject = value;
+            }
         }
         #endregion
         #region Methods
 
-        protected Component()
+        private Component()
         {
             Enabled = true;
         }
 
-        protected Component(GameObject owner) : this()
+        protected Component(GameObject owner)
         {
-            _gameObject = owner;
+            Enabled = true;
+            gameObject = owner;
         }
 
         public virtual void Update()
@@ -65,6 +70,7 @@ namespace PBLgame.Engine.Components
 
         public virtual void ReadXml(XmlReader reader)
         {
+            reader.MoveToContent();
             Enabled = Convert.ToBoolean(reader.GetAttribute("Enabled"));
         }
 
