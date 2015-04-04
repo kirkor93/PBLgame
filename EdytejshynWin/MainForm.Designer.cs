@@ -305,6 +305,7 @@
             this.sceneTreeView.PathSeparator = "->";
             this.sceneTreeView.Size = new System.Drawing.Size(114, 611);
             this.sceneTreeView.TabIndex = 1;
+            this.sceneTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ContentTreeView_AfterSelect);
             // 
             // contentTreeView
             // 

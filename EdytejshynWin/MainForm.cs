@@ -199,18 +199,41 @@ namespace Edytejshyn
             {
                 DialogResult result = this._openSceneDialog.ShowDialog();
                 if (result != DialogResult.OK) return;
+                path = _openSceneDialog.FileName;
             }
             try
             {
-                this.Logic.LoadScene(path ?? _openSceneDialog.FileName);
+                this.Logic.LoadScene(path);
                 SetEditingControlsEnabled(true);
                 viewportControl.Reset();
-                //viewportControl.SampleObject = Logic.CurrentScene.GameObjects.First();
+                
+                sceneTreeView.Nodes.Clear();
+                foreach (GameObject obj in Logic.CurrentScene.GameObjects)
+                {
+                    if (obj.parent == null)
+                    {
+                        EditorTreeNode rootNode = new EditorTreeNode(obj.Name, obj);
+                        sceneTreeView.Nodes.Add(rootNode);
+                        RecursiveFillChildren(obj, rootNode);
+                    }
+                }
 
             }
             catch (Exception ex)
             {
                 ExceptionHandler.HandleException(ex);
+            }
+        }
+
+        private void RecursiveFillChildren(GameObject obj, EditorTreeNode parentNode)
+        {
+            GameObject[] children = obj.GetChildren();
+            if (children.Length == 0) return;
+            foreach (GameObject child in children)
+            {
+                EditorTreeNode node = new EditorTreeNode(child.Name, child);
+                parentNode.Nodes.Add(node);
+                RecursiveFillChildren(child, node);
             }
         }
 

@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 
 namespace Edytejshyn.GUI
@@ -37,7 +36,7 @@ namespace Edytejshyn.GUI
         {
             get { return !( Left || Middle || Right ); }
         }
-
+        
         public bool Left, Middle, Right;
 
         public EditorMouseState()

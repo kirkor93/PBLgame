@@ -205,8 +205,6 @@ namespace Edytejshyn.GUI
             if (!_hasFocus)
             {
                 this.Select();
-                _mouseMoved = false;
-                return;
             }
             switch (e.Button)
             {

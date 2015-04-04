@@ -132,6 +132,7 @@ namespace Edytejshyn.Logic
                 CurrentScene = new Scene();
                 CurrentScene.Load(path);
                 path = Path.GetFullPath(path);
+                this.SceneFile = path;
                 this.History.Clear();
                 this.Logger.Log(LoggerLevel.Info, string.Format("Loaded scene {0}", path));
             }
