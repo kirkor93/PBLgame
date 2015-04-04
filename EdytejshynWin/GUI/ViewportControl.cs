@@ -25,22 +25,21 @@ namespace Edytejshyn.GUI
         private int _moveX, _moveY;
         private const float BASE_ROTATE_SENSITIVITY = 0.004f, BASE_MOVE_SENSITIVITY = 0.15f;
         private float _rotateSensitivity = BASE_ROTATE_SENSITIVITY, _moveSensitivity = BASE_MOVE_SENSITIVITY;
-        private CameraCommand _cameraCommand;
+        private bool _hasFocus;
 
         public delegate void VoidHandler();
         public event VoidHandler AfterInitializeEvent = () => { };
 
-        public Camera Camera { get; private set; }
-        public Grid Grid { get; private set; }
-
-        //public GameObject SampleObject;
         public MainForm MainForm;
+        private bool _mouseMoved;
 
         #endregion
 
         #region Properties
         public ContentManager GameContentManager { get; private set; }
-
+        public CameraHistory CameraHistory { get; private set; }
+        public Camera Camera { get; private set; }
+        public Grid Grid { get; private set; }
         #endregion
 
         #region Methods
@@ -59,20 +58,37 @@ namespace Edytejshyn.GUI
             this.KeyDown        += ViewportControl_KeyDown;
             this.KeyUp          += ViewportControl_KeyUp;
             this.SizeChanged += HandleSizeChanged;
+
+            this.Enter += delegate
+            {
+                _hasFocus = true;
+                Text = "-";
+                Invalidate();
+            };
+            this.Leave += delegate
+            {
+                _hasFocus = false;
+                Invalidate();
+            };
             
             _currentMouse = new EditorMouseState();
             _prevMouse    = new EditorMouseState();
             
-            _editorContent = new ContentManager(Services, "EditorContent");
-            GameContentManager   = new ContentManager(Services, "Content");
+            _editorContent     = new ContentManager(Services, "EditorContent");
+            GameContentManager = new ContentManager(Services, "Content");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _osdFont = _editorContent.Load<SpriteFont>("OSDFont");
             Camera = new Camera(new Vector3(0, 10, 10), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 1000);
+            CameraHistory = new CameraHistory(MainForm.Logic.Logger, Camera);
             Grid = new Grid(this, 2, 100);
             Reset();
             
             AfterInitializeEvent();
             this.MainForm.Logic.History.UpdateEvent += delegate(HistoryManager manager)
+            {
+                Invalidate();
+            };
+            CameraHistory.UpdateEvent += delegate(CameraHistory history)
             {
                 Invalidate();
             };
@@ -108,7 +124,13 @@ namespace Edytejshyn.GUI
 
             _spriteBatch.Begin();
             Vector2 position = new Vector2(5, 5);
-            _spriteBatch.DrawString(_osdFont, Text, position, Color.White, 0.0f, Vector2.Zero, new Vector2(0.75f), SpriteEffects.None, 0f);
+            Color textColor = Color.White;
+            if (!_hasFocus)
+            {
+                Text = "[Focus lost]";
+                textColor = Color.Orange;
+            }
+            _spriteBatch.DrawString(_osdFont, Text, position, textColor, 0.0f, Vector2.Zero, new Vector2(0.75f), SpriteEffects.None, 0f);
             _spriteBatch.End();
         }
 
@@ -129,6 +151,7 @@ namespace Edytejshyn.GUI
         {
             _prevMouse = _currentMouse;
             _currentMouse = new EditorMouseState(_prevMouse) {X = e.X, Y = e.Y};
+            _mouseMoved = true;
             if (_currentMouse.AnyMiddle)
             {
                 // surface strafe
@@ -179,7 +202,12 @@ namespace Edytejshyn.GUI
 
         protected void ViewportControl_MouseDown(object sender, MouseEventArgs e)
         {
-            this.Select();
+            if (!_hasFocus)
+            {
+                this.Select();
+                _mouseMoved = false;
+                return;
+            }
             switch (e.Button)
             {
                 case MouseButtons.Left:
@@ -192,12 +220,11 @@ namespace Edytejshyn.GUI
                     break;
                 case MouseButtons.Right:
                     // FPS camera lookaround
-
-                    _cameraCommand = new CameraCommand(Camera);
                     _currentMouse.Right = true;
                     Cursor.Current = Cursors.SizeAll;
                     break;
             }
+            _mouseMoved = false;
         }
 
         protected void ViewportControl_MouseUp(object sender, MouseEventArgs e)
@@ -213,11 +240,10 @@ namespace Edytejshyn.GUI
                 case MouseButtons.Right:
                     _currentMouse.Right = false;
                     Cursor.Current = Cursors.Default;
-                    _cameraCommand.SaveFinalState();
-                    this.MainForm.Logic.History.NewAction(_cameraCommand);
-                    _cameraCommand = null;
+                    if(_mouseMoved) CameraHistory.NewPosition();
                     break;
             }
+            _mouseMoved = false;
         }
 
         private void TimerOnTick(object sender, EventArgs e)
@@ -267,6 +293,18 @@ namespace Edytejshyn.GUI
 
         private void ViewportControl_KeyDown(object sender, KeyEventArgs e)
         {
+            // Handle camera history
+            if (e.KeyCode == Keys.Z && ModifierKeys == Keys.Shift && CameraHistory.CanUndo)
+            {
+                MainForm.UndoCameraMenuItem_Click(this, new EventArgs());
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Y && ModifierKeys == Keys.Shift && CameraHistory.CanRedo)
+            {
+                MainForm.RedoCameraMenuItem_Click(this, new EventArgs());
+                e.Handled = true;
+            }
+
             if (!_currentMouse.Right) return;
             
             switch (e.KeyCode)

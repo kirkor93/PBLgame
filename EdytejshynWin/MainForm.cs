@@ -26,11 +26,7 @@ namespace Edytejshyn
 
         #region Properties
 
-        public EditorLogic Logic
-        {
-            get;
-            private set;
-        }
+        public EditorLogic Logic { get; private set; }
 
         #endregion
 
@@ -44,6 +40,7 @@ namespace Edytejshyn
             UpdateTitle();
             SetSceneControlsEnabled(false);
             SetEditingControlsEnabled(false);
+            //KeyPreview = true;
 
             _openContentDialog = new OpenFileDialog();
             _openSceneDialog   = new OpenFileDialog();
@@ -57,11 +54,13 @@ namespace Edytejshyn
 
             _openSceneDialog  .Filter = _saveSceneDialog  .Filter =   "XML scene file (*.xml)|*.xml|All files (*.*)|*.*";
             _openContentDialog.Filter = _saveContentDialog.Filter = "XML content file (*.xml)|*.xml|All files (*.*)|*.*";
+            
+            viewportControl.MainForm = this;
 
             viewportControl.AfterInitializeEvent += () =>
             {
                 this.Logic.GameContentManager = viewportControl.GameContentManager;
-                viewportControl.MainForm = this;
+                viewportControl.CameraHistory.UpdateEvent += UpdateCameraHistory;
                 if (contentToOpen == null) return;
 
                 if (!OpenContent(contentToOpen)) return;
@@ -347,6 +346,16 @@ namespace Edytejshyn
             UpdateTitle();
         }
 
+        /// <summary>
+        /// Update menu entries for Camera Undo and Redo.
+        /// </summary>
+        /// <param name="history">Reference to calling history manager</param>
+        public void UpdateCameraHistory(CameraHistory history)
+        {
+            undoCameraMenuItem.Enabled = viewportControl.CameraHistory.CanUndo;
+            redoCameraMenuItem.Enabled = viewportControl.CameraHistory.CanRedo;
+        }
+
         #region Events
         private void ExitEvent(object sender, EventArgs e)
         {
@@ -409,6 +418,17 @@ namespace Edytejshyn
             Logic.History.Redo();
         }
 
+
+        public void UndoCameraMenuItem_Click(object sender, EventArgs e)
+        {
+            viewportControl.CameraHistory.Undo();
+        }
+
+        public void RedoCameraMenuItem_Click(object sender, EventArgs e)
+        {
+            viewportControl.CameraHistory.Redo();
+        }
+
         private void ContentTreeViewObjects_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
@@ -424,8 +444,11 @@ namespace Edytejshyn
             EditorTreeNode editorNode = treeNode as EditorTreeNode;
             propertyGrid.SelectedObject = (editorNode == null) ? null : editorNode.Data;
         }
+        #endregion
+
 
         #endregion
-        #endregion
+
+
     }
 }

@@ -40,6 +40,9 @@
             this.undoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.duplicateMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewMenuBar = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoCameraMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.redoCameraMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenuBar = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerVert = new System.Windows.Forms.SplitContainer();
@@ -84,6 +87,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sceneMenuBar,
             this.editMenuBar,
+            this.viewMenuBar,
             this.helpMenuBar});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -180,11 +184,41 @@
             // 
             // duplicateMenuItem
             // 
+            this.duplicateMenuItem.Enabled = false;
             this.duplicateMenuItem.Name = "duplicateMenuItem";
             this.duplicateMenuItem.ShortcutKeyDisplayString = "";
             this.duplicateMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.duplicateMenuItem.Size = new System.Drawing.Size(166, 22);
             this.duplicateMenuItem.Text = "&Duplicate";
+            // 
+            // viewMenuBar
+            // 
+            this.viewMenuBar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.undoCameraMenuItem,
+            this.redoCameraMenuItem});
+            this.viewMenuBar.Name = "viewMenuBar";
+            this.viewMenuBar.Size = new System.Drawing.Size(44, 20);
+            this.viewMenuBar.Text = "&View";
+            // 
+            // undoCameraMenuItem
+            // 
+            this.undoCameraMenuItem.Enabled = false;
+            this.undoCameraMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("undoCameraMenuItem.Image")));
+            this.undoCameraMenuItem.Name = "undoCameraMenuItem";
+            this.undoCameraMenuItem.ShortcutKeyDisplayString = "Shift+Z";
+            this.undoCameraMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.undoCameraMenuItem.Text = "&Undo camera move";
+            this.undoCameraMenuItem.Click += new System.EventHandler(this.UndoCameraMenuItem_Click);
+            // 
+            // redoCameraMenuItem
+            // 
+            this.redoCameraMenuItem.Enabled = false;
+            this.redoCameraMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("redoCameraMenuItem.Image")));
+            this.redoCameraMenuItem.Name = "redoCameraMenuItem";
+            this.redoCameraMenuItem.ShortcutKeyDisplayString = "Shift+Y";
+            this.redoCameraMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.redoCameraMenuItem.Text = "&Redo camera move";
+            this.redoCameraMenuItem.Click += new System.EventHandler(this.RedoCameraMenuItem_Click);
             // 
             // helpMenuBar
             // 
@@ -490,6 +524,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private GUI.EditorTreeView sceneTreeView;
+        private System.Windows.Forms.ToolStripMenuItem viewMenuBar;
+        public System.Windows.Forms.ToolStripMenuItem undoCameraMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem redoCameraMenuItem;
     }
 }
 
