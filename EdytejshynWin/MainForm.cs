@@ -54,7 +54,8 @@ namespace Edytejshyn
 
             _openSceneDialog  .Filter = _saveSceneDialog  .Filter =   "XML scene file (*.xml)|*.xml|All files (*.*)|*.*";
             _openContentDialog.Filter = _saveContentDialog.Filter = "XML content file (*.xml)|*.xml|All files (*.*)|*.*";
-            
+
+            sceneTreeView.MainForm = this;
             viewportControl.MainForm = this;
 
             viewportControl.AfterInitializeEvent += () =>
@@ -206,17 +207,8 @@ namespace Edytejshyn
                 this.Logic.LoadScene(path);
                 SetEditingControlsEnabled(true);
                 viewportControl.Reset();
-                
-                sceneTreeView.Nodes.Clear();
-                foreach (GameObject obj in Logic.CurrentScene.GameObjects)
-                {
-                    if (obj.parent == null)
-                    {
-                        EditorTreeNode rootNode = new EditorTreeNode(obj.Name, obj);
-                        sceneTreeView.Nodes.Add(rootNode);
-                        RecursiveFillChildren(obj, rootNode);
-                    }
-                }
+
+                sceneTreeView.ReloadTree();
 
             }
             catch (Exception ex)
@@ -367,6 +359,7 @@ namespace Edytejshyn
                 }
             }
             UpdateTitle();
+            propertyGrid.Refresh();
         }
 
         /// <summary>
@@ -461,11 +454,10 @@ namespace Edytejshyn
             }
         }
 
-        private void ContentTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        private void SceneTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            TreeNode treeNode = e.Node;
-            EditorTreeNode editorNode = treeNode as EditorTreeNode;
-            propertyGrid.SelectedObject = (editorNode == null) ? null : editorNode.Data;
+            SceneTreeNode node = e.Node as SceneTreeNode;
+            propertyGrid.SelectedObject = (node == null) ? null : node.GameObject;
         }
         #endregion
 

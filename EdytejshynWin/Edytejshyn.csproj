@@ -73,6 +73,10 @@
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CameraHistory.cs" />
+    <Compile Include="GUI\SceneTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\SceneTreeNode.cs" />
     <Compile Include="GUI\XNA\Geometry.cs" />
     <Compile Include="GUI\XNA\Gizmo.cs" />
     <Compile Include="GUI\XNA\GizmoUtils.cs" />
@@ -94,6 +98,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GUI\CameraState.cs" />
+    <Compile Include="Logic\Commands\ChangeCommand.cs" />
     <Compile Include="Logic\Commands\WelcomeCommand.cs" />
     <Compile Include="Logic\EditorException.cs">
       <SubType>Code</SubType>
@@ -101,6 +106,7 @@
     <Compile Include="Logic\EditorLogger.cs" />
     <Compile Include="Logic\EditorLogic.cs" />
     <Compile Include="Logic\Extensions.cs" />
+    <Compile Include="Logic\GameObjectWrapper.cs" />
     <Compile Include="Logic\HistoryManager.cs" />
     <Compile Include="Logic\ICommand.cs" />
     <Compile Include="MainForm.cs">

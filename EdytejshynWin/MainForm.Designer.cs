@@ -49,7 +49,7 @@
             this.viewportControl = new Edytejshyn.GUI.ViewportControl();
             this.splitContainerRightHoriz = new System.Windows.Forms.SplitContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.sceneTreeView = new Edytejshyn.GUI.EditorTreeView();
+            this.sceneTreeView = new Edytejshyn.GUI.SceneTreeView();
             this.contentTreeView = new Edytejshyn.GUI.EditorTreeView();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.statusBar = new System.Windows.Forms.StatusStrip();
@@ -305,7 +305,7 @@
             this.sceneTreeView.PathSeparator = "->";
             this.sceneTreeView.Size = new System.Drawing.Size(114, 611);
             this.sceneTreeView.TabIndex = 1;
-            this.sceneTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ContentTreeView_AfterSelect);
+            this.sceneTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.SceneTreeView_AfterSelect);
             // 
             // contentTreeView
             // 
@@ -315,7 +315,7 @@
             this.contentTreeView.PathSeparator = "->";
             this.contentTreeView.Size = new System.Drawing.Size(114, 611);
             this.contentTreeView.TabIndex = 0;
-            this.contentTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ContentTreeView_AfterSelect);
+            this.contentTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.SceneTreeView_AfterSelect);
             this.contentTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ContentTreeViewObjects_KeyDown);
             // 
             // propertyGrid
@@ -524,7 +524,7 @@
         private System.Windows.Forms.ToolStripButton pasteToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private GUI.EditorTreeView sceneTreeView;
+        private GUI.SceneTreeView sceneTreeView;
         private System.Windows.Forms.ToolStripMenuItem viewMenuBar;
         public System.Windows.Forms.ToolStripMenuItem undoCameraMenuItem;
         public System.Windows.Forms.ToolStripMenuItem redoCameraMenuItem;
