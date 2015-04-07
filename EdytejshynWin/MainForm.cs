@@ -458,6 +458,7 @@ namespace Edytejshyn
         {
             SceneTreeNode node = e.Node as SceneTreeNode;
             propertyGrid.SelectedObject = (node == null) ? null : node.GameObject;
+            propertyGrid.ExpandAllGridItems();
         }
         #endregion
 
