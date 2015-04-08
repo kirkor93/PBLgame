@@ -33,6 +33,8 @@ namespace PBLgame
 
         public GameObject player;
 
+        public PointLight pLight;
+
         //Sounds tetin
         AudioEngine _audioEngine; //Has to be in final version
         WaveBank _waveBank; //Has to be in final version
@@ -111,7 +113,8 @@ namespace PBLgame
             phEffect = Content.Load<Effect>("Effects/Shader");
 
             player.renderer.MyEffect = phEffect;
-            
+
+            pLight = new PointLight();
             
             // TODO: use this.Content to load your game content here
         }
@@ -160,7 +163,7 @@ namespace PBLgame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             //For Teting----------------
 

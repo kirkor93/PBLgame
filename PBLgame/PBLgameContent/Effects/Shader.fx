@@ -6,16 +6,14 @@ float4x4 worldInverseTranspose;
 
 float3 direction;
 
-//#define maxLights 10
-//float3 lightDirections[maxLights];
-//float4 lightColors[maxLights];
-//float lightIntensities[maxLights];
-//float lightsCount;
-
-float3 DiffuseLightDirection = float3(1, 1, 0);
-float4 DiffuseColor = float4(1, 1, 1, 1);
-float DiffuseIntensity = 1.0;
-
+#define maxLights 30
+float4 lightsPositions[maxLights];
+float4 lightsColors[maxLights];
+float lightsAttenuations[maxLights];
+float lightsFalloffs[maxLights];
+int lightsPoint[maxLights];
+int lightsDirectional[maxLights];
+int lightsCount = 0;
 
 texture diffuseTexture;
 sampler2D diffuseSampler = sampler_state{
@@ -60,6 +58,8 @@ sampler2D emissiveSampler = sampler_state{
 	AddressV = Clamp;
 };
 
+float4 Pos = float4(0, 0, 0, 0);
+
 
 struct VertexShaderInput
 {
@@ -77,6 +77,7 @@ struct VertexShaderOutput
 	float3 Normal :TEXCOORD1;
 	float3 Tangent : TEXCOORD2;
 	float3 Binormal : TEXCOORD3;
+	float4 WorldPos : TEXCOORD4;
 };
 
 VertexShaderOutput VS(VertexShaderInput input)
@@ -86,6 +87,7 @@ VertexShaderOutput VS(VertexShaderInput input)
     float4 worldPosition = mul(input.Position, world);
     float4 viewPosition = mul(worldPosition, view);
     output.Position = mul(viewPosition, projection);
+	output.WorldPos = worldPosition;
 
 	output.Normal = normalize(mul(input.Normal, worldInverseTranspose));
 	output.Tangent = normalize(mul(input.Tangent, worldInverseTranspose));
@@ -98,35 +100,49 @@ VertexShaderOutput VS(VertexShaderInput input)
 
 float4 PS(VertexShaderOutput input) : COLOR0
 {
-	float3 dLight = normalize(DiffuseLightDirection);
 
 	//Normal calc
 	float3 normalMap = (tex2D(normalSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
 	float3 normal = normalIntensity * (input.Normal + (normalMap.x * input.Tangent + normalMap.y * input.Binormal));
-	//Diffuse light with normals 
-	float diffuseIntensity = dot(dLight, normalize(normal));
+	//Lights
+	float4 totalLight = float4(0, 0, 0, 1);
 	//Specular
-	float3 r = normalize(2 * dot(dLight, normal) * normal - dLight);
-	float3 v = normalize(mul(normalize(direction), world));
-	float dotProduct = dot(r, v);
+	float4 totalSpecular = float4(0, 0, 0, 1);
 
-	float4 specular = (tex2D(specularSampler, input.TextureCoordinate) *  specularIntensity 
-						* specularColor * max(pow(dotProduct, shininess), 0) * diffuseIntensity);
+	for (int i = 0; i < lightsCount; ++i)
+	{
+		//directional
+		float4 lightDir = normalize((lightsPositions[i] - input.WorldPos) * lightsPoint[i] + lightsPositions[i] * lightsDirectional[i]); // same as dLight
+		float dirLightAffect = saturate(dot(lightDir, normal)) * lightsAttenuations[i]; //same as diffuseIntensity
+		//point
+		float d = distance(lightsPositions[i], input.WorldPos);
+		float att = 1 - pow(clamp(d / lightsAttenuations[i], 0, 1),lightsFalloffs[i]);
 
-	float4 emissive = (tex2D(emissiveSampler, input.TextureCoordinate) * emissiveIntensity) * emissiveColor;
+		totalLight += lightsColors[i] * ( lightsPoint[i] * att + dirLightAffect * lightsDirectional[i]);
+
+		float3 r = normalize((2 * dot(lightDir, normal) * normal - lightDir));
+		float3 v = normalize(mul(normalize(direction), world));
+		totalSpecular += dot(r, v);
+ 	}
+	totalSpecular = (tex2D(specularSampler, input.TextureCoordinate)) * specularIntensity
+		* specularColor * totalSpecular * totalLight;
+
+	//Emissive
+	float4 emissive = (tex2D(emissiveSampler, input.TextureCoordinate).rgba * emissiveIntensity) * emissiveColor;
+	emissive.a = 1.0f;
 
 	//Texture color
 	float4 textureColor = tex2D(diffuseSampler, input.TextureCoordinate);
 	textureColor.a = 1;
 
-	return saturate(textureColor * (diffuseIntensity) + specular) + emissive;
+	return saturate((textureColor * /*diffuseIntensity  * */ totalLight)/* + specular*/) + emissive;
 }
 
 technique PhongBlinn
 {
     pass Pass1
     {
-        VertexShader = compile vs_2_0 VS();
-        PixelShader = compile ps_2_0  PS();
+        VertexShader = compile vs_3_0 VS();
+        PixelShader = compile ps_3_0 PS();
     }
 }

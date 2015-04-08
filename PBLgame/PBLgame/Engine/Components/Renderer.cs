@@ -80,6 +80,30 @@ namespace PBLgame.Engine.Components
 
         public override void Draw()
         {
+            System.Random rand = new System.Random();
+            Vector3[] lightsP = new Vector3[3];
+            Vector4[] lightsC = new Vector4[3];
+            float[] lightsA = new float[3];
+            float[] lightsF = new float[3];
+
+            lightsP[0] = new Vector3(-5, -5, -5);
+            lightsC[0] = new Vector4(1, 0, 0, 1);
+            lightsA[0] = 10.0f;
+            lightsF[0] = 2f;
+
+            lightsP[1] = new Vector3(3, 3, 3);
+            lightsC[1] = new Vector4(0, 1, 0, 1);
+            lightsA[1] = 10.0f;
+            lightsF[1] = 2f;
+
+            lightsP[2] = new Vector3(-2, 2, -2);
+            lightsC[2] = new Vector4(0, 0, 1, 1);
+            lightsA[2] = 10.0f;
+            lightsF[2] = 2f;
+
+            int[] pointLights = new int[]{1,1,1};
+            int[] directionalLights = new int[]{0,0,0};
+
             foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
             {
                 foreach (ModelMeshPart part in modelMesh.MeshParts)
@@ -97,9 +121,26 @@ namespace PBLgame.Engine.Components
                     MyEffect.Parameters["specularTexture"].SetValue(_material.Specular);
                     MyEffect.Parameters["emissiveIntensity"].SetValue(0);
                     MyEffect.Parameters["emissiveTexture"].SetValue(_material.Emissive);
+                    //!!!!!! lightsCount have to be less or equal 30
+                    MyEffect.Parameters["lightsCount"].SetValue(1);
+                    MyEffect.Parameters["lightsPositions"].SetValue(lightsP);
+                    MyEffect.Parameters["lightsColors"].SetValue(lightsC);
+                    MyEffect.Parameters["lightsAttenuations"].SetValue(lightsA);
+                    MyEffect.Parameters["lightsFalloffs"].SetValue(lightsF);
+                    MyEffect.Parameters["lightsPoint"].SetValue(pointLights);
+                    MyEffect.Parameters["lightsDirectional"].SetValue(directionalLights);
+
+
+
+
                 }
                 modelMesh.Draw();
             }
+        }
+
+        private void ParameterizeEffect()
+        {
+
         }
 
         public override void ReadXml(XmlReader reader)
@@ -113,6 +154,8 @@ namespace PBLgame.Engine.Components
             writer.WriteAttributeString("MeshId", MyMesh.Id.ToString());
             writer.WriteAttributeString("MaterialId", Material.Id.ToString());
         }
+
+
 
         #endregion
     }
