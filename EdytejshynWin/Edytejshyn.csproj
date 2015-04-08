@@ -11,6 +11,7 @@
     <AssemblyName>Edytejshyn</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,7 +24,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -53,6 +53,7 @@
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Xact, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -71,7 +72,16 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUIExceptionHandler.cs">
+    <Compile Include="GUI\CameraHistory.cs" />
+    <Compile Include="GUI\SceneTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\SceneTreeNode.cs" />
+    <Compile Include="GUI\XNA\Geometry.cs" />
+    <Compile Include="GUI\XNA\Gizmo.cs" />
+    <Compile Include="GUI\XNA\GizmoUtils.cs" />
+    <Compile Include="GUI\XNA\Grid.cs" />
+    <Compile Include="GUI\GUIExceptionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\EditorTreeNode.cs" />
@@ -87,20 +97,25 @@
     <Compile Include="GUI\ViewportControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Logic\Commands\WelcomeCommand.cs" />
+    <Compile Include="GUI\CameraState.cs" />
     <Compile Include="Logic\EditorException.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logic\EditorLogger.cs" />
     <Compile Include="Logic\EditorLogic.cs" />
+    <Compile Include="Logic\Extensions.cs" />
     <Compile Include="Logic\HistoryManager.cs" />
-    <Compile Include="Logic\ICommand.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Commands\ChangeCommand.cs" />
+    <Compile Include="Model\Commands\WelcomeCommand.cs" />
+    <Compile Include="Model\GameObjectWrapper.cs" />
+    <Compile Include="Model\ICommand.cs" />
+    <Compile Include="Model\SceneWrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutBox.resx">
@@ -153,6 +168,7 @@
     <ProjectReference Include="..\PBLgame\PBLgame\PBLgame.csproj">
       <Project>{9c8060ea-42a1-4a09-87a3-92cac82bb341}</Project>
       <Name>PBLgame</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="ContentLibrary\ContentLibrary.csproj">
       <Project>{108162b6-7593-4c51-810e-5cef268bd8f1}</Project>

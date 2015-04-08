@@ -1,7 +1,9 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Singleton;
 
 namespace PBLgame.Engine.Components
 {
@@ -146,6 +148,12 @@ namespace PBLgame.Engine.Components
         public override void ReadXml(XmlReader reader)
         {
             base.ReadXml(reader);
+            int meshId = Convert.ToInt32(reader.GetAttribute("MeshId"));
+            int materialId = Convert.ToInt32(reader.GetAttribute("MaterialId"));
+            MyMesh = ResourceManager.Instance.GetMesh(meshId);
+            Material = ResourceManager.Instance.GetMaterial(materialId);
+            MyEffect = Material.ShaderEffect;
+            reader.Read();
         }
 
         public override void WriteXml(XmlWriter writer)

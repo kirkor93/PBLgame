@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using Edytejshyn.Logic;
 
 namespace Edytejshyn.GUI
 {
@@ -18,6 +19,7 @@ namespace Edytejshyn.GUI
         {
             Data = data;
         }
+
 
     }
 }

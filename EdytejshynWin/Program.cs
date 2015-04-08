@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows.Forms;
 using Edytejshyn.Logic;
 
@@ -12,14 +14,19 @@ namespace Edytejshyn
         [STAThread]
         static void Main(string[] args)
         {
-            string fileToOpen = null;
+            string contentFile = @"..\..\..\PBLgame\PBLgame\content.xml";
+            string sceneFile = null;
             if (args.Length >= 1)
             {
-                fileToOpen = args[0];
+                contentFile = args[0];
+                if (args.Length >= 2)
+                {
+                    sceneFile = args[1];
+                }
             }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(new EditorLogic(), fileToOpen));
+            Application.Run(new MainForm(new EditorLogic(), contentFile, sceneFile));
         }
     }
 }

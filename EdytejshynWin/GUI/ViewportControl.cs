@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Forms;
+using Edytejshyn.GUI.XNA;
+using Edytejshyn.Logic;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Scenes;
 using Color = Microsoft.Xna.Framework.Color;
 using Keys = System.Windows.Forms.Keys;
 
@@ -14,29 +16,29 @@ namespace Edytejshyn.GUI
     {
 
         #region Variables
-        private ContentManager _editorContent, _gameContent;
+        private ContentManager _editorContent;
         private SpriteBatch _spriteBatch;
         private SpriteFont _osdFont;
         private EditorMouseState _currentMouse, _prevMouse;
         private Timer _timer;
         private int _moveX, _moveY;
-        private const float BaseRotateSensitivity = 0.005f, BaseMoveSensitivity = 0.15f;
-        private float _rotateSensitivity = BaseRotateSensitivity, _moveSensitivity = BaseMoveSensitivity;
+        private const float BASE_ROTATE_SENSITIVITY = 0.004f, BASE_MOVE_SENSITIVITY = 0.15f;
+        private float _rotateSensitivity = BASE_ROTATE_SENSITIVITY, _moveSensitivity = BASE_MOVE_SENSITIVITY;
+        private bool _hasFocus;
 
         public delegate void VoidHandler();
         public event VoidHandler AfterInitializeEvent = () => { };
 
-        public Camera Camera { get; private set; }
-        public GameObject SampleObject;
+        public MainForm MainForm;
+        private bool _mouseMoved;
 
         #endregion
 
         #region Properties
-        public ContentManager GameContent
-        {
-            get { return _gameContent; }
-        }
-
+        public ContentManager GameContentManager { get; private set; }
+        public CameraHistory CameraHistory { get; private set; }
+        public Camera Camera { get; private set; }
+        public Grid Grid { get; private set; }
         #endregion
 
         #region Methods
@@ -55,17 +57,40 @@ namespace Edytejshyn.GUI
             this.KeyDown        += ViewportControl_KeyDown;
             this.KeyUp          += ViewportControl_KeyUp;
             this.SizeChanged += HandleSizeChanged;
+
+            this.Enter += delegate
+            {
+                _hasFocus = true;
+                Text = "-";
+                Invalidate();
+            };
+            this.Leave += delegate
+            {
+                _hasFocus = false;
+                Invalidate();
+            };
             
             _currentMouse = new EditorMouseState();
             _prevMouse    = new EditorMouseState();
             
-            _editorContent = new ContentManager(Services, "EditorContent");
-            _gameContent   = new ContentManager(Services, "Content");
+            _editorContent     = new ContentManager(Services, "EditorContent");
+            GameContentManager = new ContentManager(Services, "Content");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _osdFont = _editorContent.Load<SpriteFont>("OSDFont");
             Camera = new Camera(new Vector3(0, 10, 10), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 1000);
+            CameraHistory = new CameraHistory(MainForm.Logic.Logger, Camera);
+            Grid = new Grid(this, 2, 100);
             Reset();
+            
             AfterInitializeEvent();
+            this.MainForm.Logic.History.UpdateEvent += delegate(HistoryManager manager)
+            {
+                Invalidate();
+            };
+            CameraHistory.UpdateEvent += delegate(CameraHistory history)
+            {
+                Invalidate();
+            };
         }
 
         protected override void Dispose(bool disposing)
@@ -73,7 +98,7 @@ namespace Edytejshyn.GUI
             if (disposing)
             {
                 _editorContent.Unload();
-                _gameContent.Unload();
+                GameContentManager.Unload();
             }
             base.Dispose(disposing);
         }
@@ -81,22 +106,30 @@ namespace Edytejshyn.GUI
         protected override void Draw()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // wrong stencil fix:
-            GraphicsDevice.BlendState = BlendState.Opaque;
-            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
-            //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
-
-
-            if (SampleObject != null)
+            Scene scene = MainForm.Logic.CurrentScene;
+            if (scene != null)
             {
-                SampleObject.renderer.Draw();
+                // wrong stencil fix:
+                GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+                GraphicsDevice.BlendState = BlendState.Opaque;
+                //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+                //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
+                scene.Draw();
             }
+
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            Grid.Draw();
 
             _spriteBatch.Begin();
             Vector2 position = new Vector2(5, 5);
-            _spriteBatch.DrawString(_osdFont, Text, position, Color.White, 0.0f, Vector2.Zero, new Vector2(0.75f), SpriteEffects.None, 0f);
+            Color textColor = Color.White;
+            if (!_hasFocus)
+            {
+                Text = "[Focus lost]";
+                textColor = Color.Orange;
+            }
+            _spriteBatch.DrawString(_osdFont, Text, position, textColor, 0.0f, Vector2.Zero, new Vector2(0.75f), SpriteEffects.None, 0f);
             _spriteBatch.End();
         }
 
@@ -117,6 +150,7 @@ namespace Edytejshyn.GUI
         {
             _prevMouse = _currentMouse;
             _currentMouse = new EditorMouseState(_prevMouse) {X = e.X, Y = e.Y};
+            _mouseMoved = true;
             if (_currentMouse.AnyMiddle)
             {
                 // surface strafe
@@ -126,27 +160,28 @@ namespace Edytejshyn.GUI
                 // if(!gizmo_collision)
                 // find rayed object
                 Vector3 nearVector = new Vector3(_currentMouse.Vector, 0f);
-                Vector3 farVector  = new Vector3(_currentMouse.Vector, 1f);
+                Vector3 farVector = new Vector3(_currentMouse.Vector, 1f);
                 Vector3 nearUnproj = GraphicsDevice.Viewport.Unproject(nearVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
-                Vector3 farUnproj  = GraphicsDevice.Viewport.Unproject(farVector , Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
+                Vector3 farUnproj = GraphicsDevice.Viewport.Unproject(farVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
                 Vector3 direction = farUnproj - nearUnproj;
                 direction.Normalize();
                 Ray picker = new Ray(nearUnproj, direction);
 
-                var modelMeshes = SampleObject.renderer.MyMesh.Model.Meshes;
-                float? distance = null;
-                int id = 0;
-                for(int i = 0; i < modelMeshes.Count; i++)
-                {
-                    var mesh = modelMeshes[i];
-                    float? d = picker.Intersects(mesh.BoundingSphere.Transform(SampleObject.transform.World));
-                    if ( (d.HasValue)  &&  (distance == null || d > distance) )
-                    {
-                        distance = d;
-                        id = i;
-                    }
-                }
-                Text = distance.HasValue ? string.Format("Collision: [{1}] {0}\ndist = {2}", modelMeshes[id].Name, id, distance) : string.Format("Ray: origin {0}\ndir {1}", nearUnproj, direction);
+                // TODO collision with scene objects
+                //var modelMeshes = SampleObject.renderer.MyMesh.Model.Meshes;
+                //float? distance = null;
+                //int id = 0;
+                //for(int i = 0; i < modelMeshes.Count; i++)
+                //{
+                //    var mesh = modelMeshes[i];
+                //    float? d = picker.Intersects(mesh.BoundingSphere.Transform(SampleObject.transform.World));
+                //    if ( (d.HasValue)  &&  (distance == null || d > distance) )
+                //    {
+                //        distance = d;
+                //        id = i;
+                //    }
+                //}
+                //Text = distance.HasValue ? string.Format("Collision: [{1}] {0}\ndist = {2}", modelMeshes[id].Name, id, distance) : string.Format("Ray: origin {0}\ndir {1}", nearUnproj, direction);
 
             }
             else if (_currentMouse.Right)
@@ -166,7 +201,10 @@ namespace Edytejshyn.GUI
 
         protected void ViewportControl_MouseDown(object sender, MouseEventArgs e)
         {
-            this.Select();
+            if (!_hasFocus)
+            {
+                this.Select();
+            }
             switch (e.Button)
             {
                 case MouseButtons.Left:
@@ -183,6 +221,7 @@ namespace Edytejshyn.GUI
                     Cursor.Current = Cursors.SizeAll;
                     break;
             }
+            _mouseMoved = false;
         }
 
         protected void ViewportControl_MouseUp(object sender, MouseEventArgs e)
@@ -198,8 +237,10 @@ namespace Edytejshyn.GUI
                 case MouseButtons.Right:
                     _currentMouse.Right = false;
                     Cursor.Current = Cursors.Default;
+                    if(_mouseMoved) CameraHistory.NewPosition();
                     break;
             }
+            _mouseMoved = false;
         }
 
         private void TimerOnTick(object sender, EventArgs e)
@@ -249,6 +290,18 @@ namespace Edytejshyn.GUI
 
         private void ViewportControl_KeyDown(object sender, KeyEventArgs e)
         {
+            // Handle camera history
+            if (e.KeyCode == Keys.Z && ModifierKeys == Keys.Shift && CameraHistory.CanUndo)
+            {
+                MainForm.UndoCameraMenuItem_Click(this, new EventArgs());
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Y && ModifierKeys == Keys.Shift && CameraHistory.CanRedo)
+            {
+                MainForm.RedoCameraMenuItem_Click(this, new EventArgs());
+                e.Handled = true;
+            }
+
             if (!_currentMouse.Right) return;
             
             switch (e.KeyCode)
@@ -274,12 +327,12 @@ namespace Edytejshyn.GUI
                     break;
 
                 case Keys.ShiftKey:
-                    _moveSensitivity = BaseMoveSensitivity * 10f;
+                    _moveSensitivity = BASE_MOVE_SENSITIVITY * 10f;
                     break;
 
                 case Keys.ControlKey:
-                    _moveSensitivity   = BaseMoveSensitivity * 0.1f;
-                    _rotateSensitivity = BaseRotateSensitivity * 0.1f;
+                    _moveSensitivity   = BASE_MOVE_SENSITIVITY * 0.1f;
+                    _rotateSensitivity = BASE_ROTATE_SENSITIVITY * 0.1f;
                     break;
             }
 
@@ -307,12 +360,12 @@ namespace Edytejshyn.GUI
                     break;
 
                 case Keys.ShiftKey:
-                    _moveSensitivity = BaseMoveSensitivity;
+                    _moveSensitivity = BASE_MOVE_SENSITIVITY;
                     break;
 
                 case Keys.ControlKey:
-                    _moveSensitivity   = BaseMoveSensitivity;
-                    _rotateSensitivity = BaseRotateSensitivity;
+                    _moveSensitivity   = BASE_MOVE_SENSITIVITY;
+                    _rotateSensitivity = BASE_ROTATE_SENSITIVITY;
                     break;
             }
         }

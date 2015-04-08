@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using Edytejshyn.Logic;
+using Edytejshyn.Model;
 
 namespace Edytejshyn.GUI
 {
@@ -29,6 +30,11 @@ namespace Edytejshyn.GUI
                 _path = _node.FullPath;
                 _index = _node.Index;
                 _nodes = (_parent == null) ? _treeView.Nodes : _parent.Nodes;
+            }
+
+            public bool AffectsData
+            {
+                get { return true; }
             }
 
             public string Description

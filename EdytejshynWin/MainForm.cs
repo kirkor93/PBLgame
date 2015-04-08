@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using Edytejshyn.GUI;
 using Edytejshyn.Logic;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Scenes;
 
 namespace Edytejshyn
 {
@@ -16,43 +17,58 @@ namespace Edytejshyn
 
         #region Variables
         private readonly string _appName = "Edytejszyn (Build " + Assembly.GetExecutingAssembly().GetName().Version + ")";
-        private OpenFileDialog _openDialog;
-        private SaveFileDialog _saveDialog;
+        private OpenFileDialog _openContentDialog, _openSceneDialog;
+        private SaveFileDialog _saveContentDialog, _saveSceneDialog;
 
         public readonly GUIExceptionHandler ExceptionHandler;
-        private bool _hotkeysDisabled;
 
         #endregion
 
         #region Properties
 
-        public EditorLogic Logic
-        {
-            get;
-            private set;
-        }
+        public EditorLogic Logic { get; private set; }
 
         #endregion
 
         #region Methods
 
-        public MainForm(EditorLogic logic, string fileToOpen = null)
+        public MainForm(EditorLogic logic, string contentToOpen = null, string sceneToOpen = null)
         {
             this.Logic = logic;
             this.ExceptionHandler = new GUIExceptionHandler(this);
             InitializeComponent();
             UpdateTitle();
-            SetFileControlsEnabled(false);
-            _openDialog = new OpenFileDialog();
-            _saveDialog = new SaveFileDialog();
-            _openDialog.Filter = _saveDialog.Filter = "XML file (*.xml)|*.xml|All files (*.*)|*.*";
-            _openDialog.InitialDirectory = ".";
+            SetSceneControlsEnabled(false);
+            SetEditingControlsEnabled(false);
+            //KeyPreview = true;
+
+            _openContentDialog = new OpenFileDialog();
+            _openSceneDialog   = new OpenFileDialog();
+            _openContentDialog.Title = "Open content file";
+            _openSceneDialog  .Title = "Open scene file";
+
+            _saveContentDialog = new SaveFileDialog();
+            _saveSceneDialog   = new SaveFileDialog();
+            _openContentDialog.Title = "Save content file";
+            _openSceneDialog  .Title = "Save scene file";
+
+            _openSceneDialog  .Filter = _saveSceneDialog  .Filter =   "XML scene file (*.xml)|*.xml|All files (*.*)|*.*";
+            _openContentDialog.Filter = _saveContentDialog.Filter = "XML content file (*.xml)|*.xml|All files (*.*)|*.*";
+
+            sceneTreeView.MainForm = this;
+            viewportControl.MainForm = this;
 
             viewportControl.AfterInitializeEvent += () =>
             {
-                this.Logic.GameContent = viewportControl.GameContent;
-                if (fileToOpen != null)
-                    OpenFile(fileToOpen);
+                this.Logic.GameContentManager = viewportControl.GameContentManager;
+                viewportControl.CameraHistory.UpdateEvent += UpdateCameraHistory;
+                if (contentToOpen == null) return;
+
+                if (!OpenContent(contentToOpen)) return;
+                if (sceneToOpen != null)
+                {
+                    OpenScene(sceneToOpen);
+                }
             };
 
             this.Logic.Logger.LogEvent += ShowLogMessage;
@@ -72,76 +88,76 @@ namespace Edytejshyn
             DialogResult result = MessageBox.Show("Data has been changed. Shall I save?", "Possible data lose", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
             switch (result)
             {
-                case DialogResult.Yes:      return SaveFile();
+                case DialogResult.Yes:      return SaveScene();
                 case DialogResult.No:       return true;
                 case DialogResult.Cancel:   return false;
             }
             return true;
         }
 
-        private void OpenFile(string path = null)
+        #region Content loaders
+
+        private bool OpenContent(string path = null)
         {
-            if (!IsSafeToUnload()) return;
+            if (!IsSafeToUnload()) return false;
             if (path == null)
             {
-                DialogResult result = this._openDialog.ShowDialog();
-                if (result != DialogResult.OK) return;
+                DialogResult result = this._openContentDialog.ShowDialog();
+                if (result != DialogResult.OK) return false;
             }
             try
             {
-                this.Logic.LoadFile(path ?? _openDialog.FileName);
-                SetFileControlsEnabled(true);
-                hierarchyTreeView.Nodes.Clear();
-                hierarchyTreeView.Nodes.Add("!! PREVIEW ONLY !!");
-
+                this.Logic.LoadContent(path ?? _openContentDialog.FileName);
+                SetSceneControlsEnabled(true);
+                UpdateTitle();
+                contentTreeView.Nodes.Clear();
 
                 TreeNode texturesNode = new TreeNode("Textures");
-                foreach (var tex in this.Logic.Content.Textures)
+                foreach (var tex in this.Logic.ResourceManager.Textures)
                 {
                     texturesNode.Nodes.Add(new EditorTreeNode(tex.Name, tex));
                 }
-                hierarchyTreeView.Nodes.Add(texturesNode);
+                contentTreeView.Nodes.Add(texturesNode);
 
                 TreeNode materialsNode = new TreeNode("Materials");
-                foreach (var mat in this.Logic.Content.Materials)
+                foreach (var mat in this.Logic.ResourceManager.Materials)
                 {
                     materialsNode.Nodes.Add(new EditorTreeNode(string.Format("ID: {0}", mat.Id), mat));
                 }
-                hierarchyTreeView.Nodes.Add(materialsNode);
+                contentTreeView.Nodes.Add(materialsNode);
 
                 TreeNode meshesNode = new TreeNode("Meshes");
-                foreach (var mesh in this.Logic.Content.Meshes)
+                foreach (var mesh in this.Logic.ResourceManager.Meshes)
                 {
                     meshesNode.Nodes.Add(new EditorTreeNode(mesh.Path, mesh));
                 }
-                hierarchyTreeView.Nodes.Add(meshesNode);
+                contentTreeView.Nodes.Add(meshesNode);
 
-                GameObject sampleGameObject = new GameObject();
-                sampleGameObject.AddComponent(new Renderer(sampleGameObject));
-                sampleGameObject.renderer.MyMesh = Logic.Content.Meshes[0];
-                sampleGameObject.renderer.MyMesh.AssignRenderer(sampleGameObject.renderer);
-                sampleGameObject.renderer.AssignMaterial(Logic.Content.Materials[0]);
-                sampleGameObject.renderer.MyEffect = Logic.GameContent.Load<Effect>("Effects/Shader");
-
-                viewportControl.Reset();
-                viewportControl.SampleObject = sampleGameObject;
+                //GameObject sampleGameObject = new GameObject();
+                //sampleGameObject.AddComponent(new Renderer(sampleGameObject));
+                //sampleGameObject.renderer.MyMesh = Logic.XmlContent.Meshes[0];
+                //sampleGameObject.renderer.MyMesh.AssignRenderer(sampleGameObject.renderer);
+                //sampleGameObject.renderer.AssignMaterial(Logic.XmlContent.Materials[0]);
+                //sampleGameObject.renderer.MyEffect = Logic.GameContentManager.Load<Effect>("Effects/Shader");
 
             }
             catch (Exception ex)
             {
                 ExceptionHandler.HandleException(ex);
+                return false;
             }
+            return true;
         }
 
         /// <summary>
-        /// Saves currently opened file.
+        /// Saves currently opened content file.
         /// </summary>
         /// <returns><code>true</code> value if saved correctly.</returns>
-        private bool SaveFile()
+        private bool SaveContent()
         {
             try
             {
-                this.Logic.SaveFile();
+                this.Logic.SaveContent();
                 return true;
             }
             catch(Exception ex)
@@ -153,16 +169,17 @@ namespace Edytejshyn
 
 
         /// <summary>
-        /// Saves opened data in new file and switches to that file as current.
+        /// Saves opened content data in new file and switches to that file as current.
         /// </summary>
         /// <returns><code>true</code> value if saved correctly.</returns>
-        private bool SaveFileAs()
+        private bool SaveContentAs()
         {
-            DialogResult result = _saveDialog.ShowDialog();
+            DialogResult result = _saveContentDialog.ShowDialog();
             if (result != DialogResult.OK) return false;
             try
             {
-                this.Logic.SaveFile(_saveDialog.FileName);
+                this.Logic.SaveContent(_saveContentDialog.FileName);
+                return true;
             }
             catch (Exception ex)
             {
@@ -171,34 +188,146 @@ namespace Edytejshyn
             return false;
         }
 
+        #endregion
+
+
+        #region Scene loaders
+
+        private void OpenScene(string path = null)
+        {
+            if (!IsSafeToUnload()) return;
+            if (path == null)
+            {
+                DialogResult result = this._openSceneDialog.ShowDialog();
+                if (result != DialogResult.OK) return;
+                path = _openSceneDialog.FileName;
+            }
+            try
+            {
+                this.Logic.LoadScene(path);
+                SetEditingControlsEnabled(true);
+                viewportControl.Reset();
+
+                sceneTreeView.ReloadTree();
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(ex);
+            }
+        }
+
+        private void RecursiveFillChildren(GameObject obj, EditorTreeNode parentNode)
+        {
+            GameObject[] children = obj.GetChildren();
+            if (children.Length == 0) return;
+            foreach (GameObject child in children)
+            {
+                EditorTreeNode node = new EditorTreeNode(child.Name, child);
+                parentNode.Nodes.Add(node);
+                RecursiveFillChildren(child, node);
+            }
+        }
+
+        /// <summary>
+        /// Saves currently opened scene.
+        /// </summary>
+        /// <returns><code>true</code> value if saved correctly.</returns>
+        private bool SaveScene()
+        {
+            try
+            {
+                this.Logic.SaveScene();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(ex);
+            }
+            return false;
+        }
+
+
+        /// <summary>
+        /// Saves opened scene data in new file and switches to that file as current.
+        /// </summary>
+        /// <returns><code>true</code> value if saved correctly.</returns>
+        private bool SaveSceneAs()
+        {
+            DialogResult result = _saveSceneDialog.ShowDialog();
+            if (result != DialogResult.OK) return false;
+            try
+            {
+                this.Logic.SaveScene(_saveSceneDialog.FileName);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(ex);
+            }
+            return false;
+        }
+
+        #endregion
+
+
         /// <summary>
         /// Updates title caption in editor application.
         /// </summary>
         private void UpdateTitle()
         {
             StringBuilder sb = new StringBuilder();
-            string file = Logic.SimpleFileName;
-            if (file != null)
+            string content = Logic.ContentSimpleName;
+            string scene   = Logic.  SceneSimpleName;
+            
+            if (scene != null)
             {
-                sb.Append(file);
+                sb.Append(scene);
                 if (this.Logic.History.AheadSaved != 0) sb.Append("* ");
                 sb.Append(" - ");
+            }
+            if (content != null)
+            {
+                sb.Append(string.Format("({0}) - ", content));
             }
             sb.Append(this._appName);
             this.Text = sb.ToString();
         }
 
-        private void SetFileControlsEnabled(bool mode)
+        /// <summary>
+        /// Used after content loading to allow opening scene.
+        /// Enables or disables controls for scene opening.
+        /// </summary>
+        /// <param name="mode">make controls enabled?</param>
+        private void SetSceneControlsEnabled(bool mode)
         {
-            saveMenuItem       .Enabled = mode;
-            saveAsMenuItem     .Enabled = mode;
-            saveToolStripButton.Enabled = mode;
+            openMenuItem        .Enabled = mode;
+            openToolStripButton .Enabled = mode;
+        }
+
+        /// <summary>
+        /// Used after opening scene to allow editing.
+        /// </summary>
+        /// <param name="mode">make controls enabled?</param>
+        private void SetEditingControlsEnabled(bool mode)
+        {
+            saveMenuItem        .Enabled = mode;
+            saveAsMenuItem      .Enabled = mode;
+            saveToolStripButton .Enabled = mode;
         }
 
         public void ShowLogMessage(LoggerLevel level, string message)
         {
-            if(level != LoggerLevel.Debug)
-                statusBarLabel.Text = string.Format("{0}: {1}", level, message);
+            if (level != LoggerLevel.Debug)
+            {
+                StringBuilder sb = new StringBuilder();
+                if (level != LoggerLevel.Info)
+                {
+                    sb.Append(level).Append(": ");
+                }
+                sb.Append(message);
+                statusBarLabel.Text = sb.ToString();
+            }
             statusBarLabel.ForeColor = level.GetColor(DefaultForeColor);
         }
 
@@ -230,6 +359,17 @@ namespace Edytejshyn
                 }
             }
             UpdateTitle();
+            propertyGrid.Refresh();
+        }
+
+        /// <summary>
+        /// Update menu entries for Camera Undo and Redo.
+        /// </summary>
+        /// <param name="history">Reference to calling history manager</param>
+        public void UpdateCameraHistory(CameraHistory history)
+        {
+            undoCameraMenuItem.Enabled = viewportControl.CameraHistory.CanUndo;
+            redoCameraMenuItem.Enabled = viewportControl.CameraHistory.CanRedo;
         }
 
         #region Events
@@ -240,17 +380,17 @@ namespace Edytejshyn
 
         private void OpenEvent(object sender, EventArgs e)
         {
-            OpenFile();
+            OpenScene();
         }
 
         private void SaveEvent(object sender, EventArgs e)
         {
-            SaveFile();
+            SaveScene();
         }
 
         private void SaveAsEvent(object sender, EventArgs e)
         {
-            SaveFileAs();
+            SaveSceneAs();
         }
 
 
@@ -267,7 +407,7 @@ namespace Edytejshyn
         private void MainForm_DragDrop(object sender, DragEventArgs e)
         {
             var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
-            OpenFile(files[0]);
+            OpenScene(files[0]);
 
         }
 
@@ -294,23 +434,37 @@ namespace Edytejshyn
             Logic.History.Redo();
         }
 
-        private void HierarchyTreeViewObjects_KeyDown(object sender, KeyEventArgs e)
+
+        public void UndoCameraMenuItem_Click(object sender, EventArgs e)
+        {
+            viewportControl.CameraHistory.Undo();
+        }
+
+        public void RedoCameraMenuItem_Click(object sender, EventArgs e)
+        {
+            viewportControl.CameraHistory.Redo();
+        }
+
+        private void ContentTreeViewObjects_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
             {
-                if (hierarchyTreeView.SelectedNode != null)
-                    this.Logic.History.NewAction(hierarchyTreeView.GetRemoveSelectedNodeCommand());
+                if (contentTreeView.SelectedNode != null)
+                    this.Logic.History.NewAction(contentTreeView.GetRemoveSelectedNodeCommand());
             }
         }
 
-        private void HierarchyTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        private void SceneTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            TreeNode treeNode = e.Node;
-            EditorTreeNode editorNode = treeNode as EditorTreeNode;
-            propertyGrid.SelectedObject = (editorNode == null) ? null : editorNode.Data;
+            SceneTreeNode node = e.Node as SceneTreeNode;
+            propertyGrid.SelectedObject = (node == null) ? null : node.WrappedGameObject;
+            propertyGrid.ExpandAllGridItems();
         }
+        #endregion
+
 
         #endregion
-        #endregion
+
+
     }
 }

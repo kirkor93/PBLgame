@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Edytejshyn.Logic.Commands
+namespace Edytejshyn.Model.Commands
 {
     public class WelcomeCommand : ICommand
     {
@@ -9,6 +9,11 @@ namespace Edytejshyn.Logic.Commands
         public WelcomeCommand(MainForm form)
         {
             _form = form;
+        }
+
+        public bool AffectsData
+        {
+            get { return false; }
         }
 
         public string Description

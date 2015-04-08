@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Xml;
 using Microsoft.Xna.Framework;
 using PBLgame.Engine.GameObjects;
@@ -91,6 +92,13 @@ namespace PBLgame.Engine.Components
             _worldScale = Matrix.Identity;
         }
 
+        public Transform(Transform src) : base(src._gameObject)
+        {
+            _position = src._position;
+            _rotation = src._rotation;
+            _scale    = src._scale;
+        }
+
         public void Translate(Vector3 trans)
         {
             _position += trans;
@@ -137,26 +145,57 @@ namespace PBLgame.Engine.Components
 
         public override void ReadXml(XmlReader reader)
         {
+            CultureInfo culture = CultureInfo.InvariantCulture;
             base.ReadXml(reader);
+            reader.ReadStartElement();
+            if (reader.Name == "Position")
+            {
+                Vector3 tmp = Vector3.Zero;
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"), culture);
+                tmp.Z = Convert.ToSingle(reader.GetAttribute("z"), culture);
+                Position = tmp;
+            }
+            reader.ReadStartElement();
+            if (reader.Name == "Rotation")
+            {
+                Vector3 tmp = Vector3.Zero;
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"), culture);
+                tmp.Z = Convert.ToSingle(reader.GetAttribute("z"), culture);
+                Rotation = tmp;
+            }
+            reader.ReadStartElement();
+            if (reader.Name == "Scale")
+            {
+                Vector3 tmp = Vector3.Zero;
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"), culture);
+                tmp.Z = Convert.ToSingle(reader.GetAttribute("z"), culture);
+                Scale = tmp;
+            }
+            reader.Read();
+            reader.ReadEndElement();
         }
 
         public override void WriteXml(XmlWriter writer)
         {
+            CultureInfo culture = CultureInfo.InvariantCulture;
             base.WriteXml(writer);
             writer.WriteStartElement("Position");
-            writer.WriteAttributeString("x", Position.X.ToString("G"));
-            writer.WriteAttributeString("y", Position.Y.ToString("G"));
-            writer.WriteAttributeString("z", Position.Z.ToString("G"));
+            writer.WriteAttributeString("x", Position.X.ToString("G", culture));
+            writer.WriteAttributeString("y", Position.Y.ToString("G", culture));
+            writer.WriteAttributeString("z", Position.Z.ToString("G", culture));
             writer.WriteEndElement();
             writer.WriteStartElement("Rotation");
-            writer.WriteAttributeString("x", Rotation.X.ToString("G"));
-            writer.WriteAttributeString("y", Rotation.Y.ToString("G"));
-            writer.WriteAttributeString("z", Rotation.Z.ToString("G"));
+            writer.WriteAttributeString("x", Rotation.X.ToString("G", culture));
+            writer.WriteAttributeString("y", Rotation.Y.ToString("G", culture));
+            writer.WriteAttributeString("z", Rotation.Z.ToString("G", culture));
             writer.WriteEndElement();
             writer.WriteStartElement("Scale");
-            writer.WriteAttributeString("x", Scale.X.ToString("G"));
-            writer.WriteAttributeString("y", Scale.Y.ToString("G"));
-            writer.WriteAttributeString("z", Scale.Z.ToString("G"));
+            writer.WriteAttributeString("x", Scale.X.ToString("G", culture));
+            writer.WriteAttributeString("y", Scale.Y.ToString("G", culture));
+            writer.WriteAttributeString("z", Scale.Z.ToString("G", culture));
             writer.WriteEndElement();
         }
 

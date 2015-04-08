@@ -11,8 +11,9 @@ using Microsoft.Xna.Framework.Media;
 
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
-using PBLgame.Engine.Scene;
+using PBLgame.Engine.Scenes;
 using PBLgame.Engine.Singleton;
+using PBLgame.GamePlay;
 
 namespace PBLgame
 {
@@ -29,21 +30,15 @@ namespace PBLgame
         public Camera mainCamera;
 
         //For teting-----------------
-        private Mesh mesh;
-
         public GameObject player;
-
-        public PointLight pLight;
+        private Scene _scene;
 
         //Sounds tetin
         AudioEngine _audioEngine; //Has to be in final version
         WaveBank _waveBank; //Has to be in final version
         SoundBank _soundBank;//Hae to be in final version
 
-        //////////////
-
-        public Effect phEffect;
-        
+        //////////////        
         //------------------------
 
         public Game()
@@ -90,31 +85,16 @@ namespace PBLgame
 
             ResourceManager.Instance.LoadContent();
             ResourceManager.Instance.AssignAudioBank(_soundBank);
-            mesh = ResourceManager.Instance.GetMesh(@"Models\Helmet");
 
-            player = new GameObject();
-            player.AddComponent<GamePlay.PlayerScript>(new GamePlay.PlayerScript(player));
-            player.AddComponent<Renderer>(new Renderer(player));
-            player.AddComponent<AudioSource>(new AudioSource(player));
-            player.renderer.MyMesh = mesh;
-            player.renderer.MyMesh.AssignRenderer(player.renderer);
-            player.renderer.AssignMaterial(ResourceManager.Instance.GetMaterial(1));
-            player.GetComponent<GamePlay.PlayerScript>().Initialize();
-
-            player.audioSource.TrackCue = ResourceManager.Instance.GetAudioCue("Tanelorn");
+            _scene = new Scene();
+            _scene.Load(@"..\..\..\Scene 1.xml");
+            player = _scene.GameObjects.First();
             player.audioSource.Set3D(mainCamera.audioListener);
             player.audioSource.Play();
+            _scene.Save(@"..\..\..\Scene 1.xml");
 
-            Scene scene = new Scene();
-            scene.AddGameObject(player);
-            scene.Save("Scene 1.xml");
-
-
-            phEffect = Content.Load<Effect>("Effects/Shader");
-
-            player.renderer.MyEffect = phEffect;
-
-            pLight = new PointLight();
+            
+            ResourceManager.Instance.SaveContent();
             
             // TODO: use this.Content to load your game content here
         }
@@ -146,9 +126,7 @@ namespace PBLgame
             //-----------------------------
 
 
-            player.Update();
-            player.audioSource.Set3D(mainCamera.audioListener);
-
+            _scene.Update();
             _audioEngine.Update(); //Have to be in final version
 
             // TODO: Add your update logic here
@@ -163,11 +141,11 @@ namespace PBLgame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //For Teting----------------
 
-            player.Draw();
+            _scene.Draw();
 
             //---------------------
 

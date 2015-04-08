@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
+using Edytejshyn.Model;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using PBLgame.Engine.Scenes;
 using PBLgame.Engine.Singleton;
 
 namespace Edytejshyn.Logic
@@ -11,7 +14,6 @@ namespace Edytejshyn.Logic
         #region Variables
         #region Private
 
-        private ResourceManager _resourceManager;
         private readonly XmlSerializer _serializer;
 
         #endregion
@@ -19,7 +21,10 @@ namespace Edytejshyn.Logic
         #region Public
         public readonly EditorLogger   Logger  = new EditorLogger();
         public readonly HistoryManager History;
-        public ContentManager GameContent;
+        public ContentManager GameContentManager;
+        private AudioEngine _audioEngine;
+        private WaveBank _waveBank;
+        private SoundBank _soundBank;
 
         #endregion
 
@@ -27,14 +32,22 @@ namespace Edytejshyn.Logic
 
 
         #region Properties
-        public string FilePath { get; private set; }
+        public string ContentFile { get; private set; }
+        public string SceneFile { get; private set; }
 
-        public string SimpleFileName
+        public string ContentSimpleName
         {
-            get { return Path.GetFileName(this.FilePath); }
+            get { return Path.GetFileName(this.ContentFile); }
         }
 
-        public XmlContent Content { get; private set; }
+        public string SceneSimpleName
+        {
+            get { return Path.GetFileName(this.SceneFile); }
+        }
+
+        public ResourceManager ResourceManager { get; private set; }
+        public Scene CurrentScene { get; private set; }
+        public SceneWrapper WrappedScene { get; private set; }
 
         #endregion
         
@@ -42,58 +55,124 @@ namespace Edytejshyn.Logic
         #region Methods
         public EditorLogic()
         {
-            _resourceManager = ResourceManager.Instance;
-            _serializer = _resourceManager.Serializer;
+            ResourceManager = ResourceManager.Instance;
+            _serializer = ResourceManager.Serializer;
             History = new HistoryManager(this);
         }
 
-        public void LoadFile(string path)
+        public void LoadContent(string path)
         {
             try
             {
-                using (FileStream stream = File.Open(path, FileMode.Open))
-                {
-                    Content = (XmlContent)_serializer.Deserialize(new GameXmlReader(stream, GameContent));
-                    this.FilePath = path;
-                    this.History.Clear();
-                    this.Logger.Log(LoggerLevel.Info, string.Format("Loaded file {0}", path));
-                }
+                _audioEngine = new AudioEngine(@"Content\Audio\GameAudio.xgs");
+                _waveBank = new WaveBank(_audioEngine, @"Content\Audio\WaveBank.xwb");
+                _soundBank = new SoundBank(_audioEngine, @"Content\Audio\SoundBank.xsb");
+
+                ResourceManager.AssignAudioBank(_soundBank);
+                ResourceManager.LoadContent(path, GameContentManager);
+                path = Path.GetFullPath(path);
+                this.ContentFile = path;
+                this.Logger.Log(LoggerLevel.Info, string.Format("Loaded content {0}", path));
+
+                //using (FileStream stream = File.Open(path, FileMode.Open))
+                //{
+                //    XmlContent = (XmlContent)_serializer.Deserialize(new GameXmlReader(stream, GameContentManager));
+                //    path = Path.GetFullPath(path);
+                //    this.ContentFile = path;
+                //    this.Logger.Log(LoggerLevel.Info, string.Format("Loaded content {0}", path));
+                //}
             }
             catch (Exception ex)
             {
-                throw new EditorException("Error while loading XML file", ex);
+                throw new EditorException("Error while loading content XML file", ex);
             }
         }
 
         /// <summary>
-        /// Saves file with new name.
+        /// Saves content with a new name.
         /// </summary>
         /// <param name="path">Path to destination file</param>
-        public void SaveFile(string path)
+        /// <param name="bar"></param>
+        public void SaveContent(string path)
         {
             try
             {
-                using (FileStream stream = File.Open(path, FileMode.Create))
-                {
-                    _serializer.Serialize(stream, Content);
-                    this.FilePath = path;
-                    this.History.SetSavedPoint();
-                    this.Logger.Log(LoggerLevel.Info, string.Format("Saved file {0}", path));
-                }
+                ResourceManager.SaveContent(path);
+                path = Path.GetFullPath(path);
+                this.ContentFile = path;
+                this.Logger.Log(LoggerLevel.Info, string.Format("Saved content {0}", path));
+
+                //using (FileStream stream = File.Open(path, FileMode.Create))
+                //{
+                //    _serializer.Serialize(stream, XmlContent);
+                //    path = Path.GetFullPath(path);
+                //    this.ContentFile = path;
+                //    this.Logger.Log(LoggerLevel.Info, string.Format("Saved content {0}", path));
+                //}
             }
             catch (Exception ex)
             {
-                throw new EditorException("Failed to save XML file", ex);
+                throw new EditorException("Failed to save content XML file", ex);
             }
         }
 
         /// <summary>
-        /// Saves file without changing name
+        /// Saves content without changing name
         /// </summary>
-        public void SaveFile()
+        public void SaveContent()
         {
-            SaveFile(this.FilePath);
+            SaveContent(this.ContentFile);
         }
+
+
+
+        public void LoadScene(string path)
+        {
+            if (ContentFile == null) throw new EditorException("Cannot load scene without content. Open content first.");
+            try
+            {
+                CurrentScene = new Scene();
+                CurrentScene.Load(path);
+                WrappedScene = new SceneWrapper(this);
+                path = Path.GetFullPath(path);
+                this.SceneFile = path;
+                this.History.Clear();
+                this.Logger.Log(LoggerLevel.Info, string.Format("Loaded scene {0}", path));
+            }
+            catch (Exception ex)
+            {
+                throw new EditorException("Error while loading scene file", ex);
+            }
+        }
+
+        /// <summary>
+        /// Saves scene with a new name.
+        /// </summary>
+        /// <param name="path">Path to destination file</param>
+        public void SaveScene(string path)
+        {
+            try
+            {
+                CurrentScene.Save(path);
+                path = Path.GetFullPath(path);
+                this.SceneFile = path;
+                this.History.SetSavedPoint();
+                this.Logger.Log(LoggerLevel.Info, string.Format("Saved scene {0}", path));
+            }
+            catch (Exception ex)
+            {
+                throw new EditorException("Failed to save scene XML", ex);
+            }
+        }
+
+        /// <summary>
+        /// Saves scene without changing name
+        /// </summary>
+        public void SaveScene()
+        {
+            SaveScene(this.SceneFile);
+        }
+
 
         #endregion
 

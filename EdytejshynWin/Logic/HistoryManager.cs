@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Edytejshyn.Model;
 
 namespace Edytejshyn.Logic
 {
@@ -70,8 +71,18 @@ namespace Edytejshyn.Logic
             command.Do();
             _backwardStack.Push(command);
             _logic.Logger.Log(LoggerLevel.Info, command.Message);
-            AheadSaved++;
+            ChangeAheadSaved(command, 1);
             UpdateEvent(this);
+        }
+
+        /// <summary>
+        /// Changes AheadSaved property only if command affects data.
+        /// </summary>
+        /// <param name="command">the command</param>
+        /// <param name="change">change in counter to add</param>
+        private void ChangeAheadSaved(ICommand command, int change)
+        {
+            if (command.AffectsData) AheadSaved += change;
         }
 
         public void Undo()
@@ -82,7 +93,7 @@ namespace Edytejshyn.Logic
             cmd.Undo();
             _forwardStack.Push(cmd);
             _logic.Logger.Log(LoggerLevel.Info, String.Format("Undo: {0}", cmd.Message));
-            AheadSaved--;
+            ChangeAheadSaved(cmd, -1);
             UpdateEvent(this);
         }
 
@@ -94,7 +105,7 @@ namespace Edytejshyn.Logic
             cmd.Do();
             _backwardStack.Push(cmd);
             _logic.Logger.Log(LoggerLevel.Info, String.Format("Redo: {0}", cmd.Message));
-            AheadSaved++;
+            ChangeAheadSaved(cmd, 1);
             UpdateEvent(this);
         }
 
