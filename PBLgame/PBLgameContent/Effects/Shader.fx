@@ -112,8 +112,8 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	for (int i = 0; i < lightsCount; ++i)
 	{
 		//directional
-		float4 lightDir = normalize((lightsPositions[i] - input.WorldPos) * lightsPoint[i] + lightsPositions[i] * lightsDirectional[i]); // same as dLight
-		float dirLightAffect = saturate(dot(lightDir, normal)) * lightsAttenuations[i]; //same as diffuseIntensity
+		float4 lightDir = normalize((lightsPositions[i] - input.WorldPos) * lightsPoint[i] + lightsPositions[i] * lightsDirectional[i]);
+		float dirLightAffect = saturate(dot(lightDir, normal)) * lightsAttenuations[i];
 		//point
 		float d = distance(lightsPositions[i], input.WorldPos);
 		float att = 1 - pow(clamp(d / lightsAttenuations[i], 0, 1),lightsFalloffs[i]);
@@ -135,7 +135,7 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	float4 textureColor = tex2D(diffuseSampler, input.TextureCoordinate);
 	textureColor.a = 1;
 
-	return saturate((textureColor * /*diffuseIntensity  * */ totalLight)/* + specular*/) + emissive;
+	return saturate((textureColor *  totalLight) + totalSpecular) + emissive;
 }
 
 technique PhongBlinn

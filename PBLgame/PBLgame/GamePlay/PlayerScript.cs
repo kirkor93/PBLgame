@@ -44,7 +44,8 @@ namespace PBLgame.GamePlay
             
             if(angle - _angle != 0.0f)
             {
-                _gameObject.transform.Rotation = Vector3.Lerp(_gameObject.transform.Rotation,new Vector3(MathHelper.ToDegrees(angle), 0.0f, 0.0f),0.5f);
+                //_gameObject.transform.Rotation = Vector3.Lerp(_gameObject.transform.Rotation,new Vector3(MathHelper.ToDegrees(angle), 0.0f, 0.0f),0.5f);
+                _gameObject.transform.Rotation = new Vector3(MathHelper.ToDegrees(angle),0,0);
                 _angle = angle;
             }
         }

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace PBLgame.Engine.GameObjects
 {
-    public class DirectionalLight : Light
+    public class MyDirectionalLight : Light
     {
         #region Variables
         private float _intensity;
@@ -36,11 +36,6 @@ namespace PBLgame.Engine.GameObjects
             {
                 transform.Position = value;
             }
-        }
-        private override Transform transform
-        {
-            get;
-            set;
         }
         #endregion
 

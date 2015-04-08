@@ -4,6 +4,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using PBLgame.Engine.GameObjects;
+using Microsoft.Xna.Framework;
 
 namespace PBLgame.Engine.Scenes
 {
@@ -13,7 +14,8 @@ namespace PBLgame.Engine.Scenes
         #region Private
         //It's gonna be scene graph later
         private List<GameObject> _gameObjects;
-        private List<int> _takenIdNumbers; 
+        private List<int> _takenIdNumbers;
+        private static List<Light> _sceneLights;
         private Camera _mainCamera;
 
         private readonly XmlSerializer _serializer;
@@ -35,6 +37,18 @@ namespace PBLgame.Engine.Scenes
             private set { _gameObjects = value; }
         }
 
+        public static List<Light> SceneLights
+        {
+            get
+            {
+                return _sceneLights;
+            }
+            set
+            {
+                _sceneLights = value;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -42,8 +56,12 @@ namespace PBLgame.Engine.Scenes
         public Scene()
         {
             _gameObjects = new List<GameObject>();
+            _sceneLights = new List<Light>();
             _serializer = new XmlSerializer(typeof(Scene));
             _takenIdNumbers = new List<int> {0};
+
+            CreateLights();
+
         }
 
         public void Draw()
@@ -83,6 +101,16 @@ namespace PBLgame.Engine.Scenes
             }
         }
 
+        public void AddLight(Light obj)
+        {
+            _sceneLights.Add(obj);
+        }
+
+        public void RemoveLight(Light obj)
+        {
+            _sceneLights.Remove(obj);
+        }
+
         public void RemoveGameObject(int id)
         {
             _takenIdNumbers.RemoveAll(item => item == id);
@@ -116,6 +144,34 @@ namespace PBLgame.Engine.Scenes
                 //setting unique Id list
                 _takenIdNumbers.Add(gameObject.ID);
             }
+        }
+
+        //TMP
+        private void CreateLights()
+        {
+            PointLight l1 = new PointLight();
+            l1.Type = LightType.point;
+            l1.Attenuation = 10.0f;
+            l1.Position = new Vector3(-5, -5, -5);
+            l1.Color = new Vector4(1, 1, 1, 1);
+            l1.FallOff = 2.0f;
+
+            MyDirectionalLight l2 = new MyDirectionalLight();
+            l2.Type = LightType.directional;
+            l2.Intensity = 0.2f;
+            l2.Direction = new Vector3(-1, -1, 0);
+            l2.Color = new Vector4(1, 1, 1, 1);
+
+            PointLight l3 = new PointLight();
+            l3.Type = LightType.point;
+            l3.Position = new Vector3(-2, 2, -2);
+            l3.Color = new Vector4(1, 1, 1, 1);
+            l3.Attenuation = 10.0f;
+            l3.FallOff = 2f;
+
+            AddLight(l1);
+            AddLight(l2);
+            //AddLight(l3);
         }
 
         #region XML Serialization
