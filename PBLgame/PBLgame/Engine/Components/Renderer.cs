@@ -16,6 +16,7 @@ namespace PBLgame.Engine.Components
         private Mesh _myMesh;
         private MeshMaterial _material;
         private Effect _myEffect;
+        private Scene _scene;
         #endregion
         #endregion  
 
@@ -59,8 +60,9 @@ namespace PBLgame.Engine.Components
         #endregion
 
         #region Methods
-        public Renderer(GameObject owner) : base(owner)
+        public Renderer(GameObject owner, Scene scene) : base(owner)
         {
+            _scene = scene;
             _myMesh = null;
         }
 
@@ -110,7 +112,7 @@ namespace PBLgame.Engine.Components
 
         private void ParameterizeEffectWithLights()
         {
-            List<Light> lights = Scene.SceneLights;
+            List<Light> lights = _scene.SceneLights;
             Vector3[] pos_dir = new Vector3[30];
             Vector4[] colors = new Vector4[30];
             float[] att_int = new float[30];

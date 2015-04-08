@@ -37,7 +37,7 @@ namespace PBLgame.Engine.Scenes
             private set { _gameObjects = value; }
         }
 
-        public static List<Light> SceneLights
+        public List<Light> SceneLights
         {
             get
             {
@@ -129,7 +129,7 @@ namespace PBLgame.Engine.Scenes
         {
             using (FileStream file = new FileStream(path, FileMode.Open))
             {
-                Scene scene = (Scene) _serializer.Deserialize(file);
+                Scene scene = (Scene) _serializer.Deserialize(new SceneXmlReader(file, this));
                 GameObjects = scene._gameObjects;
             }
             //finding parents
@@ -175,6 +175,20 @@ namespace PBLgame.Engine.Scenes
         }
 
         #region XML Serialization
+
+        public class SceneXmlReader : XmlTextReader
+        {
+            public readonly Scene Scene;
+
+            public SceneXmlReader(Stream stream, Scene scene)
+                : base(stream)
+            {
+                Scene = scene;
+                WhitespaceHandling = WhitespaceHandling.Significant;
+                Normalization = true;
+                XmlResolver = null;
+            }
+        }
 
         public XmlSchema GetSchema()
         {

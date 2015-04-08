@@ -6,6 +6,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using PBLgame.Engine.Components;
+using PBLgame.Engine.Scenes;
 
 namespace PBLgame.Engine.GameObjects
 {
@@ -399,6 +400,7 @@ namespace PBLgame.Engine.GameObjects
 
         public void ReadXml(XmlReader reader)
         {
+            Scene scene = ((Scene.SceneXmlReader) reader).Scene;
             reader.MoveToContent();
             Name = reader.GetAttribute("Name");
             Tag = reader.GetAttribute("Tag");
@@ -416,47 +418,47 @@ namespace PBLgame.Engine.GameObjects
             if (reader.Name == "Transform")
             {
                 transform = new Transform(this);
-                (transform as IXmlSerializable).ReadXml(reader);
+                transform.ReadXml(reader);
             }
 
             if (reader.Name == "Renderer")
             {
-                renderer = new Renderer(this);
-                (renderer as IXmlSerializable).ReadXml(reader);
+                renderer = new Renderer(this, scene);
+                renderer.ReadXml(reader);
             }
 
             if (reader.Name == "Collision")
             {
                 collision = new Collision(this);
-                (collision as IXmlSerializable).ReadXml(reader);
+                collision.ReadXml(reader);
             }
 
             if (reader.Name == "Animator")
             {
                 animator = new Animator(this);
-                (animator as IXmlSerializable).ReadXml(reader);
+                animator.ReadXml(reader);
             }
 
             if (reader.Name == "AudioSource")
             {
                 audioSource = new AudioSource(this);
-                (audioSource as IXmlSerializable).ReadXml(reader);
+                audioSource.ReadXml(reader);
             }
 
             if (reader.Name == "ParticleSystem")
             {
                 particleSystem = new ParticleSystem(this);
-                (particleSystem as IXmlSerializable).ReadXml(reader);
+                particleSystem.ReadXml(reader);
             }
 
             while (reader.NodeType != XmlNodeType.EndElement)
             {
                 string readerName = reader.Name;
-                Type type = TypeDelegator.GetType(readerName);
+                Type type = Type.GetType(readerName);
                 ConstructorInfo ctor = type.GetConstructor(new Type[] {typeof (GameObject)});
 
                 Component component = ctor.Invoke(new object[] { this }) as Component;
-                (component as IXmlSerializable).ReadXml(reader);
+                component.ReadXml(reader);
                 _components.Add(component);
                 if (reader.Name == readerName)
                 {
