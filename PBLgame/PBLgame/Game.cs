@@ -87,11 +87,11 @@ namespace PBLgame
             ResourceManager.Instance.AssignAudioBank(_soundBank);
 
             _scene = new Scene();
-            _scene.Load(@"..\..\..\Scene 1.xml");
+            _scene.Load(@"Scene 1.xml");
             player = _scene.GameObjects.First();
             player.audioSource.Set3D(mainCamera.audioListener);
             player.audioSource.Play();
-            _scene.Save(@"..\..\..\Scene 1.xml");
+            _scene.Save(@"Scene 1.xml");
 
             
             ResourceManager.Instance.SaveContent();

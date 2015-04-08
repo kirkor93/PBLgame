@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Edytejshyn.Logic;
@@ -14,7 +15,7 @@ namespace Edytejshyn
         [STAThread]
         static void Main(string[] args)
         {
-            string contentFile = @"..\..\..\PBLgame\PBLgame\content.xml";
+            string contentFile = @"content.xml";
             string sceneFile = null;
             if (args.Length >= 1)
             {
