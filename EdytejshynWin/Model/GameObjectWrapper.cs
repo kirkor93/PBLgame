@@ -1,26 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using Edytejshyn.Logic.Commands;
+using Edytejshyn.Model.Commands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 
-namespace Edytejshyn.Logic
+namespace Edytejshyn.Model
 {
+    [DefaultProperty("Name")]
     public class GameObjectWrapper
     {
         #region Variables
         private GameObject _gameObject;
-        private readonly MainForm _mainForm;
         private TransformWrapper _transform;
+        private List<GameObjectWrapper> _children = new List<GameObjectWrapper>();
+
+        public event PropertyChangedEventHandler ChangedEvent;
+        public delegate void SetterHandler(ICommand command);
+        private event SetterHandler SetterEvent;
         #endregion
 
         #region Properties
-        [Browsable(false)]
-        public event PropertyChangedEventHandler ChangedEvent;
      
         [Description("Name of the game object")]
         [Category("General")]
@@ -29,7 +33,7 @@ namespace Edytejshyn.Logic
             get { return _gameObject.Name; }
             set
             {
-                FireChangedEvent(x => _gameObject.Name = x, _gameObject.Name, value);
+                FireSetter(x => _gameObject.Name = x, _gameObject.Name, value);
             }
         }
 
@@ -41,29 +45,39 @@ namespace Edytejshyn.Logic
             get { return _gameObject.Tag; }
             set
             {
-                FireChangedEvent(x => _gameObject.Tag = x, _gameObject.Tag, value);
+                FireSetter(x => _gameObject.Tag = x, _gameObject.Tag, value);
             }
         }
 
-        [Category("General")]
+        [Category("Components")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public TransformWrapper Transform
         {
             get { return _transform; }
         }
+
+        [Category("Components")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public TransformWrapper Renderer
+        {
+            get { return null; }
+        }
         #endregion
 
         #region Methods
-        public GameObjectWrapper(GameObject gameObject, MainForm mainForm)
+        public GameObjectWrapper(GameObject gameObject)
         {
             _gameObject = gameObject;
-            _mainForm = mainForm;
             if (_gameObject.transform != null)
                 _transform = new TransformWrapper(this, _gameObject.transform);
+            foreach (GameObject child in _gameObject.GetChildren())
+            {
+                _children.Add(new GameObjectWrapper(child));
+            }
 
         }
 
-        public void FireChangedEvent<T>(Action<T> setValue, T oldValue, T newValue, [CallerMemberName] string property = null)
+        public void FireSetter<T>(Action<T> setValue, T oldValue, T newValue, [CallerMemberName] string property = null)
         {
             if (oldValue.Equals(newValue)) return;
             setValue += delegate
@@ -71,14 +85,40 @@ namespace Edytejshyn.Logic
                 if (ChangedEvent != null)
                     ChangedEvent(this, new PropertyChangedEventArgs(property));
             };
-            _mainForm.Logic.History.NewAction(new ChangeCommand<T>(string.Format("{0} of {1}", property, Name), setValue, oldValue, newValue));
+            if (SetterEvent != null)
+                SetterEvent(new ChangeCommand<T>(string.Format("{0} of {1}", property, Name), setValue, oldValue, newValue));
         }
+
+        public void AttachSetterHandler(SetterHandler handler)
+        {
+            SetterEvent += handler;
+            foreach (GameObjectWrapper child in _children)
+            {
+                child.AttachSetterHandler(handler);
+            }
+        }
+
+        public void DetachSetterHandler(SetterHandler handler)
+        {
+            SetterEvent -= handler;
+            foreach (GameObjectWrapper child in _children)
+            {
+                child.DetachSetterHandler(handler);
+            }
+        }
+
 
         public GameObject[] GetChildren()
         {
             return _gameObject.GetChildren();
         }
+
+        public GameObjectWrapper[] GetWrappedChildren()
+        {
+            return _children.ToArray();
+        }
         #endregion
+
     }
 
     public class TransformWrapper
@@ -95,7 +135,7 @@ namespace Edytejshyn.Logic
             get { return _transform.Position; }
             set
             {
-                _parent.FireChangedEvent(x => _transform.Position = x, _transform.Position, value);
+                _parent.FireSetter(x => _transform.Position = x, _transform.Position, value);
             }
         }
 
@@ -105,7 +145,7 @@ namespace Edytejshyn.Logic
             get { return _transform.Rotation; }
             set
             {
-                _parent.FireChangedEvent(x => _transform.Rotation = x, _transform.Rotation, value);
+                _parent.FireSetter(x => _transform.Rotation = x, _transform.Rotation, value);
             }
         }
 
@@ -115,7 +155,7 @@ namespace Edytejshyn.Logic
             get { return _transform.Scale; }
             set
             {
-                _parent.FireChangedEvent(x => _transform.Scale = x, _transform.Scale, value);
+                _parent.FireSetter(x => _transform.Scale = x, _transform.Scale, value);
             }
         }
         #endregion

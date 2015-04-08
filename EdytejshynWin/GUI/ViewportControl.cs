@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Forms;
 using Edytejshyn.GUI.XNA;
 using Edytejshyn.Logic;
-using Edytejshyn.Logic.Commands;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
 using Color = Microsoft.Xna.Framework.Color;
@@ -116,7 +115,7 @@ namespace Edytejshyn.GUI
                 //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
                 //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
-                MainForm.Logic.CurrentScene.Draw();
+                scene.Draw();
             }
 
             GraphicsDevice.BlendState = BlendState.AlphaBlend;

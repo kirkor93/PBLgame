@@ -1,4 +1,4 @@
-﻿namespace Edytejshyn.Logic
+﻿namespace Edytejshyn.Model
 {
     /// <summary>
     /// Command pattern command for history manager (undo/redo)

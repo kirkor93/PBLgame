@@ -1,6 +1,6 @@
 using System;
 
-namespace Edytejshyn.Logic.Commands
+namespace Edytejshyn.Model.Commands
 {
     public class ChangeCommand<T> : ICommand
     {

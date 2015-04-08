@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using Edytejshyn.Logic;
+using Edytejshyn.Model;
 
 namespace Edytejshyn.GUI
 {

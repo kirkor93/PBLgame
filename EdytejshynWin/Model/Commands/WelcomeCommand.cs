@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Edytejshyn.Logic.Commands
+namespace Edytejshyn.Model.Commands
 {
     public class WelcomeCommand : ICommand
     {

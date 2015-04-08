@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Edytejshyn.Model;
 
 namespace Edytejshyn.Logic
 {

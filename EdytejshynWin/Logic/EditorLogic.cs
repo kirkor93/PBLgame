@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
+using Edytejshyn.Model;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using PBLgame.Engine.Scenes;
@@ -46,6 +47,7 @@ namespace Edytejshyn.Logic
 
         public ResourceManager ResourceManager { get; private set; }
         public Scene CurrentScene { get; private set; }
+        public SceneWrapper WrappedScene { get; private set; }
 
         #endregion
         
@@ -131,6 +133,7 @@ namespace Edytejshyn.Logic
             {
                 CurrentScene = new Scene();
                 CurrentScene.Load(path);
+                WrappedScene = new SceneWrapper(this);
                 path = Path.GetFullPath(path);
                 this.SceneFile = path;
                 this.History.Clear();

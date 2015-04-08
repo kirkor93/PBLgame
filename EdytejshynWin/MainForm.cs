@@ -457,7 +457,7 @@ namespace Edytejshyn
         private void SceneTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             SceneTreeNode node = e.Node as SceneTreeNode;
-            propertyGrid.SelectedObject = (node == null) ? null : node.GameObject;
+            propertyGrid.SelectedObject = (node == null) ? null : node.WrappedGameObject;
             propertyGrid.ExpandAllGridItems();
         }
         #endregion
