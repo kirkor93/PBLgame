@@ -137,6 +137,7 @@
     <Compile Include="Model\GameObjectWrapper.cs" />
     <Compile Include="Model\ICommand.cs" />
     <Compile Include="Model\IDrawerStrategy.cs" />
+    <Compile Include="Model\RendererWrapper.cs" />
     <Compile Include="Model\SceneWrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

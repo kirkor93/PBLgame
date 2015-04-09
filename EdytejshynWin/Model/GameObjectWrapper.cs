@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+using Edytejshyn.Logic;
 using Edytejshyn.Model.Commands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
-using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 
@@ -17,20 +18,20 @@ namespace Edytejshyn.Model
     public class GameObjectWrapper
     {
         #region Variables
-        private GameObject _gameObject;
-        private TransformWrapper _transform;
-        private RendererWrapper _renderer;
-        private List<GameObjectWrapper> _children = new List<GameObjectWrapper>();
+        protected GameObject _gameObject;
+        protected TransformWrapper _transform;
+        protected RendererWrapper _renderer;
+        protected List<GameObjectWrapper> _children = new List<GameObjectWrapper>();
 
         public event PropertyChangedEventHandler ChangedEvent;
         public delegate void SetterHandler(ICommand command);
-        private event GameObjectWrapper.SetterHandler SetterEvent;
+        private event SetterHandler SetterEvent;
         #endregion
 
         #region Properties
      
         [Description("Name of the game object")]
-        [Category("General")]
+        [Category("0.General")]
         public string Name
         {
             get { return _gameObject.Name; }
@@ -39,7 +40,7 @@ namespace Edytejshyn.Model
 
 
         [Description("Tag for the game object")]
-        [Category("General")]
+        [Category("0.General")]
         public string Tag
         {
             get { return _gameObject.Tag; }
@@ -77,7 +78,7 @@ namespace Edytejshyn.Model
 
             foreach (GameObject child in _gameObject.GetChildren())
             {
-                _children.Add(new GameObjectWrapper(child));
+                _children.Add(GameObjectWrappingFactory.Wrap(child));
             }
 
         }
@@ -129,6 +130,76 @@ namespace Edytejshyn.Model
 
     }
 
+
+    public abstract class LightWrapper : GameObjectWrapper
+    {
+        [TypeConverter(typeof(Vector4Converter))]
+        [Category("1.Light")]
+        public Vector4 Color
+        {
+            get { return ((Light) _gameObject).Color; }
+            set { FireSetter(x => ((Light)_gameObject).Color = x, ((Light)_gameObject).Color, value); }
+        }
+
+        protected LightWrapper(Light light) : base(light) { }
+    }
+
+    public class PointLightWrapper : LightWrapper
+    {
+
+        #region Properties
+
+        [Category("2.Point Light")]
+        public float Attenuation
+        {
+            get { return ((PointLight) _gameObject).Attenuation; }
+            set { FireSetter(x => ((PointLight) _gameObject).Attenuation = x, ((PointLight) _gameObject).Attenuation, value); }
+        }
+
+        [Category("2.Point Light")]
+        public float FallOff
+        {
+            get { return ((PointLight) _gameObject).FallOff; }
+            set { FireSetter(x => ((PointLight) _gameObject).FallOff = x, ((PointLight) _gameObject).FallOff, value); }
+        }
+        #endregion 
+
+        public PointLightWrapper(PointLight light) : base(light) { }
+    }
+
+    public class DirectionalLightWrapper : LightWrapper
+    {
+
+        #region Properties
+
+        [Category("2.Directional Light")]
+        public float Intensity
+        {
+            get { return ((MyDirectionalLight)_gameObject).Intensity; }
+            set { FireSetter(x => ((MyDirectionalLight)_gameObject).Intensity = x, ((MyDirectionalLight)_gameObject).Intensity, value); }
+        }
+        #endregion
+
+        public DirectionalLightWrapper(MyDirectionalLight light) : base(light) { }
+    }
+
+    /// <summary>
+    /// Factory creating wrappers with highest possible level of inheritance.
+    /// </summary>
+    public static class GameObjectWrappingFactory
+    {
+        public static GameObjectWrapper Wrap(GameObject obj)
+        {
+            GameObjectWrapper wrapper;
+
+            if (obj is PointLight) wrapper = new PointLightWrapper((PointLight)obj);
+            else if (obj is MyDirectionalLight) wrapper = new DirectionalLightWrapper((MyDirectionalLight)obj);
+            else wrapper = new GameObjectWrapper(obj);
+
+            return wrapper;
+        }
+    }
+
     public class TransformWrapper
     {
         #region Variables
@@ -170,87 +241,6 @@ namespace Edytejshyn.Model
         {
             return "";
         }
-        #endregion
-    }
-
-
-    public class RendererWrapper
-    {
-        public class MeshWrapper
-        {
-            #region Variables
-
-            public readonly RendererWrapper Parent;
-            private readonly Mesh _mesh;
-            #endregion
-
-            #region Properties
-            public int ID
-            {
-                get { return _mesh.Id; }
-            }
-
-            public string Path
-            {
-                get { return _mesh.Path; }
-            }
-
-            #endregion
-
-            public MeshWrapper(RendererWrapper renderer, Mesh mesh)
-            {
-                Parent = renderer;
-                _mesh = mesh;
-            }
-        }
-
-        #region Variables
-
-        public readonly GameObjectWrapper Parent;
-        private Renderer _renderer;
-        private MeshWrapper _mesh;
-        #endregion
-
-        #region Properties
-        [TypeConverter(typeof(ExpandableObjectConverter))]
-        public MeshWrapper Mesh
-        {
-            get { return _mesh; }
-        }
-
-        [TypeConverter(typeof(ExpandableObjectConverter))]
-        public MeshMaterial Material
-        {
-            get { return _renderer.Material; }
-            set { Parent.FireSetter(x => _renderer.Material = x, _renderer.Material, value); }
-        }
-
-        [TypeConverter(typeof(ExpandableObjectConverter))]
-        public Effect Effect
-        {
-            get { return _renderer.MyEffect; }
-            set { Parent.FireSetter(x => _renderer.MyEffect = x, _renderer.MyEffect, value); }
-        }
-        #endregion
-
-        #region Methods
-        public RendererWrapper(GameObjectWrapper parent, Renderer renderer)
-        {
-            Parent = parent;
-            _renderer = renderer;
-            _mesh = new MeshWrapper(this, _renderer.MyMesh);
-        }
-
-        public void Draw(IDrawerStrategy drawerStrategy)
-        {
-            drawerStrategy.Draw(Parent);
-        }
-
-        public override string ToString()
-        {
-            return "";
-        }
-
         #endregion
     }
 

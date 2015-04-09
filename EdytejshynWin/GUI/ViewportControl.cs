@@ -33,6 +33,7 @@ namespace Edytejshyn.GUI
         public MainForm MainForm;
         private bool _mouseMoved;
         private IDrawerStrategy _oldDrawerStrategy;
+        private int _counter = 0;
 
         #endregion
 
@@ -109,6 +110,7 @@ namespace Edytejshyn.GUI
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             SceneWrapper scene = MainForm.Logic.WrappedScene;
+
             if (scene != null)
             {
                 // wrong stencil fix:
@@ -131,6 +133,8 @@ namespace Edytejshyn.GUI
                 Text = "[Focus lost]";
                 textColor = Color.Orange;
             }
+            Text = string.Format("Counter: {0}", _counter);
+            _counter++;
             _spriteBatch.DrawString(_osdFont, Text, position, textColor, 0.0f, Vector2.Zero, new Vector2(0.75f), SpriteEffects.None, 0f);
             _spriteBatch.End();
         }
@@ -193,7 +197,7 @@ namespace Edytejshyn.GUI
                 Text = string.Format("Lookaround: {0}, {1}", rot.X, rot.Y);
                 Camera.Update();
             }
-            else
+            else if(_currentMouse.NoneButton)
             {
                 // TODO search collision with gizmo
                 Text = string.Format("-");
