@@ -91,11 +91,7 @@ namespace PBLgame
             player = _scene.GameObjects.First();
             player.audioSource.Set3D(mainCamera.audioListener);
             player.audioSource.Play();
-            _scene.Save(@"Scene 1.xml");
-
-            
-            ResourceManager.Instance.SaveContent();
-            
+                        
             // TODO: use this.Content to load your game content here
         }
 
@@ -141,7 +137,7 @@ namespace PBLgame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //For Teting----------------
 

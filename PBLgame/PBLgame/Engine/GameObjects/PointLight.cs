@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Globalization;
+using System.Xml;
 using Microsoft.Xna.Framework;
 
 using PBLgame.Engine.Components;
@@ -52,15 +53,32 @@ namespace PBLgame.Engine.GameObjects
         #endregion 
 
         #region Methods
-        public void Update()
-        {
 
+        #region XML Serialization
+
+        public override void WriteXml(XmlWriter writer)
+        {
+            CultureInfo culture = CultureInfo.InvariantCulture;
+
+            base.WriteXml(writer);
+            writer.WriteStartElement("PointLight");
+            writer.WriteAttributeString("Attenuation", Convert.ToString(Attenuation, culture));
+            writer.WriteAttributeString("FallOff", Convert.ToString(FallOff, culture));
+            writer.WriteEndElement();
         }
 
-        public void Draw()
+        public override void ReadXml(XmlReader reader)
         {
+            base.ReadXml(reader);
 
+            CultureInfo culture = CultureInfo.InvariantCulture;
+            Attenuation = Convert.ToSingle(reader.GetAttribute("Attenuation"), culture);
+            FallOff = Convert.ToSingle(reader.GetAttribute("FallOff"), culture);
+            reader.Read();
         }
+
+        #endregion
+
         #endregion
     }
 }

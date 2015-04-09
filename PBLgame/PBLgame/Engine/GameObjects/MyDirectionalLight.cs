@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Globalization;
+using System.Xml;
 using PBLgame.Engine.Components;
 
 using Microsoft.Xna.Framework;
@@ -40,15 +41,30 @@ namespace PBLgame.Engine.GameObjects
         #endregion
 
         #region Methods
-        public void Update()
+
+        #region XML serialization
+
+        public override void WriteXml(XmlWriter writer)
         {
+            CultureInfo culture = CultureInfo.InvariantCulture;
+
+            base.WriteXml(writer);
+            writer.WriteStartElement("DirectionalLight");
+            writer.WriteAttributeString("Intensity", Convert.ToString(Intensity, culture));
+            writer.WriteEndElement();
+        }
+
+        public override void ReadXml(XmlReader reader)
+        {
+            base.ReadXml(reader);
+
+            CultureInfo culture = CultureInfo.InvariantCulture;
+            Intensity = Convert.ToSingle(reader.GetAttribute("Intensity"), culture);
+            reader.Read();
 
         }
 
-        public void Draw()
-        {
-
-        }
+        #endregion
         #endregion
     }
 }

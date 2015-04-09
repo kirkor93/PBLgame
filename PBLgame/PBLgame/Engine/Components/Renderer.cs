@@ -86,7 +86,7 @@ namespace PBLgame.Engine.Components
 
         public override void Draw()
         {
-
+            ParameterizeEffectWithLights();
             foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
             {
                 foreach (ModelMeshPart part in modelMesh.MeshParts)
@@ -104,7 +104,6 @@ namespace PBLgame.Engine.Components
                     MyEffect.Parameters["specularTexture"].SetValue(_material.Specular);
                     MyEffect.Parameters["emissiveIntensity"].SetValue(0);
                     MyEffect.Parameters["emissiveTexture"].SetValue(_material.Emissive);
-                    ParameterizeEffectWithLights();
                 }
                 modelMesh.Draw();
             }
@@ -122,7 +121,7 @@ namespace PBLgame.Engine.Components
 
             for (int i = 0; i < lights.Count; ++i )
             {
-                if(lights[i].Type == LightType.directional)
+                if(lights[i].Type == LightType.Directional)
                 {
                     MyDirectionalLight dLight = lights[i] as MyDirectionalLight;
                     pos_dir[i] = dLight.Direction;

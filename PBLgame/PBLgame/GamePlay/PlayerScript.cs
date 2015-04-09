@@ -51,7 +51,7 @@ namespace PBLgame.GamePlay
         }
         private void CharacterTranslate(Object o, MoveArgs e)
         {
-            e.AxisValue *= 0.01f;
+//            e.AxisValue *= 0.01f;
             _gameObject.transform.Translate(e.AxisValue.X, e.AxisValue.Y, 0.0f);
 
         }
