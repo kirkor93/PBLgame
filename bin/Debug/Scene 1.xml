@@ -50,13 +50,27 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
     </GameObject>
-    <GameObject Name="asdasd" Tag="Ghost" Id="7">
+    <GameObject Name="Gandalf" Tag="Ghost" Id="7">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
-        <Rotation x="2" y="0" z="3" />
-        <Scale x="1" y="1" z="1" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="0.1" y="0.1" z="0.1" />
       </Transform>
       <Renderer Enabled="True" MeshId="2" MaterialId="1" />
+      <PBLgame.GamePlay.PlayerScript Enabled="True" />
     </GameObject>
   </GameObjects>
+  <Lights>
+    <Light Type="Directional">
+      <Color r="1" g="1" b="1" a="1" />
+      <GameObject>
+        <Transform Enabled="True">
+          <Position x="-1" y="-1" z="0" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <DirectionalLight Intensity="1" />
+    </Light>
+  </Lights>
 </Scene>
