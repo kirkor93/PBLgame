@@ -61,7 +61,7 @@ namespace Edytejshyn.Model
         }
 
         [Browsable(false)]
-        public GameObject Content
+        public GameObject Nut
         {
             get { return _gameObject; }
         }

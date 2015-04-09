@@ -43,6 +43,8 @@
             this.viewMenuBar = new System.Windows.Forms.ToolStripMenuItem();
             this.undoCameraMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoCameraMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.renderingModeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenuBar = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerVert = new System.Windows.Forms.SplitContainer();
@@ -195,7 +197,9 @@
             // 
             this.viewMenuBar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.undoCameraMenuItem,
-            this.redoCameraMenuItem});
+            this.redoCameraMenuItem,
+            this.toolStripMenuItem2,
+            this.renderingModeMenuItem});
             this.viewMenuBar.Name = "viewMenuBar";
             this.viewMenuBar.Size = new System.Drawing.Size(44, 20);
             this.viewMenuBar.Text = "&View";
@@ -219,6 +223,18 @@
             this.redoCameraMenuItem.Size = new System.Drawing.Size(224, 22);
             this.redoCameraMenuItem.Text = "&Redo camera move";
             this.redoCameraMenuItem.Click += new System.EventHandler(this.RedoCameraMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(221, 6);
+            // 
+            // renderingModeMenuItem
+            // 
+            this.renderingModeMenuItem.Name = "renderingModeMenuItem";
+            this.renderingModeMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.renderingModeMenuItem.Text = "&Rendering mode";
+            this.renderingModeMenuItem.DropDownOpening += new System.EventHandler(this.RenderingModeMenuItem_DropDownOpening);
             // 
             // helpMenuBar
             // 
@@ -528,6 +544,8 @@
         private System.Windows.Forms.ToolStripMenuItem viewMenuBar;
         public System.Windows.Forms.ToolStripMenuItem undoCameraMenuItem;
         public System.Windows.Forms.ToolStripMenuItem redoCameraMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem renderingModeMenuItem;
     }
 }
 

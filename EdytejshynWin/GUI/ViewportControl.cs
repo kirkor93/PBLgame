@@ -32,6 +32,7 @@ namespace Edytejshyn.GUI
 
         public MainForm MainForm;
         private bool _mouseMoved;
+        private IDrawerStrategy _oldDrawerStrategy;
 
         #endregion
 
@@ -116,7 +117,7 @@ namespace Edytejshyn.GUI
                 //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
                 //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
-                scene.Draw(MainForm.RealisticDrawerStrategy);
+                scene.Draw(MainForm.CurrentDrawerStrategy);
             }
 
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
@@ -220,6 +221,9 @@ namespace Edytejshyn.GUI
                     // FPS camera lookaround
                     _currentMouse.Right = true;
                     Cursor.Current = Cursors.SizeAll;
+                    //_oldDrawerStrategy = MainForm.CurrentDrawerStrategy;
+                    //MainForm.CurrentDrawerStrategy = MainForm.BasicDrawerStrategy;
+
                     break;
             }
             _mouseMoved = false;
@@ -239,6 +243,7 @@ namespace Edytejshyn.GUI
                     _currentMouse.Right = false;
                     Cursor.Current = Cursors.Default;
                     if(_mouseMoved) CameraHistory.NewPosition();
+                    //MainForm.CurrentDrawerStrategy = _oldDrawerStrategy;
                     break;
             }
             _mouseMoved = false;
