@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using Edytejshyn.GUI;
 using Edytejshyn.Logic;
+using Edytejshyn.Model;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
@@ -27,6 +28,9 @@ namespace Edytejshyn
         #region Properties
 
         public EditorLogic Logic { get; private set; }
+
+        public IDrawerStrategy RealisticDrawerStrategy { get; private set; }
+        public IDrawerStrategy BasicDrawerStrategy { get; private set; }
 
         #endregion
 
@@ -58,8 +62,11 @@ namespace Edytejshyn
             sceneTreeView.MainForm = this;
             viewportControl.MainForm = this;
 
+
             viewportControl.AfterInitializeEvent += () =>
             {
+                BasicDrawerStrategy = new BasicDrawerStrategy(viewportControl.GraphicsDevice);
+                RealisticDrawerStrategy = new RealisticDrawerStrategy();
                 this.Logic.GameContentManager = viewportControl.GameContentManager;
                 viewportControl.CameraHistory.UpdateEvent += UpdateCameraHistory;
                 if (contentToOpen == null) return;
@@ -133,12 +140,12 @@ namespace Edytejshyn
                 }
                 contentTreeView.Nodes.Add(meshesNode);
 
-                //GameObject sampleGameObject = new GameObject();
-                //sampleGameObject.AddComponent(new Renderer(sampleGameObject));
-                //sampleGameObject.renderer.MyMesh = Logic.XmlContent.Meshes[0];
-                //sampleGameObject.renderer.MyMesh.AssignRenderer(sampleGameObject.renderer);
-                //sampleGameObject.renderer.AssignMaterial(Logic.XmlContent.Materials[0]);
-                //sampleGameObject.renderer.MyEffect = Logic.GameContentManager.Load<Effect>("Effects/Shader");
+                TreeNode effectsNode = new TreeNode("Shader Effects");
+                foreach (var fx in this.Logic.ResourceManager.ShaderEffects)
+                {
+                    effectsNode.Nodes.Add(new EditorTreeNode(fx.Name, fx));
+                }
+                contentTreeView.Nodes.Add(effectsNode);
 
             }
             catch (Exception ex)
@@ -452,6 +459,13 @@ namespace Edytejshyn
                 if (contentTreeView.SelectedNode != null)
                     this.Logic.History.NewAction(contentTreeView.GetRemoveSelectedNodeCommand());
             }
+        }
+
+        private void ContentTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            EditorTreeNode node = e.Node as EditorTreeNode;
+            propertyGrid.SelectedObject = (node == null) ? null : node.Data;
+            propertyGrid.ExpandAllGridItems();
         }
 
         private void SceneTreeView_AfterSelect(object sender, TreeViewEventArgs e)

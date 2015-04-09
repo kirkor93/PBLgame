@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Forms;
 using Edytejshyn.GUI.XNA;
 using Edytejshyn.Logic;
+using Edytejshyn.Model;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
 using Color = Microsoft.Xna.Framework.Color;
@@ -106,7 +107,7 @@ namespace Edytejshyn.GUI
         protected override void Draw()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            Scene scene = MainForm.Logic.CurrentScene;
+            SceneWrapper scene = MainForm.Logic.WrappedScene;
             if (scene != null)
             {
                 // wrong stencil fix:
@@ -115,7 +116,7 @@ namespace Edytejshyn.GUI
                 //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
                 //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
-                scene.Draw();
+                scene.Draw(MainForm.RealisticDrawerStrategy);
             }
 
             GraphicsDevice.BlendState = BlendState.AlphaBlend;

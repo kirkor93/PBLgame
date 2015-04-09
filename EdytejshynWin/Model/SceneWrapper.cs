@@ -25,5 +25,14 @@ namespace Edytejshyn.Model
             }
         }
 
+        public void Draw(IDrawerStrategy strategy)
+        {
+            foreach (GameObjectWrapper wrapper in GameObjects)
+            {
+                wrapper.Draw(strategy);
+            }
+        }
+
     }
+
 }

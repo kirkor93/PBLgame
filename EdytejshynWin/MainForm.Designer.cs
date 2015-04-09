@@ -91,7 +91,7 @@
             this.helpMenuBar});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1077, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1176, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -248,8 +248,8 @@
             // splitContainerVert.Panel2
             // 
             this.splitContainerVert.Panel2.Controls.Add(this.splitContainerRightHoriz);
-            this.splitContainerVert.Size = new System.Drawing.Size(1077, 611);
-            this.splitContainerVert.SplitterDistance = 663;
+            this.splitContainerVert.Size = new System.Drawing.Size(1176, 611);
+            this.splitContainerVert.SplitterDistance = 704;
             this.splitContainerVert.TabIndex = 1;
             this.splitContainerVert.TabStop = false;
             // 
@@ -258,7 +258,7 @@
             this.viewportControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewportControl.Location = new System.Drawing.Point(0, 0);
             this.viewportControl.Name = "viewportControl";
-            this.viewportControl.Size = new System.Drawing.Size(663, 611);
+            this.viewportControl.Size = new System.Drawing.Size(704, 611);
             this.viewportControl.TabIndex = 2;
             this.viewportControl.Text = "XNA Viewport";
             // 
@@ -275,8 +275,8 @@
             // splitContainerRightHoriz.Panel2
             // 
             this.splitContainerRightHoriz.Panel2.Controls.Add(this.propertyGrid);
-            this.splitContainerRightHoriz.Size = new System.Drawing.Size(410, 611);
-            this.splitContainerRightHoriz.SplitterDistance = 232;
+            this.splitContainerRightHoriz.Size = new System.Drawing.Size(468, 611);
+            this.splitContainerRightHoriz.SplitterDistance = 264;
             this.splitContainerRightHoriz.TabIndex = 0;
             this.splitContainerRightHoriz.TabStop = false;
             // 
@@ -293,8 +293,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.contentTreeView);
-            this.splitContainer1.Size = new System.Drawing.Size(232, 611);
-            this.splitContainer1.SplitterDistance = 114;
+            this.splitContainer1.Size = new System.Drawing.Size(264, 611);
+            this.splitContainer1.SplitterDistance = 129;
             this.splitContainer1.TabIndex = 0;
             // 
             // sceneTreeView
@@ -303,7 +303,7 @@
             this.sceneTreeView.Location = new System.Drawing.Point(0, 0);
             this.sceneTreeView.Name = "sceneTreeView";
             this.sceneTreeView.PathSeparator = "->";
-            this.sceneTreeView.Size = new System.Drawing.Size(114, 611);
+            this.sceneTreeView.Size = new System.Drawing.Size(129, 611);
             this.sceneTreeView.TabIndex = 1;
             this.sceneTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.SceneTreeView_AfterSelect);
             // 
@@ -313,9 +313,9 @@
             this.contentTreeView.Location = new System.Drawing.Point(0, 0);
             this.contentTreeView.Name = "contentTreeView";
             this.contentTreeView.PathSeparator = "->";
-            this.contentTreeView.Size = new System.Drawing.Size(114, 611);
+            this.contentTreeView.Size = new System.Drawing.Size(131, 611);
             this.contentTreeView.TabIndex = 0;
-            this.contentTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.SceneTreeView_AfterSelect);
+            this.contentTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ContentTreeView_AfterSelect);
             this.contentTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ContentTreeViewObjects_KeyDown);
             // 
             // propertyGrid
@@ -323,7 +323,7 @@
             this.propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(174, 611);
+            this.propertyGrid.Size = new System.Drawing.Size(200, 611);
             this.propertyGrid.TabIndex = 1;
             // 
             // statusBar
@@ -332,7 +332,7 @@
             this.statusBarLabel});
             this.statusBar.Location = new System.Drawing.Point(0, 660);
             this.statusBar.Name = "statusBar";
-            this.statusBar.Size = new System.Drawing.Size(1077, 22);
+            this.statusBar.Size = new System.Drawing.Size(1176, 22);
             this.statusBar.TabIndex = 4;
             this.statusBar.Text = "statusStrip1";
             // 
@@ -357,7 +357,7 @@
             this.toolStripSeparator1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1077, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1176, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -455,7 +455,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1077, 682);
+            this.ClientSize = new System.Drawing.Size(1176, 682);
             this.Controls.Add(this.splitContainerVert);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
