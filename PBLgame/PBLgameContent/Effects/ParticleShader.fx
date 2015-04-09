@@ -42,9 +42,9 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 
 	float3 pos = input.Position;
 
-	float2 offset Size * float2((input.UV.x - 0.5f)* 2.0f), -(input.UV.y - 0.5f) * 2.0f);
+	float2 offset = Size * float2(((input.UV.x - 0.5f) * 2.0f), (-(input.UV.y - 0.5f) * 2.0f));
 
-	pos += offset.X * Side + offset.Y * Up;
+	pos += offset.x * Side + offset.y * Up;
 
 	float4 worldPosition = mul(pos, World);
 	float4 viewPosition = mul(worldPosition, View);
