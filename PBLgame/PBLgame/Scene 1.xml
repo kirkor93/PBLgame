@@ -50,5 +50,13 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
     </GameObject>
+    <GameObject Name="asdasd" Tag="Ghost" Id="7">
+      <Transform Enabled="True">
+        <Position x="10" y="3" z="12" />
+        <Rotation x="2" y="0" z="3" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="2" MaterialId="1" />
+    </GameObject>
   </GameObjects>
 </Scene>

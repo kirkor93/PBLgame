@@ -15,6 +15,7 @@
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
+      <Mesh Id="2" Path="Models\Gandalf" />
     </Meshes>
   </Content>
 </XmlContent>
