@@ -3,7 +3,7 @@
   <Metadata />
   <Content>
     <ShaderEffects>
-      <ShaderEffect Path="Effects\Shader" />
+      <ShaderEffect Path="Effects\BasicShader" />
     </ShaderEffects>
     <Textures>
       <Texture Path="Textures\Helmet_d" />
@@ -11,7 +11,7 @@
       <Texture Path="Textures\Helmet_n" />
     </Textures>
     <Materials>
-      <Material Id="1" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\Shader" />
+      <Material Id="1" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />

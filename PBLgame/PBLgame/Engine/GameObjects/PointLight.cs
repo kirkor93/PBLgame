@@ -22,7 +22,14 @@ namespace PBLgame.Engine.GameObjects
             }
             set
             {
-                transform.Position = value;
+                if(parent != null)
+                {
+                    transform.Position = parent.transform.Position + value;
+                }
+                else
+                {
+                    transform.Position = value;
+                }
             }
         }
 

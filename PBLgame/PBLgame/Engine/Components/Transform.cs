@@ -72,7 +72,7 @@ namespace PBLgame.Engine.Components
                 }
                 else
                 {
-                    return _world = gameObject.parent.transform.World * _worldScale * _worldRotation * _worldTranslation;
+                    return _world = _worldRotation * gameObject.parent.transform.World * _worldScale * _worldTranslation;
                 }
 
             }

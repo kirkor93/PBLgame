@@ -24,6 +24,8 @@ namespace PBLgame
     {
         public static Game Instance { get; private set; }
 
+        public GameTime Time { get; private set; }
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -115,6 +117,7 @@ namespace PBLgame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            Time = gameTime;
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
