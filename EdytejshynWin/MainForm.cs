@@ -31,6 +31,7 @@ namespace Edytejshyn
 
         public IDrawerStrategy RealisticDrawerStrategy { get; private set; }
         public IDrawerStrategy BasicDrawerStrategy { get; private set; }
+        public IDrawerStrategy CurrentDrawerStrategy { get; set; }
 
         #endregion
 
@@ -62,11 +63,32 @@ namespace Edytejshyn
             sceneTreeView.MainForm = this;
             viewportControl.MainForm = this;
 
+            
 
             viewportControl.AfterInitializeEvent += () =>
             {
                 BasicDrawerStrategy = new BasicDrawerStrategy(viewportControl.GraphicsDevice);
                 RealisticDrawerStrategy = new RealisticDrawerStrategy();
+                CurrentDrawerStrategy = RealisticDrawerStrategy;
+
+                var dropdowns = new[]
+                {
+                    new {text = "&Realistic", strategy = RealisticDrawerStrategy},
+                    new {text = "&Basic",     strategy = BasicDrawerStrategy},
+                };
+
+                foreach (var entry in dropdowns)
+                {
+                    DrawerStrategyMenuItem menuItem = new DrawerStrategyMenuItem(entry.text, entry.strategy);
+
+                    menuItem.Click += delegate
+                    {
+                        CurrentDrawerStrategy = menuItem.Strategy;
+                    };
+
+                    renderingModeMenuItem.DropDownItems.Add(menuItem);
+                }
+
                 this.Logic.GameContentManager = viewportControl.GameContentManager;
                 viewportControl.CameraHistory.UpdateEvent += UpdateCameraHistory;
                 if (contentToOpen == null) return;
@@ -474,10 +496,29 @@ namespace Edytejshyn
             propertyGrid.SelectedObject = (node == null) ? null : node.WrappedGameObject;
             propertyGrid.ExpandAllGridItems();
         }
+
+
+        private void RenderingModeMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            foreach (DrawerStrategyMenuItem dsmi in renderingModeMenuItem.DropDownItems)
+            {
+                dsmi.Checked = (dsmi.Strategy == CurrentDrawerStrategy);
+            }
+        }
         #endregion
 
 
         #endregion
+
+        public class DrawerStrategyMenuItem : ToolStripMenuItem
+        {
+            public IDrawerStrategy Strategy { get; private set; }
+
+            public DrawerStrategyMenuItem(string text, IDrawerStrategy strategy) : base(text)
+            {
+                Strategy = strategy;
+            }
+        }
 
 
     }

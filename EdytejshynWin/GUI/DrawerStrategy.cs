@@ -9,48 +9,38 @@ namespace Edytejshyn.GUI
     {
         public void Draw(GameObjectWrapper gameObjectWrapper)
         {
-            gameObjectWrapper.Content.renderer.Draw();
+            gameObjectWrapper.Nut.renderer.Draw();
         }
     }
 
     public class BasicDrawerStrategy : IDrawerStrategy
     {
         private readonly GraphicsDevice _graphicsDevice;
+        private readonly BasicEffect _basic;
 
         public BasicDrawerStrategy(GraphicsDevice graphicsDevice)
         {
             _graphicsDevice = graphicsDevice;
+            _basic = new BasicEffect(_graphicsDevice);
         }
 
         public void Draw(GameObjectWrapper gameObjectWrapper)
         {
-            BasicEffect basic = new BasicEffect(_graphicsDevice);
-            basic.EnableDefaultLighting();
-            basic.View = Camera.MainCamera.ViewMatrix;
-            basic.Projection = Camera.MainCamera.ProjectionMatrix;
-            foreach (ModelMesh modelMesh in gameObjectWrapper.Content.renderer.MyMesh.Model.Meshes)
+            _basic.View = Camera.MainCamera.ViewMatrix;
+            _basic.Projection = Camera.MainCamera.ProjectionMatrix;
+            _basic.Texture = gameObjectWrapper.Nut.renderer.Material.Diffuse;
+            _basic.TextureEnabled = true;
+            //_basic.EnableDefaultLighting();
+
+            foreach (ModelMesh modelMesh in gameObjectWrapper.Nut.renderer.MyMesh.Model.Meshes)
             {
                 foreach (ModelMeshPart part in modelMesh.MeshParts)
                 {
-                    part.Effect = basic;
-                    basic.World = gameObjectWrapper.Content.renderer.MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * gameObjectWrapper.Content.transform.World;
+                    part.Effect = _basic;
+                    _basic.World = gameObjectWrapper.Nut.renderer.MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * gameObjectWrapper.Nut.transform.World;
                 }
                 modelMesh.Draw();
             }
-
-            //foreach (ModelMesh modelMesh in gameObjectWrapper.Content.renderer.MyMesh.Model.Meshes)
-            //{
-            //    foreach (Effect effect in modelMesh.Effects)
-            //    {
-            //        BasicEffect basic = (BasicEffect) effect;
-            //        basic.EnableDefaultLighting();
-            //        basic.World = gameObjectWrapper.Content.renderer.MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * gameObjectWrapper.Content.transform.World;
-            //        basic.View = Camera.MainCamera.ViewMatrix;
-            //        basic.Projection = Camera.MainCamera.ProjectionMatrix;
-            //    }
-            //    gameObjectWrapper.Content.renderer.MyMesh.Draw();
-            //}
-
         }
     }
 }
