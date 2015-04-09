@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<XmlContent>
+  <Metadata />
+  <Content>
+    <ShaderEffects>
+      <ShaderEffect Path="Effects\BasicShader" />
+    </ShaderEffects>
+    <Textures>
+      <Texture Path="Textures\Helmet_d" />
+      <Texture Path="Textures\Helmet_s" />
+      <Texture Path="Textures\Helmet_n" />
+    </Textures>
+    <Materials>
+      <Material Id="1" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
+    </Materials>
+    <Meshes>
+      <Mesh Id="1" Path="Models\Helmet" />
+      <Mesh Id="2" Path="Models\Gandalf" />
+    </Meshes>
+  </Content>
+</XmlContent>

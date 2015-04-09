@@ -121,7 +121,7 @@ namespace PBLgame.Engine.GameObjects
             _transform = new Transform(this);
         }
 
-        public void Update()
+        public virtual void Update()
         {
             if (transform != null)
             {
@@ -154,7 +154,7 @@ namespace PBLgame.Engine.GameObjects
             }
         }
 
-        public void Draw()
+        public virtual void Draw()
         {
             if (transform != null)
             {
@@ -338,12 +338,12 @@ namespace PBLgame.Engine.GameObjects
 
         #region XML serialization
 
-        public XmlSchema GetSchema()
+        public virtual XmlSchema GetSchema()
         {
             return null;
         }
 
-        public void WriteXml(XmlWriter writer)
+        public virtual void WriteXml(XmlWriter writer)
         {
             writer.WriteAttributeString("Name", Name);
             writer.WriteAttributeString("Tag", Tag);
@@ -398,7 +398,8 @@ namespace PBLgame.Engine.GameObjects
             }
         }
 
-        public void ReadXml(XmlReader reader)
+        // ReSharper disable once FunctionComplexityOverflow
+        public virtual void ReadXml(XmlReader reader)
         {
             Scene scene = ((Scene.SceneXmlReader) reader).Scene;
             reader.MoveToContent();
@@ -410,8 +411,7 @@ namespace PBLgame.Engine.GameObjects
             int parentId = Convert.ToInt32(reader.GetAttribute("Parent"));
             if (parentId != 0)
             {
-                parent = new GameObject();
-                parent.ID = parentId;
+                parent = new GameObject {ID = parentId};
             } 
 
             reader.ReadStartElement();

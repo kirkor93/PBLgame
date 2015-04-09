@@ -3,6 +3,15 @@ Content\Textures\Helmet_d.xnb
 Content\Textures\Helmet_n.xnb
 Content\Textures\Helmet_s.xnb
 Content\Effects\Shader.xnb
+Content\Models\Gandalf.xnb
+Content\Wizard_Body_diffuse_0.xnb
+Content\Wizard_Beard_diffuse_0.xnb
+Content\Wizard_Bottom_diffuse_0.xnb
+Content\tunic_DIF_0.xnb
+Content\Wizard_Hat_diffuse_0.xnb
+Content\Wizard_Moustache_diffuse_0.xnb
+Content\Wizard_Shoes_diffuse_0.xnb
+Content\Wizard_Hair_diffuse_0.xnb
 Content\Audio\GameAudio.xgs
 Content\Audio\WaveBank.xwb
 Content\Audio\SoundBank.xsb

@@ -15,7 +15,7 @@ namespace PBLgame.Engine.Scenes
         //It's gonna be scene graph later
         private List<GameObject> _gameObjects;
         private List<int> _takenIdNumbers;
-        private static List<Light> _sceneLights;
+        private List<Light> _sceneLights;
         private Camera _mainCamera;
 
         private readonly XmlSerializer _serializer;
@@ -59,9 +59,6 @@ namespace PBLgame.Engine.Scenes
             _sceneLights = new List<Light>();
             _serializer = new XmlSerializer(typeof(Scene));
             _takenIdNumbers = new List<int> {0};
-
-            CreateLights();
-
         }
 
         public void Draw()
@@ -82,6 +79,10 @@ namespace PBLgame.Engine.Scenes
         
         public void AddGameObject(GameObject obj)
         {
+            while (_takenIdNumbers.Exists(item => item == obj.ID))
+            {
+                obj.ID += 1;
+            }
             GameObjects.Add(obj);
         }
 
@@ -131,8 +132,9 @@ namespace PBLgame.Engine.Scenes
             {
                 Scene scene = (Scene) _serializer.Deserialize(new SceneXmlReader(file, this));
                 GameObjects = scene._gameObjects;
+                SceneLights = scene._sceneLights;
             }
-            //finding parents
+            //finding parents for gameobjects
             foreach (GameObject gameObject in GameObjects)
             {
                 if (gameObject.parent != null)
@@ -141,37 +143,34 @@ namespace PBLgame.Engine.Scenes
                     gameObject.parent.AddChild(gameObject);
                 }
 
+                //checking if id in object is unique
+                while (_takenIdNumbers.Exists(item => item == gameObject.ID))
+                {
+                    gameObject.ID += 1;
+                }
+
                 //setting unique Id list
                 _takenIdNumbers.Add(gameObject.ID);
             }
-        }
 
-        //TMP
-        private void CreateLights()
-        {
-            PointLight l1 = new PointLight();
-            l1.Type = LightType.point;
-            l1.Attenuation = 10.0f;
-            l1.Position = new Vector3(-5, -5, -5);
-            l1.Color = new Vector4(1, 1, 1, 1);
-            l1.FallOff = 2.0f;
+            //finding parents for lights
+            foreach (Light light in SceneLights)
+            {
+                if (light.parent != null)
+                {
+                    light.parent = GameObjects.Find(parent => parent.ID == light.parent.ID);
+                    light.parent.AddChild(light);
+                }
 
-            MyDirectionalLight l2 = new MyDirectionalLight();
-            l2.Type = LightType.directional;
-            l2.Intensity = 0.2f;
-            l2.Direction = new Vector3(-1, -1, 0);
-            l2.Color = new Vector4(1, 1, 1, 1);
+                //checking if id in object is unique
+                while (_takenIdNumbers.Exists(item => item == light.ID))
+                {
+                    light.ID += 1;
+                }
 
-            PointLight l3 = new PointLight();
-            l3.Type = LightType.point;
-            l3.Position = new Vector3(-2, 2, -2);
-            l3.Color = new Vector4(1, 1, 1, 1);
-            l3.Attenuation = 10.0f;
-            l3.FallOff = 2f;
-
-            AddLight(l1);
-            AddLight(l2);
-            //AddLight(l3);
+                //setting unique Id list
+                _takenIdNumbers.Add(light.ID);
+            }
         }
 
         #region XML Serialization
@@ -202,7 +201,7 @@ namespace PBLgame.Engine.Scenes
             reader.MoveToContent();
             reader.ReadStartElement();
             reader.MoveToContent();
-            while (reader.NodeType != XmlNodeType.EndElement)
+            while (reader.Name != "Scene")
             {
                 if (reader.Name == "GameObject")
                 {
@@ -210,8 +209,24 @@ namespace PBLgame.Engine.Scenes
                     (obj as IXmlSerializable).ReadXml(reader);
                     GameObjects.Add(obj);
                 }
-                reader.ReadEndElement();
+                if (reader.Name == "Light")
+                {
+                    string type = reader.GetAttribute("Type");
+                    Light l = null;
+                    switch (type)
+                    {
+                        case "Directional":
+                            l = new MyDirectionalLight();
+                            break;
+                        case "Point":
+                            l = new PointLight();
+                            break;
+                    }
 
+                    (l as IXmlSerializable).ReadXml(reader);
+                    SceneLights.Add(l);
+                }
+                reader.Read();
             }
 
             reader.ReadEndElement();
@@ -224,6 +239,14 @@ namespace PBLgame.Engine.Scenes
             {
                 writer.WriteStartElement("GameObject");
                 (sceneGameObject as IXmlSerializable).WriteXml(writer);
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+            writer.WriteStartElement("Lights");
+            foreach (Light sceneLight in SceneLights)
+            {
+                writer.WriteStartElement("Light");
+                (sceneLight as IXmlSerializable).WriteXml(writer);
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();
