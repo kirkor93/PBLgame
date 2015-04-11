@@ -1,9 +1,16 @@
 Content\Models\Helmet.xnb
+Content\Models\Gandalf.xnb
+Content\Animations\Gandalf_gangnam_style.xnb
+Content\Animations\Gandalf_idle.xnb
+Content\Animations\Gandalf_strafe_left.xnb
+Content\Animations\Gandalf_strafe_right.xnb
+Content\Animations\Gandalf_turn_left.xnb
+Content\Animations\Gandalf_turn_right.xnb
+Content\Animations\Gandalf_walk.xnb
 Content\Textures\Helmet_d.xnb
 Content\Textures\Helmet_n.xnb
 Content\Textures\Helmet_s.xnb
 Content\Effects\Shader.xnb
-Content\Models\Gandalf.xnb
 Content\Wizard_Body_diffuse_0.xnb
 Content\Wizard_Beard_diffuse_0.xnb
 Content\Wizard_Bottom_diffuse_0.xnb
