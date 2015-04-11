@@ -92,39 +92,43 @@ namespace Edytejshyn.Model
         #region Variables
 
         public readonly GameObjectWrapper Parent;
-        private Renderer _renderer;
+
         #endregion
 
         #region Properties
+        [Browsable(false)]
+        public Renderer WrappedRenderer { get; private set; }
+
         [TypeConverter(typeof(MeshTypeConverter))]
         public Mesh Mesh
         {
-            get { return _renderer.MyMesh; }
-            set { Parent.FireSetter(x => _renderer.MyMesh = x, _renderer.MyMesh, value); }
+            get { return WrappedRenderer.MyMesh; }
+            set { Parent.FireSetter(x => WrappedRenderer.MyMesh = x, WrappedRenderer.MyMesh, value); }
         }
 
         [TypeConverter(typeof(MaterialTypeConverter))]
         public MeshMaterial Material
         {
-            get { return _renderer.Material; }
-            set { Parent.FireSetter(x => _renderer.Material = x, _renderer.Material, value); }
+            get { return WrappedRenderer.Material; }
+            set { Parent.FireSetter(x => WrappedRenderer.Material = x, WrappedRenderer.Material, value); }
         }
 
-        [TypeConverter(typeof(EffectTypeConverter))]
+        [TypeConverter(typeof (EffectTypeConverter))]
         [DisplayName("!TEMPORARY! Shader effect")]
         public Effect ShaderEffect
         {
             // TODO should be only in material
-            get { return _renderer.MyEffect; }
-            set { Parent.FireSetter(x => _renderer.MyEffect = x, _renderer.MyEffect, value); }
+            get { return WrappedRenderer.MyEffect; }
+            set { Parent.FireSetter(x => WrappedRenderer.MyEffect = x, WrappedRenderer.MyEffect, value); }
         }
+
         #endregion
 
         #region Methods
         public RendererWrapper(GameObjectWrapper parent, Renderer renderer)
         {
             Parent = parent;
-            _renderer = renderer;
+            WrappedRenderer = renderer;
         }
 
         public void Draw(IDrawerStrategy drawerStrategy)
@@ -134,7 +138,7 @@ namespace Edytejshyn.Model
 
         public override string ToString()
         {
-            return "";
+            return Mesh.ToString();
         }
 
         #endregion

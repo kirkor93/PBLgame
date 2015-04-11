@@ -59,6 +59,11 @@ namespace Edytejshyn.Model
         public RendererWrapper Renderer
         {
             get { return _renderer; }
+            private set
+            {
+                _gameObject.renderer = (value == null) ? null : value.WrappedRenderer;
+                _renderer = value;
+            }
         }
 
         [Browsable(false)]
@@ -85,14 +90,14 @@ namespace Edytejshyn.Model
 
         public void FireSetter<T>(Action<T> setValue, T oldValue, T newValue, [CallerMemberName] string property = null)
         {
-            if (oldValue.Equals(newValue)) return;
+            if ((oldValue != null && oldValue.Equals(newValue)) || (oldValue == null && newValue == null)) return;
             setValue += delegate
             {
                 if (ChangedEvent != null)
                     ChangedEvent(this, new PropertyChangedEventArgs(property));
             };
             if (SetterEvent != null)
-                SetterEvent(new ChangeCommand<T>(string.Format("{0} of {1}", property, Name), setValue, oldValue, newValue));
+                SetterEvent(new ChangeValueCommand<T>(string.Format("{0} of {1}", property, Name), setValue, oldValue, newValue));
         }
 
         public void AttachSetterHandler(SetterHandler handler)
@@ -112,6 +117,28 @@ namespace Edytejshyn.Model
                 child.DetachSetterHandler(handler);
             }
         }
+
+        public void NewRenderer()
+        {
+            // TODO unstaticate
+            EditorLogic logic = Program.UglyStaticLogic;
+            Renderer renderer = new Renderer(_gameObject, logic.CurrentScene)
+            {
+                MyMesh   = logic.ResourceManager.Meshes[0],
+                Material = logic.ResourceManager.Materials[0],
+                MyEffect = logic.ResourceManager.ShaderEffects[0]
+            };
+            RendererWrapper rendererWrapper = new RendererWrapper(this, renderer);
+
+            FireSetter(x => Renderer = x, _renderer, rendererWrapper, "Renderer");
+        }
+
+        public void RemoveRenderer()
+        {
+            FireSetter(x => Renderer = x, _renderer, null, "Renderer");   
+        }
+
+
 
         public void Draw(IDrawerStrategy strategy)
         {

@@ -322,6 +322,7 @@
             this.sceneTreeView.Size = new System.Drawing.Size(129, 611);
             this.sceneTreeView.TabIndex = 1;
             this.sceneTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.SceneTreeView_AfterSelect);
+            this.sceneTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.SceneTreeView_NodeMouseClick);
             // 
             // contentTreeView
             // 

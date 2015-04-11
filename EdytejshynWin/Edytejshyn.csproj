@@ -132,7 +132,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\Commands\ChangeCommand.cs" />
+    <Compile Include="Model\Commands\ChangeValueCommand.cs" />
     <Compile Include="Model\Commands\WelcomeCommand.cs" />
     <Compile Include="Model\GameObjectWrapper.cs" />
     <Compile Include="Model\ICommand.cs" />
