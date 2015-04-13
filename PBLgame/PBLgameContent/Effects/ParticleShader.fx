@@ -2,13 +2,12 @@ float4x4 World;
 float4x4 View;
 float4x4 Projection;
 
-//float Time;
-//float Lifespan;
-float2 Size;
-//float3 Wind;
-float3 Up;
-float3 Side;
-//float FadeInTime;
+float3 CamPos;
+float3 AllowedRotDir;
+
+//float2 Size;
+//float3 Up;
+//float3 Side;
 
 texture ParticleTexture;
 sampler2D texSampler = sampler_state
@@ -24,16 +23,12 @@ struct VertexShaderInput
 {
     float4 Position : POSITION0;
 	float2 UV : TEXCOORD0;
-	//float3 Direction : TEXCOORD1;
-	//float Speed: TEXCOORD2;
-	//float StartTime : TEXCOORD3;
 };
 
 struct VertexShaderOutput
 {
     float4 Position : POSITION0;
 	float2 UV : TEXCOORD0;
-	//float2 RelativeTime : TEXCOORD1;
 };
 
 VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
@@ -42,16 +37,28 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 
 	float3 pos = input.Position;
 
-	float2 offset = Size * float2(((input.UV.x - 0.5f) * 2.0f), (-(input.UV.y - 0.5f) * 2.0f));
+	//float2 offset = Size * float2(((input.UV.x - 0.5f) * 2.0f), (-(input.UV.y - 0.5f) * 2.0f));
+	//pos += offset.x * Side + offset.y * Up;
 
-	pos += offset.x * Side + offset.y * Up;
 
-	float4 worldPosition = mul(pos, World);
-	float4 viewPosition = mul(worldPosition, View);
-	output.Position = mul(viewPosition, Projection);
+	float3 center = mul(pos, World);
+		float3 eyeVector = center - CamPos;
+
+		float3 upVector = AllowedRotDir;
+		upVector = normalize(upVector);
+	float3 sideVector = cross(eyeVector, upVector);
+		sideVector = normalize(sideVector);
+
+	float3 finalPosition = center;
+	finalPosition += (input.UV.x - 0.5f)*sideVector;
+	finalPosition += (1.5f - input.UV.y*1.5f)*upVector;
+
+	float4 finalPosition4 = float4(finalPosition, 1);
+
+	float4x4 preViewProjection = mul(View, Projection);
+	output.Position = mul(finalPosition4, preViewProjection);
 
 	output.UV = input.UV;
-
     return output;
 }
 

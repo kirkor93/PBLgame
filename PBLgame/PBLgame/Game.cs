@@ -33,6 +33,8 @@ namespace PBLgame
 
         //For teting-----------------
         public GameObject player;
+        public GameObject particle;
+        public GameObject totalyTmp;
         private Scene _scene;
 
         //Sounds tetin
@@ -62,8 +64,8 @@ namespace PBLgame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            mainCamera = new Camera( new Vector3(0, 0, 5), Vector3.Zero, Vector3.Up,
-                MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,100);
+            mainCamera = new Camera( new Vector3(0, 0, 10), Vector3.Zero, Vector3.Up,
+                MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,1000);
 
             InputManager.Instance.Initialize();
 
@@ -93,6 +95,22 @@ namespace PBLgame
             player = _scene.GameObjects.First();
             player.audioSource.Set3D(mainCamera.audioListener);
             player.audioSource.Play();
+
+
+            particle = new GameObject();
+            particle.transform.Position = Vector3.Zero;
+            particle.particleSystem = new ParticleSystem(particle, new Vector2(5, 5), 3);
+            particle.particleSystem.DirectionFrom = new Vector3(0,1,0);
+            particle.particleSystem.DirectionTo = new Vector3(0, 1, 0);
+            particle.particleSystem.Duration = 3;
+            particle.particleSystem.LifeTimeLimit = 3;
+            particle.particleSystem.Loop = false;
+            particle.particleSystem.Speed = 0.01f;
+            particle.particleSystem.Material = ResourceManager.Instance.GetMaterial(2);
+            particle.particleSystem.Triggered = true;
+            
+            
+
                         
             // TODO: use this.Content to load your game content here
         }
@@ -124,6 +142,7 @@ namespace PBLgame
 
             //-----------------------------
 
+            particle.particleSystem.Update();
 
             _scene.Update();
             _audioEngine.Update(); //Have to be in final version
@@ -143,7 +162,7 @@ namespace PBLgame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //For Teting----------------
-
+            particle.particleSystem.Draw();
             _scene.Draw();
 
             //---------------------

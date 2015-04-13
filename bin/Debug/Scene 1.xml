@@ -9,6 +9,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="1" MaterialId="1" />
       <AudioSource Enabled="True" Cue="Tanelorn" />
+      <PBLgame.GamePlay.PlayerScript Enabled="True" />
     </GameObject>
     <GameObject Name="Helmet_child" Tag="Player" Id="2" Parent="1">
       <Transform Enabled="True">
@@ -61,7 +62,7 @@
   </GameObjects>
   <Lights>
     <Light Type="Directional">
-      <Color r="0" g="1" b="1" a="0" />
+      <Color r="1" g="1" b="1" a="1" />
       <GameObject Name="Light 1" Tag="Light" Id="8">
         <Transform Enabled="True">
           <Position x="11" y="11" z="0" />
@@ -73,9 +74,9 @@
     </Light>
     <Light Type="Point">
       <Color r="1" g="0" b="0" a="1" />
-      <GameObject Name="Light 1" Tag="Light" Id="9" Parent="7">
+      <GameObject Name="Light 1" Tag="Light" Id="9" Parent="1">
         <Transform Enabled="True">
-          <Position x="11" y="11" z="0" />
+          <Position x="0" y="0" z="0" />
           <Rotation x="0" y="0" z="0" />
           <Scale x="1" y="1" z="1" />
         </Transform>

@@ -71,6 +71,7 @@ namespace PBLgame.Engine.Scenes
 
         public void Update()
         {
+            _sceneLights[1].Update();
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Update();
