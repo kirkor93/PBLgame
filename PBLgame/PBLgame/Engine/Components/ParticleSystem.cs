@@ -13,7 +13,6 @@ namespace PBLgame.Engine.Components
     public class ParticleSystem : Component
     {
         #region Variables
-        #region Private
         private MeshMaterial _material;
         private Vector2 _size;
         private Vector3 _dirFrom;
@@ -29,6 +28,8 @@ namespace PBLgame.Engine.Components
         //Class private without properties so only for class use 
         private float _timer;
         private float _autoTimer = 1.0f;
+        private float _actualTime;
+        private int _activated = 0;
 
         private VertexPositionTexture[] _verts;
         private Vector3[] _directions;
@@ -38,7 +39,6 @@ namespace PBLgame.Engine.Components
         private VertexBuffer _vertexBuffer;
 
         private Random _random;
-        #endregion
         #endregion
 
         #region Properties
@@ -209,20 +209,24 @@ namespace PBLgame.Engine.Components
                 float deltaTime = Game.Instance.Time.ElapsedGameTime.Milliseconds/1000.0f;
                 _autoTimer += deltaTime;
                 _timer += deltaTime;
-                float actualTime = _timer % Duration;
+                _actualTime += deltaTime;
+                if (_actualTime > Duration)
+                {
+                    _actualTime = _timer % Duration;
+                    _activated = 0;
+                }
 
-                ParticlesUpdate(_autoTimer);
+                ParticlesUpdate(_actualTime);
 
                 if (Loop)
                 {
-
                     if (Bursts.Count >= 1)
                     {
                         foreach (Burst burst in Bursts)
                         {
-                            if (burst.When == actualTime)
+                            if ((burst.When > _actualTime - deltaTime/2) && (burst.When < _actualTime + deltaTime/2))
                             {
-                                Emmit(burst.HowMany, actualTime);
+                                Emmit(burst.HowMany, _actualTime);
                             }
                         }
                     }
@@ -231,7 +235,7 @@ namespace PBLgame.Engine.Components
                         if (_autoTimer >= 1.0f)
                         {
                             int count = Convert.ToInt16(Max / Duration);
-                            Emmit(count, actualTime);
+                            Emmit(count, _actualTime);
                             _autoTimer = 0.0f;
                         }
                     }
@@ -244,7 +248,7 @@ namespace PBLgame.Engine.Components
                         {
                             foreach (Burst burst in Bursts)
                             {
-                                if (burst.When == _timer)
+                                if ((burst.When > _timer - deltaTime / 2) && (burst.When < _timer + deltaTime / 2))
                                 {
                                     Emmit(burst.HowMany, _timer);
                                 }
@@ -270,7 +274,7 @@ namespace PBLgame.Engine.Components
             {
                 if(_activationStates[i])
                 {
-                    if(time - _particleTimes[i] > LifeTimeLimit)
+                    if(_particleTimes[i] + LifeTimeLimit < _timer)
                     {
                         _activationStates[i] = false;
                     }
@@ -288,11 +292,12 @@ namespace PBLgame.Engine.Components
         private void Emmit(int count,float timer)
         {
             int counter = 0;
-            for(int i = 0; i < Max ; i++)
+            for(int i = _activated; i < Max ; i++)
             {
                 if(!_activationStates[i])
                 {
                     ParticleSetActive(i,timer);
+                    _activated += 1;
                     counter+=1;
                     if(counter == count)
                     {
@@ -304,6 +309,11 @@ namespace PBLgame.Engine.Components
 
         private void ParticleSetActive(int index, float timer)
         {
+            _verts[index * 4].Position = new Vector3((Size.X / -20), (Size.Y / 20), 0f);
+            _verts[index * 4 + 1].Position = new Vector3((Size.X / 20), (Size.Y / 20), 0f);
+            _verts[index * 4 + 2].Position = new Vector3((Size.X / -20), (Size.Y / -20), 0f);
+            _verts[index * 4 + 3].Position = new Vector3((Size.X / 20), (Size.Y / -20), 0f);
+
             for (int i = 0; i < 4; i++ )
             {
                 _verts[index * 4 + i].Position += gameObject.transform.Position;
@@ -314,10 +324,10 @@ namespace PBLgame.Engine.Components
             }
             else
             {
-                _directions[index] = Vector3.Normalize(new Vector3(_random.Next(Convert.ToInt16(DirectionFrom.X), Convert.ToInt16(DirectionTo.X)),
-                    _random.Next(Convert.ToInt16(DirectionFrom.Y), Convert.ToInt16(DirectionTo.Y)), _random.Next(Convert.ToInt16(DirectionFrom.Z), Convert.ToInt16(DirectionTo.Z))));
+                _directions[index] = new Vector3(_random.Next(Convert.ToInt16(DirectionFrom.X * 10), Convert.ToInt16(DirectionTo.X * 10 + 1)),
+                    _random.Next(Convert.ToInt16(DirectionFrom.Y * 10), Convert.ToInt16(DirectionTo.Y * 10 + 1)), _random.Next(Convert.ToInt16(DirectionFrom.Z * 10), Convert.ToInt16(DirectionTo.Z * 10 + 1))) * 0.1f;
             }
-            _particleTimes[index] = timer;
+            _particleTimes[index] = _timer;
             _activationStates[index] = true;
         }
 

@@ -99,15 +99,18 @@ namespace PBLgame
 
             particle = new GameObject();
             particle.transform.Position = Vector3.Zero;
-            particle.particleSystem = new ParticleSystem(particle, new Vector2(5, 5), 3);
-            particle.particleSystem.DirectionFrom = new Vector3(0,1,0);
-            particle.particleSystem.DirectionTo = new Vector3(0, 1, 0);
-            particle.particleSystem.Duration = 3;
+            particle.particleSystem = new ParticleSystem(particle, new Vector2(5, 5), 90);
+            particle.particleSystem.DirectionFrom = new Vector3(-1,1,0);
+            particle.particleSystem.DirectionTo = new Vector3(1, 1, 0);
+            particle.particleSystem.Duration = 10;
             particle.particleSystem.LifeTimeLimit = 3;
-            particle.particleSystem.Loop = false;
+            particle.particleSystem.Loop = true;
             particle.particleSystem.Speed = 0.01f;
             particle.particleSystem.Material = ResourceManager.Instance.GetMaterial(2);
             particle.particleSystem.Triggered = true;
+            particle.particleSystem.AddBurst(new Burst(2.0f, 20));
+            particle.particleSystem.AddBurst(new Burst(5.0f, 30));
+            particle.particleSystem.AddBurst(new Burst(7.0f, 40));
             
             
 
