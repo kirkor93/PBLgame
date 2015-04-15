@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Text;
 using System.Xml;
 using PBLgame.Engine.GameObjects;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using PBLgame.Engine.Singleton;
 
 namespace PBLgame.Engine.Components
 {
@@ -180,9 +184,6 @@ namespace PBLgame.Engine.Components
             _activationStates = new bool[_max];
             _particleTimes = new float[_max];
             _bursts = new List<Burst>();
-
-
-            InitializeParticles();
         }
 
         public ParticleSystem(GameObject owner,Vector2 size,int numb)
@@ -385,12 +386,96 @@ namespace PBLgame.Engine.Components
 
         public override void ReadXml(XmlReader reader)
         {
+            Bursts = new List<Burst>();
+            CultureInfo culture = CultureInfo.InvariantCulture;
             base.ReadXml(reader);
+
+            int matId = Convert.ToInt32(reader.GetAttribute("MaterialId"), culture);
+            Material = ResourceManager.Instance.GetMaterial(matId);
+            Duration = Convert.ToInt32(reader.GetAttribute("Duration"), culture);
+            LifeTimeLimit = Convert.ToInt32(reader.GetAttribute("LifeTimeLimit"), culture);
+            Loop = Convert.ToBoolean(reader.GetAttribute("Loop"), culture);
+            Max = Convert.ToInt32(reader.GetAttribute("Max"), culture);
+            Speed = Convert.ToSingle(reader.GetAttribute("Speed"), culture);
+            Triggered = Convert.ToBoolean(reader.GetAttribute("Triggered"), culture);
+            reader.ReadStartElement();
+            if (reader.Name == "DirectionFrom")
+            {
+                Vector3 tmp = Vector3.Zero;
+                tmp.X = Convert.ToInt32(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToInt32(reader.GetAttribute("y"), culture);
+                tmp.Z = Convert.ToInt32(reader.GetAttribute("z"), culture);
+                DirectionFrom = tmp;
+            }
+            reader.ReadStartElement();
+            if (reader.Name == "DirectionTo")
+            {
+                Vector3 tmp = Vector3.Zero;
+                tmp.X = Convert.ToInt32(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToInt32(reader.GetAttribute("y"), culture);
+                tmp.Z = Convert.ToInt32(reader.GetAttribute("z"), culture);
+                DirectionTo = tmp;
+            }
+            reader.ReadStartElement();
+            if (reader.Name == "Size")
+            {
+                Vector2 tmp = Vector2.Zero;
+                tmp.X = Convert.ToInt32(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToInt32(reader.GetAttribute("y"), culture);
+                Size = tmp;
+            }
+            reader.ReadStartElement();
+            if (reader.Name == "Bursts")
+            {
+
+                reader.ReadStartElement();
+                while (reader.Name == "Burst")
+                {
+                    float when = Convert.ToInt32(reader.GetAttribute("When"), culture);
+                    int howMany = Convert.ToInt32(reader.GetAttribute("HowMany"), culture);
+                    Bursts.Add(new Burst(when, howMany));
+                    reader.Read();
+                }
+                reader.ReadEndElement();
+            }
+            reader.ReadEndElement();
         }
 
         public override void WriteXml(XmlWriter writer)
         {
+            CultureInfo culture = CultureInfo.InvariantCulture;
             base.WriteXml(writer);
+
+            writer.WriteAttributeString("MaterialId", Material.Id.ToString("G", culture));
+            writer.WriteAttributeString("Duration", Duration.ToString("G", culture));
+            writer.WriteAttributeString("LifeTimeLimit", LifeTimeLimit.ToString("G", culture));
+            writer.WriteAttributeString("Loop", Loop.ToString(culture));
+            writer.WriteAttributeString("Max", Max.ToString("G", culture));
+            writer.WriteAttributeString("Speed", Speed.ToString("G", culture));
+            writer.WriteAttributeString("Triggered", Triggered.ToString(culture));
+            writer.WriteStartElement("DirectionFrom");
+            writer.WriteAttributeString("x", DirectionFrom.X.ToString("G", culture));
+            writer.WriteAttributeString("y", DirectionFrom.Y.ToString("G", culture));
+            writer.WriteAttributeString("z", DirectionFrom.Z.ToString("G", culture));
+            writer.WriteEndElement();
+            writer.WriteStartElement("DirectionTo");
+            writer.WriteAttributeString("x", DirectionTo.X.ToString("G", culture));
+            writer.WriteAttributeString("y", DirectionTo.Y.ToString("G", culture));
+            writer.WriteAttributeString("z", DirectionTo.Z.ToString("G", culture));
+            writer.WriteEndElement();
+            writer.WriteStartElement("Size");
+            writer.WriteAttributeString("x", Size.X.ToString("G", culture));
+            writer.WriteAttributeString("y", Size.Y.ToString("G", culture));
+            writer.WriteEndElement();
+            writer.WriteStartElement("Bursts");
+            foreach (Burst burst in Bursts)
+            {
+                writer.WriteStartElement("Burst");
+                writer.WriteAttributeString("When", burst.When.ToString("G", culture));
+                writer.WriteAttributeString("HowMany", burst.HowMany.ToString("G", culture));
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
         }
 
         #endregion

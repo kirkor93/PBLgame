@@ -5,6 +5,8 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using PBLgame.Engine.GameObjects;
 using Microsoft.Xna.Framework;
+using PBLgame.Engine.Components;
+using PBLgame.Engine.Singleton;
 
 namespace PBLgame.Engine.Scenes
 {

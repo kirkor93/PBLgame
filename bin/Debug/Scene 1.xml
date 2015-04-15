@@ -59,6 +59,23 @@
       <Renderer Enabled="True" MeshId="2" MaterialId="1" />
       <PBLgame.GamePlay.PlayerScript Enabled="True" />
     </GameObject>
+    <GameObject Name="Particle" Tag="Particle" Id="10">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <ParticleSystem Enabled="True" MaterialId="2" Duration="10" LifeTimeLimit="3" Loop="True" Max="90" Speed="0.01" Triggered="True">
+        <DirectionFrom x="-1" y="1" z="0" />
+        <DirectionTo x="1" y="1" z="0" />
+        <Size x="5" y="5" />
+        <Bursts>
+          <Burst When="2" HowMany="20" />
+          <Burst When="5" HowMany="30" />
+          <Burst When="7" HowMany="40" />
+        </Bursts>
+      </ParticleSystem>
+    </GameObject>
   </GameObjects>
   <Lights>
     <Light Type="Directional">
