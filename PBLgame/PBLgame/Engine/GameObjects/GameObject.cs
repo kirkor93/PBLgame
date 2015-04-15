@@ -451,7 +451,7 @@ namespace PBLgame.Engine.GameObjects
                 particleSystem.ReadXml(reader);
             }
 
-            while (reader.NodeType != XmlNodeType.EndElement)
+            while (reader.Name != "GameObject")
             {
                 string readerName = reader.Name;
                 Type type = Type.GetType(readerName);
