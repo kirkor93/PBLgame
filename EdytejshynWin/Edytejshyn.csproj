@@ -98,6 +98,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GUI\CameraState.cs" />
+    <Compile Include="Icons.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Icons.resx</DependentUpon>
+    </Compile>
     <Compile Include="Logic\Commands\ChangeCommand.cs" />
     <Compile Include="Logic\Commands\WelcomeCommand.cs" />
     <Compile Include="Logic\EditorException.cs">
@@ -119,6 +124,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Icons.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Icons.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -173,6 +182,27 @@
       <Project>{108162b6-7593-4c51-810e-5cef268bd8f1}</Project>
       <Name>ContentLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chromeShader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\materialsIcon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\meshIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shaderIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textureIcon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\musicIcon.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
