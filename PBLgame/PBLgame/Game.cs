@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
+using PBLgame.Engine;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
@@ -76,6 +76,7 @@ namespace PBLgame
         /// </summary>
         protected override void LoadContent()
         {
+            GlobalInventory.Instance.GraphicsDevice = GraphicsDevice;
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 

@@ -342,19 +342,20 @@ namespace PBLgame.Engine.Components
                 _verts[tmp + 2] = new VertexPositionTexture(new Vector3((Size.X / -20), (Size.Y / -20), 0f), new Vector2(0, 1));
                 _verts[tmp + 3] = new VertexPositionTexture(new Vector3((Size.X / 20), (Size.Y / -20), 0f), new Vector2(1, 1));
             }
-            _vertexBuffer = new VertexBuffer(Game.Instance.GraphicsDevice,
+            _vertexBuffer = new VertexBuffer(GlobalInventory.Instance.GraphicsDevice,
                     typeof(VertexPositionTexture), _verts.Length, BufferUsage.None);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            Game.Instance.GraphicsDevice.SetVertexBuffer(_vertexBuffer);
+            GraphicsDevice graphicsDevice = GlobalInventory.Instance.GraphicsDevice;
+            graphicsDevice.SetVertexBuffer(_vertexBuffer);
             // Only draw if there are live particles
             for (int i = 0; i < Max; i++ )
             {
                 if(_activationStates[i])
                 {
-                    Game.Instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+                    graphicsDevice.BlendState = BlendState.AlphaBlend;
                     _material.ShaderEffect.Parameters["CamPos"].SetValue(Camera.MainCamera.transform.Position);
                     _material.ShaderEffect.Parameters["AllowedRotDir"].SetValue(new Vector3(0, 1, 0));
                     _material.ShaderEffect.Parameters["World"].SetValue(_gameObject.transform.World);
@@ -365,10 +366,10 @@ namespace PBLgame.Engine.Components
                     foreach (EffectPass pass in _material.ShaderEffect.CurrentTechnique.Passes)
                     {
                         pass.Apply();
-                        Game.Instance.GraphicsDevice.DrawUserPrimitives<VertexPositionTexture>(
-                        PrimitiveType.TriangleStrip, _verts, i * 4, 2);
+                        graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(
+                            PrimitiveType.TriangleStrip, _verts, i * 4, 2);
                     }
-                    Game.Instance.GraphicsDevice.BlendState = BlendState.Opaque;
+                    graphicsDevice.BlendState = BlendState.Opaque;
                 }
             }
                 
