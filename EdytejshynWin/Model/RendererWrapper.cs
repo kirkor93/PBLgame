@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 
@@ -131,9 +132,9 @@ namespace Edytejshyn.Model
             WrappedRenderer = renderer;
         }
 
-        public void Draw(IDrawerStrategy drawerStrategy)
+        public void Draw(IDrawerStrategy drawerStrategy, GameTime gameTime)
         {
-            drawerStrategy.Draw(Parent);
+            drawerStrategy.Draw(Parent, gameTime);
         }
 
         public override string ToString()

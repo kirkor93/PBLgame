@@ -68,9 +68,9 @@ namespace PBLgame.Engine.GameObjects
 
         #region Methods
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
-            base.Update();
+            base.Update(gameTime);
             //transform.Translate(0.1f, 0.0f, 0.0f);
         }
 

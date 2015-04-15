@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Edytejshyn.Logic;
+using Microsoft.Xna.Framework;
 using PBLgame.Engine.GameObjects;
 
 namespace Edytejshyn.Model
@@ -37,11 +38,11 @@ namespace Edytejshyn.Model
             return wrapper;
         }
 
-        public void Draw(IDrawerStrategy strategy)
+        public void Draw(IDrawerStrategy strategy, GameTime gameTime)
         {
             foreach (GameObjectWrapper wrapper in GameObjects)
             {
-                wrapper.Draw(strategy);
+                wrapper.Draw(strategy, gameTime);
             }
         }
 

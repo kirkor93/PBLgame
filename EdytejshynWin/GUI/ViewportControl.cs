@@ -119,7 +119,7 @@ namespace Edytejshyn.GUI
                 //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
                 //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
-                scene.Draw(MainForm.CurrentDrawerStrategy);
+                scene.Draw(MainForm.CurrentDrawerStrategy, new GameTime(TimeSpan.Zero, TimeSpan.Zero));
             }
 
             GraphicsDevice.BlendState = BlendState.AlphaBlend;

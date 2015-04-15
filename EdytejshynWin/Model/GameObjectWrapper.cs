@@ -140,12 +140,12 @@ namespace Edytejshyn.Model
 
 
 
-        public void Draw(IDrawerStrategy strategy)
+        public void Draw(IDrawerStrategy strategy, GameTime gameTime)
         {
-            if (_renderer != null) _renderer.Draw(strategy);
+            if (_renderer != null) _renderer.Draw(strategy, gameTime);
             foreach (GameObjectWrapper child in _children)
             {
-                child.Draw(strategy);
+                child.Draw(strategy, gameTime);
             }
         }
 

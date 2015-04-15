@@ -202,12 +202,12 @@ namespace PBLgame.Engine.Components
             InitializeParticles();
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
             if (Triggered)
             {
 
-                float deltaTime = Game.Instance.Time.ElapsedGameTime.Milliseconds/1000.0f;
+                float deltaTime = gameTime.ElapsedGameTime.Milliseconds/1000.0f;
                 _autoTimer += deltaTime;
                 _timer += deltaTime;
                 _actualTime += deltaTime;
@@ -346,7 +346,7 @@ namespace PBLgame.Engine.Components
                     typeof(VertexPositionTexture), _verts.Length, BufferUsage.None);
         }
 
-        public override void Draw()
+        public override void Draw(GameTime gameTime)
         {
             Game.Instance.GraphicsDevice.SetVertexBuffer(_vertexBuffer);
             // Only draw if there are live particles

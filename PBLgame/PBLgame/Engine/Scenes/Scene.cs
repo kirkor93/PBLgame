@@ -63,20 +63,20 @@ namespace PBLgame.Engine.Scenes
             _takenIdNumbers = new List<int> {0};
         }
 
-        public void Draw()
+        public void Draw(GameTime gameTime)
         {
             foreach (GameObject gameObject in GameObjects)
             {
-                gameObject.Draw();
+                gameObject.Draw(gameTime);
             }
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
-            _sceneLights[1].Update();
+            _sceneLights[1].Update(gameTime);
             foreach (GameObject gameObject in GameObjects)
             {
-                gameObject.Update();
+                gameObject.Update(gameTime);
             }
         }
         

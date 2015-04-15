@@ -62,7 +62,6 @@ namespace PBLgame
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             mainCamera = new Camera( new Vector3(0, 0, 10), Vector3.Zero, Vector3.Up,
                 MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,1000);
 
@@ -94,8 +93,6 @@ namespace PBLgame
             player = _scene.GameObjects.First();
             player.audioSource.Set3D(mainCamera.audioListener);
             player.audioSource.Play();
-                        
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -126,11 +123,9 @@ namespace PBLgame
             //-----------------------------
 
 
-            _scene.Update();
+            _scene.Update(gameTime);
             _audioEngine.Update(); //Have to be in final version
-
-            // TODO: Add your update logic here
-
+            
             base.Update(gameTime);
         }
 
@@ -144,7 +139,7 @@ namespace PBLgame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //For Teting----------------
-            _scene.Draw();
+            _scene.Draw(gameTime);
 
             //---------------------
 

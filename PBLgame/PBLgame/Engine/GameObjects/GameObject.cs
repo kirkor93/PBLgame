@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using Microsoft.Xna.Framework;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.Scenes;
 
@@ -121,69 +122,69 @@ namespace PBLgame.Engine.GameObjects
             _transform = new Transform(this);
         }
 
-        public virtual void Update()
+        public virtual void Update(GameTime gameTime)
         {
             if (transform != null)
             {
-                transform.Update();
+                transform.Update(gameTime);
             }
             if (renderer != null)
             {
-                renderer.Update();
+                renderer.Update(gameTime);
             }
             if (collision != null)
             {
-                collision.Update();
+                collision.Update(gameTime);
             }
             if (animator != null)
             {
-                animator.Update();
+                animator.Update(gameTime);
             }
             if (particleSystem != null)
             {
-                particleSystem.Update();
+                particleSystem.Update(gameTime);
             }
             if (audioSource != null)
             {
-                audioSource.Update();
+                audioSource.Update(gameTime);
             }
 
             foreach (Component component in _components)
             {
-                component.Update();
+                component.Update(gameTime);
             }
         }
 
-        public virtual void Draw()
+        public virtual void Draw(GameTime gameTime)
         {
             if (transform != null)
             {
-                transform.Draw();
+                transform.Draw(gameTime);
             }
             if (renderer != null)
             {
-                renderer.Draw();
+                renderer.Draw(gameTime);
             }
             if (collision != null)
             {
-                collision.Draw();
+                collision.Draw(gameTime);
             }
             if (animator != null)
             {
-                animator.Draw();
+                animator.Draw(gameTime);
             }
             if (particleSystem != null)
             {
-                particleSystem.Draw();
+                particleSystem.Draw(gameTime);
             }
             if (audioSource != null)
             {
-                audioSource.Draw();
+                audioSource.Draw(gameTime);
             }
 
             foreach (Component component in _components)
             {
-                component.Draw();
+                component.Draw(gameTime);
             }
         }
 
