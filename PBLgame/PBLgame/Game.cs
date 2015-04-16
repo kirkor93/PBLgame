@@ -94,6 +94,8 @@ namespace PBLgame
             player = _scene.GameObjects.First();
             player.audioSource.Set3D(mainCamera.audioListener);
             player.audioSource.Play();
+
+//            ResourceManager.Instance.SaveContent();
         }
 
         /// <summary>

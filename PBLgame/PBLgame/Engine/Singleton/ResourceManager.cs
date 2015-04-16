@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using AnimationData;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,20 +24,11 @@ namespace PBLgame.Engine.Singleton
         private IList<Mesh> _meshes;
         private IList<Texture2D> _textures;
         private IList<MeshMaterial> _materials;
-        private IList<Effect> _shaderEffects; 
+        private IList<Effect> _shaderEffects;
+        private IList<AnimationClip> _animationClips; 
         private SoundBank _soundBank;
 
         private readonly XmlSerializer _serializer;
-
-        #endregion
-        #region Protected
-
-
-
-        #endregion
-        #region Public
-
-
 
         #endregion
         #endregion
@@ -116,6 +108,7 @@ namespace PBLgame.Engine.Singleton
             _textures = content.Textures;
             _materials = content.Materials;
             _shaderEffects = content.ShaderEffects;
+            _animationClips = content.AnimationClips;
 
         }
 
@@ -130,7 +123,8 @@ namespace PBLgame.Engine.Singleton
                 Materials = _materials, 
                 Meshes = _meshes, 
                 Textures = _textures, 
-                ShaderEffects = _shaderEffects
+                ShaderEffects = _shaderEffects,
+                AnimationClips = _animationClips
             };
 
             using (FileStream writer = new FileStream(path, FileMode.Create))
@@ -196,6 +190,36 @@ namespace PBLgame.Engine.Singleton
             return null;
         }
 
+        public AnimationClip GeAnimationClip(int id)
+        {
+            IEnumerable<AnimationClip> list = 
+                from animationClip in _animationClips
+                where animationClip.Id == id
+                select animationClip;
+
+            if (list.Any())
+            {
+                return list.First();
+            }
+
+            return null;
+        }
+
+        public AnimationClip GetAnimationClip(string path)
+        {
+            IEnumerable<AnimationClip> list =
+                from animationClip in _animationClips
+                where animationClip.Path == path
+                select animationClip;
+
+            if (list.Any())
+            {
+                return list.First();
+            }
+
+            return null;
+        }
+
         public Cue GetAudioCue(string audioName)
         {
             return _soundBank.GetCue(audioName);
@@ -222,7 +246,8 @@ namespace PBLgame.Engine.Singleton
         public IList<Mesh> Meshes { get; set; }
         public IList<Texture2D> Textures { get; set; }
         public IList<MeshMaterial> Materials { get; set; }
-        public IList<Effect> ShaderEffects { get; set; } 
+        public IList<Effect> ShaderEffects { get; set; }
+        public IList<AnimationClip> AnimationClips { get; set; } 
 
         public XmlSchema GetSchema()
         {
@@ -236,6 +261,7 @@ namespace PBLgame.Engine.Singleton
             Meshes = new List<Mesh>();
             Materials = new List<MeshMaterial>();
             ShaderEffects = new List<Effect>();
+            AnimationClips = new List<AnimationClip>();
 
             reader.MoveToContent();
             reader.ReadStartElement();
@@ -280,6 +306,17 @@ namespace PBLgame.Engine.Singleton
                     effect.Name = path;
                     ShaderEffects.Add(effect);
                 }
+                else if (reader.Name == "Animation")
+                {
+                    int id = Convert.ToInt32(reader.GetAttribute("Id"));
+                    string path = reader.GetAttribute("Path");
+                    Model model = LoadModel(path, content);
+                    SkinningData skin = model.Tag as SkinningData;
+                    AnimationClip animation = skin.AnimationClips.FirstOrDefault().Value;
+                    animation.Id = id;
+                    animation.Path = path;
+                    AnimationClips.Add(animation);
+                }
                 
             } while (reader.Read());
         }
@@ -314,10 +351,22 @@ namespace PBLgame.Engine.Singleton
             {
                 writer.WriteStartElement("Material");
                 writer.WriteAttributeString("Id", meshMaterial.Id.ToString());
-                writer.WriteAttributeString("Diffuse", meshMaterial.Diffuse.Name);
-                writer.WriteAttributeString("Normal", meshMaterial.Normal.Name);
-                writer.WriteAttributeString("Specular", meshMaterial.Specular.Name);
-                writer.WriteAttributeString("Emissive", meshMaterial.Emissive.Name);
+                if (meshMaterial.Diffuse != null)
+                {
+                    writer.WriteAttributeString("Diffuse", meshMaterial.Diffuse.Name);
+                }
+                if (meshMaterial.Normal != null)
+                {
+                    writer.WriteAttributeString("Normal", meshMaterial.Normal.Name);
+                }
+                if (meshMaterial.Specular != null)
+                {
+                    writer.WriteAttributeString("Specular", meshMaterial.Specular.Name);
+                }
+                if (meshMaterial.Emissive != null)
+                {
+                    writer.WriteAttributeString("Emissive", meshMaterial.Emissive.Name);
+                }
                 writer.WriteAttributeString("ShaderPath", meshMaterial.ShaderEffect.Name);
                 writer.WriteEndElement();
             }
@@ -332,6 +381,17 @@ namespace PBLgame.Engine.Singleton
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();
+
+            writer.WriteStartElement("Animations");
+            foreach (AnimationClip animation in AnimationClips)
+            {
+                writer.WriteStartElement("Animation");
+                writer.WriteAttributeString("Id", animation.Id.ToString());
+                writer.WriteAttributeString("Path", animation.Path);
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+
             writer.WriteEndElement();
         }
 

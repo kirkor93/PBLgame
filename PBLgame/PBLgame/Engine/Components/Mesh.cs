@@ -17,7 +17,6 @@ namespace PBLgame.Engine.Components
         private Model _model;
         private string _path;
         private int _id;
-        private MeshMaterial _meshMaterial;
 
         private Matrix[] _boneTransforms;
 

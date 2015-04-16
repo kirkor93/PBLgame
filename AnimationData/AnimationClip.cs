@@ -24,6 +24,9 @@ namespace AnimationData
     /// </summary>
     public class AnimationClip
     {
+        public int Id { get; set; }
+        public string Path { get; set; }
+
         /// <summary>
         /// Constructs a new animation clip object.
         /// </summary>

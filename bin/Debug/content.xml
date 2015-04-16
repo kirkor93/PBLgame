@@ -10,15 +10,24 @@
       <Texture Path="Textures\Helmet_d" />
       <Texture Path="Textures\Helmet_s" />
       <Texture Path="Textures\Helmet_n" />
-      <Texture Path="Textures\fire"/>
+      <Texture Path="Textures\fire" />
     </Textures>
     <Materials>
       <Material Id="1" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
-      <Material Id="2" Diffuse="Textures\fire" ShaderPath="Effects\ParticleShader"/>
+      <Material Id="2" Diffuse="Textures\fire" ShaderPath="Effects\ParticleShader" />
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
       <Mesh Id="2" Path="Models\Gandalf" />
     </Meshes>
+    <Animations>
+      <Animation Id="1" Path="Animations\Gandalf_gangnam_style" />
+      <Animation Id="2" Path="Animations\Gandalf_idle" />
+      <Animation Id="3" Path="Animations\Gandalf_strafe_left" />
+      <Animation Id="4" Path="Animations\Gandalf_strafe_right" />
+      <Animation Id="5" Path="Animations\Gandalf_turn_left" />
+      <Animation Id="6" Path="Animations\Gandalf_turn_right" />
+      <Animation Id="7" Path="Animations\Gandalf_walk" />
+    </Animations>
   </Content>
 </XmlContent>
