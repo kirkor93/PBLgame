@@ -1,4 +1,5 @@
 ﻿using Edytejshyn.Model;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
@@ -7,9 +8,9 @@ namespace Edytejshyn.GUI
 {
     public class RealisticDrawerStrategy : IDrawerStrategy
     {
-        public void Draw(GameObjectWrapper gameObjectWrapper)
+        public void Draw(GameObjectWrapper gameObjectWrapper, GameTime gameTime)
         {
-            gameObjectWrapper.Nut.renderer.Draw();
+            gameObjectWrapper.Nut.renderer.Draw(gameTime);
         }
     }
 
@@ -24,7 +25,7 @@ namespace Edytejshyn.GUI
             _basic = new BasicEffect(_graphicsDevice);
         }
 
-        public void Draw(GameObjectWrapper gameObjectWrapper)
+        public void Draw(GameObjectWrapper gameObjectWrapper, GameTime gameTime)
         {
             _basic.View = Camera.MainCamera.ViewMatrix;
             _basic.Projection = Camera.MainCamera.ProjectionMatrix;

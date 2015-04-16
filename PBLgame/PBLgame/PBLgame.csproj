@@ -93,6 +93,7 @@
     <Compile Include="Engine\Components\Renderer.cs" />
     <Compile Include="Engine\GameObjects\Light.cs" />
     <Compile Include="Engine\GameObjects\PointLight.cs" />
+    <Compile Include="Engine\GlobalInventory.cs" />
     <Compile Include="Engine\Scenes\Scene.cs" />
     <Compile Include="Engine\Singleton\InputManager.cs" />
     <Compile Include="Engine\Singleton\ResourceManager.cs" />

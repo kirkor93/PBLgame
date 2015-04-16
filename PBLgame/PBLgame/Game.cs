@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
+using PBLgame.Engine;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
@@ -24,6 +24,8 @@ namespace PBLgame
     {
         public static Game Instance { get; private set; }
 
+        public GameTime Time { get; private set; }
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -31,6 +33,7 @@ namespace PBLgame
 
         //For teting-----------------
         public GameObject player;
+        public GameObject totalyTmp;
         private Scene _scene;
 
         //Sounds tetin
@@ -59,9 +62,8 @@ namespace PBLgame
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            mainCamera = new Camera( new Vector3(0, 0, 5), Vector3.Zero, Vector3.Up,
-                MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,100);
+            mainCamera = new Camera( new Vector3(0, 0, 10), Vector3.Zero, Vector3.Up,
+                MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,1000);
 
             InputManager.Instance.Initialize();
 
@@ -74,6 +76,7 @@ namespace PBLgame
         /// </summary>
         protected override void LoadContent()
         {
+            GlobalInventory.Instance.GraphicsDevice = GraphicsDevice;
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -91,8 +94,6 @@ namespace PBLgame
             player = _scene.GameObjects.First();
             player.audioSource.Set3D(mainCamera.audioListener);
             player.audioSource.Play();
-                        
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -111,6 +112,7 @@ namespace PBLgame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            Time = gameTime;
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
@@ -122,11 +124,9 @@ namespace PBLgame
             //-----------------------------
 
 
-            _scene.Update();
+            _scene.Update(gameTime);
             _audioEngine.Update(); //Have to be in final version
-
-            // TODO: Add your update logic here
-
+            
             base.Update(gameTime);
         }
 
@@ -140,8 +140,7 @@ namespace PBLgame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //For Teting----------------
-
-            _scene.Draw();
+            _scene.Draw(gameTime);
 
             //---------------------
 

@@ -55,11 +55,11 @@ namespace PBLgame.Engine.Components
             _trackCue = cue;
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
             _emitter.Position = gameObject.transform.Position;
         }
-        public override void Draw()
+        public override void Draw(GameTime gameTime)
         {
 
         }

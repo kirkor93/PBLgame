@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using Microsoft.Xna.Framework;
 using PBLgame.Engine.GameObjects;
 
 namespace PBLgame.Engine.Components
@@ -16,12 +17,12 @@ namespace PBLgame.Engine.Components
 
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
 
         }
 
-        public override void Draw()
+        public override void Draw(GameTime gameTime)
         {
 
         }

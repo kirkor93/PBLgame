@@ -9,6 +9,8 @@ namespace Edytejshyn
 {
     static class Program
     {
+        public static EditorLogic UglyStaticLogic;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -27,7 +29,8 @@ namespace Edytejshyn
             }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(new EditorLogic(), contentFile, sceneFile));
+            UglyStaticLogic = new EditorLogic();
+            Application.Run(new MainForm(UglyStaticLogic, contentFile, sceneFile));
         }
     }
 }

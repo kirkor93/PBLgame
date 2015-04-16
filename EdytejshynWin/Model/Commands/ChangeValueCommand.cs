@@ -2,14 +2,14 @@ using System;
 
 namespace Edytejshyn.Model.Commands
 {
-    public class ChangeCommand<T> : ICommand
+    public class ChangeValueCommand<T> : ICommand
     {
         private readonly string _name;
         private readonly Action<T> _setValue;
         private readonly T _oldValue;
         private readonly T _newValue;
 
-        public ChangeCommand(string name, Action<T> setValue, T oldValue, T newValue)
+        public ChangeValueCommand(string name, Action<T> setValue, T oldValue, T newValue)
         {
             _name = name;
             _setValue = setValue;

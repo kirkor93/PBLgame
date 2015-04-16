@@ -31,9 +31,9 @@ namespace Edytejshyn.GUI.XNA
                 // Calculate the quad corners
                 Left = Vector3.Cross(normal, Up);
                 Vector3 uppercenter = (Up * height / 2) + origin;
-                UpperLeft = uppercenter + (Left * width / 2);
+                UpperLeft  = uppercenter + (Left * width / 2);
                 UpperRight = uppercenter - (Left * width / 2);
-                LowerLeft = UpperLeft - (Up * height);
+                LowerLeft  = UpperLeft  - (Up * height);
                 LowerRight = UpperRight - (Up * height);
 
                 FillVertices();

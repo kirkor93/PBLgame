@@ -52,12 +52,12 @@ namespace PBLgame.Engine.Components
             gameObject = owner;
         }
 
-        public virtual void Update()
+        public virtual void Update(GameTime gameTime)
         {
             
         }
 
-        public virtual void Draw()
+        public virtual void Draw(GameTime gameTime)
         {
             
         }

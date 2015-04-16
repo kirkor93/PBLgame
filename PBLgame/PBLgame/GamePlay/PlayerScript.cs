@@ -28,12 +28,12 @@ namespace PBLgame.GamePlay
             InputManager.Instance.OnMove += CharacterTranslate;
         }
 
-        public override void Draw()
+        public override void Draw(GameTime gameTime)
         {
             
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
             
         }

@@ -81,11 +81,11 @@ namespace PBLgame.Engine.Components
         }
 
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
         }
 
-        public override void Draw()
+        public override void Draw(GameTime gameTime)
         {
             ParameterizeEffectWithLights();
             foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)

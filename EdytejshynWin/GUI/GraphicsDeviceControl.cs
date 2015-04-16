@@ -9,6 +9,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Xna.Framework.Graphics;
+using PBLgame.Engine;
 
 namespace Edytejshyn.GUI
 {
@@ -80,8 +81,10 @@ namespace Edytejshyn.GUI
                 // Register the service, so components like ContentManager can find it.
                 services.AddService<IGraphicsDeviceService>(graphicsDeviceService);
 
+
                 // Give derived classes a chance to initialize themselves.
                 Initialize();
+                GlobalInventory.Instance.GraphicsDevice = GraphicsDevice;
             }
 
             base.OnCreateControl();

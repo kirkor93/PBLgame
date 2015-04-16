@@ -494,9 +494,55 @@ namespace Edytejshyn
         {
             SceneTreeNode node = e.Node as SceneTreeNode;
             propertyGrid.SelectedObject = (node == null) ? null : node.WrappedGameObject;
+            if (node == null) return;
+
+            ContextMenuStrip popup = new ContextMenuStrip();
+            if (node.WrappedGameObject.Renderer == null)
+            {
+                popup.Items.Add("Add Rendererer").Click += delegate
+                {
+                    node.WrappedGameObject.NewRenderer();
+                };
+            }
+            else
+            {
+                popup.Items.Add("Remove Rendererer").Click += delegate
+                {
+                    node.WrappedGameObject.RemoveRenderer();
+                };
+            }
+            sceneTreeView.ContextMenuStrip = popup;
+
             propertyGrid.ExpandAllGridItems();
         }
 
+        private void SceneTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                //SceneTreeNode node = (SceneTreeNode) e.Node;
+                sceneTreeView.SelectedNode = e.Node;
+                //ContextMenuStrip popup = new ContextMenuStrip();
+                //if (node.WrappedGameObject.Renderer == null)
+                //{
+                //    popup.Items.Add("Add Rendererer").Click += delegate 
+                //    {
+                //        node.WrappedGameObject.NewRenderer();
+                //    };
+                //}
+                //else
+                //{
+                //    popup.Items.Add("Remove Rendererer").Click += delegate
+                //    {
+                //        node.WrappedGameObject.RemoveRenderer();
+                //    };
+                //}
+                
+                //sceneTreeView.ContextMenuStrip = popup;
+            }
+            else if(e.Button == MouseButtons)
+                SceneTreeView_AfterSelect(sender, new TreeViewEventArgs(e.Node, TreeViewAction.ByMouse));
+        }
 
         private void RenderingModeMenuItem_DropDownOpening(object sender, EventArgs e)
         {
@@ -521,5 +567,9 @@ namespace Edytejshyn
         }
 
 
+        public void SelectGameObject(GameObjectWrapper collider)
+        {
+            sceneTreeView.SelectedNode = collider.TreeViewNode;
+        }
     }
 }

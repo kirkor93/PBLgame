@@ -72,7 +72,7 @@ namespace PBLgame.Engine.Components
                 }
                 else
                 {
-                    return _world = gameObject.parent.transform.World * _worldScale * _worldRotation * _worldTranslation;
+                    return _world = _worldRotation * gameObject.parent.transform.World * _worldScale * _worldTranslation;
                 }
 
             }
@@ -124,12 +124,12 @@ namespace PBLgame.Engine.Components
                                                                        MathHelper.ToRadians(y), MathHelper.ToRadians(z));
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
             
         }
 
-        public override void Draw()
+        public override void Draw(GameTime gameTime)
         {
             
         }

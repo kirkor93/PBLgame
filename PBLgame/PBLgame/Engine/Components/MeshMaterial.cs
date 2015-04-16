@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace PBLgame.Engine.Components
 {
@@ -23,6 +19,11 @@ namespace PBLgame.Engine.Components
             Specular = specular;
             Emissive = emissive;
             ShaderEffect = shaderEffect;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0}: {1}", Id, Diffuse);
         }
     }
 }

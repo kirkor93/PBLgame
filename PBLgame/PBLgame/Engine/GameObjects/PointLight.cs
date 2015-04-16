@@ -19,11 +19,25 @@ namespace PBLgame.Engine.GameObjects
         {
             get
             {
-                return transform.Position;
+                if(parent != null)
+                {
+                    return parent.transform.Position + transform.Position;
+                }
+                else
+                {
+                    return transform.Position;
+                }
             }
             set
             {
-                transform.Position = value;
+                if(parent != null)
+                {
+                    transform.Position = parent.transform.Position + value;
+                }
+                else
+                {
+                    transform.Position = value;
+                }
             }
         }
 
@@ -53,6 +67,12 @@ namespace PBLgame.Engine.GameObjects
         #endregion 
 
         #region Methods
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            //transform.Translate(0.1f, 0.0f, 0.0f);
+        }
 
         #region XML Serialization
 

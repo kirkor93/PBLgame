@@ -87,6 +87,11 @@ namespace PBLgame.Engine.Components
 
         }
 
+        public override string ToString()
+        {
+            return _path;
+        }
+
         #endregion
     }
 }
