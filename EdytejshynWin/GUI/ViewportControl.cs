@@ -26,6 +26,7 @@ namespace Edytejshyn.GUI
         private const float BASE_ROTATE_SENSITIVITY = 0.004f, BASE_MOVE_SENSITIVITY = 0.15f;
         private float _rotateSensitivity = BASE_ROTATE_SENSITIVITY, _moveSensitivity = BASE_MOVE_SENSITIVITY;
         private bool _hasFocus;
+        private Gizmo _gizmo;
 
         public delegate void VoidHandler();
         public event VoidHandler AfterInitializeEvent = () => { };
@@ -85,7 +86,8 @@ namespace Edytejshyn.GUI
             Grid = new Grid(this, 2, 100);
             Reset();
             
-            AfterInitializeEvent();
+            AfterInitializeEvent(); // set game content in logic, handle content & scene from parameter loading
+            _gizmo = new Gizmo(this, _spriteBatch, _editorContent.Load<SpriteFont>("GizmoFont"));
             this.MainForm.Logic.History.UpdateEvent += delegate(HistoryManager manager)
             {
                 Invalidate();
@@ -124,6 +126,9 @@ namespace Edytejshyn.GUI
 
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
             Grid.Draw();
+
+            _gizmo.Update();
+            _gizmo.Draw();
 
             _spriteBatch.Begin();
             Vector2 position = new Vector2(5, 5);
@@ -183,6 +188,7 @@ namespace Edytejshyn.GUI
 
         protected void ViewportControl_MouseDown(object sender, MouseEventArgs e)
         {
+            if (MainForm.Logic.WrappedScene == null) return;
             if (!_hasFocus)
             {
                 this.Select();
@@ -195,10 +201,10 @@ namespace Edytejshyn.GUI
 
                     // find intersected game object
                     Vector3 nearVector = new Vector3(_currentMouse.Vector, 0f);
-                    Vector3 farVector = new Vector3(_currentMouse.Vector, 1f);
+                    Vector3 farVector  = new Vector3(_currentMouse.Vector, 1f);
                     Vector3 nearUnproj = GraphicsDevice.Viewport.Unproject(nearVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
-                    Vector3 farUnproj = GraphicsDevice.Viewport.Unproject(farVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
-                    Vector3 direction = farUnproj - nearUnproj;
+                    Vector3 farUnproj  = GraphicsDevice.Viewport.Unproject(farVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
+                    Vector3 direction  = farUnproj - nearUnproj;
                     direction.Normalize();
                     Ray picker = new Ray(nearUnproj, direction);
 

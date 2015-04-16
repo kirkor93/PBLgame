@@ -28,6 +28,7 @@ namespace Edytejshyn
         #region Properties
 
         public EditorLogic Logic { get; private set; }
+        public SelectionManager SelectionManager { get; private set; }
 
         public IDrawerStrategy RealisticDrawerStrategy { get; private set; }
         public IDrawerStrategy BasicDrawerStrategy { get; private set; }
@@ -40,6 +41,7 @@ namespace Edytejshyn
         public MainForm(EditorLogic logic, string contentToOpen = null, string sceneToOpen = null)
         {
             this.Logic = logic;
+            this.SelectionManager = new SelectionManager(Logic, sceneTreeView, viewportControl);
             this.ExceptionHandler = new GUIExceptionHandler(this);
             InitializeComponent();
             UpdateTitle();
@@ -493,6 +495,7 @@ namespace Edytejshyn
         private void SceneTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             SceneTreeNode node = e.Node as SceneTreeNode;
+            SelectionManager.SelectOnly((node == null) ? null : node.WrappedGameObject, false);
             propertyGrid.SelectedObject = (node == null) ? null : node.WrappedGameObject;
             if (node == null) return;
 

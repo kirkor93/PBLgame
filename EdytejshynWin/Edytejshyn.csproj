@@ -126,6 +126,7 @@
     <Compile Include="Logic\EditorLogic.cs" />
     <Compile Include="Logic\Extensions.cs" />
     <Compile Include="Logic\HistoryManager.cs" />
+    <Compile Include="Logic\SelectionManager.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

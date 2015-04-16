@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Edytejshyn.Model;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PBLgame.Engine.Components;
+using PBLgame.Engine.GameObjects;
 
 // -------------------------------------------------------------
 // -- XNA 3D Gizmo (Component)
@@ -36,6 +39,7 @@ namespace Edytejshyn.GUI.XNA
         /// </summary>
         private bool _isActive = true;
 
+        private readonly ViewportControl _viewport;
         private readonly GraphicsDevice _graphics;
         private readonly SpriteBatch _spriteBatch;
         private readonly BasicEffect _lineEffect;
@@ -46,7 +50,7 @@ namespace Edytejshyn.GUI.XNA
 
         private Matrix _view = Matrix.Identity;
         private Matrix _projection = Matrix.Identity;
-        private Vector3 _cameraPosition;
+        private Camera _camera;
 
         // -- Screen Scale -- //
         private Matrix _screenScaleMatrix;
@@ -141,7 +145,7 @@ namespace Edytejshyn.GUI.XNA
 
         #endregion
 
-        public Gizmo(GraphicsDevice graphics, SpriteBatch spriteBatch, SpriteFont font)
+        public Gizmo(ViewportControl viewport, SpriteBatch spriteBatch, SpriteFont font)
         {
             XAxisBox  = new BoundingBox(new Vector3(LINE_OFFSET, 0, 0), new Vector3(LINE_OFFSET + LINE_LENGTH, SINGLE_AXIS_THICKNESS, SINGLE_AXIS_THICKNESS));
             YAxisBox  = new BoundingBox(new Vector3(0, LINE_OFFSET, 0), new Vector3(SINGLE_AXIS_THICKNESS, LINE_OFFSET + LINE_LENGTH, SINGLE_AXIS_THICKNESS));
@@ -151,24 +155,26 @@ namespace Edytejshyn.GUI.XNA
             YZAxisBox = new BoundingBox(Vector3.Zero,                   new Vector3(MULTI_AXIS_THICKNESS,  LINE_OFFSET,  LINE_OFFSET));
 
             SceneWorld = Matrix.Identity;
-            _graphics = graphics;
             _spriteBatch = spriteBatch;
             _font = font;
+            _viewport = viewport;
+            _camera = _viewport.Camera;
+            _graphics = _viewport.GraphicsDevice;
 
             Enabled = true;
 
-            _selectionBoxEffect = new BasicEffect(graphics)
+            _selectionBoxEffect = new BasicEffect(_graphics)
             {
                 VertexColorEnabled = true
             };
-            _lineEffect = new BasicEffect(graphics)
+            _lineEffect = new BasicEffect(_graphics)
             {
                 VertexColorEnabled = true,
                 AmbientLightColor = Vector3.One,
                 EmissiveColor = Vector3.One
             };
-            _meshEffect = new BasicEffect(graphics);
-            _quadEffect = new BasicEffect(graphics)
+            _meshEffect = new BasicEffect(_graphics);
+            _quadEffect = new BasicEffect(_graphics)
             {
                 World = Matrix.Identity,
                 DiffuseColor = _highlightColor.ToVector3(),
@@ -176,18 +182,13 @@ namespace Edytejshyn.GUI.XNA
             };
             _quadEffect.EnableDefaultLighting();
 
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            // Set local-space offset //
+            // Set local-space offset
             _modelLocalSpace    = new Matrix[3];
             _modelLocalSpace[0] = Matrix.CreateWorld(new Vector3(LINE_LENGTH, 0, 0), Vector3.Left,    Vector3.Up);
             _modelLocalSpace[1] = Matrix.CreateWorld(new Vector3(0, LINE_LENGTH, 0), Vector3.Down,    Vector3.Left);
             _modelLocalSpace[2] = Matrix.CreateWorld(new Vector3(0, 0, LINE_LENGTH), Vector3.Forward, Vector3.Up);
 
-            // Colours: X, Y, Z, Highlight //
+            // Colours: X, Y, Z, Highlight
             _axisColors     = new Color[3];
             _axisColors[0]  = Color.Red;
             _axisColors[1]  = Color.Green;
@@ -239,8 +240,88 @@ namespace Edytejshyn.GUI.XNA
             vertexList.Add(new VertexPositionColor(new Vector3(0, 0, LINE_OFFSET),           zColor));
             vertexList.Add(new VertexPositionColor(new Vector3(0, LINE_OFFSET, LINE_OFFSET), zColor));
 
-            // -- Convert to array -- //
             _translationLineVertices = vertexList.ToArray();
+        }
+
+        public void Draw()
+        {
+            if (!_isActive) return;
+            DepthStencilState oldDepthStencilState = _graphics.DepthStencilState;
+            _graphics.DepthStencilState = DepthStencilState.None;
+
+            // Draw Lines
+            _lineEffect.World = _gizmoWorld;
+            _lineEffect.View = _view;
+            _lineEffect.Projection = _projection;
+
+            _lineEffect.CurrentTechnique.Passes[0].Apply();
+            _graphics.DrawUserPrimitives(PrimitiveType.LineList, _translationLineVertices, 0,
+                                         _translationLineVertices.Length / 2);
+
+            // ..
+
+            // Cleanup
+            _graphics.DepthStencilState = oldDepthStencilState;
+        }
+
+        public void Update()
+        {
+            _view = _camera.ViewMatrix;
+            _projection = _camera.ProjectionMatrix;
+            UpdateGizmoPosition();
+        }
+
+        /// <summary>
+        /// Set position of the gizmo, position will be center of all selected entities.
+        /// </summary>
+        private void UpdateGizmoPosition()
+        {
+            if (_viewport.MainForm.SelectionManager.CurrentSelection.Length == 0) return;
+            GameObjectWrapper selected = _viewport.MainForm.SelectionManager.CurrentSelection[0];
+            _position = selected.Transform.Position;
+            
+            // Scale Gizmo to fit on screen
+            Vector3 vLength = _camera.transform.Position - _position;
+            const float scaleFactor = 25.0f;
+
+            _screenScale = vLength.Length() / scaleFactor;
+            _screenScaleMatrix = Matrix.CreateScale(new Vector3(_screenScale));
+
+
+            //_localForward = Vector3.Forward;
+            //_localUp = Vector3.Up;
+            //_localRight = Vector3.Right;
+
+            // -- Vector Rotation (Local/World) -- //
+            //_localForward.Normalize();
+            //_localRight = Vector3.Cross(_localForward, _localUp);
+            //_localUp = Vector3.Cross(_localRight, _localForward);
+            //_localRight.Normalize();
+            //_localUp.Normalize();
+
+            _rotationMatrix.Forward = _localForward;
+            _rotationMatrix.Up = _localUp;
+            _rotationMatrix.Right = _localRight;
+
+            _gizmoWorld = _screenScaleMatrix * Matrix.CreateFromYawPitchRoll(
+                MathHelper.ToRadians(selected.Nut.transform.Rotation.X),
+                MathHelper.ToRadians(selected.Nut.transform.Rotation.Y),
+                MathHelper.ToRadians(selected.Nut.transform.Rotation.Z)) * Matrix.CreateTranslation(_position);
+
+            //switch (ActivePivot)
+            //{
+            //    case PivotType.ObjectCenter:
+            //        if (Selection.Count > 0)
+            //            _position = Selection[0].Position;
+            //        break;
+            //    case PivotType.SelectionCenter:
+            //        _position = GetSelectionCenter();
+            //        break;
+            //    case PivotType.WorldOrigin:
+            //        _position = SceneWorld.Translation;
+            //        break;
+            //}
+            //_position += _translationDelta;
         }
     }
 }

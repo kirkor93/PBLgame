@@ -20,13 +20,14 @@ namespace Edytejshyn.Model
                 foreach (GameObjectWrapper root in RootGameObjects)
                 {
                     yield return root;
-                    foreach (GameObjectWrapper child in root.Children)
+                    foreach (GameObjectWrapper child in root.Descendants)
                     {
                         yield return child;
                     }
                 }
             }
         }
+
 
         public SceneWrapper(EditorLogic logic)
         {
