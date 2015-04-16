@@ -79,10 +79,6 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\Components\Animation\AnimationClip.cs" />
-    <Compile Include="Engine\Components\Animation\AnimationPlayer.cs" />
-    <Compile Include="Engine\Components\Animation\Keyframe.cs" />
-    <Compile Include="Engine\Components\Animation\SkinningData.cs" />
     <Compile Include="Engine\Components\Animator.cs" />
     <Compile Include="Engine\Components\AudioSource.cs" />
     <Compile Include="Engine\Components\Component.cs" />
@@ -113,6 +109,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AnimationData\AnimationData.csproj">
+      <Project>{80E1146A-8F42-4866-9F6C-943097957A31}</Project>
+      <Name>AnimationData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PBLgameContent\PBLgameContent.contentproj">
       <Name>PBLgameContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>

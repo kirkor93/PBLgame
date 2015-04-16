@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Content;
 
 #endregion
 
-namespace PBLgame.Engine.Components.Animation
+namespace AnimationData
 {
     /// <summary>
     /// Describes the position of a single bone at a single point in time.

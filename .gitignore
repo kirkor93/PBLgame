@@ -37,3 +37,5 @@ bin/
 *.cachefile
 SkinnedModelPipeline/bin/
 SkinnedModelPipeline/obj/
+AnimationData/obj/
+AnimationData/bin/

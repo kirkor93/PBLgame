@@ -1,25 +1,13 @@
-#region File Description
-//-----------------------------------------------------------------------------
-// SkinnedModelProcessor.cs
-//
-// Microsoft XNA Community Game Platform
-// Copyright (C) Microsoft Corporation. All rights reserved.
-//-----------------------------------------------------------------------------
-#endregion
-
-#region Using Statements
 using System;
 using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
+using AnimationData;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using Microsoft.Xna.Framework.Content.Pipeline.Processors;
-using PBLgame.Engine.Components.Animation;
-
-#endregion
 
 namespace SkinnedModelPipeline
 {
@@ -43,7 +31,9 @@ namespace SkinnedModelPipeline
             BoneContent skeleton = MeshHelper.FindSkeleton(input);
 
             if (skeleton == null)
+            {
                 throw new InvalidContentException("Input skeleton not found.");
+            }
 
             // We don't want to have to worry about different parts of the model being
             // in different local coordinate systems, so let's just bake everything.

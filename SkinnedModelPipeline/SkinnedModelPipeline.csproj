@@ -53,13 +53,9 @@
     <Compile Include="SkinnedModelProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PBLgame\PBLgame\PBLgame.csproj">
-      <Project>{9C8060EA-42A1-4A09-87A3-92CAC82BB341}</Project>
-      <Name>PBLgame</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SkinnedModel\SkinnedModelWindows.csproj">
-      <Project>{0D41E29B-829F-4255-BCA5-64DC2677DA6D}</Project>
-      <Name>SkinnedModelWindows</Name>
+    <ProjectReference Include="..\AnimationData\AnimationData.csproj">
+      <Project>{80E1146A-8F42-4866-9F6C-943097957A31}</Project>
+      <Name>AnimationData</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

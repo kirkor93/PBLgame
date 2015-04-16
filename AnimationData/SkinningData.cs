@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Content;
 
 #endregion
 
-namespace PBLgame.Engine.Components.Animation
+namespace AnimationData
 {
     /// <summary>
     /// Combines all the data needed to render and animate a skinned object.

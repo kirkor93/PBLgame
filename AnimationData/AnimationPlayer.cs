@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework;
 
 #endregion
 
-namespace PBLgame.Engine.Components.Animation
+namespace AnimationData
 {
     /// <summary>
     /// The animation player is in charge of decoding bone position

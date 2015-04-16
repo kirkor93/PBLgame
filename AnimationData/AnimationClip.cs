@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Content;
 
 #endregion
 
-namespace PBLgame.Engine.Components.Animation
+namespace AnimationData
 {
     /// <summary>
     /// An animation clip is the runtime equivalent of the

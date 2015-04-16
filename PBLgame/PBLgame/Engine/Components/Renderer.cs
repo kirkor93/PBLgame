@@ -6,6 +6,7 @@ using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
 using PBLgame.Engine.Singleton;
 using System.Collections.Generic;
+using AnimationData;
 
 namespace PBLgame.Engine.Components
 {
@@ -159,6 +160,7 @@ namespace PBLgame.Engine.Components
             MyMesh = ResourceManager.Instance.GetMesh(meshId);
             Material = ResourceManager.Instance.GetMaterial(materialId);
             MyEffect = Material.ShaderEffect;
+            SkinningData data = MyMesh.Model.Tag as SkinningData;
             reader.Read();
         }
 
