@@ -566,8 +566,10 @@ namespace Edytejshyn
             }
         }
 
-        
 
-
+        public void SelectGameObject(GameObjectWrapper collider)
+        {
+            sceneTreeView.SelectedNode = collider.TreeViewNode;
+        }
     }
 }

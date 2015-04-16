@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms.VisualStyles;
+using Edytejshyn.GUI;
 using Edytejshyn.Logic;
 using Edytejshyn.Model.Commands;
 using Microsoft.Xna.Framework;
@@ -71,6 +72,9 @@ namespace Edytejshyn.Model
         {
             get { return _gameObject; }
         }
+
+        [Browsable(false)]
+        public SceneTreeNode TreeViewNode { get; set; }
 
         #endregion
 
@@ -146,6 +150,20 @@ namespace Edytejshyn.Model
             foreach (GameObjectWrapper child in _children)
             {
                 child.Draw(strategy, gameTime);
+            }
+        }
+
+        public IEnumerable<GameObjectWrapper> Children
+        {
+            get {
+                foreach (GameObjectWrapper child in _children)
+                {
+                    yield return child;
+                    foreach (GameObjectWrapper grand in child.Children)
+                    {
+                        yield return grand;
+                    }
+                }
             }
         }
 

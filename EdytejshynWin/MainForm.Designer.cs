@@ -316,6 +316,7 @@
             // sceneTreeView
             // 
             this.sceneTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sceneTreeView.HideSelection = false;
             this.sceneTreeView.Location = new System.Drawing.Point(0, 0);
             this.sceneTreeView.Name = "sceneTreeView";
             this.sceneTreeView.PathSeparator = "->";

@@ -152,7 +152,7 @@ namespace Edytejshyn.GUI
 
         #region Event handlers
 
-        protected void ViewportControl_MouseMove(object sender, MouseEventArgs e)
+        private void ViewportControl_MouseMove(object sender, MouseEventArgs e)
         {
             _prevMouse = _currentMouse;
             _currentMouse = new EditorMouseState(_prevMouse) {X = e.X, Y = e.Y};
@@ -164,30 +164,6 @@ namespace Edytejshyn.GUI
             else if (_currentMouse.Left)
             {
                 // if(!gizmo_collision)
-                // find rayed object
-                Vector3 nearVector = new Vector3(_currentMouse.Vector, 0f);
-                Vector3 farVector = new Vector3(_currentMouse.Vector, 1f);
-                Vector3 nearUnproj = GraphicsDevice.Viewport.Unproject(nearVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
-                Vector3 farUnproj = GraphicsDevice.Viewport.Unproject(farVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
-                Vector3 direction = farUnproj - nearUnproj;
-                direction.Normalize();
-                Ray picker = new Ray(nearUnproj, direction);
-
-                // TODO collision with scene objects
-                //var modelMeshes = SampleObject.renderer.MyMesh.Model.Meshes;
-                //float? distance = null;
-                //int id = 0;
-                //for(int i = 0; i < modelMeshes.Count; i++)
-                //{
-                //    var mesh = modelMeshes[i];
-                //    float? d = picker.Intersects(mesh.BoundingSphere.Transform(SampleObject.transform.World));
-                //    if ( (d.HasValue)  &&  (distance == null || d > distance) )
-                //    {
-                //        distance = d;
-                //        id = i;
-                //    }
-                //}
-                //Text = distance.HasValue ? string.Format("Collision: [{1}] {0}\ndist = {2}", modelMeshes[id].Name, id, distance) : string.Format("Ray: origin {0}\ndir {1}", nearUnproj, direction);
 
             }
             else if (_currentMouse.Right)
@@ -216,11 +192,28 @@ namespace Edytejshyn.GUI
                 case MouseButtons.Left:
                     // select objects on scene / interact with gizmo
                     _currentMouse.Left = true;
+
+                    // find intersected game object
+                    Vector3 nearVector = new Vector3(_currentMouse.Vector, 0f);
+                    Vector3 farVector = new Vector3(_currentMouse.Vector, 1f);
+                    Vector3 nearUnproj = GraphicsDevice.Viewport.Unproject(nearVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
+                    Vector3 farUnproj = GraphicsDevice.Viewport.Unproject(farVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
+                    Vector3 direction = farUnproj - nearUnproj;
+                    direction.Normalize();
+                    Ray picker = new Ray(nearUnproj, direction);
+
+                    GameObjectWrapper collider = MainForm.Logic.WrappedScene.ClosestIntersector(picker);
+                    if (collider != null)   // otherwise deselect, etc.
+                    {
+                        MainForm.SelectGameObject(collider);
+                    }
                     break;
+
                 case MouseButtons.Middle:
                     // camera strafe movement
                     _currentMouse.Middle = true;
                     break;
+
                 case MouseButtons.Right:
                     // FPS camera lookaround
                     _currentMouse.Right = true;

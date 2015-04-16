@@ -98,14 +98,10 @@ namespace Edytejshyn.GUI.XNA
         private BoundingBox XYAxisBox;
         private BoundingBox YZAxisBox;
 
-        #region BoundingSpheres
-
         private const float RADIUS = 1f;
         private BoundingSphere XSphere { get { return new BoundingSphere(Vector3.Transform(_translationLineVertices[1] .Position, _gizmoWorld), RADIUS * _screenScale); } }
         private BoundingSphere YSphere { get { return new BoundingSphere(Vector3.Transform(_translationLineVertices[7] .Position, _gizmoWorld), RADIUS * _screenScale); } }
         private BoundingSphere ZSphere { get { return new BoundingSphere(Vector3.Transform(_translationLineVertices[13].Position, _gizmoWorld), RADIUS * _screenScale); } }
-
-        #endregion
 
 
         /// <summary>
@@ -113,7 +109,7 @@ namespace Edytejshyn.GUI.XNA
         /// </summary>
         private const float PRECISION_MODE_SCALE = 0.1f;
 
-        // -- Selection -- //
+        // TODO -- Selection -- //
         //public List<ITransformable> Selection = new List<ITransformable>();
         //private IEnumerable<ITransformable> _selectionPool = null;
 
@@ -147,12 +143,12 @@ namespace Edytejshyn.GUI.XNA
 
         public Gizmo(GraphicsDevice graphics, SpriteBatch spriteBatch, SpriteFont font)
         {
-            ZAxisBox = new BoundingBox(new Vector3(0, 0, LINE_OFFSET), new Vector3(SINGLE_AXIS_THICKNESS, SINGLE_AXIS_THICKNESS, LINE_OFFSET + LINE_LENGTH));
-            YAxisBox = new BoundingBox(new Vector3(0, LINE_OFFSET, 0), new Vector3(SINGLE_AXIS_THICKNESS, LINE_OFFSET + LINE_LENGTH, SINGLE_AXIS_THICKNESS));
-            XAxisBox = new BoundingBox(new Vector3(LINE_OFFSET, 0, 0), new Vector3(LINE_OFFSET + LINE_LENGTH, SINGLE_AXIS_THICKNESS, SINGLE_AXIS_THICKNESS));
-            YZAxisBox = new BoundingBox(Vector3.Zero, new Vector3(MULTI_AXIS_THICKNESS, LINE_OFFSET, LINE_OFFSET));
-            XYAxisBox = new BoundingBox(Vector3.Zero, new Vector3(LINE_OFFSET, LINE_OFFSET, MULTI_AXIS_THICKNESS));
-            XZAxisBox = new BoundingBox(Vector3.Zero, new Vector3(LINE_OFFSET, MULTI_AXIS_THICKNESS, LINE_OFFSET));
+            XAxisBox  = new BoundingBox(new Vector3(LINE_OFFSET, 0, 0), new Vector3(LINE_OFFSET + LINE_LENGTH, SINGLE_AXIS_THICKNESS, SINGLE_AXIS_THICKNESS));
+            YAxisBox  = new BoundingBox(new Vector3(0, LINE_OFFSET, 0), new Vector3(SINGLE_AXIS_THICKNESS, LINE_OFFSET + LINE_LENGTH, SINGLE_AXIS_THICKNESS));
+            ZAxisBox  = new BoundingBox(new Vector3(0, 0, LINE_OFFSET), new Vector3(SINGLE_AXIS_THICKNESS, SINGLE_AXIS_THICKNESS, LINE_OFFSET + LINE_LENGTH));
+            XYAxisBox = new BoundingBox(Vector3.Zero,                   new Vector3(LINE_OFFSET,  LINE_OFFSET,  MULTI_AXIS_THICKNESS));
+            XZAxisBox = new BoundingBox(Vector3.Zero,                   new Vector3(LINE_OFFSET,  MULTI_AXIS_THICKNESS,  LINE_OFFSET));
+            YZAxisBox = new BoundingBox(Vector3.Zero,                   new Vector3(MULTI_AXIS_THICKNESS,  LINE_OFFSET,  LINE_OFFSET));
 
             SceneWorld = Matrix.Identity;
             _graphics = graphics;
@@ -180,7 +176,71 @@ namespace Edytejshyn.GUI.XNA
             };
             _quadEffect.EnableDefaultLighting();
 
-            //Initialize();
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            // Set local-space offset //
+            _modelLocalSpace    = new Matrix[3];
+            _modelLocalSpace[0] = Matrix.CreateWorld(new Vector3(LINE_LENGTH, 0, 0), Vector3.Left,    Vector3.Up);
+            _modelLocalSpace[1] = Matrix.CreateWorld(new Vector3(0, LINE_LENGTH, 0), Vector3.Down,    Vector3.Left);
+            _modelLocalSpace[2] = Matrix.CreateWorld(new Vector3(0, 0, LINE_LENGTH), Vector3.Forward, Vector3.Up);
+
+            // Colours: X, Y, Z, Highlight //
+            _axisColors     = new Color[3];
+            _axisColors[0]  = Color.Red;
+            _axisColors[1]  = Color.Green;
+            _axisColors[2]  = Color.Blue;
+            _highlightColor = Color.Gold;
+
+            // Helpers to apply colors
+            Color xColor = _axisColors[0];
+            Color yColor = _axisColors[1];
+            Color zColor = _axisColors[2];
+
+            // Text projected in 3D
+            _axisText    = new string[3];
+            _axisText[0] = "X";
+            _axisText[1] = "Y";
+            _axisText[2] = "Z";
+
+            // Translucent quads
+            const float halfLineOffset = LINE_OFFSET / 2;
+            _quads    = new Quad[3];
+            _quads[0] = new Quad(new Vector3(halfLineOffset, halfLineOffset, 0), Vector3.Backward, Vector3.Up,    LINE_OFFSET, LINE_OFFSET); //XY
+            _quads[1] = new Quad(new Vector3(halfLineOffset, 0, halfLineOffset), Vector3.Up,       Vector3.Right, LINE_OFFSET, LINE_OFFSET); //XZ
+            _quads[2] = new Quad(new Vector3(0, halfLineOffset, halfLineOffset), Vector3.Right,    Vector3.Up,    LINE_OFFSET, LINE_OFFSET); //ZY 
+
+            var vertexList = new List<VertexPositionColor>(18);
+
+            
+            // -- X Axis -- // index 0 - 5
+            vertexList.Add(new VertexPositionColor(new Vector3(halfLineOffset, 0, 0), xColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(LINE_LENGTH, 0, 0),    xColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(LINE_OFFSET, 0, 0),    xColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(LINE_OFFSET, LINE_OFFSET, 0), xColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(LINE_OFFSET, 0, 0),           xColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(LINE_OFFSET, 0, LINE_OFFSET), xColor));
+
+            // -- Y Axis -- // index 6 - 11
+            vertexList.Add(new VertexPositionColor(new Vector3(0, halfLineOffset, 0), yColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(0, LINE_LENGTH, 0),    yColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(0, LINE_OFFSET, 0),    yColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(LINE_OFFSET, LINE_OFFSET, 0), yColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(0, LINE_OFFSET, 0),           yColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(0, LINE_OFFSET, LINE_OFFSET), yColor));
+
+            // -- Z Axis -- // index 12 - 17
+            vertexList.Add(new VertexPositionColor(new Vector3(0, 0, halfLineOffset), zColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(0, 0, LINE_LENGTH),    zColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(0, 0, LINE_OFFSET),    zColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(LINE_OFFSET, 0, LINE_OFFSET), zColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(0, 0, LINE_OFFSET),           zColor));
+            vertexList.Add(new VertexPositionColor(new Vector3(0, LINE_OFFSET, LINE_OFFSET), zColor));
+
+            // -- Convert to array -- //
+            _translationLineVertices = vertexList.ToArray();
         }
     }
 }
