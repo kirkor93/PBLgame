@@ -278,15 +278,17 @@ namespace Edytejshyn.GUI.XNA
         {
             if (_viewport.MainForm.SelectionManager.CurrentSelection.Length == 0) return;
             GameObjectWrapper selected = _viewport.MainForm.SelectionManager.CurrentSelection[0];
-            _position = selected.Transform.Position;
+            Matrix selectedWorld = selected.Nut.transform.World;
+            _position = selectedWorld.Translation;
             
-            // Scale Gizmo to fit on screen
+            // Scale Gizmo to keep zoom independent
             Vector3 vLength = _camera.transform.Position - _position;
             const float scaleFactor = 25.0f;
 
             _screenScale = vLength.Length() / scaleFactor;
             _screenScaleMatrix = Matrix.CreateScale(new Vector3(_screenScale));
 
+            _gizmoWorld = _screenScaleMatrix * Matrix.CreateWorld(_position, selectedWorld.Forward, selectedWorld.Up);
 
             //_localForward = Vector3.Forward;
             //_localUp = Vector3.Up;
@@ -299,14 +301,11 @@ namespace Edytejshyn.GUI.XNA
             //_localRight.Normalize();
             //_localUp.Normalize();
 
-            _rotationMatrix.Forward = _localForward;
-            _rotationMatrix.Up = _localUp;
-            _rotationMatrix.Right = _localRight;
+            //_rotationMatrix.Forward = _localForward;
+            //_rotationMatrix.Up = _localUp;
+            //_rotationMatrix.Right = _localRight;
 
-            _gizmoWorld = _screenScaleMatrix * Matrix.CreateFromYawPitchRoll(
-                MathHelper.ToRadians(selected.Nut.transform.Rotation.X),
-                MathHelper.ToRadians(selected.Nut.transform.Rotation.Y),
-                MathHelper.ToRadians(selected.Nut.transform.Rotation.Z)) * Matrix.CreateTranslation(_position);
+
 
             //switch (ActivePivot)
             //{

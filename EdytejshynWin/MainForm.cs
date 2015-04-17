@@ -38,10 +38,9 @@ namespace Edytejshyn
 
         #region Methods
 
-        public MainForm(EditorLogic logic, string contentToOpen = null, string sceneToOpen = null)
+        public MainForm(EditorLogic logic, string contentToOpen = null, string sceneToOpen = null, bool basicRender = false)
         {
             this.Logic = logic;
-            this.SelectionManager = new SelectionManager(Logic, sceneTreeView, viewportControl);
             this.ExceptionHandler = new GUIExceptionHandler(this);
             InitializeComponent();
             UpdateTitle();
@@ -65,13 +64,12 @@ namespace Edytejshyn
             sceneTreeView.MainForm = this;
             viewportControl.MainForm = this;
 
-            
-
             viewportControl.AfterInitializeEvent += () =>
             {
+                SelectionManager = new SelectionManager(Logic, sceneTreeView, viewportControl);
                 BasicDrawerStrategy = new BasicDrawerStrategy(viewportControl.GraphicsDevice);
                 RealisticDrawerStrategy = new RealisticDrawerStrategy();
-                CurrentDrawerStrategy = RealisticDrawerStrategy;
+                CurrentDrawerStrategy = basicRender ? BasicDrawerStrategy : RealisticDrawerStrategy;
 
                 var dropdowns = new[]
                 {

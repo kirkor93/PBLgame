@@ -46,6 +46,7 @@ namespace PBLgame.Engine.Components
             {
                 _rotation = value;
                 RotationLimit();
+                // TODO consider changing to rotation around axes
                 _worldRotation = Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(value.X),
                                                                MathHelper.ToRadians(value.Y), MathHelper.ToRadians(value.Z));
             }
@@ -72,11 +73,13 @@ namespace PBLgame.Engine.Components
                 }
                 else
                 {
-                    return _world = _worldRotation * gameObject.parent.transform.World * _worldScale * _worldTranslation;
+                    // Changed multiplication order (Unity-like) - now all children are like a whole group, rotated ans scaled around parent.
+                    return _world = _worldRotation * _worldScale * _worldTranslation * gameObject.parent.transform.World;
                 }
 
             }
         }
+
         #endregion
 
         #region Methods

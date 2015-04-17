@@ -9,6 +9,7 @@ namespace Edytejshyn.Logic
     /// </summary>
     public class SelectionManager
     {
+        // TODO history handling
         private EditorLogic _logic;
         private SceneTreeView _treeView;
         private ViewportControl _viewport;
@@ -55,6 +56,7 @@ namespace Edytejshyn.Logic
             if (selecting == null) return;
             _selection.Add(selecting);
             if(selectTreeView) _treeView.SelectedNode = selecting.TreeViewNode;
+            _viewport.Invalidate();
         }
 
         public GameObjectWrapper[] CurrentSelection

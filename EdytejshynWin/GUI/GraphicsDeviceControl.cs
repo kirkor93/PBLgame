@@ -84,7 +84,6 @@ namespace Edytejshyn.GUI
 
                 // Give derived classes a chance to initialize themselves.
                 Initialize();
-                GlobalInventory.Instance.GraphicsDevice = GraphicsDevice;
             }
 
             base.OnCreateControl();
