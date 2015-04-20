@@ -161,31 +161,36 @@ namespace Edytejshyn.GUI
 
         private void ViewportControl_MouseMove(object sender, MouseEventArgs e)
         {
+            bool invalidate = true;
             _prevMouse = _currentMouse;
             _currentMouse = new EditorMouseState(_prevMouse) {X = e.X, Y = e.Y};
             _mouseMoved = true;
-            if (_currentMouse.AnyMiddle)
+            switch (_currentMouse.OnlyButton)
             {
-                // surface strafe
-            }
-            else if (_currentMouse.Left)
-            {
-                // if(!gizmo_collision)
+                case MouseButton.Left:
+                    if (_gizmo.MouseHover(_currentMouse))
+                    {
+                        // TODO interact with gizmo
+                    }
+                    break;
 
+                case MouseButton.Right:
+                    Vector2 rot = (_prevMouse.Vector - _currentMouse.Vector) * _rotateSensitivity;
+                    Camera.RotateYawPitch(rot.X, rot.Y);
+                    Text = string.Format("Lookaround: {0}, {1}", rot.X, rot.Y);
+                    Camera.Update();
+                    break;
+
+                case MouseButton.None:
+                    _gizmo.MouseHover(_currentMouse);
+                    break;
+
+                default:
+                    invalidate = false;
+                    break;
             }
-            else if (_currentMouse.Right)
-            {
-                Vector2 rot = (_prevMouse.Vector - _currentMouse.Vector) * _rotateSensitivity;
-                Camera.RotateYawPitch(rot.X, rot.Y);
-                Text = string.Format("Lookaround: {0}, {1}", rot.X, rot.Y);
-                Camera.Update();
-            }
-            else if(_currentMouse.NoneButton)
-            {
-                // TODO search collision with gizmo
-                Text = string.Format("-");
-            }
-            Invalidate();
+
+            if(invalidate) Invalidate();
         }
 
         protected void ViewportControl_MouseDown(object sender, MouseEventArgs e)
@@ -198,14 +203,18 @@ namespace Edytejshyn.GUI
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    // select objects on scene / interact with gizmo
                     _currentMouse.Left = true;
+                    // select objects on scene / interact with gizmo
+                    if (_gizmo.MouseHover(_currentMouse))
+                    {
+                        break;
+                    }
 
                     // find intersected game object
                     Vector3 nearVector = new Vector3(_currentMouse.Vector, 0f);
                     Vector3 farVector  = new Vector3(_currentMouse.Vector, 1f);
                     Vector3 nearUnproj = GraphicsDevice.Viewport.Unproject(nearVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
-                    Vector3 farUnproj  = GraphicsDevice.Viewport.Unproject(farVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
+                    Vector3 farUnproj  = GraphicsDevice.Viewport.Unproject(farVector,  Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
                     Vector3 direction  = farUnproj - nearUnproj;
                     direction.Normalize();
                     Ray picker = new Ray(nearUnproj, direction);
@@ -218,13 +227,13 @@ namespace Edytejshyn.GUI
                     break;
 
                 case MouseButtons.Middle:
-                    // camera strafe movement
                     _currentMouse.Middle = true;
+                    // camera strafe movement
                     break;
 
                 case MouseButtons.Right:
-                    // FPS camera lookaround
                     _currentMouse.Right = true;
+                    // FPS camera lookaround
                     Cursor.Current = Cursors.SizeAll;
                     //_oldDrawerStrategy = MainForm.CurrentDrawerStrategy;
                     //MainForm.CurrentDrawerStrategy = MainForm.BasicDrawerStrategy;
@@ -301,52 +310,72 @@ namespace Edytejshyn.GUI
 
         private void ViewportControl_KeyDown(object sender, KeyEventArgs e)
         {
-            // Handle camera history
-            if (e.KeyCode == Keys.Z && ModifierKeys == Keys.Shift && CameraHistory.CanUndo)
+            switch (_currentMouse.OnlyButton)
             {
-                MainForm.UndoCameraMenuItem_Click(this, new EventArgs());
-                e.Handled = true;
+                case MouseButton.None:
+                    // Handle camera history
+                    if (e.KeyCode == Keys.Z && ModifierKeys == Keys.Shift && CameraHistory.CanUndo)
+                    {
+                        MainForm.UndoCameraMenuItem_Click(this, new EventArgs());
+                        e.Handled = true;
+                    }
+                    else if (e.KeyCode == Keys.Y && ModifierKeys == Keys.Shift && CameraHistory.CanRedo)
+                    {
+                        MainForm.RedoCameraMenuItem_Click(this, new EventArgs());
+                        e.Handled = true;
+                    }
+                    else if (ModifierKeys == Keys.None)
+                    {
+                        switch (e.KeyCode)
+                        {
+                            case Keys.W:
+                                _gizmo.ActiveMode = GizmoMode.Translate;
+                                break;
+                            case Keys.E:
+                                _gizmo.ActiveMode = GizmoMode.Rotate;
+                                break;
+                            case Keys.R:
+                                _gizmo.ActiveMode = GizmoMode.UniformScale;
+                                break;
+                        }
+                        Invalidate();
+                    }
+                    break;
+
+                case MouseButton.Right:
+                    switch (e.KeyCode)
+                    {
+                        case Keys.Up:
+                        case Keys.W:
+                            _moveY = 1;
+                            break;
+
+                        case Keys.Down:
+                        case Keys.S:
+                            _moveY = -1;
+                            break;
+
+                        case Keys.Left:
+                        case Keys.A:
+                            _moveX = -1;
+                            break;
+
+                        case Keys.Right:
+                        case Keys.D:
+                            _moveX = 1;
+                            break;
+
+                        case Keys.ShiftKey:
+                            _moveSensitivity = BASE_MOVE_SENSITIVITY*10f;
+                            break;
+
+                        case Keys.ControlKey:
+                            _moveSensitivity = BASE_MOVE_SENSITIVITY*0.1f;
+                            _rotateSensitivity = BASE_ROTATE_SENSITIVITY*0.1f;
+                            break;
+                    }
+                    break;
             }
-            else if (e.KeyCode == Keys.Y && ModifierKeys == Keys.Shift && CameraHistory.CanRedo)
-            {
-                MainForm.RedoCameraMenuItem_Click(this, new EventArgs());
-                e.Handled = true;
-            }
-
-            if (!_currentMouse.Right) return;
-            
-            switch (e.KeyCode)
-            {
-                case Keys.Up:
-                case Keys.W:
-                    _moveY = 1;
-                    break;
-
-                case Keys.Down:
-                case Keys.S:
-                    _moveY = -1;
-                    break;
-
-                case Keys.Left:
-                case Keys.A:
-                    _moveX = -1;
-                    break;
-
-                case Keys.Right:
-                case Keys.D:
-                    _moveX = 1;
-                    break;
-
-                case Keys.ShiftKey:
-                    _moveSensitivity = BASE_MOVE_SENSITIVITY * 10f;
-                    break;
-
-                case Keys.ControlKey:
-                    _moveSensitivity   = BASE_MOVE_SENSITIVITY * 0.1f;
-                    _rotateSensitivity = BASE_ROTATE_SENSITIVITY * 0.1f;
-                    break;
-            }
-
         }
 
 

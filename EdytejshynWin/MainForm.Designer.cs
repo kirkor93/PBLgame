@@ -67,6 +67,9 @@
             this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.GizmoWorldToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.GizmoToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerVert)).BeginInit();
             this.splitContainerVert.Panel1.SuspendLayout();
@@ -372,7 +375,10 @@
             this.cutToolStripButton,
             this.copyToolStripButton,
             this.pasteToolStripButton,
-            this.toolStripSeparator1});
+            this.toolStripSeparator1,
+            this.GizmoToolStripLabel,
+            this.toolStripButton1,
+            this.GizmoWorldToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1176, 25);
@@ -468,6 +474,35 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
+            // GizmoWorldToolStripButton
+            // 
+            this.GizmoWorldToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.GizmoWorldToolStripButton.Enabled = false;
+            this.GizmoWorldToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("GizmoWorldToolStripButton.Image")));
+            this.GizmoWorldToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.GizmoWorldToolStripButton.Name = "GizmoWorldToolStripButton";
+            this.GizmoWorldToolStripButton.Size = new System.Drawing.Size(43, 22);
+            this.GizmoWorldToolStripButton.Text = "World";
+            this.GizmoWorldToolStripButton.ToolTipText = "Gizmo world space";
+            // 
+            // GizmoToolStripLabel
+            // 
+            this.GizmoToolStripLabel.Name = "GizmoToolStripLabel";
+            this.GizmoToolStripLabel.Size = new System.Drawing.Size(44, 22);
+            this.GizmoToolStripLabel.Text = "Gizmo:";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Checked = true;
+            this.toolStripButton1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(39, 22);
+            this.toolStripButton1.Text = "Local";
+            this.toolStripButton1.ToolTipText = "Gizmo local space";
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -548,6 +583,9 @@
         public System.Windows.Forms.ToolStripMenuItem redoCameraMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem renderingModeMenuItem;
+        private System.Windows.Forms.ToolStripButton GizmoWorldToolStripButton;
+        private System.Windows.Forms.ToolStripLabel GizmoToolStripLabel;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 

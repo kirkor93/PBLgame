@@ -136,12 +136,19 @@ namespace Edytejshyn.GUI.XNA
         /// Enabled if gizmo should be able to select objects and axis.
         /// </summary>
         public bool Enabled { get; set; }
+
         public bool SelectionBoxesIsVisible = true;
         public bool SnapEnabled = false;
         public bool PrecisionModeEnabled;
         public float TranslationSnapValue = 5;
         public float RotationSnapValue = 30;
         public float ScaleSnapValue = 0.5f;
+
+        // Modes //
+        public GizmoAxis ActiveAxis = GizmoAxis.None;
+        public GizmoMode ActiveMode = GizmoMode.Translate;
+        public TransformSpace ActiveSpace = TransformSpace.Local;
+        public PivotType ActivePivot = PivotType.ObjectCenter;
 
         #endregion
 
@@ -189,10 +196,11 @@ namespace Edytejshyn.GUI.XNA
             _modelLocalSpace[2] = Matrix.CreateWorld(new Vector3(0, 0, LINE_LENGTH), Vector3.Forward, Vector3.Up);
 
             // Colours: X, Y, Z, Highlight
-            _axisColors     = new Color[3];
+            _axisColors     = new Color[4];
             _axisColors[0]  = Color.Red;
-            _axisColors[1]  = Color.Green;
+            _axisColors[1]  = Color.Lime;
             _axisColors[2]  = Color.Blue;
+            _axisColors[3]  = Color.Pink;
             _highlightColor = Color.Gold;
 
             // Helpers to apply colors
@@ -255,8 +263,11 @@ namespace Edytejshyn.GUI.XNA
             _lineEffect.Projection = _projection;
 
             _lineEffect.CurrentTechnique.Passes[0].Apply();
-            _graphics.DrawUserPrimitives(PrimitiveType.LineList, _translationLineVertices, 0,
-                                         _translationLineVertices.Length / 2);
+            _graphics.DrawUserPrimitives(PrimitiveType.LineList, _translationLineVertices, 0, _translationLineVertices.Length / 2);
+
+            DrawQuads();
+            Draw3DMeshes();
+            Draw2D();
 
             // ..
 
@@ -264,19 +275,176 @@ namespace Edytejshyn.GUI.XNA
             _graphics.DepthStencilState = oldDepthStencilState;
         }
 
+
+        private void DrawQuads()
+        {
+
+            switch (ActiveMode)
+            {
+                case GizmoMode.Translate:
+                case GizmoMode.NonUniformScale:
+                case GizmoMode.UniformScale:
+                    
+                    BlendState oldBlendState = _graphics.BlendState;
+                    RasterizerState oldRasterizerState = _graphics.RasterizerState;
+                     _graphics.BlendState = BlendState.AlphaBlend;
+                    _graphics.RasterizerState = RasterizerState.CullNone;
+                    _quadEffect.World = _gizmoWorld;
+                    _quadEffect.View = _view;
+                    _quadEffect.Projection = _projection;
+                    _quadEffect.CurrentTechnique.Passes[0].Apply();
+
+                    switch (ActiveMode)
+                    {
+                        case GizmoMode.Translate:
+                        case GizmoMode.NonUniformScale:
+                            switch (ActiveAxis)
+                            {
+                                case GizmoAxis.ZX:
+                                case GizmoAxis.YZ:
+                                case GizmoAxis.XY:
+                                    Quad activeQuad = new Quad();
+                                    switch (ActiveAxis)
+                                    {
+                                        case GizmoAxis.XY:
+                                            activeQuad = _quads[0];
+                                            break;
+                                        case GizmoAxis.ZX:
+                                            activeQuad = _quads[1];
+                                            break;
+                                        case GizmoAxis.YZ:
+                                            activeQuad = _quads[2];
+                                            break;
+                                    }
+
+                                    _graphics.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, activeQuad.Vertices, 0, 4, activeQuad.Indexes, 0, 2);
+                                break;
+                            }
+                            break;
+                        case GizmoMode.UniformScale:
+                            if (ActiveAxis != GizmoAxis.None)
+                            {
+                                for (int i = 0; i < _quads.Length; i++)
+                                    _graphics.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _quads[i].Vertices, 0, 4, _quads[i].Indexes, 0, 2);
+
+                            }
+                            break;
+                    }
+
+                    _graphics.BlendState = oldBlendState;
+                    _graphics.RasterizerState = oldRasterizerState;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Draws 3D on axes, depending on gizmo ActiveMode.
+        /// </summary>
+        private void Draw3DMeshes()
+        {
+            for (int i = 0; i <3; i++) //(order: x y z)
+            {
+                GizmoModel activeModel;
+                switch (ActiveMode)
+                {
+                    case GizmoMode.Translate:
+                        activeModel = Geometry.Translate;
+                        break;
+                    case GizmoMode.Rotate:
+                        activeModel = Geometry.Rotate;
+                        break;
+                    default:
+                        activeModel = Geometry.Scale;
+                        break;
+                }
+                Vector3 color;
+                switch (ActiveMode)
+                {
+                    case GizmoMode.UniformScale:
+                        color = ( (ActiveAxis != GizmoAxis.None) ? _highlightColor : _axisColors[3] ).ToVector3();
+                        break;
+                    default:
+                        color = ( (ActiveAxis.GetId() == i) ? _highlightColor : _axisColors[i] ).ToVector3();
+                        break;
+                }
+
+                _meshEffect.World = _modelLocalSpace[i] * _gizmoWorld;
+                _meshEffect.View = _view;
+                _meshEffect.Projection = _projection;
+
+                _meshEffect.DiffuseColor = color;
+                _meshEffect.EmissiveColor = color;
+                _meshEffect.CurrentTechnique.Passes[0].Apply();
+
+                _graphics.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, 
+                    activeModel.Vertices, 0, activeModel.Vertices.Length,
+                    activeModel.Indices,  0, activeModel.Indices.Length / 3);
+            }
+        }
+
+        /// <summary>
+        /// Draws text X Y Z on axes
+        /// </summary>
+        private void Draw2D()
+        {
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+
+            // Draw axis identifiers (X Y Z)
+            for (int i = 0; i <3; i++)
+            {
+                Vector3 screenPos =
+                  _graphics.Viewport.Project(_modelLocalSpace[i].Translation + _modelLocalSpace[i].Backward + _axisTextOffset,
+                                             _projection, _view, _gizmoWorld);
+
+                if (screenPos.Z < 0f || screenPos.Z > 1.0f)
+                    continue;
+
+                Color color = _axisColors[i];
+                switch (i)
+                {
+                    case 0:
+                        if (ActiveAxis == GizmoAxis.X || ActiveAxis == GizmoAxis.XY || ActiveAxis == GizmoAxis.ZX)
+                            color = _highlightColor;
+                        break;
+                    case 1:
+                        if (ActiveAxis == GizmoAxis.Y || ActiveAxis == GizmoAxis.XY || ActiveAxis == GizmoAxis.YZ)
+                            color = _highlightColor;
+                        break;
+                    case 2:
+                        if (ActiveAxis == GizmoAxis.Z || ActiveAxis == GizmoAxis.YZ || ActiveAxis == GizmoAxis.ZX)
+                            color = _highlightColor;
+                        break;
+                }
+
+                _spriteBatch.DrawString(_font, _axisText[i], new Vector2(screenPos.X, screenPos.Y), color);
+            }
+
+            //Vector2 stringDims = _font.MeasureString(statusInfo);
+            //Vector2 position = new Vector2(_graphics.Viewport.Width - stringDims.X, _graphics.Viewport.Height - stringDims.Y);
+            //_spriteBatch.DrawString(_font, statusInfo, position, Color.White);
+
+            _spriteBatch.End();
+        }
+
         public void Update()
         {
             _view = _camera.ViewMatrix;
             _projection = _camera.ProjectionMatrix;
+
             UpdateGizmoPosition();
         }
 
         /// <summary>
-        /// Set position of the gizmo, position will be center of all selected entities.
+        /// Set position of the gizmo.
         /// </summary>
         private void UpdateGizmoPosition()
         {
-            if (_viewport.MainForm.SelectionManager.CurrentSelection.Length == 0) return;
+            if (_viewport.MainForm.SelectionManager.CurrentSelection.Length == 0)
+            {
+                _isActive = false;
+                return;
+            }
+            _isActive = true;
             GameObjectWrapper selected = _viewport.MainForm.SelectionManager.CurrentSelection[0];
             Matrix selectedWorld = selected.Nut.transform.World;
             _position = selectedWorld.Translation;
@@ -305,8 +473,6 @@ namespace Edytejshyn.GUI.XNA
             //_rotationMatrix.Up = _localUp;
             //_rotationMatrix.Right = _localRight;
 
-
-
             //switch (ActivePivot)
             //{
             //    case PivotType.ObjectCenter:
@@ -321,6 +487,193 @@ namespace Edytejshyn.GUI.XNA
             //        break;
             //}
             //_position += _translationDelta;
+        }
+
+        /// <summary>
+        /// Checks whether mouse hovers the gizmo.
+        /// </summary>
+        /// <param name="currentMouse">Current mouse state</param>
+        /// <returns>true if there is collision with gizmo</returns>
+        public bool MouseHover(EditorMouseState currentMouse)
+        {
+            // TODO test ray collision
+            SelectAxis(currentMouse.Vector);
+            return ActiveAxis != GizmoAxis.None;
+        }
+
+        private void SelectAxis(Vector2 mousePosition)
+        {
+            if (!Enabled) return;
+
+            ActiveAxis = GizmoAxis.None;
+            float closestIntersection = float.MaxValue;
+            Ray ray = ConvertMouseToRay(mousePosition);
+
+            if (ActiveMode == GizmoMode.Translate)
+            {
+                // transform ray into local-space of the boundingboxes.
+                ray.Direction = Vector3.TransformNormal(ray.Direction, Matrix.Invert(_gizmoWorld));
+                ray.Position = Vector3.Transform(ray.Position, Matrix.Invert(_gizmoWorld));
+            }
+
+            float? intersection = XAxisBox.Intersects(ray);
+            if (intersection < closestIntersection)
+            {
+                ActiveAxis = GizmoAxis.X;
+                closestIntersection = intersection.Value;
+            }
+            intersection = YAxisBox.Intersects(ray);
+            if (intersection < closestIntersection)
+            {
+                ActiveAxis = GizmoAxis.Y;
+                closestIntersection = intersection.Value;
+            }
+            intersection = ZAxisBox.Intersects(ray);
+            if (intersection < closestIntersection)
+            {
+                ActiveAxis = GizmoAxis.Z;
+                closestIntersection = intersection.Value;
+            }
+
+            if (ActiveMode != GizmoMode.Translate)
+            {
+                intersection = XSphere.Intersects(ray);
+                if (intersection < closestIntersection)
+                {
+                    ActiveAxis = GizmoAxis.X;
+                    closestIntersection = intersection.Value;
+                }
+
+                intersection = YSphere.Intersects(ray);
+                if (intersection < closestIntersection)
+                {
+                    ActiveAxis = GizmoAxis.Y;
+                    closestIntersection = intersection.Value;
+                }
+
+                intersection = ZSphere.Intersects(ray);
+                if (intersection < closestIntersection)
+                {
+                    ActiveAxis = GizmoAxis.Z;
+                    closestIntersection = intersection.Value;
+                }
+            }
+
+            if (ActiveMode != GizmoMode.Rotate)
+            {
+                // If no axis was hit (x,y,z) set value to lowest possible to select the 'farthest' intersection for the XY,XZ,YZ boxes. 
+                // This is done so you may still select multi-axis if you're looking at the gizmo from behind
+                if (closestIntersection >= float.MaxValue)
+                    closestIntersection = float.MinValue;
+
+                intersection = XYAxisBox.Intersects(ray);
+                if (intersection > closestIntersection)
+                {
+                    ActiveAxis = GizmoAxis.XY;
+                    closestIntersection = intersection.Value;
+                }
+
+                intersection = XZAxisBox.Intersects(ray);
+                if (intersection > closestIntersection)
+                {
+                    ActiveAxis = GizmoAxis.ZX;
+                    closestIntersection = intersection.Value;
+                }
+
+                intersection = YZAxisBox.Intersects(ray);
+                if (intersection > closestIntersection)
+                {
+                    ActiveAxis = GizmoAxis.YZ;
+                    closestIntersection = intersection.Value;
+                }
+            }
+
+            ApplyColor(GizmoAxis.X, _axisColors[0]);
+            ApplyColor(GizmoAxis.Y, _axisColors[1]);
+            ApplyColor(GizmoAxis.Z, _axisColors[2]);
+            ApplyColor(ActiveAxis, _highlightColor);
+        }
+
+        /// <summary>
+        /// Helper method for applying color to the gizmo lines.
+        /// </summary>
+        private void ApplyColor(GizmoAxis axis, Color color)
+        {
+            switch (ActiveMode)
+            {
+                case GizmoMode.NonUniformScale:
+                case GizmoMode.Translate:
+                    switch (axis)
+                    {
+                        case GizmoAxis.X:
+                            ApplyLineColor(0, 6, color);
+                            break;
+                        case GizmoAxis.Y:
+                            ApplyLineColor(6, 6, color);
+                            break;
+                        case GizmoAxis.Z:
+                            ApplyLineColor(12, 6, color);
+                            break;
+                        case GizmoAxis.XY:
+                            ApplyLineColor(0, 4, color);
+                            ApplyLineColor(6, 4, color);
+                            break;
+                        case GizmoAxis.YZ:
+                            ApplyLineColor(6, 2, color);
+                            ApplyLineColor(12, 2, color);
+                            ApplyLineColor(10, 2, color);
+                            ApplyLineColor(16, 2, color);
+                            break;
+                        case GizmoAxis.ZX:
+                            ApplyLineColor(0, 2, color);
+                            ApplyLineColor(4, 2, color);
+                            ApplyLineColor(12, 4, color);
+                            break;
+                    }
+                    break;
+                case GizmoMode.Rotate:
+                    switch (axis)
+                    {
+                        case GizmoAxis.X:
+                            ApplyLineColor(0, 6, color);
+                            break;
+                        case GizmoAxis.Y:
+                            ApplyLineColor(6, 6, color);
+                            break;
+                        case GizmoAxis.Z:
+                            ApplyLineColor(12, 6, color);
+                            break;
+                    }
+                    break;
+                case GizmoMode.UniformScale:
+                    ApplyLineColor(0, _translationLineVertices.Length, ActiveAxis == GizmoAxis.None ? _axisColors[3] : _highlightColor);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Apply color on the lines associated with translation mode (re-used in Scale)
+        /// </summary>
+        private void ApplyLineColor(int startindex, int count, Color color)
+        {
+            for (int i = startindex; i < (startindex + count); i++)
+            {
+                _translationLineVertices[i].Color = color;
+            }
+        }
+
+
+        private Ray ConvertMouseToRay(Vector2 mousePosition)
+        {
+            Vector3 nearPoint = new Vector3(mousePosition, 0);
+            Vector3 farPoint  = new Vector3(mousePosition, 1);
+
+            nearPoint = _graphics.Viewport.Unproject(nearPoint, _projection, _view, Matrix.Identity);
+            farPoint  = _graphics.Viewport.Unproject(farPoint,  _projection, _view, Matrix.Identity);
+            Vector3 direction = farPoint - nearPoint;
+            direction.Normalize();
+
+            return new Ray(nearPoint, direction);
         }
     }
 }
