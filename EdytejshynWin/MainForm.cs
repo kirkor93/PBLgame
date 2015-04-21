@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using Edytejshyn.GUI;
+using Edytejshyn.GUI.XNA;
 using Edytejshyn.Logic;
 using Edytejshyn.Model;
 using Microsoft.Xna.Framework.Graphics;
@@ -91,6 +92,14 @@ namespace Edytejshyn
 
                     renderingModeMenuItem.DropDownItems.Add(menuItem);
                 }
+
+                viewportControl.Gizmo.ActiveSpaceChanged += delegate
+                {
+                    gizmoSpaceToolStripButton.Text = (viewportControl.Gizmo.ActiveSpace == TransformSpace.Global)
+                        ? "Global"
+                        : "Local";
+                    viewportControl.Invalidate();
+                };
 
                 this.Logic.GameContentManager = viewportControl.GameContentManager;
                 viewportControl.CameraHistory.UpdateEvent += UpdateCameraHistory;
@@ -597,6 +606,11 @@ namespace Edytejshyn
         private void snapToGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
             viewportControl.Gizmo.SnapEnabled = SnapEnabled;
+        }
+
+        private void gizmoSpaceToolStripButton_Click(object sender, EventArgs e)
+        {
+            viewportControl.Gizmo.ToggleActiveSpace();
         }
     }
 }

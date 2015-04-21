@@ -514,6 +514,7 @@
             this.gizmoSpaceToolStripButton.Size = new System.Drawing.Size(39, 22);
             this.gizmoSpaceToolStripButton.Text = "Local";
             this.gizmoSpaceToolStripButton.ToolTipText = "Gizmo space";
+            this.gizmoSpaceToolStripButton.Click += new System.EventHandler(this.gizmoSpaceToolStripButton_Click);
             // 
             // MainForm
             // 

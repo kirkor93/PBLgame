@@ -107,7 +107,7 @@ namespace Edytejshyn.GUI.XNA
     public enum TransformSpace
     {
         Local,
-        World
+        Global
     }
 
     public enum PivotType

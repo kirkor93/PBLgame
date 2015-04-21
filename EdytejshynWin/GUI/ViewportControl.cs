@@ -86,10 +86,10 @@ namespace Edytejshyn.GUI
             Camera = new Camera(new Vector3(0, 10, 10), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 1000);
             CameraHistory = new CameraHistory(MainForm.Logic.Logger, Camera);
             Grid = new Grid(this, 1, 100);
+            Gizmo = new Gizmo(this, _spriteBatch, _editorContent.Load<SpriteFont>("GizmoFont"));
             Reset();
             
             AfterInitializeEvent(); // set game content in logic, handle content & scene from parameter loading
-            Gizmo = new Gizmo(this, _spriteBatch, _editorContent.Load<SpriteFont>("GizmoFont"));
             this.MainForm.Logic.History.UpdateEvent += delegate(HistoryManager manager)
             {
                 Invalidate();
@@ -339,6 +339,9 @@ namespace Edytejshyn.GUI
                                 break;
                             case Keys.R:
                                 Gizmo.ActiveMode = GizmoMode.UniformScale;
+                                break;
+                            case Keys.X:
+                                Gizmo.ToggleActiveSpace();
                                 break;
                         }
                         Invalidate();
