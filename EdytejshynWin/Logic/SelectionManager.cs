@@ -13,6 +13,7 @@ namespace Edytejshyn.Logic
         private EditorLogic _logic;
         private SceneTreeView _treeView;
         private ViewportControl _viewport;
+        public bool Empty { get { return _selection.Count == 0; } }
 
         private readonly List<GameObjectWrapper> _selection = new List<GameObjectWrapper>();
 

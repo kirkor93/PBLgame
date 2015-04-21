@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using Edytejshyn.Model;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -113,19 +114,18 @@ namespace Edytejshyn.GUI.XNA
         /// </summary>
         private const float PRECISION_MODE_SCALE = 0.1f;
 
-        // TODO -- Selection -- //
-        //public List<ITransformable> Selection = new List<ITransformable>();
-        //private IEnumerable<ITransformable> _selectionPool = null;
-
         // Delta values of transformation for every update
         private Vector3 _translationDelta = Vector3.Zero;
-        private Matrix _rotationDelta = Matrix.Identity;
+        private Vector3 _rotationDelta = Vector3.Zero;
         private Vector3 _scaleDelta = Vector3.Zero;
 
         // -- Translation Variables -- //
         private Vector3 _tDelta;
-        private Vector3 _lastIntersectionPosition;
+        private Vector3 _firstIntersectionPosition;
+        private Vector3 _oldSelectedPosition;
         private Vector3 _intersectPosition;
+        private float _firstMousePosition;
+        private Vector3 _oldSelectedRotation;
 
         private Vector3 _translationScaleSnapDelta;
         private float _rotationSnapDelta;
@@ -140,15 +140,18 @@ namespace Edytejshyn.GUI.XNA
         public bool SelectionBoxesIsVisible = true;
         public bool SnapEnabled = false;
         public bool PrecisionModeEnabled;
-        public float TranslationSnapValue = 5;
+        public float TranslationSnapValue = 1;
         public float RotationSnapValue = 30;
         public float ScaleSnapValue = 0.5f;
 
-        // Modes //
-        public GizmoAxis ActiveAxis = GizmoAxis.None;
+        // Modes
+        private GizmoAxis ActiveAxis = GizmoAxis.None;
         public GizmoMode ActiveMode = GizmoMode.Translate;
         public TransformSpace ActiveSpace = TransformSpace.Local;
         public PivotType ActivePivot = PivotType.ObjectCenter;
+
+        public delegate void VoidDelegate();
+        public event VoidDelegate ActiveSpaceChanged;
 
         #endregion
 
@@ -439,7 +442,7 @@ namespace Edytejshyn.GUI.XNA
         /// </summary>
         private void UpdateGizmoPosition()
         {
-            if (_viewport.MainForm.SelectionManager.CurrentSelection.Length == 0)
+            if (_viewport.MainForm.SelectionManager.Empty)
             {
                 _isActive = false;
                 return;
@@ -490,15 +493,195 @@ namespace Edytejshyn.GUI.XNA
         }
 
         /// <summary>
-        /// Checks whether mouse hovers the gizmo.
+        /// Sets mouse down and enters transformation mode.
+        /// </summary>
+        /// <param name="currentMouse">Current mouse state</param>
+        /// <returns>true if gizmo is selected</returns>
+        public bool MouseDown(EditorMouseState currentMouse)
+        {
+            if (!MouseHover(currentMouse)) return false;
+
+            
+            GameObjectWrapper selected = _viewport.MainForm.SelectionManager.CurrentSelection[0];
+
+            _tDelta = Vector3.Zero;
+            _firstIntersectionPosition = Vector3.Zero;
+            _intersectPosition = Vector3.Zero;
+            _firstMousePosition = float.NaN;
+            _oldSelectedPosition = selected.Nut.transform.Position;
+            _oldSelectedRotation = selected.Nut.transform.Rotation;
+            return true;
+        }
+
+        public void MouseUp(EditorMouseState currentMouse)
+        {
+            if (ActiveAxis == GizmoAxis.None || _viewport.MainForm.SelectionManager.Empty) return;
+            // TODO apply new state
+
+            GameObjectWrapper selected = _viewport.MainForm.SelectionManager.CurrentSelection[0];
+            switch (ActiveMode)
+            {
+                case GizmoMode.Translate:
+                    selected.Nut.transform.Position = _oldSelectedPosition; // set old value to enable undo
+                    selected.Transform.Position     = _oldSelectedPosition + _translationDelta; // apply new value via wrapper to save in history
+                    break;
+
+                case GizmoMode.Rotate:
+                    selected.Nut.transform.Rotation = _oldSelectedRotation; // set old value to enable undo
+                    selected.Transform.Rotation     = _oldSelectedRotation + _rotationDelta;
+                    break;
+            }
+        }
+
+        public bool MouseDrag(EditorMouseState currentMouse)
+        {
+            if (ActiveAxis == GizmoAxis.None) return false;
+
+            GameObjectWrapper selected = _viewport.MainForm.SelectionManager.CurrentSelection[0];
+            Vector3 delta = Vector3.Zero;
+
+            // TODO local/world distinguish
+            Matrix rotationMatrix = Matrix.Identity;
+            rotationMatrix.Forward = Vector3.Normalize(_gizmoWorld.Forward);
+            rotationMatrix.Up      = Vector3.Normalize(_gizmoWorld.Up);
+            rotationMatrix.Right   = Vector3.Normalize(_gizmoWorld.Right);
+
+            switch (ActiveMode)
+            {
+                case GizmoMode.Translate:
+                    Ray ray = ConvertMouseToRay(currentMouse.Vector);
+                    Matrix unrotation = Matrix.Invert(rotationMatrix);
+                    ray.Position  = Vector3.Transform      (ray.Position,  unrotation);
+                    ray.Direction = Vector3.TransformNormal(ray.Direction, unrotation);
+                    Plane plane;
+                    float? distance = null;
+
+                    switch (ActiveAxis)
+                    {
+                            // TODO select plane more parallel to the projection surface
+                        case GizmoAxis.X:
+                        case GizmoAxis.XY:
+                            plane = new Plane(Vector3.Forward, Vector3.Transform(_position, unrotation).Z);
+                            distance = ray.Intersects(plane);
+                            break;
+
+                        case GizmoAxis.Y:
+                        case GizmoAxis.YZ:
+                            plane = new Plane(Vector3.Left, Vector3.Transform(_position, unrotation).X);
+                            distance = ray.Intersects(plane);
+                            break;
+
+                        case GizmoAxis.Z:
+                        case GizmoAxis.ZX:
+                            plane = new Plane(Vector3.Down, Vector3.Transform(_position, unrotation).Y);
+                            distance = ray.Intersects(plane);
+                            break;
+                    }
+
+                    if (distance.HasValue)
+                    {
+                        _intersectPosition = (ray.Position + (ray.Direction * distance.Value));
+                        if (_firstIntersectionPosition == Vector3.Zero)
+                        {
+                            _oldSelectedPosition = selected.Nut.transform.Position;
+                            _firstIntersectionPosition = _intersectPosition;
+                        }
+                        _tDelta = _intersectPosition - _firstIntersectionPosition;
+
+                        switch (ActiveAxis)
+                        {
+                            case GizmoAxis.X:
+                                delta = new Vector3(_tDelta.X, 0, 0);
+                                break;
+                            case GizmoAxis.Y:
+                                delta = new Vector3(0, _tDelta.Y, 0);
+                                break;
+                            case GizmoAxis.Z:
+                                delta = new Vector3(0, 0, _tDelta.Z);
+                                break;
+                            case GizmoAxis.XY:
+                                delta = new Vector3(_tDelta.X, _tDelta.Y, 0);
+                                break;
+                            case GizmoAxis.YZ:
+                                delta = new Vector3(0, _tDelta.Y, _tDelta.Z);
+                                break;
+                            case GizmoAxis.ZX:
+                                delta = new Vector3(_tDelta.X, 0, _tDelta.Z);
+                                break;
+                        }
+                    }
+
+                    if (SnapEnabled)
+                    {
+                        float snapVal = TranslationSnapValue;
+                        delta = new Vector3(
+                            (int) (delta.X / snapVal) * snapVal,
+                            (int) (delta.Y / snapVal) * snapVal,
+                            (int) (delta.Z / snapVal) * snapVal
+                        );
+                    }
+
+                    _translationDelta = Vector3.Transform(delta, rotationMatrix);
+                    selected.Nut.transform.Position = _oldSelectedPosition + _translationDelta;
+                    break;
+
+                case GizmoMode.Rotate:
+                    if (float.IsNaN(_firstMousePosition))
+                    {
+                        _oldSelectedRotation = selected.Nut.transform.Rotation;
+                        _firstMousePosition = currentMouse.Vector.X;
+                    }
+                    float rotDelta = currentMouse.Vector.X - _firstMousePosition;
+
+                    if (SnapEnabled)
+                    {
+                        rotDelta = (int) (rotDelta / RotationSnapValue) * RotationSnapValue;
+                    }
+
+                    //Matrix rot = Matrix.Identity;
+                    //rot.Forward = SceneWorld.Forward;
+                    //rot.Up      = SceneWorld.Up;
+                    //rot.Right   = SceneWorld.Right;
+
+                    Vector3 rotVector = Vector3.Zero;
+
+                    switch (ActiveAxis)
+                    {
+                        case GizmoAxis.X:
+                            rotVector = new Vector3(rotDelta, 0, 0);
+                            break;
+                        case GizmoAxis.Y:
+                            rotVector = new Vector3(0, rotDelta, 0);
+                            break;
+                        case GizmoAxis.Z:
+                            rotVector = new Vector3(0, 0, rotDelta);
+                            break;
+                    }
+                    _rotationDelta = rotVector;
+                    selected.Nut.transform.Rotation = _oldSelectedRotation + _rotationDelta;
+                    break;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks whether mouse hovers the gizmo. Call it on mouse move (without drag).
         /// </summary>
         /// <param name="currentMouse">Current mouse state</param>
         /// <returns>true if there is collision with gizmo</returns>
         public bool MouseHover(EditorMouseState currentMouse)
         {
-            // TODO test ray collision
+            if (!_isActive) return false;
             SelectAxis(currentMouse.Vector);
             return ActiveAxis != GizmoAxis.None;
+        }
+
+        public void ToggleActiveSpace()
+        {
+            ActiveSpace = ActiveSpace == TransformSpace.Local ? TransformSpace.World : TransformSpace.Local;
+            if (ActiveSpaceChanged != null) ActiveSpaceChanged();
+            Update();
         }
 
         private void SelectAxis(Vector2 mousePosition)
@@ -675,5 +858,6 @@ namespace Edytejshyn.GUI.XNA
 
             return new Ray(nearPoint, direction);
         }
+
     }
 }

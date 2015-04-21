@@ -39,15 +39,15 @@ namespace Edytejshyn.GUI
         
         public bool Left, Middle, Right;
 
-        public MouseButton OnlyButton
+        public MouseBtn OnlyButton
         {
             get
             {
-                if (AnyMiddle) return MouseButton.Middle;
-                if (NoneButton) return MouseButton.None;
-                if (Left && !Right) return MouseButton.Left;
-                if (Right && !Left) return MouseButton.Right;
-                return MouseButton.Other;
+                if (AnyMiddle) return MouseBtn.Middle;
+                if (NoneButton) return MouseBtn.None;
+                if (Left && !Right) return MouseBtn.Left;
+                if (Right && !Left) return MouseBtn.Right;
+                return MouseBtn.Other;
             }
         }
 
@@ -64,7 +64,7 @@ namespace Edytejshyn.GUI
 
     }
 
-    public enum MouseButton
+    public enum MouseBtn
     {
         Left, Middle, Right, None, Other
     }

@@ -20,6 +20,7 @@ namespace Edytejshyn
         private readonly string _appName = "Edytejszyn (Build " + Assembly.GetExecutingAssembly().GetName().Version + ")";
         private OpenFileDialog _openContentDialog, _openSceneDialog;
         private SaveFileDialog _saveContentDialog, _saveSceneDialog;
+        private GridSnapDialog _gridSnapDialog;
 
         public readonly GUIExceptionHandler ExceptionHandler;
 
@@ -29,10 +30,12 @@ namespace Edytejshyn
 
         public EditorLogic Logic { get; private set; }
         public SelectionManager SelectionManager { get; private set; }
+        public ViewportControl ViewportControl { get { return viewportControl; } }
 
         public IDrawerStrategy RealisticDrawerStrategy { get; private set; }
         public IDrawerStrategy BasicDrawerStrategy { get; private set; }
         public IDrawerStrategy CurrentDrawerStrategy { get; set; }
+        public bool SnapEnabled { get { return snapToGridToolStripMenuItem.Checked; } }
 
         #endregion
 
@@ -571,6 +574,29 @@ namespace Edytejshyn
         public void SelectGameObject(GameObjectWrapper collider)
         {
             sceneTreeView.SelectedNode = collider.TreeViewNode;
+        }
+
+        public void RefreshPropertyGrid()
+        {
+            propertyGrid.Refresh();
+        }
+
+        private void gridSnappingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_gridSnapDialog == null)
+            {
+                _gridSnapDialog = new GridSnapDialog(this);
+                _gridSnapDialog.FormClosed += delegate
+                {
+                    _gridSnapDialog = null;
+                };
+            }
+            _gridSnapDialog.Show();
+        }
+
+        private void snapToGridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            viewportControl.Gizmo.SnapEnabled = SnapEnabled;
         }
     }
 }

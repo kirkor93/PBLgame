@@ -5,6 +5,9 @@ namespace Edytejshyn.GUI.XNA
 {
     public static class GizmoUtils
     {
+        public static readonly Vector2 InvalidVector2 = new Vector2(float.NaN);
+        public static readonly Vector3 InvalidVector3 = new Vector3(float.NaN);
+
         public static int GetId(this GizmoAxis axis)
         {
             return (int) axis;

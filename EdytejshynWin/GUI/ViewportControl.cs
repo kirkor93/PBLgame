@@ -27,7 +27,6 @@ namespace Edytejshyn.GUI
         private const float BASE_ROTATE_SENSITIVITY = 0.004f, BASE_MOVE_SENSITIVITY = 0.15f;
         private float _rotateSensitivity = BASE_ROTATE_SENSITIVITY, _moveSensitivity = BASE_MOVE_SENSITIVITY;
         private bool _hasFocus;
-        private Gizmo _gizmo;
 
         public delegate void VoidHandler();
         public event VoidHandler AfterInitializeEvent = () => { };
@@ -44,6 +43,7 @@ namespace Edytejshyn.GUI
         public CameraHistory CameraHistory { get; private set; }
         public Camera Camera { get; private set; }
         public Grid Grid { get; private set; }
+        public Gizmo Gizmo { get; set; }
         #endregion
 
         #region Methods
@@ -85,11 +85,11 @@ namespace Edytejshyn.GUI
             _osdFont = _editorContent.Load<SpriteFont>("OSDFont");
             Camera = new Camera(new Vector3(0, 10, 10), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 1000);
             CameraHistory = new CameraHistory(MainForm.Logic.Logger, Camera);
-            Grid = new Grid(this, 2, 100);
+            Grid = new Grid(this, 1, 100);
             Reset();
             
             AfterInitializeEvent(); // set game content in logic, handle content & scene from parameter loading
-            _gizmo = new Gizmo(this, _spriteBatch, _editorContent.Load<SpriteFont>("GizmoFont"));
+            Gizmo = new Gizmo(this, _spriteBatch, _editorContent.Load<SpriteFont>("GizmoFont"));
             this.MainForm.Logic.History.UpdateEvent += delegate(HistoryManager manager)
             {
                 Invalidate();
@@ -129,8 +129,8 @@ namespace Edytejshyn.GUI
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
             Grid.Draw();
 
-            _gizmo.Update();
-            _gizmo.Draw();
+            Gizmo.Update();
+            Gizmo.Draw();
 
             _spriteBatch.Begin();
             Vector2 position = new Vector2(5, 5);
@@ -167,22 +167,24 @@ namespace Edytejshyn.GUI
             _mouseMoved = true;
             switch (_currentMouse.OnlyButton)
             {
-                case MouseButton.Left:
-                    if (_gizmo.MouseHover(_currentMouse))
+                case MouseBtn.Left:
+                    if (Gizmo.MouseDrag(_currentMouse))
                     {
-                        // TODO interact with gizmo
+                        //MainForm.RefreshPropertyGrid();
+                        //Update();
+                        break;
                     }
                     break;
 
-                case MouseButton.Right:
+                case MouseBtn.Right:
                     Vector2 rot = (_prevMouse.Vector - _currentMouse.Vector) * _rotateSensitivity;
                     Camera.RotateYawPitch(rot.X, rot.Y);
                     Text = string.Format("Lookaround: {0}, {1}", rot.X, rot.Y);
                     Camera.Update();
                     break;
 
-                case MouseButton.None:
-                    _gizmo.MouseHover(_currentMouse);
+                case MouseBtn.None:
+                    Gizmo.MouseHover(_currentMouse);
                     break;
 
                 default:
@@ -190,10 +192,10 @@ namespace Edytejshyn.GUI
                     break;
             }
 
-            if(invalidate) Invalidate();
+            if (invalidate) Invalidate();
         }
 
-        protected void ViewportControl_MouseDown(object sender, MouseEventArgs e)
+        private void ViewportControl_MouseDown(object sender, MouseEventArgs e)
         {
             if (MainForm.Logic.WrappedScene == null) return;
             if (!_hasFocus)
@@ -205,7 +207,7 @@ namespace Edytejshyn.GUI
                 case MouseButtons.Left:
                     _currentMouse.Left = true;
                     // select objects on scene / interact with gizmo
-                    if (_gizmo.MouseHover(_currentMouse))
+                    if (Gizmo.MouseDown(_currentMouse))
                     {
                         break;
                     }
@@ -249,6 +251,7 @@ namespace Edytejshyn.GUI
             {
                 case MouseButtons.Left:
                     _currentMouse.Left = false;
+                    Gizmo.MouseUp(_currentMouse);
                     break;
                 case MouseButtons.Middle:
                     _currentMouse.Middle = false;
@@ -312,7 +315,7 @@ namespace Edytejshyn.GUI
         {
             switch (_currentMouse.OnlyButton)
             {
-                case MouseButton.None:
+                case MouseBtn.None:
                     // Handle camera history
                     if (e.KeyCode == Keys.Z && ModifierKeys == Keys.Shift && CameraHistory.CanUndo)
                     {
@@ -329,20 +332,27 @@ namespace Edytejshyn.GUI
                         switch (e.KeyCode)
                         {
                             case Keys.W:
-                                _gizmo.ActiveMode = GizmoMode.Translate;
+                                Gizmo.ActiveMode = GizmoMode.Translate;
                                 break;
                             case Keys.E:
-                                _gizmo.ActiveMode = GizmoMode.Rotate;
+                                Gizmo.ActiveMode = GizmoMode.Rotate;
                                 break;
                             case Keys.R:
-                                _gizmo.ActiveMode = GizmoMode.UniformScale;
+                                Gizmo.ActiveMode = GizmoMode.UniformScale;
                                 break;
                         }
                         Invalidate();
                     }
                     break;
 
-                case MouseButton.Right:
+                case MouseBtn.Left:
+                    if (e.KeyCode == Keys.ControlKey)
+                    {
+                        Gizmo.SnapEnabled = !MainForm.SnapEnabled;
+                    }
+                    break;
+
+                case MouseBtn.Right:
                     switch (e.KeyCode)
                     {
                         case Keys.Up:
@@ -382,6 +392,11 @@ namespace Edytejshyn.GUI
         private void ViewportControl_KeyUp(object sender, KeyEventArgs e)
         {
             //if (!_currentMouse.Right) return;
+
+            if (e.KeyCode == Keys.ControlKey)
+            {
+                Gizmo.SnapEnabled = MainForm.SnapEnabled;
+            }
 
             switch (e.KeyCode)
             {
