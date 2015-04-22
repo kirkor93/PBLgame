@@ -19,6 +19,31 @@
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
       <Mesh Id="2" Path="Models\Gandalf" />
+      <Mesh Id="3" Path="Models\Champions\Ace" />
+      <Mesh Id="4" Path="Models\Champions\Ace_sword_v1" />
+      <Mesh Id="5" Path="Models\Enemies\Crossbow" />
+      <Mesh Id="6" Path="Models\Enemies\Cute_Bomber" />
+      <Mesh Id="7" Path="Models\Enemies\Katana" />
+      <Mesh Id="8" Path="Models\Enemies\Mecha_Ranger" />
+      <Mesh Id="9" Path="Models\Enemies\Smart_Droid" />
+      <Mesh Id="10" Path="Models\Terrain\Start_base\Barrier_1" />
+      <Mesh Id="11" Path="Models\Terrain\Start_base\Bollard" />
+      <Mesh Id="12" Path="Models\Terrain\Start_base\Building_1" />
+      <Mesh Id="13" Path="Models\Terrain\Start_base\Building_2" />
+      <Mesh Id="14" Path="Models\Terrain\Start_base\Building_3" />
+      <Mesh Id="15" Path="Models\Terrain\Start_base\Building_4" />
+      <Mesh Id="16" Path="Models\Terrain\Start_base\Column" />
+      <Mesh Id="17" Path="Models\Terrain\Start_base\Floor_base" />
+      <Mesh Id="18" Path="Models\Terrain\Start_base\Gate_1" />
+      <Mesh Id="19" Path="Models\Terrain\Start_base\Gate_2" />
+      <Mesh Id="20" Path="Models\Terrain\Start_base\Gate_archway" />
+      <Mesh Id="21" Path="Models\Terrain\Start_base\Lantern" />
+      <Mesh Id="22" Path="Models\Terrain\Start_base\Locker" />
+      <Mesh Id="23" Path="Models\Terrain\Start_base\Trash_can_1" />
+      <Mesh Id="24" Path="Models\Terrain\Start_base\Trash_can_2" />
+      <Mesh Id="25" Path="Models\Terrain\Start_base\Trash_can_3" />
+      <Mesh Id="26" Path="Models\Terrain\Start_base\Wall_corner" />
+      <Mesh Id="27" Path="Models\Terrain\Start_base\Wall_straight" />
     </Meshes>
   </Content>
 </XmlContent>
