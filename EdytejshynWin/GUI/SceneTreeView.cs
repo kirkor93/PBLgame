@@ -12,12 +12,11 @@ namespace Edytejshyn.GUI
         {
         }
 
-
         public void ReloadTree()
         {
             Nodes.Clear();
             if (MainForm.Logic.WrappedScene == null) return;
-            foreach (GameObjectWrapper wrapper in MainForm.Logic.WrappedScene.GameObjects)
+            foreach (GameObjectWrapper wrapper in MainForm.Logic.WrappedScene.RootGameObjects)
             {
                 Nodes.Add(new SceneTreeNode(wrapper));
             }

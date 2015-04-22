@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms.VisualStyles;
+using Edytejshyn.GUI;
 using Edytejshyn.Logic;
 using Edytejshyn.Model.Commands;
 using Microsoft.Xna.Framework;
@@ -66,10 +67,41 @@ namespace Edytejshyn.Model
             }
         }
 
+
+        // ----- NON-BROWSEABLE ----- //
+
+        /// <summary>
+        /// Inside nut in wrapper (wrapped original GameObject)
+        /// </summary>
         [Browsable(false)]
         public GameObject Nut
         {
             get { return _gameObject; }
+        }
+
+        /// <summary>
+        /// Ugly and dreadful way of fast constant [O(1)] access to corresponding scene TreeViewNode.
+        /// </summary>
+        [Browsable(false)]
+        public SceneTreeNode TreeViewNode { get; set; }
+
+        /// <summary>
+        /// Recursive enumerator through all descendants (children, grandchildren, etc.).
+        /// </summary>
+        [Browsable(false)]
+        public IEnumerable<GameObjectWrapper> Descendants
+        {
+            get
+            {
+                foreach (GameObjectWrapper child in _children)
+                {
+                    yield return child;
+                    foreach (GameObjectWrapper grand in child.Descendants)
+                    {
+                        yield return grand;
+                    }
+                }
+            }
         }
 
         #endregion

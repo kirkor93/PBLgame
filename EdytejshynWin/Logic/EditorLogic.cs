@@ -92,7 +92,6 @@ namespace Edytejshyn.Logic
         /// Saves content with a new name.
         /// </summary>
         /// <param name="path">Path to destination file</param>
-        /// <param name="bar"></param>
         public void SaveContent(string path)
         {
             try

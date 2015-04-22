@@ -46,8 +46,12 @@ namespace PBLgame.Engine.Components
             {
                 _rotation = value;
                 RotationLimit();
-                _worldRotation = Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(value.X),
-                                                               MathHelper.ToRadians(value.Y), MathHelper.ToRadians(value.Z));
+                // TODO consider changing to rotation around axes
+                _worldRotation = Matrix.CreateRotationX(MathHelper.ToRadians(value.X))
+                               * Matrix.CreateRotationY(MathHelper.ToRadians(value.Y))
+                               * Matrix.CreateRotationZ(MathHelper.ToRadians(value.Z));
+                //_worldRotation = Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(value.X),
+                //                                               MathHelper.ToRadians(value.Y), MathHelper.ToRadians(value.Z));
             }
         }
         public Vector3 Scale
@@ -72,11 +76,13 @@ namespace PBLgame.Engine.Components
                 }
                 else
                 {
-                    return _world = _worldRotation * gameObject.parent.transform.World * _worldScale * _worldTranslation;
+                    // Changed multiplication order (Unity-like) - now all children are like a whole group, rotated and scaled around parent.
+                    return _world = _worldRotation * _worldScale * _worldTranslation * gameObject.parent.transform.World;
                 }
 
             }
         }
+
         #endregion
 
         #region Methods

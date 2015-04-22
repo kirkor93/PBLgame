@@ -40,6 +40,9 @@
             this.undoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.duplicateMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.gridSnappingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.snapToGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewMenuBar = new System.Windows.Forms.ToolStripMenuItem();
             this.undoCameraMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoCameraMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,6 +70,8 @@
             this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.gizmoToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.gizmoSpaceToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerVert)).BeginInit();
             this.splitContainerVert.Panel1.SuspendLayout();
@@ -157,7 +162,10 @@
             this.editMenuBar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.undoMenuItem,
             this.redoMenuItem,
-            this.duplicateMenuItem});
+            this.duplicateMenuItem,
+            this.toolStripMenuItem3,
+            this.gridSnappingToolStripMenuItem,
+            this.snapToGridToolStripMenuItem});
             this.editMenuBar.Name = "editMenuBar";
             this.editMenuBar.Size = new System.Drawing.Size(39, 20);
             this.editMenuBar.Text = "&Edit";
@@ -169,7 +177,7 @@
             this.undoMenuItem.Name = "undoMenuItem";
             this.undoMenuItem.ShortcutKeyDisplayString = "";
             this.undoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.undoMenuItem.Size = new System.Drawing.Size(179, 22);
             this.undoMenuItem.Text = "&Undo";
             this.undoMenuItem.Click += new System.EventHandler(this.UndoMenuItem_Click);
             // 
@@ -180,7 +188,7 @@
             this.redoMenuItem.Name = "redoMenuItem";
             this.redoMenuItem.ShortcutKeyDisplayString = "";
             this.redoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.redoMenuItem.Size = new System.Drawing.Size(179, 22);
             this.redoMenuItem.Text = "&Redo";
             this.redoMenuItem.Click += new System.EventHandler(this.RedoMenuItem_Click);
             // 
@@ -190,8 +198,28 @@
             this.duplicateMenuItem.Name = "duplicateMenuItem";
             this.duplicateMenuItem.ShortcutKeyDisplayString = "";
             this.duplicateMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.duplicateMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.duplicateMenuItem.Size = new System.Drawing.Size(179, 22);
             this.duplicateMenuItem.Text = "&Duplicate";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(176, 6);
+            // 
+            // gridSnappingToolStripMenuItem
+            // 
+            this.gridSnappingToolStripMenuItem.Name = "gridSnappingToolStripMenuItem";
+            this.gridSnappingToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.gridSnappingToolStripMenuItem.Text = "&Grid && Snapping..";
+            this.gridSnappingToolStripMenuItem.Click += new System.EventHandler(this.gridSnappingToolStripMenuItem_Click);
+            // 
+            // snapToGridToolStripMenuItem
+            // 
+            this.snapToGridToolStripMenuItem.CheckOnClick = true;
+            this.snapToGridToolStripMenuItem.Name = "snapToGridToolStripMenuItem";
+            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.snapToGridToolStripMenuItem.Text = "Always &Snap to Grid";
+            this.snapToGridToolStripMenuItem.Click += new System.EventHandler(this.snapToGridToolStripMenuItem_Click);
             // 
             // viewMenuBar
             // 
@@ -272,6 +300,7 @@
             // viewportControl
             // 
             this.viewportControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.viewportControl.Gizmo = null;
             this.viewportControl.Location = new System.Drawing.Point(0, 0);
             this.viewportControl.Name = "viewportControl";
             this.viewportControl.Size = new System.Drawing.Size(704, 611);
@@ -316,6 +345,7 @@
             // sceneTreeView
             // 
             this.sceneTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sceneTreeView.HideSelection = false;
             this.sceneTreeView.Location = new System.Drawing.Point(0, 0);
             this.sceneTreeView.Name = "sceneTreeView";
             this.sceneTreeView.PathSeparator = "->";
@@ -371,7 +401,9 @@
             this.cutToolStripButton,
             this.copyToolStripButton,
             this.pasteToolStripButton,
-            this.toolStripSeparator1});
+            this.toolStripSeparator1,
+            this.gizmoToolStripLabel,
+            this.gizmoSpaceToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1176, 25);
@@ -467,6 +499,23 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
+            // gizmoToolStripLabel
+            // 
+            this.gizmoToolStripLabel.Name = "gizmoToolStripLabel";
+            this.gizmoToolStripLabel.Size = new System.Drawing.Size(44, 22);
+            this.gizmoToolStripLabel.Text = "Gizmo:";
+            // 
+            // gizmoSpaceToolStripButton
+            // 
+            this.gizmoSpaceToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.gizmoSpaceToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("gizmoSpaceToolStripButton.Image")));
+            this.gizmoSpaceToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.gizmoSpaceToolStripButton.Name = "gizmoSpaceToolStripButton";
+            this.gizmoSpaceToolStripButton.Size = new System.Drawing.Size(39, 22);
+            this.gizmoSpaceToolStripButton.Text = "Local";
+            this.gizmoSpaceToolStripButton.ToolTipText = "Gizmo space";
+            this.gizmoSpaceToolStripButton.Click += new System.EventHandler(this.gizmoSpaceToolStripButton_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -547,6 +596,11 @@
         public System.Windows.Forms.ToolStripMenuItem redoCameraMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem renderingModeMenuItem;
+        private System.Windows.Forms.ToolStripLabel gizmoToolStripLabel;
+        private System.Windows.Forms.ToolStripButton gizmoSpaceToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem gridSnappingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem snapToGridToolStripMenuItem;
     }
 }
 

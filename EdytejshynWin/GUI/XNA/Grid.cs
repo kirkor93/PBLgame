@@ -39,12 +39,12 @@ namespace Edytejshyn.GUI.XNA
         /// Number of lines in total.
         /// </summary>
         private int _nrOfLines;
-        private int _spacing;
+        private float _spacing;
         private int _gridSize;
 
         public bool Enabled = true;
 
-        public int GridSpacing
+        public float GridSpacing
         {
             get { return _spacing; }
             set
@@ -90,7 +90,7 @@ namespace Edytejshyn.GUI.XNA
         public void ResetLines()
         {
             // calculate nr of lines, +2 for the highlights, +12 for boundingbox
-            _nrOfLines = ((_gridSize / _spacing) * 4) + 2;
+            _nrOfLines = (int) (((_gridSize / _spacing) * 4) + 2);
 
             List<VertexPositionColor> vertexList = new List<VertexPositionColor>(_nrOfLines);
 

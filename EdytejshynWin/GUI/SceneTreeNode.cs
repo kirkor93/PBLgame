@@ -11,6 +11,7 @@ namespace Edytejshyn.GUI
         public SceneTreeNode(GameObjectWrapper gameObject) : base(gameObject.Name)
         {
             WrappedGameObject = gameObject;
+            gameObject.TreeViewNode = this;
             WrappedGameObject.ChangedEvent += delegate(object sender, PropertyChangedEventArgs args)
             {
                 if (args.PropertyName == "Name")
@@ -26,6 +27,5 @@ namespace Edytejshyn.GUI
                 Nodes.Add(new SceneTreeNode(child));
             }
         }
-
     }
 }

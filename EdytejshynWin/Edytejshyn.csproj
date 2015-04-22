@@ -94,6 +94,12 @@
     </Compile>
     <Compile Include="GUI\CameraHistory.cs" />
     <Compile Include="GUI\DrawerStrategy.cs" />
+    <Compile Include="GUI\GridSnapDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\GridSnapDialog.Designer.cs">
+      <DependentUpon>GridSnapDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\SceneTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -126,6 +132,7 @@
     <Compile Include="Logic\EditorLogic.cs" />
     <Compile Include="Logic\Extensions.cs" />
     <Compile Include="Logic\HistoryManager.cs" />
+    <Compile Include="Logic\SelectionManager.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +150,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GridSnapDialog.resx">
+      <DependentUpon>GridSnapDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

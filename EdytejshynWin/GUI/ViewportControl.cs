@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Edytejshyn.GUI.XNA;
 using Edytejshyn.Logic;
 using Edytejshyn.Model;
+using PBLgame.Engine;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
 using Color = Microsoft.Xna.Framework.Color;
@@ -42,6 +43,7 @@ namespace Edytejshyn.GUI
         public CameraHistory CameraHistory { get; private set; }
         public Camera Camera { get; private set; }
         public Grid Grid { get; private set; }
+        public Gizmo Gizmo { get; set; }
         #endregion
 
         #region Methods
@@ -75,17 +77,19 @@ namespace Edytejshyn.GUI
             
             _currentMouse = new EditorMouseState();
             _prevMouse    = new EditorMouseState();
-            
+
+            GlobalInventory.Instance.GraphicsDevice = GraphicsDevice;
             _editorContent     = new ContentManager(Services, "EditorContent");
             GameContentManager = new ContentManager(Services, "Content");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _osdFont = _editorContent.Load<SpriteFont>("OSDFont");
             Camera = new Camera(new Vector3(0, 10, 10), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 1000);
             CameraHistory = new CameraHistory(MainForm.Logic.Logger, Camera);
-            Grid = new Grid(this, 2, 100);
+            Grid = new Grid(this, 1, 100);
+            Gizmo = new Gizmo(this, _spriteBatch, _editorContent.Load<SpriteFont>("GizmoFont"));
             Reset();
             
-            AfterInitializeEvent();
+            AfterInitializeEvent(); // set game content in logic, handle content & scene from parameter loading
             this.MainForm.Logic.History.UpdateEvent += delegate(HistoryManager manager)
             {
                 Invalidate();
@@ -125,6 +129,9 @@ namespace Edytejshyn.GUI
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
             Grid.Draw();
 
+            Gizmo.Update();
+            Gizmo.Draw();
+
             _spriteBatch.Begin();
             Vector2 position = new Vector2(5, 5);
             Color textColor = Color.White;
@@ -152,61 +159,45 @@ namespace Edytejshyn.GUI
 
         #region Event handlers
 
-        protected void ViewportControl_MouseMove(object sender, MouseEventArgs e)
+        private void ViewportControl_MouseMove(object sender, MouseEventArgs e)
         {
+            bool invalidate = true;
             _prevMouse = _currentMouse;
             _currentMouse = new EditorMouseState(_prevMouse) {X = e.X, Y = e.Y};
             _mouseMoved = true;
-            if (_currentMouse.AnyMiddle)
+            switch (_currentMouse.OnlyButton)
             {
-                // surface strafe
-            }
-            else if (_currentMouse.Left)
-            {
-                // if(!gizmo_collision)
-                // find rayed object
-                Vector3 nearVector = new Vector3(_currentMouse.Vector, 0f);
-                Vector3 farVector = new Vector3(_currentMouse.Vector, 1f);
-                Vector3 nearUnproj = GraphicsDevice.Viewport.Unproject(nearVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
-                Vector3 farUnproj = GraphicsDevice.Viewport.Unproject(farVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
-                Vector3 direction = farUnproj - nearUnproj;
-                direction.Normalize();
-                Ray picker = new Ray(nearUnproj, direction);
+                case MouseBtn.Left:
+                    if (Gizmo.MouseDrag(_currentMouse))
+                    {
+                        //MainForm.RefreshPropertyGrid();
+                        //Update();
+                        break;
+                    }
+                    break;
 
-                // TODO collision with scene objects
-                //var modelMeshes = SampleObject.renderer.MyMesh.Model.Meshes;
-                //float? distance = null;
-                //int id = 0;
-                //for(int i = 0; i < modelMeshes.Count; i++)
-                //{
-                //    var mesh = modelMeshes[i];
-                //    float? d = picker.Intersects(mesh.BoundingSphere.Transform(SampleObject.transform.World));
-                //    if ( (d.HasValue)  &&  (distance == null || d > distance) )
-                //    {
-                //        distance = d;
-                //        id = i;
-                //    }
-                //}
-                //Text = distance.HasValue ? string.Format("Collision: [{1}] {0}\ndist = {2}", modelMeshes[id].Name, id, distance) : string.Format("Ray: origin {0}\ndir {1}", nearUnproj, direction);
+                case MouseBtn.Right:
+                    Vector2 rot = (_prevMouse.Vector - _currentMouse.Vector) * _rotateSensitivity;
+                    Camera.RotateYawPitch(rot.X, rot.Y);
+                    Text = string.Format("Lookaround: {0}, {1}", rot.X, rot.Y);
+                    Camera.Update();
+                    break;
 
+                case MouseBtn.None:
+                    Gizmo.MouseHover(_currentMouse);
+                    break;
+
+                default:
+                    invalidate = false;
+                    break;
             }
-            else if (_currentMouse.Right)
-            {
-                Vector2 rot = (_prevMouse.Vector - _currentMouse.Vector) * _rotateSensitivity;
-                Camera.RotateYawPitch(rot.X, rot.Y);
-                Text = string.Format("Lookaround: {0}, {1}", rot.X, rot.Y);
-                Camera.Update();
-            }
-            else if(_currentMouse.NoneButton)
-            {
-                // TODO search collision with gizmo
-                Text = string.Format("-");
-            }
-            Invalidate();
+
+            if (invalidate) Invalidate();
         }
 
-        protected void ViewportControl_MouseDown(object sender, MouseEventArgs e)
+        private void ViewportControl_MouseDown(object sender, MouseEventArgs e)
         {
+            if (MainForm.Logic.WrappedScene == null) return;
             if (!_hasFocus)
             {
                 this.Select();
@@ -214,16 +205,37 @@ namespace Edytejshyn.GUI
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    // select objects on scene / interact with gizmo
                     _currentMouse.Left = true;
+                    // select objects on scene / interact with gizmo
+                    if (Gizmo.MouseDown(_currentMouse))
+                    {
+                        break;
+                    }
+
+                    // find intersected game object
+                    Vector3 nearVector = new Vector3(_currentMouse.Vector, 0f);
+                    Vector3 farVector  = new Vector3(_currentMouse.Vector, 1f);
+                    Vector3 nearUnproj = GraphicsDevice.Viewport.Unproject(nearVector, Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
+                    Vector3 farUnproj  = GraphicsDevice.Viewport.Unproject(farVector,  Camera.ProjectionMatrix, Camera.ViewMatrix, Matrix.Identity);
+                    Vector3 direction  = farUnproj - nearUnproj;
+                    direction.Normalize();
+                    Ray picker = new Ray(nearUnproj, direction);
+
+                    GameObjectWrapper collider = MainForm.Logic.WrappedScene.ClosestIntersector(picker);
+                    if (collider != null)   // otherwise deselect, etc.
+                    {
+                        MainForm.SelectGameObject(collider);
+                    }
                     break;
+
                 case MouseButtons.Middle:
-                    // camera strafe movement
                     _currentMouse.Middle = true;
+                    // camera strafe movement
                     break;
+
                 case MouseButtons.Right:
-                    // FPS camera lookaround
                     _currentMouse.Right = true;
+                    // FPS camera lookaround
                     Cursor.Current = Cursors.SizeAll;
                     //_oldDrawerStrategy = MainForm.CurrentDrawerStrategy;
                     //MainForm.CurrentDrawerStrategy = MainForm.BasicDrawerStrategy;
@@ -239,6 +251,7 @@ namespace Edytejshyn.GUI
             {
                 case MouseButtons.Left:
                     _currentMouse.Left = false;
+                    Gizmo.MouseUp(_currentMouse);
                     break;
                 case MouseButtons.Middle:
                     _currentMouse.Middle = false;
@@ -300,58 +313,93 @@ namespace Edytejshyn.GUI
 
         private void ViewportControl_KeyDown(object sender, KeyEventArgs e)
         {
-            // Handle camera history
-            if (e.KeyCode == Keys.Z && ModifierKeys == Keys.Shift && CameraHistory.CanUndo)
+            switch (_currentMouse.OnlyButton)
             {
-                MainForm.UndoCameraMenuItem_Click(this, new EventArgs());
-                e.Handled = true;
+                case MouseBtn.None:
+                    // Handle camera history
+                    if (e.KeyCode == Keys.Z && ModifierKeys == Keys.Shift && CameraHistory.CanUndo)
+                    {
+                        MainForm.UndoCameraMenuItem_Click(this, new EventArgs());
+                        e.Handled = true;
+                    }
+                    else if (e.KeyCode == Keys.Y && ModifierKeys == Keys.Shift && CameraHistory.CanRedo)
+                    {
+                        MainForm.RedoCameraMenuItem_Click(this, new EventArgs());
+                        e.Handled = true;
+                    }
+                    else if (ModifierKeys == Keys.None)
+                    {
+                        switch (e.KeyCode)
+                        {
+                            case Keys.W:
+                                Gizmo.ActiveMode = GizmoMode.Translate;
+                                break;
+                            case Keys.E:
+                                Gizmo.ActiveMode = GizmoMode.Rotate;
+                                break;
+                            case Keys.R:
+                                Gizmo.ActiveMode = GizmoMode.UniformScale;
+                                break;
+                            case Keys.X:
+                                Gizmo.ToggleActiveSpace();
+                                break;
+                        }
+                        Invalidate();
+                    }
+                    break;
+
+                case MouseBtn.Left:
+                    if (e.KeyCode == Keys.ControlKey)
+                    {
+                        Gizmo.SnapEnabled = !MainForm.SnapEnabled;
+                    }
+                    break;
+
+                case MouseBtn.Right:
+                    switch (e.KeyCode)
+                    {
+                        case Keys.Up:
+                        case Keys.W:
+                            _moveY = 1;
+                            break;
+
+                        case Keys.Down:
+                        case Keys.S:
+                            _moveY = -1;
+                            break;
+
+                        case Keys.Left:
+                        case Keys.A:
+                            _moveX = -1;
+                            break;
+
+                        case Keys.Right:
+                        case Keys.D:
+                            _moveX = 1;
+                            break;
+
+                        case Keys.ShiftKey:
+                            _moveSensitivity = BASE_MOVE_SENSITIVITY*10f;
+                            break;
+
+                        case Keys.ControlKey:
+                            _moveSensitivity = BASE_MOVE_SENSITIVITY*0.1f;
+                            _rotateSensitivity = BASE_ROTATE_SENSITIVITY*0.1f;
+                            break;
+                    }
+                    break;
             }
-            else if (e.KeyCode == Keys.Y && ModifierKeys == Keys.Shift && CameraHistory.CanRedo)
-            {
-                MainForm.RedoCameraMenuItem_Click(this, new EventArgs());
-                e.Handled = true;
-            }
-
-            if (!_currentMouse.Right) return;
-            
-            switch (e.KeyCode)
-            {
-                case Keys.Up:
-                case Keys.W:
-                    _moveY = 1;
-                    break;
-
-                case Keys.Down:
-                case Keys.S:
-                    _moveY = -1;
-                    break;
-
-                case Keys.Left:
-                case Keys.A:
-                    _moveX = -1;
-                    break;
-
-                case Keys.Right:
-                case Keys.D:
-                    _moveX = 1;
-                    break;
-
-                case Keys.ShiftKey:
-                    _moveSensitivity = BASE_MOVE_SENSITIVITY * 10f;
-                    break;
-
-                case Keys.ControlKey:
-                    _moveSensitivity   = BASE_MOVE_SENSITIVITY * 0.1f;
-                    _rotateSensitivity = BASE_ROTATE_SENSITIVITY * 0.1f;
-                    break;
-            }
-
         }
 
 
         private void ViewportControl_KeyUp(object sender, KeyEventArgs e)
         {
             //if (!_currentMouse.Right) return;
+
+            if (e.KeyCode == Keys.ControlKey)
+            {
+                Gizmo.SnapEnabled = MainForm.SnapEnabled;
+            }
 
             switch (e.KeyCode)
             {
