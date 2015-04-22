@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Xml;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Design;
 using PBLgame.Engine.GameObjects;
 
 namespace PBLgame.Engine.Components
@@ -77,9 +78,47 @@ namespace PBLgame.Engine.Components
                 else
                 {
                     // Changed multiplication order (Unity-like) - now all children are like a whole group, rotated and scaled around parent.
-                    return _world = _worldRotation * _worldScale * _worldTranslation * gameObject.parent.transform.World;
+                    return _world = _worldScale * _worldRotation * _worldTranslation * gameObject.parent.transform.World;
                 }
 
+            }
+        }
+
+        public Matrix WorldRotation { get { return _worldRotation; } }
+
+        /// <summary>
+        /// Rotation matrix multiplied recursively from parents (excluding self) to allow global transformation (when inverted).
+        /// </summary>
+        public Matrix AncestorsRotation
+        {
+            get
+            {
+                if (gameObject.parent == null)
+                {
+                    return Matrix.Identity;
+                }
+                else
+                {
+                    return gameObject.parent.transform._worldRotation * gameObject.parent.transform.AncestorsRotation;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Scale matrix multiplied recursively from parents (excluding self) to calculate transformation multipler.
+        /// </summary>
+        public Matrix AncestorsScale
+        {
+            get
+            {
+                if (gameObject.parent == null)
+                {
+                    return Matrix.Identity;
+                }
+                else
+                {
+                    return gameObject.parent.transform._worldScale * gameObject.parent.transform.AncestorsScale;
+                }
             }
         }
 

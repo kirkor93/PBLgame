@@ -38,7 +38,7 @@ namespace Edytejshyn.GUI.XNA
         /// <summary>
         /// Only active if at least one entity is selected.
         /// </summary>
-        private bool _isActive = true;
+        private bool _isActive = false;
 
         private readonly ViewportControl _viewport;
         private readonly GraphicsDevice _graphics;
@@ -119,8 +119,7 @@ namespace Edytejshyn.GUI.XNA
         private Vector3 _rotationDelta = Vector3.Zero;
         private Vector3 _scaleDelta = Vector3.Zero;
 
-        // -- Translation Variables -- //
-        private Vector3 _tDelta;
+        // Translation Variables
         private Vector3 _firstIntersectionPosition;
         private Vector3 _oldSelectedPosition;
         private Vector3 _intersectPosition;
@@ -499,7 +498,7 @@ namespace Edytejshyn.GUI.XNA
             
             GameObjectWrapper selected = _viewport.MainForm.SelectionManager.CurrentSelection[0];
 
-            _tDelta = Vector3.Zero;
+            _translationDelta = Vector3.Zero;
             _firstIntersectionPosition = Vector3.Zero;
             _intersectPosition = Vector3.Zero;
             _firstMousePosition = float.NaN;
@@ -510,8 +509,7 @@ namespace Edytejshyn.GUI.XNA
 
         public void MouseUp(EditorMouseState currentMouse)
         {
-            if (ActiveAxis == GizmoAxis.None || _viewport.MainForm.SelectionManager.Empty) return;
-            // TODO apply new state
+            if (ActiveAxis == GizmoAxis.None || _viewport.MainForm.SelectionManager.Empty || !_isActive) return;
 
             GameObjectWrapper selected = _viewport.MainForm.SelectionManager.CurrentSelection[0];
             switch (ActiveMode)
@@ -534,23 +532,18 @@ namespace Edytejshyn.GUI.XNA
 
             GameObjectWrapper selected = _viewport.MainForm.SelectionManager.CurrentSelection[0];
 
-            Matrix rotationMatrix = Matrix.Identity;
-            rotationMatrix.Forward = Vector3.Normalize(_gizmoWorld.Forward);
-            rotationMatrix.Up      = Vector3.Normalize(_gizmoWorld.Up);
-            rotationMatrix.Right   = Vector3.Normalize(_gizmoWorld.Right);
-
             switch (ActiveMode)
             {
                 case GizmoMode.Translate:
 
-                    PerformTranslate(currentMouse.Vector, rotationMatrix, selected);
+                    PerformTranslate(currentMouse.Vector, selected);
                     
                     break;
 
                 case GizmoMode.Rotate:
                     if (float.IsNaN(_firstMousePosition))
                     {
-                        _oldSelectedRotation = selected.Nut.transform.Rotation;
+                        //_oldSelectedRotation = selected.Nut.transform.Rotation;
                         _firstMousePosition = currentMouse.Vector.X;
                     }
                     float rotDelta = currentMouse.Vector.X - _firstMousePosition;
@@ -582,15 +575,24 @@ namespace Edytejshyn.GUI.XNA
             return true;
         }
 
-        private void PerformTranslate(Vector2 currentMouse, Matrix rotationMatrix, GameObjectWrapper selected)
+        private void PerformTranslate(Vector2 currentMouse, GameObjectWrapper selected)
         {
             Ray ray = ConvertMouseToRay(currentMouse);
-            Matrix unrotation = Matrix.Invert(rotationMatrix);
-            ray.Position  = Vector3.Transform      (ray.Position, unrotation);
+
+            Matrix gizmoMatrix = Matrix.Identity;
+            gizmoMatrix.Forward = Vector3.Normalize(_gizmoWorld.Forward);
+            gizmoMatrix.Up      = Vector3.Normalize(_gizmoWorld.Up);
+            gizmoMatrix.Right   = Vector3.Normalize(_gizmoWorld.Right);
+
+            //Matrix unrotation = Matrix.Invert(rotationMatrix);
+            Matrix unrotation = Matrix.Invert(gizmoMatrix);
+
+            ray.Position  = Vector3.Transform      (ray.Position,  unrotation);
             ray.Direction = Vector3.TransformNormal(ray.Direction, unrotation);
             Plane plane;
             float? distance = null;
             Vector3 delta = Vector3.Zero;
+
 
             switch (ActiveAxis)
             {
@@ -619,30 +621,31 @@ namespace Edytejshyn.GUI.XNA
                 _intersectPosition = (ray.Position + (ray.Direction * distance.Value));
                 if (_firstIntersectionPosition == Vector3.Zero)
                 {
-                    _oldSelectedPosition = selected.Nut.transform.Position;
+                    //_oldSelectedPosition = selected.Nut.transform.Position;
                     _firstIntersectionPosition = _intersectPosition;
                 }
-                _tDelta = _intersectPosition - _firstIntersectionPosition;
+
+                Vector3 tDelta = _intersectPosition - _firstIntersectionPosition;
 
                 switch (ActiveAxis)
                 {
                     case GizmoAxis.X:
-                        delta = new Vector3(_tDelta.X, 0, 0);
+                        delta = new Vector3(tDelta.X, 0, 0);
                         break;
                     case GizmoAxis.Y:
-                        delta = new Vector3(0, _tDelta.Y, 0);
+                        delta = new Vector3(0, tDelta.Y, 0);
                         break;
                     case GizmoAxis.Z:
-                        delta = new Vector3(0, 0, _tDelta.Z);
+                        delta = new Vector3(0, 0, tDelta.Z);
                         break;
                     case GizmoAxis.XY:
-                        delta = new Vector3(_tDelta.X, _tDelta.Y, 0);
+                        delta = new Vector3(tDelta.X, tDelta.Y, 0);
                         break;
                     case GizmoAxis.YZ:
-                        delta = new Vector3(0, _tDelta.Y, _tDelta.Z);
+                        delta = new Vector3(0, tDelta.Y, tDelta.Z);
                         break;
                     case GizmoAxis.ZX:
-                        delta = new Vector3(_tDelta.X, 0, _tDelta.Z);
+                        delta = new Vector3(tDelta.X, 0, tDelta.Z);
                         break;
                 }
             }
@@ -657,7 +660,23 @@ namespace Edytejshyn.GUI.XNA
                 );
             }
 
-            _translationDelta = Vector3.Transform(delta, rotationMatrix);
+            Matrix invertingMatrix = Matrix.Identity;
+
+            if (ActiveSpace == TransformSpace.Global)
+            {
+                invertingMatrix = Matrix.Invert(selected.Nut.transform.AncestorsRotation);
+            }
+            else
+            {
+                invertingMatrix.Forward = Vector3.Normalize(selected.Nut.transform.WorldRotation.Forward);
+                invertingMatrix.Up = Vector3.Normalize(selected.Nut.transform.WorldRotation.Up);
+                invertingMatrix.Right = Vector3.Normalize(selected.Nut.transform.WorldRotation.Right);
+            }
+
+            // allow normal transformation when scaled
+            invertingMatrix *= Matrix.Invert(selected.Nut.transform.AncestorsScale);
+
+            _translationDelta = Vector3.Transform(delta, invertingMatrix);
             selected.Nut.transform.Position = _oldSelectedPosition + _translationDelta;
         }
 
