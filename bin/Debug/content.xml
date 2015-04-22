@@ -7,14 +7,89 @@
       <ShaderEffect Path="Effects\ParticleShader" />
     </ShaderEffects>
     <Textures>
+      <Texture Path="Textures\Default_n" />
+      <Texture Path="Textures\Default_s" />
       <Texture Path="Textures\Helmet_d" />
       <Texture Path="Textures\Helmet_s" />
       <Texture Path="Textures\Helmet_n" />
       <Texture Path="Textures\fire"/>
+      <Texture Path="Textures\Enemies\Crossbow_d" />
+      <Texture Path="Textures\Enemies\Crossbow_n" />
+      <Texture Path="Textures\Enemies\Crossbow_s" />
+      <Texture Path="Textures\Enemies\Cute_Bomber_d" />
+      <Texture Path="Textures\Enemies\Cute_Bomber_n" />
+      <Texture Path="Textures\Enemies\Cute_Bomber_s" />
+      <Texture Path="Textures\Enemies\Katana_d" />
+      <Texture Path="Textures\Enemies\Katana_n" />
+      <Texture Path="Textures\Enemies\Katana_s" />
+      <Texture Path="Textures\Enemies\Mecha_ranger_d" />
+      <Texture Path="Textures\Enemies\Mecha_ranger_n" />
+      <Texture Path="Textures\Enemies\Mecha_ranger_s" />
+      <Texture Path="Textures\Enemies\Smart_Droid_d" />
+      <Texture Path="Textures\Enemies\Smart_Droid_n" />
+      <Texture Path="Textures\Enemies\Smart_Droid_s" />
+      <Texture Path="Textures\Terrain\Start_base\Barrel_green_d" />
+      <Texture Path="Textures\Terrain\Start_base\Barrel_red_d" />
+      <Texture Path="Textures\Terrain\Start_base\Barrel_red_n" />
+      <Texture Path="Textures\Terrain\Start_base\Barrel_red_s" />
+      <Texture Path="Textures\Terrain\Start_base\Barrier_d" />
+      <Texture Path="Textures\Terrain\Start_base\Barrier_n" />
+      <Texture Path="Textures\Terrain\Start_base\Barrier_s" />
+      <Texture Path="Textures\Terrain\Start_base\Bollard_d" />
+      <Texture Path="Textures\Terrain\Start_base\Bollard_n" />
+      <Texture Path="Textures\Terrain\Start_base\Bollard_s" />
+      <Texture Path="Textures\Terrain\Start_base\Bottles_d" />
+      <Texture Path="Textures\Terrain\Start_base\Building_1_d" />
+      <Texture Path="Textures\Terrain\Start_base\Building_1_n" />
+      <Texture Path="Textures\Terrain\Start_base\Building_1_s" />
+      <Texture Path="Textures\Terrain\Start_base\Building_2_d" />
+      <Texture Path="Textures\Terrain\Start_base\Building_2_n" />
+      <Texture Path="Textures\Terrain\Start_base\Building_2_s" />
+      <Texture Path="Textures\Terrain\Start_base\Building_3_d_v1" />
+      <Texture Path="Textures\Terrain\Start_base\Building_3_d_v2" />
+      <Texture Path="Textures\Terrain\Start_base\Building_3_n" />
+      <Texture Path="Textures\Terrain\Start_base\Building_3_s" />
+      <Texture Path="Textures\Terrain\Start_base\Building_4_d" />
+      <Texture Path="Textures\Terrain\Start_base\Building_4_n" />
+      <Texture Path="Textures\Terrain\Start_base\Building_4_s" />
+      <Texture Path="Textures\Terrain\Start_base\Cans_d" />
+      <Texture Path="Textures\Terrain\Start_base\Column_d" />
+      <Texture Path="Textures\Terrain\Start_base\Column_n" />
+      <Texture Path="Textures\Terrain\Start_base\Column_s" />
+      <Texture Path="Textures\Terrain\Start_base\Floor_1_d" />
+      <Texture Path="Textures\Terrain\Start_base\Floor_1_n" />
+      <Texture Path="Textures\Terrain\Start_base\Floor_1_s" />
+      <Texture Path="Textures\Terrain\Start_base\Gate_1_d" />
+      <Texture Path="Textures\Terrain\Start_base\Gate_1_n" />
+      <Texture Path="Textures\Terrain\Start_base\Gate_1_s" />
+      <Texture Path="Textures\Terrain\Start_base\Gate_2_d" />
+      <Texture Path="Textures\Terrain\Start_base\Gate_2_n" />
+      <Texture Path="Textures\Terrain\Start_base\Gate_2_s" />
+      <Texture Path="Textures\Terrain\Start_base\Gate_archway_d" />
+      <Texture Path="Textures\Terrain\Start_base\Gate_archway_n" />
+      <Texture Path="Textures\Terrain\Start_base\Gate_archway_s" />
+      <Texture Path="Textures\Terrain\Start_base\Lantern_d" />
+      <Texture Path="Textures\Terrain\Start_base\Lantern_n" />
+      <Texture Path="Textures\Terrain\Start_base\Lantern_s" />
+      <Texture Path="Textures\Terrain\Start_base\Locker_d" />
+      <Texture Path="Textures\Terrain\Start_base\Locker_n" />
+      <Texture Path="Textures\Terrain\Start_base\Locker_s" />
+      <Texture Path="Textures\Terrain\Start_base\Trash_can_d" />
+      <Texture Path="Textures\Terrain\Start_base\Trash_can_n" />
+      <Texture Path="Textures\Terrain\Start_base\Trash_can_s" />
+      <Texture Path="Textures\Terrain\Start_base\Wall_1_d" />
+      <Texture Path="Textures\Terrain\Start_base\Wall_1_n" />
+      <Texture Path="Textures\Terrain\Start_base\Wall_1_s" />
+      <Texture Path="Textures\Terrain\Start_base\Wall_1_v2_d" />
+      <Texture Path="Textures\Terrain\Start_base\Wall_1_v2_n" />
+      <Texture Path="Textures\Terrain\Start_base\Wall_1_v2_s" />
+      <Texture Path="Textures\Terrain\Start_base\Wall_2_d" />
+      <Texture Path="Textures\Terrain\Start_base\Wall_2_n" />
+      <Texture Path="Textures\Terrain\Start_base\Wall_2_s" />
     </Textures>
     <Materials>
-      <Material Id="1" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
-      <Material Id="2" Diffuse="Textures\fire" ShaderPath="Effects\ParticleShader"/>
+      <Material Id="1" Name="Helmet" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="2" Name="Particle" Diffuse="Textures\fire" ShaderPath="Effects\ParticleShader"/>
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
@@ -44,6 +119,15 @@
       <Mesh Id="25" Path="Models\Terrain\Start_base\Trash_can_3" />
       <Mesh Id="26" Path="Models\Terrain\Start_base\Wall_corner" />
       <Mesh Id="27" Path="Models\Terrain\Start_base\Wall_straight" />
+      <Mesh Id="28" Path="Models\Terrain\Start_base\Bottle_1" />
+      <Mesh Id="29" Path="Models\Terrain\Start_base\Bottle_2" />
+      <Mesh Id="30" Path="Models\Terrain\Start_base\Bottle_3" />
+      <Mesh Id="31" Path="Models\Terrain\Start_base\Can_1" />
+      <Mesh Id="32" Path="Models\Terrain\Start_base\Can_2" />
+      <Mesh Id="33" Path="Models\Terrain\Start_base\Can_3" />
+      <Mesh Id="34" Path="Models\Terrain\Start_base\Can_4" />
+      <Mesh Id="35" Path="Models\Terrain\Start_base\Can_5" />
+      <Mesh Id="36" Path="Models\Terrain\Start_base\Can_6" />
     </Meshes>
   </Content>
 </XmlContent>
