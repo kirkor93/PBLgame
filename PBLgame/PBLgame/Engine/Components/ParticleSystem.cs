@@ -349,6 +349,7 @@ namespace PBLgame.Engine.Components
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice graphicsDevice = GlobalInventory.Instance.GraphicsDevice;
+            //graphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
             graphicsDevice.SetVertexBuffer(_vertexBuffer);
             // Only draw if there are live particles
             for (int i = 0; i < Max; i++ )
@@ -372,6 +373,9 @@ namespace PBLgame.Engine.Components
                     graphicsDevice.BlendState = BlendState.Opaque;
                 }
             }
+
+            graphicsDevice.DepthStencilState = DepthStencilState.None;
+
                 
         }
 
