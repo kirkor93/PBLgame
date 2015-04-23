@@ -177,6 +177,22 @@ namespace PBLgame.Engine.Components
         #region Methods
         public ParticleSystem(GameObject owner) : base(owner)
         {
+            Construct();
+        }
+
+        public ParticleSystem(GameObject owner,Vector2 size,int numb)
+            : base(owner)
+        {
+            _size = size;
+            _max = numb;
+
+            Construct();
+
+            InitializeParticles();
+        }
+
+        private void Construct()
+        {
             _random = new Random();
             _timer = 0.0f;
             _verts = new VertexPositionTexture[_max * 4];
@@ -186,20 +202,29 @@ namespace PBLgame.Engine.Components
             _bursts = new List<Burst>();
         }
 
-        public ParticleSystem(GameObject owner,Vector2 size,int numb)
-            : base(owner)
+        public ParticleSystem(ParticleSystem src, GameObject owner) : base(owner)
         {
-            _bursts = new List<Burst>();
-            _size = size;
-            _max = numb;
+            // TODO check if copying properly
             _random = new Random();
-            _timer = 0.0f;
-            _verts = new VertexPositionTexture[_max * 4];
-            _directions = new Vector3[_max];
-            _activationStates = new bool[_max];
-            _particleTimes = new float[_max];
+            _material         = src._material;
+            _size             = src._size;
+            _dirFrom          = src._dirFrom;
+            _dirTo            = src._dirTo;
+            _speed            = src._speed;
+            _duration         = src._duration;
+            _lifeTimeLimit    = src._lifeTimeLimit;
+            _triggered        = src._triggered;
+            _max              = src._max;
+            _loop             = src._loop;
+            _bursts           = new List<Burst>(src._bursts);
+            _timer            = src._timer;
+            _autoTimer        = src._autoTimer;
+            _actualTime       = src._actualTime;
+            _activated        = src._activated;
+            Max               = src.Max;
 
-            InitializeParticles();
+            //InitializeParticles(); // done in Max
+
         }
 
         public override void Update(GameTime gameTime)

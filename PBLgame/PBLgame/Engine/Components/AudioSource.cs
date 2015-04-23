@@ -55,6 +55,13 @@ namespace PBLgame.Engine.Components
             _trackCue = cue;
         }
 
+        public AudioSource(AudioSource src, GameObject owner) : base(owner)
+        {
+            // TODO check correctness
+            _emitter = new AudioEmitter();
+            _trackCue = ResourceManager.Instance.GetAudioCue(src._trackCue.Name);
+        }
+
         public override void Update(GameTime gameTime)
         {
             _emitter.Position = gameObject.transform.Position;

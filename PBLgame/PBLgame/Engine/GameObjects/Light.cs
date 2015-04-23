@@ -33,24 +33,26 @@ namespace PBLgame.Engine.GameObjects
             {
                 return _type;
             }
-            set
-            {
-                _type = value;
-            }
         }
         #endregion
 
         #region  Methods
-        public Light()
+
+        protected Light(Light source, GameObject sourceParent) : base(source, sourceParent)
         {
+            _color = source._color;
+            _type  = source._type;
         }
+
+        protected Light() { }
+
 
         #region XML serialization
 
         public override void WriteXml(XmlWriter writer)
         {
             CultureInfo culture = CultureInfo.InvariantCulture;
-            writer.WriteAttributeString("Type", Type.ToString());
+            writer.WriteAttributeString("Type", _type.ToString());
             writer.WriteStartElement("Color");
             writer.WriteAttributeString("r", Convert.ToString(Color.X, culture));
             writer.WriteAttributeString("g", Convert.ToString(Color.Y, culture));
@@ -71,10 +73,10 @@ namespace PBLgame.Engine.GameObjects
             switch (t)
             {
                 case "Directional":
-                    Type = LightType.Directional;
+                    _type = LightType.Directional;
                     break;
                 case "Point":
-                    Type = LightType.Point;
+                    _type = LightType.Point;
                     break;
             }
 

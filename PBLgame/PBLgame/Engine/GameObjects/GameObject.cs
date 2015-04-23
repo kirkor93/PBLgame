@@ -122,6 +122,56 @@ namespace PBLgame.Engine.GameObjects
             _transform = new Transform(this);
         }
 
+        public GameObject(GameObject source, GameObject parent)
+        {
+            ID = 0;
+            Name = source.Name;
+            Tag  = source.Tag;
+            _parent = parent;
+
+            if (source.transform != null)
+            {
+                transform = new Transform(source.transform, this);
+            }
+            if (source.renderer != null)
+            {
+                renderer = new Renderer(source.renderer, this);
+            }
+            if (source.collision != null)
+            {
+                collision = new Collision(source.collision, this);
+            }
+            if (source.animator != null)
+            {
+                animator = new Animator(source.animator, this);
+            }
+            if (source.particleSystem != null)
+            {
+                particleSystem = new ParticleSystem(source.particleSystem, this);
+            }
+            if (source.audioSource != null)
+            {
+                audioSource = new AudioSource(source.audioSource, this);
+            }
+
+            foreach (Component component in source._components)
+            {
+                AddComponent(component.Copy(this));
+            }
+
+            // recursive children duplication
+            foreach (GameObject child in source._children)
+            {
+                _children.Add(child.Copy(this));
+            }
+
+        }
+
+        public virtual GameObject Copy(GameObject sourceParent)
+        {
+            return new GameObject(this, sourceParent);
+        }
+
         public virtual void Update(GameTime gameTime)
         {
             if (transform != null)

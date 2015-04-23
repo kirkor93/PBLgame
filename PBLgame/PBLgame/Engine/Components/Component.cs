@@ -46,12 +46,18 @@ namespace PBLgame.Engine.Components
             Enabled = true;
         }
 
+        protected Component(Component source)
+        {
+            _enabled = source.Enabled;
+            _gameObject = source._gameObject;
+        }
+
         protected Component(GameObject owner)
         {
             Enabled = true;
             gameObject = owner;
         }
-
+        
         public virtual void Update(GameTime gameTime)
         {
             
@@ -61,6 +67,7 @@ namespace PBLgame.Engine.Components
         {
             
         }
+
 
         #region XML serialization
         public virtual XmlSchema GetSchema()
@@ -80,5 +87,15 @@ namespace PBLgame.Engine.Components
         }
         #endregion
         #endregion
+
+        /// <summary>
+        /// Call copy constructor here
+        /// </summary>
+        /// <param name="newOwner"></param>
+        /// <returns></returns>
+        public virtual Component Copy(GameObject newOwner)
+        {
+            return null;
+        }
     }
 }

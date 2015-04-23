@@ -42,6 +42,18 @@ namespace PBLgame.Engine.GameObjects
 
         #region Methods
 
+        public MyDirectionalLight() { }
+
+        protected MyDirectionalLight(MyDirectionalLight source, GameObject sourceParent) : base(source, sourceParent)
+        {
+            _intensity = source._intensity;
+        }
+
+        public override GameObject Copy(GameObject sourceParent)
+        {
+            return new MyDirectionalLight(this, sourceParent);
+        }
+
         #region XML serialization
 
         public override void WriteXml(XmlWriter writer)

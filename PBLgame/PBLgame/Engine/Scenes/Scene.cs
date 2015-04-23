@@ -86,13 +86,36 @@ namespace PBLgame.Engine.Scenes
             {
                 obj.ID += 1;
             }
-            GameObjects.Add(obj);
+            _takenIdNumbers.Add(obj.ID);
+
+            if(obj is Light) _sceneLights.Add((Light) obj);
+            else _gameObjects.Add(obj);
+        }
+
+        public void AddGameObjectWithDescendants(GameObject obj)
+        {
+            AddGameObject(obj);
+            foreach (GameObject child in obj.GetChildren())
+            {
+                AddGameObjectWithDescendants(child);
+            }
         }
 
         public void RemoveGameObject(GameObject obj)
         {
             _takenIdNumbers.Remove(obj.ID);
-            GameObjects.Remove(obj);
+
+            if (obj is Light) _sceneLights.Remove((Light) obj);
+            else _gameObjects.Remove(obj);
+        }
+
+        public void RemoveGameObjectWithDescendants(GameObject obj)
+        {
+            RemoveGameObject(obj);
+            foreach (GameObject child in obj.GetChildren())
+            {
+                RemoveGameObjectWithDescendants(child);
+            }
         }
 
         public void RemoveGameObject(string name)
@@ -101,7 +124,7 @@ namespace PBLgame.Engine.Scenes
             foreach (GameObject gameObject in gameObjects)
             {
                 _takenIdNumbers.Remove(gameObject.ID);
-                GameObjects.Remove(gameObject);
+                _gameObjects.Remove(gameObject);
             }
         }
 

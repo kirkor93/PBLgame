@@ -139,9 +139,23 @@ namespace PBLgame.Engine.Components
 
         public Transform(Transform src) : base(src._gameObject)
         {
+            CopyData(src);
+        }
+
+        public Transform(Transform src, GameObject owner) : base(owner)
+        {
+            CopyData(src);
+        }
+
+        private void CopyData(Transform src)
+        {
             _position = src._position;
             _rotation = src._rotation;
             _scale    = src._scale;
+
+            _worldTranslation = src._worldTranslation;
+            _worldRotation    = src._worldRotation;
+            _worldScale       = src._worldScale;
         }
 
         public void Translate(Vector3 trans)
@@ -149,7 +163,7 @@ namespace PBLgame.Engine.Components
             _position += trans;
             _worldTranslation *= Matrix.CreateTranslation(trans);  
         }
-        public void Translate(float x,float y, float z)
+        public void Translate(float x, float y, float z)
         {
             _position += new Vector3(x,y,z);
             _worldTranslation *= Matrix.CreateTranslation(new Vector3(x,y,z));

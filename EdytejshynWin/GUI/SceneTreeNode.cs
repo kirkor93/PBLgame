@@ -8,6 +8,10 @@ namespace Edytejshyn.GUI
     {
         public GameObjectWrapper WrappedGameObject { get; private set; }
         
+        /// <summary>
+        /// Create scene treeView node. This is done recursively through all descendants.
+        /// </summary>
+        /// <param name="gameObject">GameObjectWrapper with which create node</param>
         public SceneTreeNode(GameObjectWrapper gameObject) : base(gameObject.Name)
         {
             WrappedGameObject = gameObject;
@@ -20,9 +24,7 @@ namespace Edytejshyn.GUI
                 }
             };
 
-            GameObjectWrapper[] children = gameObject.GetWrappedChildren();
-            if (children.Length == 0) return;
-            foreach (GameObjectWrapper child in children)
+            foreach (GameObjectWrapper child in gameObject.Children)
             {
                 Nodes.Add(new SceneTreeNode(child));
             }

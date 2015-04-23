@@ -66,6 +66,14 @@ namespace PBLgame.Engine.Components
             _myMesh = null;
         }
 
+        public Renderer(Renderer source, GameObject owner) : base(owner)
+        {
+            _myMesh   = source._myMesh;
+            _material = source._material;
+            _myEffect = source._myEffect;
+            _scene    = source._scene;
+        }
+
         public void AssignMaterial(MeshMaterial material)
         {
             Material = material;

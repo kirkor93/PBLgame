@@ -84,5 +84,31 @@ namespace Edytejshyn.Logic
                 return tmpList;
             }
         }
+
+        public Memento CreateMemento()
+        {
+            return new Memento(CurrentSelection);
+        }
+
+        public void ApplyMemento(Memento memento)
+        {
+            // TODO handling multiselection
+            SelectOnly(memento.GetState()[0]);
+        }
+
+        public class Memento
+        {
+            private readonly GameObjectWrapper[] _selection;
+
+            public Memento(GameObjectWrapper[] selection)
+            {
+                _selection = selection;
+            }
+
+            public GameObjectWrapper[] GetState()
+            {
+                return _selection;
+            }
+        }
     }
 }

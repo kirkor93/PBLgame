@@ -194,12 +194,12 @@
             // 
             // duplicateMenuItem
             // 
-            this.duplicateMenuItem.Enabled = false;
             this.duplicateMenuItem.Name = "duplicateMenuItem";
             this.duplicateMenuItem.ShortcutKeyDisplayString = "";
             this.duplicateMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.duplicateMenuItem.Size = new System.Drawing.Size(179, 22);
             this.duplicateMenuItem.Text = "&Duplicate";
+            this.duplicateMenuItem.Click += new System.EventHandler(this.duplicateMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 

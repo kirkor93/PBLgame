@@ -48,6 +48,7 @@ namespace Edytejshyn.Logic
         public ResourceManager ResourceManager { get; private set; }
         public Scene CurrentScene { get; private set; }
         public SceneWrapper WrappedScene { get; private set; }
+        public SelectionManager SelectionManager { get; set; }
 
         #endregion
         
@@ -123,8 +124,6 @@ namespace Edytejshyn.Logic
             SaveContent(this.ContentFile);
         }
 
-
-
         public void LoadScene(string path)
         {
             if (ContentFile == null) throw new EditorException("Cannot load scene without content. Open content first.");
@@ -132,7 +131,7 @@ namespace Edytejshyn.Logic
             {
                 CurrentScene = new Scene();
                 CurrentScene.Load(path);
-                WrappedScene = new SceneWrapper(this);
+                WrappedScene = new SceneWrapper(this, CurrentScene);
                 path = Path.GetFullPath(path);
                 this.SceneFile = path;
                 this.History.Clear();

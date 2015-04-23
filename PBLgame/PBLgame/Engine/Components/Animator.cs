@@ -14,7 +14,12 @@ namespace PBLgame.Engine.Components
         #region Methods
         public Animator(GameObject owner) : base(owner)
         {
+            // don't forget to implement copy constructor below
+        }
 
+        public Animator(Animator src, GameObject owner) : base(owner)
+        {
+            // TODO copy all
         }
 
         public override void Update(GameTime gameTime)

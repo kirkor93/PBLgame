@@ -71,6 +71,7 @@ namespace Edytejshyn
             viewportControl.AfterInitializeEvent += () =>
             {
                 SelectionManager = new SelectionManager(Logic, sceneTreeView, viewportControl);
+                Logic.SelectionManager = SelectionManager;
                 BasicDrawerStrategy = new BasicDrawerStrategy(viewportControl.GraphicsDevice);
                 RealisticDrawerStrategy = new RealisticDrawerStrategy();
                 CurrentDrawerStrategy = basicRender ? BasicDrawerStrategy : RealisticDrawerStrategy;
@@ -246,6 +247,7 @@ namespace Edytejshyn
             try
             {
                 this.Logic.LoadScene(path);
+                Logic.WrappedScene.TreeView = sceneTreeView;
                 SetEditingControlsEnabled(true);
                 viewportControl.Reset();
 
@@ -255,18 +257,6 @@ namespace Edytejshyn
             catch (Exception ex)
             {
                 ExceptionHandler.HandleException(ex);
-            }
-        }
-
-        private void RecursiveFillChildren(GameObject obj, EditorTreeNode parentNode)
-        {
-            GameObject[] children = obj.GetChildren();
-            if (children.Length == 0) return;
-            foreach (GameObject child in children)
-            {
-                EditorTreeNode node = new EditorTreeNode(child.Name, child);
-                parentNode.Nodes.Add(node);
-                RecursiveFillChildren(child, node);
             }
         }
 
@@ -611,6 +601,12 @@ namespace Edytejshyn
         private void gizmoSpaceToolStripButton_Click(object sender, EventArgs e)
         {
             viewportControl.Gizmo.ToggleActiveSpace();
+        }
+
+        private void duplicateMenuItem_Click(object sender, EventArgs e)
+        {
+            if (SelectionManager.Empty) return;
+            Logic.WrappedScene.Duplicate(SelectionManager.CurrentSelection[0]);
         }
     }
 }

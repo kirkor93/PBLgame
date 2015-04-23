@@ -16,7 +16,12 @@ namespace PBLgame.Engine.Components
         #region Methods
         public Collision(GameObject owner) : base(owner)
         {
+            // don't forget to implement copy constructor below
+        }
 
+        public Collision(Collision src, GameObject owner) : base(owner)
+        {
+            // TODO copy all data
         }
 
         public override void Update(GameTime gameTime)

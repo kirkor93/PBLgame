@@ -12,6 +12,7 @@ namespace PBLgame.Engine.GameObjects
         #region Variables
         private float _attenuation;
         private float _fallOff;
+
         #endregion
 
         #region Properties
@@ -67,6 +68,19 @@ namespace PBLgame.Engine.GameObjects
         #endregion 
 
         #region Methods
+
+        public PointLight() { }
+
+        protected PointLight(PointLight source, GameObject sourceParent) : base(source, sourceParent)
+        {
+            _attenuation = source._attenuation;
+            _fallOff     = source._fallOff;
+        }
+
+        public override GameObject Copy(GameObject sourceParent)
+        {
+            return new PointLight(this, sourceParent);
+        }
 
         public override void Update(GameTime gameTime)
         {
