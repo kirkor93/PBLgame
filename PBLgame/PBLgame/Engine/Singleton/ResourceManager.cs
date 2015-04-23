@@ -190,7 +190,7 @@ namespace PBLgame.Engine.Singleton
             return null;
         }
 
-        public AnimationClip GeAnimationClip(int id)
+        public AnimationClip GetAnimationClip(int id)
         {
             IEnumerable<AnimationClip> list = 
                 from animationClip in _animationClips

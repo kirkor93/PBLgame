@@ -62,7 +62,7 @@ namespace PBLgame
         /// </summary>
         protected override void Initialize()
         {
-            mainCamera = new Camera( new Vector3(0, 0, 10), Vector3.Zero, Vector3.Up,
+            mainCamera = new Camera( new Vector3(200, 50, 250), Vector3.Zero, Vector3.Up,
                 MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,1000);
 
             InputManager.Instance.Initialize();

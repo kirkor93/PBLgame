@@ -27,19 +27,19 @@ namespace AnimationData
 
 
         // Information about the currently playing animation clip.
-        AnimationClip currentClipValue;
-        TimeSpan currentTimeValue;
-        int currentKeyframe;
+        private AnimationClip _currentClipValue;
+        private TimeSpan _currentTimeValue;
+        private int _currentKeyframe;
 
 
         // Current animation transform matrices.
-        Matrix[] boneTransforms;
-        Matrix[] worldTransforms;
-        Matrix[] skinTransforms;
+        private Matrix[] _boneTransforms;
+        private Matrix[] _worldTransforms;
+        private Matrix[] _skinTransforms;
 
 
         // Backlink to the bind pose and skeleton hierarchy data.
-        SkinningData skinningDataValue;
+        private SkinningData _skinningDataValue;
 
 
         #endregion
@@ -53,11 +53,11 @@ namespace AnimationData
             if (skinningData == null)
                 throw new ArgumentNullException("skinningData");
 
-            skinningDataValue = skinningData;
+            _skinningDataValue = skinningData;
 
-            boneTransforms = new Matrix[skinningData.BindPose.Count];
-            worldTransforms = new Matrix[skinningData.BindPose.Count];
-            skinTransforms = new Matrix[skinningData.BindPose.Count];
+            _boneTransforms = new Matrix[skinningData.BindPose.Count];
+            _worldTransforms = new Matrix[skinningData.BindPose.Count];
+            _skinTransforms = new Matrix[skinningData.BindPose.Count];
         }
 
 
@@ -69,12 +69,12 @@ namespace AnimationData
             if (clip == null)
                 throw new ArgumentNullException("clip");
 
-            currentClipValue = clip;
-            currentTimeValue = TimeSpan.Zero;
-            currentKeyframe = 0;
+            _currentClipValue = clip;
+            _currentTimeValue = TimeSpan.Zero;
+            _currentKeyframe = 0;
 
             // Initialize bone transforms to the bind pose.
-            skinningDataValue.BindPose.CopyTo(boneTransforms, 0);
+            _skinningDataValue.BindPose.CopyTo(_boneTransforms, 0);
         }
 
 
@@ -95,47 +95,47 @@ namespace AnimationData
         /// </summary>
         public void UpdateBoneTransforms(TimeSpan time, bool relativeToCurrentTime)
         {
-            if (currentClipValue == null)
+            if (_currentClipValue == null)
                 throw new InvalidOperationException(
                             "AnimationPlayer.Update was called before StartClip");
 
             // Update the animation position.
             if (relativeToCurrentTime)
             {
-                time += currentTimeValue;
+                time += _currentTimeValue;
 
                 // If we reached the end, loop back to the start.
-                while (time >= currentClipValue.Duration)
-                    time -= currentClipValue.Duration;
+                while (time >= _currentClipValue.Duration)
+                    time -= _currentClipValue.Duration;
             }
 
-            if ((time < TimeSpan.Zero) || (time >= currentClipValue.Duration))
+            if ((time < TimeSpan.Zero) || (time >= _currentClipValue.Duration))
                 throw new ArgumentOutOfRangeException("time");
 
             // If the position moved backwards, reset the keyframe index.
-            if (time < currentTimeValue)
+            if (time < _currentTimeValue)
             {
-                currentKeyframe = 0;
-                skinningDataValue.BindPose.CopyTo(boneTransforms, 0);
+                _currentKeyframe = 0;
+                _skinningDataValue.BindPose.CopyTo(_boneTransforms, 0);
             }
 
-            currentTimeValue = time;
+            _currentTimeValue = time;
 
             // Read keyframe matrices.
-            IList<Keyframe> keyframes = currentClipValue.Keyframes;
+            IList<Keyframe> keyframes = _currentClipValue.Keyframes;
 
-            while (currentKeyframe < keyframes.Count)
+            while (_currentKeyframe < keyframes.Count)
             {
-                Keyframe keyframe = keyframes[currentKeyframe];
+                Keyframe keyframe = keyframes[_currentKeyframe];
 
                 // Stop when we've read up to the current time position.
-                if (keyframe.Time > currentTimeValue)
+                if (keyframe.Time > _currentTimeValue)
                     break;
 
                 // Use this keyframe.
-                boneTransforms[keyframe.Bone] = keyframe.Transform;
+                _boneTransforms[keyframe.Bone] = keyframe.Transform;
 
-                currentKeyframe++;
+                _currentKeyframe++;
             }
         }
 
@@ -146,15 +146,15 @@ namespace AnimationData
         public void UpdateWorldTransforms(Matrix rootTransform)
         {
             // Root bone.
-            worldTransforms[0] = boneTransforms[0] * rootTransform;
+            _worldTransforms[0] = _boneTransforms[0] * rootTransform;
 
             // Child bones.
-            for (int bone = 1; bone < worldTransforms.Length; bone++)
+            for (int bone = 1; bone < _worldTransforms.Length; bone++)
             {
-                int parentBone = skinningDataValue.SkeletonHierarchy[bone];
+                int parentBone = _skinningDataValue.SkeletonHierarchy[bone];
 
-                worldTransforms[bone] = boneTransforms[bone] *
-                                             worldTransforms[parentBone];
+                _worldTransforms[bone] = _boneTransforms[bone] *
+                                             _worldTransforms[parentBone];
             }
         }
 
@@ -164,10 +164,10 @@ namespace AnimationData
         /// </summary>
         public void UpdateSkinTransforms()
         {
-            for (int bone = 0; bone < skinTransforms.Length; bone++)
+            for (int bone = 0; bone < _skinTransforms.Length; bone++)
             {
-                skinTransforms[bone] = skinningDataValue.InverseBindPose[bone] *
-                                            worldTransforms[bone];
+                _skinTransforms[bone] = _skinningDataValue.InverseBindPose[bone] *
+                                            _worldTransforms[bone];
             }
         }
 
@@ -177,7 +177,7 @@ namespace AnimationData
         /// </summary>
         public Matrix[] GetBoneTransforms()
         {
-            return boneTransforms;
+            return _boneTransforms;
         }
 
 
@@ -186,7 +186,7 @@ namespace AnimationData
         /// </summary>
         public Matrix[] GetWorldTransforms()
         {
-            return worldTransforms;
+            return _worldTransforms;
         }
 
 
@@ -196,7 +196,7 @@ namespace AnimationData
         /// </summary>
         public Matrix[] GetSkinTransforms()
         {
-            return skinTransforms;
+            return _skinTransforms;
         }
 
 
@@ -205,7 +205,7 @@ namespace AnimationData
         /// </summary>
         public AnimationClip CurrentClip
         {
-            get { return currentClipValue; }
+            get { return _currentClipValue; }
         }
 
 
@@ -214,7 +214,7 @@ namespace AnimationData
         /// </summary>
         public TimeSpan CurrentTime
         {
-            get { return currentTimeValue; }
+            get { return _currentTimeValue; }
         }
     }
 }

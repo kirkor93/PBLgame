@@ -128,10 +128,6 @@ namespace PBLgame.Engine.GameObjects
             {
                 transform.Update(gameTime);
             }
-            if (renderer != null)
-            {
-                renderer.Update(gameTime);
-            }
             if (collision != null)
             {
                 collision.Update(gameTime);
@@ -148,6 +144,10 @@ namespace PBLgame.Engine.GameObjects
             {
                 audioSource.Update(gameTime);
             }
+            if (renderer != null)
+            {
+                renderer.Update(gameTime);
+            }
 
             foreach (Component component in _components)
             {
@@ -160,10 +160,6 @@ namespace PBLgame.Engine.GameObjects
             if (transform != null)
             {
                 transform.Draw(gameTime);
-            }
-            if (renderer != null)
-            {
-                renderer.Draw(gameTime);
             }
             if (collision != null)
             {
@@ -180,6 +176,10 @@ namespace PBLgame.Engine.GameObjects
             if (audioSource != null)
             {
                 audioSource.Draw(gameTime);
+            }
+            if (renderer != null)
+            {
+                renderer.Draw(gameTime);
             }
 
             foreach (Component component in _components)
