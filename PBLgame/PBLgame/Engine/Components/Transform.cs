@@ -47,11 +47,10 @@ namespace PBLgame.Engine.Components
             {
                 _rotation = value;
                 RotationLimit();
-                _worldRotation = Matrix.CreateRotationX(MathHelper.ToRadians(value.X))
-                               * Matrix.CreateRotationY(MathHelper.ToRadians(value.Y))
-                               * Matrix.CreateRotationZ(MathHelper.ToRadians(value.Z));
+                _worldRotation = CreateRotationXYZMatrix(value);
             }
         }
+
         public Vector3 Scale
         {
             get
@@ -165,20 +164,108 @@ namespace PBLgame.Engine.Components
             _position += new Vector3(x,y,z);
             _worldTranslation *= Matrix.CreateTranslation(new Vector3(x,y,z));
         }
-        public void Rotate(Vector3 rot)
+
+        //public void Rotate(Vector3 rot)
+        //{
+        //    _rotation += rot;
+        //    RotationLimit();
+        //    _worldRotation *= CreateRotationXYZMatrix(rot);
+        //}
+
+        //public void Rotate(float x, float y, float z)
+        //{
+        //    Vector3 rot = new Vector3(x, y, z);
+        //    Rotate(rot);
+        //}
+
+        /// <summary>
+        /// Magically transforms gameObject into new parent's world space, 
+        /// so that it stays globally unchanged after kidnapping.
+        /// </summary>
+        /// <param name="newParent"></param>
+        public void Reparent(GameObject newParent)
         {
-            _rotation += rot;
-            RotationLimit();
-            _worldRotation *= Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(rot.X), 
-                                                            MathHelper.ToRadians(rot.Y), MathHelper.ToRadians(rot.Z));
+            GameObject oldParent = _gameObject.parent;
+            if (oldParent != null)
+            {
+                Position = Vector3.Transform(Position, oldParent.transform.World);
+                Rotation = CalculateRotationVector(_worldRotation * AncestorsRotation);
+                Scale    = Vector3.Transform(Scale, AncestorsScale);
+            }
+            if (newParent != null)
+            {
+                Position = Vector3.Transform(Position, Matrix.Invert(newParent.transform.World));
+                Rotation = CalculateRotationVector(_worldRotation * Matrix.Invert(newParent.transform._worldRotation * newParent.transform.AncestorsRotation));
+                Scale    = Vector3.Transform(Scale, Matrix.Invert(newParent.transform._worldScale * newParent.transform.AncestorsScale));
+            }
         }
-        public void Rotate(float x, float y, float z)
+
+        /// <summary>
+        /// Converts rotation matrix into XYZ rotation Vector3.
+        /// </summary>
+        /// <param name="matrix">source rotation matrix</param>
+        /// <returns>rotation vector</returns>
+        public static Vector3 CalculateRotationVector(Matrix matrix)
         {
-            _rotation += new Vector3(x, y, z);
-            RotationLimit();
-            _worldRotation *= Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(x),
-                                                                       MathHelper.ToRadians(y), MathHelper.ToRadians(z));
+
+            float psi, theta, fi;
+            if (AlmostEqual(matrix.M13, -1.0f))
+            {
+                fi = 0;
+                psi = (float) (fi + Math.Atan2(matrix.M21, matrix.M31));;
+                theta = MathHelper.PiOver2;
+            }
+            else if (AlmostEqual(matrix.M13, 1.0f))
+            {
+                fi = 0;
+                psi = (float) (-fi + Math.Atan2(matrix.M21, matrix.M31));
+                theta = -MathHelper.PiOver2;
+            }
+            else
+            {
+                float theta1 = (float) -Math.Asin(matrix.M13);
+                float theta2 = MathHelper.Pi - theta1;
+                float psi1 = (float) Math.Atan2(matrix.M23 / Math.Cos(theta1),  matrix.M33 / Math.Cos(theta1));
+                float psi2 = (float) Math.Atan2(matrix.M23 / Math.Cos(theta2),  matrix.M33 / Math.Cos(theta2));
+
+                float fi1  = (float) Math.Atan2(matrix.M12 / Math.Cos(theta1),  matrix.M11 / Math.Cos(theta1));
+                float fi2  = (float) Math.Atan2(matrix.M12 / Math.Cos(theta2),  matrix.M11 / Math.Cos(theta2));
+
+                float sum1 = Math.Abs(psi1) + Math.Abs(theta1) + Math.Abs(fi1);
+                float sum2 = Math.Abs(psi2) + Math.Abs(theta2) + Math.Abs(fi2);
+
+                if (sum1 < sum2)
+                {
+                    psi = psi1;
+                    theta = theta1;
+                    fi = fi1;
+                }
+                else
+                {
+                    psi = psi2;
+                    theta = theta2;
+                    fi = fi2;
+                }
+
+            }
+            return new Vector3( MathHelper.ToDegrees(psi), 
+                                MathHelper.ToDegrees(theta), 
+                                MathHelper.ToDegrees(fi)
+            );
         }
+        
+        public static Matrix CreateRotationXYZMatrix(Vector3 rot)
+        {
+            return Matrix.CreateRotationX(MathHelper.ToRadians(rot.X))
+                 * Matrix.CreateRotationY(MathHelper.ToRadians(rot.Y))
+                 * Matrix.CreateRotationZ(MathHelper.ToRadians(rot.Z));
+        }
+
+        public static  bool AlmostEqual(float a, float b)
+        {
+            return Math.Abs(a - b) < 0.00001f;
+        }
+
 
         public override void Update(GameTime gameTime)
         {

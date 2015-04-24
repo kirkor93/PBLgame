@@ -60,7 +60,7 @@ namespace PBLgame.Engine.Scenes
             _gameObjects = new List<GameObject>();
             _sceneLights = new List<Light>();
             _serializer = new XmlSerializer(typeof(Scene));
-            _takenIdNumbers = new List<int> {0};
+            _takenIdNumbers = new List<int> { 0 };
         }
 
         public void Draw(GameTime gameTime)
@@ -79,7 +79,7 @@ namespace PBLgame.Engine.Scenes
                 gameObject.Update(gameTime);
             }
         }
-        
+
         public void AddGameObject(GameObject obj)
         {
             while (_takenIdNumbers.Exists(item => item == obj.ID))
@@ -88,7 +88,7 @@ namespace PBLgame.Engine.Scenes
             }
             _takenIdNumbers.Add(obj.ID);
 
-            if(obj is Light) _sceneLights.Add((Light) obj);
+            if (obj is Light) _sceneLights.Add((Light)obj);
             else _gameObjects.Add(obj);
         }
 
@@ -105,7 +105,7 @@ namespace PBLgame.Engine.Scenes
         {
             _takenIdNumbers.Remove(obj.ID);
 
-            if (obj is Light) _sceneLights.Remove((Light) obj);
+            if (obj is Light) _sceneLights.Remove((Light)obj);
             else _gameObjects.Remove(obj);
         }
 
@@ -156,7 +156,7 @@ namespace PBLgame.Engine.Scenes
         {
             using (FileStream file = new FileStream(path, FileMode.Open))
             {
-                Scene scene = (Scene) _serializer.Deserialize(new SceneXmlReader(file, this));
+                Scene scene = (Scene)_serializer.Deserialize(new SceneXmlReader(file, this));
                 GameObjects = scene._gameObjects;
                 SceneLights = scene._sceneLights;
             }

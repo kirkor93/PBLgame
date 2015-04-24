@@ -227,16 +227,8 @@ namespace Edytejshyn.Model
 
         public void Do()
         {
-            // TODO ***************************
-            // TODO *                         *
-            // TODO *  recalculate transform  *
-            // TODO *          here           *
-            // TODO *      if you can         *
-            // TODO *   but they say you      *
-            // TODO *     don't know how      *
-            // TODO *                         *
-            // TODO ***************************
-            
+            _kidnapped.Nut.transform.Reparent((_newParent == null) ? null : _newParent.Nut);
+
             ApplyKidnapping(_newParent);
             _sceneWrapper.Logic.SelectionManager.SelectOnly(_kidnapped);
         }

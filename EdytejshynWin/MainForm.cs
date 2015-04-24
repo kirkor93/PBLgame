@@ -573,6 +573,11 @@ namespace Edytejshyn
             {
                 sceneTreeView.DestinationNode.BackColor = sceneTreeView.BackColor;
                 newParent = sceneTreeView.DestinationNode.WrappedGameObject;
+                if (newParent is LightWrapper)
+                {
+                    MessageBox.Show("Lights are impotents, so cannot be parents (even adopted). Because fuck you, that's why (kirek hasn't implemented that)", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 if (sceneTreeView.DestinationNode == movedNode 
                     || newParent == movedNode.WrappedGameObject.Parent) return;
             }
