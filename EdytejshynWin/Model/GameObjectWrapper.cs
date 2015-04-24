@@ -135,7 +135,7 @@ namespace Edytejshyn.Model
 
         }
 
-        public GameObjectWrapper(GameObjectWrapper source, GameObjectWrapper parent, Scene scene)
+        public GameObjectWrapper(GameObjectWrapper source, GameObjectWrapper parent)
         {
             _gameObject = source._gameObject.Copy((parent == null) ? null : parent.Nut);
             Parent = parent;
@@ -229,11 +229,26 @@ namespace Edytejshyn.Model
             return Parent.GetPathHelper(sb).Append(" -> ").Append(Name);
         }
 
-        public string GetPathString()
+        public void Reparent(GameObjectWrapper newParentWrapper)
         {
-            if (Parent == null) return "[root]";
+            GameObject newParentObject = (newParentWrapper == null) ? null : newParentWrapper.Nut;
+            _gameObject.Reparent(newParentObject);
+            if (Parent != null)
+            {
+                Parent._children.Remove(this);
+            }
+            if (newParentObject != null)
+            {
+                newParentWrapper._children.Add(this);
+            }
+            Parent = newParentWrapper;
+        }
+
+        public static string GetFullPathString(GameObjectWrapper wrapper)
+        {
+            if (wrapper == null) return "[root]";
             StringBuilder sb = new StringBuilder();
-            return Parent.GetPathHelper(sb).ToString();
+            return wrapper.GetPathHelper(sb).ToString();
         }
     }
 
@@ -250,7 +265,7 @@ namespace Edytejshyn.Model
 
         protected LightWrapper(Light light, GameObjectWrapper parent) : base(light, parent) { }
 
-        protected LightWrapper(LightWrapper source, GameObjectWrapper parent, Scene scene) : base(source, parent, scene) { }
+        protected LightWrapper(LightWrapper source, GameObjectWrapper parent) : base(source, parent) { }
     }
 
     public class PointLightWrapper : LightWrapper
@@ -275,7 +290,7 @@ namespace Edytejshyn.Model
 
         public PointLightWrapper(PointLight light, GameObjectWrapper parent) : base(light, parent) { }
 
-        public PointLightWrapper(PointLightWrapper source, GameObjectWrapper parent, Scene scene) : base(source, parent, scene) { }
+        public PointLightWrapper(PointLightWrapper source, GameObjectWrapper parent) : base(source, parent) { }
     }
 
     public class DirectionalLightWrapper : LightWrapper
@@ -293,7 +308,7 @@ namespace Edytejshyn.Model
 
         public DirectionalLightWrapper(MyDirectionalLight light, GameObjectWrapper parent) : base(light, parent) { }
 
-        public DirectionalLightWrapper(DirectionalLightWrapper source, GameObjectWrapper parent, Scene scene) : base(source, parent, scene) { }
+        public DirectionalLightWrapper(DirectionalLightWrapper source, GameObjectWrapper parent) : base(source, parent) { }
     }
 
     /// <summary>
@@ -316,9 +331,9 @@ namespace Edytejshyn.Model
         {
             GameObjectWrapper copy;
 
-            if (src is PointLightWrapper) copy = new PointLightWrapper((PointLightWrapper) src, parent, scene);
-            else if (src is DirectionalLightWrapper) copy = new DirectionalLightWrapper((DirectionalLightWrapper) src, parent, scene);
-            else copy = new GameObjectWrapper(src, parent, scene);
+            if (src is PointLightWrapper) copy = new PointLightWrapper((PointLightWrapper) src, parent);
+            else if (src is DirectionalLightWrapper) copy = new DirectionalLightWrapper((DirectionalLightWrapper) src, parent);
+            else copy = new GameObjectWrapper(src, parent);
 
             return copy;
         }
@@ -365,6 +380,34 @@ namespace Edytejshyn.Model
         {
             return "";
         }
+
+        public Memento CreateMemento()
+        {
+            return new Memento(_transform);
+        }
+
+        public void ApplyMemento(Memento memento)
+        {
+            _transform.Position = memento.GetState().Position;
+            _transform.Rotation = memento.GetState().Rotation;
+            _transform.Scale    = memento.GetState().Scale;
+        }
+
+        public class Memento
+        {
+            private readonly Transform _transform;
+
+            public Memento(Transform transform)
+            {
+                _transform = new Transform(transform);
+            }
+
+            public Transform GetState()
+            {
+                return _transform;
+            }
+        }
+
         #endregion
     }
 

@@ -10,6 +10,9 @@ using PBLgame.Engine.Scenes;
 
 namespace Edytejshyn.Model
 {
+    /// <summary>
+    /// Wrapper for the game scene. Contains GameObjectWrappers and works as a bridge between Wrappers and SceneTreeNode.
+    /// </summary>
     public class SceneWrapper
     {
         public List<GameObjectWrapper> RootGameObjects { get; private set; }
@@ -99,6 +102,11 @@ namespace Edytejshyn.Model
             return closest;
         }
 
+        /// <summary>
+        /// Duplicates given GameObject inside Wrapper and places in the same parent.
+        /// This action can be undone with HistoryManager.
+        /// </summary>
+        /// <param name="source">GamObjectWrapper with GameObject to duplicate</param>
         public void Duplicate(GameObjectWrapper source)
         {
             GameObjectWrapper copy = GameObjectWrappingFactory.Copy(source, source.Parent, Scene);
@@ -106,6 +114,20 @@ namespace Edytejshyn.Model
             Logic.History.NewAction(new AddGameObjectCommand(this, copy, source.Parent));
         }
         #endregion
+
+        /// <summary>
+        /// Kidnaps given GameObject from its parent and leaves him with newParent.
+        /// This action can be undone with HistoryManager.
+        /// </summary>
+        /// <param name="kidnapped">GameObject to kidnap</param>
+        /// <param name="newParent">new parent</param>
+        public void ReparentNode(GameObjectWrapper kidnapped, GameObjectWrapper newParent)
+        {
+            if (kidnapped.Parent == newParent) return;
+
+            Logic.History.NewAction(new ReparentGameObjectCommand(this, kidnapped, newParent));
+
+        }
     }
 
     public class AddGameObjectCommand : ICommand
@@ -132,7 +154,7 @@ namespace Edytejshyn.Model
 
         public string Message
         {
-            get { return string.Format("Added: [{0}] {1} into {2}", _addee.Nut.ID, _addee.Name, _addee.GetPathString()); }
+            get { return string.Format("Added: [{0}] {1} into {2}", _addee.Nut.ID, _addee.Name, GameObjectWrapper.GetFullPathString(_addee.Parent)); }
         }
 
         public void Do()
@@ -166,6 +188,90 @@ namespace Edytejshyn.Model
             }
             _sceneWrapper.Scene.RemoveGameObjectWithDescendants(_addee.Nut);
             _sceneWrapper.Logic.SelectionManager.ApplyMemento(_oldSelection);
+        }
+    }
+
+    public class ReparentGameObjectCommand : ICommand
+    {
+        private readonly SceneWrapper _sceneWrapper;
+        private readonly GameObjectWrapper _kidnapped;
+        private readonly GameObjectWrapper _oldParent;
+        private readonly SelectionManager.Memento _oldSelection;
+        private readonly TransformWrapper.Memento _oldTransform;
+
+        private readonly GameObjectWrapper _newParent;
+        private readonly string _oldPathString;
+
+        public ReparentGameObjectCommand(SceneWrapper sceneWrapper, GameObjectWrapper kidnapped, GameObjectWrapper newParent)
+        {
+            _sceneWrapper = sceneWrapper;
+            _kidnapped = kidnapped;
+            _newParent = newParent;
+            _oldParent = kidnapped.Parent;
+            _oldTransform = kidnapped.Transform.CreateMemento();
+            _oldSelection = _sceneWrapper.Logic.SelectionManager.CreateMemento();
+            _oldPathString = GameObjectWrapper.GetFullPathString(_kidnapped);
+        }
+
+        public bool AffectsData { get { return true; } }
+
+        public string Description
+        {
+            get { return string.Format("Kidnapped game object: {0}", _kidnapped.Name); }
+        }
+
+        public string Message
+        {
+            get { return string.Format("Kidnapped: [{0}] {1} into {2}", _kidnapped.Nut.ID, _oldPathString, GameObjectWrapper.GetFullPathString(_newParent)); }
+        }
+
+        public void Do()
+        {
+            // TODO ***************************
+            // TODO *                         *
+            // TODO *  recalculate transform  *
+            // TODO *          here           *
+            // TODO *      if you can         *
+            // TODO *   but they say you      *
+            // TODO *     don't know how      *
+            // TODO *                         *
+            // TODO ***************************
+            
+            ApplyKidnapping(_newParent);
+            _sceneWrapper.Logic.SelectionManager.SelectOnly(_kidnapped);
+        }
+
+        public void Undo()
+        {
+            ApplyKidnapping(_oldParent);
+            _kidnapped.Transform.ApplyMemento(_oldTransform);
+            _sceneWrapper.Logic.SelectionManager.ApplyMemento(_oldSelection);
+        }
+
+        private void ApplyKidnapping(GameObjectWrapper newParent)
+        {
+            // FIXME do clean code - that redistribution looks bad and illegible
+            _kidnapped.Reparent(newParent);
+
+            if (_kidnapped.Parent == null)
+            {
+                _sceneWrapper.RootGameObjects.Remove(_kidnapped);
+                _sceneWrapper.TreeView.Nodes.Remove(_kidnapped.TreeViewNode);
+            }
+            else
+            {
+                _kidnapped.Parent.TreeViewNode.Nodes.Remove(_kidnapped.TreeViewNode);
+            }
+            if (newParent == null)
+            {
+                _sceneWrapper.RootGameObjects.Add(_kidnapped);
+                _sceneWrapper.TreeView.Nodes.Add(new SceneTreeNode(_kidnapped)); // without creating new treeNode every time, something crashes when redoing
+            }
+            else
+            {
+                newParent.TreeViewNode.Nodes.Add(new SceneTreeNode(_kidnapped));
+            }
+
         }
     }
 }

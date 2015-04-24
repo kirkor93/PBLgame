@@ -355,6 +355,25 @@ namespace PBLgame.Engine.GameObjects
 
             return null;
         }
+        
+        public void Reparent(GameObject newParent)
+        {
+            if (_parent == newParent) return;
+            if (_parent != null)
+            {
+                _parent._children.Remove(this);
+            }
+            if (newParent != null)
+            {
+                newParent._children.Add(this);
+            }
+            _parent = newParent;
+        }
+
+        public void RemoveChild(GameObject child)
+        {
+            _children.Remove(child);
+        }
 
         public T[] GetComponentInChildren<T>() where T : Component
         {
@@ -520,5 +539,6 @@ namespace PBLgame.Engine.GameObjects
 
         #endregion
         #endregion
+
     }
 }

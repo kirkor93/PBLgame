@@ -47,12 +47,9 @@ namespace PBLgame.Engine.Components
             {
                 _rotation = value;
                 RotationLimit();
-                // TODO consider changing to rotation around axes
                 _worldRotation = Matrix.CreateRotationX(MathHelper.ToRadians(value.X))
                                * Matrix.CreateRotationY(MathHelper.ToRadians(value.Y))
                                * Matrix.CreateRotationZ(MathHelper.ToRadians(value.Z));
-                //_worldRotation = Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(value.X),
-                //                                               MathHelper.ToRadians(value.Y), MathHelper.ToRadians(value.Z));
             }
         }
         public Vector3 Scale

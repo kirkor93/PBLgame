@@ -344,6 +344,7 @@
             // 
             // sceneTreeView
             // 
+            this.sceneTreeView.AllowDrop = true;
             this.sceneTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sceneTreeView.HideSelection = false;
             this.sceneTreeView.Location = new System.Drawing.Point(0, 0);
@@ -351,8 +352,13 @@
             this.sceneTreeView.PathSeparator = "->";
             this.sceneTreeView.Size = new System.Drawing.Size(129, 611);
             this.sceneTreeView.TabIndex = 1;
+            this.sceneTreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.SceneTreeView_ItemDrag);
             this.sceneTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.SceneTreeView_AfterSelect);
             this.sceneTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.SceneTreeView_NodeMouseClick);
+            this.sceneTreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.SceneTreeView_DragDrop);
+            this.sceneTreeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.SceneTreeView_DragEnter);
+            this.sceneTreeView.DragOver += new System.Windows.Forms.DragEventHandler(this.SceneTreeView_DragOver);
+            this.sceneTreeView.DragLeave += new System.EventHandler(this.SceneTreeView_DragLeave);
             // 
             // contentTreeView
             // 

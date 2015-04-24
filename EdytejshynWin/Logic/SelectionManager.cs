@@ -93,7 +93,8 @@ namespace Edytejshyn.Logic
         public void ApplyMemento(Memento memento)
         {
             // TODO handling multiselection
-            SelectOnly(memento.GetState()[0]);
+            GameObjectWrapper selectee = (memento.GetState().Length == 0) ? null : memento.GetState()[0];
+            SelectOnly(selectee);
         }
 
         public class Memento
