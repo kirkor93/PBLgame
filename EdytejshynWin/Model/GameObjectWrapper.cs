@@ -11,6 +11,7 @@ using Edytejshyn.Logic;
 using Edytejshyn.Model.Commands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
+using PBLgame.Engine;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
@@ -229,17 +230,17 @@ namespace Edytejshyn.Model
             return Parent.GetPathHelper(sb).Append(" -> ").Append(Name);
         }
 
-        public void Reparent(GameObjectWrapper newParentWrapper)
+        public void Reparent(GameObjectWrapper newParentWrapper, int index)
         {
             GameObject newParentObject = (newParentWrapper == null) ? null : newParentWrapper.Nut;
-            _gameObject.Reparent(newParentObject);
+            _gameObject.Reparent(newParentObject, index);
             if (Parent != null)
             {
                 Parent._children.Remove(this);
             }
             if (newParentObject != null)
             {
-                newParentWrapper._children.Add(this);
+                newParentWrapper._children.AddInsert(index, this);
             }
             Parent = newParentWrapper;
         }

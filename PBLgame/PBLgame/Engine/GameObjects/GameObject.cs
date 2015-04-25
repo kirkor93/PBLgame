@@ -356,7 +356,7 @@ namespace PBLgame.Engine.GameObjects
             return null;
         }
         
-        public void Reparent(GameObject newParent)
+        public void Reparent(GameObject newParent, int index)
         {
             if (_parent == newParent) return;
             if (_parent != null)
@@ -365,7 +365,7 @@ namespace PBLgame.Engine.GameObjects
             }
             if (newParent != null)
             {
-                newParent._children.Add(this);
+                newParent._children.AddInsert(index, this);
             }
             _parent = newParent;
         }

@@ -85,6 +85,7 @@
     <Compile Include="Engine\Components\MeshMaterial.cs" />
     <Compile Include="Engine\Components\ParticleSystem.cs" />
     <Compile Include="Engine\Components\Transform.cs" />
+    <Compile Include="Engine\Extensions.cs" />
     <Compile Include="Engine\GameObjects\Camera.cs" />
     <Compile Include="Engine\Components\Collision.cs" />
     <Compile Include="Engine\GameObjects\MyDirectionalLight.cs" />

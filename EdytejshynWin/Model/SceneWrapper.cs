@@ -4,6 +4,7 @@ using Edytejshyn.GUI;
 using Edytejshyn.Logic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using PBLgame.Engine;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
@@ -198,9 +199,10 @@ namespace Edytejshyn.Model
         private readonly GameObjectWrapper _oldParent;
         private readonly SelectionManager.Memento _oldSelection;
         private readonly TransformWrapper.Memento _oldTransform;
+        private readonly string _oldPathString;
+        private readonly int _oldIndex;
 
         private readonly GameObjectWrapper _newParent;
-        private readonly string _oldPathString;
 
         public ReparentGameObjectCommand(SceneWrapper sceneWrapper, GameObjectWrapper kidnapped, GameObjectWrapper newParent)
         {
@@ -211,6 +213,7 @@ namespace Edytejshyn.Model
             _oldTransform = kidnapped.Transform.CreateMemento();
             _oldSelection = _sceneWrapper.Logic.SelectionManager.CreateMemento();
             _oldPathString = GameObjectWrapper.GetFullPathString(_kidnapped);
+            _oldIndex = kidnapped.TreeViewNode.Index;
         }
 
         public bool AffectsData { get { return true; } }
@@ -235,15 +238,14 @@ namespace Edytejshyn.Model
 
         public void Undo()
         {
-            ApplyKidnapping(_oldParent);
+            ApplyKidnapping(_oldParent, _oldIndex);
             _kidnapped.Transform.ApplyMemento(_oldTransform);
             _sceneWrapper.Logic.SelectionManager.ApplyMemento(_oldSelection);
         }
 
-        private void ApplyKidnapping(GameObjectWrapper newParent)
+        private void ApplyKidnapping(GameObjectWrapper newParent, int index = -1)
         {
             // FIXME do clean code - that redistribution looks bad and illegible
-            _kidnapped.Reparent(newParent);
 
             if (_kidnapped.Parent == null)
             {
@@ -254,14 +256,17 @@ namespace Edytejshyn.Model
             {
                 _kidnapped.Parent.TreeViewNode.Nodes.Remove(_kidnapped.TreeViewNode);
             }
+
+            _kidnapped.Reparent(newParent, index);
+
             if (newParent == null)
             {
-                _sceneWrapper.RootGameObjects.Add(_kidnapped);
-                _sceneWrapper.TreeView.Nodes.Add(new SceneTreeNode(_kidnapped)); // without creating new treeNode every time, something crashes when redoing
+                _sceneWrapper.RootGameObjects.AddInsert(index, _kidnapped);
+                _sceneWrapper.TreeView.Nodes.AddInsertNode(index, new SceneTreeNode(_kidnapped)); // without creating new treeNode every time, something crashes when redoing
             }
             else
             {
-                newParent.TreeViewNode.Nodes.Add(new SceneTreeNode(_kidnapped));
+                newParent.TreeViewNode.Nodes.AddInsertNode(index, new SceneTreeNode(_kidnapped));
             }
 
         }
