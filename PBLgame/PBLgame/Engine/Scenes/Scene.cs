@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -73,7 +74,6 @@ namespace PBLgame.Engine.Scenes
 
         public void Update(GameTime gameTime)
         {
-            _sceneLights[1].Update(gameTime);
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Update(gameTime);
@@ -99,6 +99,33 @@ namespace PBLgame.Engine.Scenes
             {
                 AddGameObjectWithDescendants(child);
             }
+        }
+
+        public void AddGameObjectAfter(GameObject obj, GameObject predecessor)
+        {
+            if (obj is Light && predecessor != null && !(predecessor is Light)) return;
+
+            while (_takenIdNumbers.Exists(item => item == obj.ID))
+            {
+                obj.ID += 1;
+            }
+            _takenIdNumbers.Add(obj.ID);
+
+            int index = 0;
+            if (predecessor != null)
+            {
+                if (predecessor is Light)
+                {
+                    index = _sceneLights.IndexOf((Light) predecessor);
+                }
+                else
+                {
+                    index = _gameObjects.IndexOf(predecessor);
+                }
+            }
+
+            if (obj is Light) _sceneLights.AddInsert(index, (Light)obj);
+            else _gameObjects.AddInsert(index, obj);
         }
 
         public void RemoveGameObject(GameObject obj)
@@ -142,6 +169,26 @@ namespace PBLgame.Engine.Scenes
         {
             _takenIdNumbers.RemoveAll(item => item == id);
             GameObjects.RemoveAll(item => item.ID == id);
+        }
+
+        /// <summary>
+        /// Gets previous GameObject (or Light) on its scene list.
+        /// </summary>
+        /// <returns>previous object on scene lists</returns>
+        public GameObject GetPreceding(GameObject obj)
+        {
+            if (obj is Light)
+            {
+                int index = _sceneLights.IndexOf((Light) obj);
+                if (index == 0) return null;
+                return _sceneLights[index - 1];
+            }
+            else
+            {
+                int index = _gameObjects.IndexOf(obj);
+                if (index == 0) return null;
+                return _gameObjects[index - 1];
+            }
         }
 
         public void Save(string path)

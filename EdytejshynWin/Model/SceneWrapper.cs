@@ -203,6 +203,7 @@ namespace Edytejshyn.Model
         private readonly int _oldIndex;
 
         private readonly GameObjectWrapper _newParent;
+        private readonly GameObject _oldPredecessor;
 
         public ReparentGameObjectCommand(SceneWrapper sceneWrapper, GameObjectWrapper kidnapped, GameObjectWrapper newParent)
         {
@@ -214,6 +215,7 @@ namespace Edytejshyn.Model
             _oldSelection = _sceneWrapper.Logic.SelectionManager.CreateMemento();
             _oldPathString = GameObjectWrapper.GetFullPathString(_kidnapped);
             _oldIndex = kidnapped.TreeViewNode.Index;
+            _oldPredecessor = sceneWrapper.Scene.GetPreceding(kidnapped.Nut);
         }
 
         public bool AffectsData { get { return true; } }
@@ -238,12 +240,12 @@ namespace Edytejshyn.Model
 
         public void Undo()
         {
-            ApplyKidnapping(_oldParent, _oldIndex);
+            ApplyKidnapping(_oldParent, _oldIndex, _oldPredecessor);
             _kidnapped.Transform.ApplyMemento(_oldTransform);
             _sceneWrapper.Logic.SelectionManager.ApplyMemento(_oldSelection);
         }
 
-        private void ApplyKidnapping(GameObjectWrapper newParent, int index = -1)
+        private void ApplyKidnapping(GameObjectWrapper newParent, int index = -1, GameObject oldPredecessor = null)
         {
             // FIXME do clean code - that redistribution looks bad and illegible
 
@@ -258,6 +260,10 @@ namespace Edytejshyn.Model
             }
 
             _kidnapped.Reparent(newParent, index);
+
+            _sceneWrapper.Scene.RemoveGameObject(_kidnapped.Nut);
+            if(index == -1) _sceneWrapper.Scene.AddGameObject(_kidnapped.Nut);
+            else _sceneWrapper.Scene.AddGameObjectAfter(_kidnapped.Nut, oldPredecessor);
 
             if (newParent == null)
             {

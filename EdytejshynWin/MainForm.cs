@@ -236,7 +236,7 @@ namespace Edytejshyn
 
         #region Scene loaders
 
-        private void OpenScene(string path = null)
+        private void OpenScene(string path = null, bool reset = true)
         {
             if (!IsSafeToUnload()) return;
             if (path == null)
@@ -250,10 +250,9 @@ namespace Edytejshyn
                 this.Logic.LoadScene(path);
                 Logic.WrappedScene.TreeView = sceneTreeView;
                 SetEditingControlsEnabled(true);
-                viewportControl.Reset();
+                if(reset) viewportControl.Reset();
 
                 sceneTreeView.ReloadTree();
-
             }
             catch (Exception ex)
             {
@@ -346,6 +345,7 @@ namespace Edytejshyn
             saveMenuItem        .Enabled = mode;
             saveAsMenuItem      .Enabled = mode;
             saveToolStripButton .Enabled = mode;
+            reloadMenuItem      .Enabled = mode;
         }
 
         public void ShowLogMessage(LoggerLevel level, string message)
@@ -641,6 +641,12 @@ namespace Edytejshyn
         }
 
 
+        private void reloadMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenScene(Logic.SceneFile, false);
+            Invalidate();
+        }
+
         #endregion
 
 
@@ -667,8 +673,7 @@ namespace Edytejshyn
         }
 
 
+
         #endregion
-
-
     }
 }

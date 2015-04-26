@@ -72,6 +72,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.gizmoToolStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.gizmoSpaceToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.reloadMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerVert)).BeginInit();
             this.splitContainerVert.Panel1.SuspendLayout();
@@ -109,6 +110,7 @@
             this.saveMenuItem,
             this.saveAsMenuItem,
             this.toolStripMenuItem1,
+            this.reloadMenuItem,
             this.exitMenuItem});
             this.sceneMenuBar.Name = "sceneMenuBar";
             this.sceneMenuBar.Size = new System.Drawing.Size(50, 20);
@@ -345,9 +347,11 @@
             // sceneTreeView
             // 
             this.sceneTreeView.AllowDrop = true;
+            this.sceneTreeView.DestinationNode = null;
             this.sceneTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sceneTreeView.HideSelection = false;
             this.sceneTreeView.Location = new System.Drawing.Point(0, 0);
+            this.sceneTreeView.MovedNode = null;
             this.sceneTreeView.Name = "sceneTreeView";
             this.sceneTreeView.PathSeparator = "->";
             this.sceneTreeView.Size = new System.Drawing.Size(129, 611);
@@ -522,6 +526,14 @@
             this.gizmoSpaceToolStripButton.ToolTipText = "Gizmo space";
             this.gizmoSpaceToolStripButton.Click += new System.EventHandler(this.gizmoSpaceToolStripButton_Click);
             // 
+            // reloadMenuItem
+            // 
+            this.reloadMenuItem.Enabled = false;
+            this.reloadMenuItem.Name = "reloadMenuItem";
+            this.reloadMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.reloadMenuItem.Text = "&Reload";
+            this.reloadMenuItem.Click += new System.EventHandler(this.reloadMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -607,6 +619,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem gridSnappingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem snapToGridToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reloadMenuItem;
     }
 }
 
