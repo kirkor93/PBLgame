@@ -78,7 +78,7 @@ namespace PBLgame.Engine.Components
                 else
                 {
                     // Changed multiplication order (Unity-like) - now all children are like a whole group, rotated and scaled around parent.
-                    return _world = _worldScale * _worldRotation * _worldTranslation * gameObject.parent.transform.World;
+                    return _world = _worldScale * _worldRotation * _worldTranslation * AncestorsWorld;
                 }
 
             }
@@ -121,6 +121,36 @@ namespace PBLgame.Engine.Components
                 }
             }
         }
+
+        public Vector3 AncestorsPosition
+        {
+            get
+            {
+                if(gameObject.parent == null)
+                {
+                    return Vector3.Zero;
+                }
+                else
+                {
+                    return gameObject.parent.transform.Position + gameObject.parent.transform.AncestorsPosition;
+                }
+            }
+        }
+        public Matrix AncestorsWorld
+        {
+            get
+            {
+                if (gameObject.parent == null)
+                {
+                    return Matrix.Identity;
+                }
+                else
+                {
+                    return gameObject.parent.transform.World * gameObject.parent.transform.AncestorsWorld;
+                }
+            }
+        }
+
 
         #endregion
 

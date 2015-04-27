@@ -73,7 +73,6 @@ namespace PBLgame.Engine.Scenes
 
         public void Update(GameTime gameTime)
         {
-            _sceneLights[1].Update(gameTime);
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Update(gameTime);

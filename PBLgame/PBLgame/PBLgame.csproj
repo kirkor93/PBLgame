@@ -94,6 +94,8 @@
     <Compile Include="Engine\GameObjects\Light.cs" />
     <Compile Include="Engine\GameObjects\PointLight.cs" />
     <Compile Include="Engine\GlobalInventory.cs" />
+    <Compile Include="Engine\Physics\BoxCollider.cs" />
+    <Compile Include="Engine\Physics\SphereCollider.cs" />
     <Compile Include="Engine\Scenes\Scene.cs" />
     <Compile Include="Engine\Singleton\InputManager.cs" />
     <Compile Include="Engine\Singleton\ResourceManager.cs" />

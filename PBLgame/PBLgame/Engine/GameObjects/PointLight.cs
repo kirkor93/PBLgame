@@ -21,7 +21,7 @@ namespace PBLgame.Engine.GameObjects
             {
                 if(parent != null)
                 {
-                    return parent.transform.Position + transform.Position;
+                    return transform.Position + transform.AncestorsPosition;
                 }
                 else
                 {
@@ -32,7 +32,7 @@ namespace PBLgame.Engine.GameObjects
             {
                 if(parent != null)
                 {
-                    transform.Position = parent.transform.Position + value;
+                    transform.Position = transform.AncestorsPosition + value;
                 }
                 else
                 {
@@ -71,7 +71,6 @@ namespace PBLgame.Engine.GameObjects
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            //transform.Translate(0.1f, 0.0f, 0.0f);
         }
 
         #region XML Serialization

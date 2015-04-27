@@ -82,6 +82,7 @@ namespace PBLgame.Engine.Components
 
         public override void Update(GameTime gameTime)
         {
+
         }
 
         public override void Draw(GameTime gameTime)
@@ -92,6 +93,7 @@ namespace PBLgame.Engine.Components
                 foreach (ModelMeshPart part in modelMesh.MeshParts)
                 {
                     part.Effect = MyEffect;
+                    UpdateLightsPositions();
                     MyEffect.Parameters["world"].SetValue(MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World);
                     MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
                     MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
@@ -107,6 +109,29 @@ namespace PBLgame.Engine.Components
                 }
                 modelMesh.Draw();
             }
+        }
+        
+        private void UpdateLightsPositions()
+        {
+            
+            List<Light> lights = _scene.SceneLights;
+            Vector3[] pos_dir = new Vector3[30];
+
+            for (int i = 0; i < lights.Count; ++i)
+            {
+                if (lights[i].Type == LightType.Directional)
+                {
+                    MyDirectionalLight dLight = lights[i] as MyDirectionalLight;
+                    pos_dir[i] = dLight.Direction;
+                }
+                else
+                {
+                    PointLight pLight = lights[i] as PointLight;
+                    pos_dir[i] = pLight.Position;
+                }
+            }
+            MyEffect.Parameters["lightsPositions"].SetValue(pos_dir);
+
         }
 
         private void ParameterizeEffectWithLights()
