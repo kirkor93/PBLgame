@@ -12,21 +12,16 @@ namespace PBLgame.Engine.Components
     public class Collision : Component
     {
 
-        #region Variables
-        private bool _rigidbody;
-        private BoundingSphere _mainCollider;
-        private List<BoundingBox> _boundingBoxes;
-        private List<BoundingSphere> _boundingSpheres;
-
-        
-        #endregion
-
-        #region Properties
-        #endregion
 
         #region Methods
         public Collision(GameObject owner) : base(owner)
         {
+            // don't forget to implement copy constructor below
+        }
+
+        public Collision(Collision src, GameObject owner) : base(owner)
+        {
+            // TODO copy all data
         }
 
         public override void Update(GameTime gameTime)
@@ -37,11 +32,6 @@ namespace PBLgame.Engine.Components
         public override void Draw(GameTime gameTime)
         {
             
-        }
-
-        public void UpdateBoxCollider(Matrix world)
-        {  }
-         
         }
 
         #region XML Serialization

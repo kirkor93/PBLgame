@@ -3,6 +3,7 @@
 using Microsoft.Xna.Framework;
 
 using PBLgame.Engine.Components;
+using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Singleton;
 
 namespace PBLgame.GamePlay
@@ -55,6 +56,13 @@ namespace PBLgame.GamePlay
             _gameObject.transform.Translate(e.AxisValue.X, e.AxisValue.Y, 0.0f);
 
         }
+
+        public override Component Copy(GameObject newOwner)
+        {
+            // developper doesn't get responsibility for unexpected behaviour
+            return new PlayerScript(newOwner);
+        }
+
         #endregion
     }
 }

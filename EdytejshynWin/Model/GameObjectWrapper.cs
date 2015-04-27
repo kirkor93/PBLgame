@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows.Forms.VisualStyles;
 using Edytejshyn.GUI;
 using Edytejshyn.Logic;
 using Edytejshyn.Model.Commands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
+using PBLgame.Engine;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Scenes;
 
 namespace Edytejshyn.Model
 {
@@ -71,6 +74,12 @@ namespace Edytejshyn.Model
         // ----- NON-BROWSEABLE ----- //
 
         /// <summary>
+        /// Simply parent. Null if I am a root.
+        /// </summary>
+        [Browsable(false)]
+        public GameObjectWrapper Parent { get; private set; }
+
+        /// <summary>
         /// Inside nut in wrapper (wrapped original GameObject)
         /// </summary>
         [Browsable(false)]
@@ -104,20 +113,50 @@ namespace Edytejshyn.Model
             }
         }
 
+
+        [Browsable(false)]
+        public List<GameObjectWrapper> Children
+        {
+            get { return _children; }
+        }
+
         #endregion
 
         #region Methods
-        public GameObjectWrapper(GameObject gameObject)
+        public GameObjectWrapper(GameObject gameObject, GameObjectWrapper parent)
         {
             _gameObject = gameObject;
-            if (_gameObject.transform != null) _transform = new TransformWrapper(this, _gameObject.transform);
-            if (_gameObject.renderer  != null) _renderer  = new RendererWrapper(this, _gameObject.renderer);
+            Parent = parent;
+            CreateWrappers();
 
             foreach (GameObject child in _gameObject.GetChildren())
             {
-                _children.Add(GameObjectWrappingFactory.Wrap(child));
+                _children.Add(GameObjectWrappingFactory.Wrap(child, this));
             }
 
+        }
+
+        public GameObjectWrapper(GameObjectWrapper source, GameObjectWrapper parent)
+        {
+            _gameObject = source._gameObject.Copy((parent == null) ? null : parent.Nut);
+            Parent = parent;
+            CreateWrappers();
+            TreeViewNode = null;
+            AttachSetterHandler(source.SetterEvent); // events are immutable, so that is safe
+
+            // children are copied by GameObject copy constructor
+            // so wrap them up only
+            foreach (GameObject child in _gameObject.GetChildren())
+            {
+                GameObjectWrapper wrappedChild = GameObjectWrappingFactory.Wrap(child, this);
+                _children.Add(wrappedChild);
+            }
+        }
+
+        private void CreateWrappers()
+        {
+            if (_gameObject.transform != null) _transform = new TransformWrapper(this, _gameObject.transform);
+            if (_gameObject.renderer  != null) _renderer  = new RendererWrapper (this, _gameObject.renderer );
         }
 
         public void FireSetter<T>(Action<T> setValue, T oldValue, T newValue, [CallerMemberName] string property = null)
@@ -170,8 +209,6 @@ namespace Edytejshyn.Model
             FireSetter(x => Renderer = x, _renderer, null, "Renderer");   
         }
 
-
-
         public void Draw(IDrawerStrategy strategy, GameTime gameTime)
         {
             if (_renderer != null) _renderer.Draw(strategy, gameTime);
@@ -187,6 +224,33 @@ namespace Edytejshyn.Model
         }
         #endregion
 
+        protected StringBuilder GetPathHelper(StringBuilder sb)
+        {
+            if (Parent == null) return sb.Append(Name);
+            return Parent.GetPathHelper(sb).Append(" -> ").Append(Name);
+        }
+
+        public void Reparent(GameObjectWrapper newParentWrapper, int index)
+        {
+            GameObject newParentObject = (newParentWrapper == null) ? null : newParentWrapper.Nut;
+            _gameObject.Reparent(newParentObject, index);
+            if (Parent != null)
+            {
+                Parent._children.Remove(this);
+            }
+            if (newParentObject != null)
+            {
+                newParentWrapper._children.AddInsert(index, this);
+            }
+            Parent = newParentWrapper;
+        }
+
+        public static string GetFullPathString(GameObjectWrapper wrapper)
+        {
+            if (wrapper == null) return "[root]";
+            StringBuilder sb = new StringBuilder();
+            return wrapper.GetPathHelper(sb).ToString();
+        }
     }
 
 
@@ -200,7 +264,9 @@ namespace Edytejshyn.Model
             set { FireSetter(x => ((Light)_gameObject).Color = x, ((Light)_gameObject).Color, value); }
         }
 
-        protected LightWrapper(Light light) : base(light) { }
+        protected LightWrapper(Light light, GameObjectWrapper parent) : base(light, parent) { }
+
+        protected LightWrapper(LightWrapper source, GameObjectWrapper parent) : base(source, parent) { }
     }
 
     public class PointLightWrapper : LightWrapper
@@ -223,7 +289,9 @@ namespace Edytejshyn.Model
         }
         #endregion 
 
-        public PointLightWrapper(PointLight light) : base(light) { }
+        public PointLightWrapper(PointLight light, GameObjectWrapper parent) : base(light, parent) { }
+
+        public PointLightWrapper(PointLightWrapper source, GameObjectWrapper parent) : base(source, parent) { }
     }
 
     public class DirectionalLightWrapper : LightWrapper
@@ -239,7 +307,9 @@ namespace Edytejshyn.Model
         }
         #endregion
 
-        public DirectionalLightWrapper(MyDirectionalLight light) : base(light) { }
+        public DirectionalLightWrapper(MyDirectionalLight light, GameObjectWrapper parent) : base(light, parent) { }
+
+        public DirectionalLightWrapper(DirectionalLightWrapper source, GameObjectWrapper parent) : base(source, parent) { }
     }
 
     /// <summary>
@@ -247,15 +317,26 @@ namespace Edytejshyn.Model
     /// </summary>
     public static class GameObjectWrappingFactory
     {
-        public static GameObjectWrapper Wrap(GameObject obj)
+        public static GameObjectWrapper Wrap(GameObject obj, GameObjectWrapper parent)
         {
             GameObjectWrapper wrapper;
 
-            if (obj is PointLight) wrapper = new PointLightWrapper((PointLight)obj);
-            else if (obj is MyDirectionalLight) wrapper = new DirectionalLightWrapper((MyDirectionalLight)obj);
-            else wrapper = new GameObjectWrapper(obj);
+            if (obj is PointLight) wrapper = new PointLightWrapper((PointLight)obj, parent);
+            else if (obj is MyDirectionalLight) wrapper = new DirectionalLightWrapper((MyDirectionalLight)obj, parent);
+            else wrapper = new GameObjectWrapper(obj, parent);
 
             return wrapper;
+        }
+
+        public static GameObjectWrapper Copy(GameObjectWrapper src, GameObjectWrapper parent, Scene scene)
+        {
+            GameObjectWrapper copy;
+
+            if (src is PointLightWrapper) copy = new PointLightWrapper((PointLightWrapper) src, parent);
+            else if (src is DirectionalLightWrapper) copy = new DirectionalLightWrapper((DirectionalLightWrapper) src, parent);
+            else copy = new GameObjectWrapper(src, parent);
+
+            return copy;
         }
     }
 
@@ -300,6 +381,34 @@ namespace Edytejshyn.Model
         {
             return "";
         }
+
+        public Memento CreateMemento()
+        {
+            return new Memento(_transform);
+        }
+
+        public void ApplyMemento(Memento memento)
+        {
+            _transform.Position = memento.GetState().Position;
+            _transform.Rotation = memento.GetState().Rotation;
+            _transform.Scale    = memento.GetState().Scale;
+        }
+
+        public class Memento
+        {
+            private readonly Transform _transform;
+
+            public Memento(Transform transform)
+            {
+                _transform = new Transform(transform);
+            }
+
+            public Transform GetState()
+            {
+                return _transform;
+            }
+        }
+
         #endregion
     }
 

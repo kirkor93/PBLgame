@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -60,7 +61,7 @@ namespace PBLgame.Engine.Scenes
             _gameObjects = new List<GameObject>();
             _sceneLights = new List<Light>();
             _serializer = new XmlSerializer(typeof(Scene));
-            _takenIdNumbers = new List<int> {0};
+            _takenIdNumbers = new List<int> { 0 };
         }
 
         public void Draw(GameTime gameTime)
@@ -78,20 +79,70 @@ namespace PBLgame.Engine.Scenes
                 gameObject.Update(gameTime);
             }
         }
-        
+
         public void AddGameObject(GameObject obj)
         {
             while (_takenIdNumbers.Exists(item => item == obj.ID))
             {
                 obj.ID += 1;
             }
-            GameObjects.Add(obj);
+            _takenIdNumbers.Add(obj.ID);
+
+            if (obj is Light) _sceneLights.Add((Light)obj);
+            else _gameObjects.Add(obj);
+        }
+
+        public void AddGameObjectWithDescendants(GameObject obj)
+        {
+            AddGameObject(obj);
+            foreach (GameObject child in obj.GetChildren())
+            {
+                AddGameObjectWithDescendants(child);
+            }
+        }
+
+        public void AddGameObjectAfter(GameObject obj, GameObject predecessor)
+        {
+            if (obj is Light && predecessor != null && !(predecessor is Light)) return;
+
+            while (_takenIdNumbers.Exists(item => item == obj.ID))
+            {
+                obj.ID += 1;
+            }
+            _takenIdNumbers.Add(obj.ID);
+
+            int index = 0;
+            if (predecessor != null)
+            {
+                if (predecessor is Light)
+                {
+                    index = _sceneLights.IndexOf((Light) predecessor);
+                }
+                else
+                {
+                    index = _gameObjects.IndexOf(predecessor);
+                }
+            }
+
+            if (obj is Light) _sceneLights.AddInsert(index, (Light)obj);
+            else _gameObjects.AddInsert(index, obj);
         }
 
         public void RemoveGameObject(GameObject obj)
         {
             _takenIdNumbers.Remove(obj.ID);
-            GameObjects.Remove(obj);
+
+            if (obj is Light) _sceneLights.Remove((Light)obj);
+            else _gameObjects.Remove(obj);
+        }
+
+        public void RemoveGameObjectWithDescendants(GameObject obj)
+        {
+            RemoveGameObject(obj);
+            foreach (GameObject child in obj.GetChildren())
+            {
+                RemoveGameObjectWithDescendants(child);
+            }
         }
 
         public void RemoveGameObject(string name)
@@ -100,7 +151,7 @@ namespace PBLgame.Engine.Scenes
             foreach (GameObject gameObject in gameObjects)
             {
                 _takenIdNumbers.Remove(gameObject.ID);
-                GameObjects.Remove(gameObject);
+                _gameObjects.Remove(gameObject);
             }
         }
 
@@ -120,6 +171,26 @@ namespace PBLgame.Engine.Scenes
             GameObjects.RemoveAll(item => item.ID == id);
         }
 
+        /// <summary>
+        /// Gets previous GameObject (or Light) on its scene list.
+        /// </summary>
+        /// <returns>previous object on scene lists</returns>
+        public GameObject GetPreceding(GameObject obj)
+        {
+            if (obj is Light)
+            {
+                int index = _sceneLights.IndexOf((Light) obj);
+                if (index == 0) return null;
+                return _sceneLights[index - 1];
+            }
+            else
+            {
+                int index = _gameObjects.IndexOf(obj);
+                if (index == 0) return null;
+                return _gameObjects[index - 1];
+            }
+        }
+
         public void Save(string path)
         {
             using (FileStream writer = new FileStream(path, FileMode.Create))
@@ -132,7 +203,7 @@ namespace PBLgame.Engine.Scenes
         {
             using (FileStream file = new FileStream(path, FileMode.Open))
             {
-                Scene scene = (Scene) _serializer.Deserialize(new SceneXmlReader(file, this));
+                Scene scene = (Scene)_serializer.Deserialize(new SceneXmlReader(file, this));
                 GameObjects = scene._gameObjects;
                 SceneLights = scene._sceneLights;
             }

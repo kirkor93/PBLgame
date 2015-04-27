@@ -10,7 +10,8 @@ namespace Edytejshyn
 {
     static class Program
     {
-        public static EditorLogic UglyStaticLogic;
+        public static EditorLogic UglyStaticLogic { get; private set; }
+        public static MainForm    UglyStaticMain  { get; private set; }
 
         /// <summary>
         /// The main entry point for the application.
@@ -57,7 +58,8 @@ namespace Edytejshyn
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             UglyStaticLogic = new EditorLogic();
-            Application.Run(new MainForm(UglyStaticLogic, contentFile, sceneFile, basicRender));
+            UglyStaticMain = new MainForm(UglyStaticLogic, contentFile, sceneFile, basicRender);
+            Application.Run(UglyStaticMain);
         }
 
         private static string GetOptionArgument(string[] args, ref int i, string name)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -71,6 +72,7 @@ namespace Edytejshyn
             viewportControl.AfterInitializeEvent += () =>
             {
                 SelectionManager = new SelectionManager(Logic, sceneTreeView, viewportControl);
+                Logic.SelectionManager = SelectionManager;
                 BasicDrawerStrategy = new BasicDrawerStrategy(viewportControl.GraphicsDevice);
                 RealisticDrawerStrategy = new RealisticDrawerStrategy();
                 CurrentDrawerStrategy = basicRender ? BasicDrawerStrategy : RealisticDrawerStrategy;
@@ -234,7 +236,7 @@ namespace Edytejshyn
 
         #region Scene loaders
 
-        private void OpenScene(string path = null)
+        private void OpenScene(string path = null, bool reset = true)
         {
             if (!IsSafeToUnload()) return;
             if (path == null)
@@ -246,27 +248,15 @@ namespace Edytejshyn
             try
             {
                 this.Logic.LoadScene(path);
+                Logic.WrappedScene.TreeView = sceneTreeView;
                 SetEditingControlsEnabled(true);
-                viewportControl.Reset();
+                if(reset) viewportControl.Reset();
 
                 sceneTreeView.ReloadTree();
-
             }
             catch (Exception ex)
             {
                 ExceptionHandler.HandleException(ex);
-            }
-        }
-
-        private void RecursiveFillChildren(GameObject obj, EditorTreeNode parentNode)
-        {
-            GameObject[] children = obj.GetChildren();
-            if (children.Length == 0) return;
-            foreach (GameObject child in children)
-            {
-                EditorTreeNode node = new EditorTreeNode(child.Name, child);
-                parentNode.Nodes.Add(node);
-                RecursiveFillChildren(child, node);
             }
         }
 
@@ -355,6 +345,7 @@ namespace Edytejshyn
             saveMenuItem        .Enabled = mode;
             saveAsMenuItem      .Enabled = mode;
             saveToolStripButton .Enabled = mode;
+            reloadMenuItem      .Enabled = mode;
         }
 
         public void ShowLogMessage(LoggerLevel level, string message)
@@ -557,37 +548,67 @@ namespace Edytejshyn
                 SceneTreeView_AfterSelect(sender, new TreeViewEventArgs(e.Node, TreeViewAction.ByMouse));
         }
 
+        private void SceneTreeView_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            sceneTreeView.MovedNode = (SceneTreeNode) e.Item;
+            DoDragDrop(e.Item, DragDropEffects.Move);
+        }
+
+        private void SceneTreeView_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = (sceneTreeView.MovedNode != null) ? DragDropEffects.Move : DragDropEffects.None;
+        }
+
+        private void SceneTreeView_DragDrop(object sender, DragEventArgs e)
+        {
+            GameObjectWrapper newParent;
+            SceneTreeNode movedNode = sceneTreeView.MovedNode;
+            sceneTreeView.MovedNode = null;
+            if (sceneTreeView.DestinationNode == null)
+            {
+                if (movedNode.Parent == null) return;
+                newParent = null;
+            }
+            else
+            {
+                sceneTreeView.DestinationNode.BackColor = sceneTreeView.BackColor;
+                newParent = sceneTreeView.DestinationNode.WrappedGameObject;
+                if (newParent is LightWrapper)
+                {
+                    MessageBox.Show("Lights are impotents, so cannot be parents (even adopted). Because fuck you, that's why (kirek hasn't implemented that)", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (sceneTreeView.DestinationNode == movedNode 
+                    || newParent == movedNode.WrappedGameObject.Parent) return;
+            }
+
+            Logic.WrappedScene.ReparentNode(movedNode.WrappedGameObject, newParent);
+            
+        }
+
+        private void SceneTreeView_DragLeave(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void SceneTreeView_DragOver(object sender, DragEventArgs e)
+        {
+            SceneTreeNode oldNode = sceneTreeView.DestinationNode;
+            sceneTreeView.DestinationNode = (SceneTreeNode) sceneTreeView.GetNodeAt(sceneTreeView.PointToClient(new Point(e.X, e.Y)));
+            if (oldNode == sceneTreeView.DestinationNode) return;
+            
+            if (oldNode != null) 
+                oldNode.BackColor = sceneTreeView.BackColor;
+            if (sceneTreeView.DestinationNode != null) 
+                sceneTreeView.DestinationNode.BackColor = Color.LawnGreen;
+        }
+
         private void RenderingModeMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             foreach (DrawerStrategyMenuItem dsmi in renderingModeMenuItem.DropDownItems)
             {
                 dsmi.Checked = (dsmi.Strategy == CurrentDrawerStrategy);
             }
-        }
-        #endregion
-
-
-        #endregion
-
-        public class DrawerStrategyMenuItem : ToolStripMenuItem
-        {
-            public IDrawerStrategy Strategy { get; private set; }
-
-            public DrawerStrategyMenuItem(string text, IDrawerStrategy strategy) : base(text)
-            {
-                Strategy = strategy;
-            }
-        }
-
-
-        public void SelectGameObject(GameObjectWrapper collider)
-        {
-            sceneTreeView.SelectedNode = collider.TreeViewNode;
-        }
-
-        public void RefreshPropertyGrid()
-        {
-            propertyGrid.Refresh();
         }
 
         private void gridSnappingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -612,5 +633,47 @@ namespace Edytejshyn
         {
             viewportControl.Gizmo.ToggleActiveSpace();
         }
+
+        private void duplicateMenuItem_Click(object sender, EventArgs e)
+        {
+            if (SelectionManager.Empty) return;
+            Logic.WrappedScene.Duplicate(SelectionManager.CurrentSelection[0]);
+        }
+
+
+        private void reloadMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenScene(Logic.SceneFile, false);
+            Invalidate();
+        }
+
+        #endregion
+
+
+
+        public class DrawerStrategyMenuItem : ToolStripMenuItem
+        {
+            public IDrawerStrategy Strategy { get; private set; }
+
+            public DrawerStrategyMenuItem(string text, IDrawerStrategy strategy) : base(text)
+            {
+                Strategy = strategy;
+            }
+        }
+
+
+        public void SelectGameObject(GameObjectWrapper collider)
+        {
+            sceneTreeView.SelectedNode = collider.TreeViewNode;
+        }
+
+        public void RefreshPropertyGrid()
+        {
+            propertyGrid.Refresh();
+        }
+
+
+
+        #endregion
     }
 }

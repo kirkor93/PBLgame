@@ -31,7 +31,6 @@ namespace Edytejshyn.GUI
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            // TODO save changes
             try
             {
                 _parent.ViewportControl.Grid.GridSpacing = float.Parse(gridStepTextBox.Text);

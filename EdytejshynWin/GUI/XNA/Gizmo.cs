@@ -543,7 +543,6 @@ namespace Edytejshyn.GUI.XNA
                 case GizmoMode.Rotate:
                     if (float.IsNaN(_firstMousePosition))
                     {
-                        //_oldSelectedRotation = selected.Nut.transform.Rotation;
                         _firstMousePosition = currentMouse.Vector.X;
                     }
                     float rotDelta = currentMouse.Vector.X - _firstMousePosition;
@@ -584,7 +583,6 @@ namespace Edytejshyn.GUI.XNA
             gizmoMatrix.Up      = Vector3.Normalize(_gizmoWorld.Up);
             gizmoMatrix.Right   = Vector3.Normalize(_gizmoWorld.Right);
 
-            //Matrix unrotation = Matrix.Invert(rotationMatrix);
             Matrix unrotation = Matrix.Invert(gizmoMatrix);
 
             ray.Position  = Vector3.Transform      (ray.Position,  unrotation);
@@ -621,7 +619,6 @@ namespace Edytejshyn.GUI.XNA
                 _intersectPosition = (ray.Position + (ray.Direction * distance.Value));
                 if (_firstIntersectionPosition == Vector3.Zero)
                 {
-                    //_oldSelectedPosition = selected.Nut.transform.Position;
                     _firstIntersectionPosition = _intersectPosition;
                 }
 
@@ -669,8 +666,8 @@ namespace Edytejshyn.GUI.XNA
             else
             {
                 invertingMatrix.Forward = Vector3.Normalize(selected.Nut.transform.WorldRotation.Forward);
-                invertingMatrix.Up = Vector3.Normalize(selected.Nut.transform.WorldRotation.Up);
-                invertingMatrix.Right = Vector3.Normalize(selected.Nut.transform.WorldRotation.Right);
+                invertingMatrix.Up      = Vector3.Normalize(selected.Nut.transform.WorldRotation.Up);
+                invertingMatrix.Right   = Vector3.Normalize(selected.Nut.transform.WorldRotation.Right);
             }
 
             // allow normal transformation when scaled

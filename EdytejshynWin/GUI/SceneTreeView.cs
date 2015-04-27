@@ -12,6 +12,12 @@ namespace Edytejshyn.GUI
         {
         }
 
+        /// <summary>
+        /// Used when dragging / moving nodes.
+        /// </summary>
+        public SceneTreeNode MovedNode { get; set; }
+        public SceneTreeNode DestinationNode { get; set; }
+
         public void ReloadTree()
         {
             Nodes.Clear();
