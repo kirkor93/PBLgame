@@ -13,6 +13,7 @@ using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
 using PBLgame.Engine.Singleton;
+using PBLgame.Engine.Physics;
 using PBLgame.GamePlay;
 
 namespace PBLgame
@@ -94,6 +95,17 @@ namespace PBLgame
             player = _scene.GameObjects.First();
             player.audioSource.Set3D(mainCamera.audioListener);
             player.audioSource.Play();
+            player.collision = new Collision(player);
+            player.collision.MainCollider = new SphereCollider(player.collision,3.0f,false);
+            
+            foreach(GameObject go in _scene.GameObjects)
+            {
+                if(go.collision == null)
+                {
+                    go.collision = new Collision(go);
+                    go.collision.MainCollider = new SphereCollider(go.collision,3.0f,false);
+                }
+            }
         }
 
         /// <summary>

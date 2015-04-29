@@ -9,7 +9,7 @@ namespace PBLgame.Engine.Singleton
     public delegate void StickHandler(Object sender, MoveArgs e);
     public delegate void ButtonHandler(Object sender, ButtonArgs e);
 
-        public class MoveArgs : EventArgs
+    public class MoveArgs : EventArgs
     {
             public Vector2 AxisValue
             {

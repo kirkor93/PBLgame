@@ -13,8 +13,6 @@ namespace PBLgame.Engine.Physics
         private Vector3 _position;
         private BoundingBox _box = new BoundingBox();
         private float _size;
-
-        private VertexPositionColor[] _verts;
         #endregion
 
         #region Properties
@@ -54,15 +52,6 @@ namespace PBLgame.Engine.Physics
         #endregion
 
         #region Methods
-        public void InitializeSphere(Vector3 pos)
-        {
-
-        }
-
-        public void RealPosition(Vector3 pos)
-        {
-            _box.
-        }
 
         public void Update()
         {

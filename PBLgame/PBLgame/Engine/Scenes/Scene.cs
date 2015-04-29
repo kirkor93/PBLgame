@@ -8,6 +8,7 @@ using PBLgame.Engine.GameObjects;
 using Microsoft.Xna.Framework;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.Singleton;
+using PBLgame.Engine.Physics;
 
 namespace PBLgame.Engine.Scenes
 {
@@ -20,6 +21,9 @@ namespace PBLgame.Engine.Scenes
         private List<int> _takenIdNumbers;
         private List<Light> _sceneLights;
         private Camera _mainCamera;
+
+        //!!!! NEW STUFF 
+        private PhysicsSystem _physicsSystem;
 
         private readonly XmlSerializer _serializer;
 
@@ -62,6 +66,7 @@ namespace PBLgame.Engine.Scenes
             _sceneLights = new List<Light>();
             _serializer = new XmlSerializer(typeof(Scene));
             _takenIdNumbers = new List<int> { 0 };
+            _physicsSystem = new PhysicsSystem();
         }
 
         public void Draw(GameTime gameTime)
@@ -78,6 +83,7 @@ namespace PBLgame.Engine.Scenes
             {
                 gameObject.Update(gameTime);
             }
+            _physicsSystem.Update(GetAllObjectsWithCollider());
         }
 
         public void AddGameObject(GameObject obj)
@@ -153,6 +159,16 @@ namespace PBLgame.Engine.Scenes
                 _takenIdNumbers.Remove(gameObject.ID);
                 _gameObjects.Remove(gameObject);
             }
+        }
+
+        public List<GameObject> GetAllObjectsWithCollider()
+        {
+            List<GameObject> tmp = new List<GameObject>();
+            foreach(GameObject go in _gameObjects)
+            {
+                if (go.collision != null) tmp.Add(go);
+            }
+            return tmp;
         }
 
         public void AddLight(Light obj)
