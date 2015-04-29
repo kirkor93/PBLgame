@@ -35,6 +35,7 @@
             this.saveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.reloadMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editMenuBar = new System.Windows.Forms.ToolStripMenuItem();
             this.undoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,7 +73,8 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.gizmoToolStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.gizmoSpaceToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.reloadMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateMaterialsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerVert)).BeginInit();
             this.splitContainerVert.Panel1.SuspendLayout();
@@ -96,6 +98,7 @@
             this.sceneMenuBar,
             this.editMenuBar,
             this.viewMenuBar,
+            this.contentToolStripMenuItem,
             this.helpMenuBar});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -151,6 +154,14 @@
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            // 
+            // reloadMenuItem
+            // 
+            this.reloadMenuItem.Enabled = false;
+            this.reloadMenuItem.Name = "reloadMenuItem";
+            this.reloadMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.reloadMenuItem.Text = "&Reload";
+            this.reloadMenuItem.Click += new System.EventHandler(this.reloadMenuItem_Click);
             // 
             // exitMenuItem
             // 
@@ -526,13 +537,20 @@
             this.gizmoSpaceToolStripButton.ToolTipText = "Gizmo space";
             this.gizmoSpaceToolStripButton.Click += new System.EventHandler(this.gizmoSpaceToolStripButton_Click);
             // 
-            // reloadMenuItem
+            // contentToolStripMenuItem
             // 
-            this.reloadMenuItem.Enabled = false;
-            this.reloadMenuItem.Name = "reloadMenuItem";
-            this.reloadMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.reloadMenuItem.Text = "&Reload";
-            this.reloadMenuItem.Click += new System.EventHandler(this.reloadMenuItem_Click);
+            this.contentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generateMaterialsMenuItem});
+            this.contentToolStripMenuItem.Name = "contentToolStripMenuItem";
+            this.contentToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
+            this.contentToolStripMenuItem.Text = "Content";
+            // 
+            // generateMaterialsMenuItem
+            // 
+            this.generateMaterialsMenuItem.Name = "generateMaterialsMenuItem";
+            this.generateMaterialsMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.generateMaterialsMenuItem.Text = "Generate materials";
+            this.generateMaterialsMenuItem.Click += new System.EventHandler(this.generateMaterialsMenuItem_Click);
             // 
             // MainForm
             // 
@@ -620,6 +638,8 @@
         private System.Windows.Forms.ToolStripMenuItem gridSnappingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem snapToGridToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem contentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generateMaterialsMenuItem;
     }
 }
 

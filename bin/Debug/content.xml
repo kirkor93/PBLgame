@@ -12,7 +12,7 @@
       <Texture Path="Textures\Helmet_d" />
       <Texture Path="Textures\Helmet_s" />
       <Texture Path="Textures\Helmet_n" />
-      <Texture Path="Textures\fire"/>
+      <Texture Path="Textures\fire" />
       <Texture Path="Textures\Enemies\Crossbow_d" />
       <Texture Path="Textures\Enemies\Crossbow_n" />
       <Texture Path="Textures\Enemies\Crossbow_s" />
@@ -89,7 +89,33 @@
     </Textures>
     <Materials>
       <Material Id="1" Name="Helmet" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
-      <Material Id="2" Name="Particle" Diffuse="Textures\fire" ShaderPath="Effects\ParticleShader"/>
+      <Material Id="2" Name="Particle" Diffuse="Textures\fire" ShaderPath="Effects\ParticleShader" />
+      <Material Id="2" Name="Enemies\Crossbow" Diffuse="Textures\Enemies\Crossbow_d" Normal="Textures\Enemies\Crossbow_n" Specular="Textures\Enemies\Crossbow_s" Emissive="Textures\Enemies\Crossbow_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="3" Name="Enemies\Cute_Bomber" Diffuse="Textures\Enemies\Cute_Bomber_d" Normal="Textures\Enemies\Cute_Bomber_n" Specular="Textures\Enemies\Cute_Bomber_s" Emissive="Textures\Enemies\Cute_Bomber_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="4" Name="Enemies\Katana" Diffuse="Textures\Enemies\Katana_d" Normal="Textures\Enemies\Katana_n" Specular="Textures\Enemies\Katana_s" Emissive="Textures\Enemies\Katana_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="5" Name="Enemies\Mecha_ranger" Diffuse="Textures\Enemies\Mecha_ranger_d" Normal="Textures\Enemies\Mecha_ranger_n" Specular="Textures\Enemies\Mecha_ranger_s" Emissive="Textures\Enemies\Mecha_ranger_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="6" Name="Enemies\Smart_Droid" Diffuse="Textures\Enemies\Smart_Droid_d" Normal="Textures\Enemies\Smart_Droid_n" Specular="Textures\Enemies\Smart_Droid_s" Emissive="Textures\Enemies\Smart_Droid_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="7" Name="Terrain\Start_base\Barrel_green" Diffuse="Textures\Terrain\Start_base\Barrel_green_d" Normal="Textures\Terrain\Start_base\Barrel_red_n" Specular="Textures\Terrain\Start_base\Barrel_red_s" Emissive="Textures\Terrain\Start_base\Barrel_red_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="8" Name="Terrain\Start_base\Barrel_red" Diffuse="Textures\Terrain\Start_base\Barrel_red_d" Normal="Textures\Terrain\Start_base\Barrel_red_n" Specular="Textures\Terrain\Start_base\Barrel_red_s" Emissive="Textures\Terrain\Start_base\Barrel_red_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="9" Name="Terrain\Start_base\Barrier" Diffuse="Textures\Terrain\Start_base\Barrier_d" Normal="Textures\Terrain\Start_base\Barrier_n" Specular="Textures\Terrain\Start_base\Barrier_s" Emissive="Textures\Terrain\Start_base\Barrier_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="10" Name="Terrain\Start_base\Bollard" Diffuse="Textures\Terrain\Start_base\Bollard_d" Normal="Textures\Terrain\Start_base\Bollard_n" Specular="Textures\Terrain\Start_base\Bollard_s" Emissive="Textures\Terrain\Start_base\Bollard_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="11" Name="Terrain\Start_base\Building_1" Diffuse="Textures\Terrain\Start_base\Building_1_d" Normal="Textures\Terrain\Start_base\Building_1_n" Specular="Textures\Terrain\Start_base\Building_1_s" Emissive="Textures\Terrain\Start_base\Building_1_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="12" Name="Terrain\Start_base\Building_2" Diffuse="Textures\Terrain\Start_base\Building_2_d" Normal="Textures\Terrain\Start_base\Building_2_n" Specular="Textures\Terrain\Start_base\Building_2_s" Emissive="Textures\Terrain\Start_base\Building_2_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="13" Name="Terrain\Start_base\Building_3_v1" Diffuse="Textures\Terrain\Start_base\Building_3_d_v1" Normal="Textures\Terrain\Start_base\Building_3_n" Specular="Textures\Terrain\Start_base\Building_3_s" ShaderPath="Effects\BasicShader" />
+      <Material Id="14" Name="Terrain\Start_base\Building_3_v2" Diffuse="Textures\Terrain\Start_base\Building_3_d_v2" Normal="Textures\Terrain\Start_base\Building_3_n" Specular="Textures\Terrain\Start_base\Building_3_s" ShaderPath="Effects\BasicShader" />
+      <Material Id="15" Name="Terrain\Start_base\Building_4" Diffuse="Textures\Terrain\Start_base\Building_4_d" Normal="Textures\Terrain\Start_base\Building_4_n" Specular="Textures\Terrain\Start_base\Building_4_s" Emissive="Textures\Terrain\Start_base\Building_4_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="16" Name="Terrain\Start_base\Cans" Diffuse="Textures\Terrain\Start_base\Cans_d" Normal="Textures\Default_n" Specular="Textures\Default_s" Emissive="Textures\Terrain\Start_base\Cans_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="17" Name="Terrain\Start_base\Column" Diffuse="Textures\Terrain\Start_base\Column_d" Normal="Textures\Terrain\Start_base\Column_n" Specular="Textures\Terrain\Start_base\Column_s" Emissive="Textures\Terrain\Start_base\Column_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="18" Name="Terrain\Start_base\Floor_1" Diffuse="Textures\Terrain\Start_base\Floor_1_d" Normal="Textures\Terrain\Start_base\Floor_1_n" Specular="Textures\Terrain\Start_base\Floor_1_s" Emissive="Textures\Terrain\Start_base\Floor_1_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="19" Name="Terrain\Start_base\Gate_1" Diffuse="Textures\Terrain\Start_base\Gate_1_d" Normal="Textures\Terrain\Start_base\Gate_1_n" Specular="Textures\Terrain\Start_base\Gate_1_s" Emissive="Textures\Terrain\Start_base\Gate_1_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="20" Name="Terrain\Start_base\Gate_2" Diffuse="Textures\Terrain\Start_base\Gate_2_d" Normal="Textures\Terrain\Start_base\Gate_2_n" Specular="Textures\Terrain\Start_base\Gate_2_s" Emissive="Textures\Terrain\Start_base\Gate_2_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="21" Name="Terrain\Start_base\Gate_archway" Diffuse="Textures\Terrain\Start_base\Gate_archway_d" Normal="Textures\Terrain\Start_base\Gate_archway_n" Specular="Textures\Terrain\Start_base\Gate_archway_s" Emissive="Textures\Terrain\Start_base\Gate_archway_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="22" Name="Terrain\Start_base\Lantern" Diffuse="Textures\Terrain\Start_base\Lantern_d" Normal="Textures\Terrain\Start_base\Lantern_n" Specular="Textures\Terrain\Start_base\Lantern_s" Emissive="Textures\Terrain\Start_base\Lantern_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="23" Name="Terrain\Start_base\Locker" Diffuse="Textures\Terrain\Start_base\Locker_d" Normal="Textures\Terrain\Start_base\Locker_n" Specular="Textures\Terrain\Start_base\Locker_s" Emissive="Textures\Terrain\Start_base\Locker_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="24" Name="Terrain\Start_base\Trash_can" Diffuse="Textures\Terrain\Start_base\Trash_can_d" Normal="Textures\Terrain\Start_base\Trash_can_n" Specular="Textures\Terrain\Start_base\Trash_can_s" Emissive="Textures\Terrain\Start_base\Trash_can_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="25" Name="Terrain\Start_base\Wall_1" Diffuse="Textures\Terrain\Start_base\Wall_1_d" Normal="Textures\Terrain\Start_base\Wall_1_n" Specular="Textures\Terrain\Start_base\Wall_1_s" Emissive="Textures\Terrain\Start_base\Wall_1_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="26" Name="Terrain\Start_base\Wall_1_v2" Diffuse="Textures\Terrain\Start_base\Wall_1_v2_d" Normal="Textures\Terrain\Start_base\Wall_1_v2_n" Specular="Textures\Terrain\Start_base\Wall_1_v2_s" Emissive="Textures\Terrain\Start_base\Wall_1_v2_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="27" Name="Terrain\Start_base\Wall_2" Diffuse="Textures\Terrain\Start_base\Wall_2_d" Normal="Textures\Terrain\Start_base\Wall_2_n" Specular="Textures\Terrain\Start_base\Wall_2_s" Emissive="Textures\Terrain\Start_base\Wall_2_d" ShaderPath="Effects\BasicShader" />
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />

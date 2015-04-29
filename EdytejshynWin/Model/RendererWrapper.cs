@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
@@ -31,10 +32,8 @@ namespace Edytejshyn.Model
                 string name = value as string;
                 if (name != null)
                 {
-                    foreach (Effect effect in Program.UglyStaticLogic.ResourceManager.ShaderEffects)
-                    {
-                        if (name == effect.ToString()) return effect;
-                    }
+                    foreach (Effect effect in Program.UglyStaticLogic.ResourceManager.ShaderEffects.Where(effect => name == effect.ToString()))
+                        return effect;
                 }
                 return base.ConvertFrom(context, culture, value);
             }
@@ -84,8 +83,8 @@ namespace Edytejshyn.Model
                 string name = value as string;
                 if (name != null)
                 {
-                    int id = int.Parse(name.Split(':')[0]);
-                    return Program.UglyStaticLogic.ResourceManager.GetMaterial(id);
+                    foreach (MeshMaterial material in Program.UglyStaticLogic.ResourceManager.Materials.Where(material => name == material.Name))
+                        return material;
                 }
                 return base.ConvertFrom(context, culture, value);
             }
