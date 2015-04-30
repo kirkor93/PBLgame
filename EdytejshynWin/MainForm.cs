@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -157,7 +158,8 @@ namespace Edytejshyn
 
                 TreeNode texturesNode = new TreeNode("Textures");
                 foreach (var tex in this.Logic.ResourceManager.Textures)
-                {
+                {   
+                    // TODO trim Textures\ prefix
                     texturesNode.Nodes.Add(new EditorTreeNode(tex.Name, tex));
                 }
                 contentTreeView.Nodes.Add(texturesNode);
@@ -165,14 +167,14 @@ namespace Edytejshyn
                 TreeNode materialsNode = new TreeNode("Materials");
                 foreach (var mat in this.Logic.ResourceManager.Materials)
                 {
-                    materialsNode.Nodes.Add(new EditorTreeNode(string.Format("ID: {0}", mat.Id), mat));
+                    materialsNode.Nodes.Add(new EditorTreeNode(mat.ToString(), mat));
                 }
                 contentTreeView.Nodes.Add(materialsNode);
 
                 TreeNode meshesNode = new TreeNode("Meshes");
                 foreach (var mesh in this.Logic.ResourceManager.Meshes)
                 {
-                    meshesNode.Nodes.Add(new EditorTreeNode(mesh.Path, mesh));
+                    meshesNode.Nodes.Add(new EditorTreeNode(mesh.ToString(), mesh));
                 }
                 contentTreeView.Nodes.Add(meshesNode);
 
@@ -649,6 +651,102 @@ namespace Edytejshyn
 
         #endregion
 
+
+
+        private void GenerateMaterials()
+        {
+            Effect effect = Logic.ResourceManager.ShaderEffects.First(shaderEffect => shaderEffect.Name == @"Effects\BasicShader");
+            HashSet<string> textures = new HashSet<string>();
+
+            foreach (Texture2D tex in Logic.ResourceManager.Textures)
+            {
+                textures.Add(tex.Name);
+            }
+
+            textures.Remove(@"Textures\Default_n");
+            textures.Remove(@"Textures\Default_s");
+
+            foreach (MeshMaterial mat in Logic.ResourceManager.Materials)
+            {
+                if (mat.Diffuse  != null) textures.Remove(mat.Diffuse.Name);
+                if (mat.Normal   != null) textures.Remove(mat.Normal.Name);
+                if (mat.Specular != null) textures.Remove(mat.Specular.Name);
+                if (mat.Emissive != null) textures.Remove(mat.Emissive.Name);
+            }
+
+            int id = Logic.ResourceManager.Materials.Select(material => material.Id).Max();
+            List<string> rejectedNoDiffuse = new List<string>();
+            List<string> rejectedNoSpecial = new List<string>();
+
+            while (textures.Count != 0)
+            {
+                string candidate = textures.First();
+                string[] splitted = candidate.Split('_');
+                string suffix = splitted.Last();
+                string name = candidate.Substring(0, candidate.Length - suffix.Length - 1);
+
+                Texture2D diffuse  = Logic.ResourceManager.GetTexture(name + "_d");
+                Texture2D normal   = Logic.ResourceManager.GetTexture(name + "_n");
+                Texture2D specular = Logic.ResourceManager.GetTexture(name + "_s");
+                Texture2D emissive = Logic.ResourceManager.GetTexture(name + "_e") ?? diffuse;
+
+                if (diffuse == null)
+                {
+                    rejectedNoDiffuse.Add(candidate);
+                    Logic.Logger.Log(LoggerLevel.Warning, "Not found _d texture for " + name);
+                    textures.Remove(candidate);
+                }
+                else
+                {
+                    if (normal != null && specular != null)
+                    {
+                        const string prefix = @"Textures\";
+                        if (name.StartsWith(prefix)) name = name.Substring(prefix.Length);
+                        MeshMaterial material = new MeshMaterial(id, name, diffuse, normal, specular, emissive, effect);
+                        Logic.ResourceManager.Materials.Add(material);
+                        id++;
+                    }
+                    else
+                    {
+                        rejectedNoSpecial.Add(name);
+                        Logic.Logger.Log(LoggerLevel.Warning, "Not found normal or specular texture for " + name);
+                    }
+                    textures.Remove(diffuse.Name);
+
+                    if (normal   != null) textures.Remove(normal.Name);
+                    if (specular != null) textures.Remove(specular.Name);
+                    if (emissive != null) textures.Remove(emissive.Name);
+                }
+            }
+
+            StringBuilder sb = new StringBuilder();
+            if (rejectedNoDiffuse.Count > 0)
+            {
+                sb.AppendLine("No diffuse found for:");
+                foreach (string tex in rejectedNoDiffuse)
+                {
+                    sb.AppendLine(tex);
+                }
+                sb.AppendLine();
+            }
+
+            if (rejectedNoSpecial.Count > 0) { 
+                sb.AppendLine("No normal/specular found for:");
+                foreach (string tex in rejectedNoSpecial)
+                {
+                    sb.AppendLine(tex);
+                }
+            }
+            if (sb.Length > 0)
+                MessageBox.Show(sb.ToString(), "Not all textures used", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void generateMaterialsMenuItem_Click(object sender, EventArgs e)
+        {
+            GenerateMaterials();
+            SaveContent();
+            OpenContent(Logic.ContentFile); // lame way of reloading content
+        }
 
 
         public class DrawerStrategyMenuItem : ToolStripMenuItem

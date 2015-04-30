@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -34,7 +35,9 @@ namespace Edytejshyn.GUI
         public MainForm MainForm;
         private bool _mouseMoved;
         private IDrawerStrategy _oldDrawerStrategy;
-        private int _counter = 0;
+        private int _counter;
+        Stopwatch _stopWatch;
+        private long _lastElapsed;
 
         #endregion
 
@@ -49,11 +52,6 @@ namespace Edytejshyn.GUI
         #region Methods
         protected override void Initialize()
         {
-            _timer = new Timer();
-            _timer.Interval = 15;
-            _timer.Tick += TimerOnTick;
-            _timer.Start();
-
             this.MouseMove += ViewportControl_MouseMove;
             this.MouseDown += ViewportControl_MouseDown;
             this.MouseUp   += ViewportControl_MouseUp;
@@ -74,7 +72,7 @@ namespace Edytejshyn.GUI
                 _hasFocus = false;
                 Invalidate();
             };
-            
+
             _currentMouse = new EditorMouseState();
             _prevMouse    = new EditorMouseState();
 
@@ -98,6 +96,19 @@ namespace Edytejshyn.GUI
             {
                 Invalidate();
             };
+
+            _stopWatch = new Stopwatch();
+            _stopWatch.Start();
+            _timer = new Timer();
+            _timer.Interval = 15;
+            _timer.Tick += TimerOnTick;
+            _timer.Start();
+            ResetStopwatchDelta();
+        }
+
+        private void ResetStopwatchDelta()
+        {
+            _lastElapsed = _stopWatch.ElapsedMilliseconds;
         }
 
         protected override void Dispose(bool disposing)
@@ -180,6 +191,7 @@ namespace Edytejshyn.GUI
                     Vector2 rot = (_prevMouse.Vector - _currentMouse.Vector) * _rotateSensitivity;
                     Camera.RotateYawPitch(rot.X, rot.Y);
                     Text = string.Format("Lookaround: {0}, {1}", rot.X, rot.Y);
+                    UpdateCameraPosition();
                     Camera.Update();
                     break;
 
@@ -268,24 +280,34 @@ namespace Edytejshyn.GUI
 
         private void TimerOnTick(object sender, EventArgs e)
         {
-            if (!_currentMouse.Right) return;
-            if (_moveX != 0)
-            {
-                Vector3 cameraStrafe = Vector3.Cross(Camera.Direction, Vector3.Up);
-                cameraStrafe.Normalize();
-                Camera.transform.Position += cameraStrafe * _moveX * _moveSensitivity;
-            }
-            
-            if (_moveY != 0)
-            {
-                Camera.transform.Position += Camera.Direction * _moveY * _moveSensitivity;
-            }
+            if (_moveX == 0 && _moveY == 0) return;
+            UpdateCameraPosition();
+            Camera.Update();
+            Invalidate();
+        }
 
-            if (_moveX != 0 || _moveY != 0)
+        private void UpdateCameraPosition()
+        {
+            long elapsed = _stopWatch.ElapsedMilliseconds;
+            if (_currentMouse.OnlyButton == MouseBtn.Right)
             {
-                Camera.Update();
-                Invalidate();
+                long diff = elapsed - _lastElapsed;
+                if (diff > 1000) diff = 1000;
+                float dt = diff / 10.0f;
+
+                if (_moveX != 0)
+                {
+                    Vector3 cameraStrafe = Vector3.Cross(Camera.Direction, Vector3.Up);
+                    cameraStrafe.Normalize();
+                    Camera.transform.Position += cameraStrafe * _moveX * _moveSensitivity * dt;
+                }
+
+                if (_moveY != 0)
+                {
+                    Camera.transform.Position += Camera.Direction * _moveY * _moveSensitivity * dt;
+                }
             }
+            _lastElapsed = elapsed;
         }
 
         private void ViewportControl_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -361,21 +383,25 @@ namespace Edytejshyn.GUI
                         case Keys.Up:
                         case Keys.W:
                             _moveY = 1;
+                            ResetStopwatchDelta();
                             break;
 
                         case Keys.Down:
                         case Keys.S:
                             _moveY = -1;
+                            ResetStopwatchDelta();
                             break;
 
                         case Keys.Left:
                         case Keys.A:
                             _moveX = -1;
+                            ResetStopwatchDelta();
                             break;
 
                         case Keys.Right:
                         case Keys.D:
                             _moveX = 1;
+                            ResetStopwatchDelta();
                             break;
 
                         case Keys.ShiftKey:

@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using Edytejshyn.GUI;
 using Edytejshyn.Logic;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using PBLgame.Engine.Components;
 
 namespace Edytejshyn
 {
@@ -49,6 +54,7 @@ namespace Edytejshyn
                     case "--basic":
                         basicRender = true;
                         break;
+
                     default:
                         ShowError(string.Format("Unknown option: {0}", args[i]));
                         return;
@@ -84,7 +90,7 @@ namespace Edytejshyn
                             "  -h, --help           show this help\n" +
                             "  -c, --content FILE \topen content from given FILE\n" +
                             "  -s, --scene   FILE \topen scene from given FILE\n" +
-                            "  -b, --basic   set render mode to basic", "Edytejszyn usage", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            "  -b, --basic   set render mode to basic\n", "Edytejszyn usage", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

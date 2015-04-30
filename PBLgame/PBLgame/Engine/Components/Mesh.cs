@@ -89,7 +89,8 @@ namespace PBLgame.Engine.Components
 
         public override string ToString()
         {
-            return _path;
+            const string prefix = @"Models\";
+            return _path.StartsWith(prefix) ? _path.Substring(prefix.Length) : _path;
         }
 
         #endregion

@@ -143,14 +143,10 @@ namespace PBLgame.Engine.Singleton
         {
             IEnumerable<Mesh> list =
                 from mesh in _meshes
-                where mesh.Path == path
+                where (mesh.Path == path || mesh.Path == @"Models\" + path)
                 select mesh;
 
-            if (list.Any())
-            {
-                return list.First();
-            }
-            return null;
+            return list.FirstOrDefault();
         }
 
         public Mesh GetMesh(int id)
@@ -252,18 +248,22 @@ namespace PBLgame.Engine.Singleton
                 else if (reader.Name == "Material")
                 {
                     int id = Convert.ToInt32(reader.GetAttribute("Id"));
-                    string diffuseTex = reader.GetAttribute("Diffuse");
-                    string normalTex = reader.GetAttribute("Normal");
+                    string name        = reader.GetAttribute("Name");
+                    string diffuseTex  = reader.GetAttribute("Diffuse");
+                    string normalTex   = reader.GetAttribute("Normal");
                     string specularTex = reader.GetAttribute("Specular");
                     string emissiveTex = reader.GetAttribute("Emissive");
-                    string shaderPath = reader.GetAttribute("ShaderPath");
+                    string shaderPath  = reader.GetAttribute("ShaderPath");
                     
-                    Materials.Add(new MeshMaterial(id,
-                                                    FindTexture(diffuseTex),
-                                                    FindTexture(normalTex),
-                                                    FindTexture(specularTex),
-                                                    FindTexture(emissiveTex),
-                                                    FindShaderEffect(shaderPath)));
+                    Materials.Add(
+                        new MeshMaterial(id, name,
+                                FindTexture(diffuseTex),
+                                FindTexture(normalTex),
+                                FindTexture(specularTex),
+                                FindTexture(emissiveTex),
+                                FindShaderEffect(shaderPath)
+                        )
+                    );
                 }
                 else if (reader.Name == "Mesh")
                 {
@@ -314,10 +314,11 @@ namespace PBLgame.Engine.Singleton
             {
                 writer.WriteStartElement("Material");
                 writer.WriteAttributeString("Id", meshMaterial.Id.ToString());
+                writer.WriteAttributeString("Name", meshMaterial.Name);
                 writer.WriteAttributeString("Diffuse", meshMaterial.Diffuse.Name);
-                writer.WriteAttributeString("Normal", meshMaterial.Normal.Name);
-                writer.WriteAttributeString("Specular", meshMaterial.Specular.Name);
-                writer.WriteAttributeString("Emissive", meshMaterial.Emissive.Name);
+                WriteTextureAttribute(writer, "Normal",   meshMaterial.Normal);
+                WriteTextureAttribute(writer, "Specular", meshMaterial.Specular);
+                WriteTextureAttribute(writer, "Emissive", meshMaterial.Emissive);
                 writer.WriteAttributeString("ShaderPath", meshMaterial.ShaderEffect.Name);
                 writer.WriteEndElement();
             }
@@ -333,6 +334,11 @@ namespace PBLgame.Engine.Singleton
             }
             writer.WriteEndElement();
             writer.WriteEndElement();
+        }
+
+        private void WriteTextureAttribute(XmlWriter writer, string name, Texture2D value)
+        {
+            if(value != null) writer.WriteAttributeString(name, value.Name);
         }
 
         private Model LoadModel(string path, ContentManager content)
