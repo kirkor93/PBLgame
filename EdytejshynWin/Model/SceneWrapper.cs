@@ -125,6 +125,7 @@ namespace Edytejshyn.Model
         public void ReparentNode(GameObjectWrapper kidnapped, GameObjectWrapper newParent)
         {
             if (kidnapped.Parent == newParent) return;
+            // TODO disable reparenting parent to children
 
             Logic.History.NewAction(new ReparentGameObjectCommand(this, kidnapped, newParent));
 

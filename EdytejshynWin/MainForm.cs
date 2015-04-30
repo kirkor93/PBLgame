@@ -581,12 +581,15 @@ namespace Edytejshyn
                     return;
                 }
                 if (sceneTreeView.DestinationNode == movedNode 
-                    || newParent == movedNode.WrappedGameObject.Parent) return;
+                    || newParent == movedNode.WrappedGameObject.Parent
+                    || sceneTreeView.DestinationNode.WrappedGameObject.HasAncestor(movedNode.WrappedGameObject)) return;
             }
 
             Logic.WrappedScene.ReparentNode(movedNode.WrappedGameObject, newParent);
             
         }
+
+
 
         private void SceneTreeView_DragLeave(object sender, EventArgs e)
         {
