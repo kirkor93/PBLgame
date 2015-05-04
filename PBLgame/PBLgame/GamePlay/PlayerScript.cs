@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
-
+using Microsoft.Xna.Framework.Input;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Singleton;
@@ -25,8 +25,9 @@ namespace PBLgame.GamePlay
 
         public PlayerScript(Engine.GameObjects.GameObject gameObj) : base(gameObj)
         {
-            InputManager.Instance.OnTurn += CharacterRotation;
-            InputManager.Instance.OnMove += CharacterTranslate;
+            InputManager.Instance.OnTurn   += CharacterRotation;
+            InputManager.Instance.OnMove   += CharacterTranslate;
+            InputManager.Instance.OnButton += CharacterAction;
         }
 
         public override void Draw(GameTime gameTime)
@@ -46,7 +47,7 @@ namespace PBLgame.GamePlay
             if(angle - _angle != 0.0f)
             {
                 //_gameObject.transform.Rotation = Vector3.Lerp(_gameObject.transform.Rotation,new Vector3(MathHelper.ToDegrees(angle), 0.0f, 0.0f),0.5f);
-                _gameObject.transform.Rotation = new Vector3(MathHelper.ToDegrees(angle),0,0);
+                _gameObject.transform.Rotation = new Vector3(MathHelper.ToDegrees(angle), 0, 0);
                 _angle = angle;
             }
         }
@@ -55,6 +56,39 @@ namespace PBLgame.GamePlay
 //            e.AxisValue *= 0.01f;
             _gameObject.transform.Translate(e.AxisValue.X, e.AxisValue.Y, 0.0f);
 
+        }
+
+        private void CharacterAction(Object o, ButtonArgs button)
+        {
+            if (button.IsDown)
+            {
+                switch (button.ButtonName)
+                {
+                    case Buttons.LeftShoulder:
+                        {
+                            Console.WriteLine("telekinetic push");
+                        }
+                        break;
+
+                    case Buttons.LeftTrigger:
+                        {
+                            Console.WriteLine("telekinetic shield");
+                        }
+                        break;
+
+                    case Buttons.RightShoulder:
+                        {
+                            Console.WriteLine("quick attack");
+                        }
+                        break;
+
+                    case Buttons.RightTrigger:
+                        {
+                            Console.WriteLine("strong attack");
+                        }
+                        break;
+                }
+            }
         }
 
         public override Component Copy(GameObject newOwner)

@@ -57,7 +57,6 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="2" MaterialId="1" />
-      <PBLgame.GamePlay.PlayerScript Enabled="True" />
     </GameObject>
     <GameObject Name="Particle" Tag="Particle" Id="10">
       <Transform Enabled="True">
