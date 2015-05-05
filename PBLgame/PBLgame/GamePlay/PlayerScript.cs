@@ -12,6 +12,7 @@ namespace PBLgame.GamePlay
     {
         #region Variables
         #region Public
+        public PlayerStatistics Stats { get; private set; }
         #endregion
         #region Private
         private float _angle;
@@ -25,6 +26,7 @@ namespace PBLgame.GamePlay
 
         public PlayerScript(Engine.GameObjects.GameObject gameObj) : base(gameObj)
         {
+            Stats = new PlayerStatistics(100, 100);
             InputManager.Instance.OnTurn   += CharacterRotation;
             InputManager.Instance.OnMove   += CharacterTranslate;
             InputManager.Instance.OnButton += CharacterAction;
@@ -66,13 +68,29 @@ namespace PBLgame.GamePlay
                 {
                     case Buttons.LeftShoulder:
                         {
-                            Console.WriteLine("telekinetic push");
+                            const int cost = 20;
+                            if (Stats.Energy.TryDecrease(cost))
+                            {
+                                Console.WriteLine("telekinetic push");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not enough mana");
+                            }
                         }
                         break;
 
                     case Buttons.LeftTrigger:
                         {
-                            Console.WriteLine("telekinetic shield");
+                            const int cost = 25;
+                            if (Stats.Energy.TryDecrease(cost))
+                            {
+                                Console.WriteLine("telekinetic shield");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not enough mana");
+                            }
                         }
                         break;
 
@@ -88,6 +106,7 @@ namespace PBLgame.GamePlay
                         }
                         break;
                 }
+                Console.WriteLine(Stats.ToString());
             }
         }
 

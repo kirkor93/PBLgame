@@ -108,7 +108,6 @@ namespace PBLgame.Engine.Singleton
                 Buttons button = ButtonsArray[i];
                 bool down = _gamePadState.IsButtonDown(button);
                 if (down == _buttonsDown[i]) continue;
-                Console.WriteLine(string.Format("Down: {0}, i: {1}, packet: {2}", down, i, packetNumber));
                 
                 if (OnButton != null)
                 {
