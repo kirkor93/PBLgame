@@ -200,8 +200,20 @@ namespace PBLgame.Engine.Components
 
         }
 
-        public void ChceckCollisionDeeper(GameObject collisionGO)
+        private int _cnt;
+
+        public int ChceckCollisionDeeper(GameObject collisionGO)
         {
+            _cnt = 0;
+            MainCollider.UpdatePosition();
+            foreach(SphereCollider sphere in _sphereColliders)
+            {
+                sphere.UpdatePosition();
+            }
+            foreach(BoxCollider box in _boxColliders)
+            {
+                box.UpdatePosition();
+            }
             if(_sphereColliders.Count > 0)
             {
                 if(collisionGO.collision.SphereColliders.Count > 0)
@@ -310,6 +322,7 @@ namespace PBLgame.Engine.Components
                     }
                 }
             }
+            return _cnt;
         }
 
         #region CollisionDetected
@@ -318,7 +331,8 @@ namespace PBLgame.Engine.Components
             if (!myCol.Trigger && !enemyCol.Trigger)
             {
                 if (OnCollision != null) OnCollision(this, new ColArgs(myCol,enemyCol));
-                AffectCollision(myCol, enemyCol);
+                _cnt++;
+                //AffectCollision(myCol, enemyCol);
                 //Console.WriteLine("Collison!");
             }
             else
@@ -333,7 +347,8 @@ namespace PBLgame.Engine.Components
             if (!myCol.Trigger && !enemyCol.Trigger)
             {
                 if (OnCollision != null) OnCollision(this, new ColArgs(myCol, enemyCol));
-                AffectCollision(myCol, enemyCol);
+                _cnt++;
+                //AffectCollision(myCol, enemyCol);
                 //Console.WriteLine("Collison!");
             }
             else
@@ -348,7 +363,8 @@ namespace PBLgame.Engine.Components
             if (!myCol.Trigger && !enemyCol.Trigger)
             {
                 if (OnCollision != null) OnCollision(this, new ColArgs(myCol, enemyCol));
-                AffectCollision(myCol, enemyCol);
+                _cnt++;
+                //AffectCollision(myCol, enemyCol);
                 //Console.WriteLine("Collison!");
             }
             else
@@ -363,7 +379,8 @@ namespace PBLgame.Engine.Components
             if (!myCol.Trigger && !enemyCol.Trigger)
             {
                 if (OnCollision != null) OnCollision(this, new ColArgs(myCol, enemyCol));
-                AffectCollision(myCol, enemyCol);
+                _cnt++;
+                //AffectCollision(myCol, enemyCol);
                 //Console.WriteLine("Collison!");
             }
             else

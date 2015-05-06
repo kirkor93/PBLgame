@@ -79,11 +79,13 @@ namespace PBLgame.Engine.Scenes
 
         public void Update(GameTime gameTime)
         {
+            _physicsSystem.Update(GetAllObjectsWithCollider());
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Update(gameTime);
             }
-            _physicsSystem.Update(GetAllObjectsWithCollider());
+            Camera.MainCamera.Update(gameTime);
+
         }
 
         public GameObject FindGameObject(int id)

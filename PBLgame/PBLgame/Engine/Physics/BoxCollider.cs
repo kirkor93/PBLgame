@@ -200,13 +200,13 @@ namespace PBLgame.Engine.Physics
             _previousPosition = _totalPosition;
             _totalPosition = _owner.gameObject.transform.Position + _localPosition;
             if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPosition;
-            //InitializeVerts();
-            _box = BoundingBox.CreateFromPoints(_colVerts);
+            InitializeVerts();
             //_baseColVerts = _colVerts;
             //for (int i = 0; i < 8; i++)
             //{
-            //    _colVerts[i] = Vector3.Transform(_baseColVerts[i], _owner.gameObject.transform.World);
+            //    _colVerts[i] = Vector3.Transform(_baseColVerts[i], _owner.gameObject.transform.WorldRotation);
             //}
+            //_box = BoundingBox.CreateFromPoints(_colVerts);
         }
 
         public void Update()

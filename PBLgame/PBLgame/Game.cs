@@ -106,8 +106,8 @@ namespace PBLgame
             player.collision.MainCollider = new SphereCollider(player.collision,Vector3.Zero, 10.0f, false);
             player.collision.Static = false;
             _scene.GameObjects[8].collision = new Collision(_scene.GameObjects[8]);
-            _scene.GameObjects[8].collision.MainCollider = new SphereCollider(_scene.GameObjects[8].collision, Vector3.Zero, 15.0f, false);
-            player.collision.BoxColliders.Add(new BoxCollider(player.collision, new Vector3(10, 50, 20), true));
+            _scene.GameObjects[8].collision.MainCollider = new SphereCollider(_scene.GameObjects[8].collision, Vector3.Zero, 15.0f, true);
+            _scene.GameObjects[8].collision.BoxColliders.Add(new BoxCollider(_scene.GameObjects[8].collision, new Vector3(10, 50, 20), false));
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace PBLgame
             
             //ForTetting-----------------------
             InputManager.Instance.Update();
-            mainCamera.Update(gameTime);
+//            mainCamera.Update(gameTime);
 
             //-----------------------------
 

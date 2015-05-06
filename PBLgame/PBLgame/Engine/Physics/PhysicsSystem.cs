@@ -9,8 +9,10 @@ using PBLgame.Engine.GameObjects;
 
 namespace PBLgame.Engine.Physics
 {
-    class PhysicsSystem
+    public class PhysicsSystem
     {
+        public static List<GameObject> CollisionObjects;
+
         #region Methods
         public void Update(float gameTime)
         {
@@ -39,6 +41,7 @@ namespace PBLgame.Engine.Physics
             {
                 gameObjects.Remove(go);
             }
+            CollisionObjects = gameObjects;
             if (rigidbodies.Count == 0) return;
             foreach(GameObject rb in rigidbodies)
             {
