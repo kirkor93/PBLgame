@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using AnimationData;
+using AnimationAux;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -295,8 +295,9 @@ namespace PBLgame.Engine.Singleton
                 {
                     int id = Convert.ToInt32(reader.GetAttribute("Id"));
                     string path = reader.GetAttribute("Path");
+                    bool animated = Convert.ToBoolean(reader.GetAttribute("Animated"));
                     Model model = LoadModel(path, content);
-                    Mesh mesh = new Mesh(id, path, model);
+                    Mesh mesh = animated ? new AnimatedMesh(id, path, model) : new Mesh(id, path, model);
                     Meshes.Add(mesh);
                 }
                 else if(reader.Name == "ShaderEffect")
@@ -311,8 +312,8 @@ namespace PBLgame.Engine.Singleton
                     int id = Convert.ToInt32(reader.GetAttribute("Id"));
                     string path = reader.GetAttribute("Path");
                     Model model = LoadModel(path, content);
-                    SkinningData skin = model.Tag as SkinningData;
-                    AnimationClip animation = skin.AnimationClips.FirstOrDefault().Value;
+                    ModelExtra extra = model.Tag as ModelExtra;
+                    AnimationClip animation = extra.Clips[0];
                     animation.Id = id;
                     animation.Path = path;
                     AnimationClips.Add(animation);
@@ -378,6 +379,7 @@ namespace PBLgame.Engine.Singleton
                 writer.WriteStartElement("Mesh");
                 writer.WriteAttributeString("Id", mesh.Id.ToString());
                 writer.WriteAttributeString("Path", mesh.Path);
+                if(mesh is AnimatedMesh) writer.WriteAttributeString("Animated", true.ToString());
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();

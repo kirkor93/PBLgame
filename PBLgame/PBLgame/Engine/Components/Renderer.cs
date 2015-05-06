@@ -6,7 +6,7 @@ using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
 using PBLgame.Engine.Singleton;
 using System.Collections.Generic;
-using AnimationData;
+using AnimationAux;
 
 namespace PBLgame.Engine.Components
 {
@@ -88,11 +88,45 @@ namespace PBLgame.Engine.Components
         public override void Draw(GameTime gameTime)
         {
             ParameterizeEffectWithLights();
-            foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
+
+
+            AnimatedMesh animatedMesh = MyMesh as AnimatedMesh;
+
+            if (animatedMesh != null)
             {
-                foreach (ModelMeshPart part in modelMesh.MeshParts)
+                animatedMesh.UpdateBonesMatrices();
+
+                if (MyEffect.Name == @"Effects\BasicShaderAnim")
                 {
-                    part.Effect = MyEffect;
+                    foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
+                    {
+                        MyEffect.Parameters["world"].SetValue(animatedMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World);
+                        MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
+                        MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
+                        MyEffect.Parameters["worldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(animatedMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World)));
+                        MyEffect.Parameters["direction"].SetValue(Camera.MainCamera.Direction);
+                        MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
+                        MyEffect.Parameters["normalIntensity"].SetValue(1);
+                        MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
+                        MyEffect.Parameters["specularIntensity"].SetValue(1);
+                        MyEffect.Parameters["specularTexture"].SetValue(_material.Specular);
+                        MyEffect.Parameters["emissiveIntensity"].SetValue(0);
+                        MyEffect.Parameters["emissiveTexture"].SetValue(_material.Emissive);
+                        MyEffect.Parameters["Bones"].SetValue(animatedMesh.Skeleton);
+
+                        foreach (ModelMeshPart part in modelMesh.MeshParts)
+                        {
+                            // TODO replace effect in initialization
+                            part.Effect = MyEffect;
+                        }
+                        modelMesh.Draw();
+                    }
+                }
+            }
+            else
+            {
+                foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
+                {
                     MyEffect.Parameters["world"].SetValue(MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World);
                     MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
                     MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
@@ -105,10 +139,16 @@ namespace PBLgame.Engine.Components
                     MyEffect.Parameters["specularTexture"].SetValue(_material.Specular);
                     MyEffect.Parameters["emissiveIntensity"].SetValue(0);
                     MyEffect.Parameters["emissiveTexture"].SetValue(_material.Emissive);
-                    MyEffect.Parameters["Bones"].SetValue(_gameObject.animator.GetSkinTransforms());
+
+                    foreach (ModelMeshPart part in modelMesh.MeshParts)
+                    {
+                        // TODO replace effect in initialization
+                        part.Effect = MyEffect;
+                    }
+                    modelMesh.Draw();
                 }
-                modelMesh.Draw();
             }
+
         }
 
         private void ParameterizeEffectWithLights()
@@ -161,7 +201,6 @@ namespace PBLgame.Engine.Components
             MyMesh = ResourceManager.Instance.GetMesh(meshId);
             Material = ResourceManager.Instance.GetMaterial(materialId);
             MyEffect = Material.ShaderEffect;
-            SkinningData data = MyMesh.Model.Tag as SkinningData;
             reader.Read();
         }
 

@@ -4,6 +4,7 @@
   <Content>
     <ShaderEffects>
       <ShaderEffect Path="Effects\BasicShader" />
+      <ShaderEffect Path="Effects\BasicShaderAnim" />
       <ShaderEffect Path="Effects\ParticleShader" />
     </ShaderEffects>
     <Textures>
@@ -13,12 +14,12 @@
       <Texture Path="Textures\fire" />
     </Textures>
     <Materials>
-      <Material Id="1" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="1" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShaderAnim" />
       <Material Id="2" Diffuse="Textures\fire" ShaderPath="Effects\ParticleShader" />
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
-      <Mesh Id="2" Path="Models\Gandalf" />
+      <Mesh Id="2" Path="Models\Gandalf" Animated="True" />
     </Meshes>
     <Animations>
       <Animation Id="1" Path="Animations\Gandalf_gangnam_style" />

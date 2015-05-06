@@ -79,8 +79,10 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\Components\AnimatedMesh.cs" />
     <Compile Include="Engine\Components\Animator.cs" />
     <Compile Include="Engine\Components\AudioSource.cs" />
+    <Compile Include="Engine\Components\Bone.cs" />
     <Compile Include="Engine\Components\Component.cs" />
     <Compile Include="Engine\Components\MeshMaterial.cs" />
     <Compile Include="Engine\Components\ParticleSystem.cs" />
@@ -110,9 +112,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AnimationData\AnimationData.csproj">
-      <Project>{80E1146A-8F42-4866-9F6C-943097957A31}</Project>
-      <Name>AnimationData</Name>
+    <ProjectReference Include="..\..\AnimationAux\AnimationAux.csproj">
+      <Project>{f2f7fa8c-1fc7-42cc-93d8-e5dff48ac09b}</Project>
+      <Name>AnimationAux</Name>
     </ProjectReference>
     <ProjectReference Include="..\PBLgameContent\PBLgameContent.contentproj">
       <Name>PBLgameContent</Name>

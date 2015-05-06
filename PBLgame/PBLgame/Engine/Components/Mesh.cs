@@ -14,11 +14,11 @@ namespace PBLgame.Engine.Components
         #region Variables
         #region Private
 
-        private Model _model;
-        private string _path;
-        private int _id;
+        protected Model _model;
+        protected string _path;
+        protected int _id;
 
-        private Matrix[] _boneTransforms;
+        protected Matrix[] _boneTransforms;
 
         #endregion
         #endregion
@@ -42,7 +42,7 @@ namespace PBLgame.Engine.Components
             private set { _id = value; }
         }
 
-        public Matrix[] BonesTransorms
+        public virtual Matrix[] BonesTransorms
         {
             get
             {

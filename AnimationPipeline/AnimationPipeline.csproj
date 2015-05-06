@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-    <ProjectGuid>{4636C7E1-B845-4B83-B96D-64A11B8A4515}</ProjectGuid>
+    <ProjectGuid>{FF2FBE94-50B5-4E78-9592-B95F32A8881E}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SkinnedModelPipeline</RootNamespace>
-    <AssemblyName>SkinnedModelPipeline</AssemblyName>
+    <RootNamespace>AnimationPipeline</RootNamespace>
+    <AssemblyName>AnimationPipeline</AssemblyName>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
@@ -49,13 +49,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationClipWriter.cs" />
+    <Compile Include="ModelExtraWriter.cs" />
+    <Compile Include="AnimationProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SkinnedModelProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AnimationData\AnimationData.csproj">
-      <Project>{80E1146A-8F42-4866-9F6C-943097957A31}</Project>
-      <Name>AnimationData</Name>
+    <ProjectReference Include="..\AnimationAux\AnimationAux.csproj">
+      <Project>{F2F7FA8C-1FC7-42CC-93D8-E5DFF48AC09B}</Project>
+      <Name>AnimationAux</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
