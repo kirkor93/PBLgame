@@ -92,8 +92,8 @@ namespace PBLgame
             _scene = new Scene();
             _scene.Load(@"Scene 1.xml");
             player = _scene.GameObjects.First();
-            player.audioSource.Set3D(mainCamera.audioListener);
-            player.audioSource.Play();
+            //player.audioSource.Set3D(mainCamera.audioListener);
+            //player.audioSource.Play();
 
 //            ResourceManager.Instance.SaveContent();
         }

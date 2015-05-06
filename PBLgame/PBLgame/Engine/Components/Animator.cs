@@ -16,7 +16,7 @@ namespace PBLgame.Engine.Components
         private List<AnimationClip> _animationClips;
         private AnimationPlayer _animationPlayer;
 
-        private bool _isAnimating = false;
+        private bool _isAnimating = true;
 
         #region Methods
         public Animator(GameObject owner) : base(owner)
@@ -26,7 +26,7 @@ namespace PBLgame.Engine.Components
             
             
             _animationClips.Add(ResourceManager.Instance.GetAnimationClip(1));
-//            StartAnimation(_animationClips.First());
+            StartAnimation(_animationClips.First());
         }
 
         public override void Update(GameTime gameTime)
@@ -64,6 +64,11 @@ namespace PBLgame.Engine.Components
         private void StartAnimation(AnimationClip clip)
         {
             _animationPlayer.StartClip(clip);
+        }
+
+        public Matrix[] GetSkinTransforms()
+        {
+            return _animationPlayer.GetSkinTransforms();
         }
 
         #region XML Serialization

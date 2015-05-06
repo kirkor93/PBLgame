@@ -105,6 +105,7 @@ namespace PBLgame.Engine.Components
                     MyEffect.Parameters["specularTexture"].SetValue(_material.Specular);
                     MyEffect.Parameters["emissiveIntensity"].SetValue(0);
                     MyEffect.Parameters["emissiveTexture"].SetValue(_material.Emissive);
+                    MyEffect.Parameters["Bones"].SetValue(_gameObject.animator.GetSkinTransforms());
                 }
                 modelMesh.Draw();
             }

@@ -6,6 +6,8 @@ float4x4 worldInverseTranspose;
 
 float3 direction;
 
+float4x3 Bones[72];
+
 #define maxLights 30
 float4 lightsPositions[maxLights];
 float4 lightsColors[maxLights];
@@ -68,6 +70,8 @@ struct VertexShaderInput
 	float3 Normal : NORMAL0;
 	float3 Tangent : TANGENT0;
 	float3 Binormal : BINORMAL0;
+	int4   Indices  : BLENDINDICES0;
+	float4 Weights  : BLENDWEIGHT0;
 };
 
 struct VertexShaderOutput
@@ -80,9 +84,25 @@ struct VertexShaderOutput
 	float4 WorldPos : TEXCOORD4;
 };
 
+void Skin(inout VertexShaderInput vin, uniform int boneCount)
+{
+	float4x3 skinning = 0;
+
+	[unroll]
+	for (int i = 0; i < boneCount; i++)
+	{
+		skinning += Bones[vin.Indices[i]] * vin.Weights[i];
+	}
+
+	vin.Position.xyz = mul(vin.Position, skinning);
+	vin.Normal = mul(vin.Normal, (float3x3) skinning);
+}
+
 VertexShaderOutput VS(VertexShaderInput input)
 {
     VertexShaderOutput output;
+
+	Skin(input, 1);
 
     float4 worldPosition = mul(input.Position, world);
     float4 viewPosition = mul(worldPosition, view);
