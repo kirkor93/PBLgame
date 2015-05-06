@@ -86,6 +86,34 @@ namespace PBLgame.Engine.Scenes
             _physicsSystem.Update(GetAllObjectsWithCollider());
         }
 
+        public GameObject FindGameObject(int id)
+        {
+            foreach(GameObject go in _gameObjects)
+            {
+                if (go.ID == id) return go;
+            }
+            return null;
+        }
+
+        public GameObject FindGameObject(string name)
+        {
+            foreach(GameObject go in _gameObjects)
+            {
+                if (go.Name == name) return go;
+            }
+            return null;
+        }
+
+        public List<GameObject> FindGameObjectsWithTag(string tag)
+        {
+            List<GameObject> tmp = new List<GameObject>();
+            foreach(GameObject go in _gameObjects)
+            {
+                if (go.Tag == tag) tmp.Add(go);
+            }
+            return tmp;
+        }
+
         public void AddGameObject(GameObject obj)
         {
             while (_takenIdNumbers.Exists(item => item == obj.ID))

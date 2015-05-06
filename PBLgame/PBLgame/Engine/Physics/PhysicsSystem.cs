@@ -26,13 +26,18 @@ namespace PBLgame.Engine.Physics
         {
             if (gameObjects.Count == 0) return;
             List<GameObject> rigidbodies = new List<GameObject>();
+            List<GameObject> toDelete = new List<GameObject>();
             foreach(GameObject go in gameObjects)
             {
                 if (go.collision.Rigidbody)
                 {
                     rigidbodies.Add(go);
-                    gameObjects.Remove(go);
+                    toDelete.Add(go);
                 }
+            }
+            foreach(GameObject go in toDelete)
+            {
+                gameObjects.Remove(go);
             }
             if (rigidbodies.Count == 0) return;
             foreach(GameObject rb in rigidbodies)

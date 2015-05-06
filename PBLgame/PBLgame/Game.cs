@@ -91,21 +91,23 @@ namespace PBLgame
             ResourceManager.Instance.AssignAudioBank(_soundBank);
 
             _scene = new Scene();
-            _scene.Load(@"Scene 1.xml");
-            player = _scene.GameObjects.First();
-            player.audioSource.Set3D(mainCamera.audioListener);
-            player.audioSource.Play();
+            _scene.Load(@"Level_1.xml");
+
+            player = _scene.FindGameObject(8);
+            //player = _scene.GameObjects.First();
+            //player.audioSource.Set3D(mainCamera.audioListener);
+            //player.audioSource.Play();
+            mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
+            mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
+            mainCamera.parent = player;
+            player.AddComponent<PlayerScript>(new PlayerScript(player));
             player.collision = new Collision(player);
-            player.collision.MainCollider = new SphereCollider(player.collision,3.0f,false);
-            
-            foreach(GameObject go in _scene.GameObjects)
-            {
-                if(go.collision == null)
-                {
-                    go.collision = new Collision(go);
-                    go.collision.MainCollider = new SphereCollider(go.collision,3.0f,false);
-                }
-            }
+            player.collision.Rigidbody = true;
+            player.collision.MainCollider = new SphereCollider(player.collision,Vector3.Zero, 10.0f, false);
+            player.collision.Static = false;
+            _scene.GameObjects[8].collision = new Collision(_scene.GameObjects[8]);
+            _scene.GameObjects[8].collision.MainCollider = new SphereCollider(_scene.GameObjects[8].collision, Vector3.Zero, 15.0f, false);
+            player.collision.BoxColliders.Add(new BoxCollider(player.collision, new Vector3(10, 50, 20), true));
         }
 
         /// <summary>

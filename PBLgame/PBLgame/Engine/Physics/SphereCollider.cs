@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+
+using PBLgame.Engine.GameObjects;
+using Microsoft.Xna.Framework.Graphics;
+
 using PBLgame.Engine.Components;
 
 namespace PBLgame.Engine.Physics
@@ -111,6 +115,7 @@ namespace PBLgame.Engine.Physics
 
         public SphereCollider(Collision owner, Vector3 position, float radius, bool trigger)
         {
+            _owner = owner;
             _previousPosition = Vector3.Zero;
             _radius = radius;
             _localPosition = position;
@@ -122,6 +127,7 @@ namespace PBLgame.Engine.Physics
 
         public SphereCollider(Collision owner, float radius, bool trigger)
         {
+            _owner = owner;
             _previousPosition = Vector3.Zero;
             _radius = radius;
             _localPosition = Vector3.Zero;
@@ -139,6 +145,11 @@ namespace PBLgame.Engine.Physics
         public ContainmentType Contains(SphereCollider sphere)
         {
             return _sphere.Contains(sphere.Sphere);
+        }
+
+        public ContainmentType Contains(BoxCollider box)
+        {
+            return _sphere.Contains(box.Box);
         }
 
         public void UpdatePosition()
@@ -160,7 +171,103 @@ namespace PBLgame.Engine.Physics
         
         public void Draw()
         {
+            List<Vector3> verticesToDraw = new List<Vector3>();
+            List<short> indices = new List<short>();
+            Vector3 right = Vector3.Right * this.Sphere.Radius;
+            Vector3 verticalCirclePoint;
+            Vector3 horizontalCirclePoint;
+            Vector3 rightUp = Vector3.Right + Vector3.Up;
+            Vector3 rightDown = Vector3.Right + Vector3.Down;
+            rightUp.Normalize();
+            rightDown.Normalize();
+            rightDown *= this.Sphere.Radius;
+            rightUp *= this.Sphere.Radius;
+            Vector3 pointToAdd;
+            for (short i = 0; i < 360; ++i)
+            {
+                if (i - 1 > 0)
+                {
+                    indices.Add((short)(i - 1));
+                }
+                verticalCirclePoint = Vector3.Transform(right, Matrix.CreateRotationZ(MathHelper.ToRadians(i)));
+                indices.Add(i);
+                verticalCirclePoint.X += _totalPosition.X;
+                verticalCirclePoint.Y += _totalPosition.Y;
+                verticalCirclePoint.Z += _totalPosition.Z;
+                verticesToDraw.Add(verticalCirclePoint);
+            }
 
+            for (short i = 0; i < 360; ++i)
+            {
+                if (i - 1 > 0)
+                {
+                    indices.Add((short)(360 + i - 1));
+                }
+                horizontalCirclePoint = Vector3.Transform(right, Matrix.CreateRotationY(MathHelper.ToRadians(i)));
+                indices.Add((short)(360 + i));
+                horizontalCirclePoint.X += _totalPosition.X;
+                horizontalCirclePoint.Y += _totalPosition.Y;
+                horizontalCirclePoint.Z += _totalPosition.Z;
+                verticesToDraw.Add(horizontalCirclePoint);
+            }
+
+            for (short i = 0; i < 360; ++i)
+            {
+                if (i - 1 > 0)
+                {
+                    indices.Add((short)(720 + i - 1));
+                }
+                pointToAdd = Vector3.Transform(rightUp, Matrix.CreateRotationZ(MathHelper.ToRadians(i)) * Matrix.CreateRotationY(MathHelper.ToRadians(45.0f)));
+                indices.Add((short)(720 + i));
+                pointToAdd.X += _totalPosition.X;
+                pointToAdd.Y += _totalPosition.Y;
+                pointToAdd.Z += _totalPosition.Z;
+                verticesToDraw.Add(pointToAdd);
+            }
+
+            for (short i = 0; i < 360; ++i)
+            {
+                if (i - 1 > 0)
+                {
+                    indices.Add((short)(1080 + i - 1));
+                }
+                pointToAdd = Vector3.Transform(rightDown, Matrix.CreateRotationZ(MathHelper.ToRadians(i)) * Matrix.CreateRotationY(MathHelper.ToRadians(-45.0f)));
+                indices.Add((short)(1080 + i));
+                pointToAdd.X += _totalPosition.X;
+                pointToAdd.Y += _totalPosition.Y;
+                pointToAdd.Z += _totalPosition.Z;
+                verticesToDraw.Add(pointToAdd);
+            }
+
+            Vector3[] vertices = verticesToDraw.ToArray();
+            VertexPositionColor[] primitiveList = new VertexPositionColor[vertices.Length];
+            for (int i = 0; i < vertices.Length; ++i)
+            {
+                primitiveList[i] = new VertexPositionColor(vertices[i], Color.White);
+            }
+            GraphicsDevice gd = GlobalInventory.Instance.GraphicsDevice;
+
+            BasicEffect lineEffect = new BasicEffect(gd);
+            lineEffect.LightingEnabled = false;
+            lineEffect.TextureEnabled = false;
+            lineEffect.VertexColorEnabled = true;
+
+            VertexBuffer buffer = new VertexBuffer(gd, typeof(VertexPositionColor), primitiveList.Length, BufferUsage.None);
+            buffer.SetData(primitiveList);
+            short[] indicesArray = indices.ToArray();
+            IndexBuffer ib = new IndexBuffer(gd, IndexElementSize.SixteenBits, indicesArray.Length, BufferUsage.WriteOnly);
+            ib.SetData(indicesArray);
+            gd.SetVertexBuffer(buffer);
+            gd.Indices = ib;
+
+            lineEffect.World = Matrix.Identity;
+            lineEffect.View = Camera.MainCamera.ViewMatrix;
+            lineEffect.Projection = Camera.MainCamera.ProjectionMatrix;
+            foreach (EffectPass pass in lineEffect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                gd.DrawUserIndexedPrimitives(PrimitiveType.LineList, primitiveList, 0, 1440, indicesArray, 0, 4 * 359);
+            }
         }
         #endregion 
     }

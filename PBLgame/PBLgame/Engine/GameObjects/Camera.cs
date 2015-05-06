@@ -9,8 +9,6 @@ namespace PBLgame.Engine.GameObjects
     public class Camera : GameObject
     {
         #region Variables
-        #region Public
-        #endregion
         #region Private
         private Matrix _viewMatrix;
         private Matrix _projectionMatrix;
@@ -134,7 +132,9 @@ namespace PBLgame.Engine.GameObjects
 
         public void Update(GameTime gameTime = null)
         {
+
             //_viewMatrix = Matrix.CreateLookAt(base.transform.Position, _direction + base.transform.Position, Vector3.Up);
+            if (this.parent != null) this.transform.Position = parent.transform.Position + new Vector3(0, 100f, 80f); 
             _viewMatrix = ViewMatrix;
         }
 

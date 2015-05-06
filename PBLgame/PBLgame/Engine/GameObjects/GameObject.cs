@@ -178,14 +178,6 @@ namespace PBLgame.Engine.GameObjects
             {
                 transform.Update(gameTime);
             }
-            if (renderer != null)
-            {
-                renderer.Update(gameTime);
-            }
-            if (collision != null)
-            {
-                collision.Update(gameTime);
-            }
             if (animator != null)
             {
                 animator.Update(gameTime);
@@ -203,6 +195,14 @@ namespace PBLgame.Engine.GameObjects
             {
                 component.Update(gameTime);
             }
+            if (collision != null)
+            {
+                collision.Update(gameTime);
+            }
+            if (renderer != null)
+            {
+                renderer.Update(gameTime);
+            }
         }
 
         public virtual void Draw(GameTime gameTime)
@@ -210,14 +210,6 @@ namespace PBLgame.Engine.GameObjects
             if (transform != null)
             {
                 transform.Draw(gameTime);
-            }
-            if (renderer != null)
-            {
-                renderer.Draw(gameTime);
-            }
-            if (collision != null)
-            {
-                collision.Draw(gameTime);
             }
             if (animator != null)
             {
@@ -235,6 +227,14 @@ namespace PBLgame.Engine.GameObjects
             foreach (Component component in _components)
             {
                 component.Draw(gameTime);
+            }
+            if (collision != null)
+            {
+                collision.Draw(gameTime);
+            }
+            if (renderer != null)
+            {
+                renderer.Draw(gameTime);
             }
         }
 
