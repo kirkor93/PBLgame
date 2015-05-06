@@ -695,8 +695,8 @@
       <Processor>ModelProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
-    <Compile Include="Models\Terrain\Desert\Mountain.FBX">
-      <Name>Mountain</Name>
+    <Compile Include="Models\Terrain\Desert\Mountain_1.FBX">
+      <Name>Mountain_1</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
@@ -909,18 +909,18 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\Terrain\Desert\Mountain_d.png">
-      <Name>Mountain_d</Name>
+    <Compile Include="Textures\Terrain\Desert\Mountain_1_d.png">
+      <Name>Mountain_1_d</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\Terrain\Desert\Mountain_n.png">
-      <Name>Mountain_n</Name>
+    <Compile Include="Textures\Terrain\Desert\Mountain_1_n.png">
+      <Name>Mountain_1_n</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\Terrain\Desert\Mountain_s.png">
-      <Name>Mountain_s</Name>
+    <Compile Include="Textures\Terrain\Desert\Mountain_1_s.png">
+      <Name>Mountain_1_s</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -964,20 +964,68 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Terrain\Desert\Dune_1.FBX">
-      <Name>Dune_1</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
-    </Compile>
     <Compile Include="Models\Terrain\Desert\Dune_2.FBX">
       <Name>Dune_2</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Terrain\Desert\Dune_1.FBX">
+      <Name>Dune_1</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
     <Compile Include="Models\Terrain\Desert\Dune_3.FBX">
       <Name>Dune_3</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Terrain\Desert\Mountain_2_d.png">
+      <Name>Mountain_2_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Mountain_2_n.png">
+      <Name>Mountain_2_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Mountain_2_s.png">
+      <Name>Mountain_2_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Mountain_3_d.png">
+      <Name>Mountain_3_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Mountain_3_n.png">
+      <Name>Mountain_3_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Mountain_3_s.png">
+      <Name>Mountain_3_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Terrain\Desert\Mountain_2.FBX">
+      <Name>Mountain_2</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Models\Terrain\Desert\Mountain_3.FBX">
+      <Name>Mountain_3</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>

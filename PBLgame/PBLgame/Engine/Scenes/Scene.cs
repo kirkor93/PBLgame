@@ -8,6 +8,7 @@ using PBLgame.Engine.GameObjects;
 using Microsoft.Xna.Framework;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.Singleton;
+using PBLgame.GamePlay;
 
 namespace PBLgame.Engine.Scenes
 {
@@ -244,6 +245,15 @@ namespace PBLgame.Engine.Scenes
                 //setting unique Id list
                 _takenIdNumbers.Add(light.ID);
             }
+
+            //tmp
+//            foreach (GameObject gameObject in _gameObjects)
+//            {
+//                if (gameObject.ID == 1)
+//                {
+//                    gameObject.AddComponent<Translator>(new Translator(gameObject));
+//                }
+//            }
         }
 
         #region XML Serialization

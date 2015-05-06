@@ -64,7 +64,7 @@ namespace PBLgame
         {
             mainCamera = new Camera( new Vector3(0, 0, 10), Vector3.Zero, Vector3.Up,
                 MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,1000);
-
+            mainCamera.AddComponent<PlayerScript>(new PlayerScript(mainCamera));
             InputManager.Instance.Initialize();
 
             base.Initialize();
@@ -90,10 +90,10 @@ namespace PBLgame
             ResourceManager.Instance.AssignAudioBank(_soundBank);
 
             _scene = new Scene();
-            _scene.Load(@"Scene 1.xml");
+            _scene.Load(@"Level_1.xml");
             player = _scene.GameObjects.First();
-            player.audioSource.Set3D(mainCamera.audioListener);
-            player.audioSource.Play();
+//            player.audioSource.Set3D(mainCamera.audioListener);
+//            player.audioSource.Play();
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace PBLgame
 
 
             _scene.Update(gameTime);
-            _audioEngine.Update(); //Have to be in final version
+//            _audioEngine.Update(); //Have to be in final version
             
             base.Update(gameTime);
         }
