@@ -103,6 +103,7 @@
     <Compile Include="Engine\Singleton\ResourceManager.cs" />
     <Compile Include="Engine\Singleton\Singleton.cs" />
     <Compile Include="GamePlay\PlayerScript.cs" />
+    <Compile Include="GamePlay\Translator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />

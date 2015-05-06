@@ -142,7 +142,6 @@ namespace Edytejshyn.Model
             Parent = parent;
             CreateWrappers();
             TreeViewNode = null;
-            AttachSetterHandler(source.SetterEvent); // events are immutable, so that is safe
 
             // children are copied by GameObject copy constructor
             // so wrap them up only
@@ -151,6 +150,7 @@ namespace Edytejshyn.Model
                 GameObjectWrapper wrappedChild = GameObjectWrappingFactory.Wrap(child, this);
                 _children.Add(wrappedChild);
             }
+            AttachSetterHandler(source.SetterEvent); // events are immutable, so that is safe
         }
 
         private void CreateWrappers()
@@ -250,6 +250,17 @@ namespace Edytejshyn.Model
             if (wrapper == null) return "[root]";
             StringBuilder sb = new StringBuilder();
             return wrapper.GetPathHelper(sb).ToString();
+        }
+
+        /// <summary>
+        /// Checks wheter game object has the given ancestor in whole path up to root
+        /// </summary>
+        /// <param name="ancestor">Given ancestor game object to find</param>
+        /// <returns>true if true, jeez that's obvious - look at method name and documentation above</returns>
+        public bool HasAncestor(GameObjectWrapper ancestor)
+        {
+            if (ancestor == null || Parent == null) return false;
+            return (Parent == ancestor || Parent.HasAncestor(ancestor));
         }
     }
 

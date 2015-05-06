@@ -25,7 +25,7 @@ namespace Edytejshyn.GUI
         private EditorMouseState _currentMouse, _prevMouse;
         private Timer _timer;
         private int _moveX, _moveY;
-        private const float BASE_ROTATE_SENSITIVITY = 0.004f, BASE_MOVE_SENSITIVITY = 0.15f;
+        private const float BASE_ROTATE_SENSITIVITY = 0.006f, BASE_MOVE_SENSITIVITY = 1.5f;
         private float _rotateSensitivity = BASE_ROTATE_SENSITIVITY, _moveSensitivity = BASE_MOVE_SENSITIVITY;
         private bool _hasFocus;
 
@@ -81,7 +81,7 @@ namespace Edytejshyn.GUI
             GameContentManager = new ContentManager(Services, "Content");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _osdFont = _editorContent.Load<SpriteFont>("OSDFont");
-            Camera = new Camera(new Vector3(0, 10, 10), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 1000);
+            Camera = new Camera(new Vector3(0, 10, 10), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 10000);
             CameraHistory = new CameraHistory(MainForm.Logic.Logger, Camera);
             Grid = new Grid(this, 1, 100);
             Gizmo = new Gizmo(this, _spriteBatch, _editorContent.Load<SpriteFont>("GizmoFont"));
@@ -257,7 +257,7 @@ namespace Edytejshyn.GUI
             _mouseMoved = false;
         }
 
-        protected void ViewportControl_MouseUp(object sender, MouseEventArgs e)
+        private void ViewportControl_MouseUp(object sender, MouseEventArgs e)
         {
             switch (e.Button)
             {
@@ -410,7 +410,7 @@ namespace Edytejshyn.GUI
 
                         case Keys.ControlKey:
                             _moveSensitivity = BASE_MOVE_SENSITIVITY*0.1f;
-                            _rotateSensitivity = BASE_ROTATE_SENSITIVITY*0.1f;
+                            _rotateSensitivity = BASE_ROTATE_SENSITIVITY*0.4f;
                             break;
                     }
                     break;

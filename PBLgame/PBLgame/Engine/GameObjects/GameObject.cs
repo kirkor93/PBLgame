@@ -128,6 +128,10 @@ namespace PBLgame.Engine.GameObjects
             Name = source.Name;
             Tag  = source.Tag;
             _parent = parent;
+            if (_parent != null)
+            {
+                _parent._children.Add(this);
+            }
 
             if (source.transform != null)
             {
@@ -162,11 +166,15 @@ namespace PBLgame.Engine.GameObjects
             // recursive children duplication
             foreach (GameObject child in source._children)
             {
-                _children.Add(child.Copy(this));
+                child.Copy(this);
             }
-
         }
 
+        /// <summary>
+        /// Makes copy of given game object and adds itself to its parent's children.
+        /// </summary>
+        /// <param name="sourceParent">source game object</param>
+        /// <returns>the copy</returns>
         public virtual GameObject Copy(GameObject sourceParent)
         {
             return new GameObject(this, sourceParent);
