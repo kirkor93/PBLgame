@@ -81,7 +81,7 @@ namespace Edytejshyn.GUI
             GameContentManager = new ContentManager(Services, "Content");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _osdFont = _editorContent.Load<SpriteFont>("OSDFont");
-            Camera = new Camera(new Vector3(0, 10, 10), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 1000);
+            Camera = new Camera(new Vector3(0, 10, 10), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 10000);
             CameraHistory = new CameraHistory(MainForm.Logic.Logger, Camera);
             Grid = new Grid(this, 1, 100);
             Gizmo = new Gizmo(this, _spriteBatch, _editorContent.Load<SpriteFont>("GizmoFont"));

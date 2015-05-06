@@ -7,16 +7,16 @@
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="3" MaterialId="25" />
+      <Renderer Enabled="True" MeshId="3" MaterialId="1" />
     </GameObject>
-    <GameObject Name="Walls_base" Tag="Player" Id="9">
+    <GameObject Name="Base" Tag="Terrain" Id="9">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="7" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="7" Parent="9">
       <Transform Enabled="True">
         <Position x="-75" y="0" z="-155" />
         <Rotation x="0" y="90" z="0" />
@@ -24,7 +24,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="26" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="6" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="6" Parent="9">
       <Transform Enabled="True">
         <Position x="-115" y="0" z="-155" />
         <Rotation x="0" y="90" z="0" />
@@ -32,7 +32,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="26" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="4" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="4" Parent="9">
       <Transform Enabled="True">
         <Position x="-35" y="3.496911E-06" z="-160" />
         <Rotation x="0" y="-90" z="0" />
@@ -40,7 +40,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="26" MaterialId="26" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="5" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="5" Parent="9">
       <Transform Enabled="True">
         <Position x="-35" y="0" z="-155" />
         <Rotation x="0" y="90" z="0" />
@@ -48,7 +48,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="26" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="3" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="3" Parent="9">
       <Transform Enabled="True">
         <Position x="0" y="0" z="-80" />
         <Rotation x="0" y="0" z="0" />
@@ -56,7 +56,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="26" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="2" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="2" Parent="9">
       <Transform Enabled="True">
         <Position x="0" y="0" z="-40" />
         <Rotation x="0" y="0" z="0" />
@@ -64,7 +64,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
     </GameObject>
-    <GameObject Name="Gate_1" Tag="Player" Id="1" Parent="9">
+    <GameObject Name="Gate_1" Tag="Terrain" Id="1" Parent="9">
       <Transform Enabled="True">
         <Position x="0" y="0" z="-40" />
         <Rotation x="0" y="0" z="0" />
@@ -72,7 +72,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="18" MaterialId="19" />
     </GameObject>
-    <GameObject Name="Gate_2" Tag="Player" Id="10" Parent="9">
+    <GameObject Name="Gate_2" Tag="Terrain" Id="10" Parent="9">
       <Transform Enabled="True">
         <Position x="0" y="0" z="15" />
         <Rotation x="0" y="0" z="0" />
@@ -80,7 +80,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="19" MaterialId="20" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="11" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="11" Parent="9">
       <Transform Enabled="True">
         <Position x="0" y="0" z="55" />
         <Rotation x="0" y="0" z="0" />
@@ -88,7 +88,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="12" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="12" Parent="9">
       <Transform Enabled="True">
         <Position x="0" y="0" z="95" />
         <Rotation x="0" y="0" z="0" />
@@ -96,7 +96,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="13" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="13" Parent="9">
       <Transform Enabled="True">
         <Position x="4.999997" y="0" z="95" />
         <Rotation x="0" y="180" z="0" />
@@ -104,7 +104,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="26" MaterialId="26" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="14" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="14" Parent="9">
       <Transform Enabled="True">
         <Position x="-35" y="0" z="135" />
         <Rotation x="0" y="90" z="0" />
@@ -112,7 +112,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="15" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="15" Parent="9">
       <Transform Enabled="True">
         <Position x="-75" y="0" z="135" />
         <Rotation x="0" y="90" z="0" />
@@ -120,7 +120,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="16" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="16" Parent="9">
       <Transform Enabled="True">
         <Position x="-115" y="0" z="135" />
         <Rotation x="0" y="90" z="0" />
@@ -128,7 +128,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="17" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="17" Parent="9">
       <Transform Enabled="True">
         <Position x="-235" y="0" z="135" />
         <Rotation x="0" y="90" z="0" />
@@ -136,7 +136,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="18" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="18" Parent="9">
       <Transform Enabled="True">
         <Position x="-275" y="0" z="135" />
         <Rotation x="0" y="90" z="0" />
@@ -144,7 +144,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="26" MaterialId="26" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="19" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="19" Parent="9">
       <Transform Enabled="True">
         <Position x="-155" y="0" z="135" />
         <Rotation x="0" y="90" z="0" />
@@ -152,7 +152,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="20" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="20" Parent="9">
       <Transform Enabled="True">
         <Position x="-195" y="0" z="135" />
         <Rotation x="0" y="90" z="0" />
@@ -160,7 +160,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="21" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="21" Parent="9">
       <Transform Enabled="True">
         <Position x="-155" y="0" z="-155" />
         <Rotation x="0" y="90" z="0" />
@@ -168,7 +168,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="22" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="22" Parent="9">
       <Transform Enabled="True">
         <Position x="-315" y="0" z="95" />
         <Rotation x="0" y="0" z="0" />
@@ -176,7 +176,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="23" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="23" Parent="9">
       <Transform Enabled="True">
         <Position x="-315" y="0" z="55" />
         <Rotation x="0" y="0" z="0" />
@@ -184,7 +184,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="24" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="24" Parent="9">
       <Transform Enabled="True">
         <Position x="-315" y="0" z="15" />
         <Rotation x="0" y="90" z="0" />
@@ -192,7 +192,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="27" />
     </GameObject>
-    <GameObject Name="Column" Tag="Player" Id="25" Parent="9">
+    <GameObject Name="Column" Tag="Terrain" Id="25" Parent="9">
       <Transform Enabled="True">
         <Position x="-308.5355" y="0" z="18.53553" />
         <Rotation x="0" y="45" z="0" />
@@ -200,55 +200,55 @@
       </Transform>
       <Renderer Enabled="True" MeshId="16" MaterialId="17" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="26" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="26" Parent="9">
       <Transform Enabled="True">
         <Position x="-315" y="0" z="15" />
         <Rotation x="0" y="90" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="27" MaterialId="27" />
+      <Renderer Enabled="True" MeshId="27" MaterialId="28" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="27" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="27" Parent="9">
       <Transform Enabled="True">
         <Position x="-395" y="0" z="-105" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="26" MaterialId="27" />
+      <Renderer Enabled="True" MeshId="26" MaterialId="28" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="28" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="28" Parent="9">
       <Transform Enabled="True">
         <Position x="-395" y="0" z="-25" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="27" MaterialId="27" />
+      <Renderer Enabled="True" MeshId="27" MaterialId="28" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="29" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="29" Parent="9">
       <Transform Enabled="True">
         <Position x="-395" y="0" z="-65" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="27" MaterialId="27" />
+      <Renderer Enabled="True" MeshId="27" MaterialId="28" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="30" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="30" Parent="9">
       <Transform Enabled="True">
         <Position x="-355" y="0" z="-145" />
         <Rotation x="0" y="-90" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="27" MaterialId="27" />
+      <Renderer Enabled="True" MeshId="27" MaterialId="28" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="31" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="31" Parent="9">
       <Transform Enabled="True">
         <Position x="-355" y="0" z="15.00003" />
         <Rotation x="0" y="90" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="26" MaterialId="27" />
+      <Renderer Enabled="True" MeshId="26" MaterialId="28" />
     </GameObject>
-    <GameObject Name="Column" Tag="Player" Id="32" Parent="9">
+    <GameObject Name="Column" Tag="Terrain" Id="32" Parent="9">
       <Transform Enabled="True">
         <Position x="-386.3173" y="0" z="11.46447" />
         <Rotation x="0" y="45" z="0" />
@@ -256,7 +256,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="16" MaterialId="17" />
     </GameObject>
-    <GameObject Name="Column" Tag="Player" Id="33" Parent="9">
+    <GameObject Name="Column" Tag="Terrain" Id="33" Parent="9">
       <Transform Enabled="True">
         <Position x="-389.8528" y="0" z="-133.4924" />
         <Rotation x="0" y="-45" z="0" />
@@ -264,31 +264,31 @@
       </Transform>
       <Renderer Enabled="True" MeshId="16" MaterialId="17" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="34" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="34" Parent="9">
       <Transform Enabled="True">
         <Position x="-315" y="0" z="-145" />
         <Rotation x="0" y="-90" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="27" MaterialId="27" />
+      <Renderer Enabled="True" MeshId="27" MaterialId="28" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="35" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="35" Parent="9">
       <Transform Enabled="True">
         <Position x="-275" y="0" z="-145" />
         <Rotation x="0" y="-90" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="27" MaterialId="27" />
+      <Renderer Enabled="True" MeshId="27" MaterialId="28" />
     </GameObject>
-    <GameObject Name="Wall" Tag="Player" Id="36" Parent="9">
+    <GameObject Name="Wall" Tag="Terrain" Id="36" Parent="9">
       <Transform Enabled="True">
         <Position x="-235" y="0" z="-145" />
         <Rotation x="0" y="-90" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="27" MaterialId="27" />
+      <Renderer Enabled="True" MeshId="27" MaterialId="28" />
     </GameObject>
-    <GameObject Name="Column" Tag="Player" Id="37" Parent="9">
+    <GameObject Name="Column" Tag="Terrain" Id="37" Parent="9">
       <Transform Enabled="True">
         <Position x="-199.8528" y="0" z="-138.4924" />
         <Rotation x="0" y="0" z="0" />
@@ -296,7 +296,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="16" MaterialId="17" />
     </GameObject>
-    <GameObject Name="Column" Tag="Player" Id="38" Parent="9">
+    <GameObject Name="Column" Tag="Terrain" Id="38" Parent="9">
       <Transform Enabled="True">
         <Position x="-194.8528" y="0" z="-158.4924" />
         <Rotation x="0" y="-180" z="0" />
@@ -304,6 +304,1175 @@
       </Transform>
       <Renderer Enabled="True" MeshId="16" MaterialId="17" />
     </GameObject>
+    <GameObject Name="Building" Tag="Terrain" Id="39" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-30" y="0" z="-155" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="12" MaterialId="11" />
+    </GameObject>
+    <GameObject Name="Building" Tag="Terrain" Id="40" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-195" y="0" z="-155" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="13" MaterialId="12" />
+    </GameObject>
+    <GameObject Name="Building" Tag="Terrain" Id="41" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-250" y="0" z="130" />
+        <Rotation x="0" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="13" MaterialId="12" />
+    </GameObject>
+    <GameObject Name="Building" Tag="Terrain" Id="42" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-99.99998" y="0" z="29.99997" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="14" MaterialId="13" />
+    </GameObject>
+    <GameObject Name="Building" Tag="Terrain" Id="43" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-5" y="0" z="-245" />
+        <Rotation x="0" y="270" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="15" MaterialId="15" />
+    </GameObject>
+    <GameObject Name="Building" Tag="Terrain" Id="45" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-215" y="0" z="29.99998" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="14" MaterialId="14" />
+    </GameObject>
+    <GameObject Name="Floors" Tag="Terrain" Id="46" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-395" y="0" z="-105" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Trash_can" Tag="Terrain" Id="79" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-200" y="0" z="-135" />
+        <Rotation x="0" y="90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="23" MaterialId="24" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="44" Parent="46">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="47" Parent="46">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="48" Parent="46">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="49" Parent="46">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="50" Parent="46">
+      <Transform Enabled="True">
+        <Position x="240" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="51" Parent="46">
+      <Transform Enabled="True">
+        <Position x="200" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="52" Parent="46">
+      <Transform Enabled="True">
+        <Position x="280" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="53" Parent="46">
+      <Transform Enabled="True">
+        <Position x="320" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="54" Parent="46">
+      <Transform Enabled="True">
+        <Position x="360" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floors" Tag="Terrain" Id="55" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-395" y="0" z="-65" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="56" Parent="55">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="57" Parent="55">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="58" Parent="55">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="59" Parent="55">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="60" Parent="55">
+      <Transform Enabled="True">
+        <Position x="240" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="61" Parent="55">
+      <Transform Enabled="True">
+        <Position x="200" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="62" Parent="55">
+      <Transform Enabled="True">
+        <Position x="280" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="63" Parent="55">
+      <Transform Enabled="True">
+        <Position x="320" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="64" Parent="55">
+      <Transform Enabled="True">
+        <Position x="360" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floors" Tag="Terrain" Id="65" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-395" y="0" z="-25" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="66" Parent="65">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="67" Parent="65">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="68" Parent="65">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="69" Parent="65">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="39" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="70" Parent="65">
+      <Transform Enabled="True">
+        <Position x="240" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="39" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="71" Parent="65">
+      <Transform Enabled="True">
+        <Position x="200" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="39" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="72" Parent="65">
+      <Transform Enabled="True">
+        <Position x="280" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="39" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="73" Parent="65">
+      <Transform Enabled="True">
+        <Position x="320" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="39" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="74" Parent="65">
+      <Transform Enabled="True">
+        <Position x="360" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="39" />
+    </GameObject>
+    <GameObject Name="Floors" Tag="Terrain" Id="75" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-395" y="0" z="15" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="76" Parent="75">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="77" Parent="75">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="78" Parent="75">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="80" Parent="75">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="39" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="81" Parent="75">
+      <Transform Enabled="True">
+        <Position x="240" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="39" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="82" Parent="75">
+      <Transform Enabled="True">
+        <Position x="200" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="39" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="83" Parent="75">
+      <Transform Enabled="True">
+        <Position x="280" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="39" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="84" Parent="75">
+      <Transform Enabled="True">
+        <Position x="320" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="39" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="85" Parent="75">
+      <Transform Enabled="True">
+        <Position x="360" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="39" />
+    </GameObject>
+    <GameObject Name="Floors" Tag="Terrain" Id="86" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-315" y="0" z="55" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="87" Parent="86">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="88" Parent="86">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="89" Parent="86">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="90" Parent="86">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="91" Parent="86">
+      <Transform Enabled="True">
+        <Position x="240" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="92" Parent="86">
+      <Transform Enabled="True">
+        <Position x="200" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="93" Parent="86">
+      <Transform Enabled="True">
+        <Position x="280" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floors" Tag="Terrain" Id="96" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-315" y="0" z="95" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="97" Parent="96">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="98" Parent="96">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="99" Parent="96">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="100" Parent="96">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="101" Parent="96">
+      <Transform Enabled="True">
+        <Position x="240" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="102" Parent="96">
+      <Transform Enabled="True">
+        <Position x="200" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="103" Parent="96">
+      <Transform Enabled="True">
+        <Position x="280" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floors" Tag="Terrain" Id="106" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-315" y="0" z="135" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="107" Parent="106">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="108" Parent="106">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="109" Parent="106">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="110" Parent="106">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="111" Parent="106">
+      <Transform Enabled="True">
+        <Position x="240" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="112" Parent="106">
+      <Transform Enabled="True">
+        <Position x="200" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="113" Parent="106">
+      <Transform Enabled="True">
+        <Position x="280" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Barrier" Tag="Terrain" Id="94" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-8.839746" y="0" z="-52.00962" />
+        <Rotation x="0" y="30" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+    </GameObject>
+    <GameObject Name="Barrier" Tag="Terrain" Id="95" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-8.839746" y="0" z="22.99038" />
+        <Rotation x="0" y="-30" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+    </GameObject>
+    <GameObject Name="Barrier" Tag="Terrain" Id="104" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-53.83974" y="0" z="-2.009624" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+    </GameObject>
+    <GameObject Name="Bollard" Tag="Terrain" Id="105" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-3.839745" y="0" z="-52.00962" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="11" MaterialId="10" />
+    </GameObject>
+    <GameObject Name="Bollard" Tag="Terrain" Id="114" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-83.83974" y="1.783817" z="-87.00963" />
+        <Rotation x="-112" y="-45" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="11" MaterialId="10" />
+    </GameObject>
+    <GameObject Name="Bollard" Tag="Terrain" Id="115" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-109.4684" y="1.783817" z="30.42688" />
+        <Rotation x="-112" y="-139" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="11" MaterialId="10" />
+    </GameObject>
+    <GameObject Name="Gate_archway" Tag="Terrain" Id="117" Parent="9">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-43.89888" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="20" MaterialId="21" />
+    </GameObject>
+    <GameObject Name="Bollard" Tag="Terrain" Id="116" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-142.2269" y="1.783817" z="-44.243" />
+        <Rotation x="-112" y="-126" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="11" MaterialId="10" />
+    </GameObject>
+    <GameObject Name="Lantern" Tag="Terrain" Id="118" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-65" y="0" z="-80" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="21" MaterialId="22" />
+    </GameObject>
+    <GameObject Name="Lantern" Tag="Terrain" Id="119" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-155" y="0" z="-80" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="21" MaterialId="22" />
+    </GameObject>
+    <GameObject Name="Lantern" Tag="Terrain" Id="120" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-230" y="0" z="-80" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="21" MaterialId="22" />
+    </GameObject>
+    <GameObject Name="Locker" Tag="Terrain" Id="121" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-226.8557" y="-2.952415" z="-136.1845" />
+        <Rotation x="0" y="-75" z="90" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="22" MaterialId="23" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="122" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-190" y="0" z="-60" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="31" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="123" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-155.6993" y="0" z="-14.37059" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="31" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="124" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-205.3053" y="0" z="-27.79258" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="32" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="125" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-249.7343" y="0" z="10.71257" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="32" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="126" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-136.5534" y="0" z="17.53262" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="32" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="127" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-136.5534" y="0" z="17.53262" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="32" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="128" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-112.649" y="0" z="85.12354" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="32" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="129" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-135.2296" y="0" z="-120.2199" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="32" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="130" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-273.7339" y="0" z="-96.76926" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="34" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="131" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-260.5436" y="0" z="-19.08983" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="34" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="132" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-193.5399" y="0" z="1.482063" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="35" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="133" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-116.3043" y="0" z="-54.03389" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="35" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="134" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-262.954" y="0" z="49.8166" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="35" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Can" Tag="Terrain" Id="135" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-227.4109" y="0" z="-92.16479" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="36" MaterialId="16" />
+    </GameObject>
+    <GameObject Name="Desert" Tag="Terrain" Id="136">
+      <Transform Enabled="True">
+        <Position x="5" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Terrain" Id="137" Parent="136">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Terrain" Id="138" Parent="137">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Terrain" Id="139" Parent="137">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Terrain" Id="140" Parent="137">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Mountains" Tag="Terrain" Id="141" Parent="136">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Mountain" Tag="Terrain" Id="142" Parent="141">
+      <Transform Enabled="True">
+        <Position x="60" y="0" z="-540" />
+        <Rotation x="0" y="60" z="0" />
+        <Scale x="1" y="1" z="1.4" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="42" MaterialId="36" />
+    </GameObject>
+    <GameObject Name="Mountain" Tag="Terrain" Id="143" Parent="141">
+      <Transform Enabled="True">
+        <Position x="-262.8033" y="0" z="-416.8549" />
+        <Rotation x="0" y="-40" z="0" />
+        <Scale x="0.7" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="42" MaterialId="36" />
+    </GameObject>
+    <GameObject Name="Mountain" Tag="Terrain" Id="144" Parent="141">
+      <Transform Enabled="True">
+        <Position x="-520" y="0" z="-240" />
+        <Rotation x="0" y="-135" z="0" />
+        <Scale x="1" y="1.3" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="42" MaterialId="36" />
+    </GameObject>
+    <GameObject Name="Mountain" Tag="Terrain" Id="145" Parent="141">
+      <Transform Enabled="True">
+        <Position x="-20" y="0" z="320" />
+        <Rotation x="0" y="-310" z="0" />
+        <Scale x="1" y="0.7" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="42" MaterialId="36" />
+    </GameObject>
+    <GameObject Name="Mountain" Tag="Terrain" Id="146" Parent="141">
+      <Transform Enabled="True">
+        <Position x="660" y="0" z="560" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="0.9" z="1.1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="42" MaterialId="36" />
+    </GameObject>
+    <GameObject Name="Mountain" Tag="Terrain" Id="147" Parent="141">
+      <Transform Enabled="True">
+        <Position x="420" y="0" z="-640" />
+        <Rotation x="0" y="155" z="0" />
+        <Scale x="1" y="1.5" z="1.1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="42" MaterialId="36" />
+    </GameObject>
+    <GameObject Name="Mountain" Tag="Terrain" Id="148" Parent="141">
+      <Transform Enabled="True">
+        <Position x="300" y="0" z="440" />
+        <Rotation x="0" y="-10" z="0" />
+        <Scale x="1.2" y="0.7" z="0.8" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="42" MaterialId="36" />
+    </GameObject>
+    <GameObject Name="Building" Tag="Terrain" Id="149" Parent="136">
+      <Transform Enabled="True">
+        <Position x="945" y="0" z="-425" />
+        <Rotation x="5.008956E-06" y="-135" z="0" />
+        <Scale x="1.5" y="1.5" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="15" MaterialId="15" />
+    </GameObject>
+    <GameObject Name="Mountain" Tag="Terrain" Id="150" Parent="141">
+      <Transform Enabled="True">
+        <Position x="760" y="0" z="-760" />
+        <Rotation x="0" y="220" z="0" />
+        <Scale x="1" y="1.2" z="0.9" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="42" MaterialId="36" />
+    </GameObject>
+    <GameObject Name="Building" Tag="Terrain" Id="152" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1345" y="0" z="435" />
+        <Rotation x="5.008956E-06" y="-230" z="0" />
+        <Scale x="1.5" y="1.5" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="15" MaterialId="15" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Terrain" Id="153" Parent="137">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Camp" Tag="Terrain" Id="160" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1431.471" y="3.496911E-05" z="-295.1166" />
+        <Rotation x="5.008956E-06" y="-150" z="0" />
+        <Scale x="1.5" y="1.5" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="46" MaterialId="38" />
+    </GameObject>
+    <GameObject Name="Tent" Tag="Terrain" Id="159" Parent="160">
+      <Transform Enabled="True">
+        <Position x="-107.0434" y="-3.880908E-05" z="-165.8862" />
+        <Rotation x="1.280151E-05" y="130" z="5.969441E-06" />
+        <Scale x="0.6666667" y="0.6666667" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="45" MaterialId="37" />
+    </GameObject>
+    <GameObject Name="Tent" Tag="Terrain" Id="158" Parent="160">
+      <Transform Enabled="True">
+        <Position x="-157.2634" y="-4.77001E-05" z="-278.4383" />
+        <Rotation x="1.965416E-05" y="250" z="-1.376199E-05" />
+        <Scale x="0.6666667" y="0.6666667" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="45" MaterialId="37" />
+    </GameObject>
+    <GameObject Name="Tent" Tag="Terrain" Id="157" Parent="160">
+      <Transform Enabled="True">
+        <Position x="-148.5346" y="-3.280912E-05" z="-142.9389" />
+        <Rotation x="-5.246231E-05" y="85.00002" z="-5.725256E-05" />
+        <Scale x="0.6666667" y="0.6666667" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="45" MaterialId="37" />
+    </GameObject>
+    <GameObject Name="Tent" Tag="Terrain" Id="156" Parent="160">
+      <Transform Enabled="True">
+        <Position x="-193.4028" y="-2.897442E-05" z="-157.143" />
+        <Rotation x="-1.529769E-06" y="39.99997" z="-4.203009E-06" />
+        <Scale x="0.6666667" y="0.6666667" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="45" MaterialId="37" />
+    </GameObject>
+    <GameObject Name="Tower" Tag="Terrain" Id="155" Parent="160">
+      <Transform Enabled="True">
+        <Position x="65.99657" y="4.803966E-06" z="-337.5735" />
+        <Rotation x="-2.074779E-06" y="-45" z="5.008957E-06" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="46" MaterialId="38" />
+    </GameObject>
+    <GameObject Name="Tower" Tag="Terrain" Id="154" Parent="160">
+      <Transform Enabled="True">
+        <Position x="-5.990417E-05" y="6.700643E-13" z="3.698512E-05" />
+        <Rotation x="-4.219427E-13" y="-4.436337E-06" z="4.399778E-13" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="46" MaterialId="38" />
+    </GameObject>
+    <GameObject Name="Tent" Tag="Terrain" Id="151" Parent="160">
+      <Transform Enabled="True">
+        <Position x="-205.618" y="-3.57178E-05" z="-212.846" />
+        <Rotation x="-3.214643E-07" y="-20" z="1.823111E-06" />
+        <Scale x="0.6666667" y="0.6666667" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="45" MaterialId="37" />
+    </GameObject>
+    <GameObject Name="Building" Tag="Terrain" Id="161" Parent="136">
+      <Transform Enabled="True">
+        <Position x="2079.831" y="-5.944748E-05" z="-719.8839" />
+        <Rotation x="5.008956E-06" y="-290" z="0" />
+        <Scale x="1.5" y="1.5" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="15" MaterialId="15" />
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Terrain" Id="162" Parent="136">
+      <Transform Enabled="True">
+        <Position x="660" y="0" z="-280" />
+        <Rotation x="5.008956E-06" y="-350" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Terrain" Id="163" Parent="136">
+      <Transform Enabled="True">
+        <Position x="960" y="0" z="140" />
+        <Rotation x="5.008956E-06" y="-5" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Terrain" Id="164" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1200" y="0" z="-280" />
+        <Rotation x="5.008956E-06" y="70" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Terrain" Id="165" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1500" y="0" z="-600" />
+        <Rotation x="5.008956E-06" y="70" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Terrain" Id="166" Parent="136">
+      <Transform Enabled="True">
+        <Position x="2000" y="0" z="260" />
+        <Rotation x="5.008956E-06" y="10" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Terrain" Id="167" Parent="136">
+      <Transform Enabled="True">
+        <Position x="2160" y="0" z="-340" />
+        <Rotation x="5.008956E-06" y="10" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Terrain" Id="168" Parent="136">
+      <Transform Enabled="True">
+        <Position x="2360" y="0" z="0" />
+        <Rotation x="5.008956E-06" y="10" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Terrain" Id="169" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1820" y="0" z="-620" />
+        <Rotation x="5.008956E-06" y="70" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+    </GameObject>
+    <GameObject Name="Mountain" Tag="Terrain" Id="171" Parent="141">
+      <Transform Enabled="True">
+        <Position x="1057.956" y="0" z="635.5291" />
+        <Rotation x="0" y="-15" z="0" />
+        <Scale x="1.4" y="0.9" z="1.1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="42" MaterialId="36" />
+    </GameObject>
+    <GameObject Name="Mountain" Tag="Terrain" Id="172" Parent="141">
+      <Transform Enabled="True">
+        <Position x="1145.372" y="0" z="-907.192" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1.4" y="0.9" z="1.1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="42" MaterialId="36" />
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Terrain" Id="173" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1178.413" y="1.923301E-05" z="-61.73169" />
+        <Rotation x="5.008956E-06" y="-80" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="38" MaterialId="27" />
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Terrain" Id="174" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1630.235" y="5.595058E-05" z="81.99377" />
+        <Rotation x="5.008956E-06" y="-80" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="38" MaterialId="27" />
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Terrain" Id="175" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1954.651" y="8.567432E-05" z="-36.13509" />
+        <Rotation x="5.008956E-06" y="-200" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="38" MaterialId="27" />
+    </GameObject>
+    <GameObject Name="Floors" Tag="Terrain" Id="177" Parent="9">
+      <Transform Enabled="True">
+        <Position x="4.999998" y="0" z="-185" />
+        <Rotation x="0" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="178" Parent="177">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="-4.371137E-07" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="179" Parent="177">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="-4.371137E-07" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="180" Parent="177">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="-4.371137E-07" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Terrain" Id="181" Parent="177">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="-4.371137E-07" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Building" Tag="Terrain" Id="176" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-100" y="0" z="-245" />
+        <Rotation x="0" y="270" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="15" MaterialId="15" />
+    </GameObject>
+    <GameObject Name="Building" Tag="Terrain" Id="182" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-280" y="0" z="-70.00004" />
+        <Rotation x="0" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="14" MaterialId="13" />
+    </GameObject>
+    <GameObject Name="Barrier" Tag="Terrain" Id="183" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-295.9679" y="0" z="-119.6891" />
+        <Rotation x="0" y="-30" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+    </GameObject>
+    <GameObject Name="Barrier" Tag="Terrain" Id="184" Parent="9">
+      <Transform Enabled="True">
+        <Position x="-290.0649" y="0" z="-101.6291" />
+        <Rotation x="0" y="60" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+    </GameObject>
   </GameObjects>
-  <Lights />
+  <Lights>
+    <Light Type="Point">
+      <Color r="1" g="0" b="0" a="1" />
+      <GameObject Name="Light 1" Tag="Light" Id="170">
+        <Transform Enabled="True">
+          <Position x="43.91751" y="52.57519" z="0" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <PointLight Attenuation="10" FallOff="2" />
+    </Light>
+  </Lights>
 </Scene>
