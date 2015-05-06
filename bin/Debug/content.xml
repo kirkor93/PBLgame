@@ -86,6 +86,26 @@
       <Texture Path="Textures\Terrain\Start_base\Wall_2_d" />
       <Texture Path="Textures\Terrain\Start_base\Wall_2_n" />
       <Texture Path="Textures\Terrain\Start_base\Wall_2_s" />
+      <Texture Path="Textures\Terrain\Desert\Asphalt_1_d" />
+      <Texture Path="Textures\Terrain\Desert\Asphalt_1_n" />
+      <Texture Path="Textures\Terrain\Desert\Asphalt_1_s" />
+      <Texture Path="Textures\Terrain\Desert\Asphalt_2_d" />
+      <Texture Path="Textures\Terrain\Desert\Asphalt_2_n" />
+      <Texture Path="Textures\Terrain\Desert\Asphalt_2_s" />
+      <Texture Path="Textures\Terrain\Desert\Asphalt_lanes_d" />
+      <Texture Path="Textures\Terrain\Desert\Asphalt_lanes_n" />
+      <Texture Path="Textures\Terrain\Desert\Asphalt_lanes_s" />
+      <Texture Path="Textures\Terrain\Desert\Dune_d" />
+      <Texture Path="Textures\Terrain\Desert\Dune_s" />
+      <Texture Path="Textures\Terrain\Desert\Dune_1_n" />
+      <Texture Path="Textures\Terrain\Desert\Dune_2_n" />
+      <Texture Path="Textures\Terrain\Desert\Dune_3_n" />
+      <Texture Path="Textures\Terrain\Desert\Rock_1_d" />
+      <Texture Path="Textures\Terrain\Desert\Rock_1_n" />
+      <Texture Path="Textures\Terrain\Desert\Rock_1_s" />
+      <Texture Path="Textures\Terrain\Desert\Rock_2_d" />
+      <Texture Path="Textures\Terrain\Desert\Rock_2_n" />
+      <Texture Path="Textures\Terrain\Desert\Rock_2_s" />
     </Textures>
     <Materials>
       <Material Id="1" Name="Helmet" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
@@ -116,6 +136,15 @@
       <Material Id="25" Name="Terrain\Start_base\Wall_1" Diffuse="Textures\Terrain\Start_base\Wall_1_d" Normal="Textures\Terrain\Start_base\Wall_1_n" Specular="Textures\Terrain\Start_base\Wall_1_s" Emissive="Textures\Terrain\Start_base\Wall_1_d" ShaderPath="Effects\BasicShader" />
       <Material Id="26" Name="Terrain\Start_base\Wall_1_v2" Diffuse="Textures\Terrain\Start_base\Wall_1_v2_d" Normal="Textures\Terrain\Start_base\Wall_1_v2_n" Specular="Textures\Terrain\Start_base\Wall_1_v2_s" Emissive="Textures\Terrain\Start_base\Wall_1_v2_d" ShaderPath="Effects\BasicShader" />
       <Material Id="27" Name="Terrain\Start_base\Wall_2" Diffuse="Textures\Terrain\Start_base\Wall_2_d" Normal="Textures\Terrain\Start_base\Wall_2_n" Specular="Textures\Terrain\Start_base\Wall_2_s" Emissive="Textures\Terrain\Start_base\Wall_2_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="27" Name="Terrain\Desert\Asphalt_1" Diffuse="Textures\Terrain\Desert\Asphalt_1_d" Normal="Textures\Terrain\Desert\Asphalt_1_n" Specular="Textures\Terrain\Desert\Asphalt_1_s" Emissive="Textures\Terrain\Desert\Asphalt_1_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="28" Name="Terrain\Desert\Asphalt_2" Diffuse="Textures\Terrain\Desert\Asphalt_2_d" Normal="Textures\Terrain\Desert\Asphalt_2_n" Specular="Textures\Terrain\Desert\Asphalt_2_s" Emissive="Textures\Terrain\Desert\Asphalt_2_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="29" Name="Terrain\Desert\Asphalt_lanes" Diffuse="Textures\Terrain\Desert\Asphalt_lanes_d" Normal="Textures\Terrain\Desert\Asphalt_lanes_n" Specular="Textures\Terrain\Desert\Asphalt_lanes_s" Emissive="Textures\Terrain\Desert\Asphalt_lanes_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="30" Name="Terrain\Desert\Rock_1" Diffuse="Textures\Terrain\Desert\Rock_1_d" Normal="Textures\Terrain\Desert\Rock_1_n" Specular="Textures\Terrain\Desert\Rock_1_s" Emissive="Textures\Terrain\Desert\Rock_1_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="31" Name="Terrain\Desert\Rock_2" Diffuse="Textures\Terrain\Desert\Rock_2_d" Normal="Textures\Terrain\Desert\Rock_2_n" Specular="Textures\Terrain\Desert\Rock_2_s" Emissive="Textures\Terrain\Desert\Rock_2_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="32" Name="Terrain\Desert\Dune_1" Diffuse="Textures\Terrain\Desert\Dune_d" Normal="Textures\Terrain\Desert\Dune_1_n" Specular="Textures\Terrain\Desert\Dune_s" Emissive="Textures\Terrain\Desert\Dune_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="33" Name="Terrain\Desert\Dune_1" Diffuse="Textures\Terrain\Desert\Dune_d" Normal="Textures\Terrain\Desert\Dune_2_n" Specular="Textures\Terrain\Desert\Dune_s" Emissive="Textures\Terrain\Desert\Dune_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="34" Name="Terrain\Desert\Dune_1" Diffuse="Textures\Terrain\Desert\Dune_d" Normal="Textures\Terrain\Desert\Dune_3_n" Specular="Textures\Terrain\Desert\Dune_s" Emissive="Textures\Terrain\Desert\Dune_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="35" Name="Terrain\Start_base\Bottles" Diffuse="Textures\Terrain\Start_base\Bottles_d" Normal="Textures\Default_n" Specular="Textures\Default_s" Emissive="Textures\Terrain\Start_base\Bottles_d" ShaderPath="Effects\BasicShader" />
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
@@ -154,6 +183,16 @@
       <Mesh Id="34" Path="Models\Terrain\Start_base\Can_4" />
       <Mesh Id="35" Path="Models\Terrain\Start_base\Can_5" />
       <Mesh Id="36" Path="Models\Terrain\Start_base\Can_6" />
+      <Mesh Id="37" Path="Models\Terrain\Desert\Cactus_big" />
+      <Mesh Id="38" Path="Models\Terrain\Desert\Cactus_small" />
+      <Mesh Id="39" Path="Models\Terrain\Desert\Dune_1" />
+      <Mesh Id="40" Path="Models\Terrain\Desert\Dune_2" />
+      <Mesh Id="41" Path="Models\Terrain\Desert\Dune_3" />
+      <Mesh Id="42" Path="Models\Terrain\Desert\Mountain" />
+      <Mesh Id="43" Path="Models\Terrain\Desert\Rock_1" />
+      <Mesh Id="44" Path="Models\Terrain\Desert\Rock_2" />
+      <Mesh Id="45" Path="Models\Terrain\Desert\Tent" />
+      <Mesh Id="46" Path="Models\Terrain\Desert\Tower_1" />
     </Meshes>
   </Content>
 </XmlContent>

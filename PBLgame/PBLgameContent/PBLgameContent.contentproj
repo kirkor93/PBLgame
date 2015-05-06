@@ -191,30 +191,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Terrain\Start_base\Gate_archway.FBX">
-      <Name>Gate_archway</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Terrain\Start_base\Gate_1.FBX">
-      <Name>Gate_1</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Terrain\Start_base\Gate_2.FBX">
-      <Name>Gate_2</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\Terrain\Start_base\Trash_can_1.FBX">
       <Name>Trash_can_1</Name>
       <Importer>FbxImporter</Importer>
@@ -647,57 +623,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Terrain\Start_base\Gate_archway_d.png">
-      <Name>Gate_archway_d</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\Terrain\Start_base\Gate_archway_n.png">
-      <Name>Gate_archway_n</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\Terrain\Start_base\Gate_archway_s.png">
-      <Name>Gate_archway_s</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\Terrain\Start_base\Gate_1_d.png">
-      <Name>Gate_1_d</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\Terrain\Start_base\Gate_1_n.png">
-      <Name>Gate_1_n</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\Terrain\Start_base\Gate_1_s.png">
-      <Name>Gate_1_s</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\Terrain\Start_base\Gate_2_d.png">
-      <Name>Gate_2_d</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\Terrain\Start_base\Gate_2_n.png">
-      <Name>Gate_2_n</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\Terrain\Start_base\Gate_2_s.png">
-      <Name>Gate_2_s</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\Terrain\Start_base\Bottles_d.png">
       <Name>Bottles_d</Name>
       <Importer>TextureImporter</Importer>
@@ -753,6 +678,241 @@
     </Compile>
     <Compile Include="Textures\Default_s.png">
       <Name>Default_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Terrain\Desert\Cactus_big.FBX">
+      <Name>Cactus_big</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Models\Terrain\Desert\Cactus_small.FBX">
+      <Name>Cactus_small</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Models\Terrain\Desert\Mountain.FBX">
+      <Name>Mountain</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Models\Terrain\Desert\Tent.FBX">
+      <Name>Tent</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Models\Terrain\Desert\Tower_1.FBX">
+      <Name>Tower_1</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Terrain\Desert\Dune_1.FBX">
+      <Name>Dune_1</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Models\Terrain\Desert\Dune_2.FBX">
+      <Name>Dune_2</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Models\Terrain\Desert\Dune_3.FBX">
+      <Name>Dune_3</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Models\Terrain\Desert\Rock_1.FBX">
+      <Name>Rock_1</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Models\Terrain\Desert\Rock_2.FBX">
+      <Name>Rock_2</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Terrain\Start_base\Gate_1.FBX">
+      <Name>Gate_1</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Models\Terrain\Start_base\Gate_2.FBX">
+      <Name>Gate_2</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Models\Terrain\Start_base\Gate_archway.FBX">
+      <Name>Gate_archway</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Terrain\Start_base\Gate_1_d.png">
+      <Name>Gate_1_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Start_base\Gate_1_n.png">
+      <Name>Gate_1_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Start_base\Gate_1_s.png">
+      <Name>Gate_1_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Start_base\Gate_2_d.png">
+      <Name>Gate_2_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Start_base\Gate_2_n.png">
+      <Name>Gate_2_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Start_base\Gate_2_s.png">
+      <Name>Gate_2_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Start_base\Gate_archway_d.png">
+      <Name>Gate_archway_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Start_base\Gate_archway_n.png">
+      <Name>Gate_archway_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Start_base\Gate_archway_s.png">
+      <Name>Gate_archway_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Terrain\Desert\Asphalt_1_n.png">
+      <Name>Asphalt_1_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Asphalt_1_s.png">
+      <Name>Asphalt_1_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Asphalt_2_d.png">
+      <Name>Asphalt_2_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Asphalt_2_n.png">
+      <Name>Asphalt_2_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Asphalt_2_s.png">
+      <Name>Asphalt_2_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Asphalt_lanes_d.png">
+      <Name>Asphalt_lanes_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Asphalt_lanes_n.png">
+      <Name>Asphalt_lanes_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Asphalt_lanes_s.png">
+      <Name>Asphalt_lanes_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Dune_1_n.png">
+      <Name>Dune_1_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Dune_2_n.png">
+      <Name>Dune_2_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Dune_3_n.png">
+      <Name>Dune_3_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Dune_d.png">
+      <Name>Dune_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Dune_s.png">
+      <Name>Dune_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Rock_1_d.png">
+      <Name>Rock_1_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Rock_1_n.png">
+      <Name>Rock_1_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Rock_1_s.png">
+      <Name>Rock_1_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Rock_2_d.png">
+      <Name>Rock_2_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Rock_2_n.png">
+      <Name>Rock_2_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Terrain\Desert\Rock_2_s.png">
+      <Name>Rock_2_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Terrain\Desert\Asphalt_1_d.png">
+      <Name>Asphalt_1_d</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
