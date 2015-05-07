@@ -10,7 +10,8 @@ namespace PBLgame.GamePlay
 {
     class Translator : Component
     {
-        public int TranslationTicks = 100;
+        public bool IsTriggered = false;
+        public int TranslationTicks = 300;
         public Translator(Component source) : base(source)
         {
 
@@ -23,7 +24,7 @@ namespace PBLgame.GamePlay
 
         public override void Update(GameTime gameTime)
         {
-            if (TranslationTicks <= 0)
+            if (!IsTriggered || TranslationTicks <= 0)
             {
                 return;
             }

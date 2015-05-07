@@ -48,6 +48,9 @@ namespace PBLgame
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             if (Instance == null)
             {
@@ -63,10 +66,12 @@ namespace PBLgame
         /// </summary>
         protected override void Initialize()
         {
+
             mainCamera = new Camera( new Vector3(0, 0, 10), Vector3.Zero, Vector3.Up,
                 MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,1000);
 
             InputManager.Instance.Initialize();
+
 
             base.Initialize();
         }
@@ -100,14 +105,14 @@ namespace PBLgame
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;
-            player.AddComponent<PlayerScript>(new PlayerScript(player));
             player.collision = new Collision(player);
             player.collision.Rigidbody = true;
             player.collision.MainCollider = new SphereCollider(player.collision,Vector3.Zero, 10.0f, false);
             player.collision.Static = false;
-            _scene.GameObjects[8].collision = new Collision(_scene.GameObjects[8]);
-            _scene.GameObjects[8].collision.MainCollider = new SphereCollider(_scene.GameObjects[8].collision, Vector3.Zero, 15.0f, true);
-            _scene.GameObjects[8].collision.BoxColliders.Add(new BoxCollider(_scene.GameObjects[8].collision, new Vector3(10, 50, 20), false));
+            player.AddComponent<PlayerScript>(new PlayerScript(player));
+//            _scene.GameObjects[8].collision = new Collision(_scene.GameObjects[8]);
+//            _scene.GameObjects[8].collision.MainCollider = new SphereCollider(_scene.GameObjects[8].collision, Vector3.Zero, 15.0f, true);
+//            _scene.GameObjects[8].collision.BoxColliders.Add(new BoxCollider(_scene.GameObjects[8].collision, new Vector3(10, 50, 20), false));
         }
 
         /// <summary>

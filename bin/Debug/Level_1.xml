@@ -71,8 +71,6 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="18" MaterialId="19" />
-      <PBLgame.GamePlay.Translator Enabled="True" />
-      <PBLgame.GamePlay.Translator Enabled="True" />
     </GameObject>
     <GameObject Name="Gate_2" Tag="Terrain" Id="10" Parent="9">
       <Transform Enabled="True">
@@ -4803,9 +4801,9 @@
   <Lights>
     <Light Type="Point">
       <Color r="0.8" g="0.8" b="0.8" a="1" />
-      <GameObject Name="Light 1" Tag="Light" Id="170">
+      <GameObject Name="Light 1" Tag="Light" Id="170" Parent="8">
         <Transform Enabled="True">
-          <Position x="-45.30978" y="41.5706" z="-67.32355" />
+          <Position x="0" y="0" z="0" />
           <Rotation x="0" y="0" z="0" />
           <Scale x="1" y="1" z="1" />
         </Transform>

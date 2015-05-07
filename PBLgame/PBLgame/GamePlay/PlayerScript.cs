@@ -25,6 +25,10 @@ namespace PBLgame.GamePlay
         {
             InputManager.Instance.OnTurn += CharacterRotation;
             InputManager.Instance.OnMove += CharacterTranslate;
+            if (gameObject.collision != null)
+            {
+                gameObject.collision.OnTrigger += OnTrigger;
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -58,6 +62,12 @@ namespace PBLgame.GamePlay
         {
             // developper doesn't get responsibility for unexpected behaviour
             return new PlayerScript(newOwner);
+        }
+
+        private void OnTrigger(object sender, ColArgs e)
+        {
+            Translator t = e.EnemySphere.Owner.gameObject.GetComponent<Translator>();
+            t.IsTriggered = true;
         }
 
         #endregion

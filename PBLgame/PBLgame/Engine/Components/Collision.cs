@@ -12,8 +12,8 @@ using PBLgame.Engine.Physics;
 namespace PBLgame.Engine.Components
 {
 #region CollisionEventHelpers
-    public delegate void  CollisionHandler(Object sender, EventArgs e);
-    public delegate void TriggerHandler(Object sender, EventArgs e);
+    public delegate void  CollisionHandler(Object sender, ColArgs e);
+    public delegate void TriggerHandler(Object sender, ColArgs e);
 
     public class ColArgs : EventArgs
     {
@@ -184,15 +184,15 @@ namespace PBLgame.Engine.Components
 
         public override void Draw(GameTime gameTime)
         {
-            foreach(BoxCollider box in _boxColliders)
-            {
-                box.Draw();
-            }
-            foreach(SphereCollider sphere in _sphereColliders)
-            {
-                sphere.Draw();
-            }
-            MainCollider.Draw();
+//            foreach(BoxCollider box in _boxColliders)
+//            {
+//                box.Draw();
+//            }
+//            foreach(SphereCollider sphere in _sphereColliders)
+//            {
+//                sphere.Draw();
+//            }
+//            MainCollider.Draw();
         }
 
         public void ResetPreviousState()

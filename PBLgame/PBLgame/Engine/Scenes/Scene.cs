@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -9,6 +10,7 @@ using Microsoft.Xna.Framework;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.Singleton;
 using PBLgame.Engine.Physics;
+using PBLgame.GamePlay;
 
 namespace PBLgame.Engine.Scenes
 {
@@ -290,6 +292,33 @@ namespace PBLgame.Engine.Scenes
                 //setting unique Id list
                 _takenIdNumbers.Add(light.ID);
             }
+
+            //tmp
+            GameObject gate = FindGameObject(1);
+            gate.AddComponent<Collision>(new Collision(gate));
+            gate.AddComponent<Translator>(new Translator(gate));
+            gate.collision.MainCollider = new SphereCollider(gate.collision, new Vector3(-20.0f, 0.0f, 10.0f), 15.0f, true);
+
+            _gameObjects[5].AddComponent<Collision>(new Collision(_gameObjects[5]));
+            _gameObjects[5].collision.MainCollider = new SphereCollider(_gameObjects[5].collision, new Vector3(-60.0f, -5.0f, 0.0f), 85.0f, true);
+            _gameObjects[5].collision.BoxColliders.Add(new BoxCollider(_gameObjects[5].collision, new Vector3(-60.0f, -5.0f, 0.0f), new Vector3(170, 50, 5), false));
+
+            _gameObjects[18].AddComponent<Collision>(new Collision(_gameObjects[18]));
+            _gameObjects[18].collision.MainCollider = new SphereCollider(_gameObjects[18].collision, new Vector3(0.0f, -5.0f, 0.0f), 150.0f, true);
+            _gameObjects[18].collision.BoxColliders.Add(new BoxCollider(_gameObjects[18].collision, new Vector3(0.0f, -5.0f, 0.0f), new Vector3(300, 50, 5), false));
+            int i = 0;
+            foreach (GameObject gameObject in _gameObjects)
+            {
+                if (gameObject.Name == "Wall")
+                {
+                        i++;
+                        gameObject.collision = new Collision(gameObject);
+                       gameObject.collision.MainCollider = new SphereCollider(gameObject.collision, Vector3.Zero, 15.0f, true);
+                      gameObject.collision.BoxColliders.Add(new BoxCollider(gameObject.collision, new Vector3(10, 50, 20), false));
+                   
+                }
+            }
+            Console.WriteLine(i);
         }
 
         #region XML Serialization
