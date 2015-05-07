@@ -6,7 +6,9 @@ float4x4 worldInverseTranspose;
 
 float3 direction;
 
+#ifdef SKINNED
 float4x3 Bones[72];
+#endif
 
 #define maxLights 30
 float4 lightsPositions[maxLights];
@@ -70,11 +72,15 @@ struct VertexShaderInput
 	float3 Normal : NORMAL0;
 	float3 Tangent : TANGENT0;
 	float3 Binormal : BINORMAL0;
+#ifdef SKINNED
+	int4   Indices  : BLENDINDICES0;
+	float4 Weights  : BLENDWEIGHT0;
+#endif
 };
 
 struct VertexShaderOutput
 {
-    float4 Position : POSITION0;
+	float4 Position : POSITION0;
 	float2 TextureCoordinate :TEXCOORD0;
 	float3 Normal :TEXCOORD1;
 	float3 Tangent : TEXCOORD2;
@@ -82,13 +88,33 @@ struct VertexShaderOutput
 	float4 WorldPos : TEXCOORD4;
 };
 
+#ifdef SKINNED
+void Skin(inout VertexShaderInput vin, uniform int boneCount)
+{
+	float4x3 skinning = 0;
+
+		[unroll]
+	for (int i = 0; i < boneCount; i++)
+	{
+		skinning += Bones[vin.Indices[i]] * vin.Weights[i];
+	}
+
+	vin.Position.xyz = mul(vin.Position, skinning);
+	vin.Normal = mul(vin.Normal, (float3x3) skinning);
+}
+#endif
+
 VertexShaderOutput VS(VertexShaderInput input)
 {
-    VertexShaderOutput output;
+	VertexShaderOutput output;
 
-    float4 worldPosition = mul(input.Position, world);
-    float4 viewPosition = mul(worldPosition, view);
-    output.Position = mul(viewPosition, projection);
+#ifdef SKINNED
+	Skin(input, 4);
+#endif
+
+	float4 worldPosition = mul(input.Position, world);
+		float4 viewPosition = mul(worldPosition, view);
+		output.Position = mul(viewPosition, projection);
 	output.WorldPos = worldPosition;
 
 	output.Normal = normalize(mul(input.Normal, worldInverseTranspose));
@@ -97,7 +123,7 @@ VertexShaderOutput VS(VertexShaderInput input)
 
 	output.TextureCoordinate = input.TextureCoordinate;
 
-    return output;
+	return output;
 }
 
 float4 PS(VertexShaderOutput input) : COLOR0
@@ -115,36 +141,36 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	{
 		//directional
 		float4 lightDir = normalize((lightsPositions[i] - input.WorldPos) * lightsPoint[i] + lightsPositions[i] * lightsDirectional[i]);
-		float dirLightAffect = saturate(dot(lightDir, normal)) * lightsAttenuations[i];
+			float dirLightAffect = saturate(dot(lightDir, normal)) * lightsAttenuations[i];
 		//point
 		float d = distance(lightsPositions[i], input.WorldPos);
-		float att = 1 - pow(clamp(d / lightsAttenuations[i], 0, 1),lightsFalloffs[i]);
+		float att = 1 - pow(clamp(d / lightsAttenuations[i], 0, 1), lightsFalloffs[i]);
 
-		totalLight += lightsColors[i] * ( lightsPoint[i] * att + dirLightAffect * lightsDirectional[i]);
+		totalLight += lightsColors[i] * (lightsPoint[i] * att + dirLightAffect * lightsDirectional[i]);
 
 		float3 r = normalize((2 * dot(lightDir, normal) * normal - lightDir));
-		float3 v = normalize(mul(normalize(direction), world));
-		totalSpecular += dot(r, v);
- 	}
+			float3 v = normalize(mul(normalize(direction), world));
+			totalSpecular += dot(r, v);
+	}
 	totalSpecular = (tex2D(specularSampler, input.TextureCoordinate)) * specularIntensity
 		* specularColor * totalSpecular * totalLight;
 
 	//Emissive
 	float4 emissive = (tex2D(emissiveSampler, input.TextureCoordinate).rgba * emissiveIntensity) * emissiveColor;
-	emissive.a = 1.0f;
+		emissive.a = 1.0f;
 
 	//Texture color
 	float4 textureColor = tex2D(diffuseSampler, input.TextureCoordinate);
-	textureColor.a = 1;
+		textureColor.a = 1;
 
 	return saturate((textureColor *  totalLight) + totalSpecular) + emissive;
 }
 
 technique PhongBlinn
 {
-    pass Pass1
-    {
-        VertexShader = compile vs_3_0 VS();
-        PixelShader = compile ps_3_0 PS();
-    }
+	pass Pass1
+	{
+		VertexShader = compile vs_3_0 VS();
+		PixelShader = compile ps_3_0 PS();
+	}
 }

@@ -1,4 +1,3 @@
-Content\Models\Helmet.xnb
 Content\Models\Gandalf.xnb
 Content\Animations\Gandalf_gangnam_style.xnb
 Content\Animations\Gandalf_idle.xnb
@@ -21,6 +20,8 @@ Content\Wizard_Hat_diffuse_0.xnb
 Content\Wizard_Moustache_diffuse_0.xnb
 Content\Wizard_Shoes_diffuse_0.xnb
 Content\Wizard_Hair_diffuse_0.xnb
+Content\Effects\BasicShaderSkinned.xnb
+Content\Models\Helmet.xnb
 Content\Audio\GameAudio.xgs
 Content\Audio\WaveBank.xwb
 Content\Audio\SoundBank.xsb

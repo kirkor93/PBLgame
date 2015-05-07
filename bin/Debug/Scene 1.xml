@@ -1,7 +1,55 @@
 <?xml version="1.0"?>
 <Scene>
   <GameObjects>
-
+    <GameObject Name="Helmet_root" Tag="Player" Id="1">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="2" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="1" MaterialId="1" />
+      <AudioSource Enabled="True" Cue="Tanelorn" />
+      <PBLgame.GamePlay.PlayerScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Helmet_child" Tag="Player" Id="2" Parent="1">
+      <Transform Enabled="True">
+        <Position x="-5" y="-5" z="-5" />
+        <Rotation x="2" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="1" MaterialId="1" />
+    </GameObject>
+    <GameObject Name="Helmet_child_child" Tag="Player" Id="3" Parent="2">
+      <Transform Enabled="True">
+        <Position x="-5" y="-5" z="-5" />
+        <Rotation x="2" y="30" z="0" />
+        <Scale x="2" y="2" z="2" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="1" MaterialId="1" />
+    </GameObject>
+    <GameObject Name="Helmet_daughter" Tag="Player" Id="4" Parent="1">
+      <Transform Enabled="True">
+        <Position x="10" y="10" z="3" />
+        <Rotation x="0" y="0" z="90" />
+        <Scale x="0.8" y="0.8" z="0.8" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="1" MaterialId="1" />
+    </GameObject>
+    <GameObject Name="HelmetOtherRoot" Tag="Enemy" Id="5">
+      <Transform Enabled="True">
+        <Position x="10" y="3" z="12" />
+        <Rotation x="2" y="0" z="3" />
+        <Scale x="3" y="3" z="3" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="1" MaterialId="1" />
+    </GameObject>
+    <GameObject Name="GhostRoot" Tag="Ghost" Id="6">
+      <Transform Enabled="True">
+        <Position x="10" y="3" z="12" />
+        <Rotation x="2" y="0" z="3" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
     <GameObject Name="Gandalf" Tag="Ghost" Id="7">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
@@ -41,6 +89,17 @@
         </Transform>
       </GameObject>
       <DirectionalLight Intensity="1" />
+    </Light>
+    <Light Type="Point">
+      <Color r="1" g="0" b="0" a="1" />
+      <GameObject Name="Light 1" Tag="Light" Id="9" Parent="1">
+        <Transform Enabled="True">
+          <Position x="0" y="0" z="0" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <PointLight Attenuation="10" FallOff="2" />
     </Light>
   </Lights>
 </Scene>

@@ -61,7 +61,6 @@ namespace PBLgame.Engine.Components
 
         public void UpdateBonesMatrices()
         {   
-            // TODO check whether can be optimized
             _skeleton = new Matrix[_modelExtra.Skeleton.Count];
             for (int s = 0; s < _modelExtra.Skeleton.Count; s++)
             {
@@ -89,6 +88,8 @@ namespace PBLgame.Engine.Components
         {
             _modelExtra = model.Tag as ModelExtra;
             ObtainBones();
+
+            UpdateBonesMatrices();
         }
 
         #endregion

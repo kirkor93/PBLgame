@@ -129,14 +129,16 @@ namespace PBLgame.Engine.Components
         }
 
         /// <summary>
-        /// Update the clip position
+        /// Update the clip position. Also updates bones in model.
         /// </summary>
-        /// <param name="delta"></param>
+        /// <param name="gameTime">time</param>
         public override void Update(GameTime gameTime)
         {
             Position = Position + (float) gameTime.ElapsedGameTime.TotalSeconds;
             if (_looping && Position >= Duration)
                 Position = 0;
+
+            ((AnimatedMesh) _gameObject.renderer.MyMesh).UpdateBonesMatrices();
         }
 
         #endregion

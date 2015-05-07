@@ -33,7 +33,7 @@
     <Compile Include="Models\Helmet.FBX">
       <Name>Helmet</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>AnimationProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
   </ItemGroup>
@@ -143,8 +143,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Effects\BasicShaderAnim.fx">
-      <Name>BasicShaderAnim</Name>
+    <Compile Include="Effects\BasicShaderSkinned.fx">
+      <Name>BasicShaderSkinned</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>
