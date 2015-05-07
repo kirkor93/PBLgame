@@ -91,7 +91,7 @@ namespace PBLgame
 
             _scene = new Scene();
             _scene.Load(@"Scene 1.xml");
-            player = _scene.GameObjects.First();
+            player = _scene.GameObjects.First(obj => obj.ID == 7);
             player.animator.PlayAnimation(ResourceManager.Instance.GetAnimationClip(1));
             player.animator.Looping = true;
             //player.audioSource.Set3D(mainCamera.audioListener);

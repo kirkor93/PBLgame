@@ -9,7 +9,6 @@
       </Transform>
       <Renderer Enabled="True" MeshId="1" MaterialId="1" />
       <AudioSource Enabled="True" Cue="Tanelorn" />
-      <PBLgame.GamePlay.PlayerScript Enabled="True" />
     </GameObject>
     <GameObject Name="Helmet_child" Tag="Player" Id="2" Parent="1">
       <Transform Enabled="True">
