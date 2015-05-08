@@ -204,14 +204,14 @@ namespace PBLgame.Engine.GameObjects
             {
                 component.Update(gameTime);
             }
-                        if (transform != null)
+            if (transform != null)
             {
                 transform.Update(gameTime);
             }
-            if (transform != null)
-            {
-                transform.Draw(gameTime);
-            }
+            //if (transform != null)
+            //{
+            //    transform.Draw(gameTime);
+            //}
             if (renderer != null)
             {
                 renderer.Update(gameTime);

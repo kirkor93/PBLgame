@@ -1,9 +1,10 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <XmlContent>
   <Metadata />
   <Content>
     <ShaderEffects>
       <ShaderEffect Path="Effects\BasicShader" />
+      <ShaderEffect Path="Effects\BasicShaderSkinned" />
       <ShaderEffect Path="Effects\ParticleShader" />
     </ShaderEffects>
     <Textures>
@@ -172,7 +173,7 @@
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
-      <Mesh Id="2" Path="Models\Gandalf" />
+      <Mesh Id="2" Path="Models\Gandalf" Animated="True" />
       <Mesh Id="3" Path="Models\Champions\Ace" />
       <Mesh Id="4" Path="Models\Champions\Ace_sword_v1" />
       <Mesh Id="5" Path="Models\Enemies\Crossbow" />
@@ -220,5 +221,14 @@
       <Mesh Id="47" Path="Models\Terrain\Desert\Mountain_2" />
       <Mesh Id="48" Path="Models\Terrain\Desert\Mountain_3" />
     </Meshes>
+    <Animations>
+      <Animation Id="1" Path="Animations\Gandalf_gangnam_style" />
+      <Animation Id="2" Path="Animations\Gandalf_idle" />
+      <Animation Id="3" Path="Animations\Gandalf_strafe_left" />
+      <Animation Id="4" Path="Animations\Gandalf_strafe_right" />
+      <Animation Id="5" Path="Animations\Gandalf_turn_left" />
+      <Animation Id="6" Path="Animations\Gandalf_turn_right" />
+      <Animation Id="7" Path="Animations\Gandalf_walk" />
+    </Animations>
   </Content>
 </XmlContent>
