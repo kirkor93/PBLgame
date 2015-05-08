@@ -67,10 +67,11 @@ namespace PBLgame.GamePlay
                 {
                     case Buttons.LeftShoulder:
                         {
-                            const int cost = 20;
+                            const int cost = 1;
                             if (Stats.Energy.TryDecrease(cost))
                             {
                                 Console.WriteLine("telekinetic push");
+                                InputManager.Instance.RumplePad(200, 1, 0.5f);
                             }
                             else
                             {
@@ -81,10 +82,11 @@ namespace PBLgame.GamePlay
 
                     case Buttons.LeftTrigger:
                         {
-                            const int cost = 25;
+                            const int cost = 3;
                             if (Stats.Energy.TryDecrease(cost))
                             {
                                 Console.WriteLine("telekinetic shield");
+                                InputManager.Instance.RumplePad(300, 0.3f, 0.7f);
                             }
                             else
                             {
@@ -102,6 +104,7 @@ namespace PBLgame.GamePlay
                     case Buttons.RightTrigger:
                         {
                             Console.WriteLine("strong attack");
+                            InputManager.Instance.RumplePad(200, 1, 1);
                         }
                         break;
                 }

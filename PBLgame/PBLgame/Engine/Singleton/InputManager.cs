@@ -59,7 +59,10 @@ namespace PBLgame.Engine.Singleton
             private bool[] _buttonsDown = new bool[ButtonsArray.Length];
             private GamePadState _gamePadState;
             private int _lastPacketNumber = 0;
-            #endregion
+            private bool _rumble = false;
+            private double _rumbleMiliseconds;
+
+        #endregion
         #endregion
 
         #region Methods
@@ -75,8 +78,10 @@ namespace PBLgame.Engine.Singleton
             _gamePadState = new GamePadState();
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
+            UpdateRumble(gameTime);
+
             _gamePadState = GamePad.GetState(PlayerIndex.One, GamePadDeadZone.Circular);
             int packetNumber = _gamePadState.PacketNumber;
 
@@ -117,6 +122,33 @@ namespace PBLgame.Engine.Singleton
             }
 
         }
-    #endregion
+
+        /// <summary>
+        /// Turns on rumbling (vibrating) force feedback on gamepad.
+        /// Power of motors in range [0.0 .. 1.0].
+        /// </summary>
+        /// <param name="miliseconds">time of rumbling in ms</param>
+        /// <param name="lowMotor">left low frequency motor power</param>
+        /// <param name="highMotor">right high frequency motor power</param>
+        public void RumplePad(double miliseconds, float lowMotor, float highMotor)
+        {
+            bool success = GamePad.SetVibration(PlayerIndex.One, lowMotor, highMotor);
+            _rumble = true;
+            _rumbleMiliseconds = miliseconds;
+        }
+
+        private void UpdateRumble(GameTime gameTime)
+        {
+            if (!_rumble) return;
+
+            _rumbleMiliseconds -= gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (_rumbleMiliseconds > 0) return;
+
+            _rumbleMiliseconds = 0;
+            bool success = GamePad.SetVibration(PlayerIndex.One, 0, 0);
+            if (success) _rumble = false;
+        }
+
+        #endregion
     }
 }

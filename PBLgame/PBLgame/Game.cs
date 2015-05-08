@@ -138,7 +138,7 @@ namespace PBLgame
                 this.Exit();
             
             //ForTetting-----------------------
-            InputManager.Instance.Update();
+            InputManager.Instance.Update(gameTime);
 //            mainCamera.Update(gameTime);
 
             //-----------------------------
