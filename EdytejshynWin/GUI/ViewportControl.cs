@@ -34,7 +34,6 @@ namespace Edytejshyn.GUI
 
         public MainForm MainForm;
         private bool _mouseMoved;
-        private IDrawerStrategy _oldDrawerStrategy;
         private int _counter;
         Stopwatch _stopWatch;
         private long _lastElapsed;

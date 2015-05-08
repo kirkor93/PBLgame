@@ -130,7 +130,7 @@ namespace PBLgame.Engine.GameObjects
 
         }
 
-        public void Update(GameTime gameTime = null)
+        public override void Update(GameTime gameTime = null)
         {
 
             //_viewMatrix = Matrix.CreateLookAt(base.transform.Position, _direction + base.transform.Position, Vector3.Up);

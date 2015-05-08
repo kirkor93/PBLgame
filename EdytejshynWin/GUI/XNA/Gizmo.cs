@@ -61,13 +61,13 @@ namespace Edytejshyn.GUI.XNA
         private Vector3 _position = Vector3.Zero;
         private Matrix _rotationMatrix = Matrix.Identity;
 
-        private Vector3 _localForward = Vector3.Forward;
-        private Vector3 _localUp = Vector3.Up;
-        private Vector3 _localRight;
+        //private Vector3 _localForward = Vector3.Forward;
+        //private Vector3 _localUp = Vector3.Up;
+        //private Vector3 _localRight;
 
         // -- Matrices -- //
-        private Matrix _objectOrientedWorld;
-        private Matrix _axisAlignedWorld;
+        //private Matrix _objectOrientedWorld;
+        //private Matrix _axisAlignedWorld;
         private Matrix[] _modelLocalSpace;
 
         // used for all drawing, assigned by local- or world-space matrices
@@ -126,8 +126,8 @@ namespace Edytejshyn.GUI.XNA
         private float _firstMousePosition;
         private Vector3 _oldSelectedRotation;
 
-        private Vector3 _translationScaleSnapDelta;
-        private float _rotationSnapDelta;
+        //private Vector3 _translationScaleSnapDelta;
+        //private float _rotationSnapDelta;
 
         #endregion
 

@@ -100,10 +100,12 @@ namespace PBLgame.Engine.Components
         /// Constructor for the animation player. It makes the 
         /// association between a clip and a model and sets up for playing
         /// </summary>
-        /// <param name="clip"></param>
-        public void PlayAnimation(AnimationClip clip)
+        /// <param name="clip">clip to animate</param>
+        /// <param name="loop">loop animation</param>
+        public void PlayAnimation(AnimationClip clip, bool loop = false)
         {
             this._clip = clip;
+            this._looping = loop;
 
             // Create the bone information classes
             _boneCnt = clip.Bones.Count;
@@ -139,6 +141,7 @@ namespace PBLgame.Engine.Components
         /// <param name="gameTime">time</param>
         public override void Update(GameTime gameTime)
         {
+            if (_clip == null) return;
             Position = Position + (float) gameTime.ElapsedGameTime.TotalSeconds;
             if (_looping && Position >= Duration)
                 Position = 0;

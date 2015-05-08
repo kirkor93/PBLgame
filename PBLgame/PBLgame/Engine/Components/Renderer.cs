@@ -95,6 +95,8 @@ namespace PBLgame.Engine.Components
 
         }
 
+        
+
         public override void Draw(GameTime gameTime)
         {
             ParameterizeEffectWithLights();
@@ -116,8 +118,7 @@ namespace PBLgame.Engine.Components
             {
                 foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
                 {
-                    MyEffect.Parameters["world"].SetValue(MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World);
-                    MyEffect.Parameters["worldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World)));
+                    ParameterizeEffectWithMeshWorld(modelMesh); 
                     MyEffect.Parameters["Bones"].SetValue(animatedMesh.Skeleton);
 
                     foreach (ModelMeshPart part in modelMesh.MeshParts)
@@ -131,10 +132,9 @@ namespace PBLgame.Engine.Components
             {
                 foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
                 {
-                    //UpdateLightsPositions(); // TODO why is it here?
-                    MyEffect.Parameters["world"].SetValue(MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World);
-                    MyEffect.Parameters["worldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World)));
-
+                    //UpdateLightsPositions(); // TODO why am I here?
+                    ParameterizeEffectWithMeshWorld(modelMesh);
+                    
                     foreach (ModelMeshPart part in modelMesh.MeshParts)
                     {
                         part.Effect = MyEffect;
@@ -143,7 +143,14 @@ namespace PBLgame.Engine.Components
                 }
             }
         }
-        
+
+        private void ParameterizeEffectWithMeshWorld(ModelMesh modelMesh)
+        {
+            Matrix world = MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World;
+            MyEffect.Parameters["world"].SetValue(world);
+            MyEffect.Parameters["worldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(world)));
+        }
+
         private void UpdateLightsPositions()
         {
             

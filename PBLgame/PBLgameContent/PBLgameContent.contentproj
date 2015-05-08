@@ -141,8 +141,6 @@
       <Project>{ff2fbe94-50b5-4e78-9592-b95f32a8881e}</Project>
       <Name>AnimationPipeline</Name>
     </ProjectReference>
-    <Folder Include="Animations\" />
-    <Folder Include="Textures\Champions\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Effects\BasicShaderSkinned.fx">
@@ -155,7 +153,7 @@
     <Compile Include="Models\Champions\Ace.FBX">
       <Name>Ace</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>AnimationProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
     <Compile Include="Models\Champions\Ace_sword_v1.FBX">
@@ -1085,6 +1083,9 @@
       <Processor>ModelProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Textures\Champions\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
