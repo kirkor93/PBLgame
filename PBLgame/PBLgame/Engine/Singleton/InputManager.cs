@@ -24,31 +24,26 @@ namespace PBLgame.Engine.Singleton
 
             public override string ToString()
             {
-                return "X=" + AxisValue.X + " ,Y=" + AxisValue.Y;
+                return string.Format("X={0}, Y={1}", AxisValue.X, AxisValue.Y);
             }
     }
     
     public class  ButtonArgs : EventArgs
     {
-        public Buttons ButtonName
-        {
-            get;
-            set;
-        }
-        public ButtonState ButtState
-        {
-            get;
-            set;
-        }
+        public Buttons ButtonName { get; set; }
+        public bool IsDown { get; set; }
 
-        public ButtonArgs(Buttons name,ButtonState state)
+        public ButtonArgs(Buttons name, bool isDown)
         {
             ButtonName = name;
-            ButtState = state;
+            IsDown = isDown;
         }
     }
     #endregion
 
+    /// <summary>
+    /// Provides input control events & hints for GUI.
+    /// </summary>
     public class InputManager : Singleton<InputManager>
     {
         #region Variables
@@ -59,7 +54,11 @@ namespace PBLgame.Engine.Singleton
             #endregion
 
             #region Private
+
+            private static readonly Buttons[] ButtonsArray = { Buttons.A, Buttons.B, Buttons.X, Buttons.Y, Buttons.LeftShoulder, Buttons.RightShoulder, Buttons.LeftTrigger, Buttons.RightTrigger };
+            private bool[] _buttonsDown = new bool[ButtonsArray.Length];
             private GamePadState _gamePadState;
+            private int _lastPacketNumber = 0;
             #endregion
         #endregion
 
@@ -78,72 +77,45 @@ namespace PBLgame.Engine.Singleton
 
         public void Update()
         {
-
             _gamePadState = GamePad.GetState(PlayerIndex.One, GamePadDeadZone.Circular);
-            if (_gamePadState.IsConnected)
-            {
-                //Left stick
-                if (_gamePadState.ThumbSticks.Left.Length() != 0.0f)
-                {
-                    if(OnMove != null)
-                    {
-                        OnMove(this, new MoveArgs(_gamePadState.ThumbSticks.Left));
-                    }
-                }
-                
-                //Right stick
-                if (_gamePadState.ThumbSticks.Right.Length() > 0.3f)
-                {
-                    if (OnTurn != null)
-                    {
-                        OnTurn(this, new MoveArgs(_gamePadState.ThumbSticks.Right));
-                    }
-                }
+            int packetNumber = _gamePadState.PacketNumber;
 
-                //Buttons, thats looking sad ;c
-                if(_gamePadState.IsButtonDown(Buttons.A))
+            if (!_gamePadState.IsConnected || packetNumber == _lastPacketNumber) return;
+
+            _lastPacketNumber = packetNumber;
+
+            //Left stick
+            if (_gamePadState.ThumbSticks.Left.Length() != 0.0f)
+            {
+                if(OnMove != null)
                 {
-                    if(OnButton != null)
-                    {
-                        OnButton(this, new ButtonArgs(Buttons.A, ButtonState.Pressed));
-                    }
-                }
-                if(_gamePadState.IsButtonDown(Buttons.X))
-                {
-                    if (OnButton != null)
-                    {
-                        OnButton(this, new ButtonArgs(Buttons.X, ButtonState.Pressed));
-                    }
-                }
-                if (_gamePadState.IsButtonDown(Buttons.LeftShoulder))
-                {
-                    if (OnButton != null)
-                    {
-                        OnButton(this, new ButtonArgs(Buttons.LeftShoulder, ButtonState.Pressed));
-                    }
-                }
-                if (_gamePadState.IsButtonDown(Buttons.RightShoulder))
-                {
-                    if (OnButton != null)
-                    {
-                        OnButton(this, new ButtonArgs(Buttons.RightShoulder, ButtonState.Pressed));
-                    }
-                }
-                if (_gamePadState.IsButtonDown(Buttons.LeftTrigger))
-                {
-                    if (OnButton != null)
-                    {
-                        OnButton(this, new ButtonArgs(Buttons.LeftTrigger, ButtonState.Pressed));
-                    }
-                }
-                if (_gamePadState.IsButtonDown(Buttons.RightTrigger))
-                {
-                    if (OnButton != null)
-                    {
-                        OnButton(this, new ButtonArgs(Buttons.RightTrigger, ButtonState.Pressed));
-                    }
+                    OnMove(this, new MoveArgs(_gamePadState.ThumbSticks.Left));
                 }
             }
+                
+            //Right stick
+            if (_gamePadState.ThumbSticks.Right.LengthSquared() > 0.1f)
+            {
+                if (OnTurn != null)
+                {
+                    OnTurn(this, new MoveArgs(_gamePadState.ThumbSticks.Right));
+                }
+            }
+
+
+            for (int i = 0; i < ButtonsArray.Length; i++)
+            {
+                Buttons button = ButtonsArray[i];
+                bool down = _gamePadState.IsButtonDown(button);
+                if (down == _buttonsDown[i]) continue;
+                
+                if (OnButton != null)
+                {
+                    OnButton(this, new ButtonArgs(button, down));
+                }
+                _buttonsDown[i] = down;
+            }
+
         }
     #endregion
     }

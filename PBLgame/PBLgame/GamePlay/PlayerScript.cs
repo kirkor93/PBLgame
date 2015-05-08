@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
-
+using Microsoft.Xna.Framework.Input;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Singleton;
@@ -11,6 +11,9 @@ namespace PBLgame.GamePlay
     class PlayerScript : Engine.Components.Component
     {
         #region Variables
+        #region Public
+        public PlayerStatistics Stats { get; private set; }
+        #endregion
         #region Private
         private float _angle;
         #endregion
@@ -23,8 +26,10 @@ namespace PBLgame.GamePlay
 
         public PlayerScript(Engine.GameObjects.GameObject gameObj) : base(gameObj)
         {
-            InputManager.Instance.OnTurn += CharacterRotation;
-            InputManager.Instance.OnMove += CharacterTranslate;
+            Stats = new PlayerStatistics(100, 100);
+            InputManager.Instance.OnTurn   += CharacterRotation;
+            InputManager.Instance.OnMove   += CharacterTranslate;
+            InputManager.Instance.OnButton += CharacterAction;
         }
 
         public override void Draw(GameTime gameTime)
@@ -52,6 +57,56 @@ namespace PBLgame.GamePlay
         {
             _gameObject.transform.Translate(e.AxisValue.X, 0.0f, -e.AxisValue.Y);
 
+        }
+
+        private void CharacterAction(Object o, ButtonArgs button)
+        {
+            if (button.IsDown)
+            {
+                switch (button.ButtonName)
+                {
+                    case Buttons.LeftShoulder:
+                        {
+                            const int cost = 20;
+                            if (Stats.Energy.TryDecrease(cost))
+                            {
+                                Console.WriteLine("telekinetic push");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not enough mana");
+                            }
+                        }
+                        break;
+
+                    case Buttons.LeftTrigger:
+                        {
+                            const int cost = 25;
+                            if (Stats.Energy.TryDecrease(cost))
+                            {
+                                Console.WriteLine("telekinetic shield");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not enough mana");
+                            }
+                        }
+                        break;
+
+                    case Buttons.RightShoulder:
+                        {
+                            Console.WriteLine("quick attack");
+                        }
+                        break;
+
+                    case Buttons.RightTrigger:
+                        {
+                            Console.WriteLine("strong attack");
+                        }
+                        break;
+                }
+                Console.WriteLine(Stats.ToString());
+            }
         }
 
         public override Component Copy(GameObject newOwner)
