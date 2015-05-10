@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PBLgame.Engine
 {
@@ -15,6 +16,12 @@ namespace PBLgame.Engine
         {
             if (index == -1) list.Add(item);
             else list.Insert(index, item);
+        }
+
+
+        public static float CalculateAngle(float x, float y)
+        {
+            return (float) (Math.Atan2(y, x));
         }
     }
 }

@@ -104,6 +104,7 @@
     <Compile Include="Engine\Singleton\InputManager.cs" />
     <Compile Include="Engine\Singleton\ResourceManager.cs" />
     <Compile Include="Engine\Singleton\Singleton.cs" />
+    <Compile Include="GamePlay\CharacterHandler.cs" />
     <Compile Include="GamePlay\PlayerScript.cs" />
     <Compile Include="GamePlay\PlayerStatistics.cs" />
     <Compile Include="GamePlay\Translator.cs" />

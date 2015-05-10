@@ -59,8 +59,9 @@ namespace PBLgame.Engine.Singleton
             private bool[] _buttonsDown = new bool[ButtonsArray.Length];
             private GamePadState _gamePadState;
             private int _lastPacketNumber = 0;
-            private bool _rumble = false;
+            private bool _rumble;
             private double _rumbleMiliseconds;
+            private Vector2 _lastLeftStick, _lastRightStick;
 
         #endregion
         #endregion
@@ -90,8 +91,9 @@ namespace PBLgame.Engine.Singleton
             _lastPacketNumber = packetNumber;
 
             //Left stick
-            if (_gamePadState.ThumbSticks.Left.Length() != 0.0f)
+            if (_gamePadState.ThumbSticks.Left != _lastLeftStick)
             {
+                _lastLeftStick = _gamePadState.ThumbSticks.Left;
                 if(OnMove != null)
                 {
                     OnMove(this, new MoveArgs(_gamePadState.ThumbSticks.Left));
@@ -99,8 +101,9 @@ namespace PBLgame.Engine.Singleton
             }
                 
             //Right stick
-            if (_gamePadState.ThumbSticks.Right.LengthSquared() > 0.1f)
+            if (_gamePadState.ThumbSticks.Right != _lastRightStick)
             {
+                _lastRightStick = _gamePadState.ThumbSticks.Right;
                 if (OnTurn != null)
                 {
                     OnTurn(this, new MoveArgs(_gamePadState.ThumbSticks.Right));

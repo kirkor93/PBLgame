@@ -2,20 +2,25 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using PBLgame.Engine;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Singleton;
 
 namespace PBLgame.GamePlay
 {
-    class PlayerScript : Engine.Components.Component
+    class PlayerScript : CharacterHandler
     {
         #region Variables
         #region Public
         public PlayerStatistics Stats { get; private set; }
         #endregion
         #region Private
-        private float _angle;
+        /// <summary>
+        /// Get character turn (look direction) from walk direciton if right stick is floating (not pushed).
+        /// </summary>
+        private bool _syncAngles = true;
+
         #endregion
         #endregion
 
@@ -24,7 +29,7 @@ namespace PBLgame.GamePlay
 
         #region Methods
 
-        public PlayerScript(Engine.GameObjects.GameObject gameObj) : base(gameObj)
+        public PlayerScript(GameObject gameObj) : base(gameObj)
         {
             Stats = new PlayerStatistics(100, 100);
             InputManager.Instance.OnTurn   += CharacterRotation;
@@ -37,27 +42,29 @@ namespace PBLgame.GamePlay
             
         }
 
-        public override void Update(GameTime gameTime)
-        {
-           
-        }
-
         private void CharacterRotation(Object obj, MoveArgs args)
         {
-            float angle = Convert.ToSingle(Math.Atan2(Convert.ToDouble(args.AxisValue.Y), Convert.ToDouble(args.AxisValue.X))); 
-            
-            if(angle - _angle != 0.0f)
+            if (args.AxisValue.LengthSquared() < 0.01)
             {
-                //_gameObject.transform.Rotation = Vector3.Lerp(_gameObject.transform.Rotation,new Vector3(MathHelper.ToDegrees(angle), 0.0f, 0.0f),0.5f);
-                _gameObject.transform.Rotation = new Vector3(0.0f,MathHelper.ToDegrees(angle),0);
-                _angle = angle;
+                _syncAngles = true;
+            }
+            else
+            {
+                _syncAngles = false;
+                SetLookVector(args.AxisValue);
             }
         }
-        private void CharacterTranslate(Object o, MoveArgs e)
-        {
-            _gameObject.transform.Translate(e.AxisValue.X, 0.0f, -e.AxisValue.Y);
 
+
+        private void CharacterTranslate(Object o, MoveArgs args)
+        {
+            Velocity = new Vector2(args.AxisValue.X, -args.AxisValue.Y);
+            if (_syncAngles && args.AxisValue.LengthSquared() > 0.001f)
+            {
+                SetLookVector(args.AxisValue);
+            }
         }
+
 
         private void CharacterAction(Object o, ButtonArgs button)
         {
