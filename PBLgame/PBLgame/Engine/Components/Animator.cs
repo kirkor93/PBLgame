@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using AnimationAux;
 using System.ComponentModel;
+using System.Linq;
 using System.Xml;
 using Microsoft.Xna.Framework;
 using PBLgame.Engine.GameObjects;
@@ -40,6 +41,8 @@ namespace PBLgame.Engine.Components
         /// The looping option
         /// </summary>
         private bool _looping = false;
+
+        private AnimationType _currentType = AnimationType.Other;
 
         #endregion
 
@@ -83,17 +86,25 @@ namespace PBLgame.Engine.Components
         /// </summary>
         public bool Looping { get { return _looping; } set { _looping = value; } }
 
+        /// <summary>
+        /// Additional speed multiplier. For example to synchronize walking speed with animation.
+        /// </summary>
+        public float Speed { get; set; }
+
+        public AnimatedMesh AnimMesh { get { return (AnimatedMesh)_gameObject.renderer.MyMesh; } }
+
         #endregion
 
 
         public Animator(GameObject owner) : base(owner)
         {
+            Speed = 1.0f;
             // don't forget to implement copy constructor below
         }
 
         public Animator(Animator src, GameObject owner) : base(owner)
         {
-            // TODO copy all
+            Speed = src.Speed;
         }
 
         /// <summary>
@@ -102,10 +113,12 @@ namespace PBLgame.Engine.Components
         /// </summary>
         /// <param name="clip">clip to animate</param>
         /// <param name="loop">loop animation</param>
-        public void PlayAnimation(AnimationClip clip, bool loop = false)
+        /// <param name="speed">speed multiplier</param>
+        public void PlayAnimation(AnimationClip clip, bool loop = true, float speed = 1.0f)
         {
             this._clip = clip;
             this._looping = loop;
+            this.Speed = speed;
 
             // Create the bone information classes
             _boneCnt = clip.Bones.Count;
@@ -117,12 +130,38 @@ namespace PBLgame.Engine.Components
                 _boneInfos[b] = new BoneInfo(clip.Bones[b]);
 
                 // Assign it to a model bone
-                _boneInfos[b].SetModel((AnimatedMesh) _gameObject.renderer.MyMesh);
+                _boneInfos[b].SetModel(AnimMesh);
             }
 
             Rewind();
         }
 
+        public void Walk(float velocity)
+        {
+            if (_currentType == AnimationType.Walk)
+            {
+                Speed = velocity;
+            }
+            else
+            {
+                _currentType = AnimationType.Walk;
+                PlayAnimation(AnimMesh.Skeleton.Walk, true, velocity);
+            }
+        }
+
+        public void Idle()
+        {
+            if (_currentType != AnimationType.Idle)
+            {
+                _currentType = AnimationType.Idle;
+                PlayAnimation(AnimMesh.Skeleton.Idle, true, 1.0f);
+            }
+        }
+
+        public enum AnimationType
+        {
+            Idle, Walk, Other
+        }
 
         #region Update and Transport Controls
 
@@ -135,18 +174,36 @@ namespace PBLgame.Engine.Components
             Position = 0;
         }
 
+
+        public override void Initialize()
+        {
+            if (_clip == null)
+            {
+                PlayAnimation(AnimMesh.Skeleton.Clips[0]);
+            }
+        }
+
         /// <summary>
         /// Update the clip position. Also updates bones in model.
         /// </summary>
         /// <param name="gameTime">time</param>
         public override void Update(GameTime gameTime)
         {
-            if (_clip == null) return;
-            Position = Position + (float) gameTime.ElapsedGameTime.TotalSeconds;
-            if (_looping && Position >= Duration)
-                Position = 0;
+            float newPosition = Position + (float) gameTime.ElapsedGameTime.TotalSeconds * _clip.Speed * Speed;
 
-            ((AnimatedMesh) _gameObject.renderer.MyMesh).UpdateBonesMatrices();
+            if (_looping) {
+                while (newPosition >= Duration)
+                {
+                    newPosition -= Duration;
+                }
+                while (newPosition < 0)
+                {
+                    newPosition = newPosition + Duration;
+                }
+            }
+            Position = newPosition;
+
+            AnimMesh.UpdateBonesMatrices();
         }
 
         #endregion
@@ -342,6 +399,26 @@ namespace PBLgame.Engine.Components
         #endregion
 
         #endregion
+    }
 
+    public class Skeleton
+    {
+        public int Id;
+        public List<AnimationClip> Clips { get; private set; }
+
+        public AnimationClip Idle { get { return Clips.First(c => c.Type == "Idle"); } }
+        public AnimationClip Walk { get { return Clips.First(c => c.Type == "Walk"); } }
+
+
+        public Skeleton(int id)
+        {
+            Id = id;
+            Clips = new List<AnimationClip>();
+        }
+
+        public void AddClip(AnimationClip animation)
+        {
+            Clips.Add(animation);
+        }
     }
 }

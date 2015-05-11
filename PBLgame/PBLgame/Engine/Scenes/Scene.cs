@@ -290,6 +290,11 @@ namespace PBLgame.Engine.Scenes
                 //setting unique Id list
                 _takenIdNumbers.Add(light.ID);
             }
+
+            foreach (GameObject gameObject in GameObjects)
+            {
+                gameObject.Initialize();
+            }
         }
 
         #region XML Serialization

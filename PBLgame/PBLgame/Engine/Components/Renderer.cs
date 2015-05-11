@@ -119,7 +119,7 @@ namespace PBLgame.Engine.Components
                 foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
                 {
                     ParameterizeEffectWithMeshWorld(modelMesh); 
-                    MyEffect.Parameters["Bones"].SetValue(animatedMesh.Skeleton);
+                    MyEffect.Parameters["Bones"].SetValue(animatedMesh.SkeletonMatrix);
 
                     foreach (ModelMeshPart part in modelMesh.MeshParts)
                     {

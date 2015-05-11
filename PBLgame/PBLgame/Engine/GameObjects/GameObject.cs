@@ -113,6 +113,23 @@ namespace PBLgame.Engine.GameObjects
                 _audioSource = value;
             }
         }
+
+        public IEnumerable<Component> AllNotNullComponents
+        {
+            get
+            {
+                if (_animator       != null)   yield return _animator;
+                if (_audioSource    != null)   yield return _audioSource;
+                if (_collision      != null)   yield return _collision;
+                if (_particleSystem != null)   yield return _particleSystem;
+                if (_renderer       != null)   yield return _renderer;
+                if (_transform      != null)   yield return _transform;
+                foreach (Component component in _components)
+                {
+                    yield return component;
+                }
+            }
+        }
         #endregion  
 
         #region Methods
@@ -220,7 +237,6 @@ namespace PBLgame.Engine.GameObjects
 
         public virtual void Draw(GameTime gameTime)
         {
-
             if (animator != null)
             {
                 animator.Draw(gameTime);
@@ -250,6 +266,18 @@ namespace PBLgame.Engine.GameObjects
             {
                 renderer.Draw(gameTime);
             }
+        }
+
+        /// <summary>
+        /// Initialize components after loading before first usage.
+        /// </summary>
+        public void Initialize()
+        {
+            foreach (Component component in AllNotNullComponents)
+            {
+                component.Initialize();
+            }
+
         }
 
         public void AddComponent<T>(T component) where T : Component

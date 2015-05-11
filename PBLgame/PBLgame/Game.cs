@@ -91,29 +91,36 @@ namespace PBLgame
             ResourceManager.Instance.AssignAudioBank(_soundBank);
 
             _scene = new Scene();
+            _scene.Load("AnimScene.xml");
+            player = _scene.FindGameObject(1);
+            player.animator.Idle();
+            mainCamera.parent = player;
+            mainCamera.transform.Position = player.transform.Position + new Vector3(0f, 300f, 180f);
+            mainCamera.SetTarget(player.transform.Position + new Vector3(0, 10f, 0));
+            mainCamera.Update();
+
             //_scene.Load(@"Scene 1.xml");
             //player = _scene.GameObjects.First(obj => obj.ID == 7);
             //player.animator.PlayAnimation(ResourceManager.Instance.GetAnimationClip(1));
-            //player.animator.Looping = true;
             
-            _scene.Load(@"Level_1.xml");
-
-            player = _scene.FindGameObject(8);
-            //player.animator.PlayAnimation(ResourceManager.Instance.GetAnimationClip(7), true);
-            //player = _scene.GameObjects.First();
-            //player.audioSource.Set3D(mainCamera.audioListener);
-            //player.audioSource.Play();
-            mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
-            mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
-            mainCamera.parent = player;
-            player.AddComponent<PlayerScript>(new PlayerScript(player));
-            player.collision = new Collision(player);
-            player.collision.Rigidbody = true;
-            player.collision.MainCollider = new SphereCollider(player.collision,Vector3.Zero, 10.0f, false);
-            player.collision.Static = false;
-            _scene.GameObjects[8].collision = new Collision(_scene.GameObjects[8]);
-            _scene.GameObjects[8].collision.MainCollider = new SphereCollider(_scene.GameObjects[8].collision, Vector3.Zero, 15.0f, true);
-            _scene.GameObjects[8].collision.BoxColliders.Add(new BoxCollider(_scene.GameObjects[8].collision, new Vector3(10, 50, 20), false));
+//            _scene.Load(@"Level_1.xml");
+//
+//            player = _scene.FindGameObject(8);
+//            //player.animator.PlayAnimation(ResourceManager.Instance.GetAnimationClip(7), true);
+//            //player = _scene.GameObjects.First();
+//            //player.audioSource.Set3D(mainCamera.audioListener);
+//            //player.audioSource.Play();
+//            mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
+//            mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
+//            mainCamera.parent = player;
+//            player.AddComponent<PlayerScript>(new PlayerScript(player));
+//            player.collision = new Collision(player);
+//            player.collision.Rigidbody = true;
+//            player.collision.MainCollider = new SphereCollider(player.collision,Vector3.Zero, 10.0f, false);
+//            player.collision.Static = false;
+//            _scene.GameObjects[8].collision = new Collision(_scene.GameObjects[8]);
+//            _scene.GameObjects[8].collision.MainCollider = new SphereCollider(_scene.GameObjects[8].collision, Vector3.Zero, 15.0f, true);
+//            _scene.GameObjects[8].collision.BoxColliders.Add(new BoxCollider(_scene.GameObjects[8].collision, new Vector3(10, 50, 20), false));
         }
 
         /// <summary>
@@ -122,7 +129,7 @@ namespace PBLgame
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            // Unload any non ContentManager content here
         }
 
         /// <summary>

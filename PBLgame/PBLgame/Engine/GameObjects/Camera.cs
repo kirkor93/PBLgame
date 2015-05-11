@@ -134,7 +134,7 @@ namespace PBLgame.Engine.GameObjects
         {
 
             //_viewMatrix = Matrix.CreateLookAt(base.transform.Position, _direction + base.transform.Position, Vector3.Up);
-            if (this.parent != null) this.transform.Position = parent.transform.Position + new Vector3(0, 100f, 80f); 
+            if (this.parent != null) this.transform.Position = parent.transform.Position + new Vector3(0f, 300f, 180f); 
             _viewMatrix = ViewMatrix;
         }
 

@@ -25,7 +25,7 @@ namespace PBLgame.Engine.Components
         /// </summary>
         private List<Bone> _bones = new List<Bone>();
 
-        private Matrix[] _skeleton;
+        private Matrix[] _skeletonMatrix;
 
         #endregion
 
@@ -49,23 +49,28 @@ namespace PBLgame.Engine.Components
             }
         }
 
-        public Matrix[] Skeleton
+        public Matrix[] SkeletonMatrix
         {
             get
             {
-                return _skeleton;
+                return _skeletonMatrix;
             }
         }
+
+        /// <summary>
+        /// Skeleton data with possible AnimationClips.
+        /// </summary>
+        public Skeleton Skeleton { get; set; }
 
         #endregion
 
         public void UpdateBonesMatrices()
         {   
-            _skeleton = new Matrix[_modelExtra.Skeleton.Count];
+            _skeletonMatrix = new Matrix[_modelExtra.Skeleton.Count];
             for (int s = 0; s < _modelExtra.Skeleton.Count; s++)
             {
                 Bone bone = _bones[_modelExtra.Skeleton[s]];
-                _skeleton[s] = bone.SkinTransform * bone.AbsoluteTransform;
+                _skeletonMatrix[s] = bone.SkinTransform * bone.AbsoluteTransform;
             }
 
             _boneTransforms = new Matrix[_bones.Count];
