@@ -125,11 +125,6 @@ namespace PBLgame.Engine.GameObjects
             );
         }
 
-        public void Initialize()
-        {
-
-        }
-
         public override void Update(GameTime gameTime = null)
         {
 

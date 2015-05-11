@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AnimationAux;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -66,21 +67,20 @@ namespace PBLgame.Engine.Components
 
         public void UpdateBonesMatrices()
         {   
-            _skeletonMatrix = new Matrix[_modelExtra.Skeleton.Count];
-            for (int s = 0; s < _modelExtra.Skeleton.Count; s++)
-            {
-                Bone bone = _bones[_modelExtra.Skeleton[s]];
-                _skeletonMatrix[s] = bone.SkinTransform * bone.AbsoluteTransform;
-            }
-
             _boneTransforms = new Matrix[_bones.Count];
-
             for (int i = 0; i < _bones.Count; i++)
             {
                 Bone bone = _bones[i];
                 bone.ComputeAbsoluteTransform();
 
                 _boneTransforms[i] = bone.AbsoluteTransform;
+            }
+
+            _skeletonMatrix = new Matrix[_modelExtra.Skeleton.Count];
+            for (int s = 0; s < _modelExtra.Skeleton.Count; s++)
+            {
+                Bone bone = _bones[_modelExtra.Skeleton[s]];
+                _skeletonMatrix[s] = bone.SkinTransform * bone.AbsoluteTransform;
             }
         }
 
@@ -95,6 +95,7 @@ namespace PBLgame.Engine.Components
             ObtainBones();
 
             UpdateBonesMatrices();
+
         }
 
         #endregion
@@ -125,13 +126,7 @@ namespace PBLgame.Engine.Components
         /// <returns></returns>
         public Bone FindBone(string name)
         {
-            foreach (Bone bone in Bones)
-            {
-                if (bone.Name == name)
-                    return bone;
-            }
-
-            return null;
+            return Bones.FirstOrDefault(bone => bone.Name == name);
         }
 
         #endregion

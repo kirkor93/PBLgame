@@ -26,7 +26,6 @@ namespace PBLgame.Engine.Singleton
         private IList<Texture2D> _textures;
         private IList<MeshMaterial> _materials;
         private IList<Effect> _shaderEffects;
-//        private IList<AnimationClip> _animationClips;
         private IDictionary<int, Skeleton> _skeletons;
         private SoundBank _soundBank;
 
@@ -187,37 +186,7 @@ namespace PBLgame.Engine.Singleton
 
             return null;
         }
-
-//        public AnimationClip GetAnimationClip(int id)
-//        {
-//            IEnumerable<AnimationClip> list = 
-//                from animationClip in _animationClips
-//                where animationClip.Id == id
-//                select animationClip;
-//
-//            if (list.Any())
-//            {
-//                return list.First();
-//            }
-//
-//            return null;
-//        }
-//
-//        public AnimationClip GetAnimationClip(string path)
-//        {
-//            IEnumerable<AnimationClip> list =
-//                from animationClip in _animationClips
-//                where animationClip.Path == path
-//                select animationClip;
-//
-//            if (list.Any())
-//            {
-//                return list.First();
-//            }
-//
-//            return null;
-//        }
-
+        
         public Cue GetAudioCue(string audioName)
         {
             return _soundBank.GetCue(audioName);
@@ -245,7 +214,6 @@ namespace PBLgame.Engine.Singleton
         public IList<Texture2D> Textures { get; set; }
         public IList<MeshMaterial> Materials { get; set; }
         public IList<Effect> ShaderEffects { get; set; }
-//        public IList<AnimationClip> AnimationClips { get; set; }
         public IDictionary<int, Skeleton> Skeletons { get; set; }
 
         private Dictionary<AnimatedMesh, int> _meshSkeletons = new Dictionary<AnimatedMesh, int>();
@@ -262,7 +230,6 @@ namespace PBLgame.Engine.Singleton
             Meshes = new List<Mesh>();
             Materials = new List<MeshMaterial>();
             ShaderEffects = new List<Effect>();
-//            AnimationClips = new List<AnimationClip>();
             Skeletons = new Dictionary<int, Skeleton>();
 
             reader.MoveToContent();

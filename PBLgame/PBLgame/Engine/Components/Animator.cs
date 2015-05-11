@@ -14,126 +14,201 @@ namespace PBLgame.Engine.Components
     /// </summary>
     public class Animator : Component
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        private class AnimationState
+        {
+            public AnimationClip Clip;
+
+            /// <summary>
+            /// We maintain a BoneInfo class for each bone. This class does
+            /// most of the work in playing the animation.
+            /// </summary>
+            public BoneInfo[] BoneInfos;
+
+            /// <summary>
+            /// The number of bones
+            /// </summary>
+            public int BoneCnt;
+
+            /// <summary>
+            /// Current position in time in the clip
+            /// </summary>
+            public float Position
+            {
+                get { return _position; }
+                set
+                {
+                    if (value > Duration)
+                        value = Duration;
+
+                    _position = value;
+                    foreach (BoneInfo bone in BoneInfos)
+                    {
+                        bone.SetPosition(_position);
+                    }
+                }
+            }
+
+            public void ApplyBones()
+            {
+                foreach (BoneInfo bone in BoneInfos)
+                {
+                    bone.AssignToBone();
+                }
+            }
+
+            /// <summary>
+            /// Blends current bones with other using given factor. Applies blending into bones.
+            /// </summary>
+            /// <param name="newState">newState animation state</param>
+            /// <param name="amount">How much newState is shown more than this state [0.0 .. 1.0]</param>
+            public void Blend(AnimationState newState, float amount)
+            {
+                // I assumed that boneInfo indices are corresponding for all animations for the Skeleton.
+                // That doesn't have to be always true. ~piomar
+                for (int i = 0; i < BoneInfos.Length; i++)
+                {
+                    BoneInfos[i].rotation = Quaternion.Slerp(BoneInfos[i].rotation, newState.BoneInfos[i].rotation, amount);
+                    BoneInfos[i].translation = Vector3.Lerp(BoneInfos[i].translation, newState.BoneInfos[i].translation, amount);
+                    BoneInfos[i].AssignToBone();
+                }
+            }
+
+            /// <summary>
+            /// The clip duration
+            /// </summary>
+            public float Duration { get { return (float) Clip.Duration; } }
+
+            /// <summary>
+            /// The looping option
+            /// </summary>
+            public bool Looping = true;
+
+            /// <summary>
+            /// Additional speed multiplier.
+            /// </summary>
+            public float Speed = 1f;
+
+            private float _position = 0f;
+
+            public AnimationState(AnimationClip clip, AnimatedMesh mesh)
+            {
+                Clip = clip;
+
+                // Create the bone information classes
+                BoneCnt = clip.Bones.Count;
+                BoneInfos = new BoneInfo[BoneCnt];
+
+                for (int b = 0; b < BoneInfos.Length; b++)
+                {
+                    // Create it
+                    BoneInfos[b] = new BoneInfo(clip.Bones[b]);
+
+                    // Assign it to a model bone
+                    BoneInfos[b].SetModel(mesh);
+                }
+
+                Position = 0;
+                ApplyBones();
+            }
+        }
+
         #region Fields
 
-        /// <summary>
-        /// Current position in time in the clip
-        /// </summary>
-        private float _position = 0;
+
 
         /// <summary>
         /// The clip we are playing
         /// </summary>
-        private AnimationClip _clip = null;
-
+        private AnimationState _currentAnimation;
+        
         /// <summary>
-        /// We maintain a BoneInfo class for each bone. This class does
-        /// most of the work in playing the animation.
+        /// Previous clip for blending.
         /// </summary>
-        private BoneInfo[] _boneInfos;
-
-        /// <summary>
-        /// The number of bones
-        /// </summary>
-        private int _boneCnt;
-
-        /// <summary>
-        /// The looping option
-        /// </summary>
-        private bool _looping = false;
+        private AnimationState _prevAnimation;
 
         private AnimationType _currentType = AnimationType.Other;
+
+        private float _blendingFactor;
+        private float _blendingTime;
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// The position in the animation
+        /// The position in the current animation
         /// </summary>
         [Browsable(false)]
         public float Position
         {
-            get { return _position; }
-            set
-            {
-                if (value > Duration)
-                    value = Duration;
-
-                _position = value;
-                foreach (BoneInfo bone in _boneInfos)
-                {
-                    bone.SetPosition(_position);
-                }
-            }
+            get { return _currentAnimation.Position; }
+            set { _currentAnimation.Position = value; _currentAnimation.ApplyBones(); }
         }
 
         /// <summary>
         /// The associated animation clip
         /// </summary>
         [Browsable(false)]
-        public AnimationClip Clip { get { return _clip; } }
+        public AnimationClip Clip { get { return _currentAnimation.Clip; } }
 
         /// <summary>
         /// The clip duration
         /// </summary>
         [Browsable(false)]
-        public float Duration { get { return (float) _clip.Duration; } }
+        public float Duration { get { return _currentAnimation.Duration; } }
 
         /// <summary>
         /// The looping option. Set to true if you want the animation to loop
         /// back at the end
         /// </summary>
-        public bool Looping { get { return _looping; } set { _looping = value; } }
+        public bool Looping { get { return _currentAnimation.Looping; } set { _currentAnimation.Looping = value; } }
 
         /// <summary>
         /// Additional speed multiplier. For example to synchronize walking speed with animation.
         /// </summary>
-        public float Speed { get; set; }
+        public float Speed { get { return _currentAnimation.Speed; } set { _currentAnimation.Speed = value; } }
 
-        public AnimatedMesh AnimMesh { get { return (AnimatedMesh)_gameObject.renderer.MyMesh; } }
+        public AnimatedMesh AnimMesh { get { return (AnimatedMesh) _gameObject.renderer.MyMesh; } }
 
         #endregion
 
 
         public Animator(GameObject owner) : base(owner)
         {
-            Speed = 1.0f;
             // don't forget to implement copy constructor below
         }
 
         public Animator(Animator src, GameObject owner) : base(owner)
         {
-            Speed = src.Speed;
         }
 
         /// <summary>
-        /// Constructor for the animation player. It makes the 
-        /// association between a clip and a model and sets up for playing
+        /// Set new animation for playing. Allows blending with previous animation.
         /// </summary>
         /// <param name="clip">clip to animate</param>
         /// <param name="loop">loop animation</param>
         /// <param name="speed">speed multiplier</param>
-        public void PlayAnimation(AnimationClip clip, bool loop = true, float speed = 1.0f)
+        /// <param name="blendTime">blending time in seconds (use 0 to disable blending)</param>
+        public void PlayAnimation(AnimationClip clip, bool loop = true, float speed = 1.0f, float blendTime = 0.4f)
         {
-            this._clip = clip;
-            this._looping = loop;
-            this.Speed = speed;
+            _prevAnimation = _currentAnimation;
+            _currentAnimation = new AnimationState(clip, AnimMesh);
+            _currentAnimation.Looping = loop;
+            _currentAnimation.Speed = speed;
 
-            // Create the bone information classes
-            _boneCnt = clip.Bones.Count;
-            _boneInfos = new BoneInfo[_boneCnt];
-
-            for (int b = 0; b < _boneInfos.Length; b++)
+            if (blendTime == 0f)
             {
-                // Create it
-                _boneInfos[b] = new BoneInfo(clip.Bones[b]);
-
-                // Assign it to a model bone
-                _boneInfos[b].SetModel(AnimMesh);
+                _prevAnimation = null;
             }
-
-            Rewind();
+            else
+            {
+                _blendingFactor = 1.0f;
+                _blendingTime = blendTime;
+            }
+            
         }
 
         public void Walk(float velocity)
@@ -177,33 +252,58 @@ namespace PBLgame.Engine.Components
 
         public override void Initialize()
         {
-            if (_clip == null)
+            if (_currentAnimation == null)
             {
-                PlayAnimation(AnimMesh.Skeleton.Clips[0]);
+                PlayAnimation(AnimMesh.Skeleton.Idle);
             }
         }
 
         /// <summary>
-        /// Update the clip position. Also updates bones in model.
+        /// Update the clip position. Also updates bones in the associated model.
         /// </summary>
         /// <param name="gameTime">time</param>
         public override void Update(GameTime gameTime)
         {
-            float newPosition = Position + (float) gameTime.ElapsedGameTime.TotalSeconds * _clip.Speed * Speed;
-
-            if (_looping) {
-                while (newPosition >= Duration)
+            UpdatePosition(_currentAnimation, gameTime);
+            if (_prevAnimation != null)
+            {
+                _blendingFactor -= (float) gameTime.ElapsedGameTime.TotalSeconds / _blendingTime;
+                if (_blendingFactor > 0)
                 {
-                    newPosition -= Duration;
+                    //UpdatePosition(_prevAnimation, gameTime);
+                    _currentAnimation.Blend(_prevAnimation, _blendingFactor);
+                }
+                else
+                {
+                    _prevAnimation = null;
+                    _blendingFactor = 0f;
+                }
+            }
+            else
+            {
+                _currentAnimation.ApplyBones();
+            }
+
+
+            AnimMesh.UpdateBonesMatrices();
+        }
+
+        private void UpdatePosition(AnimationState animation, GameTime gameTime)
+        {
+            float newPosition = animation.Position + (float) gameTime.ElapsedGameTime.TotalSeconds * animation.Clip.Speed * animation.Speed;
+
+            if (animation.Looping)
+            {
+                while (newPosition >= animation.Duration)
+                {
+                    newPosition -= animation.Duration;
                 }
                 while (newPosition < 0)
                 {
-                    newPosition = newPosition + Duration;
+                    newPosition = newPosition + animation.Duration;
                 }
             }
-            Position = newPosition;
-
-            AnimMesh.UpdateBonesMatrices();
+            animation.Position = newPosition;
         }
 
         #endregion
@@ -229,7 +329,7 @@ namespace PBLgame.Engine.Components
             /// <summary>
             /// Bone in a model that this keyframe bone is assigned to
             /// </summary>
-            private Bone assignedBone = null;
+            public Bone assignedBone = null;
 
             /// <summary>
             /// We are not valid until the rotation and translation are set.
@@ -240,7 +340,7 @@ namespace PBLgame.Engine.Components
             /// <summary>
             /// Current animation rotation
             /// </summary>
-            private Quaternion rotation;
+            public Quaternion rotation;
 
             /// <summary>
             /// Current animation translation
@@ -293,14 +393,13 @@ namespace PBLgame.Engine.Components
             #region Position and Keyframes
 
             /// <summary>
-            /// Set the bone based on the supplied position value
+            /// Set the bone based on the supplied position value. 
+            /// Call AssignToBone() to apply changes in bones.
             /// </summary>
             /// <param name="position"></param>
             public void SetPosition(float position)
             {
-                List<AnimationClip.Keyframe> keyframes = ClipBone.Keyframes;
-                if (keyframes.Count == 0)
-                    return;
+                if (ClipBone.Keyframes.Count == 0) return;
 
                 // If our current position is less that the first keyframe
                 // we move the position backward until we get to the right keyframe
@@ -335,16 +434,22 @@ namespace PBLgame.Engine.Components
                 }
 
                 valid = true;
+                
+//                AssignToBone();
+            }
+
+            public void AssignToBone()
+            {
                 if (assignedBone != null)
                 {
                     // Send to the model
                     // Make it a matrix first
                     Matrix m = Matrix.CreateFromQuaternion(rotation);
                     m.Translation = translation;
+
                     assignedBone.SetCompleteTransform(m);
                 }
             }
-
 
 
             /// <summary>
@@ -406,7 +511,7 @@ namespace PBLgame.Engine.Components
         public int Id;
         public List<AnimationClip> Clips { get; private set; }
 
-        public AnimationClip Idle { get { return Clips.First(c => c.Type == "Idle"); } }
+        public AnimationClip Idle { get { return Clips.FirstOrDefault(c => c.Type == "Idle") ?? Clips[0]; } }
         public AnimationClip Walk { get { return Clips.First(c => c.Type == "Walk"); } }
 
 
