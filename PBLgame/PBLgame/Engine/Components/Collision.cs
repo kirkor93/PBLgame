@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -446,11 +447,70 @@ namespace PBLgame.Engine.Components
         public override void ReadXml(XmlReader reader)
         {
             base.ReadXml(reader);
+            CultureInfo culture = CultureInfo.InvariantCulture;
+
+            Rigidbody = Convert.ToBoolean(reader.GetAttribute("IsRigidbody"), culture);
+            Static = Convert.ToBoolean(reader.GetAttribute("IsStatic"), culture);
+            reader.ReadStartElement();
+            if (reader.Name == "SphereCollider")
+            {
+                MainCollider = new SphereCollider(this);
+                MainCollider.ReadXml(reader);
+                reader.Read();
+            }
+            if (reader.Name == "SphereColliders")
+            {
+                reader.Read();
+                do
+                {
+                    SphereCollider collider = new SphereCollider(this);
+                    collider.ReadXml(reader);
+                    SphereColliders.Add(collider);
+                    reader.Read();
+                } while (reader.Name != "SphereColliders");
+                reader.ReadEndElement();
+            }
+            if (reader.Name == "BoxColliders")
+            {
+                reader.Read();
+                do
+                {
+                    BoxCollider collider = new BoxCollider(this);
+                    collider.ReadXml(reader);
+                    BoxColliders.Add(collider);
+                    reader.Read();
+                } while (reader.Name != "BoxColliders");
+                reader.ReadEndElement();
+            }
+            reader.Read();
         }
 
         public override void WriteXml(XmlWriter writer)
         {
+            CultureInfo culture = CultureInfo.InvariantCulture;
+
             base.WriteXml(writer);
+            writer.WriteAttributeString("IsRigidbody", Rigidbody.ToString(culture));
+            writer.WriteAttributeString("IsStatic", Static.ToString(culture));
+            MainCollider.WriteXml(writer);
+            if (SphereColliders.Count > 0)
+            {
+                writer.WriteStartElement("SphereColliders");
+                foreach (SphereCollider collider in SphereColliders)
+                {
+                    collider.WriteXml(writer);
+                }
+                writer.WriteEndElement();
+            }
+            if (BoxColliders.Count > 0)
+            {
+                writer.WriteStartElement("BoxColliders");
+                foreach (BoxCollider collider in BoxColliders)
+                {
+                    collider.WriteXml(writer);
+                }
+                writer.WriteEndElement();
+            }
         }
 
         #endregion

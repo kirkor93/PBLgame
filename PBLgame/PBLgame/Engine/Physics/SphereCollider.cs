@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 
 using PBLgame.Engine.GameObjects;
@@ -11,7 +15,7 @@ using PBLgame.Engine.Components;
 
 namespace PBLgame.Engine.Physics
 {
-    public class SphereCollider
+    public class SphereCollider : IXmlSerializable
     {
         #region Variables
         private Collision _owner;
@@ -269,6 +273,47 @@ namespace PBLgame.Engine.Physics
                 gd.DrawUserIndexedPrimitives(PrimitiveType.LineList, primitiveList, 0, 1440, indicesArray, 0, 4 * 359);
             }
         }
-        #endregion 
+
+        #region Xml serialization
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            CultureInfo culture = CultureInfo.InvariantCulture;
+
+            Radius = Convert.ToInt32(reader.GetAttribute("Radius"), culture);
+            Trigger = Convert.ToBoolean(reader.GetAttribute("IsTrigger"), culture);
+            reader.ReadStartElement();
+            if (reader.Name == "LocalPosition")
+            {
+                Vector3 tmp = Vector3.Zero;
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"), culture);
+                tmp.Z = Convert.ToSingle(reader.GetAttribute("z"), culture);
+                LocalPosition = tmp;
+            }
+            reader.Read();
+
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            CultureInfo culture = CultureInfo.InvariantCulture;
+
+            writer.WriteStartElement("SphereCollider");
+            writer.WriteAttributeString("Radius", Radius.ToString("G", culture));
+            writer.WriteAttributeString("IsTrigger", Trigger.ToString(culture));
+            writer.WriteStartElement("LocalPosition");
+            writer.WriteAttributeString("x", LocalPosition.X.ToString("G", culture));
+            writer.WriteAttributeString("y", LocalPosition.Y.ToString("G", culture));
+            writer.WriteAttributeString("z", LocalPosition.Z.ToString("G", culture));
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+        }
+        #endregion
+        #endregion
     }
 }

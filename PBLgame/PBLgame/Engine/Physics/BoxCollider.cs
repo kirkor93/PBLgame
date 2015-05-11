@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 
 using PBLgame.Engine.GameObjects;
@@ -11,7 +15,7 @@ using PBLgame.Engine.Components;
 
 namespace PBLgame.Engine.Physics
 {
-    public class BoxCollider
+    public class BoxCollider : IXmlSerializable
     {
         #region Variables
         private Collision _owner;
@@ -251,6 +255,61 @@ namespace PBLgame.Engine.Physics
                     bBoxIndices, 0, 12);
             }
         }
+
+        #region Xml Serialization
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            CultureInfo culture = CultureInfo.InvariantCulture;
+
+            Trigger = Convert.ToBoolean(reader.GetAttribute("IsTrigger"), culture);
+            reader.ReadStartElement();
+            if (reader.Name == "LocalPosition")
+            {
+                Vector3 tmp = Vector3.Zero;
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"), culture);
+                tmp.Z = Convert.ToSingle(reader.GetAttribute("z"), culture);
+                LocalPosition = tmp;
+                reader.Read();
+            }
+            if (reader.Name == "EdgesSize")
+            {
+                Vector3 tmp = Vector3.Zero;
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"), culture);
+                tmp.Z = Convert.ToSingle(reader.GetAttribute("z"), culture);
+                EdgesSize = tmp;
+                reader.Read();
+            }
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            CultureInfo culture = CultureInfo.InvariantCulture;
+
+            writer.WriteStartElement("BoxCollider");
+//            writer.WriteAttributeString("Owner", Owner.gameObject.ID.ToString(culture));
+            writer.WriteAttributeString("IsTrigger", Trigger.ToString(culture));
+            writer.WriteStartElement("LocalPosition");
+            writer.WriteAttributeString("x", LocalPosition.X.ToString("G", culture));
+            writer.WriteAttributeString("y", LocalPosition.Y.ToString("G", culture));
+            writer.WriteAttributeString("z", LocalPosition.Z.ToString("G", culture));
+            writer.WriteEndElement();
+            writer.WriteStartElement("EdgesSize");
+            writer.WriteAttributeString("x", EdgesSize.X.ToString("G", culture));
+            writer.WriteAttributeString("y", EdgesSize.Y.ToString("G", culture));
+            writer.WriteAttributeString("z", EdgesSize.Z.ToString("G", culture));
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+        }
         #endregion
+        #endregion
+
+
     }
 }

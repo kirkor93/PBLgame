@@ -8,6 +8,12 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="3" MaterialId="1" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="9" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <PBLgame.GamePlay.PlayerScript Enabled="True" />
     </GameObject>
     <GameObject Name="Base" Tag="Terrain" Id="9">
       <Transform Enabled="True">
@@ -71,8 +77,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="18" MaterialId="19" />
-      <PBLgame.GamePlay.Translator Enabled="True" />
-      <PBLgame.GamePlay.Translator Enabled="True" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="0" z="0" />
+            <EdgesSize x="10" y="50" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Gate_2" Tag="Terrain" Id="10" Parent="9">
       <Transform Enabled="True">

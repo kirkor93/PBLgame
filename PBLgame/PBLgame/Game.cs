@@ -106,14 +106,6 @@ namespace PBLgame
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;
-            player.AddComponent<PlayerScript>(new PlayerScript(player));
-            player.collision = new Collision(player);
-            player.collision.Rigidbody = true;
-            player.collision.MainCollider = new SphereCollider(player.collision,Vector3.Zero, 10.0f, false);
-            player.collision.Static = false;
-            _scene.GameObjects[8].collision = new Collision(_scene.GameObjects[8]);
-            _scene.GameObjects[8].collision.MainCollider = new SphereCollider(_scene.GameObjects[8].collision, Vector3.Zero, 15.0f, true);
-            _scene.GameObjects[8].collision.BoxColliders.Add(new BoxCollider(_scene.GameObjects[8].collision, new Vector3(10, 50, 20), false));
         }
 
         /// <summary>
