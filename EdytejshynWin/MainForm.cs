@@ -666,6 +666,8 @@ namespace Edytejshyn
                 textures.Add(tex.Name);
             }
 
+            Texture2D defaultNormal   = Logic.ResourceManager.GetTexture(@"Textures\Default_n");
+            Texture2D defaultSpecular = Logic.ResourceManager.GetTexture(@"Textures\Default_s");
             textures.Remove(@"Textures\Default_n");
             textures.Remove(@"Textures\Default_s");
 
@@ -689,8 +691,8 @@ namespace Edytejshyn
                 string name = candidate.Substring(0, candidate.Length - suffix.Length - 1);
 
                 Texture2D diffuse  = Logic.ResourceManager.GetTexture(name + "_d");
-                Texture2D normal   = Logic.ResourceManager.GetTexture(name + "_n");
-                Texture2D specular = Logic.ResourceManager.GetTexture(name + "_s");
+                Texture2D normal   = Logic.ResourceManager.GetTexture(name + "_n") ?? defaultNormal;
+                Texture2D specular = Logic.ResourceManager.GetTexture(name + "_s") ?? defaultSpecular;
                 Texture2D emissive = Logic.ResourceManager.GetTexture(name + "_e") ?? diffuse;
 
                 if (diffuse == null)
@@ -701,23 +703,21 @@ namespace Edytejshyn
                 }
                 else
                 {
-                    if (normal != null && specular != null)
-                    {
-                        const string prefix = @"Textures\";
-                        if (name.StartsWith(prefix)) name = name.Substring(prefix.Length);
-                        MeshMaterial material = new MeshMaterial(id, name, diffuse, normal, specular, emissive, effect);
-                        Logic.ResourceManager.Materials.Add(material);
-                        id++;
-                    }
-                    else
+                    if (normal == defaultNormal || specular == defaultSpecular)
                     {
                         rejectedNoSpecial.Add(name);
-                        Logic.Logger.Log(LoggerLevel.Warning, "Not found normal or specular texture for " + name);
+                        Logic.Logger.Log(LoggerLevel.Warning, "Used default normal or specular texture for " + name);
                     }
+
+                    const string prefix = @"Textures\";
+                    if (name.StartsWith(prefix)) name = name.Substring(prefix.Length);
+                    MeshMaterial material = new MeshMaterial(id, name, diffuse, normal, specular, emissive, effect);
+                    Logic.ResourceManager.Materials.Add(material);
+                    id++;
                     textures.Remove(diffuse.Name);
 
-                    if (normal   != null) textures.Remove(normal.Name);
-                    if (specular != null) textures.Remove(specular.Name);
+                    if (normal   != defaultNormal)   textures.Remove(normal.Name);
+                    if (specular != defaultSpecular) textures.Remove(specular.Name);
                     if (emissive != null) textures.Remove(emissive.Name);
                 }
             }
@@ -734,7 +734,7 @@ namespace Edytejshyn
             }
 
             if (rejectedNoSpecial.Count > 0) { 
-                sb.AppendLine("No normal/specular found for:");
+                sb.AppendLine("Used default normal/specular for:");
                 foreach (string tex in rejectedNoSpecial)
                 {
                     sb.AppendLine(tex);
