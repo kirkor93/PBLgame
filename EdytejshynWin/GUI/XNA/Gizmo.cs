@@ -730,7 +730,7 @@ namespace Edytejshyn.GUI.XNA
                 closestIntersection = intersection.Value;
             }
 
-            if (ActiveMode != GizmoMode.Translate)
+            //if (ActiveMode != GizmoMode.Translate)
             {
                 intersection = XSphere.Intersects(ray);
                 if (intersection < closestIntersection)
