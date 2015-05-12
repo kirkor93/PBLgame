@@ -35,6 +35,10 @@ namespace PBLgame.GamePlay
             InputManager.Instance.OnTurn   += CharacterRotation;
             InputManager.Instance.OnMove   += CharacterTranslate;
             InputManager.Instance.OnButton += CharacterAction;
+
+            SpeedMultiplier = 180.0f;
+            // TODO Think here - Gandalf hack (model is rotated against game axes)
+            AngleCorrection = 90f;
         }
 
         public override void Draw(GameTime gameTime)
@@ -58,8 +62,8 @@ namespace PBLgame.GamePlay
 
         private void CharacterTranslate(Object o, MoveArgs args)
         {
-            Velocity = new Vector2(args.AxisValue.X, -args.AxisValue.Y);
-            if (_syncAngles && args.AxisValue.LengthSquared() > 0.001f)
+            UnitVelocity = new Vector2(args.AxisValue.X, -args.AxisValue.Y);
+            if (_syncAngles && args.AxisValue.LengthSquared() > 1e-5f)
             {
                 SetLookVector(args.AxisValue);
             }

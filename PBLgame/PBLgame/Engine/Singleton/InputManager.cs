@@ -83,7 +83,7 @@ namespace PBLgame.Engine.Singleton
         {
             UpdateRumble(gameTime);
 
-            _gamePadState = GamePad.GetState(PlayerIndex.One, GamePadDeadZone.Circular);
+            _gamePadState = GamePad.GetState(PlayerIndex.One, GamePadDeadZone.IndependentAxes);
             int packetNumber = _gamePadState.PacketNumber;
 
             if (!_gamePadState.IsConnected || packetNumber == _lastPacketNumber) return;
@@ -94,9 +94,10 @@ namespace PBLgame.Engine.Singleton
             if (_gamePadState.ThumbSticks.Left != _lastLeftStick)
             {
                 _lastLeftStick = _gamePadState.ThumbSticks.Left;
+
                 if(OnMove != null)
                 {
-                    OnMove(this, new MoveArgs(_gamePadState.ThumbSticks.Left));
+                    OnMove(this, new MoveArgs(Circularize(_gamePadState.ThumbSticks.Left)));
                 }
             }
                 
@@ -106,7 +107,7 @@ namespace PBLgame.Engine.Singleton
                 _lastRightStick = _gamePadState.ThumbSticks.Right;
                 if (OnTurn != null)
                 {
-                    OnTurn(this, new MoveArgs(_gamePadState.ThumbSticks.Right));
+                    OnTurn(this, new MoveArgs(Circularize(_gamePadState.ThumbSticks.Right)));
                 }
             }
 
@@ -124,6 +125,14 @@ namespace PBLgame.Engine.Singleton
                 _buttonsDown[i] = down;
             }
 
+        }
+
+        private Vector2 Circularize(Vector2 input)
+        {
+            float length = input.Length();
+            if (length == 0f) return Vector2.Zero;
+            float mul =  MathHelper.Clamp(length, -1f, 1f) / length;
+            return input * mul;
         }
 
         /// <summary>
