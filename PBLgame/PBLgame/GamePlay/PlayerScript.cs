@@ -36,9 +36,9 @@ namespace PBLgame.GamePlay
             InputManager.Instance.OnMove   += CharacterTranslate;
             InputManager.Instance.OnButton += CharacterAction;
 
-            SpeedMultiplier = 180.0f;
+            SpeedMultiplier = 80f; //180.0f;
             // TODO Think here - Gandalf hack (model is rotated against game axes)
-            AngleCorrection = 90f;
+            //AngleCorrection = 90f;
         }
 
         public override void Draw(GameTime gameTime)

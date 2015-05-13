@@ -64,25 +64,25 @@ namespace PBLgame.GamePlay
 
             _gameObject.transform.Translate(movement.X, 0.0f, movement.Y);
 
-            float v = trueVelocity.Length();
-            if (Math.Abs(v) < 0.0001)
-            {
-                _gameObject.animator.Idle();
-            }
-            else
-            {
-//                if (Math.Abs(currentAngle - Extensions.CalculateDegrees(trueVelocity)) > 90f)
-//                {
-//                    v = -v;
-//                }
-                _gameObject.animator.Walk(v);
-            }
+//            float v = trueVelocity.Length();
+//            if (Math.Abs(v) < 0.0001)
+//            {
+//                _gameObject.animator.Idle();
+//            }
+//            else
+//            {
+////                if (Math.Abs(currentAngle - Extensions.CalculateDegrees(trueVelocity)) > 90f)
+////                {
+////                    v = -v;
+////                }
+//                _gameObject.animator.Walk(v);
+//            }
             
         }
 
         public override void Initialize()
         {
-            _gameObject.animator.Idle();
+//            _gameObject.animator.Idle();
         }
 
         /// <summary>
