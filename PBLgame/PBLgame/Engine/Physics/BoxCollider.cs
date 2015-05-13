@@ -25,14 +25,14 @@ namespace PBLgame.Engine.Physics
         private bool _trigger;
         private BoundingBox _box = new BoundingBox();
 
-        //private Vector3 _min;
-        //private Vector3 _max;
+        private Vector3 _min;
+        private Vector3 _max;
 
-        private Vector3[] _baseColVerts;
+        //private Vector3[] _baseColVerts;
 
         private Vector3[] _colVerts;
 
-        private Vector3 _previousPosition;
+        //private Vector3 _previousPosition;
         #endregion
 
         #region Properties
@@ -67,14 +67,14 @@ namespace PBLgame.Engine.Physics
             }
             private set { }
         }
-        public Vector3 PreviousPosition
-        {
-            get
-            {
-                return _previousPosition;
-            }
-            private set { }
-        }
+        //public Vector3 PreviousPosition
+        //{
+        //    get
+        //    {
+        //        return _previousPosition;
+        //    }
+        //    private set { }
+        //}
         public bool Trigger
         {
             get
@@ -114,7 +114,7 @@ namespace PBLgame.Engine.Physics
         public BoxCollider(Collision owner)
         {
             _owner = owner;
-            _previousPosition = Vector3.Zero;
+            //_previousPosition = Vector3.Zero;
             _edgesSize = new Vector3(1, 1, 1);
             _localPosition = Vector3.Zero;
             _totalPosition = owner.gameObject.transform.Position + _localPosition;
@@ -122,8 +122,8 @@ namespace PBLgame.Engine.Physics
             _trigger = false;
             _colVerts = new Vector3[8];
             InitializeVerts();
-            _baseColVerts = new Vector3[8];
-            _baseColVerts = _colVerts;
+            //_baseColVerts = new Vector3[8];
+            //_baseColVerts = _colVerts;
             //SetMinMax();
             _box = BoundingBox.CreateFromPoints(_colVerts);
         }
@@ -131,7 +131,7 @@ namespace PBLgame.Engine.Physics
         public BoxCollider(Collision owner, Vector3 position, Vector3 size, bool trigger)
         {
             _owner = owner;
-            _previousPosition = Vector3.Zero;
+            //_previousPosition = Vector3.Zero;
             _edgesSize = size;
             _localPosition = position;
             _totalPosition = _localPosition + owner.gameObject.transform.Position;
@@ -139,8 +139,8 @@ namespace PBLgame.Engine.Physics
             _trigger = trigger;
             _colVerts = new Vector3[8];
             InitializeVerts();
-            _baseColVerts = new Vector3[8];
-            _baseColVerts = _colVerts;
+            //_baseColVerts = new Vector3[8];
+            //_baseColVerts = _colVerts;
             //SetMinMax();
             _box = BoundingBox.CreateFromPoints(_colVerts);
         }
@@ -148,7 +148,7 @@ namespace PBLgame.Engine.Physics
         public BoxCollider(Collision owner, Vector3 size, bool trigger)
         {
             _owner = owner;
-            _previousPosition = Vector3.Zero;
+            //_previousPosition = Vector3.Zero;
             _edgesSize = size;
             _localPosition = Vector3.Zero;
             _totalPosition = _localPosition + owner.gameObject.transform.Position;
@@ -156,8 +156,8 @@ namespace PBLgame.Engine.Physics
             _trigger = trigger;
             _colVerts = new Vector3[8];
             InitializeVerts();
-            _baseColVerts = new Vector3[8];
-            _baseColVerts = _colVerts;
+            //_baseColVerts = new Vector3[8];
+            //_baseColVerts = _colVerts;
             //SetMinMax();
             _box = BoundingBox.CreateFromPoints(_colVerts);
         }
@@ -201,7 +201,7 @@ namespace PBLgame.Engine.Physics
 
         public void UpdatePosition()
         {
-            _previousPosition = _totalPosition;
+            //_previousPosition = _totalPosition;
             _totalPosition = _owner.gameObject.transform.Position + _localPosition;
             if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPosition;
             InitializeVerts();
