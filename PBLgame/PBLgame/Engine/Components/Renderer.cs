@@ -102,7 +102,7 @@ namespace PBLgame.Engine.Components
 
             MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
             MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
-            MyEffect.Parameters["camDirection"].SetValue(Camera.MainCamera.Direction);
+            MyEffect.Parameters["cameraPosition"].SetValue(Camera.MainCamera.transform.Position);
             MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
             MyEffect.Parameters["normalIntensity"].SetValue(1);
             MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
@@ -144,7 +144,7 @@ namespace PBLgame.Engine.Components
 
         private void ParameterizeEffectWithMeshWorld(ModelMesh modelMesh)
         {
-            Matrix world = MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World;
+            Matrix world = modelMesh.ParentBone.Transform * _gameObject.transform.World;
             MyEffect.Parameters["world"].SetValue(world);
             MyEffect.Parameters["worldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(world)));
         }

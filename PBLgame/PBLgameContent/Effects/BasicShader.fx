@@ -2,12 +2,12 @@
 float4x4 view;
 float4x4 projection;
 float4x4 worldInverseTranspose;
-float3 camDirection;
+float3 cameraPosition;
 
 #define maxLights 9
 float3 lightsPositions[maxLights];
 float4 lightsColors[maxLights];
-float lightsAttenuations[maxLights];
+float lightsAttenuations[maxLights];	// or Intensity
 float lightsFalloffs[maxLights];
 int lightsPoint[maxLights];
 int lightsDirectional[maxLights];
@@ -78,13 +78,11 @@ struct VertexShaderOutput
 {
 	float4 Position : POSITION0;
 	float2 TextureCoordinate : TEXCOORD0;
-	float3 invNormal   : TEXCOORD1;
-	float3 invTangent  : TEXCOORD2;
-	float3 invBinormal : TEXCOORD3;
-	float4 WorldPos : TEXCOORD4;
-	float3 worldedNormal   : TEXCOORD5;
-	float3 worldedTangent  : TEXCOORD6;
-	float3 worldedBinormal : TEXCOORD7;
+	float4 WorldPos        : TEXCOORD1;
+	float3 worldedNormal   : TEXCOORD2;
+	float3 worldedTangent  : TEXCOORD3;
+	float3 worldedBinormal : TEXCOORD4;
+	float3 viewDirection   : TEXCOORD5;
 };
 
 #ifdef SKINNED
@@ -116,15 +114,12 @@ VertexShaderOutput VS(VertexShaderInput input)
 	output.Position = mul(viewPosition, projection);
 	output.WorldPos = worldPosition;
 
-	output.invNormal   = normalize(mul(input.Normal,   worldInverseTranspose));
-	output.invTangent  = normalize(mul(input.Tangent,  worldInverseTranspose));
-	output.invBinormal = normalize(mul(input.Binormal, worldInverseTranspose));
-
 	output.worldedNormal   = normalize(mul(input.Normal,   world));
 	output.worldedTangent  = normalize(mul(input.Tangent,  world));
 	output.worldedBinormal = normalize(mul(input.Binormal, world));
 
 	output.TextureCoordinate = input.TextureCoordinate;
+	output.viewDirection = normalize(cameraPosition.xyz - worldPosition.xyz);
 
 	return output;
 }
@@ -134,10 +129,7 @@ float4 PS(VertexShaderOutput input) : COLOR0
 
 	//Normal calc
 	float3 normalMap = (tex2D(normalSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
-
-	float3 worldedNormal = normalIntensity * (input.worldedNormal + (normalMap.x * input.worldedTangent + normalMap.y * input.worldedBinormal));
-
-	float3 invNormal = normalIntensity * (input.invNormal + (normalMap.x * input.invTangent + normalMap.y * input.invBinormal));
+	float3 worldedNormal = normalize(normalIntensity * (input.worldedNormal + (normalMap.x * input.worldedTangent + normalMap.y * input.worldedBinormal)));
 
 	//Lights
 	float4 totalLight = float4(0, 0, 0, 1);
@@ -147,23 +139,39 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	[unroll]
 	for (int i = 0; i < maxLights; ++i)
 	{
-		//directional light
-		float3 directionalLight = (normalize(lightsPositions[i]) * lightsDirectional[i]) + (normalize(lightsPositions[i] - input.WorldPos) * lightsPoint[i]);
-		float dirLight = saturate(dot(directionalLight, worldedNormal)) * lightsAttenuations[i];
+		// Light direction
+		float3 lightDir = lightsDirectional[i]  *  (normalize(lightsPositions[i]))
+		                + lightsPoint[i]        *  (normalize(lightsPositions[i] - input.WorldPos));
 
-		//point
+		// Diffuse shading
+		float diffuse = saturate(dot(lightDir, worldedNormal));
+
+		// Point light
 		float d = distance(lightsPositions[i], input.WorldPos);
-		float att = 1 - pow(clamp(d / lightsAttenuations[i], 0, 1), lightsFalloffs[i]);
+		float pointDiffuse = lightsPoint[i] * diffuse * (1 - pow(clamp(d / lightsAttenuations[i], 0, 1), lightsFalloffs[i]));
 
-		totalLight += lightsColors[i] * (dirLight * lightsDirectional[i] + att * lightsPoint[i]);
+		// Directional light
+		float directionalDiffuse = lightsDirectional[i] * diffuse * lightsAttenuations[i];
+		
+		// Apply new calculated diffuse (one of them will be == 0):
+		diffuse = pointDiffuse + directionalDiffuse;
 
-		float3 r = normalize((2 * dot(directionalLight, invNormal) * invNormal - directionalLight));
-		float3 v = normalize(mul(normalize(camDirection), world));
-		totalSpecular += dot(r, v);
+		totalLight += lightsColors[i] * diffuse;
+
+#ifdef PHONG
+		// Phong
+		float3 r = normalize((2 * dot(lightDir, worldedNormal) * worldedNormal - lightDir));
+		float3 v = input.viewDirection;
+		totalSpecular += pow(saturate(dot(r, v)), shininess) * diffuse;
+#else
+		// Blinn-Phong
+		float3 h = normalize(lightDir + input.viewDirection);
+		totalSpecular += pow(saturate(dot(worldedNormal, h)), shininess) * diffuse;
+#endif
+
 	}
 
-	totalSpecular = (tex2D(specularSampler, input.TextureCoordinate)) * specularIntensity
-		* specularColor * totalSpecular * totalLight;
+	totalSpecular = (tex2D(specularSampler, input.TextureCoordinate)) * specularIntensity * specularColor * totalSpecular;
 
 	//Emissive
 	float4 emissive = (tex2D(emissiveSampler, input.TextureCoordinate).rgba * emissiveIntensity) * emissiveColor;
@@ -173,9 +181,10 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	float4 textureColor = tex2D(diffuseSampler, input.TextureCoordinate);
 	textureColor.a = 1;
 	
-	float4 ambient = 1.0f * (1, 1, 1, 1);
+	float4 ambient = 0.1f * (1, 1, 1, 1);
+	totalLight += ambient;
 	
-	return (textureColor * totalLight /*+ ambient*/ + totalSpecular) + emissive;
+	return (textureColor * totalLight + totalSpecular) + emissive;
 }
 
 technique PhongBlinn

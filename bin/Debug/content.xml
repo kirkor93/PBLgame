@@ -5,6 +5,7 @@
     <ShaderEffects>
       <ShaderEffect Path="Effects\BasicShader" />
       <ShaderEffect Path="Effects\BasicShaderSkinned" />
+      <ShaderEffect Path="Effects\BasicShaderPhong" />
       <ShaderEffect Path="Effects\ParticleShader" />
     </ShaderEffects>
     <Textures>
@@ -171,6 +172,7 @@
       <Material Id="41" Name="Terrain\Desert\Mountain_3" Diffuse="Textures\Terrain\Desert\Mountain_3_d" Normal="Textures\Terrain\Desert\Mountain_3_n" Specular="Textures\Terrain\Desert\Mountain_3_s" Emissive="Textures\Terrain\Desert\Mountain_3_d" ShaderPath="Effects\BasicShader" />
       <Material Id="42" Name="Terrain\Desert\Mountain_2" Diffuse="Textures\Terrain\Desert\Mountain_2_d" Normal="Textures\Terrain\Desert\Mountain_2_n" Specular="Textures\Terrain\Desert\Mountain_2_s" Emissive="Textures\Terrain\Desert\Mountain_2_d" ShaderPath="Effects\BasicShader" />
       <Material Id="44" Name="Default" Diffuse="Textures\Default_s" Normal="Textures\Default_n" Specular="Textures\Default_s" Emissive="Textures\Default_s" ShaderPath="Effects\BasicShader" />
+      <Material Id="45" Name="NormalHelmet" Diffuse="Textures\Default_s" Normal="Textures\Helmet_n" Specular="Textures\Default_s" Emissive="Textures\Default_s" ShaderPath="Effects\BasicShader" />
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
