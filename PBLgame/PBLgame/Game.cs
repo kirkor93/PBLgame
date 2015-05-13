@@ -91,10 +91,17 @@ namespace PBLgame
             ResourceManager.Instance.AssignAudioBank(_soundBank);
 
             _scene = new Scene();
+            //_scene.Load("AnimScene.xml");
+            //player = _scene.FindGameObject(1);
+            //player.animator.Idle();
+            //mainCamera.parent = player;
+            //mainCamera.transform.Position = player.transform.Position + new Vector3(0f, 300f, 180f);
+            //mainCamera.SetTarget(player.transform.Position + new Vector3(0, 10f, 0));
+            //mainCamera.Update();
+
             //_scene.Load(@"Scene 1.xml");
             //player = _scene.GameObjects.First(obj => obj.ID == 7);
             //player.animator.PlayAnimation(ResourceManager.Instance.GetAnimationClip(1));
-            //player.animator.Looping = true;
             
             _scene.Load(@"Level_1.xml");
 
@@ -106,6 +113,8 @@ namespace PBLgame
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;
+            Animator gandalf = _scene.FindGameObject("Gandalf").animator;
+            gandalf.PlayAnimation(gandalf.AnimMesh.Skeleton.Clips[0]);
         }
 
         /// <summary>
@@ -114,7 +123,7 @@ namespace PBLgame
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            // Unload any non ContentManager content here
         }
 
         /// <summary>

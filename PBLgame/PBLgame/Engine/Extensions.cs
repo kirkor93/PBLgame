@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace PBLgame.Engine
 {
@@ -22,6 +23,11 @@ namespace PBLgame.Engine
         public static float CalculateAngle(float x, float y)
         {
             return (float) (Math.Atan2(y, x));
+        }
+
+        public static float CalculateDegrees(Vector2 vector)
+        {
+            return MathHelper.ToDegrees(CalculateAngle(vector.X, vector.Y));
         }
     }
 }

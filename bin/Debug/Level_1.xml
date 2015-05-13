@@ -4832,6 +4832,15 @@
       </Transform>
       <Renderer Enabled="True" MeshId="12" MaterialId="11" />
     </GameObject>
+    <GameObject Name="Gandalf" Tag="Ghost" Id="607">
+      <Transform Enabled="True">
+        <Position x="-37.85358" y="14" z="-73.02544" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="0.15" y="0.15" z="0.15" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="2" MaterialId="1" />
+      <Animator Enabled="True" />
+    </GameObject>
   </GameObjects>
   <Lights>
     <Light Type="Point">

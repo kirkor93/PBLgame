@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <XmlContent>
   <Metadata />
   <Content>
@@ -129,7 +129,7 @@
     <Materials>
       <Material Id="1" Name="Helmet" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
       <Material Id="2" Name="Particle" Diffuse="Textures\fire" ShaderPath="Effects\ParticleShader" />
-      <Material Id="2" Name="Enemies\Crossbow" Diffuse="Textures\Enemies\Crossbow_d" Normal="Textures\Enemies\Crossbow_n" Specular="Textures\Enemies\Crossbow_s" Emissive="Textures\Enemies\Crossbow_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="43" Name="Enemies\Crossbow" Diffuse="Textures\Enemies\Crossbow_d" Normal="Textures\Enemies\Crossbow_n" Specular="Textures\Enemies\Crossbow_s" Emissive="Textures\Enemies\Crossbow_d" ShaderPath="Effects\BasicShader" />
       <Material Id="3" Name="Enemies\Cute_Bomber" Diffuse="Textures\Enemies\Cute_Bomber_d" Normal="Textures\Enemies\Cute_Bomber_n" Specular="Textures\Enemies\Cute_Bomber_s" Emissive="Textures\Enemies\Cute_Bomber_d" ShaderPath="Effects\BasicShader" />
       <Material Id="4" Name="Enemies\Katana" Diffuse="Textures\Enemies\Katana_d" Normal="Textures\Enemies\Katana_n" Specular="Textures\Enemies\Katana_s" Emissive="Textures\Enemies\Katana_d" ShaderPath="Effects\BasicShader" />
       <Material Id="5" Name="Enemies\Mecha_ranger" Diffuse="Textures\Enemies\Mecha_ranger_d" Normal="Textures\Enemies\Mecha_ranger_n" Specular="Textures\Enemies\Mecha_ranger_s" Emissive="Textures\Enemies\Mecha_ranger_d" ShaderPath="Effects\BasicShader" />
@@ -170,10 +170,11 @@
       <Material Id="40" Name="Terrain\Desert\Asphalt_2" Diffuse="Textures\Terrain\Desert\Asphalt_2_d" Normal="Textures\Terrain\Desert\Asphalt_2_n" Specular="Textures\Terrain\Desert\Asphalt_2_s" Emissive="Textures\Terrain\Desert\Asphalt_2_d" ShaderPath="Effects\BasicShader" />
       <Material Id="41" Name="Terrain\Desert\Mountain_3" Diffuse="Textures\Terrain\Desert\Mountain_3_d" Normal="Textures\Terrain\Desert\Mountain_3_n" Specular="Textures\Terrain\Desert\Mountain_3_s" Emissive="Textures\Terrain\Desert\Mountain_3_d" ShaderPath="Effects\BasicShader" />
       <Material Id="42" Name="Terrain\Desert\Mountain_2" Diffuse="Textures\Terrain\Desert\Mountain_2_d" Normal="Textures\Terrain\Desert\Mountain_2_n" Specular="Textures\Terrain\Desert\Mountain_2_s" Emissive="Textures\Terrain\Desert\Mountain_2_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="44" Name="Default" Diffuse="Textures\Default_s" Normal="Textures\Default_n" Specular="Textures\Default_s" Emissive="Textures\Default_s" ShaderPath="Effects\BasicShader" />
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
-      <Mesh Id="2" Path="Models\Gandalf" Animated="True" />
+      <Mesh Id="2" Path="Models\Gandalf" Skeleton="1" />
       <Mesh Id="3" Path="Models\Champions\Ace" />
       <Mesh Id="4" Path="Models\Champions\Ace_sword_v1" />
       <Mesh Id="5" Path="Models\Enemies\Crossbow" />
@@ -222,13 +223,13 @@
       <Mesh Id="48" Path="Models\Terrain\Desert\Mountain_3" />
     </Meshes>
     <Animations>
-      <Animation Id="1" Path="Animations\Gandalf_gangnam_style" />
-      <Animation Id="2" Path="Animations\Gandalf_idle" />
-      <Animation Id="3" Path="Animations\Gandalf_strafe_left" />
-      <Animation Id="4" Path="Animations\Gandalf_strafe_right" />
-      <Animation Id="5" Path="Animations\Gandalf_turn_left" />
-      <Animation Id="6" Path="Animations\Gandalf_turn_right" />
-      <Animation Id="7" Path="Animations\Gandalf_walk" />
+      <Animation Id="1" Path="Animations\Gandalf_gangnam_style" Skeleton="1" />
+      <Animation Id="2" Path="Animations\Gandalf_idle" Skeleton="1" Type="Idle" />
+      <Animation Id="3" Path="Animations\Gandalf_strafe_left" Skeleton="1" />
+      <Animation Id="4" Path="Animations\Gandalf_strafe_right" Skeleton="1" />
+      <Animation Id="5" Path="Animations\Gandalf_turn_left" Skeleton="1" />
+      <Animation Id="6" Path="Animations\Gandalf_turn_right" Skeleton="1" Type="Right" />
+      <Animation Id="7" Path="Animations\Gandalf_walk" Skeleton="1" Type="Walk" Speed="0.0057" />
     </Animations>
   </Content>
 </XmlContent>

@@ -99,11 +99,10 @@ namespace PBLgame.Engine.Components
 
         public override void Draw(GameTime gameTime)
         {
-            ParameterizeEffectWithLights();
 
             MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
             MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
-            MyEffect.Parameters["direction"].SetValue(Camera.MainCamera.Direction);
+            MyEffect.Parameters["camDirection"].SetValue(Camera.MainCamera.Direction);
             MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
             MyEffect.Parameters["normalIntensity"].SetValue(1);
             MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
@@ -119,7 +118,7 @@ namespace PBLgame.Engine.Components
                 foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
                 {
                     ParameterizeEffectWithMeshWorld(modelMesh); 
-                    MyEffect.Parameters["Bones"].SetValue(animatedMesh.Skeleton);
+                    MyEffect.Parameters["Bones"].SetValue(animatedMesh.SkeletonMatrix);
 
                     foreach (ModelMeshPart part in modelMesh.MeshParts)
                     {
@@ -132,7 +131,6 @@ namespace PBLgame.Engine.Components
             {
                 foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
                 {
-                    //UpdateLightsPositions(); // TODO why am I here?
                     ParameterizeEffectWithMeshWorld(modelMesh);
                     
                     foreach (ModelMeshPart part in modelMesh.MeshParts)
@@ -149,71 +147,6 @@ namespace PBLgame.Engine.Components
             Matrix world = MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World;
             MyEffect.Parameters["world"].SetValue(world);
             MyEffect.Parameters["worldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(world)));
-        }
-
-        private void UpdateLightsPositions()
-        {
-            
-            List<Light> lights = _scene.SceneLights;
-            Vector3[] pos_dir = new Vector3[30];
-
-            for (int i = 0; i < lights.Count; ++i)
-            {
-                if (lights[i].Type == LightType.Directional)
-                {
-                    MyDirectionalLight dLight = lights[i] as MyDirectionalLight;
-                    pos_dir[i] = dLight.Direction;
-                }
-                else
-                {
-                    PointLight pLight = lights[i] as PointLight;
-                    pos_dir[i] = pLight.Position;
-                }
-            }
-            MyEffect.Parameters["lightsPositions"].SetValue(pos_dir);
-
-        }
-
-        private void ParameterizeEffectWithLights()
-        {
-            List<Light> lights = _scene.SceneLights;
-            Vector3[] pos_dir = new Vector3[30];
-            Vector4[] colors = new Vector4[30];
-            float[] att_int = new float[30];
-            float[] falloff = new float[30];
-            int[] points = new int[30];
-            int[] dirs = new int[30];
-
-            for (int i = 0; i < lights.Count; ++i )
-            {
-                if(lights[i].Type == LightType.Directional)
-                {
-                    MyDirectionalLight dLight = lights[i] as MyDirectionalLight;
-                    pos_dir[i] = dLight.Direction;
-                    colors[i] = dLight.Color;
-                    att_int[i] = dLight.Intensity;
-                    dirs[i] = 1;
-                    points[i] = 0;
-                }
-                else
-                {
-                    PointLight pLight = lights[i] as PointLight;
-                    pos_dir[i] = pLight.Position;
-                    colors[i] = pLight.Color;
-                    att_int[i] = pLight.Attenuation;
-                    falloff[i] = pLight.FallOff;
-                    points[i] = 1;
-                    dirs[i] = 0;
-                }
-            }
-                //!!!!!! lightsCount have to be less or equal 30
-            MyEffect.Parameters["lightsCount"].SetValue(lights.Count);
-            MyEffect.Parameters["lightsPositions"].SetValue(pos_dir);
-            MyEffect.Parameters["lightsColors"].SetValue(colors);
-            MyEffect.Parameters["lightsAttenuations"].SetValue(att_int);
-            MyEffect.Parameters["lightsFalloffs"].SetValue(falloff);
-            MyEffect.Parameters["lightsPoint"].SetValue(points);
-            MyEffect.Parameters["lightsDirectional"].SetValue(dirs);
         }
 
         public override void ReadXml(XmlReader reader)

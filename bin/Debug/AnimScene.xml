@@ -1,0 +1,630 @@
+<?xml version="1.0"?>
+<Scene>
+  <GameObjects>
+      <GameObject Name="Gandalf" Tag="Ghost" Id="1">
+      <Transform Enabled="True">
+        <Position x="0" y="100" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="2" MaterialId="35" />
+      <Animator Enabled="True" />
+      <PBLgame.GamePlay.PlayerScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Ground" Tag="Empty" Id="5">
+      <Transform Enabled="True">
+        <Position x="20" y="0" z="-60" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="11" Parent="5">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="12" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-40" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="13" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-80" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="14" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-120" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="15" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-120" y="0" z="40" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="16" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-80" y="0" z="40" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="17" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-40" y="0" z="40" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="18" Parent="5">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="40" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="19" Parent="5">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="40" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="20" Parent="5">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="21" Parent="5">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="22" Parent="5">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="23" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-40" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="24" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-80" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="25" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-120" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="26" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-120" y="0" z="120" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="27" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-80" y="0" z="120" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="28" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-40" y="0" z="120" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="29" Parent="5">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="120" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="30" Parent="5">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="120" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="31" Parent="5">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="32" Parent="5">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="33" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-40" y="0" z="160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="34" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-80" y="0" z="160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="35" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-120" y="0" z="160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="36" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-120" y="0" z="200" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="37" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-80" y="0" z="200" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="38" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-40" y="0" z="200" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="39" Parent="5">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="200" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="40" Parent="5">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="200" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="41" Parent="5">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="200" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="42" Parent="5">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="43" Parent="5">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="120" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="44" Parent="5">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="45" Parent="5">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="40" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="46" Parent="5">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="47" Parent="5">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="48" Parent="5">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="40" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="49" Parent="5">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="50" Parent="5">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="120" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="51" Parent="5">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="52" Parent="5">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="200" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="53" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-120" y="0" z="240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="54" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-80" y="0" z="240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="55" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-40" y="0" z="240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="56" Parent="5">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="57" Parent="5">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="58" Parent="5">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="59" Parent="5">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="60" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-120" y="0" z="280" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="61" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-80" y="0" z="280" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="62" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-40" y="0" z="280" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="63" Parent="5">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="280" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="64" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-40" y="0" z="280" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="65" Parent="5">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="280" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="66" Parent="5">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="280" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="67" Parent="5">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="280" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="68" Parent="5">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="69" Parent="5">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="40" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="70" Parent="5">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="71" Parent="5">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="120" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="72" Parent="5">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="73" Parent="5">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="200" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="74" Parent="5">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="75" Parent="5">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="280" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="76" Parent="5">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="77" Parent="5">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="78" Parent="5">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="79" Parent="5">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="80" Parent="5">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="81" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-40" y="0" z="320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="82" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-80" y="0" z="320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Ground" Id="83" Parent="5">
+      <Transform Enabled="True">
+        <Position x="-120" y="0" z="320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+  </GameObjects>
+  <Lights>
+    <Light Type="Directional">
+      <Color r="1" g="1" b="1" a="1" />
+      <GameObject Name="Light 1" Tag="Light" Id="8">
+        <Transform Enabled="True">
+          <Position x="11" y="11" z="0" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <DirectionalLight Intensity="1" />
+    </Light>
+    <Light Type="Point">
+      <Color r="1" g="0" b="0" a="1" />
+      <GameObject Name="Light 1" Tag="Light" Id="9" Parent="5">
+        <Transform Enabled="True">
+          <Position x="0" y="0" z="0" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <PointLight Attenuation="10" FallOff="2" />
+    </Light>
+  </Lights>
+</Scene>
