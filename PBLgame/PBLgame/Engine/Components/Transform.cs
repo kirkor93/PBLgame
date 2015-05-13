@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
 using PBLgame.Engine.GameObjects;
 
+using PBLgame.Engine.Physics;
+
 namespace PBLgame.Engine.Components
 {
     public class Transform : Component
@@ -85,6 +87,10 @@ namespace PBLgame.Engine.Components
             {
                 _worldScale = Matrix.CreateScale(value);
                 _scale = value;
+                if (gameObject.collision != null)
+                {
+                    gameObject.collision.ResizeColliders();
+                }
             }
         }
         public Matrix World
@@ -142,7 +148,7 @@ namespace PBLgame.Engine.Components
             }
         }
 
-        public Vector3 AncestorsPosition
+        public Vector3 AncestorsPositionAsVector
         {
             get
             {
@@ -152,10 +158,26 @@ namespace PBLgame.Engine.Components
                 }
                 else
                 {
-                    return gameObject.parent.transform.Position + gameObject.parent.transform.AncestorsPosition;
+                    return gameObject.parent.transform.Position + gameObject.parent.transform.AncestorsPositionAsVector;
                 }
             }
         }
+
+        public Vector3 AncestorsScaleAsVector
+        {
+            get
+            {
+                if (gameObject.parent == null)
+                {
+                    return Vector3.One;
+                }
+                else
+                {
+                    return gameObject.parent.transform.Scale * gameObject.parent.transform.AncestorsScaleAsVector;
+                }
+            }
+        }
+
         public Matrix AncestorsWorld
         {
             get

@@ -22,7 +22,7 @@ namespace PBLgame.Engine.GameObjects
             {
                 if(parent != null)
                 {
-                    return transform.Position + transform.AncestorsPosition;
+                    return transform.Position + transform.AncestorsPositionAsVector;
                 }
                 else
                 {
@@ -33,7 +33,7 @@ namespace PBLgame.Engine.GameObjects
             {
                 if(parent != null)
                 {
-                    transform.Position = transform.AncestorsPosition + value;
+                    transform.Position = transform.AncestorsPositionAsVector + value;
                 }
                 else
                 {

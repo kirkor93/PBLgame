@@ -195,14 +195,9 @@ namespace PBLgame.Engine.Components
             }
             MainCollider.Draw();
         }
-
-        public void ResetPreviousState()
-        {
-
-        }
+        
 
         private int _cnt;
-
         public int ChceckCollisionDeeper(GameObject collisionGO)
         {
             _cnt = 0;
@@ -326,6 +321,20 @@ namespace PBLgame.Engine.Components
             return _cnt;
         }
 
+        public void ResizeColliders()
+        {
+            foreach(BoxCollider box in _boxColliders)
+            {
+                box.ResizeCollider();
+            }
+            foreach(SphereCollider sphere in _sphereColliders)
+            {
+                sphere.ResizeCollider();
+            }
+
+            _mainCollider.ResizeCollider();
+        }
+
         #region CollisionDetected
         private void CollisionDetected(SphereCollider myCol, SphereCollider enemyCol)
         {
@@ -395,16 +404,16 @@ namespace PBLgame.Engine.Components
         #region AffectCollision
         private void AffectCollision(SphereCollider myCol, SphereCollider enemyCol)
         {
-            Vector3 moveVector = myCol.TotalPosition - myCol.PreviousPosition;
-            moveVector.Normalize();
+            //Vector3 moveVector = myCol.TotalPosition - myCol.PreviousPosition;
+            //moveVector.Normalize();
 
-            Vector3 direction = myCol.TotalPosition - enemyCol.TotalPosition;
-            float intersectionValue = myCol.Radius + enemyCol.Radius - direction.Length();
-            direction.Normalize();
-            direction *= intersectionValue;
-            direction *= moveVector;
-            //direction.Y = 0;
-            if (!myCol.Owner.Static && intersectionValue > 0 && direction.Length() > 0) myCol.Owner.gameObject.transform.Translate(direction);
+            //Vector3 direction = myCol.TotalPosition - enemyCol.TotalPosition;
+            //float intersectionValue = myCol.Radius + enemyCol.Radius - direction.Length();
+            //direction.Normalize();
+            //direction *= intersectionValue;
+            //direction *= moveVector;
+            ////direction.Y = 0;
+            //if (!myCol.Owner.Static && intersectionValue > 0 && direction.Length() > 0) myCol.Owner.gameObject.transform.Translate(direction);
         }
 
         private void AffectCollision(SphereCollider myCol, BoxCollider enemyCol)

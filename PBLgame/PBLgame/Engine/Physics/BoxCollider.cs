@@ -25,14 +25,8 @@ namespace PBLgame.Engine.Physics
         private bool _trigger;
         private BoundingBox _box = new BoundingBox();
 
-        private Vector3 _min;
-        private Vector3 _max;
-
-        //private Vector3[] _baseColVerts;
-
+        private Vector3 _edgesRealSize;
         private Vector3[] _colVerts;
-
-        //private Vector3 _previousPosition;
         #endregion
 
         #region Properties
@@ -55,7 +49,7 @@ namespace PBLgame.Engine.Physics
             {
                 _localPosition = value;
                 _totalPosition = _owner.gameObject.transform.Position + _localPosition;
-                if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPosition;
+                if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPositionAsVector;
             }
         }
 
@@ -67,14 +61,7 @@ namespace PBLgame.Engine.Physics
             }
             private set { }
         }
-        //public Vector3 PreviousPosition
-        //{
-        //    get
-        //    {
-        //        return _previousPosition;
-        //    }
-        //    private set { }
-        //}
+
         public bool Trigger
         {
             get
@@ -114,73 +101,73 @@ namespace PBLgame.Engine.Physics
         public BoxCollider(Collision owner)
         {
             _owner = owner;
-            //_previousPosition = Vector3.Zero;
             _edgesSize = new Vector3(1, 1, 1);
             _localPosition = Vector3.Zero;
             _totalPosition = owner.gameObject.transform.Position + _localPosition;
-            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPosition;
+            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPositionAsVector;
             _trigger = false;
             _colVerts = new Vector3[8];
+            ResizeCollider();
             InitializeVerts();
-            //_baseColVerts = new Vector3[8];
-            //_baseColVerts = _colVerts;
-            //SetMinMax();
             _box = BoundingBox.CreateFromPoints(_colVerts);
         }
+
 
         public BoxCollider(Collision owner, Vector3 position, Vector3 size, bool trigger)
         {
             _owner = owner;
-            //_previousPosition = Vector3.Zero;
             _edgesSize = size;
             _localPosition = position;
             _totalPosition = _localPosition + owner.gameObject.transform.Position;
-            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPosition;
+            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPositionAsVector;
             _trigger = trigger;
             _colVerts = new Vector3[8];
+            ResizeCollider();
             InitializeVerts();
-            //_baseColVerts = new Vector3[8];
-            //_baseColVerts = _colVerts;
-            //SetMinMax();
             _box = BoundingBox.CreateFromPoints(_colVerts);
         }
 
         public BoxCollider(Collision owner, Vector3 size, bool trigger)
         {
             _owner = owner;
-            //_previousPosition = Vector3.Zero;
             _edgesSize = size;
             _localPosition = Vector3.Zero;
             _totalPosition = _localPosition + owner.gameObject.transform.Position;
-            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPosition;
+            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPositionAsVector;
             _trigger = trigger;
             _colVerts = new Vector3[8];
+            ResizeCollider();
             InitializeVerts();
-            //_baseColVerts = new Vector3[8];
-            //_baseColVerts = _colVerts;
-            //SetMinMax();
             _box = BoundingBox.CreateFromPoints(_colVerts);
+        }
+
+        public void ResizeCollider()
+        {
+           _edgesRealSize = _edgesSize *_owner.gameObject.transform.Scale * _owner.gameObject.transform.AncestorsScaleAsVector;             
         }
 
         private void InitializeVerts()
         {
-            _colVerts[0] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
-            _colVerts[1] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
-            _colVerts[2] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
-            _colVerts[3] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
-            _colVerts[4] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
-            _colVerts[5] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
-            _colVerts[6] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
-            _colVerts[7] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
+            
+            _colVerts[0] = new Vector3(_totalPosition.X - (_edgesRealSize.X / 2), _totalPosition.Y + (_edgesRealSize.Y / 2), _totalPosition.Z + (_edgesRealSize.Z / 2));
+            _colVerts[1] = new Vector3(_totalPosition.X + (_edgesRealSize.X / 2), _totalPosition.Y + (_edgesRealSize.Y / 2), _totalPosition.Z + (_edgesRealSize.Z / 2));
+            _colVerts[2] = new Vector3(_totalPosition.X + (_edgesRealSize.X / 2), _totalPosition.Y - (_edgesRealSize.Y / 2), _totalPosition.Z + (_edgesRealSize.Z / 2));
+            _colVerts[3] = new Vector3(_totalPosition.X - (_edgesRealSize.X / 2), _totalPosition.Y - (_edgesRealSize.Y / 2), _totalPosition.Z + (_edgesRealSize.Z / 2));
+            _colVerts[4] = new Vector3(_totalPosition.X - (_edgesRealSize.X / 2), _totalPosition.Y + (_edgesRealSize.Y / 2), _totalPosition.Z - (_edgesRealSize.Z / 2));
+            _colVerts[5] = new Vector3(_totalPosition.X + (_edgesRealSize.X / 2), _totalPosition.Y + (_edgesRealSize.Y / 2), _totalPosition.Z - (_edgesRealSize.Z / 2));
+            _colVerts[6] = new Vector3(_totalPosition.X + (_edgesRealSize.X / 2), _totalPosition.Y - (_edgesRealSize.Y / 2), _totalPosition.Z - (_edgesRealSize.Z / 2));
+            _colVerts[7] = new Vector3(_totalPosition.X - (_edgesRealSize.X / 2), _totalPosition.Y - (_edgesRealSize.Y / 2), _totalPosition.Z - (_edgesRealSize.Z / 2));
 
-            //_colVerts[0] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[1] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[2] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[3] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[4] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[5] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[6] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[7] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
+            /*
+            _colverts[0] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
+            _colverts[1] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
+            _colverts[2] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
+            _colverts[3] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
+            _colverts[4] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
+            _colverts[5] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
+            _colverts[6] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
+            _colverts[7] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
+             */
         }
 
 
@@ -201,16 +188,9 @@ namespace PBLgame.Engine.Physics
 
         public void UpdatePosition()
         {
-            //_previousPosition = _totalPosition;
             _totalPosition = _owner.gameObject.transform.Position + _localPosition;
-            if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPosition;
+            if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPositionAsVector;
             InitializeVerts();
-            //_baseColVerts = _colVerts;
-            //for (int i = 0; i < 8; i++)
-            //{
-            //    _colVerts[i] = Vector3.Transform(_baseColVerts[i], _owner.gameObject.transform.WorldRotation);
-            //}
-            //_box = BoundingBox.CreateFromPoints(_colVerts);
         }
 
         public void Update()

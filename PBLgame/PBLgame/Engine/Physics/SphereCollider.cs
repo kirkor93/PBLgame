@@ -25,7 +25,7 @@ namespace PBLgame.Engine.Physics
         private bool _trigger;
         private BoundingSphere _sphere = new BoundingSphere();
 
-        private Vector3 _previousPosition;
+        private float _realRadius;
         #endregion
 
         #region Properties
@@ -48,7 +48,7 @@ namespace PBLgame.Engine.Physics
             {
                 _localPosition = value;
                 _totalPosition = _owner.gameObject.transform.Position + _localPosition;
-                if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPosition;
+                if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPositionAsVector;
                 _sphere.Center = _totalPosition;
             }
         }
@@ -61,7 +61,8 @@ namespace PBLgame.Engine.Physics
             set
             {
                 _radius = value;
-                _sphere.Radius = _radius;
+                ResizeCollider();
+                _sphere.Radius = _realRadius;
             }
         }
         public Vector3 TotalPosition
@@ -71,14 +72,6 @@ namespace PBLgame.Engine.Physics
                 return _totalPosition;
             }
             private set { }
-        }
-        public Vector3 PreviousPosition
-        {
-            get
-            {
-                return _previousPosition;
-            }
-            private set{ }
         }
         public bool Trigger
         {
@@ -110,35 +103,35 @@ namespace PBLgame.Engine.Physics
             _owner = owner;
             _localPosition = Vector3.Zero;
             _totalPosition = owner.gameObject.transform.Position + _localPosition;
-            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPosition;
-            _previousPosition = Vector3.Zero;
+            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPositionAsVector;
             _radius = 0.0f;
             _trigger = false;
-            _sphere = new BoundingSphere(_totalPosition,_radius);
+            ResizeCollider();
+            _sphere = new BoundingSphere(_totalPosition,_realRadius);
         }
 
         public SphereCollider(Collision owner, Vector3 position, float radius, bool trigger)
         {
             _owner = owner;
-            _previousPosition = Vector3.Zero;
             _radius = radius;
             _localPosition = position;
             _totalPosition = _localPosition + owner.gameObject.transform.Position;
-            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPosition;
+            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPositionAsVector;
             _trigger = trigger;
-            _sphere = new BoundingSphere(TotalPosition, Radius);
+            ResizeCollider();
+            _sphere = new BoundingSphere(TotalPosition, _realRadius);
         }
 
         public SphereCollider(Collision owner, float radius, bool trigger)
         {
             _owner = owner;
-            _previousPosition = Vector3.Zero;
             _radius = radius;
             _localPosition = Vector3.Zero;
             _totalPosition = _localPosition + owner.gameObject.transform.Position;
-            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPosition;
+            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPositionAsVector;
             _trigger = trigger;
-            _sphere = new BoundingSphere(TotalPosition, Radius);
+            ResizeCollider();
+            _sphere = new BoundingSphere(TotalPosition, _realRadius);
         }
 
         public bool Intersect(SphereCollider sphere)
@@ -158,18 +151,24 @@ namespace PBLgame.Engine.Physics
 
         public void UpdatePosition()
         {
-            _previousPosition = _totalPosition;
             _totalPosition = _owner.gameObject.transform.Position + _localPosition;
-            if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPosition;
+            if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPositionAsVector;
             _sphere.Center = _totalPosition;
+        }
+
+        public void ResizeCollider()
+        {
+            Vector3 tmpVec = _owner.gameObject.transform.Scale * _owner.gameObject.transform.AncestorsScaleAsVector;
+            float tmpFloat = tmpVec.X;
+            if (tmpVec.Y > tmpFloat) tmpFloat = tmpVec.Y;
+            if (tmpVec.Z > tmpFloat) tmpFloat = tmpVec.Z;
+
+            _realRadius = _radius * tmpFloat;
         }
 
         public void Update()
         {
-        //    _previousPosition = _totalPosition;
-        //    _totalPosition = _owner.gameObject.transform.Position + _localPosition;
-        //    if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPosition;
-        //    _sphere.Center = _totalPosition;
+
         }
 
         
