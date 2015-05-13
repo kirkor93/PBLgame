@@ -45,14 +45,7 @@ namespace PBLgame.Engine.Physics
             if (rigidbodies.Count == 0) return;
             foreach(GameObject rb in rigidbodies)
             {
-                //if(!rb.collision.OnTerrain)rb.transform.Translate(0.0f, -0.5f, 0.0f);
-                foreach (GameObject go in gameObjects)
-                {
-                    if (rb.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
-                    {
-                        rb.collision.ChceckCollisionDeeper(go);
-                    }
-                }
+                if(!rb.collision.OnTerrain)rb.transform.Translate(0.0f, -0.5f, 0.0f);
             }
         }
         #endregion
