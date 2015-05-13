@@ -62,7 +62,8 @@ namespace PBLgame.Engine.Physics
             {
                 _radius = value;
                 ResizeCollider();
-                _sphere.Radius = _realRadius;
+                _sphere = new BoundingSphere(_totalPosition, _radius);
+
             }
         }
         public Vector3 TotalPosition
@@ -154,6 +155,7 @@ namespace PBLgame.Engine.Physics
             _totalPosition = _owner.gameObject.transform.Position + _localPosition;
             if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPositionAsVector;
             _sphere.Center = _totalPosition;
+            //_sphere = new BoundingSphere(_totalPosition, _radius);
         }
 
         public void ResizeCollider()

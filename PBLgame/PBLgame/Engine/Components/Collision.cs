@@ -87,13 +87,17 @@ namespace PBLgame.Engine.Components
         private SphereCollider _mainCollider;
         private List<SphereCollider> _sphereColliders;
         private List<BoxCollider> _boxColliders;
-        //private bool _previousFrameCollision;
-        //private List<SphereCollider> _previousFrameCollided;
+        private bool _onTerrain;
         #endregion
 
         #endregion
 
         #region Properties
+        public bool OnTerrain
+        {
+            get { return _onTerrain; }
+            private set { }
+        }
         public bool Static
         {
             get
@@ -163,6 +167,7 @@ namespace PBLgame.Engine.Components
             _mainCollider = null;
             _sphereColliders = new List<SphereCollider>();
             _boxColliders = new List<BoxCollider>();
+            _onTerrain = false;
         }
 
         public Collision(Collision src, GameObject owner) : base(owner)
@@ -172,14 +177,17 @@ namespace PBLgame.Engine.Components
 
         public override void Update(GameTime gameTime)
         {
-            MainCollider.UpdatePosition();
-            foreach(SphereCollider sc in SphereColliders)
+            if(!Static)
             {
-                sc.UpdatePosition();
-            }
-            foreach (BoxCollider bc in BoxColliders)
-            {
-                bc.UpdatePosition();
+                MainCollider.UpdatePosition();
+                foreach(SphereCollider sc in SphereColliders)
+                {
+                    sc.UpdatePosition();
+                }
+                foreach (BoxCollider bc in BoxColliders)
+                {
+                    bc.UpdatePosition();
+                }
             }
         }
 
@@ -198,125 +206,251 @@ namespace PBLgame.Engine.Components
         
 
         private int _cnt;
+
         public int ChceckCollisionDeeper(GameObject collisionGO)
         {
             _cnt = 0;
-            MainCollider.UpdatePosition();
-            foreach(SphereCollider sphere in _sphereColliders)
+            if(!Static)
             {
-                sphere.UpdatePosition();
-            }
-            foreach(BoxCollider box in _boxColliders)
-            {
-                box.UpdatePosition();
-            }
-            if(_sphereColliders.Count > 0)
-            {
-                if(collisionGO.collision.SphereColliders.Count > 0)
+                MainCollider.UpdatePosition();
+                foreach (SphereCollider sphere in _sphereColliders)
                 {
-                    foreach(SphereCollider myCol in SphereColliders)
+                    sphere.UpdatePosition();
+                }
+                foreach (BoxCollider box in _boxColliders)
+                {
+                    box.UpdatePosition();
+                }
+            }
+
+            if (collisionGO.Tag != "Terrain")
+            {
+                //Console.WriteLine("NoTerrain");
+                #region CollisionWithNoTerrain
+                if (_sphereColliders.Count > 0)
+                {
+                    if (collisionGO.collision.SphereColliders.Count > 0)
                     {
-                        foreach(SphereCollider enemyCol in collisionGO.collision.SphereColliders)
+                        foreach (SphereCollider myCol in SphereColliders)
                         {
-                            if(myCol.Contains(enemyCol) != ContainmentType.Disjoint)
+                            foreach (SphereCollider enemyCol in collisionGO.collision.SphereColliders)
                             {
-                                CollisionDetected(myCol,enemyCol);
+                                if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
+                                {
+                                    CollisionDetected(myCol, enemyCol);
+                                }
+                            }
+                        }
+                    }
+                    if (collisionGO.collision.BoxColliders.Count > 0)
+                    {
+                        foreach (SphereCollider myCol in SphereColliders)
+                        {
+                            foreach (BoxCollider enemyCol in collisionGO.collision.BoxColliders)
+                            {
+                                if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
+                                {
+                                    CollisionDetected(myCol, enemyCol);
+                                }
+                            }
+                        }
+                    }
+                    if (collisionGO.collision.SphereColliders.Count == 0 && collisionGO.collision.BoxColliders.Count == 0)
+                    {
+                        foreach (SphereCollider myCol in SphereColliders)
+                        {
+                            if (myCol.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
+                            {
+                                CollisionDetected(myCol, collisionGO.collision.MainCollider);
                             }
                         }
                     }
                 }
-                if(collisionGO.collision.BoxColliders.Count > 0)
+                if (_boxColliders.Count > 0)
                 {
-                    foreach (SphereCollider myCol in SphereColliders)
+                    if (collisionGO.collision.SphereColliders.Count > 0)
                     {
-                        foreach (BoxCollider enemyCol in collisionGO.collision.BoxColliders)
+                        foreach (BoxCollider myCol in BoxColliders)
                         {
-                            if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
+                            foreach (SphereCollider enemyCol in collisionGO.collision.SphereColliders)
                             {
-                                CollisionDetected(myCol, enemyCol);
+                                if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
+                                {
+                                    CollisionDetected(myCol, enemyCol);
+                                }
+                            }
+                        }
+                    }
+                    if (collisionGO.collision.BoxColliders.Count > 0)
+                    {
+                        foreach (BoxCollider myCol in BoxColliders)
+                        {
+                            foreach (BoxCollider enemyCol in collisionGO.collision.BoxColliders)
+                            {
+                                if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
+                                {
+                                    CollisionDetected(myCol, enemyCol);
+                                }
+                            }
+                        }
+                    }
+                    if (collisionGO.collision.SphereColliders.Count == 0 && collisionGO.collision.BoxColliders.Count == 0)
+                    {
+                        foreach (BoxCollider myCol in BoxColliders)
+                        {
+                            if (myCol.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
+                            {
+                                CollisionDetected(myCol, collisionGO.collision.MainCollider);
                             }
                         }
                     }
                 }
-                if(collisionGO.collision.SphereColliders.Count == 0 && collisionGO.collision.BoxColliders.Count == 0)
+
                 {
-                    foreach (SphereCollider myCol in SphereColliders)
-                    {
-                        if (myCol.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
-                        {
-                            CollisionDetected(myCol, collisionGO.collision.MainCollider);
-                        }                        
-                    }
-                }
-            }
-            if (_boxColliders.Count > 0)
-            {
-                if (collisionGO.collision.SphereColliders.Count > 0)
-                {
-                    foreach (BoxCollider myCol in BoxColliders)
+                    if (collisionGO.collision.SphereColliders.Count > 0)
                     {
                         foreach (SphereCollider enemyCol in collisionGO.collision.SphereColliders)
                         {
-                            if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
+                            if (MainCollider.Contains(enemyCol) != ContainmentType.Disjoint)
                             {
-                                CollisionDetected(myCol, enemyCol);
+                                CollisionDetected(MainCollider, enemyCol);
                             }
                         }
                     }
-                }
-                if (collisionGO.collision.BoxColliders.Count > 0)
-                {
-                    foreach (BoxCollider myCol in BoxColliders)
+                    if (collisionGO.collision.BoxColliders.Count > 0)
                     {
                         foreach (BoxCollider enemyCol in collisionGO.collision.BoxColliders)
                         {
-                            if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
+                            if (MainCollider.Contains(enemyCol) != ContainmentType.Disjoint)
                             {
-                                CollisionDetected(myCol, enemyCol);
+                                CollisionDetected(MainCollider, enemyCol);
+                            }
+                        }
+                    }
+                    if (collisionGO.collision.BoxColliders.Count == 0 && collisionGO.collision.SphereColliders.Count == 0)
+                    {
+                        if (MainCollider.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
+                        {
+                            CollisionDetected(MainCollider, collisionGO.collision.MainCollider);
+                        }
+                    }
+                }
+                #endregion
+            }
+            else
+            {
+                //Console.WriteLine("Terrain");
+                _onTerrain = false;
+                #region CollidedWithTerrain
+                if (_sphereColliders.Count > 0)
+                {
+                    if (collisionGO.collision.SphereColliders.Count > 0)
+                    {
+                        foreach (SphereCollider myCol in SphereColliders)
+                        {
+                            foreach (SphereCollider enemyCol in collisionGO.collision.SphereColliders)
+                            {
+                                if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
+                                {
+                                    CollisionDetected(myCol, enemyCol);
+                                }
+                            }
+                        }
+                    }
+                    if (collisionGO.collision.BoxColliders.Count > 0)
+                    {
+                        foreach (SphereCollider myCol in SphereColliders)
+                        {
+                            foreach (BoxCollider enemyCol in collisionGO.collision.BoxColliders)
+                            {
+                                if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
+                                {
+                                    CollisionDetected(myCol, enemyCol);
+                                }
+                            }
+                        }
+                    }
+                    if (collisionGO.collision.SphereColliders.Count == 0 && collisionGO.collision.BoxColliders.Count == 0)
+                    {
+                        foreach (SphereCollider myCol in SphereColliders)
+                        {
+                            if (myCol.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
+                            {
+                                CollisionDetected(myCol, collisionGO.collision.MainCollider);
                             }
                         }
                     }
                 }
-                if (collisionGO.collision.SphereColliders.Count == 0 && collisionGO.collision.BoxColliders.Count == 0)
+                if (_boxColliders.Count > 0)
                 {
-                    foreach (BoxCollider myCol in BoxColliders)
+                    if (collisionGO.collision.SphereColliders.Count > 0)
                     {
-                        if (myCol.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
+                        foreach (BoxCollider myCol in BoxColliders)
                         {
-                            CollisionDetected(myCol, collisionGO.collision.MainCollider);
+                            foreach (SphereCollider enemyCol in collisionGO.collision.SphereColliders)
+                            {
+                                if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
+                                {
+                                    CollisionDetected(myCol, enemyCol);
+                                }
+                            }
+                        }
+                    }
+                    if (collisionGO.collision.BoxColliders.Count > 0)
+                    {
+                        foreach (BoxCollider myCol in BoxColliders)
+                        {
+                            foreach (BoxCollider enemyCol in collisionGO.collision.BoxColliders)
+                            {
+                                if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
+                                {
+                                    CollisionDetected(myCol, enemyCol);
+                                }
+                            }
+                        }
+                    }
+                    if (collisionGO.collision.SphereColliders.Count == 0 && collisionGO.collision.BoxColliders.Count == 0)
+                    {
+                        foreach (BoxCollider myCol in BoxColliders)
+                        {
+                            if (myCol.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
+                            {
+                                CollisionDetected(myCol, collisionGO.collision.MainCollider);
+                            }
                         }
                     }
                 }
-            }
-            
-            {
-                if (collisionGO.collision.SphereColliders.Count > 0)
+
                 {
-                    foreach (SphereCollider enemyCol in collisionGO.collision.SphereColliders)
+                    if (collisionGO.collision.SphereColliders.Count > 0)
                     {
-                        if (MainCollider.Contains(enemyCol) != ContainmentType.Disjoint)
+                        foreach (SphereCollider enemyCol in collisionGO.collision.SphereColliders)
                         {
-                            CollisionDetected(MainCollider, enemyCol);
+                            if (MainCollider.Contains(enemyCol) != ContainmentType.Disjoint)
+                            {
+                                CollisionDetected(MainCollider, enemyCol);
+                            }
+                        }
+                    }
+                    if (collisionGO.collision.BoxColliders.Count > 0)
+                    {
+                        foreach (BoxCollider enemyCol in collisionGO.collision.BoxColliders)
+                        {
+                            if (MainCollider.Contains(enemyCol) != ContainmentType.Disjoint)
+                            {
+                                CollisionDetected(MainCollider, enemyCol);
+                            }
+                        }
+                    }
+                    if (collisionGO.collision.BoxColliders.Count == 0 && collisionGO.collision.SphereColliders.Count == 0)
+                    {
+                        if (MainCollider.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
+                        {
+                            CollisionDetected(MainCollider, collisionGO.collision.MainCollider);
                         }
                     }
                 }
-                if (collisionGO.collision.BoxColliders.Count > 0)
-                {
-                    foreach (BoxCollider enemyCol in collisionGO.collision.BoxColliders)
-                    {
-                        if (MainCollider.Contains(enemyCol) != ContainmentType.Disjoint)
-                        {
-                            CollisionDetected(MainCollider, enemyCol);
-                        }
-                    }
-                }
-                if(collisionGO.collision.BoxColliders.Count == 0 && collisionGO.collision.SphereColliders.Count == 0)
-                {
-                    if(MainCollider.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
-                    {
-                        CollisionDetected(MainCollider, collisionGO.collision.MainCollider);
-                    }
-                }
+                #endregion
             }
             return _cnt;
         }
@@ -340,15 +474,21 @@ namespace PBLgame.Engine.Components
         {
             if (!myCol.Trigger && !enemyCol.Trigger)
             {
-                if (OnCollision != null) OnCollision(this, new ColArgs(myCol,enemyCol));
-                _cnt++;
-                //AffectCollision(myCol, enemyCol);
+                if (enemyCol.Owner.gameObject.Tag == "Terrain")
+                {
+                    AffectCollision(myCol, enemyCol);
+                }
+                else
+                {
+                    if (OnCollision != null) OnCollision(this, new ColArgs(myCol,enemyCol));
+                    ++_cnt;
+                }
                 //Console.WriteLine("Collison!");
             }
             else
             {
                 //Console.WriteLine("Trigger!");
-                if (OnTrigger != null) OnTrigger(this, new ColArgs(myCol,enemyCol));
+                if (OnTrigger != null) OnTrigger(this, new ColArgs(myCol, enemyCol));
             }
         }
 
@@ -356,9 +496,15 @@ namespace PBLgame.Engine.Components
         {
             if (!myCol.Trigger && !enemyCol.Trigger)
             {
-                if (OnCollision != null) OnCollision(this, new ColArgs(myCol, enemyCol));
-                _cnt++;
-                //AffectCollision(myCol, enemyCol);
+                if (enemyCol.Owner.gameObject.Tag == "Terrain")
+                {
+                    AffectCollision(myCol, enemyCol);
+                }
+                else
+                {
+                    if (OnCollision != null) OnCollision(this, new ColArgs(myCol, enemyCol));
+                    ++_cnt;
+                }
                 //Console.WriteLine("Collison!");
             }
             else
@@ -372,9 +518,15 @@ namespace PBLgame.Engine.Components
         {
             if (!myCol.Trigger && !enemyCol.Trigger)
             {
-                if (OnCollision != null) OnCollision(this, new ColArgs(myCol, enemyCol));
-                _cnt++;
-                //AffectCollision(myCol, enemyCol);
+                if (enemyCol.Owner.gameObject.Tag == "Terrain")
+                {
+                    AffectCollision(myCol, enemyCol);
+                }
+                else
+                {
+                    if (OnCollision != null) OnCollision(this, new ColArgs(myCol, enemyCol));
+                    ++_cnt;
+                }
                 //Console.WriteLine("Collison!");
             }
             else
@@ -388,9 +540,15 @@ namespace PBLgame.Engine.Components
         {
             if (!myCol.Trigger && !enemyCol.Trigger)
             {
-                if (OnCollision != null) OnCollision(this, new ColArgs(myCol, enemyCol));
-                _cnt++;
-                //AffectCollision(myCol, enemyCol);
+                if (enemyCol.Owner.gameObject.Tag == "Terrain")
+                {
+                    AffectCollision(myCol, enemyCol);
+                }
+                else
+                {
+                    if (OnCollision != null) OnCollision(this, new ColArgs(myCol, enemyCol));
+                    ++_cnt;
+                }
                 //Console.WriteLine("Collison!");
             }
             else
@@ -404,30 +562,37 @@ namespace PBLgame.Engine.Components
         #region AffectCollision
         private void AffectCollision(SphereCollider myCol, SphereCollider enemyCol)
         {
-            //Vector3 moveVector = myCol.TotalPosition - myCol.PreviousPosition;
-            //moveVector.Normalize();
-
-            //Vector3 direction = myCol.TotalPosition - enemyCol.TotalPosition;
-            //float intersectionValue = myCol.Radius + enemyCol.Radius - direction.Length();
-            //direction.Normalize();
-            //direction *= intersectionValue;
-            //direction *= moveVector;
-            ////direction.Y = 0;
-            //if (!myCol.Owner.Static && intersectionValue > 0 && direction.Length() > 0) myCol.Owner.gameObject.transform.Translate(direction);
+            if(myCol.Owner.Rigidbody)
+            {
+                myCol.Owner.gameObject.transform.Translate(0.0f, 0.05f, 0.0f);
+                _onTerrain = true;
+            }
         }
 
         private void AffectCollision(SphereCollider myCol, BoxCollider enemyCol)
         {
-            
+            if (myCol.Owner.Rigidbody)
+            {
+                myCol.Owner.gameObject.transform.Translate(0.0f, 0.05f, 0.0f);
+                _onTerrain = true;
+            }
         }
 
         private void AffectCollision(BoxCollider myCol, SphereCollider enemyCol)
         {
-
+            if (myCol.Owner.Rigidbody)
+            {
+                myCol.Owner.gameObject.transform.Translate(0.0f, 0.05f, 0.0f);
+                _onTerrain = true;
+            }
         }
         private void AffectCollision(BoxCollider myCol, BoxCollider enemyCol)
         {
-
+            if (myCol.Owner.Rigidbody)
+            {
+                myCol.Owner.gameObject.transform.Translate(0.0f, 0.05f, 0.0f);
+                _onTerrain = true;
+            }
         }
         #endregion
 

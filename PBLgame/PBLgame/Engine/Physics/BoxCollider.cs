@@ -93,6 +93,9 @@ namespace PBLgame.Engine.Physics
             set
             {
                 _edgesSize = value;
+                ResizeCollider();
+                InitializeVerts();
+                _box = BoundingBox.CreateFromPoints(_colVerts);
             }
         }
         #endregion
@@ -143,12 +146,21 @@ namespace PBLgame.Engine.Physics
 
         public void ResizeCollider()
         {
-           _edgesRealSize = _edgesSize *_owner.gameObject.transform.Scale * _owner.gameObject.transform.AncestorsScaleAsVector;             
+           _edgesRealSize = EdgesSize *_owner.gameObject.transform.Scale * _owner.gameObject.transform.AncestorsScaleAsVector;       
         }
 
         private void InitializeVerts()
         {
-            
+            //_colVerts[0] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
+            //_colVerts[1] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
+            //_colVerts[2] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
+            //_colVerts[3] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
+            //_colVerts[4] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
+            //_colVerts[5] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
+            //_colVerts[6] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
+            //_colVerts[7] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
+
+
             _colVerts[0] = new Vector3(_totalPosition.X - (_edgesRealSize.X / 2), _totalPosition.Y + (_edgesRealSize.Y / 2), _totalPosition.Z + (_edgesRealSize.Z / 2));
             _colVerts[1] = new Vector3(_totalPosition.X + (_edgesRealSize.X / 2), _totalPosition.Y + (_edgesRealSize.Y / 2), _totalPosition.Z + (_edgesRealSize.Z / 2));
             _colVerts[2] = new Vector3(_totalPosition.X + (_edgesRealSize.X / 2), _totalPosition.Y - (_edgesRealSize.Y / 2), _totalPosition.Z + (_edgesRealSize.Z / 2));
@@ -157,17 +169,6 @@ namespace PBLgame.Engine.Physics
             _colVerts[5] = new Vector3(_totalPosition.X + (_edgesRealSize.X / 2), _totalPosition.Y + (_edgesRealSize.Y / 2), _totalPosition.Z - (_edgesRealSize.Z / 2));
             _colVerts[6] = new Vector3(_totalPosition.X + (_edgesRealSize.X / 2), _totalPosition.Y - (_edgesRealSize.Y / 2), _totalPosition.Z - (_edgesRealSize.Z / 2));
             _colVerts[7] = new Vector3(_totalPosition.X - (_edgesRealSize.X / 2), _totalPosition.Y - (_edgesRealSize.Y / 2), _totalPosition.Z - (_edgesRealSize.Z / 2));
-
-            /*
-            _colverts[0] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
-            _colverts[1] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
-            _colverts[2] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
-            _colverts[3] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
-            _colverts[4] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
-            _colverts[5] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
-            _colverts[6] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
-            _colverts[7] = new vector3((_edgessize.x / 2), (_edgessize.y / 2), (_edgessize.z / 2));
-             */
         }
 
 
