@@ -79,10 +79,21 @@
   </GameObjects>
   <Lights>
     <Light Type="Directional">
-      <Color r="1" g="1" b="1" a="1" />
-      <GameObject Name="Light 1" Tag="Light" Id="8">
+      <Color r="1" g="0" b="0" a="1" />
+      <GameObject Name="Light Dir Red" Tag="Light" Id="8">
         <Transform Enabled="True">
-          <Position x="11" y="11" z="0" />
+          <Position x="1" y="1" z="0" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <DirectionalLight Intensity="1" />
+    </Light>
+    <Light Type="Directional">
+      <Color r="0" g="0" b="1" a="1" />
+      <GameObject Name="Light Dir Blue" Tag="Light" Id="13">
+        <Transform Enabled="True">
+          <Position x="0" y="1" z="1" />
           <Rotation x="0" y="0" z="0" />
           <Scale x="1" y="1" z="1" />
         </Transform>
@@ -91,7 +102,29 @@
     </Light>
     <Light Type="Point">
       <Color r="1" g="0" b="0" a="1" />
-      <GameObject Name="Light 1" Tag="Light" Id="9" Parent="1">
+      <GameObject Name="Light Red" Tag="Light" Id="9">
+        <Transform Enabled="True">
+          <Position x="0" y="0" z="0" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <PointLight Attenuation="10" FallOff="2" />
+    </Light>
+    <Light Type="Point">
+      <Color r="0" g="1" b="0" a="1" />
+      <GameObject Name="Light Green" Tag="Light" Id="12">
+        <Transform Enabled="True">
+          <Position x="0" y="0" z="0" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <PointLight Attenuation="10" FallOff="2" />
+    </Light>
+    <Light Type="Point">
+      <Color r="0" g="0" b="1" a="1" />
+      <GameObject Name="Light Blue" Tag="Light" Id="13">
         <Transform Enabled="True">
           <Position x="0" y="0" z="0" />
           <Rotation x="0" y="0" z="0" />

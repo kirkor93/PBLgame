@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -6,6 +7,7 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using PBLgame.Engine.GameObjects;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.Singleton;
 using PBLgame.Engine.Physics;
@@ -71,11 +73,62 @@ namespace PBLgame.Engine.Scenes
 
         public void Draw(GameTime gameTime)
         {
+            foreach (Effect effect in ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")))
+            {
+                ParameterizeEffectWithLights(effect);
+            }
+
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Draw(gameTime);
             }
         }
+
+
+        private void ParameterizeEffectWithLights(Effect effect)
+        {
+            const int LIGHTS = 9;
+            List<Light> lights = SceneLights;
+            Vector3[] pos_dir = new Vector3[LIGHTS];
+            Vector4[] colors = new Vector4[LIGHTS];
+            float[] att_int = new float[LIGHTS];
+            float[] falloff = new float[LIGHTS];
+            int[] points = new int[LIGHTS];
+            int[] dirs = new int[LIGHTS];
+
+            for (int i = 0; i < lights.Count; ++i)
+            {
+                if (lights[i].Type == LightType.Directional)
+                {
+                    MyDirectionalLight dLight = lights[i] as MyDirectionalLight;
+                    pos_dir[i] = dLight.Direction;
+                    colors[i] = dLight.Color;
+                    att_int[i] = dLight.Intensity;
+                    dirs[i] = 1;
+                    points[i] = 0;
+                }
+                else
+                {
+                    PointLight pLight = lights[i] as PointLight;
+                    pos_dir[i] = pLight.Position;
+                    colors[i] = pLight.Color;
+                    att_int[i] = pLight.Attenuation;
+                    falloff[i] = pLight.FallOff;
+                    points[i] = 1;
+                    dirs[i] = 0;
+                }
+            }
+
+            //!!!!!! lightsCount have to be less or equal 9 [;
+            //MyEffect.Parameters["lightsCount"].SetValue(lights.Count);
+            effect.Parameters["lightsPositions"].SetValue(pos_dir);
+            effect.Parameters["lightsColors"].SetValue(colors);
+            effect.Parameters["lightsAttenuations"].SetValue(att_int);
+            effect.Parameters["lightsFalloffs"].SetValue(falloff);
+            effect.Parameters["lightsPoint"].SetValue(points);
+            effect.Parameters["lightsDirectional"].SetValue(dirs);
+        }
+
 
         public void Update(GameTime gameTime)
         {

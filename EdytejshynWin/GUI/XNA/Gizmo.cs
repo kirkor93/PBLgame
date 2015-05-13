@@ -704,13 +704,6 @@ namespace Edytejshyn.GUI.XNA
             float closestIntersection = float.MaxValue;
             Ray ray = ConvertMouseToRay(mousePosition);
 
-            if (ActiveMode == GizmoMode.Translate)
-            {
-                // transform ray into local-space of the boundingboxes.
-                ray.Direction = Vector3.TransformNormal(ray.Direction, Matrix.Invert(_gizmoWorld));
-                ray.Position = Vector3.Transform(ray.Position, Matrix.Invert(_gizmoWorld));
-            }
-
             float? intersection = XAxisBox.Intersects(ray);
             if (intersection < closestIntersection)
             {
@@ -756,6 +749,13 @@ namespace Edytejshyn.GUI.XNA
 
             if (ActiveMode != GizmoMode.Rotate)
             {
+                if (ActiveMode == GizmoMode.Translate)
+                {
+                    // transform ray into local-space of the boundingboxes.
+                    ray.Direction = Vector3.TransformNormal(ray.Direction, Matrix.Invert(_gizmoWorld));
+                    ray.Position = Vector3.Transform(ray.Position, Matrix.Invert(_gizmoWorld));
+                }
+
                 // If no axis was hit (x,y,z) set value to lowest possible to select the 'farthest' intersection for the XY,XZ,YZ boxes. 
                 // This is done so you may still select multi-axis if you're looking at the gizmo from behind
                 if (closestIntersection >= float.MaxValue)

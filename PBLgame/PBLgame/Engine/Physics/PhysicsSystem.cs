@@ -11,7 +11,7 @@ namespace PBLgame.Engine.Physics
 {
     public class PhysicsSystem
     {
-        public static List<GameObject> CollisionObjects;
+        public static List<GameObject> CollisionObjects = new List<GameObject>();
 
         #region Methods
         public void Update(float gameTime)

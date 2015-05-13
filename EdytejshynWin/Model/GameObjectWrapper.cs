@@ -212,10 +212,6 @@ namespace Edytejshyn.Model
         public void Draw(IDrawerStrategy strategy, GameTime gameTime)
         {
             if (_renderer != null) _renderer.Draw(strategy, gameTime);
-            foreach (GameObjectWrapper child in _children)
-            {
-                child.Draw(strategy, gameTime);
-            }
         }
 
         public GameObjectWrapper[] GetWrappedChildren()

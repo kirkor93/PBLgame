@@ -125,6 +125,9 @@ namespace Edytejshyn.GUI
             GraphicsDevice.Clear(Color.CornflowerBlue);
             SceneWrapper scene = MainForm.Logic.WrappedScene;
 
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            Grid.Draw();
+
             if (scene != null)
             {
                 // wrong stencil fix:
@@ -135,10 +138,7 @@ namespace Edytejshyn.GUI
 
                 scene.Draw(MainForm.CurrentDrawerStrategy, new GameTime(TimeSpan.Zero, TimeSpan.Zero));
             }
-
-            GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            Grid.Draw();
-
+            
             Gizmo.Update();
             Gizmo.Draw();
 
