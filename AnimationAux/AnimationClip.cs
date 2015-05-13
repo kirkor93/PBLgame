@@ -72,6 +72,13 @@ namespace AnimationAux
         // Game content
         public int Id { get; set; }
         public string Path { get; set; }
+        public string Type { get; set; }
+        
+        /// <summary>
+        /// Animation speed multiplier.
+        /// </summary>
+        public float Speed = 1.0f;
+
 
         /// <summary>
         /// The bones for this animation
@@ -92,5 +99,6 @@ namespace AnimationAux
         /// The bones for this animation clip with their keyframes
         /// </summary>
         public List<Bone> Bones { get { return bones; } }
+
     }
 }

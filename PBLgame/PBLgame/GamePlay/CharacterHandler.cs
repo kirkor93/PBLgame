@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Design;
 using PBLgame.Engine;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
@@ -13,21 +14,30 @@ namespace PBLgame.GamePlay
         #endregion
 
         #region Properties
-        public Vector2 Velocity { get; set; }
+        /// <summary>
+        /// Unit velocity vector - max is when length == 1.
+        /// </summary>
+        public Vector2 UnitVelocity { get; set; }
         public float SpeedMultiplier { get; set; }
 
         /// <summary>
         /// Degrees per second
         /// </summary>
         public float RotationSpeed { get; set; }
+
+        /// <summary>
+        /// Angle added to the one calculated from velocity / look to achieve correct direction.
+        /// TODO REMOVE THIS ASAP
+        /// </summary>
+        protected float AngleCorrection = 0f;
         #endregion
 
         #region Methods
 
         public CharacterHandler(GameObject gameObj) : base(gameObj)
         {
-            Velocity = Vector2.Zero;
-            SpeedMultiplier = 50.0f;
+            UnitVelocity = Vector2.Zero;
+            SpeedMultiplier = 100.0f;
             RotationSpeed = 360.0f;
         }
 
@@ -45,13 +55,34 @@ namespace PBLgame.GamePlay
                 float dAngle = RotationSpeed * seconds;
                 if (deltaAngle < 0) dAngle = -dAngle;
                 if (Math.Abs(dAngle) > Math.Abs(deltaAngle)) dAngle = deltaAngle;
-                
-                _gameObject.transform.Rotation = new Vector3(0.0f, currentAngle + dAngle, 0.0f);
+
+                currentAngle += dAngle;
+                _gameObject.transform.Rotation = new Vector3(0.0f, currentAngle, 0.0f);
             }
-            Vector2 movement = Velocity * SpeedMultiplier * seconds;
+            Vector2 trueVelocity = UnitVelocity * SpeedMultiplier;
+            Vector2 movement = trueVelocity * seconds;
+
             _gameObject.transform.Translate(movement.X, 0.0f, movement.Y);
 
-            // TODO handle animator
+            float v = trueVelocity.Length();
+            if (Math.Abs(v) < 0.0001)
+            {
+                _gameObject.animator.Idle();
+            }
+            else
+            {
+//                if (Math.Abs(currentAngle - Extensions.CalculateDegrees(trueVelocity)) > 90f)
+//                {
+//                    v = -v;
+//                }
+                _gameObject.animator.Walk(v);
+            }
+            
+        }
+
+        public override void Initialize()
+        {
+            _gameObject.animator.Idle();
         }
 
         /// <summary>
@@ -60,11 +91,11 @@ namespace PBLgame.GamePlay
         /// <param name="direction"></param>
         public void SetLookVector(Vector2 direction)
         {
-            float angle = MathHelper.ToDegrees( Extensions.CalculateAngle(direction.X, direction.Y) );
+            float angle = Extensions.CalculateDegrees(direction);
+            angle += AngleCorrection;   // TODO solve better
             if (angle < 0) angle += 360.0f;
             _destAngle = angle;
         }
-
 
 
         #endregion

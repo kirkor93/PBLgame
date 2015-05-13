@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -25,7 +26,7 @@ namespace PBLgame.Engine.Singleton
         private IList<Texture2D> _textures;
         private IList<MeshMaterial> _materials;
         private IList<Effect> _shaderEffects;
-        private IList<AnimationClip> _animationClips; 
+        private IDictionary<int, Skeleton> _skeletons;
         private SoundBank _soundBank;
 
         private readonly XmlSerializer _serializer;
@@ -108,7 +109,7 @@ namespace PBLgame.Engine.Singleton
             _textures = content.Textures;
             _materials = content.Materials;
             _shaderEffects = content.ShaderEffects;
-            _animationClips = content.AnimationClips;
+            _skeletons = content.Skeletons;
 
         }
 
@@ -124,7 +125,7 @@ namespace PBLgame.Engine.Singleton
                 Meshes = _meshes, 
                 Textures = _textures, 
                 ShaderEffects = _shaderEffects,
-                AnimationClips = _animationClips
+                Skeletons = _skeletons
             };
 
             using (FileStream writer = new FileStream(path, FileMode.Create))
@@ -185,37 +186,7 @@ namespace PBLgame.Engine.Singleton
 
             return null;
         }
-
-        public AnimationClip GetAnimationClip(int id)
-        {
-            IEnumerable<AnimationClip> list = 
-                from animationClip in _animationClips
-                where animationClip.Id == id
-                select animationClip;
-
-            if (list.Any())
-            {
-                return list.First();
-            }
-
-            return null;
-        }
-
-        public AnimationClip GetAnimationClip(string path)
-        {
-            IEnumerable<AnimationClip> list =
-                from animationClip in _animationClips
-                where animationClip.Path == path
-                select animationClip;
-
-            if (list.Any())
-            {
-                return list.First();
-            }
-
-            return null;
-        }
-
+        
         public Cue GetAudioCue(string audioName)
         {
             return _soundBank.GetCue(audioName);
@@ -243,7 +214,9 @@ namespace PBLgame.Engine.Singleton
         public IList<Texture2D> Textures { get; set; }
         public IList<MeshMaterial> Materials { get; set; }
         public IList<Effect> ShaderEffects { get; set; }
-        public IList<AnimationClip> AnimationClips { get; set; } 
+        public IDictionary<int, Skeleton> Skeletons { get; set; }
+
+        private Dictionary<AnimatedMesh, int> _meshSkeletons = new Dictionary<AnimatedMesh, int>();
 
         public XmlSchema GetSchema()
         {
@@ -257,7 +230,7 @@ namespace PBLgame.Engine.Singleton
             Meshes = new List<Mesh>();
             Materials = new List<MeshMaterial>();
             ShaderEffects = new List<Effect>();
-            AnimationClips = new List<AnimationClip>();
+            Skeletons = new Dictionary<int, Skeleton>();
 
             reader.MoveToContent();
             reader.ReadStartElement();
@@ -293,11 +266,23 @@ namespace PBLgame.Engine.Singleton
                 }
                 else if (reader.Name == "Mesh")
                 {
+                    Mesh mesh;
                     int id = Convert.ToInt32(reader.GetAttribute("Id"));
                     string path = reader.GetAttribute("Path");
-                    bool animated = Convert.ToBoolean(reader.GetAttribute("Animated"));
                     Model model = LoadModel(path, content);
-                    Mesh mesh = animated ? new AnimatedMesh(id, path, model) : new Mesh(id, path, model);
+
+                    string skeletonIDstr = reader.GetAttribute("Skeleton");
+                    if (skeletonIDstr != null)
+                    {
+                        int skeletonID = Convert.ToInt32(skeletonIDstr);
+                        AnimatedMesh animMesh = new AnimatedMesh(id, path, model);
+                        _meshSkeletons[animMesh] = skeletonID;
+                        mesh = animMesh;
+                    }
+                    else
+                    {
+                        mesh = new Mesh(id, path, model);
+                    }
                     Meshes.Add(mesh);
                 }
                 else if(reader.Name == "ShaderEffect")
@@ -311,16 +296,41 @@ namespace PBLgame.Engine.Singleton
                 {
                     int id = Convert.ToInt32(reader.GetAttribute("Id"));
                     string path = reader.GetAttribute("Path");
+                    int skeletonID = Convert.ToInt32(reader.GetAttribute("Skeleton"));
+                    string type = reader.GetAttribute("Type");
+                    float speed = Convert.ToSingle(reader.GetAttribute("Speed") ?? "1.0", CultureInfo.InvariantCulture);
                     Model model = LoadModel(path, content);
                     ModelExtra extra = model.Tag as ModelExtra;
                     AnimationClip animation = extra.Clips[0];
                     animation.Id = id;
                     animation.Path = path;
-                    AnimationClips.Add(animation);
+                    animation.Type = type;
+                    animation.Speed = speed;
+                    AddSkeletonAnimation(skeletonID, animation);
                 }
                 
             } while (reader.Read());
+
+            // join animated meshes with skeletons
+            foreach (KeyValuePair<AnimatedMesh, int> pair in _meshSkeletons)
+            {
+                pair.Key.Skeleton = Skeletons[pair.Value];
+            }
         }
+
+        private void AddSkeletonAnimation(int id, AnimationClip animation)
+        {
+            Skeleton skeleton;
+            bool exists = Skeletons.TryGetValue(id, out skeleton);
+            if(!exists)
+            {
+                skeleton = new Skeleton(id);
+                Skeletons.Add(id, skeleton);
+            }
+            skeleton.AddClip(animation);
+        }
+
+        
 
         public void WriteXml(XmlWriter writer)
         {
@@ -368,18 +378,28 @@ namespace PBLgame.Engine.Singleton
                 writer.WriteStartElement("Mesh");
                 writer.WriteAttributeString("Id", mesh.Id.ToString());
                 writer.WriteAttributeString("Path", mesh.Path);
-                if(mesh is AnimatedMesh) writer.WriteAttributeString("Animated", true.ToString());
+                AnimatedMesh animMesh = mesh as AnimatedMesh;
+                if(animMesh != null)
+                {
+                    writer.WriteAttributeString("Skeleton", animMesh.Skeleton.Id.ToString());
+                }
                 writer.WriteEndElement();
             }
             writer.WriteEndElement();
 
             writer.WriteStartElement("Animations");
-            foreach (AnimationClip animation in AnimationClips)
+            foreach (Skeleton skeleton in Skeletons.Values)
             {
-                writer.WriteStartElement("Animation");
-                writer.WriteAttributeString("Id", animation.Id.ToString());
-                writer.WriteAttributeString("Path", animation.Path);
-                writer.WriteEndElement();
+                foreach (AnimationClip animation in skeleton.Clips)
+                {
+                    writer.WriteStartElement("Animation");
+                    writer.WriteAttributeString("Id", animation.Id.ToString());
+                    writer.WriteAttributeString("Path", animation.Path);
+                    writer.WriteAttributeString("Skeleton", skeleton.Id.ToString());
+                    if (animation.Type != null) writer.WriteAttributeString("Type", animation.Type);
+                    if (animation.Speed != 1.0f) writer.WriteAttributeString("Speed", animation.Speed.ToString("G", CultureInfo.InvariantCulture));
+                    writer.WriteEndElement();
+                }
             }
             writer.WriteEndElement();
 
