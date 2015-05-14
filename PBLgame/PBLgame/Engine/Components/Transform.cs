@@ -104,7 +104,7 @@ namespace PBLgame.Engine.Components
                 else
                 {
                     // Changed multiplication order (Unity-like) - now all children are like a whole group, rotated and scaled around parent.
-                    return _world = _worldScale * _worldRotation * _worldTranslation * AncestorsWorld;
+                    return _world = _worldScale * _worldRotation * _worldTranslation * gameObject.parent.transform.World;
                 }
 
             }
