@@ -6,6 +6,7 @@ using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
 using PBLgame.Engine.Singleton;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using AnimationAux;
 
@@ -59,6 +60,9 @@ namespace PBLgame.Engine.Components
                 _myEffect = value;
             }
         }
+
+        public float AlphaValue { get; set; }
+        public float EmissiveValue { get; set; }
         #endregion
 
         #region Methods
@@ -66,6 +70,8 @@ namespace PBLgame.Engine.Components
         {
             _scene = scene;
             _myMesh = null;
+            AlphaValue = 1f;
+            EmissiveValue = 0f;
         }
 
         public Renderer(Renderer source, GameObject owner) : base(owner)
@@ -74,6 +80,8 @@ namespace PBLgame.Engine.Components
             _material = source._material;
             _myEffect = source._myEffect;
             _scene    = source._scene;
+            AlphaValue = source.AlphaValue;
+            EmissiveValue = source.EmissiveValue;
         }
 
         //public void AssignMaterial(MeshMaterial material)
@@ -108,8 +116,9 @@ namespace PBLgame.Engine.Components
             MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
             MyEffect.Parameters["specularIntensity"].SetValue(1);
             MyEffect.Parameters["specularTexture"].SetValue(_material.Specular);
-            MyEffect.Parameters["emissiveIntensity"].SetValue(0);
+            MyEffect.Parameters["emissiveIntensity"].SetValue(EmissiveValue);
             MyEffect.Parameters["emissiveTexture"].SetValue(_material.Emissive);
+            MyEffect.Parameters["alphaValue"].SetValue(AlphaValue);
 
             AnimatedMesh animatedMesh = MyMesh as AnimatedMesh;
 
@@ -142,6 +151,7 @@ namespace PBLgame.Engine.Components
             }
         }
 
+
         private void ParameterizeEffectWithMeshWorld(ModelMesh modelMesh)
         {
             Matrix world = modelMesh.ParentBone.Transform * _gameObject.transform.World;
@@ -162,6 +172,16 @@ namespace PBLgame.Engine.Components
                 MyEffect = ResourceManager.Instance.ShaderEffects.FirstOrDefault(x => x.Name == Material.ShaderEffect.Name + "Skinned");
             }
             if (MyEffect == null) MyEffect = Material.ShaderEffect;
+            string alphaStr = reader.GetAttribute("Alpha");
+            if (alphaStr != null)
+            {
+                AlphaValue = Convert.ToSingle(alphaStr, CultureInfo.InvariantCulture);
+            }
+            string emissiveStr = reader.GetAttribute("Emissive");
+            if (emissiveStr != null)
+            {
+                EmissiveValue = Convert.ToSingle(emissiveStr, CultureInfo.InvariantCulture);
+            }
             reader.Read();
         }
 
@@ -170,6 +190,8 @@ namespace PBLgame.Engine.Components
             base.WriteXml(writer);
             writer.WriteAttributeString("MeshId", MyMesh.Id.ToString());
             writer.WriteAttributeString("MaterialId", Material.Id.ToString());
+            if (AlphaValue != 1f) writer.WriteAttributeString("Alpha", AlphaValue.ToString("G", CultureInfo.InvariantCulture));
+            if (EmissiveValue != 0f) writer.WriteAttributeString("Emissive", AlphaValue.ToString("G", CultureInfo.InvariantCulture));
         }
 
 

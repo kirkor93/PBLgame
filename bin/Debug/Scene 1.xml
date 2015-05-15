@@ -16,7 +16,7 @@
         <Rotation x="2" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="1" MaterialId="1" />
+      <Renderer Enabled="True" MeshId="1" MaterialId="1" Alpha="0.5" />
     </GameObject>
     <GameObject Name="Helmet_child_child" Tag="Player" Id="3" Parent="2">
       <Transform Enabled="True">

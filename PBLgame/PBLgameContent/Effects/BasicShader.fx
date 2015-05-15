@@ -12,6 +12,7 @@ int lightsPoint[maxLights];
 int lightsDirectional[maxLights];
 //int lightsCount = 0;
 
+float alphaValue = 1.0;
 
 #ifdef SKINNED
 float4x3 Bones[72];
@@ -154,18 +155,17 @@ float4 PS(VertexShaderOutput input) : COLOR0
 		
 		// Apply new calculated diffuse (one of them will be == 0):
 		diffuse = pointDiffuse + directionalDiffuse;
-
 		totalLight += lightsColors[i] * diffuse;
 
 #ifdef PHONG
 		// Phong
 		float3 r = normalize((2 * dot(lightDir, worldedNormal) * worldedNormal - lightDir));
 		float3 v = input.viewDirection;
-		totalSpecular += pow(saturate(dot(r, v)), shininess) * diffuse;
+		totalSpecular += pow(saturate(dot(r, v)), shininess) * diffuse * length(diffuse);
 #else
 		// Blinn-Phong
 		float3 h = normalize(lightDir + input.viewDirection);
-		totalSpecular += pow(saturate(dot(worldedNormal, h)), shininess) * diffuse;
+		totalSpecular += pow(saturate(dot(worldedNormal, h)), shininess) * diffuse * length(diffuse);
 #endif
 
 	}
@@ -182,14 +182,19 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	
 	float4 ambient = 0.1f * (1, 1, 1, 1);
 	totalLight += ambient;
-	
-	return (textureColor * totalLight + totalSpecular) + emissive;
+	float4 color = (textureColor * totalLight + totalSpecular) + emissive;
+	color.a = alphaValue;
+
+	return color;
 }
 
 technique PhongBlinn
 {
 	pass Pass1
 	{
+		AlphaBlendEnable = TRUE;
+		DestBlend = INVSRCALPHA;
+		SrcBlend = SRCALPHA;
 		VertexShader = compile vs_3_0 VS();
 		PixelShader = compile ps_3_0 PS();
 	}

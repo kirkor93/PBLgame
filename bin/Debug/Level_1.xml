@@ -11,7 +11,7 @@
       <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
         <SphereCollider Radius="9" IsTrigger="False">
           <LocalPosition x="0" y="10" z="0" />
-      </SphereCollider>
+        </SphereCollider>
       </Collision>
       <PBLgame.GamePlay.PlayerScript Enabled="True" />
     </GameObject>
@@ -4838,7 +4838,7 @@
         <Rotation x="0" y="0" z="0" />
         <Scale x="0.15" y="0.15" z="0.15" />
       </Transform>
-      <Renderer Enabled="True" MeshId="2" MaterialId="1" />
+      <Renderer Enabled="True" MeshId="2" MaterialId="44" Alpha="0.4" Emissive="0.4" />
       <Animator Enabled="True" />
     </GameObject>
   </GameObjects>
@@ -4853,6 +4853,17 @@
         </Transform>
       </GameObject>
       <PointLight Attenuation="100" FallOff="50" />
+    </Light>
+    <Light Type="Point">
+      <Color r="1" g="0.5" b="1" a="1" />
+      <GameObject Name="Gandalf Light" Tag="Light" Id="608" Parent="607">
+        <Transform Enabled="True">
+          <Position x="0" y="0" z="0" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <PointLight Attenuation="40" FallOff="10" />
     </Light>
   </Lights>
 </Scene>

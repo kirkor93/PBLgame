@@ -112,6 +112,14 @@ namespace PBLgame.Engine.Components
 
         public Matrix WorldRotation { get { return _worldRotation; } }
 
+        public Vector3 WorldPosition
+        {
+            get
+            {
+                return World.Translation;
+            }
+        }
+
         /// <summary>
         /// Rotation matrix multiplied recursively from parents (excluding self) to allow global transformation (when inverted).
         /// </summary>
@@ -152,6 +160,7 @@ namespace PBLgame.Engine.Components
         {
             get
             {
+                // TODO are u sure it works as desired?
                 if(gameObject.parent == null)
                 {
                     return Vector3.Zero;

@@ -121,6 +121,20 @@ namespace Edytejshyn.Model
             get { return WrappedRenderer.MyEffect; }
             set { Parent.FireSetter(x => WrappedRenderer.MyEffect = x, WrappedRenderer.MyEffect, value); }
         }
+        
+        [DisplayName("Alpha transparency")]
+        public float Alpha
+        {
+            get { return WrappedRenderer.AlphaValue; }
+            set { Parent.FireSetter(x => WrappedRenderer.AlphaValue = x, WrappedRenderer.AlphaValue, value); }
+        }  
+      
+        [DisplayName("Emissive intensity")]
+        public float Emissive
+        {
+            get { return WrappedRenderer.EmissiveValue; }
+            set { Parent.FireSetter(x => WrappedRenderer.EmissiveValue = x, WrappedRenderer.EmissiveValue, value); }
+        }
 
         #endregion
 
