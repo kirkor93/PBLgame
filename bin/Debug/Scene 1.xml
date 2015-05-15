@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <Scene>
   <GameObjects>
     <GameObject Name="Helmet_root" Tag="Player" Id="1">
@@ -16,7 +16,7 @@
         <Rotation x="2" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="1" MaterialId="1" Alpha="0.5" />
+      <Renderer Enabled="True" MeshId="1" MaterialId="1" Alpha="0.2" Emissive="0.9" />
     </GameObject>
     <GameObject Name="Helmet_child_child" Tag="Player" Id="3" Parent="2">
       <Transform Enabled="True">
@@ -124,7 +124,7 @@
     </Light>
     <Light Type="Point">
       <Color r="0" g="0" b="1" a="1" />
-      <GameObject Name="Light Blue" Tag="Light" Id="13">
+      <GameObject Name="Light Blue" Tag="Light" Id="14">
         <Transform Enabled="True">
           <Position x="0" y="0" z="0" />
           <Rotation x="0" y="0" z="0" />

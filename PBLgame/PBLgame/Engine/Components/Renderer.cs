@@ -172,17 +172,15 @@ namespace PBLgame.Engine.Components
                 MyEffect = ResourceManager.Instance.ShaderEffects.FirstOrDefault(x => x.Name == Material.ShaderEffect.Name + "Skinned");
             }
             if (MyEffect == null) MyEffect = Material.ShaderEffect;
-            string alphaStr = reader.GetAttribute("Alpha");
-            if (alphaStr != null)
-            {
-                AlphaValue = Convert.ToSingle(alphaStr, CultureInfo.InvariantCulture);
-            }
-            string emissiveStr = reader.GetAttribute("Emissive");
-            if (emissiveStr != null)
-            {
-                EmissiveValue = Convert.ToSingle(emissiveStr, CultureInfo.InvariantCulture);
-            }
+            AlphaValue    = ReadIfSpecified(reader, "Alpha",    AlphaValue);
+            EmissiveValue = ReadIfSpecified(reader, "Emissive", EmissiveValue);
             reader.Read();
+        }
+
+        private float ReadIfSpecified(XmlReader reader, string attribute, float defaultVal)
+        {
+            string s = reader.GetAttribute(attribute);
+            return (s == null) ? defaultVal : Convert.ToSingle(s, CultureInfo.InvariantCulture);
         }
 
         public override void WriteXml(XmlWriter writer)
@@ -190,11 +188,9 @@ namespace PBLgame.Engine.Components
             base.WriteXml(writer);
             writer.WriteAttributeString("MeshId", MyMesh.Id.ToString());
             writer.WriteAttributeString("MaterialId", Material.Id.ToString());
-            if (AlphaValue != 1f) writer.WriteAttributeString("Alpha", AlphaValue.ToString("G", CultureInfo.InvariantCulture));
-            if (EmissiveValue != 0f) writer.WriteAttributeString("Emissive", AlphaValue.ToString("G", CultureInfo.InvariantCulture));
+            if (AlphaValue != 1f)    writer.WriteAttributeString("Alpha",    AlphaValue   .ToString("G", CultureInfo.InvariantCulture));
+            if (EmissiveValue != 0f) writer.WriteAttributeString("Emissive", EmissiveValue.ToString("G", CultureInfo.InvariantCulture));
         }
-
-
 
         #endregion
     }

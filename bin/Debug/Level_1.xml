@@ -4834,26 +4834,15 @@
     </GameObject>
     <GameObject Name="Gandalf" Tag="Ghost" Id="607">
       <Transform Enabled="True">
-        <Position x="-37.85358" y="14" z="-73.02544" />
+        <Position x="-128.9864" y="14" z="-112.5351" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="0.15" y="0.15" z="0.15" />
       </Transform>
-      <Renderer Enabled="True" MeshId="2" MaterialId="44" Alpha="0.4" Emissive="0.4" />
+      <Renderer Enabled="True" MeshId="2" MaterialId="44" Alpha="0.5" Emissive="0.9" />
       <Animator Enabled="True" />
     </GameObject>
   </GameObjects>
   <Lights>
-    <Light Type="Point">
-      <Color r="0.8" g="0.8" b="0.8" a="1" />
-      <GameObject Name="Light 1" Tag="Light" Id="170">
-        <Transform Enabled="True">
-          <Position x="-45.30978" y="41.5706" z="-67.32355" />
-          <Rotation x="0" y="0" z="0" />
-          <Scale x="1" y="1" z="1" />
-        </Transform>
-      </GameObject>
-      <PointLight Attenuation="100" FallOff="50" />
-    </Light>
     <Light Type="Point">
       <Color r="1" g="0.5" b="1" a="1" />
       <GameObject Name="Gandalf Light" Tag="Light" Id="608" Parent="607">
@@ -4864,6 +4853,39 @@
         </Transform>
       </GameObject>
       <PointLight Attenuation="40" FallOff="10" />
+    </Light>
+    <Light Type="Point">
+      <Color r="0.8" g="0.8" b="0.8" a="1" />
+      <GameObject Name="Light 1" Tag="Light" Id="170" Parent="118">
+        <Transform Enabled="True">
+          <Position x="20.4008" y="41.91799" z="-8.917472E-07" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <PointLight Attenuation="100" FallOff="50" />
+    </Light>
+    <Light Type="Point">
+      <Color r="0.8" g="0.8" b="0.8" a="1" />
+      <GameObject Name="Light 1" Tag="Light" Id="609" Parent="119">
+        <Transform Enabled="True">
+          <Position x="20.40079" y="41.91799" z="-8.917472E-07" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <PointLight Attenuation="100" FallOff="50" />
+    </Light>
+    <Light Type="Point">
+      <Color r="0.8" g="0.8" b="0.8" a="1" />
+      <GameObject Name="Light 1" Tag="Light" Id="610" Parent="120">
+        <Transform Enabled="True">
+          <Position x="20.40079" y="41.91799" z="-8.917472E-07" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <PointLight Attenuation="100" FallOff="50" />
     </Light>
   </Lights>
 </Scene>
