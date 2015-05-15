@@ -146,7 +146,6 @@ namespace PBLgame.Engine.Components
         {
             Matrix world = modelMesh.ParentBone.Transform * _gameObject.transform.World;
             MyEffect.Parameters["world"].SetValue(world);
-            MyEffect.Parameters["worldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(world)));
         }
 
         public override void ReadXml(XmlReader reader)

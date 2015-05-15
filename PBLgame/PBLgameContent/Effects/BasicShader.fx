@@ -1,7 +1,6 @@
 ﻿float4x4 world;
 float4x4 view;
 float4x4 projection;
-float4x4 worldInverseTranspose;
 float3 cameraPosition;
 
 #define maxLights 9
