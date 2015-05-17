@@ -119,6 +119,7 @@ namespace Edytejshyn.GUI
             parameters.BackBufferHeight = Math.Max(parameters.BackBufferHeight, height);
 
             graphicsDevice.Reset(parameters);
+            graphicsDevice.VertexSamplerStates[0] = SamplerState.PointClamp;
 
             if (DeviceReset != null)
                 DeviceReset(this, EventArgs.Empty);

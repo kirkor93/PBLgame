@@ -581,5 +581,10 @@ namespace PBLgame.Engine.GameObjects
 
         #endregion
         #endregion
+
+        public void DrawSpecial(GameTime gameTime, Renderer.Technique technique)
+        {
+            if(renderer != null) renderer.DrawTechnique(gameTime, technique);
+        }
     }
 }

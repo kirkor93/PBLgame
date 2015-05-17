@@ -30,6 +30,11 @@ namespace PBLgame.Engine.Scenes
         private readonly XmlSerializer _serializer;
 
         #endregion
+        private int _shadowMapSize = 2048;
+        private GameObject _player;
+        private RenderTarget2D _shadowDepthTarget;
+        private GraphicsDevice _graphics;
+
         #endregion
 
         #region Properties
@@ -69,15 +74,48 @@ namespace PBLgame.Engine.Scenes
             _serializer = new XmlSerializer(typeof(Scene));
             _takenIdNumbers = new List<int> { 0 };
             _physicsSystem = new PhysicsSystem();
+            _graphics = GlobalInventory.Instance.GraphicsDevice;
+            _shadowDepthTarget = new RenderTarget2D(_graphics, _shadowMapSize, _shadowMapSize, false, SurfaceFormat.Single, DepthFormat.Depth24);
         }
 
         public void Draw(GameTime gameTime)
         {
+
+            _graphics.VertexSamplerStates[0] = SamplerState.PointClamp;
+            
+            _player = FindGameObject("Ace");
+            PointLight light = (PointLight) _sceneLights.First(x => x.Name == "Light 1");
+            const int shadowFarPlane = 200;
+
+            RasterizerState oldRasterizer = _graphics.RasterizerState;
+            _graphics.RasterizerState = RasterizerState.CullNone;
+
+            _graphics.SetRenderTarget(_shadowDepthTarget);
+            _graphics.Clear(Color.White);
+
+            Matrix lightViewMatrix = Matrix.CreateLookAt(light.Position, light.Position - new Vector3(0.1f, 1f, 0.1f), Vector3.Up);
+            Matrix lightProjMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 1, 1f, shadowFarPlane);
+
             foreach (Effect effect in ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")))
             {
                 ParameterizeEffectWithLights(effect);
+                effect.Parameters["shadowFarPlane"].SetValue(shadowFarPlane);
+                effect.Parameters["view"].SetValue(lightViewMatrix);
+                effect.Parameters["projection"].SetValue(lightProjMatrix);
+                effect.Parameters["shadowViewMatrix"].SetValue(lightViewMatrix);
+                effect.Parameters["shadowProjMatrix"].SetValue(lightProjMatrix);
             }
+            foreach (GameObject gameObject in GameObjects)
+            {
+                gameObject.DrawSpecial(gameTime, Renderer.Technique.SHADOWS);
+            }
+            _graphics.SetRenderTarget(null);
+            _graphics.RasterizerState = oldRasterizer;
 
+            foreach (Effect effect in ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")))
+            {
+                effect.Parameters["shadowMap"].SetValue(_shadowDepthTarget);
+            }
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Draw(gameTime);
@@ -87,7 +125,7 @@ namespace PBLgame.Engine.Scenes
 
         private void ParameterizeEffectWithLights(Effect effect)
         {
-            const int LIGHTS = 9;
+            const int LIGHTS = 8;
             List<Light> lights = SceneLights;
             Vector3[] pos_dir = new Vector3[LIGHTS];
             Vector4[] colors = new Vector4[LIGHTS];
@@ -134,6 +172,7 @@ namespace PBLgame.Engine.Scenes
         {
             //if(FindGameObject(1).collision != null) Console.WriteLine(FindGameObject(1).collision.BoxColliders[0]._edgesRealSize.ToString());
 
+
             _physicsSystem.Update(GetAllObjectsWithCollider());
             foreach (GameObject gameObject in GameObjects)
             {
@@ -145,30 +184,17 @@ namespace PBLgame.Engine.Scenes
 
         public GameObject FindGameObject(int id)
         {
-            foreach(GameObject go in _gameObjects)
-            {
-                if (go.ID == id) return go;
-            }
-            return null;
+            return _gameObjects.FirstOrDefault(go => go.ID == id);
         }
 
         public GameObject FindGameObject(string name)
         {
-            foreach(GameObject go in _gameObjects)
-            {
-                if (go.Name == name) return go;
-            }
-            return null;
+            return _gameObjects.FirstOrDefault(go => go.Name == name);
         }
 
         public List<GameObject> FindGameObjectsWithTag(string tag)
         {
-            List<GameObject> tmp = new List<GameObject>();
-            foreach(GameObject go in _gameObjects)
-            {
-                if (go.Tag == tag) tmp.Add(go);
-            }
-            return tmp;
+            return _gameObjects.Where(go => go.Tag == tag).ToList();
         }
 
         public void AddGameObject(GameObject obj)

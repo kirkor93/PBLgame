@@ -103,22 +103,29 @@ namespace PBLgame.Engine.Components
 
         }
 
-        
-
         public override void Draw(GameTime gameTime)
         {
+            DrawTechnique(gameTime, Technique.DEFAULT);
+        }
 
-            MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
-            MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
-            MyEffect.Parameters["cameraPosition"].SetValue(Camera.MainCamera.transform.Position);
-            MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
-            MyEffect.Parameters["normalIntensity"].SetValue(1);
-            MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
-            MyEffect.Parameters["specularIntensity"].SetValue(1);
-            MyEffect.Parameters["specularTexture"].SetValue(_material.Specular);
-            MyEffect.Parameters["emissiveIntensity"].SetValue(EmissiveValue);
-            MyEffect.Parameters["emissiveTexture"].SetValue(_material.Emissive);
-            MyEffect.Parameters["alphaValue"].SetValue(AlphaValue);
+        public void DrawTechnique(GameTime gameTime, Technique technique = Technique.DEFAULT)
+        {
+            MyEffect.CurrentTechnique = MyEffect.Techniques[technique.GetString()];
+            
+            if (technique == Technique.DEFAULT)
+            {
+                MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
+                MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
+                MyEffect.Parameters["cameraPosition"].SetValue(Camera.MainCamera.transform.Position);
+                MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
+                MyEffect.Parameters["normalIntensity"].SetValue(1);
+                MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
+                MyEffect.Parameters["specularIntensity"].SetValue(1);
+                MyEffect.Parameters["specularTexture"].SetValue(_material.Specular);
+                MyEffect.Parameters["emissiveIntensity"].SetValue(EmissiveValue);
+                MyEffect.Parameters["emissiveTexture"].SetValue(_material.Emissive);
+                MyEffect.Parameters["alphaValue"].SetValue(AlphaValue);
+            }
 
             AnimatedMesh animatedMesh = MyMesh as AnimatedMesh;
 
@@ -193,5 +200,10 @@ namespace PBLgame.Engine.Components
         }
 
         #endregion
+
+        public enum Technique
+        {
+            DEFAULT = 0, SHADOWS
+        }
     }
 }

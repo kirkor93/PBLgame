@@ -3,7 +3,7 @@ float4x4 view;
 float4x4 projection;
 float3 cameraPosition;
 
-#define maxLights 9
+#define maxLights 8
 float3 lightsPositions[maxLights];
 float4 lightsColors[maxLights];
 float lightsAttenuations[maxLights];	// or Intensity
@@ -61,6 +61,40 @@ sampler2D emissiveSampler = sampler_state{
 	AddressV = Clamp;
 };
 
+/// ==== SHADOWS DATA ==== ///
+
+float shadowFarPlane;
+float4x4 shadowViewMatrix;
+float4x4 shadowProjMatrix;
+bool useShadows = true;
+texture2D shadowMap;
+sampler2D shadowSampler = sampler_state {
+	Texture = (shadowMap);
+	MinFilter = Point;
+	MagFilter = Point;
+	MipFilter = Point;
+};
+
+float sampleShadowMap(float2 UV)
+{
+	if (UV.x < 0 || UV.x > 1 || 
+		UV.y < 0 || UV.y > 1) return 1;
+
+	return tex2D(shadowSampler, UV).r;
+}
+
+float2 postProjToScreen(float4 position)
+{
+	float2 screenPos = position.xy / position.w;
+	return 0.5f * (float2(screenPos.x, -screenPos.y) + 1);
+}
+
+// 0.5f / float2(viewportWidth, viewportHeight)
+float2 bias = float2(0.008f, 0.015f);
+
+float shadowMult = 0.0f;
+float shadowBias = 1.0f / 100.0f;
+
 struct VertexShaderInput
 {
 	float4 Position : POSITION0;
@@ -83,7 +117,9 @@ struct VertexShaderOutput
 	float3 worldedTangent  : TEXCOORD3;
 	float3 worldedBinormal : TEXCOORD4;
 	float3 viewDirection   : TEXCOORD5;
+	float4 shadowScreenPos : TEXCOORD6;
 };
+
 
 #ifdef SKINNED
 void Skin(inout VertexShaderInput vin, uniform int boneCount)
@@ -120,6 +156,7 @@ VertexShaderOutput VS(VertexShaderInput input)
 
 	output.TextureCoordinate = input.TextureCoordinate;
 	output.viewDirection = normalize(cameraPosition.xyz - worldPosition.xyz);
+	output.shadowScreenPos = mul(worldPosition, mul(shadowViewMatrix, shadowProjMatrix));
 
 	return output;
 }
@@ -135,6 +172,13 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	float4 totalLight = float4(0, 0, 0, 1);
 	//Specular
 	float4 totalSpecular = float4(0, 0, 0, 1);
+
+	// Shadows
+	float2 shadowTexCoords = postProjToScreen(input.shadowScreenPos) + bias;
+	float mapDepth = sampleShadowMap(shadowTexCoords);
+	float realDepth = input.shadowScreenPos.z / shadowFarPlane;
+	float shadow = 1;
+	if (realDepth < 1 && realDepth - shadowBias > mapDepth) shadow = shadowMult;
 
 	[unroll]
 	for (int i = 0; i < maxLights; ++i)
@@ -155,7 +199,7 @@ float4 PS(VertexShaderOutput input) : COLOR0
 		
 		// Apply new calculated diffuse (one of them will be == 0):
 		diffuse = pointDiffuse + directionalDiffuse;
-		totalLight += lightsColors[i] * diffuse;
+		totalLight += lightsColors[i] * shadow * diffuse;
 
 #ifdef PHONG
 		// Phong
@@ -188,6 +232,42 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	return color;
 }
 
+/// ========== SHADOWS GENERATING ========== ///
+
+//struct VertexShaderShadowsInput
+//{
+//	float4 Position : POSITION0;
+//};
+
+struct VertexShaderShadowsOutput
+{
+	float4 Position : POSITION0;
+	float4 ScreenPos : TEXCOORD0;
+};
+
+VertexShaderShadowsOutput VShadows(VertexShaderInput input)
+{
+	VertexShaderShadowsOutput output;
+
+#ifdef SKINNED
+	Skin(input, 4);
+#endif
+
+	float4 worldPosition = mul(input.Position, world);
+	float4 viewPosition = mul(worldPosition, view);
+	output.Position = mul(viewPosition, projection);
+	output.ScreenPos = output.Position;
+
+	return output;
+}
+
+float4 PShadows(VertexShaderShadowsOutput input) : COLOR0
+{
+	float depth = clamp(input.ScreenPos.z / shadowFarPlane, 0, 1);
+	return float4(depth, 0, 0, 1);
+}
+
+
 technique PhongBlinn
 {
 	pass Pass1
@@ -197,5 +277,15 @@ technique PhongBlinn
 		SrcBlend = SRCALPHA;
 		VertexShader = compile vs_3_0 VS();
 		PixelShader = compile ps_3_0 PS();
+	}
+}
+
+technique Shadows
+{
+	pass Pass1
+	{
+		AlphaBlendEnable = FALSE;
+		VertexShader = compile vs_3_0 VShadows();
+		PixelShader = compile ps_3_0 PShadows();
 	}
 }
