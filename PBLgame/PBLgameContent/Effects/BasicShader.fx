@@ -64,24 +64,25 @@ sampler2D emissiveSampler = sampler_state{
 /// ==== SHADOWS DATA ==== ///
 
 float shadowFarPlane;
-float4x4 shadowViewMatrix;
-float4x4 shadowProjMatrix;
+//float4x4 shadowViewMatrix;
+//float4x4 shadowProjMatrix;
+float3 shadowLightPos;
 bool useShadows = true;
-texture2D shadowMap;
-sampler2D shadowSampler = sampler_state {
+textureCUBE shadowMap;
+samplerCUBE shadowSampler = sampler_state {
 	Texture = (shadowMap);
 	MinFilter = Point;
 	MagFilter = Point;
 	MipFilter = Point;
 };
 
-float sampleShadowMap(float2 UV)
-{
-	if (UV.x < 0 || UV.x > 1 || 
-		UV.y < 0 || UV.y > 1) return 1;
-
-	return tex2D(shadowSampler, UV).r;
-}
+//float sampleShadowMap(float2 UV)
+//{
+//	if (UV.x < 0 || UV.x > 1 || 
+//		UV.y < 0 || UV.y > 1) return 1;
+//
+//	return tex2D(shadowSampler, UV).r;
+//}
 
 float2 postProjToScreen(float4 position)
 {
@@ -93,7 +94,7 @@ float2 postProjToScreen(float4 position)
 float2 bias = float2(0.008f, 0.015f);
 
 float shadowMult = 0.0f;
-float shadowBias = 1.0f / 100.0f;
+float shadowBias = 0.10f;
 
 struct VertexShaderInput
 {
@@ -117,7 +118,7 @@ struct VertexShaderOutput
 	float3 worldedTangent  : TEXCOORD3;
 	float3 worldedBinormal : TEXCOORD4;
 	float3 viewDirection   : TEXCOORD5;
-	float4 shadowScreenPos : TEXCOORD6;
+	//float4 shadowScreenPos : TEXCOORD6;
 };
 
 
@@ -156,7 +157,7 @@ VertexShaderOutput VS(VertexShaderInput input)
 
 	output.TextureCoordinate = input.TextureCoordinate;
 	output.viewDirection = normalize(cameraPosition.xyz - worldPosition.xyz);
-	output.shadowScreenPos = mul(worldPosition, mul(shadowViewMatrix, shadowProjMatrix));
+	//output.shadowScreenPos = mul(worldPosition, mul(shadowViewMatrix, shadowProjMatrix));
 
 	return output;
 }
@@ -174,11 +175,14 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	float4 totalSpecular = float4(0, 0, 0, 1);
 
 	// Shadows
-	float2 shadowTexCoords = postProjToScreen(input.shadowScreenPos) + bias;
-	float mapDepth = sampleShadowMap(shadowTexCoords);
-	float realDepth = input.shadowScreenPos.z / shadowFarPlane;
+	//float2 shadowDir = postProjToScreen(input.shadowScreenPos) + bias;
+	//float mapDepth = sampleShadowMap(shadowDir);
+	float3 shadowDir = (shadowLightPos.xyz - input.WorldPos);
+	float mapDepth = texCUBE(shadowSampler, normalize(shadowDir)).r /*+ bias*/;
+	float realDepth = saturate(length(shadowDir.xyz) / shadowFarPlane);
 	float shadow = 1;
 	if (realDepth < 1 && realDepth - shadowBias > mapDepth) shadow = shadowMult;
+	//return float4(realDepth, mapDepth, mapDepth, 1);
 
 	[unroll]
 	for (int i = 0; i < maxLights; ++i)

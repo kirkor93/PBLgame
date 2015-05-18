@@ -3,7 +3,7 @@
   <GameObjects>
     <GameObject Name="Ace" Tag="Player" Id="8">
       <Transform Enabled="True">
-        <Position x="-55" y="30" z="0" />
+        <Position x="-48.00433" y="0" z="-64.46857" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -4858,7 +4858,7 @@
       <Color r="0.8" g="0.8" b="0.8" a="1" />
       <GameObject Name="Light 1" Tag="Light" Id="170" Parent="118">
         <Transform Enabled="True">
-          <Position x="20.4008" y="41.91799" z="-8.917472E-07" />
+          <Position x="17.75561" y="14.7432" z="6.919112" />
           <Rotation x="0" y="0" z="0" />
           <Scale x="1" y="1" z="1" />
         </Transform>

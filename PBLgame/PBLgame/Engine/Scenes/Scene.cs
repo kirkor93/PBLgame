@@ -30,8 +30,18 @@ namespace PBLgame.Engine.Scenes
         private readonly XmlSerializer _serializer;
 
         private int _shadowMapSize = 2048;
-        private RenderTarget2D _shadowDepthTarget;
+        private RenderTargetCube _shadowDepthTarget;
         private GraphicsDevice _graphics;
+
+        private readonly CubeMapFace[] _faces =
+        {
+            CubeMapFace.PositiveX,
+            CubeMapFace.NegativeX,
+            CubeMapFace.PositiveY,
+            CubeMapFace.NegativeY,
+            CubeMapFace.PositiveZ,
+            CubeMapFace.NegativeZ
+        };
 
         #endregion
         #endregion
@@ -74,7 +84,7 @@ namespace PBLgame.Engine.Scenes
             _takenIdNumbers = new List<int> { 0 };
             _physicsSystem = new PhysicsSystem();
             _graphics = GlobalInventory.Instance.GraphicsDevice;
-            _shadowDepthTarget = new RenderTarget2D(_graphics, _shadowMapSize, _shadowMapSize, false, SurfaceFormat.Single, DepthFormat.Depth24);
+            _shadowDepthTarget = new RenderTargetCube(_graphics, _shadowMapSize, false, SurfaceFormat.Single, DepthFormat.Depth24);
         }
 
         public void Draw(GameTime gameTime)
@@ -88,30 +98,29 @@ namespace PBLgame.Engine.Scenes
             RasterizerState oldRasterizer = _graphics.RasterizerState;
             _graphics.RasterizerState = RasterizerState.CullNone;
 
-            // shadows begin
-
-            _graphics.SetRenderTarget(_shadowDepthTarget);
-            _graphics.Clear(Color.White);
-
             Matrix[] lightViewMatrices = new Matrix[6];
             Matrix lightProjMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 1, 1f, shadowFarPlane);
 
-            CreatePointLightMatrices(lightViewMatrices, light.Position);
-
-            foreach (Effect effect in ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")))
+            // shadows begin
+            for (int i = 0; i < _faces.Length; i++)
             {
-                ParameterizeEffectWithLights(effect);
-                effect.Parameters["shadowFarPlane"].SetValue(shadowFarPlane);
-                effect.Parameters["view"].SetValue(lightViewMatrices[0]);
-                effect.Parameters["projection"].SetValue(lightProjMatrix);
-                effect.Parameters["shadowViewMatrix"].SetValue(lightViewMatrices[0]);
-                effect.Parameters["shadowProjMatrix"].SetValue(lightProjMatrix);
-            }
-            foreach (GameObject gameObject in GameObjects)
-            {
-                gameObject.DrawSpecial(gameTime, Renderer.Technique.SHADOWS);
-            }
+                _graphics.SetRenderTarget(_shadowDepthTarget, _faces[i]);
+                _graphics.Clear(Color.White);
 
+                CreatePointLightMatrices(light.Position, lightViewMatrices);
+
+                foreach (Effect effect in ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")))
+                {
+                    ParameterizeEffectWithLights(effect);
+                    effect.Parameters["shadowFarPlane"].SetValue(shadowFarPlane);
+                    effect.Parameters["view"].SetValue(lightViewMatrices[i]);
+                    effect.Parameters["projection"].SetValue(lightProjMatrix);
+                }
+                foreach (GameObject gameObject in GameObjects)
+                {
+                    gameObject.DrawSpecial(gameTime, Renderer.Technique.SHADOWS);
+                }
+            }
             // shadows ends
 
             _graphics.SetRenderTarget(null);
@@ -119,6 +128,8 @@ namespace PBLgame.Engine.Scenes
 
             foreach (Effect effect in ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")))
             {
+                effect.Parameters["shadowLightPos"].SetValue(light.Position);
+                //effect.Parameters["shadowProjMatrix"].SetValue(lightProjMatrix);
                 effect.Parameters["shadowMap"].SetValue(_shadowDepthTarget);
             }
             foreach (GameObject gameObject in GameObjects)
@@ -127,14 +138,14 @@ namespace PBLgame.Engine.Scenes
             }
         }
 
-        private void CreatePointLightMatrices(Matrix[] matrices, Vector3 pos)
+        private void CreatePointLightMatrices(Vector3 pos, Matrix[] matrices)
         {
-            matrices[0] = Matrix.CreateLookAt(pos, pos - Vector3.UnitY,  Vector3.UnitX);    // bottom
-            matrices[1] = Matrix.CreateLookAt(pos, pos + Vector3.UnitY,  Vector3.UnitX);    // top
-            matrices[2] = Matrix.CreateLookAt(pos, pos - Vector3.UnitX,  Vector3.UnitY);    // left
-            matrices[3] = Matrix.CreateLookAt(pos, pos + Vector3.UnitX,  Vector3.UnitY);    // right
-            matrices[4] = Matrix.CreateLookAt(pos, pos - Vector3.UnitZ,  Vector3.UnitY);    // face
-            matrices[5] = Matrix.CreateLookAt(pos, pos + Vector3.UnitZ,  Vector3.UnitY);    // back
+            matrices[0] = Matrix.CreateLookAt(pos, pos - Vector3.UnitX, - Vector3.UnitY);
+            matrices[1] = Matrix.CreateLookAt(pos, pos + Vector3.UnitX, - Vector3.UnitY);
+            matrices[2] = Matrix.CreateLookAt(pos, pos - Vector3.UnitY,   Vector3.UnitZ);
+            matrices[3] = Matrix.CreateLookAt(pos, pos + Vector3.UnitY,   Vector3.UnitZ);
+            matrices[4] = Matrix.CreateLookAt(pos, pos - Vector3.UnitZ, - Vector3.UnitY);
+            matrices[5] = Matrix.CreateLookAt(pos, pos + Vector3.UnitZ, - Vector3.UnitY);
         }
 
 
