@@ -209,7 +209,7 @@ float4 PS(VertexShaderOutput input) : COLOR0
 #else
 		// Blinn-Phong
 		float3 h = normalize(lightDir + input.viewDirection);
-		totalSpecular += pow(saturate(dot(worldedNormal, h)), shininess) * diffuse * length(diffuse);
+		totalSpecular += pow(saturate(dot(worldedNormal, h)), shininess) * diffuse * shadow;
 #endif
 
 	}
