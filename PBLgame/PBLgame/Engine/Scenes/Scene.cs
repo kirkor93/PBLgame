@@ -110,6 +110,7 @@ namespace PBLgame.Engine.Scenes
                 {
                     ParameterizeEffectWithLights(effect);
                     effect.Parameters["shadowFarPlane"].SetValue(shadowFarPlane);
+                    effect.Parameters["shadowLightPos"].SetValue(light.Position);
                     effect.Parameters["view"].SetValue(lightViewMatrices[i]);
                     effect.Parameters["projection"].SetValue(lightProjMatrix);
                 }
@@ -126,7 +127,7 @@ namespace PBLgame.Engine.Scenes
 
             foreach (Effect effect in ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")))
             {
-                effect.Parameters["shadowLightPos"].SetValue(light.Position);
+                //effect.Parameters["shadowLightPos"].SetValue(light.Position);
                 //effect.Parameters["shadowProjMatrix"].SetValue(lightProjMatrix);
                 effect.Parameters["shadowMap"].SetValue(_shadowDepthTarget);
             }

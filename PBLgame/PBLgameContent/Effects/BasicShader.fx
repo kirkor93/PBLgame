@@ -94,7 +94,7 @@ float2 postProjToScreen(float4 position)
 float2 bias = float2(0.008f, 0.015f);
 
 float shadowMult = 0.0f;
-float shadowBias = 0.01f;
+float shadowBias = 0.015f;
 
 struct VertexShaderInput
 {
@@ -179,19 +179,10 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	//float mapDepth = sampleShadowMap(shadowDir);
 	float3 shadowDir = (shadowLightPos.xyz - input.WorldPos);
 	float mapDepth = texCUBE(shadowSampler, normalize(shadowDir)).r;
-	const float3 s = shadowDir;
 
-	// project cube into sphere
-	// http://mathproofs.blogspot.com/2005/07/mapping-cube-to-sphere.html
-	float3 projection = float3(
-		sqrt(1 - (s.y*s.y - s.z*s.z) / 2),
-		sqrt(1 - (s.z*s.z - s.x*s.x) / 2),
-		sqrt(1 - (s.x*s.x - s.y*s.y) / 2)
-	);
-
-	float realDepth = saturate(length(projection) / shadowFarPlane);
+	float realDepth = saturate(length(shadowDir) / shadowFarPlane);
 	float shadow = 1;
-	if (realDepth < 1 && realDepth - shadowBias > mapDepth && length(shadowDir) <= shadowFarPlane) shadow = shadowMult;
+	if (realDepth < 1 && realDepth - shadowBias > mapDepth) shadow = shadowMult;
 	//return float4(realDepth, mapDepth, mapDepth, 1);
 
 	[unroll]
@@ -257,6 +248,7 @@ struct VertexShaderShadowsOutput
 {
 	float4 Position : POSITION0;
 	float4 ScreenPos : TEXCOORD0;
+	float4 WorldPos  : TEXCOORD1;
 };
 
 VertexShaderShadowsOutput VShadows(VertexShaderInput input)
@@ -271,13 +263,15 @@ VertexShaderShadowsOutput VShadows(VertexShaderInput input)
 	float4 viewPosition = mul(worldPosition, view);
 	output.Position = mul(viewPosition, projection);
 	output.ScreenPos = output.Position;
+	output.WorldPos = worldPosition;
 
 	return output;
 }
 
 float4 PShadows(VertexShaderShadowsOutput input) : COLOR0
 {
-	float depth = clamp(input.ScreenPos.z / shadowFarPlane, 0, 1);
+	//float depth = clamp(input.ScreenPos.z / shadowFarPlane, 0, 1);
+	float depth = clamp(length(shadowLightPos - input.WorldPos) / shadowFarPlane, 0, 1);
 	return float4(depth, 0, 0, 1);
 }
 
