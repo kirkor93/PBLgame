@@ -94,7 +94,7 @@ float2 postProjToScreen(float4 position)
 float2 bias = float2(0.008f, 0.015f);
 
 float shadowMult = 0.0f;
-float shadowBias = 0.10f;
+float shadowBias = 0.01f;
 
 struct VertexShaderInput
 {
@@ -178,10 +178,20 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	//float2 shadowDir = postProjToScreen(input.shadowScreenPos) + bias;
 	//float mapDepth = sampleShadowMap(shadowDir);
 	float3 shadowDir = (shadowLightPos.xyz - input.WorldPos);
-	float mapDepth = texCUBE(shadowSampler, normalize(shadowDir)).r /*+ bias*/;
-	float realDepth = saturate(length(shadowDir.xyz) / shadowFarPlane);
+	float mapDepth = texCUBE(shadowSampler, normalize(shadowDir)).r;
+	const float3 s = shadowDir;
+
+	// project cube into sphere
+	// http://mathproofs.blogspot.com/2005/07/mapping-cube-to-sphere.html
+	float3 projection = float3(
+		sqrt(1 - (s.y*s.y - s.z*s.z) / 2),
+		sqrt(1 - (s.z*s.z - s.x*s.x) / 2),
+		sqrt(1 - (s.x*s.x - s.y*s.y) / 2)
+	);
+
+	float realDepth = saturate(length(projection) / shadowFarPlane);
 	float shadow = 1;
-	if (realDepth < 1 && realDepth - shadowBias > mapDepth) shadow = shadowMult;
+	if (realDepth < 1 && realDepth - shadowBias > mapDepth && length(shadowDir) <= shadowFarPlane) shadow = shadowMult;
 	//return float4(realDepth, mapDepth, mapDepth, 1);
 
 	[unroll]
@@ -209,7 +219,7 @@ float4 PS(VertexShaderOutput input) : COLOR0
 		// Phong
 		float3 r = normalize((2 * dot(lightDir, worldedNormal) * worldedNormal - lightDir));
 		float3 v = input.viewDirection;
-		totalSpecular += pow(saturate(dot(r, v)), shininess) * diffuse * length(diffuse);
+		totalSpecular += pow(saturate(dot(r, v)), shininess) * diffuse;
 #else
 		// Blinn-Phong
 		float3 h = normalize(lightDir + input.viewDirection);

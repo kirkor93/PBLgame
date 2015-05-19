@@ -4858,7 +4858,7 @@
       <Color r="0.8" g="0.8" b="0.8" a="1" />
       <GameObject Name="Light 1" Tag="Light" Id="170" Parent="118">
         <Transform Enabled="True">
-          <Position x="17.75561" y="14.7432" z="6.919112" />
+          <Position x="21.40483" y="42.47619" z="-0.586937" />
           <Rotation x="0" y="0" z="0" />
           <Scale x="1" y="1" z="1" />
         </Transform>

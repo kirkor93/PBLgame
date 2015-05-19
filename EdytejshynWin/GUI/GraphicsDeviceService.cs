@@ -7,6 +7,7 @@
 
 using System;
 using System.Threading;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 // The IGraphicsDeviceService interface requires a DeviceCreated event, but we
@@ -119,7 +120,9 @@ namespace Edytejshyn.GUI
             parameters.BackBufferHeight = Math.Max(parameters.BackBufferHeight, height);
 
             graphicsDevice.Reset(parameters);
-            graphicsDevice.VertexSamplerStates[0] = SamplerState.PointClamp;
+            // XNA4 workaround for error:
+            // XNA Framework HiDef profile requires TextureFilter to be Point when using texture format Single.
+            for (int s = 0; s < 16; s++) graphicsDevice.SamplerStates[s] = SamplerState.PointClamp;
 
             if (DeviceReset != null)
                 DeviceReset(this, EventArgs.Empty);

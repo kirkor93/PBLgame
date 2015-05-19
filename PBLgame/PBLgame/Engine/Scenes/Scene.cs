@@ -89,14 +89,11 @@ namespace PBLgame.Engine.Scenes
 
         public void Draw(GameTime gameTime)
         {
-
-            //_graphics.VertexSamplerStates[0] = SamplerState.PointClamp;
-            
             PointLight light = (PointLight) _sceneLights.First(x => x.Name == "Light 1");
             float shadowFarPlane = light.Attenuation;
 
-            RasterizerState oldRasterizer = _graphics.RasterizerState;
-            _graphics.RasterizerState = RasterizerState.CullNone;
+            //RasterizerState oldRasterizer = _graphics.RasterizerState;
+            //_graphics.RasterizerState = RasterizerState.CullNone;
 
             Matrix[] lightViewMatrices = new Matrix[6];
             Matrix lightProjMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 1, 1f, shadowFarPlane);
@@ -116,6 +113,7 @@ namespace PBLgame.Engine.Scenes
                     effect.Parameters["view"].SetValue(lightViewMatrices[i]);
                     effect.Parameters["projection"].SetValue(lightProjMatrix);
                 }
+                
                 foreach (GameObject gameObject in GameObjects)
                 {
                     gameObject.DrawSpecial(gameTime, Renderer.Technique.SHADOWS);
@@ -124,7 +122,7 @@ namespace PBLgame.Engine.Scenes
             // shadows ends
 
             _graphics.SetRenderTarget(null);
-            _graphics.RasterizerState = oldRasterizer;
+            //_graphics.RasterizerState = oldRasterizer;
 
             foreach (Effect effect in ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")))
             {
@@ -142,8 +140,8 @@ namespace PBLgame.Engine.Scenes
         {
             matrices[0] = Matrix.CreateLookAt(pos, pos - Vector3.UnitX, - Vector3.UnitY);
             matrices[1] = Matrix.CreateLookAt(pos, pos + Vector3.UnitX, - Vector3.UnitY);
-            matrices[2] = Matrix.CreateLookAt(pos, pos - Vector3.UnitY,   Vector3.UnitZ);
-            matrices[3] = Matrix.CreateLookAt(pos, pos + Vector3.UnitY,   Vector3.UnitZ);
+            matrices[2] = Matrix.CreateLookAt(pos, pos - Vector3.UnitY,   Vector3.UnitZ);   // up
+            matrices[3] = Matrix.CreateLookAt(pos, pos + Vector3.UnitY, - Vector3.UnitZ);   // down
             matrices[4] = Matrix.CreateLookAt(pos, pos - Vector3.UnitZ, - Vector3.UnitY);
             matrices[5] = Matrix.CreateLookAt(pos, pos + Vector3.UnitZ, - Vector3.UnitY);
         }
