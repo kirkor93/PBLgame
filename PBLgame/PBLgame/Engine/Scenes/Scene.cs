@@ -97,7 +97,7 @@ namespace PBLgame.Engine.Scenes
                 _shadowDirDepthTargets[dir] = new RenderTarget2D(_graphics, _shadowMapSize, _shadowMapSize, false, SurfaceFormat.Single, DepthFormat.Depth24);
             }
 
-            for (int pt = 0; pt < ALL_LIGHTS - DIR_LIGHTS; pt++)
+            for (int pt = 0; pt < POINT_LIGHTS; pt++)
             {
                 _shadowPointDepthTargets[pt] = new RenderTargetCube(_graphics, _shadowMapSize, false, SurfaceFormat.Single, DepthFormat.Depth24);
             }
@@ -114,10 +114,6 @@ namespace PBLgame.Engine.Scenes
             _graphics.SetRenderTarget(null);
             _graphics.RasterizerState = oldRasterizer;
 
-            //foreach (Effect effect in ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")))
-            //{
-            //    effect.Parameters["shadowMap3"].SetValue(_shadowPointDepthTargets[0]);
-            //}
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Draw(gameTime);
