@@ -28,10 +28,17 @@ namespace PBLgame.Engine.Scenes
         private PhysicsSystem _physicsSystem;
 
         private readonly XmlSerializer _serializer;
-
-        private int _shadowMapSize = 2048;
-        private RenderTargetCube _shadowDepthTarget;
         private GraphicsDevice _graphics;
+        
+        // Shadows
+        private const int ALL_LIGHTS = 8;
+        private const int DIR_LIGHTS = 3;
+        private const int POINT_LIGHTS = ALL_LIGHTS - DIR_LIGHTS;
+        private bool[] _hasShadows = new bool[ALL_LIGHTS];
+        private int _shadowMapSize = 1024;
+        private float[] _shadowFarPlanes = new float[ALL_LIGHTS];
+        private RenderTarget2D[] _shadowDirDepthTargets = new RenderTarget2D[DIR_LIGHTS];
+        private RenderTargetCube[] _shadowPointDepthTargets = new RenderTargetCube[POINT_LIGHTS];
 
         private readonly CubeMapFace[] _faces =
         {
@@ -84,53 +91,33 @@ namespace PBLgame.Engine.Scenes
             _takenIdNumbers = new List<int> { 0 };
             _physicsSystem = new PhysicsSystem();
             _graphics = GlobalInventory.Instance.GraphicsDevice;
-            _shadowDepthTarget = new RenderTargetCube(_graphics, _shadowMapSize, false, SurfaceFormat.Single, DepthFormat.Depth24);
+
+            for (int dir = 0; dir < DIR_LIGHTS; dir++)
+            {
+                _shadowDirDepthTargets[dir] = new RenderTarget2D(_graphics, _shadowMapSize, _shadowMapSize, false, SurfaceFormat.Single, DepthFormat.Depth24);
+            }
+
+            for (int pt = 0; pt < ALL_LIGHTS - DIR_LIGHTS; pt++)
+            {
+                _shadowPointDepthTargets[pt] = new RenderTargetCube(_graphics, _shadowMapSize, false, SurfaceFormat.Single, DepthFormat.Depth24);
+            }
+            
         }
 
         public void Draw(GameTime gameTime)
         {
-            PointLight light = (PointLight) _sceneLights.First(x => x.Name == "Light 1");
-            float shadowFarPlane = light.Attenuation;
+            RasterizerState oldRasterizer = _graphics.RasterizerState;
+            _graphics.RasterizerState = RasterizerState.CullNone;
 
-            //RasterizerState oldRasterizer = _graphics.RasterizerState;
-            //_graphics.RasterizerState = RasterizerState.CullNone;
-
-            Matrix[] lightViewMatrices = new Matrix[6];
-            Matrix lightProjMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 1, 1f, shadowFarPlane);
-
-            // shadows begin
-            for (int i = 0; i < _faces.Length; i++)
-            {
-                _graphics.SetRenderTarget(_shadowDepthTarget, _faces[i]);
-                _graphics.Clear(Color.White);
-
-                CreatePointLightMatrices(light.Position, lightViewMatrices);
-
-                foreach (Effect effect in ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")))
-                {
-                    ParameterizeEffectWithLights(effect);
-                    effect.Parameters["shadowFarPlane"].SetValue(shadowFarPlane);
-                    effect.Parameters["shadowLightPos"].SetValue(light.Position);
-                    effect.Parameters["view"].SetValue(lightViewMatrices[i]);
-                    effect.Parameters["projection"].SetValue(lightProjMatrix);
-                }
-                
-                foreach (GameObject gameObject in GameObjects)
-                {
-                    gameObject.DrawSpecial(gameTime, Renderer.Technique.SHADOWS);
-                }
-            }
-            // shadows ends
+            ParameterizeEffectsWithLightsAndShadows(gameTime, ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")));
 
             _graphics.SetRenderTarget(null);
-            //_graphics.RasterizerState = oldRasterizer;
+            _graphics.RasterizerState = oldRasterizer;
 
-            foreach (Effect effect in ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")))
-            {
-                //effect.Parameters["shadowLightPos"].SetValue(light.Position);
-                //effect.Parameters["shadowProjMatrix"].SetValue(lightProjMatrix);
-                effect.Parameters["shadowMap"].SetValue(_shadowDepthTarget);
-            }
+            //foreach (Effect effect in ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")))
+            //{
+            //    effect.Parameters["shadowMap3"].SetValue(_shadowPointDepthTargets[0]);
+            //}
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Draw(gameTime);
@@ -148,48 +135,91 @@ namespace PBLgame.Engine.Scenes
         }
 
 
-        private void ParameterizeEffectWithLights(Effect effect)
+        private void ParameterizeEffectsWithLightsAndShadows(GameTime gameTime, IEnumerable<Effect> effects)
         {
-            const int LIGHTS = 8;
-            List<Light> lights = SceneLights;
-            Vector3[] pos_dir = new Vector3[LIGHTS];
-            Vector4[] colors = new Vector4[LIGHTS];
-            float[] att_int = new float[LIGHTS];
-            float[] falloff = new float[LIGHTS];
-            int[] points = new int[LIGHTS];
-            int[] dirs = new int[LIGHTS];
+            const int FIRST_POINT_INDEX = DIR_LIGHTS;
+            Vector3[] pos_dir = new Vector3[ALL_LIGHTS];
+            Vector4[] colors = new Vector4[ALL_LIGHTS];
+            float[] att_int = new float[ALL_LIGHTS];
+            float[] falloff = new float[ALL_LIGHTS];
+            
+            int dir = 0;
+            int pt = FIRST_POINT_INDEX;    // start after last directional
 
-            for (int i = 0; i < lights.Count; ++i)
+            effects = effects as Effect[] ?? effects.ToArray();
+
+            foreach (Light light in SceneLights)
             {
-                if (lights[i].Type == LightType.Directional)
+                if (light.Type == LightType.Directional && dir < DIR_LIGHTS)
                 {
-                    MyDirectionalLight dLight = lights[i] as MyDirectionalLight;
-                    pos_dir[i] = dLight.Direction;
-                    colors[i] = dLight.Color;
-                    att_int[i] = dLight.Intensity;
-                    dirs[i] = 1;
-                    points[i] = 0;
+                    MyDirectionalLight dLight = light as MyDirectionalLight;
+                    pos_dir[dir] = dLight.Direction;
+                    colors[dir]  = dLight.Color * dLight.Color.W;   // use alpha as a multiplier
+                    att_int[dir] = dLight.Intensity;
+                    dir++;
                 }
-                else
+                else if (pt < ALL_LIGHTS)
                 {
-                    PointLight pLight = lights[i] as PointLight;
-                    pos_dir[i] = pLight.Position;
-                    colors[i] = pLight.Color;
-                    att_int[i] = pLight.Attenuation;
-                    falloff[i] = pLight.FallOff;
-                    points[i] = 1;
-                    dirs[i] = 0;
+                    PointLight pLight = light as PointLight;
+                    pos_dir[pt] = pLight.Position;
+                    colors[pt]  = pLight.Color * pLight.Color.W;
+                    att_int[pt] = pLight.Attenuation;
+                    falloff[pt] = pLight.FallOff;
+
+                    _shadowFarPlanes[pt] = pLight.Attenuation;
+
+                    if (light.HasShadow)
+                    {
+                        _hasShadows[pt] = true;
+                        Matrix lightProjMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 1, 1f, _shadowFarPlanes[pt]);
+                        Matrix[] lightViewMatrices = new Matrix[6];
+                        CreatePointLightMatrices(pLight.Position, lightViewMatrices);
+
+                        for (int face = 0; face < _faces.Length; face++)
+                        {
+                            _graphics.SetRenderTarget(_shadowPointDepthTargets[pt - FIRST_POINT_INDEX], _faces[face]);
+                            _graphics.Clear(Color.White);
+
+
+                            foreach (Effect effect in effects)
+                            {
+                                effect.Parameters["shadowFarPlane"].SetValue(_shadowFarPlanes[pt]);
+                                effect.Parameters["shadowLightPos"].SetValue(pLight.Position);
+                                effect.Parameters["view"].SetValue(lightViewMatrices[face]);
+                                effect.Parameters["projection"].SetValue(lightProjMatrix);
+                            }
+
+                            foreach (GameObject gameObject in GameObjects)
+                            {
+                                gameObject.DrawSpecial(gameTime, Renderer.Technique.SHADOWS);
+                            }
+                        }
+
+                        _graphics.SetRenderTarget(null);
+
+                        foreach (Effect effect in effects)
+                        {
+                            effect.Parameters[string.Format("shadowMap{0}", pt)].SetValue(_shadowPointDepthTargets[pt - FIRST_POINT_INDEX]);
+                        }
+                    }
+                    else
+                    {
+                        _hasShadows[pt] = false;
+                    }
+                    pt++;
                 }
             }
 
-            //!!!!!! lightsCount have to be less or equal 9 [;
-            //MyEffect.Parameters["lightsCount"].SetValue(lights.Count);
-            effect.Parameters["lightsPositions"].SetValue(pos_dir);
-            effect.Parameters["lightsColors"].SetValue(colors);
-            effect.Parameters["lightsAttenuations"].SetValue(att_int);
-            effect.Parameters["lightsFalloffs"].SetValue(falloff);
-            effect.Parameters["lightsPoint"].SetValue(points);
-            effect.Parameters["lightsDirectional"].SetValue(dirs);
+            foreach (Effect effect in effects)
+            {
+                //!!!!!! lightsCount have to be less or equal ALL_LIGHTS [;
+                effect.Parameters["lightsPositions"].SetValue(pos_dir);
+                effect.Parameters["lightsColors"].SetValue(colors);
+                effect.Parameters["lightsAttenuations"].SetValue(att_int);
+                effect.Parameters["lightsFalloffs"].SetValue(falloff);
+                effect.Parameters["shadowFarPlanes"].SetValue(_shadowFarPlanes);
+                effect.Parameters["hasShadows"].SetValue(_hasShadows);
+            }
         }
 
 

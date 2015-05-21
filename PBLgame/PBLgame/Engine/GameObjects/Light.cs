@@ -27,6 +27,9 @@ namespace PBLgame.Engine.GameObjects
                 _color = value;
             }
         }
+
+        public bool HasShadow { get; set; }
+
         public LightType Type
         {
             get
@@ -42,9 +45,13 @@ namespace PBLgame.Engine.GameObjects
         {
             _color = source._color;
             _type  = source._type;
+            HasShadow = source.HasShadow;
         }
 
-        protected Light() { }
+        protected Light()
+        {
+            HasShadow = true;
+        }
 
 
         #region XML serialization

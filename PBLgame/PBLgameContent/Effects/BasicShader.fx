@@ -3,14 +3,16 @@ float4x4 view;
 float4x4 projection;
 float3 cameraPosition;
 
-#define maxLights 8
-float3 lightsPositions[maxLights];
-float4 lightsColors[maxLights];
-float lightsAttenuations[maxLights];	// or Intensity
-float lightsFalloffs[maxLights];
-int lightsPoint[maxLights];
-int lightsDirectional[maxLights];
-//int lightsCount = 0;
+#define ALL_LIGHTS 8
+#define DIR_LIGHTS 3
+#define POINT_LIGHTS (ALL_LIGHTS - DIR_LIGHTS)
+#define lightsIntensities lightsAttenuations
+#define lightsDirs		  lightsPositions
+
+float3 lightsPositions	[ALL_LIGHTS];
+float4 lightsColors		[ALL_LIGHTS];
+float lightsAttenuations[ALL_LIGHTS];	// or Intensity
+float lightsFalloffs	[ALL_LIGHTS];
 
 float alphaValue = 1.0;
 
@@ -63,18 +65,27 @@ sampler2D emissiveSampler = sampler_state{
 
 /// ==== SHADOWS DATA ==== ///
 
-float shadowFarPlane;
-//float4x4 shadowViewMatrix;
-//float4x4 shadowProjMatrix;
+float shadowFarPlanes[ALL_LIGHTS];
+float4x4 shadowViewMatrices[DIR_LIGHTS];
+float4x4 shadowProjMatrices[DIR_LIGHTS];
+bool hasShadows[ALL_LIGHTS];
 float3 shadowLightPos;
-bool useShadows = true;
-textureCUBE shadowMap;
-samplerCUBE shadowSampler = sampler_state {
-	Texture = (shadowMap);
-	MinFilter = Point;
-	MagFilter = Point;
-	MipFilter = Point;
-};
+float shadowFarPlane;
+
+textureCUBE shadowMap3, shadowMap4, shadowMap5, shadowMap6, shadowMap7;
+
+#define GenerateShadowSamplerCUBE(x) samplerCUBE shadowSampler ## x = sampler_state { \
+	Texture = (shadowMap ## x);	\
+	MinFilter = Point;	\
+	MagFilter = Point;	\
+	MipFilter = Point;	\
+}	\
+
+GenerateShadowSamplerCUBE(3);
+GenerateShadowSamplerCUBE(4);
+GenerateShadowSamplerCUBE(5);
+GenerateShadowSamplerCUBE(6);
+GenerateShadowSamplerCUBE(7);
 
 //float sampleShadowMap(float2 UV)
 //{
@@ -162,9 +173,45 @@ VertexShaderOutput VS(VertexShaderInput input)
 	return output;
 }
 
+
+float4 CalcResultColor(float shadow, float intensity, float4 lightColor)
+{
+	return shadow * lightColor * intensity;
+}
+
+float4 CalcDiffuse(float3 lightDir, float3 normal)
+{
+	return saturate(dot(lightDir, normal));
+}
+
+float4 CalcSpecular(float3 lightDir, float3 normal, float3 v)
+{
+#ifdef PHONG
+	// Phong
+	float3 r = normalize((2 * dot(lightDir, normal) * normal - lightDir));
+	return pow(saturate(dot(r, v)), shininess);
+#else
+	// Blinn-Phong
+	float3 h = normalize(lightDir + v);
+	return pow(saturate(dot(normal, h)), shininess);
+#endif
+}
+
+#define lightCase(x) if (i == x) return texCUBE(shadowSampler ## x, dir).r
+float texPointDepth(int i, float3 dir)
+{
+	lightCase(3);
+	else lightCase(4);
+	else lightCase(5);
+	else lightCase(6);
+	else lightCase(7);
+	else return 1;
+	
+}
+#undef lightCase
+
 float4 PS(VertexShaderOutput input) : COLOR0
 {
-
 	//Normal calc
 	float3 normalMap = (tex2D(normalSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
 	float3 worldedNormal = normalize(normalIntensity * (input.worldedNormal + (normalMap.x * input.worldedTangent + normalMap.y * input.worldedBinormal)));
@@ -175,51 +222,55 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	float4 totalSpecular = float4(0, 0, 0, 1);
 
 	// Shadows
-	//float2 shadowDir = postProjToScreen(input.shadowScreenPos) + bias;
-	//float mapDepth = sampleShadowMap(shadowDir);
-	float3 shadowDir = (shadowLightPos.xyz - input.WorldPos);
-	float mapDepth = texCUBE(shadowSampler, normalize(shadowDir)).r;
+	////float2 shadowDir = postProjToScreen(input.shadowScreenPos) + bias;
+	////float mapDepth = sampleShadowMap(shadowDir);
 
-	float realDepth = saturate(length(shadowDir) / shadowFarPlane);
-	float shadow = 1;
-	if (realDepth < 1 && realDepth - shadowBias > mapDepth) shadow = shadowMult;
-	//return float4(realDepth, mapDepth, mapDepth, 1);
 
 	[unroll]
-	for (int i = 0; i < maxLights; ++i)
+	// Directional lights
+	for (int i = 0; i < DIR_LIGHTS; i++)
 	{
+		// TODO calculate shadows
+		float shadow = 1;
+
 		// Light direction
-		float3 lightDir = lightsDirectional[i]  *  (normalize(lightsPositions[i]))
-		                + lightsPoint[i]        *  (normalize(lightsPositions[i] - input.WorldPos));
+		float3 lightDir = normalize(lightsDirs[i]);
 
 		// Diffuse shading
-		float diffuse = saturate(dot(lightDir, worldedNormal));
+		float4 resultColor = CalcResultColor(shadow, lightsIntensities[i], lightsColors[i]);
 
-		// Point light
-		float d = distance(lightsPositions[i], input.WorldPos);
-		float pointDiffuse = lightsPoint[i] * diffuse * (1 - pow(clamp(d / lightsAttenuations[i], 0, 1), lightsFalloffs[i]));
-
-		// Directional light
-		float directionalDiffuse = lightsDirectional[i] * diffuse * lightsAttenuations[i];
-		
-		// Apply new calculated diffuse (one of them will be == 0):
-		diffuse = pointDiffuse + directionalDiffuse;
-		totalLight += lightsColors[i] * shadow * diffuse;
-
-#ifdef PHONG
-		// Phong
-		float3 r = normalize((2 * dot(lightDir, worldedNormal) * worldedNormal - lightDir));
-		float3 v = input.viewDirection;
-		totalSpecular += pow(saturate(dot(r, v)), shininess) * diffuse;
-#else
-		// Blinn-Phong
-		float3 h = normalize(lightDir + input.viewDirection);
-		totalSpecular += pow(saturate(dot(worldedNormal, h)), shininess) * diffuse * shadow;
-#endif
-
+		totalLight += resultColor * CalcDiffuse(lightDir, worldedNormal);
+		totalSpecular += resultColor * CalcSpecular(lightDir, worldedNormal, input.viewDirection);
 	}
 
-	totalSpecular = (tex2D(specularSampler, input.TextureCoordinate)) * specularIntensity * specularColor * totalSpecular;
+	const int FIRST_POINT_INDEX = DIR_LIGHTS;
+
+	[unroll]
+	// Point lights
+	for (int i = FIRST_POINT_INDEX; i < ALL_LIGHTS; i++)
+	{
+		float shadow = 1;
+		if (hasShadows[i])
+		{	
+			float3 shadowDir = (lightsPositions[i].xyz - input.WorldPos);
+			float mapDepth = texPointDepth(i, normalize(shadowDir));
+			float realDepth = saturate( length(shadowDir) / shadowFarPlanes[i] );
+			if (realDepth < 1 && realDepth - shadowBias > mapDepth) shadow = shadowMult;
+			//return float4(realDepth, mapDepth, mapDepth, 1);
+		}
+
+		// Light direction
+		float3 lightDir = normalize(lightsPositions[i] - input.WorldPos);
+		
+		// Diffuse shading
+		float d = distance(lightsPositions[i], input.WorldPos);
+		float4 resultColor = CalcResultColor(shadow, (1 - pow(saturate(d / lightsAttenuations[i]), lightsFalloffs[i])), lightsColors[i]);
+		
+		totalLight += resultColor * CalcDiffuse(lightDir, worldedNormal);
+		totalSpecular += resultColor * CalcSpecular(lightDir, worldedNormal, input.viewDirection);
+	}
+
+	totalSpecular = tex2D(specularSampler, input.TextureCoordinate) * specularIntensity * specularColor * totalSpecular;
 
 	//Emissive
 	float4 emissive = (tex2D(emissiveSampler, input.TextureCoordinate).rgba * emissiveIntensity) * emissiveColor;
@@ -229,7 +280,7 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	float4 textureColor = tex2D(diffuseSampler, input.TextureCoordinate);
 	textureColor.a = 1;
 	
-	float4 ambient = 0.1f * (1, 1, 1, 1);
+	float4 ambient = 0.1f * (1, 1, 1, 0);
 	totalLight += ambient;
 	float4 color = (textureColor * totalLight + totalSpecular) + emissive;
 	color.a = alphaValue;
@@ -270,8 +321,8 @@ VertexShaderShadowsOutput VShadows(VertexShaderInput input)
 
 float4 PShadows(VertexShaderShadowsOutput input) : COLOR0
 {
-	//float depth = clamp(input.ScreenPos.z / shadowFarPlane, 0, 1);
-	float depth = clamp(length(shadowLightPos - input.WorldPos) / shadowFarPlane, 0, 1);
+	//float depth = saturate(input.ScreenPos.z / shadowFarPlanes[0]);
+	float depth = saturate(length(shadowLightPos - input.WorldPos) / shadowFarPlane);
 	return float4(depth, 0, 0, 1);
 }
 
