@@ -72,7 +72,6 @@ namespace PBLgame.Engine.Components
             {
                 Bone bone = _bones[i];
                 bone.ComputeAbsoluteTransform();
-
                 _boneTransforms[i] = bone.AbsoluteTransform;
             }
 

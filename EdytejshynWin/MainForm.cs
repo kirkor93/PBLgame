@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -9,10 +8,13 @@ using Edytejshyn.GUI;
 using Edytejshyn.GUI.XNA;
 using Edytejshyn.Logic;
 using Edytejshyn.Model;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
+using Color = System.Drawing.Color;
+using Point = System.Drawing.Point;
 
 namespace Edytejshyn
 {
@@ -652,6 +654,24 @@ namespace Edytejshyn
             Invalidate();
         }
 
+        private void zeroTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ForwardTimeAndUpdate(0);
+        }
+
+        private void forward01sToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ForwardTimeAndUpdate(0.1);
+        }
+
+        private void ForwardTimeAndUpdate(double seconds)
+        {
+            Logic.ForwardTime(seconds);
+            Logic.WrappedScene.Update();
+            Invalidate(true);
+            Logic.FinishedUpdate();
+        }
+
         #endregion
 
 
@@ -773,8 +793,7 @@ namespace Edytejshyn
             propertyGrid.Refresh();
         }
 
-
-
         #endregion
+
     }
 }

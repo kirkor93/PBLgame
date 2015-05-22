@@ -27,7 +27,9 @@ namespace PBLgame.Engine
 
         public static float CalculateDegrees(Vector2 vector)
         {
-            return MathHelper.ToDegrees(CalculateAngle(vector.X, vector.Y));
+            float angle = MathHelper.ToDegrees(CalculateAngle(vector.X, vector.Y));
+            if (angle < 0f) angle += 360f;
+            return angle;
         }
     }
 }

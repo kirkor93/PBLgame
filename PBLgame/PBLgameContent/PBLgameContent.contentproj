@@ -33,8 +33,7 @@
     <Compile Include="Models\Helmet.FBX">
       <Name>Helmet</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>AnimationProcessor</Processor>
-      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+      <Processor>ModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +154,8 @@
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+      <ProcessorParameters_NodeRotation>0, 180, 0</ProcessorParameters_NodeRotation>
+      <ProcessorParameters_RotationY>180</ProcessorParameters_RotationY>
     </Compile>
     <Compile Include="Models\Champions\Ace_sword_v1.FBX">
       <Name>Ace_sword_v1</Name>
@@ -279,7 +280,7 @@
     <Compile Include="Models\Enemies\Mecha_Ranger.FBX">
       <Name>Mecha_Ranger</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>AnimationProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
   </ItemGroup>
@@ -1092,6 +1093,23 @@
       <Name>BasicShaderPhong</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\Enemies\Mecha_Ranger_anim.FBX">
+      <Name>Mecha_Ranger_anim</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\Champions\Ace_run.FBX">
+      <Name>Ace_run</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_NodeRotation>0, 180, 0</ProcessorParameters_NodeRotation>
+      <ProcessorParameters_RotationY>180</ProcessorParameters_RotationY>
+      <ProcessorParameters_DegreesY>180</ProcessorParameters_DegreesY>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

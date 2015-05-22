@@ -146,6 +146,7 @@ namespace PBLgame.Engine.Components
 
             ComputeAbsoluteTransform();
             SkinTransform = Matrix.Invert(AbsoluteTransform);
+
         }
 
         /// <summary>
@@ -160,7 +161,6 @@ namespace PBLgame.Engine.Components
 
             if (Parent != null)
             {
-                // This bone has a parent bone
                 AbsoluteTransform = transform * Parent.AbsoluteTransform;
             }
             else
@@ -177,7 +177,12 @@ namespace PBLgame.Engine.Components
         /// <param name="m">A matrix include translation and rotation</param>
         public void SetCompleteTransform(Matrix m)
         {
-            Matrix setTo = m * Matrix.Invert(BindTransform);
+            Matrix setTo = m;
+            // Ignore BindTransform of first actual bone in hierarchy.
+            if (Parent == null || Parent.Parent != null)
+            {
+                setTo = setTo * Matrix.Invert(BindTransform);
+            }
 
             Translation = setTo.Translation;
             Rotation = Quaternion.CreateFromRotationMatrix(setTo);

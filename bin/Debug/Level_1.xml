@@ -3,7 +3,7 @@
   <GameObjects>
     <GameObject Name="Ace" Tag="Player" Id="8">
       <Transform Enabled="True">
-        <Position x="-55" y="30" z="0" />
+        <Position x="-70" y="2" z="-70" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -13,6 +13,7 @@
           <LocalPosition x="0" y="10" z="0" />
         </SphereCollider>
       </Collision>
+      <Animator Enabled="True" />
       <PBLgame.GamePlay.PlayerScript Enabled="True" />
     </GameObject>
     <GameObject Name="Ground" Tag="Terrain" Id="999">
@@ -22,7 +23,7 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="1300" IsTrigger="True">
+        <SphereCollider Radius="2000" IsTrigger="True">
           <LocalPosition x="0" y="0" z="0" />
         </SphereCollider>
         <BoxColliders>
@@ -4832,22 +4833,22 @@
       </Transform>
       <Renderer Enabled="True" MeshId="12" MaterialId="11" />
     </GameObject>
-    <GameObject Name="Gandalf" Tag="Ghost" Id="607">
+    <GameObject Name="MechaRanger001" Tag="Enemy" Id="607">
       <Transform Enabled="True">
-        <Position x="-128.9864" y="14" z="-112.5351" />
+        <Position x="-128" y="0" z="-112" />
         <Rotation x="0" y="0" z="0" />
-        <Scale x="0.15" y="0.15" z="0.15" />
+        <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="2" MaterialId="44" Alpha="0.5" Emissive="0.9" />
+      <Renderer Enabled="True" MeshId="8" MaterialId="5" />
       <Animator Enabled="True" />
     </GameObject>
   </GameObjects>
   <Lights>
     <Light Type="Point">
       <Color r="1" g="0.5" b="1" a="1" />
-      <GameObject Name="Gandalf Light" Tag="Light" Id="608" Parent="607">
+      <GameObject Name="Ranger Light" Tag="Light" Id="608" Parent="607">
         <Transform Enabled="True">
-          <Position x="0" y="0" z="0" />
+          <Position x="0" y="20" z="-3" />
           <Rotation x="0" y="0" z="0" />
           <Scale x="1" y="1" z="1" />
         </Transform>
