@@ -3,8 +3,8 @@ float4x4 view;
 float4x4 projection;
 float3 cameraPosition;
 
-#define ALL_LIGHTS 8
-#define DIR_LIGHTS 3
+#define ALL_LIGHTS 6
+#define DIR_LIGHTS 2
 #define POINT_LIGHTS (ALL_LIGHTS - DIR_LIGHTS)
 #define lightsIntensities lightsAttenuations
 #define lightsDirs		  lightsPositions
@@ -72,28 +72,58 @@ bool hasShadows[ALL_LIGHTS];
 float3 shadowLightPos;
 float shadowFarPlane;
 
-textureCUBE shadowMap3, shadowMap4, shadowMap5, shadowMap6, shadowMap7;
+#define GenerateShadowSampler2D(x) sampler2D shadowSampler ## x = sampler_state { \
+	Texture = (shadowMap ## x);	\
+	MinFilter = Point;	\
+	MagFilter = Point;	\
+	MipFilter = Point;	\
+}
 
 #define GenerateShadowSamplerCUBE(x) samplerCUBE shadowSampler ## x = sampler_state { \
 	Texture = (shadowMap ## x);	\
 	MinFilter = Point;	\
 	MagFilter = Point;	\
 	MipFilter = Point;	\
-}	\
+}
 
+texture2D shadowMap0, shadowMap1;
+textureCUBE shadowMap2, shadowMap3, shadowMap4, shadowMap5;
+
+GenerateShadowSampler2D(0);
+GenerateShadowSampler2D(1);
+GenerateShadowSamplerCUBE(2);
 GenerateShadowSamplerCUBE(3);
 GenerateShadowSamplerCUBE(4);
 GenerateShadowSamplerCUBE(5);
-GenerateShadowSamplerCUBE(6);
-GenerateShadowSamplerCUBE(7);
 
-//float sampleShadowMap(float2 UV)
-//{
-//	if (UV.x < 0 || UV.x > 1 || 
-//		UV.y < 0 || UV.y > 1) return 1;
-//
-//	return tex2D(shadowSampler, UV).r;
-//}
+
+#define lightCase(x) if (i == x) return tex2D(shadowSampler ## x, UV).r
+float texDirDepth(int i, float2 UV)
+{
+	if (UV.x < 0 || UV.x > 1 ||
+		UV.y < 0 || UV.y > 1) return 1;
+
+	// switch not working properly, but compiler will solve those at compile-time
+	lightCase(0);
+	else lightCase(1);
+	else return 1;
+
+}
+#undef lightCase
+
+#define lightCase(x) if (i == x) return texCUBE(shadowSampler ## x, dir).r
+float texPointDepth(int i, float3 dir)
+{
+	// switch not working properly, but compiler will solve those at compile-time
+	lightCase(2);
+	else lightCase(3);
+	else lightCase(4);
+	else lightCase(5);
+	else return 1;
+
+}
+#undef lightCase
+
 
 float2 postProjToScreen(float4 position)
 {
@@ -129,7 +159,7 @@ struct VertexShaderOutput
 	float3 worldedTangent  : TEXCOORD3;
 	float3 worldedBinormal : TEXCOORD4;
 	float3 viewDirection   : TEXCOORD5;
-	//float4 shadowScreenPos : TEXCOORD6;
+	float4 shadowScreenPos[DIR_LIGHTS] : TEXCOORD6;
 };
 
 
@@ -168,7 +198,12 @@ VertexShaderOutput VS(VertexShaderInput input)
 
 	output.TextureCoordinate = input.TextureCoordinate;
 	output.viewDirection = normalize(cameraPosition.xyz - worldPosition.xyz);
-	//output.shadowScreenPos = mul(worldPosition, mul(shadowViewMatrix, shadowProjMatrix));
+
+	[unroll]
+	for (int i = 0; i < DIR_LIGHTS; i++)
+	{
+		output.shadowScreenPos[i] = mul(worldPosition, mul(shadowViewMatrices[i], shadowProjMatrices[i]));
+	}
 
 	return output;
 }
@@ -197,19 +232,6 @@ float4 CalcSpecular(float3 lightDir, float3 normal, float3 v)
 #endif
 }
 
-#define lightCase(x) if (i == x) return texCUBE(shadowSampler ## x, dir).r
-float texPointDepth(int i, float3 dir)
-{
-	lightCase(3);
-	else lightCase(4);
-	else lightCase(5);
-	else lightCase(6);
-	else lightCase(7);
-	else return 1;
-	
-}
-#undef lightCase
-
 float4 PS(VertexShaderOutput input) : COLOR0
 {
 	//Normal calc
@@ -221,18 +243,20 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	//Specular
 	float4 totalSpecular = float4(0, 0, 0, 1);
 
-	// Shadows
-	////float2 shadowDir = postProjToScreen(input.shadowScreenPos) + bias;
-	////float mapDepth = sampleShadowMap(shadowDir);
-
-
 	[unroll]
 	// Directional lights
 	for (int i = 0; i < DIR_LIGHTS; i++)
 	{
-		// TODO calculate shadows
 		float shadow = 1;
-
+		if (hasShadows[i])
+		{
+			float2 shadowCoords = postProjToScreen(input.shadowScreenPos[i]) /*+ bias*/;
+			float mapDepth = texDirDepth(i, shadowCoords);
+			float realDepth = input.shadowScreenPos[i].z / input.shadowScreenPos[i].w;
+			if (realDepth < 1 && realDepth - shadowBias > mapDepth) shadow = shadowMult;
+			//return float4(realDepth, mapDepth, mapDepth, 1);
+		}
+		
 		// Light direction
 		float3 lightDir = normalize(lightsDirs[i]);
 
@@ -290,11 +314,6 @@ float4 PS(VertexShaderOutput input) : COLOR0
 
 /// ========== SHADOWS GENERATING ========== ///
 
-//struct VertexShaderShadowsInput
-//{
-//	float4 Position : POSITION0;
-//};
-
 struct VertexShaderShadowsOutput
 {
 	float4 Position : POSITION0;
@@ -319,10 +338,17 @@ VertexShaderShadowsOutput VShadows(VertexShaderInput input)
 	return output;
 }
 
+// ---- Pointlight Shadows ---- //
 float4 PShadows(VertexShaderShadowsOutput input) : COLOR0
 {
-	//float depth = saturate(input.ScreenPos.z / shadowFarPlanes[0]);
 	float depth = saturate(length(shadowLightPos - input.WorldPos) / shadowFarPlane);
+	return float4(depth, 0, 0, 1);
+}
+
+// ---- Directional Shadows ---- //
+float4 PShadowsDir(VertexShaderShadowsOutput input) : COLOR0
+{
+	float depth = saturate(input.ScreenPos.z / input.ScreenPos.w);
 	return float4(depth, 0, 0, 1);
 }
 
@@ -346,5 +372,14 @@ technique Shadows
 		AlphaBlendEnable = FALSE;
 		VertexShader = compile vs_3_0 VShadows();
 		PixelShader = compile ps_3_0 PShadows();
+	}
+}
+technique ShadowsDir
+{
+	pass Pass1
+	{
+		AlphaBlendEnable = FALSE;
+		VertexShader = compile vs_3_0 VShadows();
+		PixelShader = compile ps_3_0 PShadowsDir();
 	}
 }

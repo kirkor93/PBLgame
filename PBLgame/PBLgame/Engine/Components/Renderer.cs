@@ -105,14 +105,14 @@ namespace PBLgame.Engine.Components
 
         public override void Draw(GameTime gameTime)
         {
-            DrawTechnique(gameTime, Technique.DEFAULT);
+            DrawTechnique(gameTime, Technique.Default);
         }
 
-        public void DrawTechnique(GameTime gameTime, Technique technique = Technique.DEFAULT)
+        public void DrawTechnique(GameTime gameTime, Technique technique = Technique.Default)
         {
             MyEffect.CurrentTechnique = MyEffect.Techniques[technique.GetString()];
             
-            if (technique == Technique.DEFAULT)
+            if (technique == Technique.Default)
             {
                 MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
                 MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
@@ -203,7 +203,9 @@ namespace PBLgame.Engine.Components
 
         public enum Technique
         {
-            DEFAULT = 0, SHADOWS
+            Default = 0, 
+            ShadowsPoint,
+            ShadowsDirectional
         }
     }
 }
