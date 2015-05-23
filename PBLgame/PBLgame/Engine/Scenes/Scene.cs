@@ -132,9 +132,7 @@ namespace PBLgame.Engine.Scenes
 
         public void Update(GameTime gameTime)
         {
-            //if(FindGameObject(1).collision != null) Console.WriteLine(FindGameObject(1).collision.BoxColliders[0]._edgesRealSize.ToString());
-
-            _physicsSystem.Update(GetAllObjectsWithCollider());
+            //_physicsSystem.Update(GetAllObjectsWithCollider());
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Update(gameTime);

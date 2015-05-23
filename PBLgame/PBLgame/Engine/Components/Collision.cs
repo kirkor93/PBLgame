@@ -7,6 +7,7 @@ using System.Xml;
 using Microsoft.Xna.Framework;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Physics;
 
 using PBLgame.Engine.Physics;
 
@@ -168,6 +169,7 @@ namespace PBLgame.Engine.Components
             _sphereColliders = new List<SphereCollider>();
             _boxColliders = new List<BoxCollider>();
             _onTerrain = false;
+            PhysicsSystem.AddCollisionObject(owner);
         }
 
         public Collision(Collision src, GameObject owner) : base(owner)

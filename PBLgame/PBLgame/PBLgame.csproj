@@ -79,11 +79,14 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\AI\AISystem.cs" />
+    <Compile Include="Engine\AI\DecisionTree.cs" />
     <Compile Include="Engine\Components\AnimatedMesh.cs" />
     <Compile Include="Engine\Components\Animator.cs" />
     <Compile Include="Engine\Components\AudioSource.cs" />
     <Compile Include="Engine\Components\Bone.cs" />
     <Compile Include="Engine\Components\Component.cs" />
+    <Compile Include="Engine\Components\AIComponent.cs" />
     <Compile Include="Engine\Components\MeshMaterial.cs" />
     <Compile Include="Engine\Components\ParticleSystem.cs" />
     <Compile Include="Engine\Components\Transform.cs" />
