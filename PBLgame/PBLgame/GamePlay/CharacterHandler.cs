@@ -25,11 +25,6 @@ namespace PBLgame.GamePlay
         /// </summary>
         public float RotationSpeed { get; set; }
 
-        /// <summary>
-        /// Angle added to the one calculated from velocity / look to achieve correct direction.
-        /// TODO REMOVE THIS ASAP
-        /// </summary>
-        protected float AngleCorrection = 0f;
         #endregion
 
         #region Methods
@@ -45,7 +40,7 @@ namespace PBLgame.GamePlay
         {
             float seconds = (float) gameTime.ElapsedGameTime.TotalSeconds;
             float currentAngle = _gameObject.transform.Rotation.Y;
-            float deltaAngle = _destAngle - _gameObject.transform.Rotation.Y;
+            float deltaAngle = _destAngle - currentAngle;
             if (Math.Abs(deltaAngle) > 0.01)
             {
                 if (currentAngle < 0.0f) currentAngle += 360.0f;
@@ -64,19 +59,21 @@ namespace PBLgame.GamePlay
 
             _gameObject.transform.Translate(movement.X, 0.0f, movement.Y);
 
-//            float v = trueVelocity.Length();
-//            if (Math.Abs(v) < 0.0001)
-//            {
-//                _gameObject.animator.Idle();
-//            }
-//            else
-//            {
-////                if (Math.Abs(currentAngle - Extensions.CalculateDegrees(trueVelocity)) > 90f)
-////                {
-////                    v = -v;
-////                }
-//                _gameObject.animator.Walk(v);
-//            }
+            float v = trueVelocity.Length();
+            if (Math.Abs(v) < 0.0001)
+            {
+                _gameObject.animator.Idle();
+            }
+            else
+            {
+                //float velocityAngle = Extensions.CalculateDegrees(UnitVelocity);
+                //if (Math.Abs(currentAngle - velocityAngle) > 90f)
+                //{
+                //    Console.WriteLine("current: {0}, velocity: {1}", currentAngle, velocityAngle);
+                //    v = -v;
+                //}
+                _gameObject.animator.Walk(v);
+            }
             
         }
 
@@ -92,8 +89,7 @@ namespace PBLgame.GamePlay
         public void SetLookVector(Vector2 direction)
         {
             float angle = Extensions.CalculateDegrees(direction);
-            angle += AngleCorrection;   // TODO solve better
-            if (angle < 0) angle += 360.0f;
+            while (angle < 0) angle += 360.0f;
             _destAngle = angle;
         }
 

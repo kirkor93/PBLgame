@@ -49,6 +49,12 @@
             this.redoCameraMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.renderingModeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.updateSceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zeroTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.forward01sToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateMaterialsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenuBar = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerVert = new System.Windows.Forms.SplitContainer();
@@ -73,8 +79,6 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.gizmoToolStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.gizmoSpaceToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.contentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generateMaterialsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerVert)).BeginInit();
             this.splitContainerVert.Panel1.SuspendLayout();
@@ -240,7 +244,9 @@
             this.undoCameraMenuItem,
             this.redoCameraMenuItem,
             this.toolStripMenuItem2,
-            this.renderingModeMenuItem});
+            this.renderingModeMenuItem,
+            this.toolStripMenuItem4,
+            this.updateSceneToolStripMenuItem});
             this.viewMenuBar.Name = "viewMenuBar";
             this.viewMenuBar.Size = new System.Drawing.Size(44, 20);
             this.viewMenuBar.Text = "&View";
@@ -276,6 +282,51 @@
             this.renderingModeMenuItem.Size = new System.Drawing.Size(224, 22);
             this.renderingModeMenuItem.Text = "&Rendering mode";
             this.renderingModeMenuItem.DropDownOpening += new System.EventHandler(this.RenderingModeMenuItem_DropDownOpening);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(221, 6);
+            // 
+            // updateSceneToolStripMenuItem
+            // 
+            this.updateSceneToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.zeroTimeToolStripMenuItem,
+            this.forward01sToolStripMenuItem});
+            this.updateSceneToolStripMenuItem.Name = "updateSceneToolStripMenuItem";
+            this.updateSceneToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.updateSceneToolStripMenuItem.Text = "Update scene";
+            // 
+            // zeroTimeToolStripMenuItem
+            // 
+            this.zeroTimeToolStripMenuItem.Name = "zeroTimeToolStripMenuItem";
+            this.zeroTimeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.zeroTimeToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.zeroTimeToolStripMenuItem.Text = "Zero time";
+            this.zeroTimeToolStripMenuItem.Click += new System.EventHandler(this.zeroTimeToolStripMenuItem_Click);
+            // 
+            // forward01sToolStripMenuItem
+            // 
+            this.forward01sToolStripMenuItem.Name = "forward01sToolStripMenuItem";
+            this.forward01sToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
+            this.forward01sToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.forward01sToolStripMenuItem.Text = "Forward 0.1s";
+            this.forward01sToolStripMenuItem.Click += new System.EventHandler(this.forward01sToolStripMenuItem_Click);
+            // 
+            // contentToolStripMenuItem
+            // 
+            this.contentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generateMaterialsMenuItem});
+            this.contentToolStripMenuItem.Name = "contentToolStripMenuItem";
+            this.contentToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
+            this.contentToolStripMenuItem.Text = "Content";
+            // 
+            // generateMaterialsMenuItem
+            // 
+            this.generateMaterialsMenuItem.Name = "generateMaterialsMenuItem";
+            this.generateMaterialsMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.generateMaterialsMenuItem.Text = "Generate materials";
+            this.generateMaterialsMenuItem.Click += new System.EventHandler(this.generateMaterialsMenuItem_Click);
             // 
             // helpMenuBar
             // 
@@ -537,21 +588,6 @@
             this.gizmoSpaceToolStripButton.ToolTipText = "Gizmo space";
             this.gizmoSpaceToolStripButton.Click += new System.EventHandler(this.gizmoSpaceToolStripButton_Click);
             // 
-            // contentToolStripMenuItem
-            // 
-            this.contentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.generateMaterialsMenuItem});
-            this.contentToolStripMenuItem.Name = "contentToolStripMenuItem";
-            this.contentToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
-            this.contentToolStripMenuItem.Text = "Content";
-            // 
-            // generateMaterialsMenuItem
-            // 
-            this.generateMaterialsMenuItem.Name = "generateMaterialsMenuItem";
-            this.generateMaterialsMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.generateMaterialsMenuItem.Text = "Generate materials";
-            this.generateMaterialsMenuItem.Click += new System.EventHandler(this.generateMaterialsMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -640,6 +676,10 @@
         private System.Windows.Forms.ToolStripMenuItem reloadMenuItem;
         private System.Windows.Forms.ToolStripMenuItem contentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateMaterialsMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem updateSceneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zeroTimeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem forward01sToolStripMenuItem;
     }
 }
 

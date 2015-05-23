@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -8,6 +9,7 @@ using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using Microsoft.Xna.Framework.Content.Pipeline.Processors;
 using AnimationAux;
+using Microsoft.Xna.Framework.Design;
 
 namespace AnimationPipeline
 {
@@ -19,6 +21,51 @@ namespace AnimationPipeline
     [ContentProcessor(DisplayName = "Animation Processor")]
     public class AnimationProcessor : ModelProcessor
     {
+        //[Description("Rotates 3D models including rotating their animations.")]
+        //[DefaultValue(0.0f)]
+        //public float DegreesX { get; set; }
+
+        //[Description("Rotates 3D models including rotating their animations.")]
+        //[DefaultValue(0.0f)]
+        //public float DegreesY { get; set; }
+
+        //[Description("Rotates 3D models including rotating their animations.")]
+        //[DefaultValue(0.0f)]
+        //public float DegreesZ { get; set; }
+
+        //[Browsable(false)]
+        //public override float RotationX
+        //{
+        //    get { return base.RotationX; }
+        //    set
+        //    {
+        //        DegreesX = value;
+        //        base.RotationX = 0;
+        //    }
+        //}
+
+        //[Browsable(false)]
+        //public override float RotationY
+        //{
+        //    get { return base.RotationY; }
+        //    set
+        //    {
+        //        DegreesY = value;
+        //        base.RotationY = 0;
+        //    }
+        //}
+
+        //[Browsable(false)]
+        //public override float RotationZ
+        //{
+        //    get { return base.RotationZ; }
+        //    set
+        //    {
+        //        DegreesZ = value;
+        //        base.RotationZ = 0;
+        //    }
+        //}
+
         /// <summary>
         /// The model we are reading
         /// </summary>
@@ -36,6 +83,11 @@ namespace AnimationPipeline
         /// </summary>
         private Dictionary<MaterialContent, SkinnedMaterialContent> toSkinnedMaterial = new Dictionary<MaterialContent, SkinnedMaterialContent>();
 
+        public AnimationProcessor()
+        {
+            dummyBasicMaterial = new BasicMaterialContent();
+        }
+
         /// <summary>
         /// The function to process a model from original content into model content for export
         /// </summary>
@@ -44,6 +96,8 @@ namespace AnimationPipeline
         /// <returns></returns>
         public override ModelContent Process(NodeContent input, ContentProcessorContext context)
         {
+            //RotateAll(input, DegreesX, DegreesY, DegreesZ);
+
             // Process the skeleton for skinned character animation
             BoneContent skeleton = ProcessSkeleton(input);
 
@@ -57,6 +111,16 @@ namespace AnimationPipeline
             model.Tag = modelExtra;
 
             return model;
+        }
+
+        public static void RotateAll(NodeContent node, float degX, float degY, float degZ)
+        {
+            Matrix rotate = Matrix.Identity *
+                Matrix.CreateRotationX(MathHelper.ToRadians(degX)) *
+                Matrix.CreateRotationY(MathHelper.ToRadians(degY)) *
+                Matrix.CreateRotationZ(MathHelper.ToRadians(degZ));
+            // http://msdn.microsoft.com/en-us/library/microsoft.xna.framework.content.pipeline.graphics.meshhelper.transformscene.aspx
+            MeshHelper.TransformScene(node, rotate);
         }
 
         #region Skeleton Support
@@ -260,6 +324,13 @@ namespace AnimationPipeline
 
                     if (swap)
                     {
+                        // set dummy material if not found in fbx
+                        if (geometry.Material == null)
+                        {
+                            //System.Diagnostics.Debugger.Launch();
+                            geometry.Material = dummyBasicMaterial;
+                        }
+
                         if (toSkinnedMaterial.ContainsKey(geometry.Material))
                         {
                             // We have already swapped it
@@ -311,6 +382,8 @@ namespace AnimationPipeline
         /// A dictionary so we can keep track of the clips by name
         /// </summary>
         private Dictionary<string, AnimationClip> clips = new Dictionary<string, AnimationClip>();
+
+        private BasicMaterialContent dummyBasicMaterial;
 
         /// <summary>
         /// Entry point for animation processing. 

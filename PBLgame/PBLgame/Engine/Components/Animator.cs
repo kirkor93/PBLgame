@@ -56,6 +56,7 @@ namespace PBLgame.Engine.Components
                 foreach (BoneInfo bone in BoneInfos)
                 {
                     bone.AssignToBone();
+                    //break;
                 }
             }
 
@@ -229,7 +230,14 @@ namespace PBLgame.Engine.Components
             if (_currentType != AnimationType.Idle)
             {
                 _currentType = AnimationType.Idle;
-                PlayAnimation(AnimMesh.Skeleton.Idle, true, 1.0f);
+                AnimationClip idleClip = AnimMesh.Skeleton.Idle;
+                if (idleClip != null) PlayAnimation(idleClip, true, 1.0f);
+                else
+                {
+                    // TODO this is a temporary workaround
+                    // fade to beginning
+                    PlayAnimation(Clip, false, 0);
+                }
             }
         }
 
@@ -254,7 +262,7 @@ namespace PBLgame.Engine.Components
         {
             if (_currentAnimation == null)
             {
-                PlayAnimation(AnimMesh.Skeleton.Idle);
+                PlayAnimation(AnimMesh.Skeleton.Idle ?? AnimMesh.Skeleton.Walk ?? AnimMesh.Clips[0]);
             }
         }
 
@@ -292,7 +300,7 @@ namespace PBLgame.Engine.Components
         {
             float newPosition = animation.Position + (float) gameTime.ElapsedGameTime.TotalSeconds * animation.Clip.Speed * animation.Speed;
 
-            if (animation.Looping)
+            if (animation.Looping && animation.Duration > 0.0)
             {
                 while (newPosition >= animation.Duration)
                 {
@@ -511,8 +519,8 @@ namespace PBLgame.Engine.Components
         public int Id;
         public List<AnimationClip> Clips { get; private set; }
 
-        public AnimationClip Idle { get { return Clips.FirstOrDefault(c => c.Type == "Idle") ?? Clips[0]; } }
-        public AnimationClip Walk { get { return Clips.First(c => c.Type == "Walk"); } }
+        public AnimationClip Idle { get { return Clips.FirstOrDefault(c => c.Type == "Idle"); } }
+        public AnimationClip Walk { get { return Clips.FirstOrDefault(c => c.Type == "Walk"); } }
 
 
         public Skeleton(int id)

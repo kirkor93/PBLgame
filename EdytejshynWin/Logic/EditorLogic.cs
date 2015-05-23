@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 using Edytejshyn.Model;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using PBLgame.Engine.Scenes;
@@ -25,6 +26,8 @@ namespace Edytejshyn.Logic
         private AudioEngine _audioEngine;
         private WaveBank _waveBank;
         private SoundBank _soundBank;
+        private TimeSpan _totalGameTime = TimeSpan.Zero;
+        private TimeSpan _lastUpdateTime = TimeSpan.Zero;
 
         #endregion
 
@@ -49,6 +52,20 @@ namespace Edytejshyn.Logic
         public Scene CurrentScene { get; private set; }
         public SceneWrapper WrappedScene { get; private set; }
         public SelectionManager SelectionManager { get; set; }
+
+        public GameTime CurrentTime
+        {
+            get
+            {
+                TimeSpan sinceLastUpdate = _totalGameTime - _lastUpdateTime;
+                return new GameTime(_totalGameTime, sinceLastUpdate);
+            }
+        }
+
+        public void ForwardTime(double seconds)
+        {
+            _totalGameTime = _totalGameTime + TimeSpan.FromSeconds(seconds);
+        }
 
         #endregion
         
@@ -171,8 +188,14 @@ namespace Edytejshyn.Logic
             SaveScene(this.SceneFile);
         }
 
+        /// <summary>
+        /// Called after finishing updating all stuff, to reset delta timer.
+        /// </summary>
+        public void FinishedUpdate()
+        {
+            _lastUpdateTime = _totalGameTime;
+        }
 
         #endregion
-
     }
 }

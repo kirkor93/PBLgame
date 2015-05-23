@@ -177,12 +177,12 @@
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
       <Mesh Id="2" Path="Models\Gandalf" Skeleton="1" />
-      <Mesh Id="3" Path="Models\Champions\Ace" />
+      <Mesh Id="3" Path="Models\Champions\Ace" Skeleton="3" />
       <Mesh Id="4" Path="Models\Champions\Ace_sword_v1" />
       <Mesh Id="5" Path="Models\Enemies\Crossbow" />
       <Mesh Id="6" Path="Models\Enemies\Cute_Bomber" />
       <Mesh Id="7" Path="Models\Enemies\Katana" />
-      <Mesh Id="8" Path="Models\Enemies\Mecha_Ranger" />
+      <Mesh Id="8" Path="Models\Enemies\Mecha_Ranger" Skeleton="2" />
       <Mesh Id="9" Path="Models\Enemies\Smart_Droid" />
       <Mesh Id="10" Path="Models\Terrain\Start_base\Barrier_1" />
       <Mesh Id="11" Path="Models\Terrain\Start_base\Bollard" />
@@ -230,8 +230,12 @@
       <Animation Id="3" Path="Animations\Gandalf_strafe_left" Skeleton="1" />
       <Animation Id="4" Path="Animations\Gandalf_strafe_right" Skeleton="1" />
       <Animation Id="5" Path="Animations\Gandalf_turn_left" Skeleton="1" />
-      <Animation Id="6" Path="Animations\Gandalf_turn_right" Skeleton="1" Type="Right" />
+      <Animation Id="6" Path="Animations\Gandalf_turn_right" Skeleton="1" />
       <Animation Id="7" Path="Animations\Gandalf_walk" Skeleton="1" Type="Walk" Speed="0.0057" />
+      
+      <Animation Id="8" Path="Animations\Enemies\Mecha_Ranger_anim" Skeleton="2" Type="Idle" />
+      
+      <Animation Id="9" Path="Animations\Champions\Ace_run" Skeleton="3" Type="Walk" Speed="0.016" />
     </Animations>
   </Content>
 </XmlContent>

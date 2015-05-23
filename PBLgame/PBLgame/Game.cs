@@ -48,6 +48,8 @@ namespace PBLgame
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
             if (Instance == null)
             {
@@ -113,8 +115,8 @@ namespace PBLgame
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;
-            Animator gandalf = _scene.FindGameObject("Gandalf").animator;
-            gandalf.PlayAnimation(gandalf.AnimMesh.Skeleton.Clips[0]);
+            //Animator gandalf = _scene.FindGameObject("Gandalf").animator;
+            //gandalf.PlayAnimation(gandalf.AnimMesh.Skeleton.Clips[0]);
         }
 
         /// <summary>

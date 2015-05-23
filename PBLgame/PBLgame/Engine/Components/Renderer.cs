@@ -131,7 +131,8 @@ namespace PBLgame.Engine.Components
 
                     foreach (ModelMeshPart part in modelMesh.MeshParts)
                     {
-                        part.Effect = MyEffect;
+                        if (part.Effect.GetType() != typeof(BasicEffect))
+                            part.Effect = MyEffect;
                     }
                     modelMesh.Draw();
                 }

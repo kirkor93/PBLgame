@@ -67,6 +67,11 @@ namespace Edytejshyn.Model
             return wrapper;
         }
 
+        public void Update()
+        {
+            Scene.Update(Logic.CurrentTime);
+        }
+
         public void Draw(IDrawerStrategy strategy, GameTime gameTime)
         {
             if (strategy.IsRealistic)

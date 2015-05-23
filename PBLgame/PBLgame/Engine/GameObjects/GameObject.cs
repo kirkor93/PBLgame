@@ -260,7 +260,7 @@ namespace PBLgame.Engine.GameObjects
             }
             if (collision != null)
             {
-                collision.Draw(gameTime);
+                //collision.Draw(gameTime);
             }
             if (renderer != null)
             {
