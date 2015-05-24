@@ -126,6 +126,16 @@
       <Texture Path="Textures\Terrain\Desert\Tower_1_d" />
       <Texture Path="Textures\Terrain\Desert\Tower_1_n" />
       <Texture Path="Textures\Terrain\Desert\Tower_1_s" />
+      <Texture Path="Textures\GUI\Buttons_helpers" />
+      <Texture Path="Textures\GUI\Health_bar" />
+      <Texture Path="Textures\GUI\Health_bar_outline" />
+      <Texture Path="Textures\GUI\Mana_bar" />
+      <Texture Path="Textures\GUI\Mana_bar_outline" />
+      <Texture Path="Textures\GUI\Experience_bar" />
+      <Texture Path="Textures\GUI\Experience_bar_outline" />
+      <Texture Path="Textures\GUI\Bars_BG" />
+      <Texture Path="Textures\GUI\Enemy_health_bar" />
+      <Texture Path="Textures\GUI\Enemy_health_bar_outline" />
     </Textures>
     <Materials>
       <Material Id="1" Name="Helmet" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
