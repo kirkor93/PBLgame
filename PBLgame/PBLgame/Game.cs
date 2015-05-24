@@ -162,11 +162,13 @@ namespace PBLgame
 
             //For Teting----------------
             //---------------------
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             _scene.Draw(gameTime);
             base.Draw(gameTime);
-//            spriteBatch.Begin();
-//            HUD.Instance.Draw();
-//            spriteBatch.End();
+            spriteBatch.Begin();
+            HUD.Instance.Draw();
+            spriteBatch.End();
+
         }
     }
 }
