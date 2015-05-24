@@ -60,6 +60,7 @@ namespace PBLgame.Engine.GameObjects
         {
             CultureInfo culture = CultureInfo.InvariantCulture;
             writer.WriteAttributeString("Type", _type.ToString());
+            writer.WriteAttributeString("HasShadow", HasShadow.ToString());
             writer.WriteStartElement("Color");
             writer.WriteAttributeString("r", Convert.ToString(Color.X, culture));
             writer.WriteAttributeString("g", Convert.ToString(Color.Y, culture));
@@ -75,6 +76,7 @@ namespace PBLgame.Engine.GameObjects
 
         public override void ReadXml(XmlReader reader)
         {
+            CultureInfo culture = CultureInfo.InvariantCulture;
             reader.MoveToContent();
             string t = reader.GetAttribute("Type");
             switch (t)
@@ -86,11 +88,10 @@ namespace PBLgame.Engine.GameObjects
                     _type = LightType.Point;
                     break;
             }
-
+            HasShadow = Convert.ToBoolean(reader.GetAttribute("HasShadow") ?? "True");
             reader.ReadStartElement();
             if (reader.Name == "Color")
             {
-                CultureInfo culture = CultureInfo.InvariantCulture;
                 Vector4 c = Vector4.One;
                 c.X = Convert.ToSingle(reader.GetAttribute("r"), culture);
                 c.Y = Convert.ToSingle(reader.GetAttribute("g"), culture);
