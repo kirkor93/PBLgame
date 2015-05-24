@@ -1,9 +1,9 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <Scene>
   <GameObjects>
     <GameObject Name="Ace" Tag="Player" Id="8">
       <Transform Enabled="True">
-        <Position x="-70" y="2" z="-70" />
+        <Position x="-48.00433" y="0" z="-64.46857" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -4844,7 +4844,7 @@
     </GameObject>
   </GameObjects>
   <Lights>
-    <Light Type="Point">
+    <Light Type="Point" HasShadow="False">
       <Color r="1" g="0.5" b="1" a="1" />
       <GameObject Name="Ranger Light" Tag="Light" Id="608" Parent="607">
         <Transform Enabled="True">
@@ -4855,18 +4855,18 @@
       </GameObject>
       <PointLight Attenuation="40" FallOff="10" />
     </Light>
-    <Light Type="Point">
+    <Light Type="Point" HasShadow="True">
       <Color r="0.8" g="0.8" b="0.8" a="1" />
       <GameObject Name="Light 1" Tag="Light" Id="170" Parent="118">
         <Transform Enabled="True">
-          <Position x="20.4008" y="41.91799" z="-8.917472E-07" />
+          <Position x="21.40483" y="42.47619" z="-0.586937" />
           <Rotation x="0" y="0" z="0" />
           <Scale x="1" y="1" z="1" />
         </Transform>
       </GameObject>
-      <PointLight Attenuation="100" FallOff="50" />
+      <PointLight Attenuation="50" FallOff="50" />
     </Light>
-    <Light Type="Point">
+    <Light Type="Point" HasShadow="True">
       <Color r="0.8" g="0.8" b="0.8" a="1" />
       <GameObject Name="Light 1" Tag="Light" Id="609" Parent="119">
         <Transform Enabled="True">
@@ -4877,7 +4877,7 @@
       </GameObject>
       <PointLight Attenuation="100" FallOff="50" />
     </Light>
-    <Light Type="Point">
+    <Light Type="Point" HasShadow="True">
       <Color r="0.8" g="0.8" b="0.8" a="1" />
       <GameObject Name="Light 1" Tag="Light" Id="610" Parent="120">
         <Transform Enabled="True">
@@ -4887,6 +4887,17 @@
         </Transform>
       </GameObject>
       <PointLight Attenuation="100" FallOff="50" />
+    </Light>
+    <Light Type="Directional" HasShadow="True">
+      <Color r="0.9" g="1" b="1" a="1" />
+      <GameObject Name="Moonlight" Tag="Light" Id="611">
+        <Transform Enabled="True">
+          <Position x="-22.21666" y="49.06538" z="1" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <DirectionalLight Intensity="0.5" />
     </Light>
   </Lights>
 </Scene>

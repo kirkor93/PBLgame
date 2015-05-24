@@ -271,6 +271,15 @@ namespace Edytejshyn.Model
             set { FireSetter(x => ((Light)_gameObject).Color = x, ((Light)_gameObject).Color, value); }
         }
 
+        [Category("1.Light")]
+        public bool HasShadow
+        {
+            get { return ((Light)_gameObject).HasShadow; }
+            set { FireSetter(x => ((Light)_gameObject).HasShadow = x, ((Light)_gameObject).HasShadow, value); }
+        }
+
+
+
         protected LightWrapper(Light light, GameObjectWrapper parent) : base(light, parent) { }
 
         protected LightWrapper(LightWrapper source, GameObjectWrapper parent) : base(source, parent) { }
