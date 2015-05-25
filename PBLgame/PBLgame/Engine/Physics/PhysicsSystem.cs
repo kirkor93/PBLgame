@@ -35,30 +35,30 @@ namespace PBLgame.Engine.Physics
             CollisionObjects.Remove(obj);
         }
 
-        //public void Update(List<GameObject> gameObjects)
-        //{
-        //    if (gameObjects.Count == 0) return;
-        //    List<GameObject> rigidbodies = new List<GameObject>();
-        //    List<GameObject> toDelete = new List<GameObject>();
-        //    foreach(GameObject go in gameObjects)
-        //    {
-        //        if (go.collision.Rigidbody)
-        //        {
-        //            rigidbodies.Add(go);
-        //            toDelete.Add(go);
-        //        }
-        //    }
-        //    //foreach(GameObject go in toDelete)
-        //    //{
-        //    //    gameObjects.Remove(go);
-        //    //}
-        //    CollisionObjects = gameObjects;
-        //    if (rigidbodies.Count == 0) return;
-        //    foreach(GameObject rb in rigidbodies)
-        //    {
-        //        if(!rb.collision.OnTerrain)rb.transform.Translate(0.0f, -0.5f, 0.0f);
-        //    }
-        //}
+        public void Update(List<GameObject> gameObjects)
+        {
+            if (gameObjects.Count == 0) return;
+            List<GameObject> rigidbodies = new List<GameObject>();
+            //List<GameObject> toDelete = new List<GameObject>();
+            foreach(GameObject go in gameObjects)
+            {
+                if (go.collision.Rigidbody)
+                {
+                    rigidbodies.Add(go);
+                    //toDelete.Add(go);
+                }
+            }
+            //foreach(GameObject go in toDelete)
+            //{
+            //    gameObjects.Remove(go);
+            //}
+            //CollisionObjects = gameObjects;
+            if (rigidbodies.Count == 0) return;
+            foreach(GameObject rb in rigidbodies)
+            {
+                if(!rb.collision.OnTerrain)rb.transform.Translate(0.0f, -0.01f * rb.collision.Mass, 0.0f);
+            }
+        }
         #endregion
     }
 }

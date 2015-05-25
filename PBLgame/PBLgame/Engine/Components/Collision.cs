@@ -89,6 +89,7 @@ namespace PBLgame.Engine.Components
         private List<SphereCollider> _sphereColliders;
         private List<BoxCollider> _boxColliders;
         private bool _onTerrain;
+        private float _mass;
         #endregion
 
         #endregion
@@ -108,6 +109,17 @@ namespace PBLgame.Engine.Components
             set
             {
                 _static = value;
+            }
+        }
+        public float Mass
+        {
+            get
+            {
+                return _mass;
+            }
+            set
+            {
+                _mass = value;
             }
         }
         public bool Rigidbody
@@ -156,6 +168,7 @@ namespace PBLgame.Engine.Components
             OnCollision = src.OnCollision;
             OnTrigger = src.OnTrigger;
 
+            _mass = src._mass;
             _static = src._static;
             _rigidbody = src._rigidbody;
             _mainCollider = src._mainCollider;
@@ -169,6 +182,7 @@ namespace PBLgame.Engine.Components
             _sphereColliders = new List<SphereCollider>();
             _boxColliders = new List<BoxCollider>();
             _onTerrain = false;
+            _mass = 50.0f;
             PhysicsSystem.AddCollisionObject(owner);
         }
 
@@ -206,7 +220,6 @@ namespace PBLgame.Engine.Components
             MainCollider.Draw();
         }
         
-
         private int _cnt;
 
         public int ChceckCollisionDeeper(GameObject collisionGO)

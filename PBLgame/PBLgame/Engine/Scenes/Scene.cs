@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.Singleton;
 using PBLgame.Engine.Physics;
+using PBLgame.Engine.AI;
 
 namespace PBLgame.Engine.Scenes
 {
@@ -98,6 +99,7 @@ namespace PBLgame.Engine.Scenes
             _takenIdNumbers = new List<int> { 0 };
             _physicsSystem = new PhysicsSystem();
             _graphics = GlobalInventory.Instance.GraphicsDevice;
+
 
             for (int i = 0; i < DIR_LIGHTS; i++)
             {
@@ -287,9 +289,7 @@ namespace PBLgame.Engine.Scenes
 
         public void Update(GameTime gameTime)
         {
-            //if(FindGameObject(1).collision != null) Console.WriteLine(FindGameObject(1).collision.BoxColliders[0]._edgesRealSize.ToString());
-
-
+            AISystem.ExecuteAI();
             _physicsSystem.Update(GetAllObjectsWithCollider());
             foreach (GameObject gameObject in GameObjects)
             {
@@ -493,6 +493,11 @@ namespace PBLgame.Engine.Scenes
             {
                 gameObject.Initialize();
             }
+
+
+            //Hard coded setting Ace as target xD
+            AISystem.SetPlayer(FindGameObject(8));
+
         }
 
         #region XML Serialization
