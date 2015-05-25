@@ -115,6 +115,8 @@ namespace PBLgame
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;
+
+            _scene.FindGameObject(607).AddComponent<EnemyMeleeScript>(new EnemyMeleeScript(_scene.FindGameObject(607)));
             //Animator gandalf = _scene.FindGameObject("Gandalf").animator;
             //gandalf.PlayAnimation(gandalf.AnimMesh.Skeleton.Clips[0]);
         }

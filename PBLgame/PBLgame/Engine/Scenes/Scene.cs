@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.Singleton;
 using PBLgame.Engine.Physics;
+using PBLgame.Engine.AI;
 
 namespace PBLgame.Engine.Scenes
 {
@@ -133,6 +134,7 @@ namespace PBLgame.Engine.Scenes
         public void Update(GameTime gameTime)
         {
             //_physicsSystem.Update(GetAllObjectsWithCollider());
+            AISystem.ExecuteAI();
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Update(gameTime);
@@ -348,6 +350,9 @@ namespace PBLgame.Engine.Scenes
             {
                 gameObject.Initialize();
             }
+
+            //Hard Coded finding Ace xDDD
+            AISystem.Player = FindGameObject(8);
         }
 
         #region XML Serialization

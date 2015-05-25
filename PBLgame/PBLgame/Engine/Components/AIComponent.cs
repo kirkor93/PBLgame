@@ -21,12 +21,13 @@ namespace PBLgame.Engine.Components
         public AIComponent(GameObject owner) : base(owner)
         {
             _myDTree = new DecisionTree();
+            AISystem.AddAIObject(gameObject);
         }
 
-        public AIComponent(GameObject owner, DTNode start)
-            : base(owner)
+        public AIComponent(GameObject owner, DTNode start): base(owner)
         {
             _myDTree = new DecisionTree(start);
+            AISystem.AddAIObject(gameObject);
         }
     }
 }

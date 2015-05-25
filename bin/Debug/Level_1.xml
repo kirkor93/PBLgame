@@ -4840,7 +4840,7 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="8" MaterialId="5" />
-      <Animator Enabled="True" />
+      <Animator Enabled="True" />      
     </GameObject>
   </GameObjects>
   <Lights>

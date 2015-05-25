@@ -6,7 +6,7 @@ using System.Text;
 namespace PBLgame.Engine.AI
 {
     public delegate void ActionDelegate();
-    public delegate void DecisionDelegate();
+    public delegate bool DecisionDelegate();
 
     public class DecisionTree
     {
@@ -48,10 +48,6 @@ namespace PBLgame.Engine.AI
     {
         public event ActionDelegate ActionEvent;
 
-        public ActionNode()
-        {
-        }
-
         public override void ExecuteNode()
         {
             if (ActionEvent != null) ActionEvent();
@@ -62,41 +58,44 @@ namespace PBLgame.Engine.AI
     {
         public event DecisionDelegate DecisionEvent;
 
-        private DTNode _leftChild;
-        private DTNode _rightChild;
+        private DTNode _trueChild;
+        private DTNode _falseChild;
 
-        public DTNode LeftChild
+        public DTNode TrueChild
         {
-            get { return _leftChild; }
-            set { _leftChild = value; }
+            get { return _trueChild; }
+            set { _trueChild = value; }
         }
 
-        public DTNode RightChild
+        public DTNode FalseChild
         {
-            get { return _rightChild; }
-            set { _rightChild = value; }
+            get { return _falseChild; }
+            set { _falseChild = value; }
         }
 
         public DecisionNode()
         {
-            LeftChild = null;
-            RightChild = null;
+            TrueChild = null;
+            FalseChild = null;
         }
 
-        public DecisionNode(DecisionNode l, DecisionNode r)
+        public DecisionNode(DecisionNode truee, DecisionNode falsee)
         {
-            LeftChild = l;
-            RightChild = r;
+            TrueChild = truee;
+            FalseChild = falsee;
         }
 
         public override void ExecuteNode()
         {
-            if (LeftChild == null && RightChild == null)
+            if (TrueChild == null && FalseChild == null)
             {
                 Console.WriteLine("Decision Node Bug");
                 return;
             }
-            if (DecisionEvent != null) DecisionEvent();
+            bool flag = false;
+            if (DecisionEvent != null) flag = DecisionEvent();
+            if (flag) TrueChild.ExecuteNode();
+            else FalseChild.ExecuteNode();
         }
     }
 }

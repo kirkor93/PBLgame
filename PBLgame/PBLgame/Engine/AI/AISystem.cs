@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections.Generic;
 
 using PBLgame.Engine.AI;
 using PBLgame.Engine.GameObjects;
@@ -12,7 +11,9 @@ namespace PBLgame.Engine.AI
 {
     public class AISystem
     {
-        private static List<GameObject> _aiObjects;
+        private static List<GameObject> _aiObjects = new List<GameObject>();
+
+        public static GameObject Player;
 
         public static void AddAIObject(GameObject obj)
         {
@@ -24,13 +25,22 @@ namespace PBLgame.Engine.AI
             _aiObjects.Remove(obj);
         }
 
-        public void ExecuteAI()
+        public static void SetPlayer(GameObject play)
         {
-            foreach(GameObject go in _aiObjects)
+            Player = play;
+        }
+
+        public static void ExecuteAI()
+        {
+            if(_aiObjects.Count > 0)
             {
-                AIComponent comp = go.GetComponent<AIComponent>();
-                if (comp != null) comp.MyDTree.ExecuteTree();
+                foreach (GameObject go in _aiObjects)
+                {
+                    AIComponent comp = go.GetComponent<AIComponent>();
+                    if (comp != null) comp.MyDTree.ExecuteTree();
+                }
             }
+
         }
     }
 }
