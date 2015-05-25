@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<HUD>
+  <ReferenceWindowSize x="1920" y="1080" />
+  <GUIObjects>
+    <PBLgame.Engine.GUI.GUIObject Id="0" Name="Buttons_Layout" Texture="Textures\GUI\Buttons_helpers">
+      <Position x="1675" y="745" />
+      <Scale x="1" y="1" />
+    </PBLgame.Engine.GUI.GUIObject>
+    <PBLgame.Engine.GUI.GUIObject Id="1" Name="Bars_BG" Texture="Textures\GUI\Bars_BG">
+      <Position x="50" y="70" />
+      <Scale x="1" y="1" />
+    </PBLgame.Engine.GUI.GUIObject>
+    <PBLgame.Engine.GUI.Bar Id="2" Name="Health_bar" Texture="Textures\GUI\Health_bar">
+      <Position x="60" y="109" />
+      <Scale x="1" y="1" />
+    </PBLgame.Engine.GUI.Bar>
+    <PBLgame.Engine.GUI.GUIObject Id="3" Name="Health_bar_outline" Texture="Textures\GUI\Health_bar_outline">
+      <Position x="60" y="109" />
+      <Scale x="1" y="1" />
+    </PBLgame.Engine.GUI.GUIObject>
+    <PBLgame.Engine.GUI.Bar Id="4" Name="Mana_bar" Texture="Textures\GUI\Mana_bar">
+      <Position x="60" y="131" />
+      <Scale x="1" y="1" />
+    </PBLgame.Engine.GUI.Bar>
+    <PBLgame.Engine.GUI.GUIObject Id="5" Name="Mana_bar_outline" Texture="Textures\GUI\Mana_bar_outline">
+      <Position x="60" y="131" />
+      <Scale x="1" y="1" />
+    </PBLgame.Engine.GUI.GUIObject>
+    <PBLgame.Engine.GUI.Bar Id="6" Name="Experience_bar" Texture="Textures\GUI\Experience_bar">
+      <Position x="60" y="152" />
+      <Scale x="1" y="1" />
+    </PBLgame.Engine.GUI.Bar>
+    <PBLgame.Engine.GUI.GUIObject Id="7" Name="Experience_bar_outline" Texture="Textures\GUI\Experience_bar_outline">
+      <Position x="60" y="152" />
+      <Scale x="1" y="1" />
+    </PBLgame.Engine.GUI.GUIObject>
+  </GUIObjects>
+</HUD>

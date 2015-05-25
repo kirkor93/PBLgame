@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using PBLgame.Engine;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.GUI;
 using PBLgame.Engine.Singleton;
 
 namespace PBLgame.GamePlay
@@ -21,6 +22,8 @@ namespace PBLgame.GamePlay
         /// </summary>
         private bool _syncAngles = true;
 
+        private Bar _healthBar;
+        private Bar _manaBar;
         #endregion
         #endregion
 
@@ -37,13 +40,22 @@ namespace PBLgame.GamePlay
             InputManager.Instance.OnButton += CharacterAction;
 
             SpeedMultiplier = 70f;
+            //getting controls from gui
+            _healthBar = HUD.Instance.GetGuiObject("Health_bar") as Bar;
+            _manaBar = HUD.Instance.GetGuiObject("Mana_bar") as Bar;
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            
+            base.Update(gameTime);
+            _healthBar.FillAmount = ConvertRange(Convert.ToSingle(Stats.Health.Value), 0.0f, Stats.Health.MaxValue, 0.0f, 1.0f);
+            _manaBar.FillAmount = ConvertRange(Convert.ToSingle(Stats.Energy.Value), 0.0f, Stats.Energy.MaxValue, 0.0f, 1.0f);
         }
 
+        private float ConvertRange(float value, float oldMin, float oldMax, float newMin, float newMax)
+        {
+            return ((value - oldMin) / (oldMax - oldMin)) * (newMax - newMin) + newMin;
+        }
         private void CharacterRotation(Object obj, MoveArgs args)
         {
             if (args.AxisValue.LengthSquared() < 0.01)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using PBLgame.Engine.Components;
 
 namespace PBLgame.Engine
 {
@@ -30,6 +31,16 @@ namespace PBLgame.Engine
             float angle = MathHelper.ToDegrees(CalculateAngle(vector.X, vector.Y));
             if (angle < 0f) angle += 360f;
             return angle;
+        }
+
+        public static string GetString(this Renderer.Technique technique)
+        {
+            switch (technique)
+            {
+                case Renderer.Technique.ShadowsPoint: return "Shadows";
+                case Renderer.Technique.ShadowsDirectional: return "ShadowsDir";
+                default: return "PhongBlinn";
+            }
         }
     }
 }

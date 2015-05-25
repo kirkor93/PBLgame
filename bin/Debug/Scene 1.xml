@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Scene>
   <GameObjects>
-    <GameObject Name="Helmet_root" Tag="Player" Id="1">
+    <GameObject Name="Ace" Tag="Player" Id="1">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
         <Rotation x="2" y="0" z="0" />
@@ -102,7 +102,7 @@
     </Light>
     <Light Type="Point">
       <Color r="1" g="0" b="0" a="1" />
-      <GameObject Name="Light Red" Tag="Light" Id="9">
+      <GameObject Name="Light 1" Tag="Light" Id="9">
         <Transform Enabled="True">
           <Position x="0" y="0" z="0" />
           <Rotation x="0" y="0" z="0" />

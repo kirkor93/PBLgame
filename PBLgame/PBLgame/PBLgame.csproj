@@ -100,6 +100,10 @@
     <Compile Include="Engine\GameObjects\Light.cs" />
     <Compile Include="Engine\GameObjects\PointLight.cs" />
     <Compile Include="Engine\GlobalInventory.cs" />
+    <Compile Include="Engine\GUI\Bar.cs" />
+    <Compile Include="Engine\GUI\Button.cs" />
+    <Compile Include="Engine\GUI\GUIObject.cs" />
+    <Compile Include="Engine\GUI\HUD.cs" />
     <Compile Include="Engine\Physics\BoxCollider.cs" />
     <Compile Include="Engine\Physics\PhysicsSystem.cs" />
     <Compile Include="Engine\Physics\SphereCollider.cs" />
