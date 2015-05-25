@@ -17,10 +17,7 @@ namespace PBLgame.GamePlay
 
         private int _hp = 100;
 
-        private bool _chase;
-        private bool _attack;
-        private bool _escape;
-        private bool stay;
+        private MeleeAction _currentAction;
 
         private DecisionNode _distanceNode = new DecisionNode();
         private DecisionNode _hpNode = new DecisionNode();
@@ -57,7 +54,21 @@ namespace PBLgame.GamePlay
 
         public void Update()
         {
-
+            switch(_currentAction)
+            {
+                case MeleeAction.Attack:
+                    Console.WriteLine("Attack");
+                    break;
+                case MeleeAction.Chase:
+                    Console.WriteLine("Chase");
+                    break;
+                case MeleeAction.Escape:
+                    Console.WriteLine("Escape");
+                    break;
+                case MeleeAction.Stay:
+                    Console.WriteLine("Stay");
+                    break;
+            }
         }
 
         private bool EnemyClose()
@@ -80,60 +91,32 @@ namespace PBLgame.GamePlay
 
         private void AttackPlayer()
         {
-            Console.WriteLine("Attack");
+            _currentAction = MeleeAction.Attack;
         }
 
         private void GoToPlayer()
         {
-            Console.WriteLine("Chase");
+            _currentAction = MeleeAction.Chase;
         }
 
         private void StandStill()
         {
-            Console.WriteLine("Stand");
+            _currentAction = MeleeAction.Stay;
         }
 
         private void Escape()
         {
-            Console.WriteLine("Escape");
+            _currentAction = MeleeAction.Escape;
         }
 #endregion
 
-
-        //class IsEnemyNear : DecisionNode
-        //{
-
-        //}
-
-        //class IsMyHPHigh : DecisionNode
-        //{
-
-        //}
-
-        //class IsInAttackRange : DecisionNode
-        //{
-
-        //}
-
-        //class Attack : ActionNode
-        //{
-
-        //}
-
-        //class Chase : ActionNode
-        //{
-
-        //}
-
-        //class Stand : ActionNode
-        //{
-
-        //}
-
-        //class RunAway : ActionNode
-        //{
-
-        //}
+        enum MeleeAction
+        {
+            Chase = 0,
+            Attack,
+            Escape,
+            Stay
+        }
     }
 
 }
