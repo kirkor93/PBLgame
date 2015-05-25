@@ -17,7 +17,7 @@ namespace PBLgame.GamePlay
 
         private int _hp = 100;
 
-        private MeleeAction _currentAction;
+        private MeleeAction _currentAction = MeleeAction.Stay;
 
         private DecisionNode _distanceNode = new DecisionNode();
         private DecisionNode _hpNode = new DecisionNode();
@@ -52,8 +52,9 @@ namespace PBLgame.GamePlay
             AIComponent.MyDTree.DTreeStart = _distanceNode;
          }
 
-        public void Update()
+        public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
             switch(_currentAction)
             {
                 case MeleeAction.Attack:
