@@ -15,6 +15,7 @@ namespace PBLgame.Engine.GameObjects
         private float _near;
         private float _far;
         private float _foV;
+        private float _aspect;
         private Vector3 _direction;
         private const float _maxPitch = 1.5f;
 
@@ -22,6 +23,8 @@ namespace PBLgame.Engine.GameObjects
 
         //static reference to first camera created for other classes
         private static Camera _mainCamera = null;
+        
+
         #endregion
         #endregion
 
@@ -81,7 +84,27 @@ namespace PBLgame.Engine.GameObjects
                 _mainCamera = value;
             }
         }
-    
+
+        public float Near
+        {
+            get { return _near; }
+        }
+
+        public float Far
+        {
+            get { return _far; }
+        }
+
+        public float FoV
+        {
+            get { return _foV; }
+        }
+
+        public float Aspect
+        {
+            get { return _aspect; }
+        }
+
         #endregion
 
         #region Methods
@@ -94,11 +117,12 @@ namespace PBLgame.Engine.GameObjects
             _foV = FoV;
             _near = near;
             _far = far;
+            _aspect = screenWidth / screenHeight;
             _viewMatrix = Matrix.CreateLookAt(base.transform.Position, _direction + pos, up);
 
             _projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
                 _foV,
-                screenWidth / screenHeight,
+                _aspect,
                 _near, _far);
 
             //first camera created is main camera for game
@@ -118,9 +142,10 @@ namespace PBLgame.Engine.GameObjects
 
         public void SetAspect(float screenWidth, float screenHeight)
         {
+            _aspect = screenWidth / screenHeight;
             _projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
                 _foV,
-                screenWidth / screenHeight,
+                _aspect,
                 _near, _far
             );
         }

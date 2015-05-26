@@ -23,7 +23,8 @@ namespace PBLgame.Engine.Scenes
         private List<GameObject> _gameObjects;
         private List<int> _takenIdNumbers;
         private List<Light> _sceneLights;
-        private Camera _mainCamera;
+        private GameObject _mirror;
+        //private Camera _mainCamera;
 
         //!!!! NEW STUFF 
         private PhysicsSystem _physicsSystem;
@@ -58,16 +59,18 @@ namespace PBLgame.Engine.Scenes
         private const float DIR_SHADOW_FAR = 200f;      // far plane
         private const float DIR_SHADOW_SIZE = 200f;     // projection matrix dimension
 
+        private RenderTarget2D _reflectionTarget;
+
         #endregion
         #endregion
 
         #region Properties
 
-        public Camera MainCamera
-        {
-            get { return _mainCamera; }
-            set { _mainCamera = value; }
-        }
+        //public Camera MainCamera
+        //{
+        //    get { return _mainCamera; }
+        //    set { _mainCamera = value; }
+        //}
 
         public List<GameObject> GameObjects
         {
@@ -116,22 +119,110 @@ namespace PBLgame.Engine.Scenes
             {
                 _shadowPointDepthTargets[pt] = new RenderTargetCube(_graphics, _shadowMapSize, false, SurfaceFormat.Single, DepthFormat.Depth24);
             }
-            
+
+            _reflectionTarget = new RenderTarget2D(_graphics, _graphics.Viewport.Width, _graphics.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
         }
 
         public void Draw(GameTime gameTime)
         {
+            IEnumerable<Effect> effects = ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader"));
+            effects = effects as Effect[] ?? effects.ToArray();
+
             RasterizerState oldRasterizer = _graphics.RasterizerState;
             _graphics.RasterizerState = RasterizerState.CullNone;   // [possible slowdown] more realistic shadows
-
-            ParameterizeEffectsWithLightsAndShadows(gameTime, ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")));
+            
+            ParameterizeEffectsWithLightsAndShadows(gameTime, effects);
             
             _graphics.SetRenderTarget(null);
             _graphics.RasterizerState = oldRasterizer;
 
+            if (_mirror != null)
+            {
+                _graphics.SetRenderTarget(_reflectionTarget);
+                Camera cam = Camera.MainCamera;
+                // mirror normal is hard-coded as +Y
+                // TODO could be extracted from mesh :D
+                Vector3 mirrorNormal = Vector3.UnitY;
+                mirrorNormal = Vector3.TransformNormal(mirrorNormal, _mirror.transform.WorldRotation * _mirror.transform.AncestorsRotation);
+
+                Vector3 mirrorPosition = _mirror.transform.WorldPosition;
+                float d = -Vector3.Dot(mirrorNormal, mirrorPosition);
+                Plane reflectionPlane = new Plane(mirrorNormal, d);
+                // uncomment if needed:
+                reflectionPlane.Normalize();
+                Vector3 camPos = cam.transform.Position;
+                // if Normal ABC is normalized than dist = |Ax + By + Cz + D|
+                float camDistToPlane = Math.Abs(Vector3.Dot(reflectionPlane.Normal, camPos) + reflectionPlane.D);
+                Vector3 reflectedCamPos = camPos - (2 * camDistToPlane * reflectionPlane.Normal);
+                Vector3 reflectedCamDir = Vector3.Reflect(cam.Direction, reflectionPlane.Normal);
+                Vector3 reflectedCamUp  = Vector3.Reflect(Vector3.Up, reflectionPlane.Normal);
+                Matrix reflectedView = Matrix.CreateLookAt(reflectedCamPos, reflectedCamPos + reflectedCamDir, reflectedCamUp);
+                Matrix reflectedProjection = Matrix.CreatePerspectiveFieldOfView(cam.FoV, cam.Aspect, cam.Near + camDistToPlane, cam.Far);
+
+                foreach (Effect effect in effects)
+                {
+                    effect.Parameters["view"].SetValue(reflectedView);
+                    effect.Parameters["reflectedView"].SetValue(reflectedView);
+                    effect.Parameters["projection"].SetValue(reflectedProjection);
+                    effect.Parameters["cameraPosition"].SetValue(reflectedCamPos);
+                    effect.Parameters["clipPlane"].SetValue( new Vector4(reflectionPlane.Normal, reflectionPlane.D) );
+                }
+                DrawScene(gameTime, Renderer.Technique.CustomCamera);
+                
+                _graphics.SetRenderTarget(null);
+
+                foreach (Effect effect in effects)
+                {
+                    effect.Parameters["clipPlane"].SetValue(new Vector4(0));
+                }
+            }
+
+            DrawScene(gameTime);
+
+            if (_mirror != null)
+            {
+                foreach (Effect effect in effects)
+                {
+                    effect.Parameters["reflectionMap"].SetValue(_reflectionTarget);
+                    effect.Parameters["alphaValue"].SetValue(_mirror.renderer.AlphaValue);
+                }
+
+                //SetupEffectsCamera();
+                _mirror.DrawSpecial(gameTime, Renderer.Technique.Reflection);
+            }
+        }
+
+        /// <summary>
+        /// Draws whole scene with main camera and given or default technique.
+        /// </summary>
+        /// <param name="gameTime">current time, nothing really uses in draw</param>
+        /// <param name="technique">technique of shader</param>
+        private void DrawScene(GameTime gameTime, Renderer.Technique technique = Renderer.Technique.Default)
+        {
+            if (technique == Renderer.Technique.Default) 
+            {
+                SetupEffectsCamera();
+            }
+
             foreach (GameObject gameObject in GameObjects)
             {
-                gameObject.Draw(gameTime);
+                if (gameObject == _mirror) continue;
+                if (technique == Renderer.Technique.Default)
+                    gameObject.Draw(gameTime);
+                else
+                    gameObject.DrawSpecial(gameTime, technique);
+            }
+
+            _graphics.DepthStencilState = DepthStencilState.Default;
+        }
+
+        private void SetupEffectsCamera()
+        {
+            foreach (Effect effect in ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader")))
+            {
+                effect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
+                effect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
+                effect.Parameters["cameraPosition"].SetValue(Camera.MainCamera.transform.Position);
             }
         }
 
@@ -188,7 +279,7 @@ namespace PBLgame.Engine.Scenes
                             
                             foreach (Effect effect in effects)
                             {
-                                effect.Parameters["world"].SetValue(Matrix.CreateTranslation(lightImplicitPos));
+                                //effect.Parameters["world"].SetValue(Matrix.CreateTranslation(lightImplicitPos));
                                 effect.Parameters["shadowFarPlane"].SetValue(_shadowFarPlanes[dir]);
                                 effect.Parameters["view"].SetValue(_shadowViewMatrices[dir]);
                                 effect.Parameters["projection"].SetValue(_shadowProjMatrices[dir]);
@@ -494,6 +585,9 @@ namespace PBLgame.Engine.Scenes
                 gameObject.Initialize();
             }
 
+            // TODO better
+            _mirror = FindGameObject("Mirror");
+            //if (_mirror != null) GameObjects.Remove(_mirror);
 
             //Hard coded setting Ace as target xD
             AISystem.SetPlayer(FindGameObject(8));

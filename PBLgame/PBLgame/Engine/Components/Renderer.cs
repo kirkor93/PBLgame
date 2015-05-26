@@ -84,20 +84,6 @@ namespace PBLgame.Engine.Components
             EmissiveValue = source.EmissiveValue;
         }
 
-        //public void AssignMaterial(MeshMaterial material)
-        //{
-        //    Material = material;
-
-        //    foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
-        //    {
-        //        foreach (ModelMeshPart part in modelMesh.MeshParts)
-        //        {
-
-        //        }
-        //    }
-        //}
-
-
         public override void Update(GameTime gameTime)
         {
 
@@ -112,11 +98,8 @@ namespace PBLgame.Engine.Components
         {
             MyEffect.CurrentTechnique = MyEffect.Techniques[technique.GetString()];
             
-            if (technique == Technique.Default)
+            if (technique == Technique.Default || technique == Technique.CustomCamera)
             {
-                MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
-                MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
-                MyEffect.Parameters["cameraPosition"].SetValue(Camera.MainCamera.transform.Position);
                 MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
                 MyEffect.Parameters["normalIntensity"].SetValue(1);
                 MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
@@ -206,7 +189,9 @@ namespace PBLgame.Engine.Components
         {
             Default = 0, 
             ShadowsPoint,
-            ShadowsDirectional
+            ShadowsDirectional,
+            CustomCamera,
+            Reflection
         }
     }
 }

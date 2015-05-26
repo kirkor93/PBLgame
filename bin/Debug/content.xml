@@ -233,6 +233,7 @@
       <Mesh Id="46" Path="Models\Terrain\Desert\Tower_1" />
       <Mesh Id="47" Path="Models\Terrain\Desert\Mountain_2" />
       <Mesh Id="48" Path="Models\Terrain\Desert\Mountain_3" />
+      <Mesh Id="49" Path="Models\Terrain\Mirror" />
     </Meshes>
     <Animations>
       <Animation Id="1" Path="Animations\Gandalf_gangnam_style" Skeleton="1" />

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <Scene>
   <GameObjects>
     <GameObject Name="Ace" Tag="Player" Id="8">
@@ -4841,6 +4841,14 @@
       </Transform>
       <Renderer Enabled="True" MeshId="8" MaterialId="5" />
       <Animator Enabled="True" />      
+    </GameObject>
+    <GameObject Name="Mirror" Tag="Mirror" Id="612">
+      <Transform Enabled="True">
+        <Position x="-152.7177" y="0" z="-128.8986" />
+        <Rotation x="90" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="44" />
     </GameObject>
   </GameObjects>
   <Lights>
