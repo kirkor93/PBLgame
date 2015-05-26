@@ -129,12 +129,12 @@ namespace PBLgame.Engine.Scenes
             effects = effects as Effect[] ?? effects.ToArray();
 
             RasterizerState oldRasterizer = _graphics.RasterizerState;
-            _graphics.RasterizerState = RasterizerState.CullNone;   // [possible slowdown] more realistic shadows
+            //_graphics.RasterizerState = RasterizerState.CullNone;   // [possible slowdown] more realistic shadows
             
             ParameterizeEffectsWithLightsAndShadows(gameTime, effects);
             
             _graphics.SetRenderTarget(null);
-            _graphics.RasterizerState = oldRasterizer;
+            //_graphics.RasterizerState = oldRasterizer;
 
             if (_mirror != null)
             {

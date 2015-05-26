@@ -165,13 +165,12 @@ struct VertexShaderOutput
 {
 	float4 Position : POSITION0;
 	float2 TextureCoordinate : TEXCOORD0;
-	float4 WorldPos        : TEXCOORD1;
+	float3 WorldPos        : TEXCOORD1;
 	float3 worldedNormal   : TEXCOORD2;
 	float3 worldedTangent  : TEXCOORD3;
 	float3 worldedBinormal : TEXCOORD4;
 	float3 viewDirection   : TEXCOORD5;
-	//float4 ClipVector      : TEXCOORD6;
-	float4 shadowScreenPos[DIR_LIGHTS] : TEXCOORD7;
+	float4 shadowScreenPos[DIR_LIGHTS] : TEXCOORD6;
 };
 
 
@@ -202,15 +201,14 @@ VertexShaderOutput VS(VertexShaderInput input)
 	float4 worldPosition = mul(input.Position, world);
 	float4 viewPosition = mul(worldPosition, view);
 	output.Position = mul(viewPosition, projection);
-	output.WorldPos = worldPosition;
+	output.WorldPos = worldPosition.xyz;
 
 	output.worldedNormal   = normalize(mul(input.Normal,   world));
 	output.worldedTangent  = normalize(mul(input.Tangent,  world));
 	output.worldedBinormal = normalize(mul(input.Binormal, world));
 
 	output.TextureCoordinate = input.TextureCoordinate;
-	output.viewDirection = normalize(cameraPosition.xyz - worldPosition.xyz);
-	//output.ClipVector = float4(dot(input.Position, clipPlane), 0, 0, 0);
+	output.viewDirection = normalize(cameraPosition - worldPosition);
 
 	[unroll]
 	for (int i = 0; i < DIR_LIGHTS; i++)
@@ -247,7 +245,7 @@ float4 CalcSpecular(float3 lightDir, float3 normal, float3 v)
 
 float4 PS(VertexShaderOutput input) : COLOR0
 {
-	//clip(input.ClipVector);
+	clip( dot(float4(input.WorldPos, 1), clipPlane) );
 
 	//Normal calc
 	float3 normalMap = (tex2D(normalSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
@@ -333,7 +331,7 @@ struct VertexShaderShadowsOutput
 {
 	float4 Position : POSITION0;
 	float4 ScreenPos : TEXCOORD0;
-	float4 WorldPos  : TEXCOORD1;
+	float3 WorldPos  : TEXCOORD1;
 };
 
 VertexShaderShadowsOutput VShadows(VertexShaderInput input)
@@ -348,7 +346,7 @@ VertexShaderShadowsOutput VShadows(VertexShaderInput input)
 	float4 viewPosition = mul(worldPosition, view);
 	output.Position = mul(viewPosition, projection);
 	output.ScreenPos = output.Position;
-	output.WorldPos = worldPosition;
+	output.WorldPos = worldPosition.xyz;
 
 	return output;
 }
