@@ -40,9 +40,22 @@ namespace PBLgame.GamePlay
             InputManager.Instance.OnButton += CharacterAction;
 
             SpeedMultiplier = 70f;
-            //getting controls from gui
-            _healthBar = HUD.Instance.GetGuiObject("Health_bar") as Bar;
-            _manaBar = HUD.Instance.GetGuiObject("Mana_bar") as Bar;
+        }
+
+        public override void Initialize(bool editor)
+        {
+            base.Initialize(editor);
+            if (editor)
+            {
+                _healthBar = new Bar();
+                _manaBar = new Bar();
+            }
+            else
+            {
+                //getting controls from gui
+                _healthBar = HUD.Instance.GetGuiObject("Health_bar") as Bar;
+                _manaBar = HUD.Instance.GetGuiObject("Mana_bar") as Bar;
+            }
         }
 
         public override void Update(GameTime gameTime)

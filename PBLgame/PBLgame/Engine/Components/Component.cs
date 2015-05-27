@@ -68,7 +68,7 @@ namespace PBLgame.Engine.Components
             
         }
 
-        public virtual void Initialize()
+        public virtual void Initialize(bool editor)
         {
             
         }
