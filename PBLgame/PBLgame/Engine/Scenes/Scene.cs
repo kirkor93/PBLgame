@@ -96,7 +96,7 @@ namespace PBLgame.Engine.Scenes
 
         #region Methods
 
-        public Scene(bool editor = false)
+        public Scene(bool editor)
         {
             _editor = editor;
             _gameObjects = new List<GameObject>();
@@ -128,7 +128,7 @@ namespace PBLgame.Engine.Scenes
 
         public Scene() : this(false)
         {
-            
+            // ctor for stupid serializer which cannot into default parameters
         }
 
         public void Draw(GameTime gameTime)

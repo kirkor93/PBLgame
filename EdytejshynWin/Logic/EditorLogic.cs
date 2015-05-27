@@ -146,7 +146,7 @@ namespace Edytejshyn.Logic
             if (ContentFile == null) throw new EditorException("Cannot load scene without content. Open content first.");
             try
             {
-                CurrentScene = new Scene();
+                CurrentScene = new Scene(true);
                 CurrentScene.Load(path);
                 WrappedScene = new SceneWrapper(this, CurrentScene);
                 path = Path.GetFullPath(path);
