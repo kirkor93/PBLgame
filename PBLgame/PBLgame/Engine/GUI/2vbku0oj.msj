@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Globalization;
 using System.Reflection;
 using System.Xml;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.Singleton;
 
@@ -105,8 +103,8 @@ namespace PBLgame.Engine.GUI
             OnClickMethod = String.Empty;
         }
 
-        public Button(string name, Vector2 position, Vector2 scale, PivotPoint pivotPoint, Texture2D enabledTexture, Texture2D disabledTexture, Texture2D selectedTexture, Texture2D pressedTexture, object onClickActionScript, string onClickMethod)
-            : base(name, enabledTexture, position, scale, pivotPoint)
+        public Button(string name, Vector2 position, Vector2 scale, Texture2D enabledTexture, Texture2D disabledTexture, Texture2D selectedTexture, Texture2D pressedTexture, Component onClickActionScript, string onClickMethod)
+            : base(name, enabledTexture, position, scale)
         {
             EnabledTexture = enabledTexture;
             DisabledTexture = disabledTexture;
@@ -125,23 +123,20 @@ namespace PBLgame.Engine.GUI
             _method = Array.Find(info, i => (i.Name == OnClickMethod && i.IsPublic));
         }
 
-        #region OnClick event handlers
         public void OnClick()
         {
-            if (_method != null)
+            if (_method != null && OnClickActionScript != null)
             {
-                _method.Invoke(OnClickActionScript, new object[0]);
+                _method.Invoke(OnClickActionScript, null);
             }
         }
-
-
-        #endregion
 
         #region Xml Serialization
 
         public override void ReadXml(XmlReader reader)
         {
             base.ReadXml(reader);
+            reader.ReadStartElement();
 
             EnabledTexture = ResourceManager.Instance.GetTexture(reader.GetAttribute("EnabledTexture"));
             DisabledTexture = ResourceManager.Instance.GetTexture(reader.GetAttribute("DisabledTexture"));
@@ -157,18 +152,6 @@ namespace PBLgame.Engine.GUI
                 OnClickActionScript = ctor.Invoke(new object[0]);
             }
             OnClickMethod = reader.GetAttribute("OnClickMethod");
-
-            for (int i = 0; i < 4; i++)
-            {
-                int id = Convert.ToInt32(reader.GetAttribute("Neighbour_" + i.ToString("G", CultureInfo.InvariantCulture)));
-                if (id != -1)
-                {
-                    _neighbours[i] = new Button()
-                    {
-                        Id = id
-                    };
-                }
-            }
             reader.Read();
         }
 
@@ -199,18 +182,12 @@ namespace PBLgame.Engine.GUI
             }
             for (int i = 0; i < 4; i ++)
             {
-                int id = -1;
-                if (_neighbours[i] != null)
-                {
-                    id = _neighbours[i].Id;
-                }
-                writer.WriteAttributeString("Neighbour_" + i.ToString("G", CultureInfo.InvariantCulture), id.ToString("G", CultureInfo.InvariantCulture));
+                
             }
             writer.WriteEndElement();
         }
 
         #endregion
-
         #endregion
     }
 }

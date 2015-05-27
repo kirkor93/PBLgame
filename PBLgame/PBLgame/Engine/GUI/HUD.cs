@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Singleton;
 
 namespace PBLgame.Engine.GUI
@@ -23,6 +23,7 @@ namespace PBLgame.Engine.GUI
         private List<GUIObject> _guiObjects;
         private Vector2 _referenceWindowSize;
         private Vector2 _currentWindowSize;
+        private TalentWindowManager _talentWindowManager;
         #endregion
 
         #region Properties
@@ -77,6 +78,16 @@ namespace PBLgame.Engine.GUI
             return _guiObjects.Find(obj => obj.Name == name);
         }
 
+        public List<T> GetGuiObjects<T>() where T : GUIObject
+        {
+            IEnumerable<GUIObject> list =
+            from guiObject in _guiObjects
+            where guiObject.GetType() == typeof (T)
+            select guiObject;
+
+            return list.Cast<T>().ToList();
+        } 
+
         private void Rescale(Vector2 windowSize)
         {
             float scaleFactor1 = CurrentWindowSize.X / ReferenceWindowSize.X;
@@ -114,12 +125,38 @@ namespace PBLgame.Engine.GUI
                 _guiObjects = hud._guiObjects;
             }
 
+            //finding buttons' neighbours
+            List<Button> buttons = GetGuiObjects<Button>();
+            _talentWindowManager = new TalentWindowManager()
+            {
+                Enabled = true,
+                GuiButtons = buttons,
+                Background = GetGuiObject("Upgrade_screen_BG")
+            };
+            foreach (Button button in buttons)
+            {
+                if (button.DownNeighbour != null)
+                {
+                    button.DownNeighbour = GetGuiObject(button.DownNeighbour.Id) as Button;
+                }
+                if (button.UpNeighbour != null)
+                {
+                    button.UpNeighbour = GetGuiObject(button.UpNeighbour.Id) as Button;
+                }
+                if (button.LeftNeighbour != null)
+                {
+                    button.LeftNeighbour = GetGuiObject(button.LeftNeighbour.Id) as Button;
+                }
+                if (button.RightNeighbour != null)
+                {
+                    button.RightNeighbour = GetGuiObject(button.RightNeighbour.Id) as Button;
+                }
+            }
+
             if (ReferenceWindowSize == Vector2.Zero)
             {
                 throw new Exception("Reference window size for GUI can't be zero");
             }
-
-            
         }
 
         public void Save(string path = GuiSavePath)

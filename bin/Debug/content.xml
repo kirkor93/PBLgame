@@ -136,6 +136,31 @@
       <Texture Path="Textures\GUI\Bars_BG" />
       <Texture Path="Textures\GUI\Enemy_health_bar" />
       <Texture Path="Textures\GUI\Enemy_health_bar_outline" />
+      <Texture Path="Textures\GUI\Upgrade_strength_button_enabled" />
+      <Texture Path="Textures\GUI\Upgrade_strength_button_disabled" />
+      <Texture Path="Textures\GUI\Upgrade_strength_button_pressed" />
+      <Texture Path="Textures\GUI\Upgrade_strength_button_highlighted" />
+      <Texture Path="Textures\GUI\Upgrade_mana_button_enabled" />
+      <Texture Path="Textures\GUI\Upgrade_mana_button_disabled" />
+      <Texture Path="Textures\GUI\Upgrade_mana_button_pressed" />
+      <Texture Path="Textures\GUI\Upgrade_mana_button_highlighted" />
+      <Texture Path="Textures\GUI\Upgrade_shield_button_enabled" />
+      <Texture Path="Textures\GUI\Upgrade_shield_button_disabled" />
+      <Texture Path="Textures\GUI\Upgrade_shield_button_pressed" />
+      <Texture Path="Textures\GUI\Upgrade_shield_button_highlighted" />
+      <Texture Path="Textures\GUI\Upgrade_telekinetic_push_button_enabled" />
+      <Texture Path="Textures\GUI\Upgrade_telekinetic_push_button_disabled" />
+      <Texture Path="Textures\GUI\Upgrade_telekinetic_push_button_pressed" />
+      <Texture Path="Textures\GUI\Upgrade_telekinetic_push_button_highlighted" />
+      <Texture Path="Textures\GUI\Upgrade_fast_attack_button_enabled" />
+      <Texture Path="Textures\GUI\Upgrade_fast_attack_button_disabled" />
+      <Texture Path="Textures\GUI\Upgrade_fast_attack_button_pressed" />
+      <Texture Path="Textures\GUI\Upgrade_fast_attack_button_highlighted" />
+      <Texture Path="Textures\GUI\Upgrade_strong_attack_button_enabled" />
+      <Texture Path="Textures\GUI\Upgrade_strong_attack_button_disabled" />
+      <Texture Path="Textures\GUI\Upgrade_strong_attack_button_pressed" />
+      <Texture Path="Textures\GUI\Upgrade_strong_attack_button_highlighted" />
+      <Texture Path="Textures\GUI\Upgrade_screen_BG" />
     </Textures>
     <Materials>
       <Material Id="1" Name="Helmet" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />

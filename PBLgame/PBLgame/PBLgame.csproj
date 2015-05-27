@@ -102,6 +102,7 @@
     <Compile Include="Engine\GlobalInventory.cs" />
     <Compile Include="Engine\GUI\Bar.cs" />
     <Compile Include="Engine\GUI\Button.cs" />
+    <Compile Include="Engine\GUI\TalentWindowManager.cs" />
     <Compile Include="Engine\GUI\GUIObject.cs" />
     <Compile Include="Engine\GUI\HUD.cs" />
     <Compile Include="Engine\Physics\BoxCollider.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Engine\Singleton\InputManager.cs" />
     <Compile Include="Engine\Singleton\ResourceManager.cs" />
     <Compile Include="Engine\Singleton\Singleton.cs" />
+    <Compile Include="GamePlay\ButtonsActions.cs" />
     <Compile Include="GamePlay\CharacterHandler.cs" />
     <Compile Include="GamePlay\EnemyMeleeScript.cs" />
     <Compile Include="GamePlay\PlayerScript.cs" />

@@ -55,7 +55,7 @@ namespace PBLgame.Engine.Singleton
 
             #region Private
 
-            private static readonly Buttons[] ButtonsArray = { Buttons.A, Buttons.B, Buttons.X, Buttons.Y, Buttons.LeftShoulder, Buttons.RightShoulder, Buttons.LeftTrigger, Buttons.RightTrigger };
+            private static readonly Buttons[] ButtonsArray = { Buttons.A, Buttons.B, Buttons.X, Buttons.Y, Buttons.LeftShoulder, Buttons.RightShoulder, Buttons.LeftTrigger, Buttons.RightTrigger, Buttons.DPadDown, Buttons.DPadUp, Buttons.DPadLeft, Buttons.DPadRight };
             private bool[] _buttonsDown = new bool[ButtonsArray.Length];
             private GamePadState _gamePadState;
             private int _lastPacketNumber = 0;
