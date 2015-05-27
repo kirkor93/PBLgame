@@ -258,7 +258,7 @@ namespace PBLgame.Engine.Components
         }
 
 
-        public override void Initialize()
+        public override void Initialize(bool editor)
         {
             if (_currentAnimation == null)
             {

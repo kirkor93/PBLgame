@@ -264,11 +264,11 @@ namespace PBLgame.Engine.GameObjects
         /// <summary>
         /// Initialize components after loading before first usage.
         /// </summary>
-        public void Initialize()
+        public void Initialize(bool editor = false)
         {
             foreach (Component component in AllNotNullComponents)
             {
-                component.Initialize();
+                component.Initialize(editor);
             }
 
         }

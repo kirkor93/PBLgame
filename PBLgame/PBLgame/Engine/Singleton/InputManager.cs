@@ -85,7 +85,7 @@ namespace PBLgame.Engine.Singleton
 
             _gamePadState = GamePad.GetState(PlayerIndex.One, GamePadDeadZone.IndependentAxes);
             int packetNumber = _gamePadState.PacketNumber;
-
+            
             if (!_gamePadState.IsConnected || packetNumber == _lastPacketNumber) return;
 
             _lastPacketNumber = packetNumber;

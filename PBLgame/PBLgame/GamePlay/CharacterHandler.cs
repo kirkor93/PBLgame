@@ -77,7 +77,7 @@ namespace PBLgame.GamePlay
             
         }
 
-        public override void Initialize()
+        public override void Initialize(bool editor)
         {
 //            _gameObject.animator.Idle();
         }

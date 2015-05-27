@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -60,6 +61,7 @@ namespace PBLgame.Engine.Scenes
         private const float DIR_SHADOW_SIZE = 200f;     // projection matrix dimension
 
         private RenderTarget2D _reflectionTarget;
+        private bool _editor;
 
         #endregion
         #endregion
@@ -94,8 +96,9 @@ namespace PBLgame.Engine.Scenes
 
         #region Methods
 
-        public Scene()
+        public Scene(bool editor = false)
         {
+            _editor = editor;
             _gameObjects = new List<GameObject>();
             _sceneLights = new List<Light>();
             _serializer = new XmlSerializer(typeof(Scene));
@@ -121,6 +124,11 @@ namespace PBLgame.Engine.Scenes
             }
 
             _reflectionTarget = new RenderTarget2D(_graphics, _graphics.Viewport.Width, _graphics.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
+        }
+
+        public Scene() : this(false)
+        {
+            
         }
 
         public void Draw(GameTime gameTime)
@@ -151,7 +159,7 @@ namespace PBLgame.Engine.Scenes
                 // uncomment if needed:
                 reflectionPlane.Normalize();
                 Vector3 camPos = cam.transform.Position;
-                // if Normal ABC is normalized than dist = |Ax + By + Cz + D|
+                // if Normal ABC is normalized, then dist = |Ax + By + Cz + D|
                 float camDistToPlane = Math.Abs(Vector3.Dot(reflectionPlane.Normal, camPos) + reflectionPlane.D);
                 Vector3 reflectedCamPos = camPos - (2 * camDistToPlane * reflectionPlane.Normal);
                 Vector3 reflectedCamDir = Vector3.Reflect(cam.Direction, reflectionPlane.Normal);
@@ -582,7 +590,7 @@ namespace PBLgame.Engine.Scenes
 
             foreach (GameObject gameObject in GameObjects)
             {
-                gameObject.Initialize();
+                gameObject.Initialize(_editor);
             }
 
             // TODO better
