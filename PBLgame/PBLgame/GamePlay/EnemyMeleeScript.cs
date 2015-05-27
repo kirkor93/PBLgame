@@ -13,11 +13,16 @@ namespace PBLgame.GamePlay
 {
     public class EnemyMeleeScript : Component
     {
+        #region Variables
+        #region Enemy Vars
         public AIComponent AIComponent;
 
         private int _hp = 100;
 
         private MeleeAction _currentAction = MeleeAction.Stay;
+
+        #endregion  
+        #region DTNodes
 
         private DecisionNode _distanceNode = new DecisionNode();
         private DecisionNode _hpNode = new DecisionNode();
@@ -26,7 +31,10 @@ namespace PBLgame.GamePlay
         private ActionNode _chaseNode = new ActionNode();
         private ActionNode _standNode = new ActionNode();
         private ActionNode _escapeNode = new ActionNode();
-#region Methods
+
+        #endregion
+        #endregion
+        #region Methods
         public EnemyMeleeScript(GameObject owner) : base(owner)
         {
             _distanceNode.DecisionEvent += EnemyClose;
@@ -55,21 +63,21 @@ namespace PBLgame.GamePlay
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            switch(_currentAction)
-            {
-                case MeleeAction.Attack:
-                    Console.WriteLine("Attack");
-                    break;
-                case MeleeAction.Chase:
-                    Console.WriteLine("Chase");
-                    break;
-                case MeleeAction.Escape:
-                    Console.WriteLine("Escape");
-                    break;
-                case MeleeAction.Stay:
-                    Console.WriteLine("Stay");
-                    break;
-            }
+            //switch(_currentAction)
+            //{
+            //    case MeleeAction.Attack:
+            //        Console.WriteLine("Attack");
+            //        break;
+            //    case MeleeAction.Chase:
+            //        Console.WriteLine("Chase");
+            //        break;
+            //    case MeleeAction.Escape:
+            //        Console.WriteLine("Escape");
+            //        break;
+            //    case MeleeAction.Stay:
+            //        Console.WriteLine("Stay");
+            //        break;
+            //}
         }
 
         private bool EnemyClose()

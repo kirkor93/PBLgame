@@ -381,7 +381,7 @@ namespace PBLgame.Engine.Scenes
         public void Update(GameTime gameTime)
         {
             AISystem.ExecuteAI();
-            _physicsSystem.Update(GetAllObjectsWithCollider());
+            _physicsSystem.Update(gameTime);
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Update(gameTime);

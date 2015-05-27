@@ -15,14 +15,22 @@ namespace PBLgame.Engine.Physics
         public static List<GameObject> CollisionObjects = new List<GameObject>();
 
         #region Methods
-        public void Update(float gameTime)
+        public void Update(GameTime gameTime)
         {
-
-        }
-
-        public void Update(float gameTime, List<GameObject> gameObjects)
-        {
-
+            if (CollisionObjects.Count == 0) return;
+            List<GameObject> rigidbodies = new List<GameObject>();
+            foreach (GameObject go in CollisionObjects)
+            {
+                if (go.collision.Rigidbody)
+                {
+                    rigidbodies.Add(go);
+                }
+            }
+            if (rigidbodies.Count == 0) return;
+            foreach (GameObject rb in rigidbodies)
+            {
+                if (!rb.collision.OnTerrain) rb.transform.Translate(0.0f, -0.01f * rb.collision.Mass, 0.0f);
+            }
         }
 
         public static void AddCollisionObject(GameObject obj)
@@ -33,31 +41,6 @@ namespace PBLgame.Engine.Physics
         public static void DeleteCollisionObject(GameObject obj)
         {
             CollisionObjects.Remove(obj);
-        }
-
-        public void Update(List<GameObject> gameObjects)
-        {
-            if (gameObjects.Count == 0) return;
-            List<GameObject> rigidbodies = new List<GameObject>();
-            //List<GameObject> toDelete = new List<GameObject>();
-            foreach(GameObject go in gameObjects)
-            {
-                if (go.collision.Rigidbody)
-                {
-                    rigidbodies.Add(go);
-                    //toDelete.Add(go);
-                }
-            }
-            //foreach(GameObject go in toDelete)
-            //{
-            //    gameObjects.Remove(go);
-            //}
-            //CollisionObjects = gameObjects;
-            if (rigidbodies.Count == 0) return;
-            foreach(GameObject rb in rigidbodies)
-            {
-                if(!rb.collision.OnTerrain)rb.transform.Translate(0.0f, -0.01f * rb.collision.Mass, 0.0f);
-            }
         }
         #endregion
     }

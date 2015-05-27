@@ -9,8 +9,6 @@ using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Physics;
 
-using PBLgame.Engine.Physics;
-
 namespace PBLgame.Engine.Components
 {
 #region CollisionEventHelpers
@@ -75,23 +73,20 @@ namespace PBLgame.Engine.Components
         #region Public
         public event CollisionHandler OnCollision;
         public event TriggerHandler OnTrigger;
-        //public event CollisionHandler OnCollisionEnter;
-        //public event CollisionHandler OnCollisionStay;
-        //public event CollisionHandler OnCollisionExit;
-        //public event TriggerHandler OnTriggerEnter;
-        //public event TriggerHandler OnTriggerStay;
-        //public event TriggerHandler OnTriggerExit;
         #endregion
         #region Private
         private bool _static;
         private bool _rigidbody;
+        private bool _inContact;
         private SphereCollider _mainCollider;
         private List<SphereCollider> _sphereColliders;
         private List<BoxCollider> _boxColliders;
         private bool _onTerrain;
         private float _mass;
-        #endregion
 
+
+        private int _cnt;
+        #endregion
         #endregion
 
         #region Properties
@@ -160,6 +155,11 @@ namespace PBLgame.Engine.Components
             }
             private set { }
         }
+        public bool InContact
+        {
+            get { return _inContact; }
+            set { _inContact = value; }
+        }
         #endregion
 
         #region Methods
@@ -183,6 +183,7 @@ namespace PBLgame.Engine.Components
             _boxColliders = new List<BoxCollider>();
             _onTerrain = false;
             _mass = 50.0f;
+            _inContact = false;
             PhysicsSystem.AddCollisionObject(owner);
         }
 
@@ -193,6 +194,7 @@ namespace PBLgame.Engine.Components
 
         public override void Update(GameTime gameTime)
         {
+
             if(!Static)
             {
                 MainCollider.UpdatePosition();
@@ -205,6 +207,8 @@ namespace PBLgame.Engine.Components
                     bc.UpdatePosition();
                 }
             }
+
+            _inContact = false;
         }
 
         public override void Draw(GameTime gameTime)
@@ -219,9 +223,7 @@ namespace PBLgame.Engine.Components
             }
             MainCollider.Draw();
         }
-        
-        private int _cnt;
-
+       
         public int ChceckCollisionDeeper(GameObject collisionGO)
         {
             _cnt = 0;
@@ -253,6 +255,7 @@ namespace PBLgame.Engine.Components
                                 if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
                                 {
                                     CollisionDetected(myCol, enemyCol);
+                                    _inContact = true;
                                 }
                             }
                         }
@@ -266,6 +269,7 @@ namespace PBLgame.Engine.Components
                                 if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
                                 {
                                     CollisionDetected(myCol, enemyCol);
+                                    _inContact = true;
                                 }
                             }
                         }
@@ -277,6 +281,7 @@ namespace PBLgame.Engine.Components
                             if (myCol.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
                             {
                                 CollisionDetected(myCol, collisionGO.collision.MainCollider);
+                                _inContact = true;
                             }
                         }
                     }
@@ -292,6 +297,7 @@ namespace PBLgame.Engine.Components
                                 if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
                                 {
                                     CollisionDetected(myCol, enemyCol);
+                                    _inContact = true;
                                 }
                             }
                         }
@@ -305,6 +311,7 @@ namespace PBLgame.Engine.Components
                                 if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
                                 {
                                     CollisionDetected(myCol, enemyCol);
+                                    _inContact = true;
                                 }
                             }
                         }
@@ -316,6 +323,7 @@ namespace PBLgame.Engine.Components
                             if (myCol.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
                             {
                                 CollisionDetected(myCol, collisionGO.collision.MainCollider);
+                                _inContact = true;
                             }
                         }
                     }
@@ -329,6 +337,7 @@ namespace PBLgame.Engine.Components
                             if (MainCollider.Contains(enemyCol) != ContainmentType.Disjoint)
                             {
                                 CollisionDetected(MainCollider, enemyCol);
+                                _inContact = true;
                             }
                         }
                     }
@@ -339,6 +348,7 @@ namespace PBLgame.Engine.Components
                             if (MainCollider.Contains(enemyCol) != ContainmentType.Disjoint)
                             {
                                 CollisionDetected(MainCollider, enemyCol);
+                                _inContact = true;
                             }
                         }
                     }
@@ -347,6 +357,7 @@ namespace PBLgame.Engine.Components
                         if (MainCollider.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
                         {
                             CollisionDetected(MainCollider, collisionGO.collision.MainCollider);
+                            _inContact = true;
                         }
                     }
                 }

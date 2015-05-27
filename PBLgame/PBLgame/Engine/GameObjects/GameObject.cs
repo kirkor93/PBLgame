@@ -199,7 +199,6 @@ namespace PBLgame.Engine.GameObjects
 
         public virtual void Update(GameTime gameTime)
         {
-
             if (animator != null)
             {
                 animator.Update(gameTime);
@@ -216,19 +215,14 @@ namespace PBLgame.Engine.GameObjects
             {
                 collision.Update(gameTime);
             }
-
-            foreach (Component component in _components)
-            {
-                component.Update(gameTime);
-            }
             if (transform != null)
             {
                 transform.Update(gameTime);
             }
-            //if (transform != null)
-            //{
-            //    transform.Draw(gameTime);
-            //}
+            foreach (Component component in _components)
+            {
+                component.Update(gameTime);
+            }
             if (renderer != null)
             {
                 renderer.Update(gameTime);
@@ -249,7 +243,6 @@ namespace PBLgame.Engine.GameObjects
             {
                 audioSource.Draw(gameTime);
             }
-
             foreach (Component component in _components)
             {
                 component.Draw(gameTime);
@@ -260,7 +253,7 @@ namespace PBLgame.Engine.GameObjects
             }
             if (collision != null)
             {
-                //collision.Draw(gameTime);
+                collision.Draw(gameTime);
             }
             if (renderer != null)
             {
