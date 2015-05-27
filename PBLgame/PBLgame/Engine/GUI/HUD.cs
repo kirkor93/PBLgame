@@ -129,9 +129,9 @@ namespace PBLgame.Engine.GUI
             List<Button> buttons = GetGuiObjects<Button>();
             _talentWindowManager = new TalentWindowManager()
             {
-                Enabled = true,
                 GuiButtons = buttons,
-                Background = GetGuiObject("Upgrade_screen_BG")
+                Background = GetGuiObject("Upgrade_screen_BG"),
+                Enabled = false
             };
             foreach (Button button in buttons)
             {

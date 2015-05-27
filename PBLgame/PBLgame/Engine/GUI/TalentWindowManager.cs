@@ -12,8 +12,25 @@ namespace PBLgame.Engine.GUI
     {
         private Button _selectedButton;
         private List<Button> _guiButtons;
+        private bool _enabled;
 
-        public bool Enabled { get; set; }
+        public bool Enabled
+        {
+            get { return _enabled; }
+            set
+            {
+                _enabled = value;
+                if (Background != null)
+                {
+                    Background.Enabled = value;
+                }
+                foreach (Button button in _guiButtons)
+                {
+                    button.Enabled = value;
+                }
+            }
+            
+        }
 
         public GUIObject Background { get; set; }
 
@@ -73,11 +90,7 @@ namespace PBLgame.Engine.GUI
                         break;
                     case Buttons.B:
                         Enabled = false;
-                        Background.Enabled = false;
-                        foreach (Button button in _guiButtons)
-                        {
-                            button.Enabled = false;
-                        }
+
                         break;
                 }
             }
