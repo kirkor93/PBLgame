@@ -86,10 +86,16 @@ namespace PBLgame.Engine.Components
 
 
         private int _cnt;
+        private int _terrainCalls;
         #endregion
         #endregion
 
         #region Properties
+        public int TerrainCalls
+        {
+            get { return _terrainCalls; }
+            set { _terrainCalls = value; }
+        }
         public bool OnTerrain
         {
             get { return _onTerrain; }
@@ -194,11 +200,11 @@ namespace PBLgame.Engine.Components
 
         public override void Update(GameTime gameTime)
         {
-
-            if(!Static)
+            if(_terrainCalls == 0 ) _onTerrain = false;
+            if (!Static)
             {
                 MainCollider.UpdatePosition();
-                foreach(SphereCollider sc in SphereColliders)
+                foreach (SphereCollider sc in SphereColliders)
                 {
                     sc.UpdatePosition();
                 }
@@ -207,10 +213,9 @@ namespace PBLgame.Engine.Components
                     bc.UpdatePosition();
                 }
             }
-
             _inContact = false;
         }
-
+        
         public override void Draw(GameTime gameTime)
         {
             foreach(BoxCollider box in _boxColliders)
@@ -223,23 +228,40 @@ namespace PBLgame.Engine.Components
             }
             MainCollider.Draw();
         }
+
+        public void UpdatePositions()
+        {
+            if(!Static)
+            {
+                MainCollider.UpdatePosition();
+                foreach(SphereCollider sc in SphereColliders)
+                {
+                    sc.UpdatePosition();
+                }
+                foreach (BoxCollider bc in BoxColliders)
+                {
+                    bc.UpdatePosition();
+                }
+            }
+        }
+        
+        public void ResizeColliders()
+        {
+            foreach(BoxCollider box in _boxColliders)
+            {
+                box.ResizeCollider();
+            }
+            foreach(SphereCollider sphere in _sphereColliders)
+            {
+                sphere.ResizeCollider();
+            }
+
+            _mainCollider.ResizeCollider();
+        }
        
         public int ChceckCollisionDeeper(GameObject collisionGO)
         {
             _cnt = 0;
-            if(!Static)
-            {
-                MainCollider.UpdatePosition();
-                foreach (SphereCollider sphere in _sphereColliders)
-                {
-                    sphere.UpdatePosition();
-                }
-                foreach (BoxCollider box in _boxColliders)
-                {
-                    box.UpdatePosition();
-                }
-            }
-
             if (collisionGO.Tag != "Terrain")
             {
                 //Console.WriteLine("NoTerrain");
@@ -481,20 +503,6 @@ namespace PBLgame.Engine.Components
             return _cnt;
         }
 
-        public void ResizeColliders()
-        {
-            foreach(BoxCollider box in _boxColliders)
-            {
-                box.ResizeCollider();
-            }
-            foreach(SphereCollider sphere in _sphereColliders)
-            {
-                sphere.ResizeCollider();
-            }
-
-            _mainCollider.ResizeCollider();
-        }
-
         #region CollisionDetected
         private void CollisionDetected(SphereCollider myCol, SphereCollider enemyCol)
         {
@@ -590,8 +598,8 @@ namespace PBLgame.Engine.Components
         {
             if(myCol.Owner.Rigidbody)
             {
-                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
-                _onTerrain = true;
+                //myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
+                ++_terrainCalls;
             }
         }
 
@@ -599,8 +607,8 @@ namespace PBLgame.Engine.Components
         {
             if (myCol.Owner.Rigidbody)
             {
-                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
-                _onTerrain = true;
+                //myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
+                ++_terrainCalls;
             }
         }
 
@@ -608,16 +616,16 @@ namespace PBLgame.Engine.Components
         {
             if (myCol.Owner.Rigidbody)
             {
-                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
-                _onTerrain = true;
+                //myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
+                ++_terrainCalls;
             }
         }
         private void AffectCollision(BoxCollider myCol, BoxCollider enemyCol)
         {
             if (myCol.Owner.Rigidbody)
             {
-                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
-                _onTerrain = true;
+                //myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
+                ++_terrainCalls;
             }
         }
         #endregion

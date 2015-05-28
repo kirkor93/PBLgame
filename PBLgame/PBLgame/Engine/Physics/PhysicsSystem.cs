@@ -18,12 +18,13 @@ namespace PBLgame.Engine.Physics
         public void Update(GameTime gameTime)
         {
             if (CollisionObjects.Count == 0) return;
-            List<GameObject> rigidbodies = new List<GameObject>();
+            //List<GameObject> rigidbodies = new List<GameObject>();
             foreach (GameObject go in CollisionObjects)
             {
                 if (go.collision.Rigidbody)
                 {
-                    if (go.collision.OnTerrain) go.transform.Translate(0.0f, -0.01f * go.collision.Mass, 0.0f);
+                    //if (!go.collision.OnTerrain) go.transform.Translate(0.0f, -0.01f * go.collision.Mass, 0.0f);
+                    go.collision.TerrainCalls = 0;
                 }
             }
             //if (rigidbodies.Count == 0) return;

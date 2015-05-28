@@ -7,6 +7,7 @@ using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.GUI;
 using PBLgame.Engine.Singleton;
+using PBLgame.Engine.Physics;
 
 namespace PBLgame.GamePlay
 {
@@ -24,6 +25,9 @@ namespace PBLgame.GamePlay
 
         private Bar _healthBar;
         private Bar _manaBar;
+
+        //private GameObject _attackTriggerObject;
+
         #endregion
         #endregion
 
@@ -40,6 +44,20 @@ namespace PBLgame.GamePlay
             InputManager.Instance.OnButton += CharacterAction;
 
             SpeedMultiplier = 70f;
+
+            //_attackTriggerObject = new GameObject();
+            //_attackTriggerObject.transform.Position = new Vector3(15.0f, 10.0f, 0.0f) + gameObject.transform.Position;
+            //_attackTriggerObject.parent = this.gameObject;
+
+            //_attackTriggerObject.collision = new Collision(_attackTriggerObject);
+            //_attackTriggerObject.collision.MainCollider = new SphereCollider(_attackTriggerObject.collision, 5.0f, true);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            //_attackTriggerObject.Draw(gameTime);
+            //Console.WriteLine(gameObject.transform.Position.ToString());
+            //Console.WriteLine(_attackTriggerObject.collision.MainCollider.TotalPosition.ToString());
         }
 
         public override void Initialize(bool editor)

@@ -211,10 +211,6 @@ namespace PBLgame.Engine.GameObjects
             {
                 audioSource.Update(gameTime);
             }
-            if (collision != null)
-            {
-                collision.Update(gameTime);
-            }
             if (transform != null)
             {
                 transform.Update(gameTime);
@@ -222,6 +218,10 @@ namespace PBLgame.Engine.GameObjects
             foreach (Component component in _components)
             {
                 component.Update(gameTime);
+            }
+            if (collision != null)
+            {
+                collision.Update(gameTime);
             }
             if (renderer != null)
             {

@@ -204,7 +204,6 @@ namespace PBLgame.Engine.Physics
                 _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
             }
             _sphere.Center = _totalPosition;
-            return;
             //_sphere = new BoundingSphere(_totalPosition, _radius);
         }
 

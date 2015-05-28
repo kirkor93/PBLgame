@@ -40,6 +40,7 @@ namespace PBLgame.Engine.Components
                     Vector3 prevPos = _position;
                     _position = value;
                     int flag = 0;
+                    gameObject.collision.UpdatePositions();
                     foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
                     {
                         if (gameObject != go && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
@@ -54,9 +55,8 @@ namespace PBLgame.Engine.Components
                     else
                     {
                         _position = prevPos;
+                        gameObject.collision.UpdatePositions();
                     }
-
-
                 }
                 else
                 {
@@ -114,7 +114,6 @@ namespace PBLgame.Engine.Components
 
         public Matrix WorldRotation { get { return _worldRotation; } }
         public Matrix WorldTranslation { get { return _worldTranslation; } }
-
         public Vector3 WorldPosition
         {
             get
@@ -136,7 +135,6 @@ namespace PBLgame.Engine.Components
                 }
                 else
                 {
-                    return Matrix.Identity;
                     return gameObject.parent.transform._worldRotation * gameObject.parent.transform.AncestorsRotation;
                 }
             }
@@ -170,7 +168,6 @@ namespace PBLgame.Engine.Components
                 }
                 else
                 {
-                    return Matrix.Identity;
                     return gameObject.parent.transform._worldTranslation * gameObject.parent.transform.AncestorsTranslation;
                 }
             }
@@ -264,8 +261,11 @@ namespace PBLgame.Engine.Components
             if (gameObject.collision != null && gameObject.collision.Rigidbody)
             {
                 Vector3 prevPos = _position;
+                Matrix prevTrans = _worldTranslation;
                 _position += trans;
+                _worldTranslation *= Matrix.CreateTranslation(trans);
                 int flag = 0;
+                gameObject.collision.UpdatePositions();
                 foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
                 {
                     if (gameObject != go && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
@@ -273,13 +273,11 @@ namespace PBLgame.Engine.Components
                         flag = gameObject.collision.ChceckCollisionDeeper(go);
                     }
                 }
-                if (flag == 0)
-                {
-                    _worldTranslation *= Matrix.CreateTranslation(trans);
-                }
-                else
+                if (flag != 0)
                 {
                     _position = prevPos;
+                    _worldTranslation = prevTrans;
+                    gameObject.collision.UpdatePositions();
                 }
             }
             else
@@ -294,8 +292,12 @@ namespace PBLgame.Engine.Components
             if (gameObject.collision != null && gameObject.collision.Rigidbody)
             {
                 Vector3 prevPos = _position;
+                Matrix prevTrans = _worldTranslation;
                 _position += new Vector3(x, y, z);
+                _worldTranslation *= Matrix.CreateTranslation(new Vector3(x, y, z));
+
                 int flag = 0;
+                gameObject.collision.UpdatePositions();
                 foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
                 {
                     if (gameObject != go && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
@@ -303,13 +305,11 @@ namespace PBLgame.Engine.Components
                         flag = gameObject.collision.ChceckCollisionDeeper(go);
                     }
                 }
-                if (flag == 0)
-                {
-                    _worldTranslation *= Matrix.CreateTranslation(new Vector3(x, y, z));
-                }
-                else
+                if (flag != 0)
                 {
                     _position = prevPos;
+                    _worldTranslation = prevTrans;
+                    gameObject.collision.UpdatePositions();
                 }
             }
             else

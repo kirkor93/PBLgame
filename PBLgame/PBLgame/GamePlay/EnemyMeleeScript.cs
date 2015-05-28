@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using PBLgame.Engine.AI;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Physics;
 
 namespace PBLgame.GamePlay
 {
@@ -17,9 +18,11 @@ namespace PBLgame.GamePlay
         #region Enemy Vars
         public AIComponent AIComponent;
 
-        private int _hp = 100;
+        private int _hp;
 
         private MeleeAction _currentAction = MeleeAction.Stay;
+
+        private GameObject _attackTriggerObject;
 
         #endregion  
         #region DTNodes
@@ -37,6 +40,17 @@ namespace PBLgame.GamePlay
         #region Methods
         public EnemyMeleeScript(GameObject owner) : base(owner)
         {
+            _hp = 100;
+
+            _attackTriggerObject = new GameObject();
+            _attackTriggerObject.parent = this.gameObject;
+            _attackTriggerObject.transform.Position = new Vector3(10.0f, 10.0f, 0.0f);
+
+            _attackTriggerObject.collision = new Collision(_attackTriggerObject);
+            _attackTriggerObject.collision.MainCollider = new SphereCollider(_attackTriggerObject.collision,5.0f,true);
+
+
+            #region DecisionTree & AiComponentInitialize
             _distanceNode.DecisionEvent += EnemyClose;
             _hpNode.DecisionEvent += IsMyHP;
             _canAttackNode.DecisionEvent += CanAtack;
@@ -44,6 +58,7 @@ namespace PBLgame.GamePlay
             _chaseNode.ActionEvent += GoToPlayer;
             _standNode.ActionEvent += StandStill;
             _escapeNode.ActionEvent += Escape;
+
             AIComponent = new AIComponent(owner);
             _gameObject.AddComponent<AIComponent>(AIComponent);
 
@@ -58,27 +73,28 @@ namespace PBLgame.GamePlay
             _canAttackNode.FalseChild = _chaseNode;
 
             AIComponent.MyDTree.DTreeStart = _distanceNode;
+            #endregion  
          }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            switch (_currentAction)
-            {
-                case MeleeAction.Attack:
-                    Console.WriteLine("Attack");
-                    break;
-                case MeleeAction.Chase:
+            //switch (_currentAction)
+            //{
+            //    case MeleeAction.Attack:
+            //        Console.WriteLine("Attack");
+            //        break;
+            //    case MeleeAction.Chase:
 
-                    Console.WriteLine("Chase");
-                    break;
-                case MeleeAction.Escape:
-                    Console.WriteLine("Escape");
-                    break;
-                case MeleeAction.Stay:
-                    Console.WriteLine("Stay");
-                    break;
-            }
+            //        Console.WriteLine("Chase");
+            //        break;
+            //    case MeleeAction.Escape:
+            //        Console.WriteLine("Escape");
+            //        break;
+            //    case MeleeAction.Stay:
+            //        Console.WriteLine("Stay");
+            //        break;
+            //}
         }
 
         private bool EnemyClose()
