@@ -34,7 +34,6 @@
       <Name>Helmet</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +63,65 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Gandalf.fbx">
+      <Name>Gandalf</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\Gandalf_gangnam_style.fbx">
+      <Name>Gandalf_gangnam_style</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Animations\Gandalf_idle.fbx">
+      <Name>Gandalf_idle</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Animations\Gandalf_strafe_left.fbx">
+      <Name>Gandalf_strafe_left</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Animations\Gandalf_strafe_right.fbx">
+      <Name>Gandalf_strafe_right</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Animations\Gandalf_turn_left.fbx">
+      <Name>Gandalf_turn_left</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Animations\Gandalf_turn_right.fbx">
+      <Name>Gandalf_turn_right</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+    <Compile Include="Animations\Gandalf_walk.fbx">
+      <Name>Gandalf_walk</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\fire.png">
+      <Name>fire</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Effects\BasicShader.fx">
       <Name>BasicShader</Name>
       <Importer>EffectImporter</Importer>
@@ -78,30 +136,26 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Animations\" />
-    <Folder Include="Textures\Champions\" />
+    <ProjectReference Include="..\..\AnimationPipeline\AnimationPipeline.csproj">
+      <Project>{ff2fbe94-50b5-4e78-9592-b95f32a8881e}</Project>
+      <Name>AnimationPipeline</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Gandalf.fbx">
-      <Name>Gandalf</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\fire.png">
-      <Name>fire</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
+    <Compile Include="Effects\BasicShaderSkinned.fx">
+      <Name>BasicShaderSkinned</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Champions\Ace.FBX">
       <Name>Ace</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>AnimationProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+      <ProcessorParameters_NodeRotation>0, 180, 0</ProcessorParameters_NodeRotation>
+      <ProcessorParameters_RotationY>180</ProcessorParameters_RotationY>
     </Compile>
     <Compile Include="Models\Champions\Ace_sword_v1.FBX">
       <Name>Ace_sword_v1</Name>
@@ -226,7 +280,7 @@
     <Compile Include="Models\Enemies\Mecha_Ranger.FBX">
       <Name>Mecha_Ranger</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>AnimationProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
   </ItemGroup>
@@ -1029,6 +1083,228 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Textures\Champions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Effects\BasicShaderPhong.fx">
+      <Name>BasicShaderPhong</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\Enemies\Mecha_Ranger_anim.FBX">
+      <Name>Mecha_Ranger_anim</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\Champions\Ace_run.FBX">
+      <Name>Ace_run</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_NodeRotation>0, 180, 0</ProcessorParameters_NodeRotation>
+      <ProcessorParameters_RotationY>180</ProcessorParameters_RotationY>
+      <ProcessorParameters_DegreesY>180</ProcessorParameters_DegreesY>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\GUI\Bars_BG.png">
+      <Name>Bars_BG</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Buttons_helpers.png">
+      <Name>Buttons_helpers</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Enemy_health_bar.png">
+      <Name>Enemy_health_bar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Enemy_health_bar_outline.png">
+      <Name>Enemy_health_bar_outline</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Experience_bar.png">
+      <Name>Experience_bar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Experience_bar_outline.png">
+      <Name>Experience_bar_outline</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Health_bar.png">
+      <Name>Health_bar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Health_bar_outline.png">
+      <Name>Health_bar_outline</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Mana_bar.png">
+      <Name>Mana_bar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Mana_bar_outline.png">
+      <Name>Mana_bar_outline</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\GUI\Upgrade_screen_BG.png">
+      <Name>Upgrade_screen_BG</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_strength_button_disabled.png">
+      <Name>Upgrade_strength_button_disabled</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_strength_button_enabled.png">
+      <Name>Upgrade_strength_button_enabled</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_strength_button_highlighted.png">
+      <Name>Upgrade_strength_button_highlighted</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_strength_button_pressed.png">
+      <Name>Upgrade_strength_button_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\GUI\Upgrade_mana_button_disabled.png">
+      <Name>Upgrade_mana_button_disabled</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_mana_button_enabled.png">
+      <Name>Upgrade_mana_button_enabled</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_mana_button_highlighted.png">
+      <Name>Upgrade_mana_button_highlighted</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_mana_button_pressed.png">
+      <Name>Upgrade_mana_button_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Terrain\Mirror.FBX">
+      <Name>Mirror</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\GUI\Upgrade_shield_button_disabled.png">
+      <Name>Upgrade_shield_button_disabled</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_shield_button_enabled.png">
+      <Name>Upgrade_shield_button_enabled</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_shield_button_highlighted.png">
+      <Name>Upgrade_shield_button_highlighted</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_shield_button_pressed.png">
+      <Name>Upgrade_shield_button_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\GUI\Upgrade_telekinetic_push_button_disabled.png">
+      <Name>Upgrade_telekinetic_push_button_disabled</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_telekinetic_push_button_enabled.png">
+      <Name>Upgrade_telekinetic_push_button_enabled</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_telekinetic_push_button_highlighted.png">
+      <Name>Upgrade_telekinetic_push_button_highlighted</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_telekinetic_push_button_pressed.png">
+      <Name>Upgrade_telekinetic_push_button_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\GUI\Upgrade_fast_attack_button_disabled.png">
+      <Name>Upgrade_fast_attack_button_disabled</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_fast_attack_button_enabled.png">
+      <Name>Upgrade_fast_attack_button_enabled</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_fast_attack_button_highlighted.png">
+      <Name>Upgrade_fast_attack_button_highlighted</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_fast_attack_button_pressed.png">
+      <Name>Upgrade_fast_attack_button_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_strong_attack_button_disabled.png">
+      <Name>Upgrade_strong_attack_button_disabled</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_strong_attack_button_enabled.png">
+      <Name>Upgrade_strong_attack_button_enabled</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_strong_attack_button_highlighted.png">
+      <Name>Upgrade_strong_attack_button_highlighted</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\GUI\Upgrade_strong_attack_button_pressed.png">
+      <Name>Upgrade_strong_attack_button_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

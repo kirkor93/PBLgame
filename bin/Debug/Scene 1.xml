@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Scene>
   <GameObjects>
-    <GameObject Name="Helmet_root" Tag="Player" Id="1">
+    <GameObject Name="Ace" Tag="Player" Id="1">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
         <Rotation x="2" y="0" z="0" />
@@ -9,7 +9,6 @@
       </Transform>
       <Renderer Enabled="True" MeshId="1" MaterialId="1" />
       <AudioSource Enabled="True" Cue="Tanelorn" />
-      <PBLgame.GamePlay.PlayerScript Enabled="True" />
     </GameObject>
     <GameObject Name="Helmet_child" Tag="Player" Id="2" Parent="1">
       <Transform Enabled="True">
@@ -17,7 +16,7 @@
         <Rotation x="2" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="1" MaterialId="1" />
+      <Renderer Enabled="True" MeshId="1" MaterialId="1" Alpha="0.2" Emissive="0.9" />
     </GameObject>
     <GameObject Name="Helmet_child_child" Tag="Player" Id="3" Parent="2">
       <Transform Enabled="True">
@@ -43,20 +42,22 @@
       </Transform>
       <Renderer Enabled="True" MeshId="1" MaterialId="1" />
     </GameObject>
-    <GameObject Name="GhostRoot" Tag="Ghost" Id="6">
+    <GameObject Name="Mirror" Tag="Mirror" Id="6">
       <Transform Enabled="True">
-        <Position x="10" y="3" z="12" />
-        <Rotation x="2" y="0" z="3" />
-        <Scale x="1" y="1" z="1" />
+        <Position x="-2.757994" y="77.42065" z="-83.23711" />
+        <Rotation x="-6" y="-9" z="0" />
+        <Scale x="50" y="50" z="50" />
       </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="44" />
     </GameObject>
     <GameObject Name="Gandalf" Tag="Ghost" Id="7">
       <Transform Enabled="True">
-        <Position x="0" y="0" z="0" />
-        <Rotation x="0" y="0" z="0" />
+        <Position x="-7.926559" y="0" z="-1.317558" />
+        <Rotation x="0" y="3" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="2" MaterialId="1" />
+      <Animator Enabled="True" />
       <PBLgame.GamePlay.PlayerScript Enabled="True" />
     </GameObject>
     <GameObject Name="Particle" Tag="Particle" Id="10">
@@ -78,20 +79,31 @@
     </GameObject>
   </GameObjects>
   <Lights>
-    <Light Type="Directional">
-      <Color r="1" g="1" b="1" a="1" />
-      <GameObject Name="Light 1" Tag="Light" Id="8">
+    <Light Type="Directional" HasShadow="True">
+      <Color r="1" g="0" b="0" a="1" />
+      <GameObject Name="Light Dir Red" Tag="Light" Id="8">
         <Transform Enabled="True">
-          <Position x="11" y="11" z="0" />
+          <Position x="1" y="1" z="0" />
           <Rotation x="0" y="0" z="0" />
           <Scale x="1" y="1" z="1" />
         </Transform>
       </GameObject>
       <DirectionalLight Intensity="1" />
     </Light>
-    <Light Type="Point">
+    <Light Type="Directional" HasShadow="True">
+      <Color r="0" g="0" b="1" a="1" />
+      <GameObject Name="Light Dir Blue" Tag="Light" Id="13">
+        <Transform Enabled="True">
+          <Position x="0" y="1" z="1" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <DirectionalLight Intensity="1" />
+    </Light>
+    <Light Type="Point" HasShadow="True">
       <Color r="1" g="0" b="0" a="1" />
-      <GameObject Name="Light 1" Tag="Light" Id="9" Parent="1">
+      <GameObject Name="Light 1" Tag="Light" Id="9">
         <Transform Enabled="True">
           <Position x="0" y="0" z="0" />
           <Rotation x="0" y="0" z="0" />
@@ -99,6 +111,28 @@
         </Transform>
       </GameObject>
       <PointLight Attenuation="10" FallOff="2" />
+    </Light>
+    <Light Type="Point" HasShadow="True">
+      <Color r="0" g="1" b="0" a="1" />
+      <GameObject Name="Light Green" Tag="Light" Id="12">
+        <Transform Enabled="True">
+          <Position x="-9.38662" y="0" z="0" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <PointLight Attenuation="30" FallOff="2" />
+    </Light>
+    <Light Type="Point" HasShadow="False">
+      <Color r="0" g="0" b="1" a="1" />
+      <GameObject Name="Light Blue" Tag="Light" Id="14">
+        <Transform Enabled="True">
+          <Position x="-6.414238" y="0.6179962" z="3.938278" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <PointLight Attenuation="30" FallOff="2" />
     </Light>
   </Lights>
 </Scene>

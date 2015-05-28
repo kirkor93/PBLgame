@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -11,10 +11,12 @@ using Microsoft.Xna.Framework.Media;
 using PBLgame.Engine;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.GUI;
 using PBLgame.Engine.Scenes;
 using PBLgame.Engine.Singleton;
 using PBLgame.Engine.Physics;
 using PBLgame.GamePlay;
+using PBLgame.Engine.AI;
 
 namespace PBLgame
 {
@@ -36,6 +38,13 @@ namespace PBLgame
         public GameObject player;
         public GameObject totalyTmp;
         private Scene _scene;
+        private const int ResolutionX = 1280;
+        private const int ResolutionY = 720;
+        private const bool FullScreenEnabled = false;
+
+//        private const int ResolutionX = 1920;
+//        private const int ResolutionY = 1080;
+//        private const bool FullScreenEnabled = true;
 
         //Sounds tetin
         AudioEngine _audioEngine; //Has to be in final version
@@ -47,10 +56,12 @@ namespace PBLgame
 
         public Game()
         {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferHeight = 1080;
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.IsFullScreen = true;
+            graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = ResolutionX,
+                PreferredBackBufferHeight = ResolutionY,
+                IsFullScreen = FullScreenEnabled
+            };
             Content.RootDirectory = "Content";
             if (Instance == null)
             {
@@ -66,14 +77,15 @@ namespace PBLgame
         /// </summary>
         protected override void Initialize()
         {
-
-            mainCamera = new Camera( new Vector3(0, 0, 10), Vector3.Zero, Vector3.Up,
+            mainCamera = new Camera( new Vector3(200, 50, 250), Vector3.Zero, Vector3.Up,
                 MathHelper.PiOver4,(float)Window.ClientBounds.Width,(float)Window.ClientBounds.Height,1,1000);
 
             InputManager.Instance.Initialize();
 
-
             base.Initialize();
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            HUD.Instance.Batch = spriteBatch;
+            HUD.Instance.CurrentWindowSize = new Vector2(ResolutionX, ResolutionY);
         }
 
         /// <summary>
@@ -84,7 +96,8 @@ namespace PBLgame
         {
             GlobalInventory.Instance.GraphicsDevice = GraphicsDevice;
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+
 
             _audioEngine = new AudioEngine(@"Content\Audio\GameAudio.xgs");
             _waveBank = new WaveBank(_audioEngine, @"Content\Audio\WaveBank.xwb");
@@ -95,24 +108,19 @@ namespace PBLgame
             ResourceManager.Instance.LoadContent();
             ResourceManager.Instance.AssignAudioBank(_soundBank);
 
+            HUD.Instance.Load();
+
             _scene = new Scene();
             _scene.Load(@"Level_1.xml");
 
             player = _scene.FindGameObject(8);
-            //player = _scene.GameObjects.First();
-            //player.audioSource.Set3D(mainCamera.audioListener);
-            //player.audioSource.Play();
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;
-            player.collision = new Collision(player);
-            player.collision.Rigidbody = true;
-            player.collision.MainCollider = new SphereCollider(player.collision,Vector3.Zero, 10.0f, false);
-            player.collision.Static = false;
-            player.AddComponent<PlayerScript>(new PlayerScript(player));
-//            _scene.GameObjects[8].collision = new Collision(_scene.GameObjects[8]);
-//            _scene.GameObjects[8].collision.MainCollider = new SphereCollider(_scene.GameObjects[8].collision, Vector3.Zero, 15.0f, true);
-//            _scene.GameObjects[8].collision.BoxColliders.Add(new BoxCollider(_scene.GameObjects[8].collision, new Vector3(10, 50, 20), false));
+
+            _scene.FindGameObject(607).AddComponent<EnemyMeleeScript>(new EnemyMeleeScript(_scene.FindGameObject(607)));
+            //_scene.FindGameObject(8).collision.SphereColliders.Add(new SphereCollider(_scene.FindGameObject(8).collision,new Vector3(15.0f,10.0f,0.0f),5.0f,true));
+
         }
 
         /// <summary>
@@ -121,7 +129,7 @@ namespace PBLgame
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            // Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -137,7 +145,7 @@ namespace PBLgame
                 this.Exit();
             
             //ForTetting-----------------------
-            InputManager.Instance.Update();
+            InputManager.Instance.Update(gameTime);
 //            mainCamera.Update(gameTime);
 
             //-----------------------------
@@ -149,7 +157,6 @@ namespace PBLgame
             base.Update(gameTime);
         }
 
-
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -159,11 +166,14 @@ namespace PBLgame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //For Teting----------------
-            _scene.Draw(gameTime);
-
             //---------------------
-
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            _scene.Draw(gameTime);
             base.Draw(gameTime);
+            spriteBatch.Begin();
+            HUD.Instance.Draw();
+            spriteBatch.End();
+
         }
     }
 }

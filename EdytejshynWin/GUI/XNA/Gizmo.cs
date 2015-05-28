@@ -61,13 +61,13 @@ namespace Edytejshyn.GUI.XNA
         private Vector3 _position = Vector3.Zero;
         private Matrix _rotationMatrix = Matrix.Identity;
 
-        private Vector3 _localForward = Vector3.Forward;
-        private Vector3 _localUp = Vector3.Up;
-        private Vector3 _localRight;
+        //private Vector3 _localForward = Vector3.Forward;
+        //private Vector3 _localUp = Vector3.Up;
+        //private Vector3 _localRight;
 
         // -- Matrices -- //
-        private Matrix _objectOrientedWorld;
-        private Matrix _axisAlignedWorld;
+        //private Matrix _objectOrientedWorld;
+        //private Matrix _axisAlignedWorld;
         private Matrix[] _modelLocalSpace;
 
         // used for all drawing, assigned by local- or world-space matrices
@@ -126,8 +126,8 @@ namespace Edytejshyn.GUI.XNA
         private float _firstMousePosition;
         private Vector3 _oldSelectedRotation;
 
-        private Vector3 _translationScaleSnapDelta;
-        private float _rotationSnapDelta;
+        //private Vector3 _translationScaleSnapDelta;
+        //private float _rotationSnapDelta;
 
         #endregion
 
@@ -704,13 +704,6 @@ namespace Edytejshyn.GUI.XNA
             float closestIntersection = float.MaxValue;
             Ray ray = ConvertMouseToRay(mousePosition);
 
-            if (ActiveMode == GizmoMode.Translate)
-            {
-                // transform ray into local-space of the boundingboxes.
-                ray.Direction = Vector3.TransformNormal(ray.Direction, Matrix.Invert(_gizmoWorld));
-                ray.Position = Vector3.Transform(ray.Position, Matrix.Invert(_gizmoWorld));
-            }
-
             float? intersection = XAxisBox.Intersects(ray);
             if (intersection < closestIntersection)
             {
@@ -730,7 +723,7 @@ namespace Edytejshyn.GUI.XNA
                 closestIntersection = intersection.Value;
             }
 
-            if (ActiveMode != GizmoMode.Translate)
+            //if (ActiveMode != GizmoMode.Translate)
             {
                 intersection = XSphere.Intersects(ray);
                 if (intersection < closestIntersection)
@@ -756,6 +749,13 @@ namespace Edytejshyn.GUI.XNA
 
             if (ActiveMode != GizmoMode.Rotate)
             {
+                if (ActiveMode == GizmoMode.Translate)
+                {
+                    // transform ray into local-space of the boundingboxes.
+                    ray.Direction = Vector3.TransformNormal(ray.Direction, Matrix.Invert(_gizmoWorld));
+                    ray.Position = Vector3.Transform(ray.Position, Matrix.Invert(_gizmoWorld));
+                }
+
                 // If no axis was hit (x,y,z) set value to lowest possible to select the 'farthest' intersection for the XY,XZ,YZ boxes. 
                 // This is done so you may still select multi-axis if you're looking at the gizmo from behind
                 if (closestIntersection >= float.MaxValue)

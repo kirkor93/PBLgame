@@ -6,6 +6,9 @@ using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Scenes;
 using PBLgame.Engine.Singleton;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using AnimationAux;
 
 namespace PBLgame.Engine.Components
 {
@@ -57,6 +60,9 @@ namespace PBLgame.Engine.Components
                 _myEffect = value;
             }
         }
+
+        public float AlphaValue { get; set; }
+        public float EmissiveValue { get; set; }
         #endregion
 
         #region Methods
@@ -64,6 +70,8 @@ namespace PBLgame.Engine.Components
         {
             _scene = scene;
             _myMesh = null;
+            AlphaValue = 1f;
+            EmissiveValue = 0f;
         }
 
         public Renderer(Renderer source, GameObject owner) : base(owner)
@@ -72,21 +80,9 @@ namespace PBLgame.Engine.Components
             _material = source._material;
             _myEffect = source._myEffect;
             _scene    = source._scene;
+            AlphaValue = source.AlphaValue;
+            EmissiveValue = source.EmissiveValue;
         }
-
-        public void AssignMaterial(MeshMaterial material)
-        {
-            Material = material;
-
-            foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
-            {
-                foreach (ModelMeshPart part in modelMesh.MeshParts)
-                {
-
-                }
-            }
-        }
-
 
         public override void Update(GameTime gameTime)
         {
@@ -95,93 +91,62 @@ namespace PBLgame.Engine.Components
 
         public override void Draw(GameTime gameTime)
         {
-            ParameterizeEffectWithLights();
-            foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
-            {
-                foreach (ModelMeshPart part in modelMesh.MeshParts)
-                {
-                    part.Effect = MyEffect;
-                    UpdateLightsPositions();
-                    MyEffect.Parameters["world"].SetValue(MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World);
-                    MyEffect.Parameters["view"].SetValue(Camera.MainCamera.ViewMatrix);
-                    MyEffect.Parameters["projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
-                    MyEffect.Parameters["worldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(MyMesh.BonesTransorms[modelMesh.ParentBone.Index] * _gameObject.transform.World)));
-                    MyEffect.Parameters["direction"].SetValue(Camera.MainCamera.Direction);
-                    MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
-                    MyEffect.Parameters["normalIntensity"].SetValue(1);
-                    MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
-                    MyEffect.Parameters["specularIntensity"].SetValue(1);
-                    MyEffect.Parameters["specularTexture"].SetValue(_material.Specular);
-                    MyEffect.Parameters["emissiveIntensity"].SetValue(0);
-                    MyEffect.Parameters["emissiveTexture"].SetValue(_material.Emissive);
-                }
-                modelMesh.Draw();
-            }
+            DrawTechnique(gameTime, Technique.Default);
         }
-        
-        private void UpdateLightsPositions()
+
+        public void DrawTechnique(GameTime gameTime, Technique technique = Technique.Default)
         {
+            MyEffect.CurrentTechnique = MyEffect.Techniques[technique.GetString()];
             
-            List<Light> lights = _scene.SceneLights;
-            Vector3[] pos_dir = new Vector3[30];
-
-            for (int i = 0; i < lights.Count; ++i)
+            if (technique == Technique.Default || technique == Technique.CustomCamera)
             {
-                if (lights[i].Type == LightType.Directional)
+                MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
+                MyEffect.Parameters["normalIntensity"].SetValue(1);
+                MyEffect.Parameters["normalMap"].SetValue(_material.Normal);
+                MyEffect.Parameters["specularIntensity"].SetValue(1);
+                MyEffect.Parameters["specularTexture"].SetValue(_material.Specular);
+                MyEffect.Parameters["emissiveIntensity"].SetValue(EmissiveValue);
+                MyEffect.Parameters["emissiveTexture"].SetValue(_material.Emissive);
+                MyEffect.Parameters["alphaValue"].SetValue(AlphaValue);
+            }
+
+            AnimatedMesh animatedMesh = MyMesh as AnimatedMesh;
+
+            if (animatedMesh != null)
+            {
+                foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
                 {
-                    MyDirectionalLight dLight = lights[i] as MyDirectionalLight;
-                    pos_dir[i] = dLight.Direction;
-                }
-                else
-                {
-                    PointLight pLight = lights[i] as PointLight;
-                    pos_dir[i] = pLight.Position;
+                    ParameterizeEffectWithMeshWorld(modelMesh); 
+                    MyEffect.Parameters["Bones"].SetValue(animatedMesh.SkeletonMatrix);
+
+                    foreach (ModelMeshPart part in modelMesh.MeshParts)
+                    {
+                        if (part.Effect.GetType() != typeof(BasicEffect))
+                            part.Effect = MyEffect;
+                    }
+                    modelMesh.Draw();
                 }
             }
-            MyEffect.Parameters["lightsPositions"].SetValue(pos_dir);
-
+            else
+            {
+                foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
+                {
+                    ParameterizeEffectWithMeshWorld(modelMesh);
+                    
+                    foreach (ModelMeshPart part in modelMesh.MeshParts)
+                    {
+                        part.Effect = MyEffect;
+                    }
+                    modelMesh.Draw();
+                }
+            }
         }
 
-        private void ParameterizeEffectWithLights()
-        {
-            List<Light> lights = _scene.SceneLights;
-            Vector3[] pos_dir = new Vector3[30];
-            Vector4[] colors = new Vector4[30];
-            float[] att_int = new float[30];
-            float[] falloff = new float[30];
-            int[] points = new int[30];
-            int[] dirs = new int[30];
 
-            for (int i = 0; i < lights.Count; ++i )
-            {
-                if(lights[i].Type == LightType.Directional)
-                {
-                    MyDirectionalLight dLight = lights[i] as MyDirectionalLight;
-                    pos_dir[i] = dLight.Direction;
-                    colors[i] = dLight.Color;
-                    att_int[i] = dLight.Intensity;
-                    dirs[i] = 1;
-                    points[i] = 0;
-                }
-                else
-                {
-                    PointLight pLight = lights[i] as PointLight;
-                    pos_dir[i] = pLight.Position;
-                    colors[i] = pLight.Color;
-                    att_int[i] = pLight.Attenuation;
-                    falloff[i] = pLight.FallOff;
-                    points[i] = 1;
-                    dirs[i] = 0;
-                }
-            }
-                //!!!!!! lightsCount have to be less or equal 30
-            MyEffect.Parameters["lightsCount"].SetValue(lights.Count);
-            MyEffect.Parameters["lightsPositions"].SetValue(pos_dir);
-            MyEffect.Parameters["lightsColors"].SetValue(colors);
-            MyEffect.Parameters["lightsAttenuations"].SetValue(att_int);
-            MyEffect.Parameters["lightsFalloffs"].SetValue(falloff);
-            MyEffect.Parameters["lightsPoint"].SetValue(points);
-            MyEffect.Parameters["lightsDirectional"].SetValue(dirs);
+        private void ParameterizeEffectWithMeshWorld(ModelMesh modelMesh)
+        {
+            Matrix world = modelMesh.ParentBone.Transform * _gameObject.transform.World;
+            MyEffect.Parameters["world"].SetValue(world);
         }
 
         public override void ReadXml(XmlReader reader)
@@ -191,8 +156,22 @@ namespace PBLgame.Engine.Components
             int materialId = Convert.ToInt32(reader.GetAttribute("MaterialId"));
             MyMesh = ResourceManager.Instance.GetMesh(meshId);
             Material = ResourceManager.Instance.GetMaterial(materialId);
-            MyEffect = Material.ShaderEffect;
+            MyEffect = null;
+            if (MyMesh is AnimatedMesh)
+            {
+                // so much lame way
+                MyEffect = ResourceManager.Instance.ShaderEffects.FirstOrDefault(x => x.Name == Material.ShaderEffect.Name + "Skinned");
+            }
+            if (MyEffect == null) MyEffect = Material.ShaderEffect;
+            AlphaValue    = ReadIfSpecified(reader, "Alpha",    AlphaValue);
+            EmissiveValue = ReadIfSpecified(reader, "Emissive", EmissiveValue);
             reader.Read();
+        }
+
+        private float ReadIfSpecified(XmlReader reader, string attribute, float defaultVal)
+        {
+            string s = reader.GetAttribute(attribute);
+            return (s == null) ? defaultVal : Convert.ToSingle(s, CultureInfo.InvariantCulture);
         }
 
         public override void WriteXml(XmlWriter writer)
@@ -200,10 +179,19 @@ namespace PBLgame.Engine.Components
             base.WriteXml(writer);
             writer.WriteAttributeString("MeshId", MyMesh.Id.ToString());
             writer.WriteAttributeString("MaterialId", Material.Id.ToString());
+            if (AlphaValue != 1f)    writer.WriteAttributeString("Alpha",    AlphaValue   .ToString("G", CultureInfo.InvariantCulture));
+            if (EmissiveValue != 0f) writer.WriteAttributeString("Emissive", EmissiveValue.ToString("G", CultureInfo.InvariantCulture));
         }
 
-
-
         #endregion
+
+        public enum Technique
+        {
+            Default = 0, 
+            ShadowsPoint,
+            ShadowsDirectional,
+            CustomCamera,
+            Reflection
+        }
     }
 }

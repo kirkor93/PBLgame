@@ -34,7 +34,6 @@ namespace Edytejshyn.GUI
 
         public MainForm MainForm;
         private bool _mouseMoved;
-        private IDrawerStrategy _oldDrawerStrategy;
         private int _counter;
         Stopwatch _stopWatch;
         private long _lastElapsed;
@@ -81,7 +80,7 @@ namespace Edytejshyn.GUI
             GameContentManager = new ContentManager(Services, "Content");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _osdFont = _editorContent.Load<SpriteFont>("OSDFont");
-            Camera = new Camera(new Vector3(0, 10, 10), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 10000);
+            Camera = new Camera(new Vector3(0, 0, 0), Vector3.Zero, Vector3.Up, MathHelper.PiOver4, ClientSize.Width, ClientSize.Height, 1, 10000);
             CameraHistory = new CameraHistory(MainForm.Logic.Logger, Camera);
             Grid = new Grid(this, 1, 100);
             Gizmo = new Gizmo(this, _spriteBatch, _editorContent.Load<SpriteFont>("GizmoFont"));
@@ -134,12 +133,13 @@ namespace Edytejshyn.GUI
                 //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
                 //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
-                scene.Draw(MainForm.CurrentDrawerStrategy, new GameTime(TimeSpan.Zero, TimeSpan.Zero));
+                scene.Draw(MainForm.CurrentDrawerStrategy, MainForm.Logic.CurrentTime);
             }
 
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
             Grid.Draw();
-
+            
             Gizmo.Update();
             Gizmo.Draw();
 
@@ -163,7 +163,7 @@ namespace Edytejshyn.GUI
         /// </summary>
         public void Reset()
         {
-            Camera.transform.Position = new Vector3(0, 10, 10);
+            Camera.transform.Position = new Vector3(-100, 100, 100);
             Camera.SetTarget(new Vector3(0, 0, 0));
             Camera.Update();
         }
@@ -280,7 +280,11 @@ namespace Edytejshyn.GUI
 
         private void TimerOnTick(object sender, EventArgs e)
         {
-            if (_moveX == 0 && _moveY == 0) return;
+            if (_moveX == 0 && _moveY == 0)
+            {
+                ResetStopwatchDelta();
+                return;
+            }
             UpdateCameraPosition();
             Camera.Update();
             Invalidate();
@@ -383,25 +387,21 @@ namespace Edytejshyn.GUI
                         case Keys.Up:
                         case Keys.W:
                             _moveY = 1;
-                            ResetStopwatchDelta();
                             break;
 
                         case Keys.Down:
                         case Keys.S:
                             _moveY = -1;
-                            ResetStopwatchDelta();
                             break;
 
                         case Keys.Left:
                         case Keys.A:
                             _moveX = -1;
-                            ResetStopwatchDelta();
                             break;
 
                         case Keys.Right:
                         case Keys.D:
                             _moveX = 1;
-                            ResetStopwatchDelta();
                             break;
 
                         case Keys.ShiftKey:

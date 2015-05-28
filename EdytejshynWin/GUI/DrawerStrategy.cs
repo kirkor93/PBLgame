@@ -12,6 +12,11 @@ namespace Edytejshyn.GUI
         {
             gameObjectWrapper.Nut.renderer.Draw(gameTime);
         }
+
+        public bool IsRealistic
+        {
+            get { return true; }
+        }
     }
 
     public class BasicDrawerStrategy : IDrawerStrategy
@@ -42,6 +47,11 @@ namespace Edytejshyn.GUI
                 }
                 modelMesh.Draw();
             }
+        }
+
+        public bool IsRealistic
+        {
+            get { return false; }
         }
     }
 }

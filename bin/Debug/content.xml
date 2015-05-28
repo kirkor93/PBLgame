@@ -4,6 +4,8 @@
   <Content>
     <ShaderEffects>
       <ShaderEffect Path="Effects\BasicShader" />
+      <ShaderEffect Path="Effects\BasicShaderSkinned" />
+      <ShaderEffect Path="Effects\BasicShaderPhong" />
       <ShaderEffect Path="Effects\ParticleShader" />
     </ShaderEffects>
     <Textures>
@@ -124,11 +126,46 @@
       <Texture Path="Textures\Terrain\Desert\Tower_1_d" />
       <Texture Path="Textures\Terrain\Desert\Tower_1_n" />
       <Texture Path="Textures\Terrain\Desert\Tower_1_s" />
+      <Texture Path="Textures\GUI\Buttons_helpers" />
+      <Texture Path="Textures\GUI\Health_bar" />
+      <Texture Path="Textures\GUI\Health_bar_outline" />
+      <Texture Path="Textures\GUI\Mana_bar" />
+      <Texture Path="Textures\GUI\Mana_bar_outline" />
+      <Texture Path="Textures\GUI\Experience_bar" />
+      <Texture Path="Textures\GUI\Experience_bar_outline" />
+      <Texture Path="Textures\GUI\Bars_BG" />
+      <Texture Path="Textures\GUI\Enemy_health_bar" />
+      <Texture Path="Textures\GUI\Enemy_health_bar_outline" />
+      <Texture Path="Textures\GUI\Upgrade_strength_button_enabled" />
+      <Texture Path="Textures\GUI\Upgrade_strength_button_disabled" />
+      <Texture Path="Textures\GUI\Upgrade_strength_button_pressed" />
+      <Texture Path="Textures\GUI\Upgrade_strength_button_highlighted" />
+      <Texture Path="Textures\GUI\Upgrade_mana_button_enabled" />
+      <Texture Path="Textures\GUI\Upgrade_mana_button_disabled" />
+      <Texture Path="Textures\GUI\Upgrade_mana_button_pressed" />
+      <Texture Path="Textures\GUI\Upgrade_mana_button_highlighted" />
+      <Texture Path="Textures\GUI\Upgrade_shield_button_enabled" />
+      <Texture Path="Textures\GUI\Upgrade_shield_button_disabled" />
+      <Texture Path="Textures\GUI\Upgrade_shield_button_pressed" />
+      <Texture Path="Textures\GUI\Upgrade_shield_button_highlighted" />
+      <Texture Path="Textures\GUI\Upgrade_telekinetic_push_button_enabled" />
+      <Texture Path="Textures\GUI\Upgrade_telekinetic_push_button_disabled" />
+      <Texture Path="Textures\GUI\Upgrade_telekinetic_push_button_pressed" />
+      <Texture Path="Textures\GUI\Upgrade_telekinetic_push_button_highlighted" />
+      <Texture Path="Textures\GUI\Upgrade_fast_attack_button_enabled" />
+      <Texture Path="Textures\GUI\Upgrade_fast_attack_button_disabled" />
+      <Texture Path="Textures\GUI\Upgrade_fast_attack_button_pressed" />
+      <Texture Path="Textures\GUI\Upgrade_fast_attack_button_highlighted" />
+      <Texture Path="Textures\GUI\Upgrade_strong_attack_button_enabled" />
+      <Texture Path="Textures\GUI\Upgrade_strong_attack_button_disabled" />
+      <Texture Path="Textures\GUI\Upgrade_strong_attack_button_pressed" />
+      <Texture Path="Textures\GUI\Upgrade_strong_attack_button_highlighted" />
+      <Texture Path="Textures\GUI\Upgrade_screen_BG" />
     </Textures>
     <Materials>
       <Material Id="1" Name="Helmet" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
       <Material Id="2" Name="Particle" Diffuse="Textures\fire" ShaderPath="Effects\ParticleShader" />
-      <Material Id="2" Name="Enemies\Crossbow" Diffuse="Textures\Enemies\Crossbow_d" Normal="Textures\Enemies\Crossbow_n" Specular="Textures\Enemies\Crossbow_s" Emissive="Textures\Enemies\Crossbow_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="43" Name="Enemies\Crossbow" Diffuse="Textures\Enemies\Crossbow_d" Normal="Textures\Enemies\Crossbow_n" Specular="Textures\Enemies\Crossbow_s" Emissive="Textures\Enemies\Crossbow_d" ShaderPath="Effects\BasicShader" />
       <Material Id="3" Name="Enemies\Cute_Bomber" Diffuse="Textures\Enemies\Cute_Bomber_d" Normal="Textures\Enemies\Cute_Bomber_n" Specular="Textures\Enemies\Cute_Bomber_s" Emissive="Textures\Enemies\Cute_Bomber_d" ShaderPath="Effects\BasicShader" />
       <Material Id="4" Name="Enemies\Katana" Diffuse="Textures\Enemies\Katana_d" Normal="Textures\Enemies\Katana_n" Specular="Textures\Enemies\Katana_s" Emissive="Textures\Enemies\Katana_d" ShaderPath="Effects\BasicShader" />
       <Material Id="5" Name="Enemies\Mecha_ranger" Diffuse="Textures\Enemies\Mecha_ranger_d" Normal="Textures\Enemies\Mecha_ranger_n" Specular="Textures\Enemies\Mecha_ranger_s" Emissive="Textures\Enemies\Mecha_ranger_d" ShaderPath="Effects\BasicShader" />
@@ -169,16 +206,18 @@
       <Material Id="40" Name="Terrain\Desert\Asphalt_2" Diffuse="Textures\Terrain\Desert\Asphalt_2_d" Normal="Textures\Terrain\Desert\Asphalt_2_n" Specular="Textures\Terrain\Desert\Asphalt_2_s" Emissive="Textures\Terrain\Desert\Asphalt_2_d" ShaderPath="Effects\BasicShader" />
       <Material Id="41" Name="Terrain\Desert\Mountain_3" Diffuse="Textures\Terrain\Desert\Mountain_3_d" Normal="Textures\Terrain\Desert\Mountain_3_n" Specular="Textures\Terrain\Desert\Mountain_3_s" Emissive="Textures\Terrain\Desert\Mountain_3_d" ShaderPath="Effects\BasicShader" />
       <Material Id="42" Name="Terrain\Desert\Mountain_2" Diffuse="Textures\Terrain\Desert\Mountain_2_d" Normal="Textures\Terrain\Desert\Mountain_2_n" Specular="Textures\Terrain\Desert\Mountain_2_s" Emissive="Textures\Terrain\Desert\Mountain_2_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="44" Name="Default" Diffuse="Textures\Default_s" Normal="Textures\Default_n" Specular="Textures\Default_s" Emissive="Textures\Default_s" ShaderPath="Effects\BasicShader" />
+      <Material Id="45" Name="NormalHelmet" Diffuse="Textures\Default_s" Normal="Textures\Helmet_n" Specular="Textures\Default_s" Emissive="Textures\Default_s" ShaderPath="Effects\BasicShader" />
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
-      <Mesh Id="2" Path="Models\Gandalf" />
-      <Mesh Id="3" Path="Models\Champions\Ace" />
+      <Mesh Id="2" Path="Models\Gandalf" Skeleton="1" />
+      <Mesh Id="3" Path="Models\Champions\Ace" Skeleton="3" />
       <Mesh Id="4" Path="Models\Champions\Ace_sword_v1" />
       <Mesh Id="5" Path="Models\Enemies\Crossbow" />
       <Mesh Id="6" Path="Models\Enemies\Cute_Bomber" />
       <Mesh Id="7" Path="Models\Enemies\Katana" />
-      <Mesh Id="8" Path="Models\Enemies\Mecha_Ranger" />
+      <Mesh Id="8" Path="Models\Enemies\Mecha_Ranger" Skeleton="2" />
       <Mesh Id="9" Path="Models\Enemies\Smart_Droid" />
       <Mesh Id="10" Path="Models\Terrain\Start_base\Barrier_1" />
       <Mesh Id="11" Path="Models\Terrain\Start_base\Bollard" />
@@ -219,6 +258,20 @@
       <Mesh Id="46" Path="Models\Terrain\Desert\Tower_1" />
       <Mesh Id="47" Path="Models\Terrain\Desert\Mountain_2" />
       <Mesh Id="48" Path="Models\Terrain\Desert\Mountain_3" />
+      <Mesh Id="49" Path="Models\Terrain\Mirror" />
     </Meshes>
+    <Animations>
+      <Animation Id="1" Path="Animations\Gandalf_gangnam_style" Skeleton="1" />
+      <Animation Id="2" Path="Animations\Gandalf_idle" Skeleton="1" Type="Idle" />
+      <Animation Id="3" Path="Animations\Gandalf_strafe_left" Skeleton="1" />
+      <Animation Id="4" Path="Animations\Gandalf_strafe_right" Skeleton="1" />
+      <Animation Id="5" Path="Animations\Gandalf_turn_left" Skeleton="1" />
+      <Animation Id="6" Path="Animations\Gandalf_turn_right" Skeleton="1" />
+      <Animation Id="7" Path="Animations\Gandalf_walk" Skeleton="1" Type="Walk" Speed="0.0057" />
+      
+      <Animation Id="8" Path="Animations\Enemies\Mecha_Ranger_anim" Skeleton="2" Type="Idle" />
+      
+      <Animation Id="9" Path="Animations\Champions\Ace_run" Skeleton="3" Type="Walk" Speed="0.016" />
+    </Animations>
   </Content>
 </XmlContent>

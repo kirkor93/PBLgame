@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 
 using PBLgame.Engine.GameObjects;
@@ -11,7 +15,7 @@ using PBLgame.Engine.Components;
 
 namespace PBLgame.Engine.Physics
 {
-    public class BoxCollider
+    public class BoxCollider : IXmlSerializable
     {
         #region Variables
         private Collision _owner;
@@ -21,14 +25,14 @@ namespace PBLgame.Engine.Physics
         private bool _trigger;
         private BoundingBox _box = new BoundingBox();
 
-        //private Vector3 _min;
-        //private Vector3 _max;
-
-        private Vector3[] _baseColVerts;
-
+        private Vector3 _edgesRealSize;
         private Vector3[] _colVerts;
 
-        private Vector3 _previousPosition;
+        private Matrix _worldTranslation;
+        private Matrix _world;
+
+        private Quaternion tmpQ = new Quaternion();
+        private Vector3 tmpV = new Vector3();
         #endregion
 
         #region Properties
@@ -51,7 +55,7 @@ namespace PBLgame.Engine.Physics
             {
                 _localPosition = value;
                 _totalPosition = _owner.gameObject.transform.Position + _localPosition;
-                if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPosition;
+                if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPositionAsVector;
             }
         }
 
@@ -63,14 +67,7 @@ namespace PBLgame.Engine.Physics
             }
             private set { }
         }
-        public Vector3 PreviousPosition
-        {
-            get
-            {
-                return _previousPosition;
-            }
-            private set { }
-        }
+
         public bool Trigger
         {
             get
@@ -102,6 +99,9 @@ namespace PBLgame.Engine.Physics
             set
             {
                 _edgesSize = value;
+                ResizeCollider();
+                InitializeVerts();
+                _box = BoundingBox.CreateFromPoints(_colVerts);
             }
         }
         #endregion
@@ -110,73 +110,91 @@ namespace PBLgame.Engine.Physics
         public BoxCollider(Collision owner)
         {
             _owner = owner;
-            _previousPosition = Vector3.Zero;
             _edgesSize = new Vector3(1, 1, 1);
             _localPosition = Vector3.Zero;
-            _totalPosition = owner.gameObject.transform.Position + _localPosition;
-            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPosition;
+            _worldTranslation = Matrix.CreateTranslation(_localPosition);
+            if (_owner.gameObject.parent != null)
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
+            else
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
+                Vector3 tmpV;
+                Quaternion tmpQ;
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
             _trigger = false;
             _colVerts = new Vector3[8];
+            ResizeCollider();
             InitializeVerts();
-            _baseColVerts = new Vector3[8];
-            _baseColVerts = _colVerts;
-            //SetMinMax();
             _box = BoundingBox.CreateFromPoints(_colVerts);
         }
+
 
         public BoxCollider(Collision owner, Vector3 position, Vector3 size, bool trigger)
         {
             _owner = owner;
-            _previousPosition = Vector3.Zero;
             _edgesSize = size;
             _localPosition = position;
-            _totalPosition = _localPosition + owner.gameObject.transform.Position;
-            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPosition;
+            _worldTranslation = Matrix.CreateTranslation(_localPosition);
+            if (_owner.gameObject.parent != null)
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
+            else
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            } 
             _trigger = trigger;
             _colVerts = new Vector3[8];
+            ResizeCollider();
             InitializeVerts();
-            _baseColVerts = new Vector3[8];
-            _baseColVerts = _colVerts;
-            //SetMinMax();
             _box = BoundingBox.CreateFromPoints(_colVerts);
         }
 
         public BoxCollider(Collision owner, Vector3 size, bool trigger)
         {
             _owner = owner;
-            _previousPosition = Vector3.Zero;
             _edgesSize = size;
             _localPosition = Vector3.Zero;
             _totalPosition = _localPosition + owner.gameObject.transform.Position;
-            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPosition;
+            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPositionAsVector;
             _trigger = trigger;
             _colVerts = new Vector3[8];
+            ResizeCollider();
             InitializeVerts();
-            _baseColVerts = new Vector3[8];
-            _baseColVerts = _colVerts;
-            //SetMinMax();
             _box = BoundingBox.CreateFromPoints(_colVerts);
+        }
+
+        public void ResizeCollider()
+        {
+           _edgesRealSize = EdgesSize *_owner.gameObject.transform.Scale * _owner.gameObject.transform.AncestorsScaleAsVector;       
         }
 
         private void InitializeVerts()
         {
-            _colVerts[0] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
-            _colVerts[1] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
-            _colVerts[2] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
-            _colVerts[3] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
-            _colVerts[4] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
-            _colVerts[5] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
-            _colVerts[6] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
-            _colVerts[7] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
+            //_colVerts[0] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
+            //_colVerts[1] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
+            //_colVerts[2] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
+            //_colVerts[3] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z + (_edgesSize.Z / 2));
+            //_colVerts[4] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
+            //_colVerts[5] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y + (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
+            //_colVerts[6] = new Vector3(_totalPosition.X + (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
+            //_colVerts[7] = new Vector3(_totalPosition.X - (_edgesSize.X / 2), _totalPosition.Y - (_edgesSize.Y / 2), _totalPosition.Z - (_edgesSize.Z / 2));
 
-            //_colVerts[0] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[1] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[2] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[3] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[4] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[5] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[6] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
-            //_colVerts[7] = new Vector3((_edgesSize.X / 2), (_edgesSize.Y / 2), (_edgesSize.Z / 2));
+
+            _colVerts[0] = new Vector3(_totalPosition.X - (_edgesRealSize.X / 2), _totalPosition.Y + (_edgesRealSize.Y / 2), _totalPosition.Z + (_edgesRealSize.Z / 2));
+            _colVerts[1] = new Vector3(_totalPosition.X + (_edgesRealSize.X / 2), _totalPosition.Y + (_edgesRealSize.Y / 2), _totalPosition.Z + (_edgesRealSize.Z / 2));
+            _colVerts[2] = new Vector3(_totalPosition.X + (_edgesRealSize.X / 2), _totalPosition.Y - (_edgesRealSize.Y / 2), _totalPosition.Z + (_edgesRealSize.Z / 2));
+            _colVerts[3] = new Vector3(_totalPosition.X - (_edgesRealSize.X / 2), _totalPosition.Y - (_edgesRealSize.Y / 2), _totalPosition.Z + (_edgesRealSize.Z / 2));
+            _colVerts[4] = new Vector3(_totalPosition.X - (_edgesRealSize.X / 2), _totalPosition.Y + (_edgesRealSize.Y / 2), _totalPosition.Z - (_edgesRealSize.Z / 2));
+            _colVerts[5] = new Vector3(_totalPosition.X + (_edgesRealSize.X / 2), _totalPosition.Y + (_edgesRealSize.Y / 2), _totalPosition.Z - (_edgesRealSize.Z / 2));
+            _colVerts[6] = new Vector3(_totalPosition.X + (_edgesRealSize.X / 2), _totalPosition.Y - (_edgesRealSize.Y / 2), _totalPosition.Z - (_edgesRealSize.Z / 2));
+            _colVerts[7] = new Vector3(_totalPosition.X - (_edgesRealSize.X / 2), _totalPosition.Y - (_edgesRealSize.Y / 2), _totalPosition.Z - (_edgesRealSize.Z / 2));
         }
 
 
@@ -197,16 +215,18 @@ namespace PBLgame.Engine.Physics
 
         public void UpdatePosition()
         {
-            _previousPosition = _totalPosition;
-            _totalPosition = _owner.gameObject.transform.Position + _localPosition;
-            if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPosition;
+            _worldTranslation = Matrix.CreateTranslation(_localPosition);//Matrix.CreateTranslation(_localPosition);
+            if (_owner.gameObject.parent != null)
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
+            else
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
             InitializeVerts();
-            //_baseColVerts = _colVerts;
-            //for (int i = 0; i < 8; i++)
-            //{
-            //    _colVerts[i] = Vector3.Transform(_baseColVerts[i], _owner.gameObject.transform.WorldRotation);
-            //}
-            //_box = BoundingBox.CreateFromPoints(_colVerts);
         }
 
         public void Update()
@@ -251,6 +271,61 @@ namespace PBLgame.Engine.Physics
                     bBoxIndices, 0, 12);
             }
         }
+
+        #region Xml Serialization
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            CultureInfo culture = CultureInfo.InvariantCulture;
+
+            Trigger = Convert.ToBoolean(reader.GetAttribute("IsTrigger"), culture);
+            reader.ReadStartElement();
+            if (reader.Name == "LocalPosition")
+            {
+                Vector3 tmp = Vector3.Zero;
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"), culture);
+                tmp.Z = Convert.ToSingle(reader.GetAttribute("z"), culture);
+                LocalPosition = tmp;
+                reader.Read();
+            }
+            if (reader.Name == "EdgesSize")
+            {
+                Vector3 tmp = Vector3.Zero;
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"), culture);
+                tmp.Z = Convert.ToSingle(reader.GetAttribute("z"), culture);
+                EdgesSize = tmp;
+                reader.Read();
+            }
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            CultureInfo culture = CultureInfo.InvariantCulture;
+
+            writer.WriteStartElement("BoxCollider");
+//            writer.WriteAttributeString("Owner", Owner.gameObject.ID.ToString(culture));
+            writer.WriteAttributeString("IsTrigger", Trigger.ToString(culture));
+            writer.WriteStartElement("LocalPosition");
+            writer.WriteAttributeString("x", LocalPosition.X.ToString("G", culture));
+            writer.WriteAttributeString("y", LocalPosition.Y.ToString("G", culture));
+            writer.WriteAttributeString("z", LocalPosition.Z.ToString("G", culture));
+            writer.WriteEndElement();
+            writer.WriteStartElement("EdgesSize");
+            writer.WriteAttributeString("x", EdgesSize.X.ToString("G", culture));
+            writer.WriteAttributeString("y", EdgesSize.Y.ToString("G", culture));
+            writer.WriteAttributeString("z", EdgesSize.Z.ToString("G", culture));
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+        }
         #endregion
+        #endregion
+
+
     }
 }

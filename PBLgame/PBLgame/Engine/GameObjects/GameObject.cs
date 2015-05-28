@@ -113,6 +113,23 @@ namespace PBLgame.Engine.GameObjects
                 _audioSource = value;
             }
         }
+
+        public IEnumerable<Component> AllNotNullComponents
+        {
+            get
+            {
+                if (_animator       != null)   yield return _animator;
+                if (_audioSource    != null)   yield return _audioSource;
+                if (_collision      != null)   yield return _collision;
+                if (_particleSystem != null)   yield return _particleSystem;
+                if (_renderer       != null)   yield return _renderer;
+                if (_transform      != null)   yield return _transform;
+                foreach (Component component in _components)
+                {
+                    yield return component;
+                }
+            }
+        }
         #endregion  
 
         #region Methods
@@ -182,7 +199,6 @@ namespace PBLgame.Engine.GameObjects
 
         public virtual void Update(GameTime gameTime)
         {
-
             if (animator != null)
             {
                 animator.Update(gameTime);
@@ -195,22 +211,17 @@ namespace PBLgame.Engine.GameObjects
             {
                 audioSource.Update(gameTime);
             }
-            if (collision != null)
+            if (transform != null)
             {
-                collision.Update(gameTime);
+                transform.Update(gameTime);
             }
-
             foreach (Component component in _components)
             {
                 component.Update(gameTime);
             }
-                        if (transform != null)
+            if (collision != null)
             {
-                transform.Update(gameTime);
-            }
-            if (transform != null)
-            {
-                transform.Draw(gameTime);
+                collision.Update(gameTime);
             }
             if (renderer != null)
             {
@@ -220,7 +231,6 @@ namespace PBLgame.Engine.GameObjects
 
         public virtual void Draw(GameTime gameTime)
         {
-
             if (animator != null)
             {
                 animator.Draw(gameTime);
@@ -233,7 +243,6 @@ namespace PBLgame.Engine.GameObjects
             {
                 audioSource.Draw(gameTime);
             }
-
             foreach (Component component in _components)
             {
                 component.Draw(gameTime);
@@ -250,6 +259,18 @@ namespace PBLgame.Engine.GameObjects
             {
                 renderer.Draw(gameTime);
             }
+        }
+
+        /// <summary>
+        /// Initialize components after loading before first usage.
+        /// </summary>
+        public void Initialize(bool editor = false)
+        {
+            foreach (Component component in AllNotNullComponents)
+            {
+                component.Initialize(editor);
+            }
+
         }
 
         public void AddComponent<T>(T component) where T : Component
@@ -553,5 +574,10 @@ namespace PBLgame.Engine.GameObjects
 
         #endregion
         #endregion
+
+        public void DrawSpecial(GameTime gameTime, Renderer.Technique technique)
+        {
+            if(renderer != null) renderer.DrawTechnique(gameTime, technique);
+        }
     }
 }

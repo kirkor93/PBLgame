@@ -68,6 +68,13 @@ namespace PBLgame.Engine.Components
             
         }
 
+        public virtual void Initialize(bool editor)
+        {
+            
+        }
+
+
+
 
         #region XML serialization
         public virtual XmlSchema GetSchema()

@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
 using PBLgame.Engine.GameObjects;
 
+using PBLgame.Engine.Physics;
+
 namespace PBLgame.Engine.Components
 {
     public class Transform : Component
@@ -38,9 +40,10 @@ namespace PBLgame.Engine.Components
                     Vector3 prevPos = _position;
                     _position = value;
                     int flag = 0;
+                    gameObject.collision.UpdatePositions();
                     foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
                     {
-                        if (gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                        if (gameObject != go && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
                         {
                             flag = gameObject.collision.ChceckCollisionDeeper(go);
                         }
@@ -52,6 +55,7 @@ namespace PBLgame.Engine.Components
                     else
                     {
                         _position = prevPos;
+                        gameObject.collision.UpdatePositions();
                     }
                 }
                 else
@@ -85,6 +89,10 @@ namespace PBLgame.Engine.Components
             {
                 _worldScale = Matrix.CreateScale(value);
                 _scale = value;
+                if (gameObject.collision != null)
+                {
+                    gameObject.collision.ResizeColliders();
+                }
             }
         }
         public Matrix World
@@ -98,13 +106,21 @@ namespace PBLgame.Engine.Components
                 else
                 {
                     // Changed multiplication order (Unity-like) - now all children are like a whole group, rotated and scaled around parent.
-                    return _world = _worldScale * _worldRotation * _worldTranslation * AncestorsWorld;
+                    return _world = _worldScale * _worldRotation * _worldTranslation * gameObject.parent.transform.World;
                 }
 
             }
         }
 
         public Matrix WorldRotation { get { return _worldRotation; } }
+        public Matrix WorldTranslation { get { return _worldTranslation; } }
+        public Vector3 WorldPosition
+        {
+            get
+            {
+                return World.Translation;
+            }
+        }
 
         /// <summary>
         /// Rotation matrix multiplied recursively from parents (excluding self) to allow global transformation (when inverted).
@@ -142,20 +158,52 @@ namespace PBLgame.Engine.Components
             }
         }
 
-        public Vector3 AncestorsPosition
+        public Matrix AncestorsTranslation
         {
             get
             {
+                if (gameObject.parent == null)
+                {
+                    return Matrix.Identity;
+                }
+                else
+                {
+                    return gameObject.parent.transform._worldTranslation * gameObject.parent.transform.AncestorsTranslation;
+                }
+            }
+        }
+
+        public Vector3 AncestorsPositionAsVector
+        {
+            get
+            {
+                // TODO are u sure it works as desired?
                 if(gameObject.parent == null)
                 {
                     return Vector3.Zero;
                 }
                 else
                 {
-                    return gameObject.parent.transform.Position + gameObject.parent.transform.AncestorsPosition;
+                    return gameObject.parent.transform.Position + gameObject.parent.transform.AncestorsPositionAsVector;
                 }
             }
         }
+
+        public Vector3 AncestorsScaleAsVector
+        {
+            get
+            {
+                if (gameObject.parent == null)
+                {
+                    return Vector3.One;
+                }
+                else
+                {
+                    return gameObject.parent.transform.Scale * gameObject.parent.transform.AncestorsScaleAsVector;
+                }
+            }
+        }
+
         public Matrix AncestorsWorld
         {
             get
@@ -213,22 +261,23 @@ namespace PBLgame.Engine.Components
             if (gameObject.collision != null && gameObject.collision.Rigidbody)
             {
                 Vector3 prevPos = _position;
+                Matrix prevTrans = _worldTranslation;
                 _position += trans;
+                _worldTranslation *= Matrix.CreateTranslation(trans);
                 int flag = 0;
+                gameObject.collision.UpdatePositions();
                 foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
                 {
-                    if (gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                    if (gameObject != go && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
                     {
                         flag = gameObject.collision.ChceckCollisionDeeper(go);
                     }
                 }
-                if (flag == 0)
-                {
-                    _worldTranslation *= Matrix.CreateTranslation(trans);
-                }
-                else
+                if (flag != 0)
                 {
                     _position = prevPos;
+                    _worldTranslation = prevTrans;
+                    gameObject.collision.UpdatePositions();
                 }
             }
             else
@@ -243,22 +292,24 @@ namespace PBLgame.Engine.Components
             if (gameObject.collision != null && gameObject.collision.Rigidbody)
             {
                 Vector3 prevPos = _position;
+                Matrix prevTrans = _worldTranslation;
                 _position += new Vector3(x, y, z);
+                _worldTranslation *= Matrix.CreateTranslation(new Vector3(x, y, z));
+
                 int flag = 0;
+                gameObject.collision.UpdatePositions();
                 foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
                 {
-                    if (gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                    if (gameObject != go && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
                     {
                         flag = gameObject.collision.ChceckCollisionDeeper(go);
                     }
                 }
-                if (flag == 0)
-                {
-                    _worldTranslation *= Matrix.CreateTranslation(new Vector3(x, y, z));
-                }
-                else
+                if (flag != 0)
                 {
                     _position = prevPos;
+                    _worldTranslation = prevTrans;
+                    gameObject.collision.UpdatePositions();
                 }
             }
             else

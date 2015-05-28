@@ -35,3 +35,9 @@ EdytejshynWin/ContentLibrary/obj/
 EdytejshynWin/EditorContent/obj/
 bin/
 *.cachefile
+SkinnedModelPipeline/bin/
+SkinnedModelPipeline/obj/
+AnimationData/obj/
+AnimationData/bin/
+AnimationAux/obj/x86/Debug/
+AnimationPipeline/obj/x86/Debug/

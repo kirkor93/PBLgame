@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using PBLgame.Engine.Components;
 
 namespace PBLgame.Engine
 {
@@ -15,6 +18,30 @@ namespace PBLgame.Engine
         {
             if (index == -1) list.Add(item);
             else list.Insert(index, item);
+        }
+
+
+        public static float CalculateAngle(float x, float y)
+        {
+            return (float) (Math.Atan2(y, x));
+        }
+
+        public static float CalculateDegrees(Vector2 vector)
+        {
+            float angle = MathHelper.ToDegrees(CalculateAngle(vector.X, vector.Y));
+            if (angle < 0f) angle += 360f;
+            return angle;
+        }
+
+        public static string GetString(this Renderer.Technique technique)
+        {
+            switch (technique)
+            {
+                case Renderer.Technique.ShadowsPoint: return "Shadows";
+                case Renderer.Technique.ShadowsDirectional: return "ShadowsDir";
+                case Renderer.Technique.Reflection: return "Reflection";
+                default: return "PhongBlinn";
+            }
         }
     }
 }

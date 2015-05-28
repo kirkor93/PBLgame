@@ -67,12 +67,23 @@ namespace Edytejshyn.Model
             return wrapper;
         }
 
+        public void Update()
+        {
+            Scene.Update(Logic.CurrentTime);
+        }
+
         public void Draw(IDrawerStrategy strategy, GameTime gameTime)
         {
-            // TODO remove recurency in children Draw() - use enumerator
-            foreach (GameObjectWrapper wrapper in RootGameObjects)
+            if (strategy.IsRealistic)
             {
-                wrapper.Draw(strategy, gameTime);
+                Scene.Draw(gameTime);
+            }
+            else
+            {
+                foreach (GameObjectWrapper wrapper in AllGameObjects)
+                {
+                    wrapper.Draw(strategy, gameTime);
+                }
             }
         }
 

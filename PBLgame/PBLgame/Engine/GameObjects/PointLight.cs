@@ -20,25 +20,7 @@ namespace PBLgame.Engine.GameObjects
         {
             get
             {
-                if(parent != null)
-                {
-                    return transform.Position + transform.AncestorsPosition;
-                }
-                else
-                {
-                    return transform.Position;
-                }
-            }
-            set
-            {
-                if(parent != null)
-                {
-                    transform.Position = transform.AncestorsPosition + value;
-                }
-                else
-                {
-                    transform.Position = value;
-                }
+                return transform.WorldPosition;
             }
         }
 

@@ -212,10 +212,6 @@ namespace Edytejshyn.Model
         public void Draw(IDrawerStrategy strategy, GameTime gameTime)
         {
             if (_renderer != null) _renderer.Draw(strategy, gameTime);
-            foreach (GameObjectWrapper child in _children)
-            {
-                child.Draw(strategy, gameTime);
-            }
         }
 
         public GameObjectWrapper[] GetWrappedChildren()
@@ -274,6 +270,15 @@ namespace Edytejshyn.Model
             get { return ((Light) _gameObject).Color; }
             set { FireSetter(x => ((Light)_gameObject).Color = x, ((Light)_gameObject).Color, value); }
         }
+
+        [Category("1.Light")]
+        public bool HasShadow
+        {
+            get { return ((Light)_gameObject).HasShadow; }
+            set { FireSetter(x => ((Light)_gameObject).HasShadow = x, ((Light)_gameObject).HasShadow, value); }
+        }
+
+
 
         protected LightWrapper(Light light, GameObjectWrapper parent) : base(light, parent) { }
 
