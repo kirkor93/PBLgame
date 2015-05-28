@@ -26,6 +26,11 @@ namespace PBLgame.Engine.Physics
         private BoundingSphere _sphere = new BoundingSphere();
 
         private float _realRadius;
+        private Matrix _worldTranslation;
+        private Matrix _world;
+
+        private Quaternion tmpQ = new Quaternion();
+        private Vector3 tmpV = new Vector3();
         #endregion
 
         #region Properties
@@ -103,8 +108,21 @@ namespace PBLgame.Engine.Physics
         {
             _owner = owner;
             _localPosition = Vector3.Zero;
-            _totalPosition = owner.gameObject.transform.Position + _localPosition;
-            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPositionAsVector;
+            _worldTranslation = Matrix.CreateTranslation(_localPosition);
+            if (owner.gameObject.parent != null)
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
+                Vector3 tmpV;
+                Quaternion tmpQ;
+                _world.Decompose(out tmpV,out tmpQ, out _totalPosition);
+            }
+            else
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
+                Vector3 tmpV;
+                Quaternion tmpQ;
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
             _radius = 0.0f;
             _trigger = false;
             ResizeCollider();
@@ -115,9 +133,18 @@ namespace PBLgame.Engine.Physics
         {
             _owner = owner;
             _radius = radius;
-            _localPosition = position;
-            _totalPosition = _localPosition + owner.gameObject.transform.Position;
-            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPositionAsVector;
+            _localPosition = position; 
+            _worldTranslation = Matrix.CreateTranslation(_localPosition);
+            if (_owner.gameObject.parent != null)
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
+            else
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
             _trigger = trigger;
             ResizeCollider();
             _sphere = new BoundingSphere(TotalPosition, _realRadius);
@@ -128,8 +155,19 @@ namespace PBLgame.Engine.Physics
             _owner = owner;
             _radius = radius;
             _localPosition = Vector3.Zero;
-            _totalPosition = _localPosition + owner.gameObject.transform.Position;
-            if (owner.gameObject.parent != null) _totalPosition += owner.gameObject.transform.AncestorsPositionAsVector;
+            _worldTranslation = Matrix.CreateTranslation(_localPosition);
+            if (_owner.gameObject.parent != null)
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
+            else
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
+                Vector3 tmpV;
+                Quaternion tmpQ;
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
             _trigger = trigger;
             ResizeCollider();
             _sphere = new BoundingSphere(TotalPosition, _realRadius);
@@ -152,9 +190,21 @@ namespace PBLgame.Engine.Physics
 
         public void UpdatePosition()
         {
-            _totalPosition = _owner.gameObject.transform.Position + _localPosition;
-            if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPositionAsVector;
+            //_totalPosition = LocalPosition + _owner.gameObject.transform.Position;
+            //if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPositionAsVector;
+            _worldTranslation = Matrix.CreateTranslation(_localPosition);//Matrix.CreateTranslation(_localPosition);
+            if (_owner.gameObject.parent != null)
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
+            else
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
             _sphere.Center = _totalPosition;
+            return;
             //_sphere = new BoundingSphere(_totalPosition, _radius);
         }
 

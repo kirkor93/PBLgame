@@ -119,6 +119,7 @@ namespace PBLgame
             mainCamera.parent = player;
 
             _scene.FindGameObject(607).AddComponent<EnemyMeleeScript>(new EnemyMeleeScript(_scene.FindGameObject(607)));
+            _scene.FindGameObject(8).collision.SphereColliders.Add(new SphereCollider(_scene.FindGameObject(8).collision,new Vector3(15.0f,10.0f,0.0f),5.0f,true));
 
         }
 

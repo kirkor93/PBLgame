@@ -590,7 +590,7 @@ namespace PBLgame.Engine.Components
         {
             if(myCol.Owner.Rigidbody)
             {
-                myCol.Owner.gameObject.transform.Translate(0.0f, 0.05f, 0.0f);
+                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
                 _onTerrain = true;
             }
         }
@@ -599,7 +599,7 @@ namespace PBLgame.Engine.Components
         {
             if (myCol.Owner.Rigidbody)
             {
-                myCol.Owner.gameObject.transform.Translate(0.0f, 0.05f, 0.0f);
+                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
                 _onTerrain = true;
             }
         }
@@ -608,7 +608,7 @@ namespace PBLgame.Engine.Components
         {
             if (myCol.Owner.Rigidbody)
             {
-                myCol.Owner.gameObject.transform.Translate(0.0f, 0.05f, 0.0f);
+                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
                 _onTerrain = true;
             }
         }
@@ -616,7 +616,7 @@ namespace PBLgame.Engine.Components
         {
             if (myCol.Owner.Rigidbody)
             {
-                myCol.Owner.gameObject.transform.Translate(0.0f, 0.05f, 0.0f);
+                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
                 _onTerrain = true;
             }
         }

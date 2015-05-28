@@ -113,6 +113,7 @@ namespace PBLgame.Engine.Components
         }
 
         public Matrix WorldRotation { get { return _worldRotation; } }
+        public Matrix WorldTranslation { get { return _worldTranslation; } }
 
         public Vector3 WorldPosition
         {
@@ -135,6 +136,7 @@ namespace PBLgame.Engine.Components
                 }
                 else
                 {
+                    return Matrix.Identity;
                     return gameObject.parent.transform._worldRotation * gameObject.parent.transform.AncestorsRotation;
                 }
             }
@@ -154,6 +156,22 @@ namespace PBLgame.Engine.Components
                 else
                 {
                     return gameObject.parent.transform._worldScale * gameObject.parent.transform.AncestorsScale;
+                }
+            }
+        }
+
+        public Matrix AncestorsTranslation
+        {
+            get
+            {
+                if (gameObject.parent == null)
+                {
+                    return Matrix.Identity;
+                }
+                else
+                {
+                    return Matrix.Identity;
+                    return gameObject.parent.transform._worldTranslation * gameObject.parent.transform.AncestorsTranslation;
                 }
             }
         }

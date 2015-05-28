@@ -63,21 +63,22 @@ namespace PBLgame.GamePlay
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            //switch(_currentAction)
-            //{
-            //    case MeleeAction.Attack:
-            //        Console.WriteLine("Attack");
-            //        break;
-            //    case MeleeAction.Chase:
-            //        Console.WriteLine("Chase");
-            //        break;
-            //    case MeleeAction.Escape:
-            //        Console.WriteLine("Escape");
-            //        break;
-            //    case MeleeAction.Stay:
-            //        Console.WriteLine("Stay");
-            //        break;
-            //}
+            switch (_currentAction)
+            {
+                case MeleeAction.Attack:
+                    Console.WriteLine("Attack");
+                    break;
+                case MeleeAction.Chase:
+
+                    Console.WriteLine("Chase");
+                    break;
+                case MeleeAction.Escape:
+                    Console.WriteLine("Escape");
+                    break;
+                case MeleeAction.Stay:
+                    Console.WriteLine("Stay");
+                    break;
+            }
         }
 
         private bool EnemyClose()

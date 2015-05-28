@@ -23,14 +23,14 @@ namespace PBLgame.Engine.Physics
             {
                 if (go.collision.Rigidbody)
                 {
-                    rigidbodies.Add(go);
+                    if (go.collision.OnTerrain) go.transform.Translate(0.0f, -0.01f * go.collision.Mass, 0.0f);
                 }
             }
-            if (rigidbodies.Count == 0) return;
-            foreach (GameObject rb in rigidbodies)
-            {
-                if (!rb.collision.OnTerrain) rb.transform.Translate(0.0f, -0.01f * rb.collision.Mass, 0.0f);
-            }
+            //if (rigidbodies.Count == 0) return;
+            //foreach (GameObject rb in rigidbodies)
+            //{
+            //    if (!rb.collision.OnTerrain) rb.transform.Translate(0.0f, -0.01f * rb.collision.Mass, 0.0f);
+            //}
         }
 
         public static void AddCollisionObject(GameObject obj)
