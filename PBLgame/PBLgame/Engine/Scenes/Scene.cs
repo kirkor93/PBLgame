@@ -293,10 +293,7 @@ namespace PBLgame.Engine.Scenes
                                 effect.Parameters["projection"].SetValue(_shadowProjMatrices[dir]);
                             }
 
-                            foreach (GameObject gameObject in GameObjects)
-                            {
-                                gameObject.DrawSpecial(gameTime, Renderer.Technique.ShadowsDirectional);
-                            }
+                            DrawScene(gameTime, Renderer.Technique.ShadowsDirectional);
 
                             _graphics.SetRenderTarget(null);
                             
@@ -329,7 +326,7 @@ namespace PBLgame.Engine.Scenes
 
                     _shadowFarPlanes[pt] = pLight.Attenuation;
 
-                    if (light.HasShadow)
+                    if (light.HasShadow && _shadowFarPlanes[pt] > 0)
                     {
                         _hasShadows[pt] = true;
                         Matrix lightProjMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 1, 1f, _shadowFarPlanes[pt]);
@@ -350,10 +347,7 @@ namespace PBLgame.Engine.Scenes
                                 effect.Parameters["projection"].SetValue(lightProjMatrix);
                             }
 
-                            foreach (GameObject gameObject in GameObjects)
-                            {
-                                gameObject.DrawSpecial(gameTime, Renderer.Technique.ShadowsPoint);
-                            }
+                            DrawScene(gameTime, Renderer.Technique.ShadowsPoint);
                         }
 
                         _graphics.SetRenderTarget(null);
