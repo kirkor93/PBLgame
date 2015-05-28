@@ -26,7 +26,7 @@ namespace PBLgame.GamePlay
         private Bar _healthBar;
         private Bar _manaBar;
 
-        //private GameObject _attackTriggerObject;
+        private GameObject _attackTriggerObject;
 
         #endregion
         #endregion
@@ -45,19 +45,18 @@ namespace PBLgame.GamePlay
 
             SpeedMultiplier = 70f;
 
-            //_attackTriggerObject = new GameObject();
-            //_attackTriggerObject.transform.Position = new Vector3(15.0f, 10.0f, 0.0f) + gameObject.transform.Position;
-            //_attackTriggerObject.parent = this.gameObject;
+            _attackTriggerObject = new GameObject();
+            _attackTriggerObject.transform.Position = new Vector3(15.0f, 10.0f, 0.0f);
+            _attackTriggerObject.parent = this.gameObject;
 
-            //_attackTriggerObject.collision = new Collision(_attackTriggerObject);
-            //_attackTriggerObject.collision.MainCollider = new SphereCollider(_attackTriggerObject.collision, 5.0f, true);
+            _attackTriggerObject.collision = new Collision(_attackTriggerObject);
+            _attackTriggerObject.collision.Static = false;
+            _attackTriggerObject.collision.MainCollider = new SphereCollider(_attackTriggerObject.collision, 5.0f, true);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            //_attackTriggerObject.Draw(gameTime);
-            //Console.WriteLine(gameObject.transform.Position.ToString());
-            //Console.WriteLine(_attackTriggerObject.collision.MainCollider.TotalPosition.ToString());
+            _attackTriggerObject.Draw(gameTime);
         }
 
         public override void Initialize(bool editor)
@@ -79,6 +78,7 @@ namespace PBLgame.GamePlay
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            _attackTriggerObject.Update(gameTime);
             _healthBar.FillAmount = ConvertRange(Convert.ToSingle(Stats.Health.Value), 0.0f, Stats.Health.MaxValue, 0.0f, 1.0f);
             _manaBar.FillAmount = ConvertRange(Convert.ToSingle(Stats.Energy.Value), 0.0f, Stats.Energy.MaxValue, 0.0f, 1.0f);
 

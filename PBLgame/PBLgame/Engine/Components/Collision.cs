@@ -218,15 +218,15 @@ namespace PBLgame.Engine.Components
         
         public override void Draw(GameTime gameTime)
         {
-//            foreach(BoxCollider box in _boxColliders)
-//            {
-//                box.Draw();
-//            }
-//            foreach(SphereCollider sphere in _sphereColliders)
-//            {
-//                sphere.Draw();
-//            }
-//            MainCollider.Draw();
+            foreach (BoxCollider box in _boxColliders)
+            {
+                box.Draw();
+            }
+            foreach (SphereCollider sphere in _sphereColliders)
+            {
+                sphere.Draw();
+            }
+            MainCollider.Draw();
         }
 
         public void UpdatePositions()
@@ -598,7 +598,7 @@ namespace PBLgame.Engine.Components
         {
             if(myCol.Owner.Rigidbody)
             {
-                //myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
+                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
                 ++_terrainCalls;
             }
         }
@@ -607,7 +607,7 @@ namespace PBLgame.Engine.Components
         {
             if (myCol.Owner.Rigidbody)
             {
-                //myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
+                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
                 ++_terrainCalls;
             }
         }
@@ -616,7 +616,7 @@ namespace PBLgame.Engine.Components
         {
             if (myCol.Owner.Rigidbody)
             {
-                //myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
+                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
                 ++_terrainCalls;
             }
         }
@@ -624,7 +624,7 @@ namespace PBLgame.Engine.Components
         {
             if (myCol.Owner.Rigidbody)
             {
-                //myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
+                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
                 ++_terrainCalls;
             }
         }
