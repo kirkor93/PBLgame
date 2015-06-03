@@ -56,6 +56,7 @@ namespace PBLgame.Engine.Physics
                 _localPosition = value;
                 _totalPosition = _owner.gameObject.transform.Position + _localPosition;
                 if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPositionAsVector;
+                _worldTranslation = Matrix.CreateTranslation(_localPosition);
             }
         }
 
@@ -132,6 +133,30 @@ namespace PBLgame.Engine.Physics
             _box = BoundingBox.CreateFromPoints(_colVerts);
         }
 
+        public BoxCollider(Collision owner,bool trigger)
+        {
+            _owner = owner;
+            _edgesSize = new Vector3(1, 1, 1);
+            _localPosition = Vector3.Zero;
+            _worldTranslation = Matrix.CreateTranslation(_localPosition);
+            if (_owner.gameObject.parent != null)
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
+            else
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
+                Vector3 tmpV;
+                Quaternion tmpQ;
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
+            _trigger = trigger;
+            _colVerts = new Vector3[8];
+            GenerateCollider();
+            _box = BoundingBox.CreateFromPoints(_colVerts);
+        }
+
 
         public BoxCollider(Collision owner, Vector3 position, Vector3 size, bool trigger)
         {
@@ -173,6 +198,48 @@ namespace PBLgame.Engine.Physics
         public void ResizeCollider()
         {
            _edgesRealSize = EdgesSize *_owner.gameObject.transform.Scale * _owner.gameObject.transform.AncestorsScaleAsVector;       
+        }
+
+        public void GenerateCollider()
+        {
+            if (_owner == null || _owner.gameObject.renderer == null || _owner.gameObject.renderer.MyMesh == null || _owner.gameObject.renderer.MyMesh.Model == null) return;
+            float minX, maxX, minY, maxY, minZ, maxZ;
+            minX = minY = minZ = float.MaxValue;
+            maxX = maxY = maxZ = float.MinValue;
+            foreach (ModelMesh mMesh in _owner.gameObject.renderer.MyMesh.Model.Meshes)
+            {
+                foreach (ModelMeshPart part in mMesh.MeshParts)
+                {
+                    VertexPositionColor[] verts = new VertexPositionColor[part.NumVertices];
+                    part.VertexBuffer.GetData<VertexPositionColor>(verts);
+                    foreach (VertexPositionColor vert in verts)
+                    {
+                        if (vert.Position.X > maxX) maxX = vert.Position.X;
+                        if (vert.Position.X < minX) minX = vert.Position.X;
+                        if (vert.Position.Y > maxY) maxY = vert.Position.Z;
+                        if (vert.Position.Y < minY) minY = vert.Position.Z;
+                        if (vert.Position.Z > maxZ) maxZ = vert.Position.Y;
+                        if (vert.Position.Z < minZ) minZ = vert.Position.Y;
+                    }
+                }
+            }
+
+            //Console.WriteLine("Box");
+            //Console.WriteLine("Xmin = " + minX);
+            //Console.WriteLine("Xmax = " + maxX);
+            //Console.WriteLine("Ymin = " + minY);
+            //Console.WriteLine("Ymax = " + maxY);
+            //Console.WriteLine("Zmin = " + minZ);
+            //Console.WriteLine("Zmax = " + maxZ);
+            float midX, midY, midZ;
+
+            midX = (Math.Abs(maxX) + Math.Abs(minX)) / 2f;
+            midY = (Math.Abs(maxY) + Math.Abs(minY)) / 2f;
+            midZ = (Math.Abs(maxZ) + Math.Abs(minZ)) / 2f;
+
+            LocalPosition = new Vector3(0f, midY, 0f);
+            EdgesSize = new Vector3(midX, midY, midZ);
+
         }
 
         private void InitializeVerts()

@@ -23,7 +23,7 @@ namespace PBLgame.Engine.Physics
             {
                 if (go.collision.Rigidbody)
                 {
-                    if (!go.collision.OnTerrain) go.transform.Translate(0.0f, -0.01f * go.collision.Mass, 0.0f);
+                    if (!go.collision.OnTerrain && (go.collision.Mass != 0.0f)) go.transform.Translate(0.0f, -0.01f * go.collision.Mass, 0.0f);
                     go.collision.TerrainCalls = 0;
                 }
             }

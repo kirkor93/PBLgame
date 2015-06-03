@@ -188,7 +188,20 @@ namespace PBLgame.Engine.Components
             _sphereColliders = new List<SphereCollider>();
             _boxColliders = new List<BoxCollider>();
             _onTerrain = false;
-            _mass = 50.0f;
+            _mass = 0.0f;
+            _inContact = false;
+            PhysicsSystem.AddCollisionObject(owner);
+        }
+
+        public Collision(GameObject owner,bool rigid, float mass): base(owner)
+        {
+            _static = true;
+            _rigidbody = rigid;
+            _mainCollider = null;
+            _sphereColliders = new List<SphereCollider>();
+            _boxColliders = new List<BoxCollider>();
+            _onTerrain = false;
+            _mass = mass;
             _inContact = false;
             PhysicsSystem.AddCollisionObject(owner);
         }

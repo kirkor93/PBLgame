@@ -4840,7 +4840,12 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="8" MaterialId="5" />
-      <Animator Enabled="True" />      
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="5" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <Animator Enabled="True" />     
     </GameObject>
     <GameObject Name="Mirror" Tag="Mirror" Id="612">
       <Transform Enabled="True">

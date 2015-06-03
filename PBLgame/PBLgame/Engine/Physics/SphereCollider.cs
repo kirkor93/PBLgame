@@ -54,7 +54,8 @@ namespace PBLgame.Engine.Physics
                 _localPosition = value;
                 _totalPosition = _owner.gameObject.transform.Position + _localPosition;
                 if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPositionAsVector;
-                _sphere.Center = _totalPosition;
+                _worldTranslation = Matrix.CreateTranslation(_localPosition);
+
             }
         }
         public float Radius
@@ -67,7 +68,7 @@ namespace PBLgame.Engine.Physics
             {
                 _radius = value;
                 ResizeCollider();
-                _sphere = new BoundingSphere(_totalPosition, _radius);
+                _sphere = new BoundingSphere(_totalPosition, _realRadius);
 
             }
         }
@@ -75,6 +76,17 @@ namespace PBLgame.Engine.Physics
         {
             get
             {
+                _worldTranslation = Matrix.CreateTranslation(_localPosition);
+                if (_owner.gameObject.parent != null)
+                {
+                    _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
+                    _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+                }
+                else
+                {
+                    _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
+                    _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+                }
                 return _totalPosition;
             }
             private set { }
@@ -129,6 +141,31 @@ namespace PBLgame.Engine.Physics
             _sphere = new BoundingSphere(_totalPosition,_realRadius);
         }
 
+        public SphereCollider(Collision owner,bool trigger)
+        {
+            _owner = owner;
+            _localPosition = Vector3.Zero;
+            _worldTranslation = Matrix.CreateTranslation(_localPosition);
+            if (owner.gameObject.parent != null)
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
+                Vector3 tmpV;
+                Quaternion tmpQ;
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
+            else
+            {
+                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
+                Vector3 tmpV;
+                Quaternion tmpQ;
+                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+            }
+            _radius = 0.0f;
+            _trigger = trigger;
+            GenerateCollider();
+            _sphere = new BoundingSphere(_totalPosition, _realRadius);
+        }
+
         public SphereCollider(Collision owner, Vector3 position, float radius, bool trigger)
         {
             _owner = owner;
@@ -171,6 +208,55 @@ namespace PBLgame.Engine.Physics
             _trigger = trigger;
             ResizeCollider();
             _sphere = new BoundingSphere(TotalPosition, _realRadius);
+        }
+
+        public void GenerateCollider()
+        {
+            if (_owner == null || _owner.gameObject.renderer == null || _owner.gameObject.renderer.MyMesh == null || _owner.gameObject.renderer.MyMesh.Model == null) return;
+            float minX, maxX, minY, maxY, minZ, maxZ;
+            minX = minY = minZ = float.MaxValue;
+            maxX = maxY = maxZ = float.MinValue;
+            foreach(ModelMesh mMesh in _owner.gameObject.renderer.MyMesh.Model.Meshes)
+            {
+                foreach(ModelMeshPart part in mMesh.MeshParts )
+                {
+                    VertexPositionColor[] verts = new VertexPositionColor[part.NumVertices];
+                    part.VertexBuffer.GetData<VertexPositionColor>(verts);
+                    foreach (VertexPositionColor vert in verts)
+                    {
+                        if(vert.Position.X > maxX) maxX = vert.Position.X;
+                        if(vert.Position.X < minX) minX = vert.Position.X;
+                        if(vert.Position.Y > maxY) maxY = vert.Position.Z;
+                        if(vert.Position.Y < minY) minY = vert.Position.Z;
+                        if(vert.Position.Z > maxZ) maxZ = vert.Position.Y;
+                        if(vert.Position.Z < minZ) minZ = vert.Position.Y;
+                    }
+                }
+            }
+
+            //Console.WriteLine("Sphere");
+            //Console.WriteLine("Xmin = " + minX);
+            //Console.WriteLine("Xmax = " + maxX);
+            //Console.WriteLine("Ymin = " + minY);
+            //Console.WriteLine("Ymax = " + maxY);
+            //Console.WriteLine("Zmin = " + minZ);
+            //Console.WriteLine("Zmax = " + maxZ);
+
+            float midX, midY, midZ;
+            //midX = (maxX + minX) / 2f;
+            //midY = (maxY + minY) / 2f;
+            //midZ = (maxZ + minZ) / 2f;
+
+
+            midX = (Math.Abs(maxX) + Math.Abs(minX)) / 2f;
+            midY = (Math.Abs(maxY) + Math.Abs(minY)) / 2f;
+            midZ = (Math.Abs(maxZ) + Math.Abs(minZ)) / 2f;
+            
+            LocalPosition = new Vector3(0f, midY, 0f);
+
+            if (midX > midY && midX > midZ) Radius = midX;
+            else if (midY > midX && midY > midZ) Radius = midY;
+            else if (midZ > midX && midZ > midY) Radius = midZ;
         }
 
         public bool Intersect(SphereCollider sphere)

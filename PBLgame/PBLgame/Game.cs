@@ -119,6 +119,22 @@ namespace PBLgame
             mainCamera.parent = player;
 
             _scene.FindGameObject(607).AddComponent<EnemyMeleeScript>(new EnemyMeleeScript(_scene.FindGameObject(607)));
+            //_scene.FindGameObject(8).collision.SphereColliders.Add(new SphereCollider(_scene.FindGameObject(8).collision,true));
+            //_scene.FindGameObject(8).collision.BoxColliders.Add(new BoxCollider(_scene.FindGameObject(8).collision, true));
+
+            //_scene.FindGameObject(1).collision = new Collision(_scene.FindGameObject(1));
+            //_scene.FindGameObject(1).collision.MainCollider = new SphereCollider(_scene.FindGameObject(1).collision, true);
+            //_scene.FindGameObject(1).collision.BoxColliders.Add(new BoxCollider(_scene.FindGameObject(1).collision, false));
+            //foreach (GameObject go in _scene.GameObjects)
+            //{
+            //    if (go.collision == null && go.Name == "Lantern")
+            //    {
+            //        go.collision = new Collision(go);
+            //        go.collision.MainCollider = new SphereCollider(go.collision, false);
+            //        go.collision.BoxColliders.Add(new BoxCollider(go.collision, true));
+            //    }
+            //}
+            //_scene.FindGameObject(8).collision.BoxColliders.Add(new BoxCollider(_scene.FindGameObject(8).collision,true));
             //_scene.FindGameObject(8).collision.SphereColliders.Add(new SphereCollider(_scene.FindGameObject(8).collision,new Vector3(15.0f,10.0f,0.0f),5.0f,true));
 
         }
