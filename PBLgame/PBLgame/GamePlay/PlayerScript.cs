@@ -99,11 +99,6 @@ namespace PBLgame.GamePlay
 
         public PlayerScript(GameObject gameObj) : base(gameObj)
         {
-            Stats = new PlayerStatistics(100, 100, 100);
-            InputManager.Instance.OnTurn   += CharacterRotation;
-            InputManager.Instance.OnMove   += CharacterTranslate;
-            InputManager.Instance.OnButton += CharacterAction;
-
             SpeedMultiplier = 70f;
 
             _attackTriggerObject = new GameObject();
@@ -126,12 +121,14 @@ namespace PBLgame.GamePlay
             base.Initialize(editor);
             if (editor)
             {
-                _healthBar = new Bar();
-                _manaBar = new Bar();
-                _experienceBar = new Bar();
             }
             else
             {
+                Stats = new PlayerStatistics(100, 100, 100);
+                InputManager.Instance.OnTurn += CharacterRotation;
+                InputManager.Instance.OnMove += CharacterTranslate;
+                InputManager.Instance.OnButton += CharacterAction;
+
                 //getting controls from gui
                 _healthBar = HUD.Instance.GetGuiObject("Health_bar") as Bar;
                 _manaBar = HUD.Instance.GetGuiObject("Mana_bar") as Bar;
