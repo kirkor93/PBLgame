@@ -39,6 +39,8 @@ namespace AnimationAux
         /// </summary>
         public List<AnimationClip> Clips { get { return clips; } set { clips = value; } }
 
+        public bool InvertRootBindTransform { get; set; }
+
         #endregion
     }
 }

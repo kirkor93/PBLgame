@@ -7,7 +7,7 @@
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="3" MaterialId="1" />
+      <Renderer Enabled="True" MeshId="3" MaterialId="44" />
       <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
         <SphereCollider Radius="9" IsTrigger="False">
           <LocalPosition x="0" y="10" z="0" />
@@ -15,6 +15,14 @@
       </Collision>
       <Animator Enabled="True" />
       <PBLgame.GamePlay.PlayerScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Sword" Tag="PlayerWeapon" Id="613" Parent="8">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="4" MaterialId="44" />
     </GameObject>
     <GameObject Name="Ground" Tag="Terrain" Id="999">
       <Transform Enabled="True">
@@ -4870,7 +4878,7 @@
       </GameObject>
       <PointLight Attenuation="40" FallOff="10" />
     </Light>
-    <Light Type="Point" HasShadow="True">
+    <Light Type="Point" HasShadow="False">
       <Color r="0.8" g="0.8" b="0.8" a="1" />
       <GameObject Name="Light 1" Tag="Light" Id="170" Parent="118">
         <Transform Enabled="True">
@@ -4881,7 +4889,7 @@
       </GameObject>
       <PointLight Attenuation="50" FallOff="50" />
     </Light>
-    <Light Type="Point" HasShadow="True">
+    <Light Type="Point" HasShadow="False">
       <Color r="0.8" g="0.8" b="0.8" a="1" />
       <GameObject Name="Light 1" Tag="Light" Id="609" Parent="119">
         <Transform Enabled="True">
@@ -4892,7 +4900,7 @@
       </GameObject>
       <PointLight Attenuation="100" FallOff="50" />
     </Light>
-    <Light Type="Point" HasShadow="True">
+    <Light Type="Point" HasShadow="False">
       <Color r="0.8" g="0.8" b="0.8" a="1" />
       <GameObject Name="Light 1" Tag="Light" Id="610" Parent="120">
         <Transform Enabled="True">
@@ -4903,7 +4911,7 @@
       </GameObject>
       <PointLight Attenuation="100" FallOff="50" />
     </Light>
-    <Light Type="Directional" HasShadow="True">
+    <Light Type="Directional" HasShadow="False">
       <Color r="0.9" g="1" b="1" a="1" />
       <GameObject Name="Moonlight" Tag="Light" Id="611">
         <Transform Enabled="True">

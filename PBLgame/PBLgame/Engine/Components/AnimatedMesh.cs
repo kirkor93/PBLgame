@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AnimationAux;
 using Microsoft.Xna.Framework;
@@ -27,6 +28,7 @@ namespace PBLgame.Engine.Components
         private List<Bone> _bones = new List<Bone>();
 
         private Matrix[] _skeletonMatrix;
+        public AttachSlot WeaponSlot { get; set; }
 
         #endregion
 
@@ -111,7 +113,8 @@ namespace PBLgame.Engine.Components
             foreach (ModelBone bone in _model.Bones)
             {
                 // Create the bone object and add to the heirarchy
-                Bone newBone = new Bone(bone.Name, bone.Transform, bone.Parent != null ? _bones[bone.Parent.Index] : null);
+                bool invert = !(!_modelExtra.InvertRootBindTransform && (bone.Parent != null && bone.Parent.Parent == null));
+                Bone newBone = new Bone(bone.Name, bone.Transform, bone.Parent != null ? _bones[bone.Parent.Index] : null, invert);
 
                 // Add to the bones for this model
                 _bones.Add(newBone);

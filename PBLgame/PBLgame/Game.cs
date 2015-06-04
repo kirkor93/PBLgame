@@ -116,13 +116,15 @@ namespace PBLgame
             Intro.Instance.Start();
             _scene = new Scene();
             _scene.Load(@"Level_1.xml");
+            //_scene.Load(@"AnimScene.xml");
 
             player = _scene.FindGameObject(8);
+            player.AddComponent( new AttachSlot(player, _scene.FindGameObject("Sword"), "miecz123") );
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;
 
-//            _scene.FindGameObject(607).AddComponent<EnemyMeleeScript>(new EnemyMeleeScript(_scene.FindGameObject(607)));
+            //_scene.FindGameObject(607).AddComponent<EnemyMeleeScript>(new EnemyMeleeScript(_scene.FindGameObject(607)));
 //            _scene.Save(@"Level_1.xml");
         }
 
@@ -155,7 +157,7 @@ namespace PBLgame
 
             if(_isIntroFinished)
             {
-                _scene.Update(gameTime);
+            _scene.Update(gameTime);
             }
             else
             {
@@ -179,13 +181,13 @@ namespace PBLgame
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             if (_isIntroFinished)
             {
-                _scene.Draw(gameTime);
+            _scene.Draw(gameTime);
             }
             base.Draw(gameTime);
             spriteBatch.Begin();
             if (_isIntroFinished)
             {
-                HUD.Instance.Draw();
+            HUD.Instance.Draw();
             }
             else
             {

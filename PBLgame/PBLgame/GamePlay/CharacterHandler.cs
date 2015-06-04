@@ -62,7 +62,7 @@ namespace PBLgame.GamePlay
             float v = trueVelocity.Length();
             if (Math.Abs(v) < 0.0001)
             {
-                _gameObject.animator.Idle();
+                _gameObject.animator.IdleMovement();
             }
             else
             {

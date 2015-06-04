@@ -63,6 +63,8 @@ namespace PBLgame.Engine.Components
         /// </summary>
         private Vector3 scale = Vector3.One;
 
+        private bool _invertingBindTransform = true;
+
         #endregion 
 
         #region Properties
@@ -107,6 +109,12 @@ namespace PBLgame.Engine.Components
         /// </summary>
         public List<Bone> Children { get { return children; } }
 
+        public bool InvertingBindTransform
+        {
+            get { return _invertingBindTransform; }
+            set { _invertingBindTransform = value; }
+        }
+
         /// <summary>
         /// The bone absolute transform
         /// </summary>
@@ -122,10 +130,13 @@ namespace PBLgame.Engine.Components
         /// <param name="name">The name of the bone</param>
         /// <param name="bindTransform">The initial bind transform for the bone</param>
         /// <param name="parent">A parent for this bone</param>
-        public Bone(string name, Matrix bindTransform, Bone parent)
+        /// <param name="invertBindTransform">allows to disable inverting the bind pose</param>
+        public Bone(string name, Matrix bindTransform, Bone parent, bool invertBindTransform)
         {
             this.Name = name;
             this.parent = parent;
+            this._invertingBindTransform = invertBindTransform;
+
             if (parent != null)
                 parent.children.Add(this);
 
@@ -138,7 +149,7 @@ namespace PBLgame.Engine.Components
 
             bindTransform.Right = bindTransform.Right / bindScale.X;
             bindTransform.Up = bindTransform.Up / bindScale.Y;
-            bindTransform.Backward = bindTransform.Backward / bindScale.Y;
+            bindTransform.Backward = bindTransform.Backward / bindScale.Z;
             this.bindTransform = bindTransform;
 
             // Set the skinning bind transform
@@ -179,7 +190,7 @@ namespace PBLgame.Engine.Components
         {
             Matrix setTo = m;
             // Ignore BindTransform of first actual bone in hierarchy.
-            if (Parent == null || Parent.Parent != null)
+            if(InvertingBindTransform)
             {
                 setTo = setTo * Matrix.Invert(BindTransform);
             }

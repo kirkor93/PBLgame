@@ -83,6 +83,7 @@
     <Compile Include="Engine\AI\DecisionTree.cs" />
     <Compile Include="Engine\Components\AnimatedMesh.cs" />
     <Compile Include="Engine\Components\Animator.cs" />
+    <Compile Include="Engine\Components\AttachSlot.cs" />
     <Compile Include="Engine\Components\AudioSource.cs" />
     <Compile Include="Engine\Components\Bone.cs" />
     <Compile Include="Engine\Components\Component.cs" />

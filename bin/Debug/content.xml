@@ -273,7 +273,10 @@
       
       <Animation Id="8" Path="Animations\Enemies\Mecha_Ranger_anim" Skeleton="2" Type="Idle" />
       
-      <Animation Id="9" Path="Animations\Champions\Ace_run" Skeleton="3" Type="Walk" Speed="0.016" />
+      <Animation Id="9" Path="Animations\Champions\Ace_idle" Skeleton="3" Type="Idle" />
+      <Animation Id="10" Path="Animations\Champions\Ace_run" Skeleton="3" Type="Walk" Speed="0.016" />
+      <Animation Id="11" Path="Animations\Champions\Ace_simple_attack" Skeleton="3" Type="Attack" />
+      
     </Animations>
     <SpriteFonts>
       <SpriteFont Path="Fonts\Default" />

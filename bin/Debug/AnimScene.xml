@@ -1,15 +1,23 @@
 <?xml version="1.0"?>
 <Scene>
   <GameObjects>
-      <GameObject Name="Gandalf" Tag="Ghost" Id="1">
+    <GameObject Name="Ace" Tag="Player" Id="8">
       <Transform Enabled="True">
-        <Position x="0" y="100" z="0" />
+        <Position x="0" y="0" z="0" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="2" MaterialId="35" />
+      <Renderer Enabled="True" MeshId="3" MaterialId="44" />
       <Animator Enabled="True" />
       <PBLgame.GamePlay.PlayerScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Sword" Tag="PlayerWeapon" Id="613" Parent="8">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="4" MaterialId="44" />
     </GameObject>
     <GameObject Name="Ground" Tag="Empty" Id="5">
       <Transform Enabled="True">
@@ -604,18 +612,18 @@
     </GameObject>
   </GameObjects>
   <Lights>
-    <Light Type="Directional">
+    <Light Type="Directional" HasShadow="True">
       <Color r="1" g="1" b="1" a="1" />
-      <GameObject Name="Light 1" Tag="Light" Id="8">
+      <GameObject Name="Light 1" Tag="Light" Id="1">
         <Transform Enabled="True">
-          <Position x="11" y="11" z="0" />
+          <Position x="13.762" y="23.53418" z="0.7939987" />
           <Rotation x="0" y="0" z="0" />
           <Scale x="1" y="1" z="1" />
         </Transform>
       </GameObject>
       <DirectionalLight Intensity="1" />
     </Light>
-    <Light Type="Point">
+    <Light Type="Point" HasShadow="True">
       <Color r="1" g="0" b="0" a="1" />
       <GameObject Name="Light 1" Tag="Light" Id="9" Parent="5">
         <Transform Enabled="True">

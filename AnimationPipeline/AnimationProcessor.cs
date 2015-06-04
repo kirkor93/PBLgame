@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -66,6 +67,15 @@ namespace AnimationPipeline
         //    }
         //}
 
+        [Description("Inverts root bone transform in skeleton. Use when model is inproperly rotated")]
+        [DefaultValue(true)]
+        public bool InvertRootBindTransform
+        {
+            get { return _invertRootBindTransform; }
+            set { _invertRootBindTransform = value; }
+        }
+
+
         /// <summary>
         /// The model we are reading
         /// </summary>
@@ -107,6 +117,7 @@ namespace AnimationPipeline
 
             ProcessAnimations(model, input, context);
 
+            modelExtra.InvertRootBindTransform = InvertRootBindTransform;
             // Add the extra content to the model 
             model.Tag = modelExtra;
 
@@ -384,6 +395,7 @@ namespace AnimationPipeline
         private Dictionary<string, AnimationClip> clips = new Dictionary<string, AnimationClip>();
 
         private BasicMaterialContent dummyBasicMaterial;
+        private bool _invertRootBindTransform = true;
 
         /// <summary>
         /// Entry point for animation processing. 
