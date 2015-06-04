@@ -562,7 +562,8 @@ namespace PBLgame.Engine.GameObjects
                 Type type = Type.GetType(readerName);
                 ConstructorInfo ctor = type.GetConstructor(new Type[] {typeof (GameObject)});
 
-                Component component = ctor.Invoke(new object[] { this }) as Component;
+                Component component = null;
+                component = ctor.Invoke(new object[] { this }) as Component;
                 component.ReadXml(reader);
                 _components.Add(component);
                 if (reader.Name == readerName)

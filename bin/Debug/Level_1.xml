@@ -4845,7 +4845,9 @@
           <LocalPosition x="0" y="10" z="0" />
         </SphereCollider>
       </Collision>
-      <Animator Enabled="True" />     
+      <Animator Enabled="True" />
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.EnemyMeleeScript Enabled="True" />
     </GameObject>
     <GameObject Name="Mirror" Tag="Mirror" Id="612">
       <Transform Enabled="True">

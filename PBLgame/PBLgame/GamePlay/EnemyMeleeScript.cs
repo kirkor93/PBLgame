@@ -76,8 +76,12 @@ namespace PBLgame.GamePlay
             _standNode.ActionEvent += StandStill;
             _escapeNode.ActionEvent += Escape;
 
-            AIComponent = new AIComponent(owner);
-            _gameObject.AddComponent<AIComponent>(AIComponent);
+            AIComponent = _gameObject.GetComponent<AIComponent>();
+            if (AIComponent == null)
+            {
+                AIComponent = new AIComponent(owner);
+                _gameObject.AddComponent<AIComponent>(AIComponent);
+            }
 
 
             _distanceNode.TrueChild = _hpNode;

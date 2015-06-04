@@ -122,7 +122,8 @@ namespace PBLgame
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;
 
-            _scene.FindGameObject(607).AddComponent<EnemyMeleeScript>(new EnemyMeleeScript(_scene.FindGameObject(607)));
+//            _scene.FindGameObject(607).AddComponent<EnemyMeleeScript>(new EnemyMeleeScript(_scene.FindGameObject(607)));
+//            _scene.Save(@"Level_1.xml");
         }
 
         /// <summary>
