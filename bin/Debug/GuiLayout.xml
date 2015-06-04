@@ -2,7 +2,7 @@
 <HUD>
   <ReferenceWindowSize x="1920" y="1080" />
   <GUIObjects>
-    <PBLgame.Engine.GUI.GUIObject Id="11" Name="Upgrade_screen_BG" Enabled="True" Pivot="1" Texture="Textures\GUI\Upgrade_screen_BG">
+    <PBLgame.Engine.GUI.GUIObject Id="11" Name="Upgrade_screen_BG" Enabled="False" Pivot="1" Texture="Textures\GUI\Upgrade_screen_BG">
       <Position x="500" y="220" />
       <Scale x="1" y="1" />
     </PBLgame.Engine.GUI.GUIObject>
@@ -38,37 +38,37 @@
       <Position x="60" y="152" />
       <Scale x="1" y="1" />
     </PBLgame.Engine.GUI.GUIObject>
-    <PBLgame.Engine.GUI.Button Id="8" Name="Upgrade_strength_button" Enabled="True" Pivot="0" Texture="Textures\GUI\Upgrade_strength_button_enabled">
+    <PBLgame.Engine.GUI.Button Id="8" Name="Upgrade_strength_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_strength_button_highlighted">
       <Position x="750" y="350" />
       <Scale x="1" y="1" />
       <Button EnabledTexture="Textures\GUI\Upgrade_strength_button_enabled" DisabledTexture="Textures\GUI\Upgrade_strength_button_disabled" SelectedTexture="Textures\GUI\Upgrade_strength_button_highlighted" PressedTexture="Textures\GUI\Upgrade_strength_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeStrengthButton" Neighbour_0="9" Neighbour_1="-1" Neighbour_2="-1" Neighbour_3="14" />
     </PBLgame.Engine.GUI.Button>
-    <PBLgame.Engine.GUI.Button Id="9" Name="Upgrade_mana_button" Enabled="True" Pivot="0" Texture="Textures\GUI\Upgrade_mana_button_enabled">
+    <PBLgame.Engine.GUI.Button Id="9" Name="Upgrade_mana_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_mana_button_enabled">
       <Position x="1170" y="350" />
       <Scale x="1" y="1" />
       <Button EnabledTexture="Textures\GUI\Upgrade_mana_button_enabled" DisabledTexture="Textures\GUI\Upgrade_mana_button_disabled" SelectedTexture="Textures\GUI\Upgrade_mana_button_highlighted" PressedTexture="Textures\GUI\Upgrade_mana_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeManaButton" Neighbour_0="-1" Neighbour_1="8" Neighbour_2="-1" Neighbour_3="12" />
     </PBLgame.Engine.GUI.Button>
-    <PBLgame.Engine.GUI.Button Id="10" Name="Upgrade_shield_button" Enabled="True" Pivot="0" Texture="Textures\GUI\Upgrade_shield_button_enabled">
+    <PBLgame.Engine.GUI.Button Id="10" Name="Upgrade_shield_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_shield_button_enabled">
       <Position x="1270" y="750" />
       <Scale x="1" y="1" />
       <Button EnabledTexture="Textures\GUI\Upgrade_shield_button_enabled" DisabledTexture="Textures\GUI\Upgrade_shield_button_disabled" SelectedTexture="Textures\GUI\Upgrade_shield_button_highlighted" PressedTexture="Textures\GUI\Upgrade_shield_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeShieldButton" Neighbour_0="-1" Neighbour_1="-1" Neighbour_2="12" Neighbour_3="-1" />
     </PBLgame.Engine.GUI.Button>
-    <PBLgame.Engine.GUI.Button Id="12" Name="Upgrade_telekinetic_push_button" Enabled="True" Pivot="0" Texture="Textures\GUI\Upgrade_telekinetic_push_button_enabled">
+    <PBLgame.Engine.GUI.Button Id="12" Name="Upgrade_telekinetic_push_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_telekinetic_push_button_enabled">
       <Position x="1220" y="550" />
       <Scale x="1" y="1" />
       <Button EnabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_enabled" DisabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_disabled" SelectedTexture="Textures\GUI\Upgrade_telekinetic_push_button_highlighted" PressedTexture="Textures\GUI\Upgrade_telekinetic_push_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeTelekineticPushButton" Neighbour_0="-1" Neighbour_1="13" Neighbour_2="9" Neighbour_3="10" />
     </PBLgame.Engine.GUI.Button>
-    <PBLgame.Engine.GUI.Button Id="13" Name="Upgrade_shooting_button" Enabled="True" Pivot="0" Texture="Textures\GUI\Upgrade_telekinetic_push_button_enabled">
+    <PBLgame.Engine.GUI.Button Id="13" Name="Upgrade_shooting_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_telekinetic_push_button_enabled">
       <Position x="960" y="550" />
       <Scale x="1" y="1" />
       <Button EnabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_enabled" DisabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_disabled" SelectedTexture="Textures\GUI\Upgrade_telekinetic_push_button_highlighted" PressedTexture="Textures\GUI\Upgrade_telekinetic_push_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeTelekineticPushButton" Neighbour_0="12" Neighbour_1="14" Neighbour_2="-1" Neighbour_3="-1" />
     </PBLgame.Engine.GUI.Button>
-    <PBLgame.Engine.GUI.Button Id="14" Name="Upgrade_fast_attack_button" Enabled="True" Pivot="0" Texture="Textures\GUI\Upgrade_fast_attack_button_enabled">
+    <PBLgame.Engine.GUI.Button Id="14" Name="Upgrade_fast_attack_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_fast_attack_button_enabled">
       <Position x="700" y="550" />
       <Scale x="1" y="1" />
       <Button EnabledTexture="Textures\GUI\Upgrade_fast_attack_button_enabled" DisabledTexture="Textures\GUI\Upgrade_fast_attack_button_disabled" SelectedTexture="Textures\GUI\Upgrade_fast_attack_button_highlighted" PressedTexture="Textures\GUI\Upgrade_fast_attack_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeFastAttackButton" Neighbour_0="13" Neighbour_1="-1" Neighbour_2="8" Neighbour_3="15" />
     </PBLgame.Engine.GUI.Button>
-    <PBLgame.Engine.GUI.Button Id="15" Name="Upgrade_strong_attack_button" Enabled="True" Pivot="0" Texture="Textures\GUI\Upgrade_strong_attack_button_enabled">
+    <PBLgame.Engine.GUI.Button Id="15" Name="Upgrade_strong_attack_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_strong_attack_button_enabled">
       <Position x="650" y="750" />
       <Scale x="1" y="1" />
       <Button EnabledTexture="Textures\GUI\Upgrade_strong_attack_button_enabled" DisabledTexture="Textures\GUI\Upgrade_strong_attack_button_disabled" SelectedTexture="Textures\GUI\Upgrade_strong_attack_button_highlighted" PressedTexture="Textures\GUI\Upgrade_strong_attack_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeStrongAttackButton" Neighbour_0="12" Neighbour_1="-1" Neighbour_2="14" Neighbour_3="-1" />

@@ -22,6 +22,7 @@ namespace PBLgame.Engine.GUI
         private PivotPoint _pivot;
         protected Rectangle _boundries;
         private bool _enabled;
+        private GUIText _text;
         #endregion
         #region Properties
         public string Name { get; set; }
@@ -73,6 +74,12 @@ namespace PBLgame.Engine.GUI
             set { _enabled = value; }
         }
 
+        public GUIText Text
+        {
+            get { return _text; }
+            set { _text = value; }
+        }
+
         #endregion
         #region Methods
         public GUIObject()
@@ -83,6 +90,7 @@ namespace PBLgame.Engine.GUI
             Name = "GuiObject";
             Pivot = PivotPoint.UpperLeft;
             Enabled = true;
+            Text = null;
         }
 
         public GUIObject(string name, Texture2D texture, Vector2 position, Vector2 scale, PivotPoint pivotPoint)
@@ -92,6 +100,12 @@ namespace PBLgame.Engine.GUI
             Position = position;
             Scale = scale;
             Pivot = pivotPoint;
+            Text = null;
+        }
+
+        public GUIObject(string name, Texture2D texture, Vector2 position, Vector2 scale, PivotPoint pivotPoint, GUIText text) : this(name, texture, position, scale, pivotPoint)
+        {
+            Text = text;
         }
 
         protected virtual void UpdateBoundries()
@@ -125,6 +139,13 @@ namespace PBLgame.Engine.GUI
             if (Enabled)
             {
                 batch.Draw(Texture, _boundries, Color.White);
+                if (Text != null)
+                {
+                    Vector2 textPos = new Vector2(_boundries.Left, _boundries.Top);
+                    textPos += Text.LocalPosition;
+                    batch.DrawString(Text.Font, Text.Text, textPos, Color.White);
+//                    batch.DrawString(Text.Font, Text.Text, textPos, Color.White, 0.0f, textPos, Scale, SpriteEffects.None, 0);
+                }
             }
         }
 
@@ -160,6 +181,12 @@ namespace PBLgame.Engine.GUI
                 Scale = tmp;
             }
             reader.Read();
+            if (reader.Name == "GUIText")
+            {
+                Text = new GUIText();
+                Text.ReadXml(reader);
+                reader.Read();
+            }
         }
 
         public virtual void WriteXml(XmlWriter writer)
@@ -182,6 +209,10 @@ namespace PBLgame.Engine.GUI
             writer.WriteAttributeString("x", Scale.X.ToString("G", culture));
             writer.WriteAttributeString("y", Scale.Y.ToString("G", culture));
             writer.WriteEndElement();
+            if (Text != null)
+            {
+                Text.WriteXml(writer);
+            }
         }
         #endregion
         #endregion

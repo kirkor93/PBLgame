@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<Intro>
+  <ReferenceWindowSize x="1920" y="1080" />
+  <IntroScenes>
+    <PBLgame.Engine.GUI.IntroScene Id="1" Name="Scene 1-1" Enabled="True" Pivot="1" Texture="Textures\Intro\scene1">
+      <Position x="0" y="0" />
+      <Scale x="1" y="1" />
+      <GUIText Font="Fonts\Default" Text="Gdzieś w odległym, równoległym wszechświecie ludzie nauczyli się wykorzystywać ogromne możliwości swoich umysłów.&#xD;&#xA;Cywilizacja poszła w zupełnie innym kierunku niż to, co znamy z naszego wszechświata.&#xD;&#xA;Możliwe stało się korzystanie z umiejętności telekinezy oraz manipulowanie myślami.&#xD;&#xA;Nigdy nie wynaleziono prochu strzelniczego, więc zamiast pistoletów używana jest energetyczna broń biała.">
+        <LocalPosition x="0" y="0" />
+      </GUIText>
+      <IntroScene Length="12" />
+    </PBLgame.Engine.GUI.IntroScene>
+    <PBLgame.Engine.GUI.IntroScene Id="2" Name="Scene 1-2" Enabled="True" Pivot="1" Texture="Textures\Intro\scene1">
+      <Position x="0" y="0" />
+      <Scale x="1" y="1" />
+      <GUIText Font="Fonts\Default" Text="Niemal we wszystkich dziedzinach życia ludzi zaczęły zastępować supernowoczesne komputery.&#xD;&#xA;Jednak nie wszystkim się to podobało...">
+        <LocalPosition x="0" y="0" />
+      </GUIText>
+      <IntroScene Length="7" />
+    </PBLgame.Engine.GUI.IntroScene>
+    <PBLgame.Engine.GUI.IntroScene Id="3" Name="Scene 2-1" Enabled="True" Pivot="1" Texture="Textures\Intro\scene2">
+      <Position x="0" y="0" />
+      <Scale x="1" y="1" />
+      <GUIText Font="Fonts\Default" Text="Niejaki Zespół R dowodzony przez Doktora X postanowił zniszczyć system&#xD;&#xA;poprzez wgranie wirusa do jego głównego komputera - PreachCodeOne'a.&#xD;&#xA;Niestety, sabotaż okazał się nieskuteczny, a jego skutki - tragiczne dla ludzkości...">
+        <LocalPosition x="0" y="0" />
+      </GUIText>
+      <IntroScene Length="10" />
+    </PBLgame.Engine.GUI.IntroScene>
+  </IntroScenes>
+</Intro>

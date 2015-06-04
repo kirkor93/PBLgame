@@ -46,6 +46,8 @@ namespace PBLgame
 //        private const int ResolutionY = 1080;
 //        private const bool FullScreenEnabled = true;
 
+        private bool _isIntroFinished = true;
+
         //Sounds tetin
         AudioEngine _audioEngine; //Has to be in final version
         WaveBank _waveBank; //Has to be in final version
@@ -86,6 +88,9 @@ namespace PBLgame
             spriteBatch = new SpriteBatch(GraphicsDevice);
             HUD.Instance.Batch = spriteBatch;
             HUD.Instance.CurrentWindowSize = new Vector2(ResolutionX, ResolutionY);
+            Intro.Instance.Batch = spriteBatch;
+            Intro.Instance.CurrentWindowSize = new Vector2(ResolutionX, ResolutionY);
+            Intro.Instance.OnIntroFinished += (sender, args) => _isIntroFinished = true;
         }
 
         /// <summary>
@@ -95,9 +100,6 @@ namespace PBLgame
         protected override void LoadContent()
         {
             GlobalInventory.Instance.GraphicsDevice = GraphicsDevice;
-            // Create a new SpriteBatch, which can be used to draw textures.
-
-
 
             _audioEngine = new AudioEngine(@"Content\Audio\GameAudio.xgs");
             _waveBank = new WaveBank(_audioEngine, @"Content\Audio\WaveBank.xwb");
@@ -109,7 +111,9 @@ namespace PBLgame
             ResourceManager.Instance.AssignAudioBank(_soundBank);
 
             HUD.Instance.Load();
-
+            Intro.Instance.Load();
+            Intro.Instance.Batch = spriteBatch;
+            Intro.Instance.Start();
             _scene = new Scene();
             _scene.Load(@"Level_1.xml");
 
@@ -119,24 +123,6 @@ namespace PBLgame
             mainCamera.parent = player;
 
             _scene.FindGameObject(607).AddComponent<EnemyMeleeScript>(new EnemyMeleeScript(_scene.FindGameObject(607)));
-            //_scene.FindGameObject(8).collision.SphereColliders.Add(new SphereCollider(_scene.FindGameObject(8).collision,true));
-            //_scene.FindGameObject(8).collision.BoxColliders.Add(new BoxCollider(_scene.FindGameObject(8).collision, true));
-
-            //_scene.FindGameObject(1).collision = new Collision(_scene.FindGameObject(1));
-            //_scene.FindGameObject(1).collision.MainCollider = new SphereCollider(_scene.FindGameObject(1).collision, true);
-            //_scene.FindGameObject(1).collision.BoxColliders.Add(new BoxCollider(_scene.FindGameObject(1).collision, false));
-            //foreach (GameObject go in _scene.GameObjects)
-            //{
-            //    if (go.collision == null && go.Name == "Lantern")
-            //    {
-            //        go.collision = new Collision(go);
-            //        go.collision.MainCollider = new SphereCollider(go.collision, false);
-            //        go.collision.BoxColliders.Add(new BoxCollider(go.collision, true));
-            //    }
-            //}
-            //_scene.FindGameObject(8).collision.BoxColliders.Add(new BoxCollider(_scene.FindGameObject(8).collision,true));
-            //_scene.FindGameObject(8).collision.SphereColliders.Add(new SphereCollider(_scene.FindGameObject(8).collision,new Vector3(15.0f,10.0f,0.0f),5.0f,true));
-
         }
 
         /// <summary>
@@ -166,8 +152,14 @@ namespace PBLgame
 
             //-----------------------------
 
-
-            _scene.Update(gameTime);
+            if(_isIntroFinished)
+            {
+                _scene.Update(gameTime);
+            }
+            else
+            {
+                Intro.Instance.Update(gameTime);
+            }
             _audioEngine.Update(); //Have to be in final version
             
             base.Update(gameTime);
@@ -184,10 +176,20 @@ namespace PBLgame
             //For Teting----------------
             //---------------------
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            _scene.Draw(gameTime);
+            if (_isIntroFinished)
+            {
+                _scene.Draw(gameTime);
+            }
             base.Draw(gameTime);
             spriteBatch.Begin();
-            HUD.Instance.Draw();
+            if (_isIntroFinished)
+            {
+                HUD.Instance.Draw();
+            }
+            else
+            {
+                Intro.Instance.Draw();
+            }
             spriteBatch.End();
 
         }

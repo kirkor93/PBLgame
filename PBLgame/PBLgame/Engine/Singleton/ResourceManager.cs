@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Principal;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -27,6 +28,7 @@ namespace PBLgame.Engine.Singleton
         private IList<MeshMaterial> _materials;
         private IList<Effect> _shaderEffects;
         private IDictionary<int, Skeleton> _skeletons;
+        private IDictionary<string, SpriteFont> _fonts; 
         private SoundBank _soundBank;
 
         private readonly XmlSerializer _serializer;
@@ -110,7 +112,7 @@ namespace PBLgame.Engine.Singleton
             _materials = content.Materials;
             _shaderEffects = content.ShaderEffects;
             _skeletons = content.Skeletons;
-
+            _fonts = content.Fonts;
         }
 
         /// <summary>
@@ -192,6 +194,10 @@ namespace PBLgame.Engine.Singleton
             return _soundBank.GetCue(audioName);
         }
 
+        public SpriteFont GetFont(string name)
+        {
+            return _fonts[name];
+        }
         #endregion
 
     }
@@ -215,6 +221,7 @@ namespace PBLgame.Engine.Singleton
         public IList<MeshMaterial> Materials { get; set; }
         public IList<Effect> ShaderEffects { get; set; }
         public IDictionary<int, Skeleton> Skeletons { get; set; }
+        public IDictionary<string, SpriteFont> Fonts { get; set; } 
 
         private Dictionary<AnimatedMesh, int> _meshSkeletons = new Dictionary<AnimatedMesh, int>();
 
@@ -231,6 +238,7 @@ namespace PBLgame.Engine.Singleton
             Materials = new List<MeshMaterial>();
             ShaderEffects = new List<Effect>();
             Skeletons = new Dictionary<int, Skeleton>();
+            Fonts = new Dictionary<string, SpriteFont>();
 
             reader.MoveToContent();
             reader.ReadStartElement();
@@ -308,7 +316,12 @@ namespace PBLgame.Engine.Singleton
                     animation.Speed = speed;
                     AddSkeletonAnimation(skeletonID, animation);
                 }
-                
+                else if (reader.Name == "SpriteFont")
+                {
+                    string path = reader.GetAttribute("Path");
+                    SpriteFont font = content.Load<SpriteFont>(path);
+                    Fonts.Add(path, font);
+                }
             } while (reader.Read());
 
             // join animated meshes with skeletons
@@ -402,7 +415,14 @@ namespace PBLgame.Engine.Singleton
                 }
             }
             writer.WriteEndElement();
-
+            writer.WriteStartElement("SpriteFonts");
+            foreach (KeyValuePair<string, SpriteFont> font in Fonts)
+            {
+                writer.WriteStartElement("SpriteFont");
+                writer.WriteAttributeString("Path", font.Key);
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
             writer.WriteEndElement();
         }
 

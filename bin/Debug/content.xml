@@ -161,6 +161,8 @@
       <Texture Path="Textures\GUI\Upgrade_strong_attack_button_pressed" />
       <Texture Path="Textures\GUI\Upgrade_strong_attack_button_highlighted" />
       <Texture Path="Textures\GUI\Upgrade_screen_BG" />
+      <Texture Path="Textures\Intro\scene1" />
+      <Texture Path="Textures\Intro\scene2" />
     </Textures>
     <Materials>
       <Material Id="1" Name="Helmet" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
@@ -273,5 +275,8 @@
       
       <Animation Id="9" Path="Animations\Champions\Ace_run" Skeleton="3" Type="Walk" Speed="0.016" />
     </Animations>
+    <SpriteFonts>
+      <SpriteFont Path="Fonts\Default" />
+    </SpriteFonts>
   </Content>
 </XmlContent>

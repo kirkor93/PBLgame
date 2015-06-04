@@ -157,6 +157,7 @@ namespace PBLgame.Engine.GUI
             {
                 throw new Exception("Reference window size for GUI can't be zero");
             }
+
         }
 
         public void Save(string path = GuiSavePath)

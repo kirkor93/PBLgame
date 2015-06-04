@@ -80,9 +80,14 @@ namespace PBLgame.GamePlay
         {
             base.Update(gameTime);
             _attackTriggerObject.Update(gameTime);
-            _healthBar.FillAmount = ConvertRange(Convert.ToSingle(Stats.Health.Value), 0.0f, Stats.Health.MaxValue, 0.0f, 1.0f);
-            _manaBar.FillAmount = ConvertRange(Convert.ToSingle(Stats.Energy.Value), 0.0f, Stats.Energy.MaxValue, 0.0f, 1.0f);
-
+            if(_healthBar != null)
+            {
+                _healthBar.FillAmount = ConvertRange(Convert.ToSingle(Stats.Health.Value), 0.0f, Stats.Health.MaxValue, 0.0f, 1.0f);
+            }
+            if (_manaBar != null)
+            {
+                _manaBar.FillAmount = ConvertRange(Convert.ToSingle(Stats.Energy.Value), 0.0f, Stats.Energy.MaxValue, 0.0f, 1.0f);
+            }
         }
 
         private float ConvertRange(float value, float oldMin, float oldMax, float newMin, float newMax)

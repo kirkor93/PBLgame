@@ -102,6 +102,9 @@
     <Compile Include="Engine\GlobalInventory.cs" />
     <Compile Include="Engine\GUI\Bar.cs" />
     <Compile Include="Engine\GUI\Button.cs" />
+    <Compile Include="Engine\GUI\GUIText.cs" />
+    <Compile Include="Engine\GUI\Intro.cs" />
+    <Compile Include="Engine\GUI\IntroScene.cs" />
     <Compile Include="Engine\GUI\TalentWindowManager.cs" />
     <Compile Include="Engine\GUI\GUIObject.cs" />
     <Compile Include="Engine\GUI\HUD.cs" />
