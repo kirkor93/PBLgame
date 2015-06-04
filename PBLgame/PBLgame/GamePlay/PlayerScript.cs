@@ -25,6 +25,7 @@ namespace PBLgame.GamePlay
 
         private Bar _healthBar;
         private Bar _manaBar;
+        private Bar _experienceBar;
 
         private GameObject _attackTriggerObject;
 
@@ -38,7 +39,7 @@ namespace PBLgame.GamePlay
 
         public PlayerScript(GameObject gameObj) : base(gameObj)
         {
-            Stats = new PlayerStatistics(100, 100);
+            Stats = new PlayerStatistics(100, 100, 100);
             InputManager.Instance.OnTurn   += CharacterRotation;
             InputManager.Instance.OnMove   += CharacterTranslate;
             InputManager.Instance.OnButton += CharacterAction;
@@ -67,12 +68,14 @@ namespace PBLgame.GamePlay
             {
                 _healthBar = new Bar();
                 _manaBar = new Bar();
+                _experienceBar = new Bar();
             }
             else
             {
                 //getting controls from gui
                 _healthBar = HUD.Instance.GetGuiObject("Health_bar") as Bar;
                 _manaBar = HUD.Instance.GetGuiObject("Mana_bar") as Bar;
+                _experienceBar = HUD.Instance.GetGuiObject("Experience_bar") as Bar;
             }
         }
 
@@ -87,6 +90,10 @@ namespace PBLgame.GamePlay
             if (_manaBar != null)
             {
                 _manaBar.FillAmount = ConvertRange(Convert.ToSingle(Stats.Energy.Value), 0.0f, Stats.Energy.MaxValue, 0.0f, 1.0f);
+            }
+            if (_experienceBar != null)
+            {
+                _experienceBar.FillAmount = ConvertRange(Convert.ToSingle(Stats.Experience.Value), 0.0f, Stats.Experience.MaxValue, 0.0f, 1.0f);
             }
         }
 

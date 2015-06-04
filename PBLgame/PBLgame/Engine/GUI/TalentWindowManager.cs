@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PBLgame.Engine.Singleton;
+using PBLgame.GamePlay;
 
 namespace PBLgame.Engine.GUI
 {
@@ -13,6 +14,7 @@ namespace PBLgame.Engine.GUI
         private Button _selectedButton;
         private List<Button> _guiButtons;
         private bool _enabled;
+        private PlayerStatistics _playerStatistics;
 
         public bool Enabled
         {
@@ -54,6 +56,11 @@ namespace PBLgame.Engine.GUI
             InputManager.Instance.OnButton += OnButtonClick;
         }
 
+        public void AssignPlayerStatisticsScript(PlayerStatistics stats)
+        {
+            _playerStatistics = stats;
+        }
+
         private void OnButtonClick(object sender, ButtonArgs e)
         {
             if (e.ButtonName == Buttons.Y)
@@ -85,7 +92,7 @@ namespace PBLgame.Engine.GUI
                     case Buttons.A:
                         if (_selectedButton != null)
                         {
-                            _selectedButton.OnClick();
+                            _selectedButton.OnClick(_playerStatistics);
                         }
                         break;
                     case Buttons.B:

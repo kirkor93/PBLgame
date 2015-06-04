@@ -50,6 +50,12 @@ namespace PBLgame.Engine.GUI
             }
         }
 
+        public TalentWindowManager TalentWindowManager
+        {
+            get { return _talentWindowManager; }
+            private set { _talentWindowManager = value; }
+        }
+
         #endregion
 
         #region Methods

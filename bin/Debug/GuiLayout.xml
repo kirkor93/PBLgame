@@ -61,7 +61,7 @@
     <PBLgame.Engine.GUI.Button Id="13" Name="Upgrade_shooting_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_telekinetic_push_button_enabled">
       <Position x="960" y="550" />
       <Scale x="1" y="1" />
-      <Button EnabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_enabled" DisabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_disabled" SelectedTexture="Textures\GUI\Upgrade_telekinetic_push_button_highlighted" PressedTexture="Textures\GUI\Upgrade_telekinetic_push_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeTelekineticPushButton" Neighbour_0="12" Neighbour_1="14" Neighbour_2="-1" Neighbour_3="-1" />
+      <Button EnabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_enabled" DisabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_disabled" SelectedTexture="Textures\GUI\Upgrade_telekinetic_push_button_highlighted" PressedTexture="Textures\GUI\Upgrade_telekinetic_push_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeShootingButton" Neighbour_0="12" Neighbour_1="14" Neighbour_2="-1" Neighbour_3="-1" />
     </PBLgame.Engine.GUI.Button>
     <PBLgame.Engine.GUI.Button Id="14" Name="Upgrade_fast_attack_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_fast_attack_button_enabled">
       <Position x="700" y="550" />

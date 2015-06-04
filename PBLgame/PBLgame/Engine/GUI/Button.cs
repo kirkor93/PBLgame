@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.Singleton;
+using PBLgame.GamePlay;
 
 namespace PBLgame.Engine.GUI
 {
@@ -126,11 +127,11 @@ namespace PBLgame.Engine.GUI
         }
 
         #region OnClick event handlers
-        public void OnClick()
+        public void OnClick(PlayerStatistics stats)
         {
             if (_method != null)
             {
-                _method.Invoke(OnClickActionScript, new object[0]);
+                _method.Invoke(OnClickActionScript, new object[] { stats });
             }
         }
 
