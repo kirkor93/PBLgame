@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using PBLgame.Engine;
@@ -13,6 +13,35 @@ namespace PBLgame.GamePlay
 {
     class PlayerScript : CharacterHandler
     {
+        private class PostponeBuffer
+        {
+            public MoveArgs Rotation { get; private set; }
+            public bool HasRotation { get; private set; }
+            
+            public MoveArgs Translation { get; private set; }
+            public bool HasTranslation { get; private set; }
+
+            private List<ButtonArgs> _buttons = new List<ButtonArgs>();
+            public List<ButtonArgs> Buttons { get { return _buttons; } }
+
+            public void SetRotation(MoveArgs args)
+            {
+                HasRotation = true;
+                Rotation = args;
+            }
+
+            public void SetTranslation(MoveArgs args)
+            {
+                HasTranslation = true;
+                Translation = args;
+            }
+
+            public void AddButton(ButtonArgs args)
+            {
+                _buttons.Add(args);
+            }
+        }
+
         #region Variables
         #region Public
         public PlayerStatistics Stats { get; private set; }
@@ -27,11 +56,42 @@ namespace PBLgame.GamePlay
         private Bar _manaBar;
 
         private GameObject _attackTriggerObject;
+        private bool _locked;
+        private PostponeBuffer _postponeBuffer = new PostponeBuffer();
 
         #endregion
         #endregion
 
         #region Properties
+
+        public bool Locked
+        {
+            get { return _locked;  }
+            set
+            {
+                _locked = value;
+                if (value == false)
+                {
+                    // handle postponed actions in locked-state buffer
+                    UnleashBuffer(_postponeBuffer);
+                }
+                else
+                {
+                    _postponeBuffer = new PostponeBuffer();
+                }
+            }
+        }
+
+        private void UnleashBuffer(PostponeBuffer buffer)
+        {
+            if(buffer.HasRotation) CharacterRotation(this, buffer.Rotation);
+            if(buffer.HasTranslation) CharacterTranslate(this, buffer.Translation);
+            foreach (ButtonArgs button in buffer.Buttons)
+            {
+                CharacterAction(this, button);
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -89,8 +149,16 @@ namespace PBLgame.GamePlay
         {
             return ((value - oldMin) / (oldMax - oldMin)) * (newMax - newMin) + newMin;
         }
+
         private void CharacterRotation(Object obj, MoveArgs args)
         {
+            if (Locked)
+            {
+                // postpone actions
+                _postponeBuffer.SetRotation(args);
+                return;
+            }
+
             if (args.AxisValue.LengthSquared() < 0.01)
             {
                 _syncAngles = true;
@@ -105,6 +173,12 @@ namespace PBLgame.GamePlay
 
         private void CharacterTranslate(Object o, MoveArgs args)
         {
+            if (Locked)
+            {
+                // postpone actions
+                _postponeBuffer.SetTranslation(args);
+                return;
+            }
             UnitVelocity = new Vector2(args.AxisValue.X, -args.AxisValue.Y);
             if (_syncAngles && args.AxisValue.LengthSquared() > 1e-5f)
             {
@@ -115,6 +189,13 @@ namespace PBLgame.GamePlay
 
         private void CharacterAction(Object o, ButtonArgs button)
         {
+            if (Locked)
+            {
+                // e.g. drinking mana or coffee
+                //_postponeBuffer.AddButton()
+                return;
+            }
+
             if (button.IsDown)
             {
                 switch (button.ButtonName)
@@ -152,6 +233,13 @@ namespace PBLgame.GamePlay
                     case Buttons.RightShoulder:
                         {
                             Console.WriteLine("quick attack");
+                            Locked = true;
+                            _postponeBuffer.SetTranslation(new MoveArgs(new Vector2(UnitVelocity.X, -UnitVelocity.Y)));
+                            UnitVelocity = Vector2.Zero;
+
+                            gameObject.animator.Attack();
+                            gameObject.animator.OnAnimationFinish += () => Locked = false;
+                            
                         }
                         break;
 

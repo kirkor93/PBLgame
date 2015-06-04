@@ -113,7 +113,6 @@ namespace PBLgame.Engine.Components
             foreach (ModelBone bone in _model.Bones)
             {
                 // Create the bone object and add to the heirarchy
-                if (bone.Parent != null && bone.Parent.Parent == null) Console.WriteLine(_modelExtra.InvertRootBindTransform);
                 bool invert = !(!_modelExtra.InvertRootBindTransform && (bone.Parent != null && bone.Parent.Parent == null));
                 Bone newBone = new Bone(bone.Name, bone.Transform, bone.Parent != null ? _bones[bone.Parent.Index] : null, invert);
 

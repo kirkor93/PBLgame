@@ -111,8 +111,8 @@ namespace PBLgame
             HUD.Instance.Load();
 
             _scene = new Scene();
-            //_scene.Load(@"Level_1.xml");
-            _scene.Load(@"AnimScene.xml");
+            _scene.Load(@"Level_1.xml");
+            //_scene.Load(@"AnimScene.xml");
 
             player = _scene.FindGameObject(8);
             player.AddComponent( new AttachSlot(player, _scene.FindGameObject("Sword"), "miecz123") );

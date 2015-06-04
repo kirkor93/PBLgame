@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AnimationAux;
 using System.ComponentModel;
 using System.Linq;
@@ -117,8 +118,6 @@ namespace PBLgame.Engine.Components
 
         #region Fields
 
-
-
         /// <summary>
         /// The clip we are playing
         /// </summary>
@@ -133,6 +132,8 @@ namespace PBLgame.Engine.Components
 
         private float _blendingFactor;
         private float _blendingTime;
+
+        public event Action OnAnimationFinish;
 
         #endregion
 
@@ -192,7 +193,7 @@ namespace PBLgame.Engine.Components
         /// <param name="loop">loop animation</param>
         /// <param name="speed">speed multiplier</param>
         /// <param name="blendTime">blending time in seconds (use 0 to disable blending)</param>
-        public void PlayAnimation(AnimationClip clip, bool loop = true, float speed = 1.0f, float blendTime = 0.4f)
+        public void PlayAnimation(AnimationClip clip, bool loop = true, float speed = 1.0f, float blendTime = 0.3f)
         {
             _prevAnimation = _currentAnimation;
             _currentAnimation = new AnimationState(clip, AnimMesh);
@@ -208,7 +209,6 @@ namespace PBLgame.Engine.Components
                 _blendingFactor = 1.0f;
                 _blendingTime = blendTime;
             }
-            
         }
 
         public void Walk(float velocity)
@@ -240,9 +240,33 @@ namespace PBLgame.Engine.Components
             }
         }
 
+        public void IdleMovement()
+        {
+            if (_currentType == AnimationType.Walk)
+            {
+                Idle();
+            }
+        }
+
+        public void Attack()
+        {
+            if (_currentType != AnimationType.Attack)
+            {
+                _currentType = AnimationType.Attack;
+                PlayAnimation(GetClip("Attack"), false);
+                OnAnimationFinish += Idle;
+            }
+        }
+
+        public AnimationClip GetClip(string type)
+        {
+            return AnimMesh.Skeleton.Clips.Find(c => c.Type == type);
+        }
+
         public enum AnimationType
         {
-            Idle, Walk, Other
+            Idle, Walk, Other,
+            Attack
         }
 
         #region Update and Transport Controls
@@ -307,6 +331,14 @@ namespace PBLgame.Engine.Components
                 while (newPosition < 0)
                 {
                     newPosition = newPosition + animation.Duration;
+                }
+            }
+            else if(!animation.Looping && newPosition >= animation.Duration)
+            {
+                if (OnAnimationFinish != null)
+                {
+                    OnAnimationFinish();
+                    OnAnimationFinish = null;
                 }
             }
             animation.Position = newPosition;
