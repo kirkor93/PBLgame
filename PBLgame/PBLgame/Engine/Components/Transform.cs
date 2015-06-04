@@ -101,14 +101,22 @@ namespace PBLgame.Engine.Components
             {
                 if(gameObject.parent == null)
                 {
-                    return _world = _worldScale * _worldRotation *_worldTranslation;
+                    return _world = LocalWorld;
                 }
                 else
                 {
                     // Changed multiplication order (Unity-like) - now all children are like a whole group, rotated and scaled around parent.
-                    return _world = _worldScale * _worldRotation * _worldTranslation * gameObject.parent.transform.World;
+                    return _world = LocalWorld * gameObject.parent.transform.World;
                 }
 
+            }
+        }
+
+        public Matrix LocalWorld
+        {
+            get
+            {
+                return _worldScale * _worldRotation * _worldTranslation;
             }
         }
 
@@ -214,7 +222,7 @@ namespace PBLgame.Engine.Components
                 }
                 else
                 {
-                    return gameObject.parent.transform.World * gameObject.parent.transform.AncestorsWorld;
+                    return gameObject.parent.transform.World;
                 }
             }
         }
@@ -503,26 +511,24 @@ namespace PBLgame.Engine.Components
         #endregion
     }
 
-    public class DummyTransform : Transform
+    /// <summary>
+    /// Transform with additional pre-local world space transform.
+    /// </summary>
+    public class ExtraTransform : Transform
     {
-        private Matrix _dummyWorld;
+        public Matrix PreLocalWorld { get; set; }
 
-        public override Matrix World { get { return _dummyWorld; } }
+        public override Matrix World { get { return LocalWorld * PreLocalWorld * AncestorsWorld; } }
 
-        public void SetWorld(Matrix w)
-        {
-            _dummyWorld = w;
-        }
-
-        public DummyTransform(GameObject owner) : base(owner)
+        public ExtraTransform(GameObject owner) : base(owner)
         {
         }
 
-        public DummyTransform(Transform src) : base(src)
+        public ExtraTransform(Transform src) : base(src)
         {
         }
 
-        public DummyTransform(Transform src, GameObject owner) : base(src, owner)
+        public ExtraTransform(Transform src, GameObject owner) : base(src, owner)
         {
         }
     }

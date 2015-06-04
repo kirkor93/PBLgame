@@ -83,17 +83,6 @@ namespace PBLgame.Engine.Components
                 Bone bone = _bones[_modelExtra.Skeleton[s]];
                 _skeletonMatrix[s] = bone.SkinTransform * bone.AbsoluteTransform;
             }
-
-            if (WeaponSlot != null)
-            {
-                DummyTransform trans = (DummyTransform) WeaponSlot.attachment.transform;
-                Matrix slotTransform = Matrix.CreateWorld(
-                    WeaponSlot.slot.AbsoluteTransform.Translation, 
-                    Vector3.Normalize(WeaponSlot.slot.AbsoluteTransform.Forward), 
-                    Vector3.Normalize(WeaponSlot.slot.AbsoluteTransform.Up)
-                );
-                trans.SetWorld(slotTransform * WeaponSlot.Owner.transform.World);
-            }
         }
 
         #region Construction and Loading
@@ -146,27 +135,5 @@ namespace PBLgame.Engine.Components
         #endregion
         
 
-    }
-
-    public class AttachSlot
-    {
-        private GameObject _owner;
-        public GameObject attachment;
-        public Bone slot;
-
-
-
-        public AttachSlot(GameObject owner, string boneName, GameObject attachment)
-        {
-            this._owner = owner;
-            slot = owner.animator.AnimMesh.FindBone(boneName);
-            this.attachment = attachment;
-            attachment.transform = new DummyTransform(attachment);
-        }
-
-        public GameObject Owner
-        {
-            get { return _owner; }
-        }
     }
 }

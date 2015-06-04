@@ -291,7 +291,6 @@ namespace PBLgame.Engine.Components
                 _currentAnimation.ApplyBones();
             }
 
-
             AnimMesh.UpdateBonesMatrices();
         }
 
