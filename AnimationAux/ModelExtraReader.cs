@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -12,9 +13,9 @@ namespace AnimationAux
         protected override ModelExtra Read(ContentReader input, ModelExtra existingInstance)
         {
             ModelExtra extra = new ModelExtra();
+            extra.InvertRootBindTransform = input.ReadBoolean();
             extra.Skeleton = input.ReadObject<List<int>>();
             extra.Clips = input.ReadObject<List<AnimationClip>>();
-
             return extra;
         }
     }

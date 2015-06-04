@@ -95,7 +95,7 @@ namespace PBLgame.Engine.Components
                 }
             }
         }
-        public Matrix World
+        public virtual Matrix World
         {
             get
             {
@@ -501,5 +501,29 @@ namespace PBLgame.Engine.Components
 
 
         #endregion
+    }
+
+    public class DummyTransform : Transform
+    {
+        private Matrix _dummyWorld;
+
+        public override Matrix World { get { return _dummyWorld; } }
+
+        public void SetWorld(Matrix w)
+        {
+            _dummyWorld = w;
+        }
+
+        public DummyTransform(GameObject owner) : base(owner)
+        {
+        }
+
+        public DummyTransform(Transform src) : base(src)
+        {
+        }
+
+        public DummyTransform(Transform src, GameObject owner) : base(src, owner)
+        {
+        }
     }
 }

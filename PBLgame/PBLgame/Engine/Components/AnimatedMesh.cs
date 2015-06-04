@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AnimationAux;
 using Microsoft.Xna.Framework;
@@ -27,6 +28,7 @@ namespace PBLgame.Engine.Components
         private List<Bone> _bones = new List<Bone>();
 
         private Matrix[] _skeletonMatrix;
+        public AttachSlot WeaponSlot { get; set; }
 
         #endregion
 
@@ -81,6 +83,17 @@ namespace PBLgame.Engine.Components
                 Bone bone = _bones[_modelExtra.Skeleton[s]];
                 _skeletonMatrix[s] = bone.SkinTransform * bone.AbsoluteTransform;
             }
+
+            if (WeaponSlot != null)
+            {
+                DummyTransform trans = (DummyTransform) WeaponSlot.attachment.transform;
+                Matrix slotTransform = Matrix.CreateWorld(
+                    WeaponSlot.slot.AbsoluteTransform.Translation, 
+                    Vector3.Normalize(WeaponSlot.slot.AbsoluteTransform.Forward), 
+                    Vector3.Normalize(WeaponSlot.slot.AbsoluteTransform.Up)
+                );
+                trans.SetWorld(slotTransform * WeaponSlot.Owner.transform.World);
+            }
         }
 
         #region Construction and Loading
@@ -111,7 +124,9 @@ namespace PBLgame.Engine.Components
             foreach (ModelBone bone in _model.Bones)
             {
                 // Create the bone object and add to the heirarchy
-                Bone newBone = new Bone(bone.Name, bone.Transform, bone.Parent != null ? _bones[bone.Parent.Index] : null);
+                if (bone.Parent != null && bone.Parent.Parent == null) Console.WriteLine(_modelExtra.InvertRootBindTransform);
+                bool invert = !(!_modelExtra.InvertRootBindTransform && (bone.Parent != null && bone.Parent.Parent == null));
+                Bone newBone = new Bone(bone.Name, bone.Transform, bone.Parent != null ? _bones[bone.Parent.Index] : null, invert);
 
                 // Add to the bones for this model
                 _bones.Add(newBone);
@@ -131,5 +146,27 @@ namespace PBLgame.Engine.Components
         #endregion
         
 
+    }
+
+    public class AttachSlot
+    {
+        private GameObject _owner;
+        public GameObject attachment;
+        public Bone slot;
+
+
+
+        public AttachSlot(GameObject owner, string boneName, GameObject attachment)
+        {
+            this._owner = owner;
+            slot = owner.animator.AnimMesh.FindBone(boneName);
+            this.attachment = attachment;
+            attachment.transform = new DummyTransform(attachment);
+        }
+
+        public GameObject Owner
+        {
+            get { return _owner; }
+        }
     }
 }

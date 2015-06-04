@@ -111,14 +111,16 @@ namespace PBLgame
             HUD.Instance.Load();
 
             _scene = new Scene();
-            _scene.Load(@"Level_1.xml");
+            //_scene.Load(@"Level_1.xml");
+            _scene.Load(@"AnimScene.xml");
 
             player = _scene.FindGameObject(8);
+            player.animator.AnimMesh.WeaponSlot = new AttachSlot(player, "miecz123", _scene.FindGameObject("Sword"));
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;
 
-            _scene.FindGameObject(607).AddComponent<EnemyMeleeScript>(new EnemyMeleeScript(_scene.FindGameObject(607)));
+            //_scene.FindGameObject(607).AddComponent<EnemyMeleeScript>(new EnemyMeleeScript(_scene.FindGameObject(607)));
             //_scene.FindGameObject(8).collision.SphereColliders.Add(new SphereCollider(_scene.FindGameObject(8).collision,true));
             //_scene.FindGameObject(8).collision.BoxColliders.Add(new BoxCollider(_scene.FindGameObject(8).collision, true));
 

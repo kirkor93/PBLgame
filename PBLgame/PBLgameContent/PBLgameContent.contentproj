@@ -155,7 +155,6 @@
       <Processor>AnimationProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
       <ProcessorParameters_NodeRotation>0, 180, 0</ProcessorParameters_NodeRotation>
-      <ProcessorParameters_RotationY>180</ProcessorParameters_RotationY>
     </Compile>
     <Compile Include="Models\Champions\Ace_sword_v1.FBX">
       <Name>Ace_sword_v1</Name>
@@ -1108,8 +1107,8 @@
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
       <ProcessorParameters_NodeRotation>0, 180, 0</ProcessorParameters_NodeRotation>
-      <ProcessorParameters_RotationY>180</ProcessorParameters_RotationY>
       <ProcessorParameters_DegreesY>180</ProcessorParameters_DegreesY>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1305,6 +1304,34 @@
       <Name>Upgrade_strong_attack_button_pressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Cylinder.FBX">
+      <Name>Cylinder</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Cylinder2.FBX">
+      <Name>Cylinder2</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\Champions\Ace_idle.FBX">
+      <Name>Ace_idle</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+    <Compile Include="Animations\Champions\Ace_simple_attack.FBX">
+      <Name>Ace_simple_attack</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

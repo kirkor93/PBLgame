@@ -56,7 +56,6 @@ namespace PBLgame.Engine.Components
                 foreach (BoneInfo bone in BoneInfos)
                 {
                     bone.AssignToBone();
-                    //break;
                 }
             }
 

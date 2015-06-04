@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -14,6 +15,7 @@ namespace AnimationPipeline
     {
         protected override void Write(ContentWriter output, ModelExtra extra)
         {
+            output.Write(extra.InvertRootBindTransform);
             output.WriteObject(extra.Skeleton);
             output.WriteObject(extra.Clips);
         }
