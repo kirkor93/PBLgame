@@ -166,6 +166,15 @@ namespace PBLgame.Engine.Components
             get { return _inContact; }
             set { _inContact = value; }
         }
+        public override bool Enabled
+        {
+            get { return _enabled; }
+            set
+            {
+                _enabled = value;
+                if(_enabled) UpdatePositions();
+            }
+        }
         #endregion
 
         #region Methods
@@ -213,47 +222,60 @@ namespace PBLgame.Engine.Components
 
         public override void Update(GameTime gameTime)
         {
-            if(_terrainCalls == 0 ) _onTerrain = false;
-            if (!Static)
+            if(Enabled)
             {
-                MainCollider.UpdatePosition();
-                foreach (SphereCollider sc in SphereColliders)
+                if (_terrainCalls == 0) _onTerrain = false;
+                if (!Static)
                 {
-                    sc.UpdatePosition();
+                    MainCollider.UpdatePosition();
+                    foreach (SphereCollider sc in SphereColliders)
+                    {
+                        sc.UpdatePosition();
+                    }
+                    foreach (BoxCollider bc in BoxColliders)
+                    {
+                        bc.UpdatePosition();
+                    }
                 }
-                foreach (BoxCollider bc in BoxColliders)
-                {
-                    bc.UpdatePosition();
-                }
+                _inContact = false;
             }
-            _inContact = false;
         }
         
         public override void Draw(GameTime gameTime)
         {
-            foreach (BoxCollider box in _boxColliders)
+            if(Enabled)
             {
-                box.Draw();
+                foreach (BoxCollider box in _boxColliders)
+                {
+                    box.Draw();
+                }
+                foreach (SphereCollider sphere in _sphereColliders)
+                {
+                    sphere.Draw();
+                }
+                MainCollider.Draw();
             }
-            foreach (SphereCollider sphere in _sphereColliders)
-            {
-                sphere.Draw();
-            }
-            MainCollider.Draw();
         }
 
         public void UpdatePositions()
         {
-            if(!Static)
+            if(_enabled && !Static)
             {
+                if (MainCollider == null) return;
                 MainCollider.UpdatePosition();
-                foreach(SphereCollider sc in SphereColliders)
+                if(SphereColliders != null)
                 {
-                    sc.UpdatePosition();
+                    foreach(SphereCollider sc in SphereColliders)
+                    {
+                        sc.UpdatePosition();
+                    }
                 }
-                foreach (BoxCollider bc in BoxColliders)
+                if(BoxColliders != null)
                 {
-                    bc.UpdatePosition();
+                    foreach (BoxCollider bc in BoxColliders)
+                    {
+                        bc.UpdatePosition();
+                    }
                 }
             }
         }
@@ -274,6 +296,7 @@ namespace PBLgame.Engine.Components
        
         public int ChceckCollisionDeeper(GameObject collisionGO)
         {
+            //if (!_enabled) return 0;
             _cnt = 0;
             if (collisionGO.Tag != "Terrain")
             {
@@ -519,6 +542,7 @@ namespace PBLgame.Engine.Components
         #region CollisionDetected
         private void CollisionDetected(SphereCollider myCol, SphereCollider enemyCol)
         {
+            if (!_enabled) return;
             if (!myCol.Trigger && !enemyCol.Trigger)
             {
                 if (enemyCol.Owner.gameObject.Tag == "Terrain")
@@ -528,6 +552,7 @@ namespace PBLgame.Engine.Components
                 else
                 {
                     if (OnCollision != null) OnCollision(this, new ColArgs(myCol,enemyCol));
+                    if (enemyCol.Owner.OnCollision != null) enemyCol.Owner.OnCollision(this, new ColArgs(enemyCol, myCol));
                     ++_cnt;
                 }
                 //Console.WriteLine("Collison!");
@@ -535,12 +560,14 @@ namespace PBLgame.Engine.Components
             else
             {
                 //Console.WriteLine("Trigger!");
-                if (OnTrigger != null) OnTrigger(this, new ColArgs(myCol, enemyCol));
+                if (OnTrigger != null) OnTrigger(this, new ColArgs(myCol, enemyCol)); 
+                if (enemyCol.Owner.OnTrigger != null) enemyCol.Owner.OnTrigger(this, new ColArgs(enemyCol, myCol));
             }
         }
 
         private void CollisionDetected(SphereCollider myCol, BoxCollider enemyCol)
         {
+            if (!_enabled) return;
             if (!myCol.Trigger && !enemyCol.Trigger)
             {
                 if (enemyCol.Owner.gameObject.Tag == "Terrain")
@@ -550,6 +577,7 @@ namespace PBLgame.Engine.Components
                 else
                 {
                     if (OnCollision != null) OnCollision(this, new ColArgs(myCol, enemyCol));
+                    if (enemyCol.Owner.OnCollision != null) enemyCol.Owner.OnCollision(this, new ColArgs(enemyCol, myCol));
                     ++_cnt;
                 }
                 //Console.WriteLine("Collison!");
@@ -558,11 +586,13 @@ namespace PBLgame.Engine.Components
             {
                 //Console.WriteLine("Trigger!");
                 if (OnTrigger != null) OnTrigger(this, new ColArgs(myCol, enemyCol));
+                if (enemyCol.Owner.OnTrigger != null) enemyCol.Owner.OnTrigger(this, new ColArgs(enemyCol, myCol));
             }
         }
 
         private void CollisionDetected(BoxCollider myCol, SphereCollider enemyCol)
         {
+            if (!_enabled) return;
             if (!myCol.Trigger && !enemyCol.Trigger)
             {
                 if (enemyCol.Owner.gameObject.Tag == "Terrain")
@@ -572,6 +602,7 @@ namespace PBLgame.Engine.Components
                 else
                 {
                     if (OnCollision != null) OnCollision(this, new ColArgs(myCol, enemyCol));
+                    if (enemyCol.Owner.OnCollision != null) enemyCol.Owner.OnCollision(this, new ColArgs(enemyCol, myCol));
                     ++_cnt;
                 }
                 //Console.WriteLine("Collison!");
@@ -580,11 +611,13 @@ namespace PBLgame.Engine.Components
             {
                 //Console.WriteLine("Trigger!");
                 if (OnTrigger != null) OnTrigger(this, new ColArgs(myCol, enemyCol));
+                if (enemyCol.Owner.OnTrigger != null) enemyCol.Owner.OnTrigger(this, new ColArgs(enemyCol, myCol));
             }
         }
 
         private void CollisionDetected(BoxCollider myCol, BoxCollider enemyCol)
         {
+            if (!_enabled) return;
             if (!myCol.Trigger && !enemyCol.Trigger)
             {
                 if (enemyCol.Owner.gameObject.Tag == "Terrain")
@@ -594,6 +627,7 @@ namespace PBLgame.Engine.Components
                 else
                 {
                     if (OnCollision != null) OnCollision(this, new ColArgs(myCol, enemyCol));
+                    if (enemyCol.Owner.OnCollision != null) enemyCol.Owner.OnCollision(this, new ColArgs(enemyCol, myCol));
                     ++_cnt;
                 }
                 //Console.WriteLine("Collison!");
@@ -602,6 +636,7 @@ namespace PBLgame.Engine.Components
             {
                 //Console.WriteLine("Trigger!");
                 if (OnTrigger != null) OnTrigger(this, new ColArgs(myCol, enemyCol));
+                if (enemyCol.Owner.OnTrigger != null) enemyCol.Owner.OnTrigger(this, new ColArgs(enemyCol, myCol));
             }
         }
         #endregion
@@ -609,6 +644,7 @@ namespace PBLgame.Engine.Components
         #region AffectCollision
         private void AffectCollision(SphereCollider myCol, SphereCollider enemyCol)
         {
+            if (!Enabled) return;
             if(myCol.Owner.Rigidbody)
             {
                 myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
@@ -618,6 +654,7 @@ namespace PBLgame.Engine.Components
 
         private void AffectCollision(SphereCollider myCol, BoxCollider enemyCol)
         {
+            if (!Enabled) return;
             if (myCol.Owner.Rigidbody)
             {
                 myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
@@ -627,6 +664,7 @@ namespace PBLgame.Engine.Components
 
         private void AffectCollision(BoxCollider myCol, SphereCollider enemyCol)
         {
+            if (!Enabled) return;
             if (myCol.Owner.Rigidbody)
             {
                 myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
@@ -635,6 +673,7 @@ namespace PBLgame.Engine.Components
         }
         private void AffectCollision(BoxCollider myCol, BoxCollider enemyCol)
         {
+            if (!Enabled) return;
             if (myCol.Owner.Rigidbody)
             {
                 myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);

@@ -51,16 +51,15 @@ namespace PBLgame.GamePlay
             _hp = 100;
 
             _attackTriggerObject = new GameObject();
-            _attackTriggerObject.Tag = "EnemyAttackTrigger";
-            _attackTriggerObject.transform.Position = new Vector3(0.0f, 10.0f, 0.0f);
+            _attackTriggerObject.Tag = "EnemyWeapon";
+            _attackTriggerObject.transform.Position = new Vector3(0.0f, 10.0f, 15.0f);
             _attackTriggerObject.parent = this.gameObject;
 
             _attackTriggerObject.collision = new Collision(_attackTriggerObject);
             _attackTriggerObject.collision.Rigidbody = false;
             _attackTriggerObject.collision.Static = false;
             _attackTriggerObject.collision.MainCollider = new SphereCollider(_attackTriggerObject.collision, 5.0f, true);
-
-            _attackTriggerObject.collision.OnTrigger += HideTrigger;
+            _attackTriggerObject.collision.Enabled = false;
 
             gameObject.collision.OnTrigger += GetHitMethod;
 
@@ -97,71 +96,84 @@ namespace PBLgame.GamePlay
             #endregion  
          }
 
-        public void HideTrigger(Object o,ColArgs args)
+        public int HP
         {
-            Console.WriteLine("TakeWeaponAfterAttack");
+            get { return _hp; }
+            set { _hp = value; }
         }
+
         public void GetHitMethod(Object o, ColArgs args)
         {
-            if(args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Weapon")
+            if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Weapon")
             {
-                Console.WriteLine("Dostaje w pizde :<");
-                _hp -= 5;
+                PlayerScript stats = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                if (stats != null)
+                {
+                    _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.FastAttackDamageBonus.Value);
+                }
             }
             else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Weapon")
             {
-                Console.WriteLine("Dostaje w pizde :<");
-                _hp -= 5;
+                PlayerScript stats = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                if (stats != null)
+                {
+                    _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.FastAttackDamageBonus.Value);
+                }
+            }
+            Console.WriteLine("Enemy hp value = " + _hp);
+            if (HP <= 0)
+            {
+                gameObject.Enabled = false;
+                _attackTriggerObject.Enabled = false;
             }
         }
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-            _attackTriggerObject.Update(gameTime);
-            Vector3 dir;
-            switch (_currentAction)
+            if (_hp > 0)
             {
-                case MeleeAction.Attack:
-                    dir = AISystem.Player.transform.Position - gameObject.transform.Position;
-                    SetLookVector(new Vector2(dir.Z, dir.X));
-                    _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
-                    if(_attackTimer > _attackDelay)
-                    {
-                        _attackTriggerObject.transform.Position = new Vector3(0.0f, 10.0f, 15.0f);
-                        _attackTimer = 0.0f;
-                        Console.WriteLine("Attack");
-                        foreach (GameObject go in PhysicsSystem.CollisionObjects)
+                base.Update(gameTime);
+                _attackTriggerObject.Update(gameTime);
+                Vector3 dir;
+                switch (_currentAction)
+                {
+                    case MeleeAction.Attack:
+                        dir = AISystem.Player.transform.Position - gameObject.transform.Position;
+                        SetLookVector(new Vector2(dir.Z, dir.X));
+                        _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
+                        if (_attackTimer > _attackDelay)
                         {
-                            if (_attackTriggerObject != go && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                            _attackTriggerObject.collision.Enabled = true;
+                            _attackTimer = 0.0f;
+                            foreach (GameObject go in PhysicsSystem.CollisionObjects)
                             {
-                                _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                                if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                                {
+                                    _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                                }
                             }
-                            _attackTriggerObject.transform.Position = new Vector3(0.0f, 10.0f, 0.0f);
-                        }
-                    }
-                    break;
-                case MeleeAction.Chase:
-                    _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
-                    dir = AISystem.Player.transform.Position - gameObject.transform.Position;
-                    SetLookVector(new Vector2(dir.Z, dir.X));
-                    gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
-                    Console.WriteLine("Chase");
-                    break;
-                case MeleeAction.Escape:
-                    dir = gameObject.transform.Position - AISystem.Player.transform.Position;
-                    Random rand = new Random();
-                    int x = rand.Next(0, 100);
-                    int y = rand.Next(0, 100);
-                    SetLookVector(new Vector2(dir.Z, dir.X));
-                    dir.X *= x / 100.0f;
-                    dir.Z *= y / 100.0f;
-                    gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
-                    Console.WriteLine("Escape");
-                    break;
-                case MeleeAction.Stay:
-                    Console.WriteLine("Stay");
-                    break;
+                            _attackTriggerObject.collision.Enabled = false;
+                        } 
+                        break;
+                    case MeleeAction.Chase:
+                        _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
+                        dir = AISystem.Player.transform.Position - gameObject.transform.Position;
+                        SetLookVector(new Vector2(dir.Z, dir.X));
+                        gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
+                        break;
+                    case MeleeAction.Escape:
+                        dir = gameObject.transform.Position - AISystem.Player.transform.Position;
+                        Random rand = new Random();
+                        int x = rand.Next(0, 100);
+                        int y = rand.Next(0, 100);
+                        SetLookVector(new Vector2(dir.Z, dir.X));
+                        dir.X *= x / 100.0f;
+                        dir.Z *= y / 100.0f;
+                        gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
+                        break;
+                    case MeleeAction.Stay:
+                        break;
+                }
             }
         }
 

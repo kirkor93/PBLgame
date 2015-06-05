@@ -15,7 +15,7 @@ namespace PBLgame.Engine.Components
         protected GameObject _gameObject;
         #endregion
         #region Properties
-        public bool Enabled
+        public virtual bool Enabled
         {
             get 
             {

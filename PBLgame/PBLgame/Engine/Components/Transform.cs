@@ -43,7 +43,7 @@ namespace PBLgame.Engine.Components
                     gameObject.collision.UpdatePositions();
                     foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
                     {
-                        if (gameObject != go && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                        if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
                         {
                             flag = gameObject.collision.ChceckCollisionDeeper(go);
                         }
@@ -276,7 +276,7 @@ namespace PBLgame.Engine.Components
                 gameObject.collision.UpdatePositions();
                 foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
                 {
-                    if (gameObject != go && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                    if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
                     {
                         flag = gameObject.collision.ChceckCollisionDeeper(go);
                     }
@@ -308,7 +308,7 @@ namespace PBLgame.Engine.Components
                 gameObject.collision.UpdatePositions();
                 foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
                 {
-                    if (gameObject != go && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                    if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
                     {
                         flag = gameObject.collision.ChceckCollisionDeeper(go);
                     }

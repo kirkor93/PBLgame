@@ -109,6 +109,21 @@ namespace PBLgame.GamePlay
             _attackTriggerObject.collision = new Collision(_attackTriggerObject);
             _attackTriggerObject.collision.Static = false;
             _attackTriggerObject.collision.MainCollider = new SphereCollider(_attackTriggerObject.collision, 5.0f, true);
+            _attackTriggerObject.collision.Enabled = false;
+
+            gameObject.collision.OnTrigger += GetHit;
+        }
+        public void GetHit(Object o, ColArgs args)
+        {
+            if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "EnemyWeapon")
+            {
+                Stats.Health.Decrease(5);
+            }
+            else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "EnemyWeapon")
+            {
+                Stats.Health.Decrease(5);
+            }
+            Console.WriteLine("Ace health " + Stats.Health.Value);
         }
 
         public override void Draw(GameTime gameTime)
@@ -241,14 +256,21 @@ namespace PBLgame.GamePlay
 
                     case Buttons.RightShoulder:
                         {
-                            Console.WriteLine("quick attack");
                             Locked = true;
                             _postponeBuffer.SetTranslation(new MoveArgs(new Vector2(UnitVelocity.X, -UnitVelocity.Y)));
                             UnitVelocity = Vector2.Zero;
 
                             gameObject.animator.Attack();
                             gameObject.animator.OnAnimationFinish += () => Locked = false;
-                            
+                            _attackTriggerObject.collision.Enabled = true;
+                            foreach (GameObject go in PhysicsSystem.CollisionObjects)
+                            {
+                                if (_attackTriggerObject != go && go != gameObject.parent && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                                {
+                                    _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                                }
+                            }
+                            _attackTriggerObject.collision.Enabled = false;
                         }
                         break;
 

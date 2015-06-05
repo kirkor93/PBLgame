@@ -32,6 +32,7 @@ namespace PBLgame.Engine.GameObjects
             private Animator _animator;
             private ParticleSystem _particleSystem;
             private AudioSource _audioSource;
+            private bool _enabled;
             #endregion
         #endregion
 
@@ -46,6 +47,11 @@ namespace PBLgame.Engine.GameObjects
             {
                 _parent = value;
             }
+        }
+        public bool Enabled
+        {
+            get { return _enabled; }
+            set { _enabled = value; }
         }
         public Transform transform
         {
@@ -136,6 +142,7 @@ namespace PBLgame.Engine.GameObjects
 
         public GameObject()
         {
+            _enabled = true;
             _transform = new Transform(this);
         }
 
@@ -145,6 +152,7 @@ namespace PBLgame.Engine.GameObjects
             Name = source.Name;
             Tag  = source.Tag;
             _parent = parent;
+            _enabled = true;
             if (_parent != null)
             {
                 _parent._children.Add(this);
@@ -199,6 +207,7 @@ namespace PBLgame.Engine.GameObjects
 
         public virtual void Update(GameTime gameTime)
         {
+            if (!Enabled) return;
             if (animator != null)
             {
                 animator.Update(gameTime);
@@ -231,6 +240,7 @@ namespace PBLgame.Engine.GameObjects
 
         public virtual void Draw(GameTime gameTime)
         {
+            if (!Enabled) return;
             if (animator != null)
             {
                 animator.Draw(gameTime);
