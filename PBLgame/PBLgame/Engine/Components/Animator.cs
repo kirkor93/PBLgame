@@ -248,12 +248,12 @@ namespace PBLgame.Engine.Components
             }
         }
 
-        public void Attack()
+        public void Attack(string type)
         {
             if (_currentType != AnimationType.Attack)
             {
                 _currentType = AnimationType.Attack;
-                PlayAnimation(GetClip("Attack"), false);
+                PlayAnimation(GetClip("Attack" + type), false);
                 OnAnimationFinish += Idle;
             }
         }

@@ -111,7 +111,7 @@ namespace PBLgame.GamePlay
             _attackTriggerObject.collision.MainCollider = new SphereCollider(_attackTriggerObject.collision, 5.0f, true);
             _attackTriggerObject.collision.Enabled = false;
 
-            gameObject.collision.OnTrigger += GetHit;
+            if (gameObject.collision != null) gameObject.collision.OnTrigger += GetHit;
         }
         public void GetHit(Object o, ColArgs args)
         {
@@ -229,7 +229,7 @@ namespace PBLgame.GamePlay
                             const int cost = 1;
                             if (Stats.Energy.TryDecrease(cost))
                             {
-                                Console.WriteLine("telekinetic push");
+                                Attack(AttackType.Push);
                                 InputManager.Instance.RumplePad(200, 1, 0.5f);
                             }
                             else
@@ -244,7 +244,7 @@ namespace PBLgame.GamePlay
                             const int cost = 3;
                             if (Stats.Energy.TryDecrease(cost))
                             {
-                                Console.WriteLine("telekinetic shield");
+                                Attack(AttackType.Shield);
                                 InputManager.Instance.RumplePad(300, 0.3f, 0.7f);
                             }
                             else
@@ -256,33 +256,39 @@ namespace PBLgame.GamePlay
 
                     case Buttons.RightShoulder:
                         {
-                            Locked = true;
-                            _postponeBuffer.SetTranslation(new MoveArgs(new Vector2(UnitVelocity.X, -UnitVelocity.Y)));
-                            UnitVelocity = Vector2.Zero;
-
-                            gameObject.animator.Attack();
-                            gameObject.animator.OnAnimationFinish += () => Locked = false;
-                            _attackTriggerObject.collision.Enabled = true;
-                            foreach (GameObject go in PhysicsSystem.CollisionObjects)
-                            {
-                                if (_attackTriggerObject != go && go != gameObject.parent && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
-                                {
-                                    _attackTriggerObject.collision.ChceckCollisionDeeper(go);
-                                }
-                            }
-                            _attackTriggerObject.collision.Enabled = false;
+                            Attack(AttackType.Ion);
                         }
                         break;
 
                     case Buttons.RightTrigger:
                         {
-                            Console.WriteLine("strong attack");
+                            Attack(AttackType.Strong);
+                            
                             InputManager.Instance.RumplePad(200, 1, 1);
                         }
                         break;
                 }
                 Console.WriteLine(Stats.ToString());
             }
+        }
+
+        private void Attack(AttackType attackType)
+        {
+            Locked = true;
+            _postponeBuffer.SetTranslation(new MoveArgs(new Vector2(UnitVelocity.X, -UnitVelocity.Y)));
+            UnitVelocity = Vector2.Zero;
+
+            gameObject.animator.Attack(attackType.ToString());
+            gameObject.animator.OnAnimationFinish += () => Locked = false;
+            _attackTriggerObject.collision.Enabled = true;
+            foreach (GameObject go in PhysicsSystem.CollisionObjects)
+            {
+                if (_attackTriggerObject != go && go != gameObject.parent && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                {
+                    _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                }
+            }
+            _attackTriggerObject.collision.Enabled = false;
         }
 
         public override Component Copy(GameObject newOwner)
@@ -292,5 +298,15 @@ namespace PBLgame.GamePlay
         }
 
         #endregion
+
+        public enum AttackType
+        {
+            Quick,
+            Strong,
+            Shield,
+            Push,
+            Ion
+        }
     }
+
 }
