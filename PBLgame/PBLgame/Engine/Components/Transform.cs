@@ -45,7 +45,7 @@ namespace PBLgame.Engine.Components
                     {
                         if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
                         {
-                            flag = gameObject.collision.ChceckCollisionDeeper(go);
+                            flag += gameObject.collision.ChceckCollisionDeeper(go);
                         }
                     }
                     if (flag == 0)
@@ -278,7 +278,7 @@ namespace PBLgame.Engine.Components
                 {
                     if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
                     {
-                        flag = gameObject.collision.ChceckCollisionDeeper(go);
+                        flag += gameObject.collision.ChceckCollisionDeeper(go);
                     }
                 }
                 if (flag != 0)
@@ -310,7 +310,7 @@ namespace PBLgame.Engine.Components
                 {
                     if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
                     {
-                        flag = gameObject.collision.ChceckCollisionDeeper(go);
+                        flag += gameObject.collision.ChceckCollisionDeeper(go);
                     }
                 }
                 if (flag != 0)

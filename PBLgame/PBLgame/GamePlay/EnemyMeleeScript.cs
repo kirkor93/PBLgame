@@ -28,9 +28,12 @@ namespace PBLgame.GamePlay
 
         private float _chaseTimer;
 
+        private bool _enemySeen = false;
+
         private MeleeAction _currentAction = MeleeAction.Stay;
 
         private GameObject _attackTriggerObject;
+        private GameObject _fieldOfView;
 
         #endregion  
         #region DTNodes
@@ -57,11 +60,23 @@ namespace PBLgame.GamePlay
 
             _attackTriggerObject.collision = new Collision(_attackTriggerObject);
             _attackTriggerObject.collision.Rigidbody = false;
-            _attackTriggerObject.collision.Static = false;
             _attackTriggerObject.collision.MainCollider = new SphereCollider(_attackTriggerObject.collision, 5.0f, true);
             _attackTriggerObject.collision.Enabled = false;
 
             gameObject.collision.OnTrigger += GetHitMethod;
+
+            _fieldOfView = new GameObject();
+            _fieldOfView.Tag = "FOV";
+            _fieldOfView.transform.Position = new Vector3(0.0f, 10.0f, 55.0f);
+            _fieldOfView.parent = this.gameObject;
+
+            _fieldOfView.collision = new Collision(_fieldOfView);
+            _fieldOfView.collision.Rigidbody = false;
+            _fieldOfView.collision.Static = false;
+            _fieldOfView.collision.MainCollider = new SphereCollider(_fieldOfView.collision, 70.0f, true);
+            _fieldOfView.collision.Enabled = true;
+
+            _fieldOfView.collision.OnTrigger += GotPlayerMethod;
 
             _startingPosition = gameObject.transform.Position;
             _chaseTimer = 0.0f;
@@ -102,11 +117,24 @@ namespace PBLgame.GamePlay
             set { _hp = value; }
         }
 
+        public void GotPlayerMethod(Object o, ColArgs args)
+        {
+            if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Player")
+            {
+                _enemySeen = true;
+            }
+            else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Player")
+            {
+                _enemySeen = true;
+            }
+        }
+
         public void GetHitMethod(Object o, ColArgs args)
         {
+            PlayerScript stats = null;
             if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Weapon")
             {
-                PlayerScript stats = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                stats = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
                 if (stats != null)
                 {
                     _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.FastAttackDamageBonus.Value);
@@ -114,17 +142,18 @@ namespace PBLgame.GamePlay
             }
             else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Weapon")
             {
-                PlayerScript stats = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                stats = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
                 if (stats != null)
                 {
                     _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.FastAttackDamageBonus.Value);
                 }
             }
-            Console.WriteLine("Enemy hp value = " + _hp);
             if (HP <= 0)
             {
+                if (stats != null) stats.Stats.Experience.Increase(100);
                 gameObject.Enabled = false;
                 _attackTriggerObject.Enabled = false;
+
             }
         }
 
@@ -134,6 +163,7 @@ namespace PBLgame.GamePlay
             {
                 base.Update(gameTime);
                 _attackTriggerObject.Update(gameTime);
+                _fieldOfView.Update(gameTime);
                 Vector3 dir;
                 switch (_currentAction)
                 {
@@ -180,11 +210,22 @@ namespace PBLgame.GamePlay
         public override void Draw(GameTime gameTime)
         {
             _attackTriggerObject.Draw(gameTime);
+            _fieldOfView.Draw(gameTime);
         }
 
         private bool EnemyClose()
         {
-            if (Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) < 100.0f) return true;
+            if (Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) < 100.0f)
+            {
+                foreach (GameObject go in PhysicsSystem.CollisionObjects)
+                {
+                    if (_fieldOfView != go && go.collision.Enabled && _fieldOfView.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                    {
+                        _fieldOfView.collision.ChceckCollisionDeeper(go);
+                    }
+                }
+                return _enemySeen;
+            }
             else return false;
         }
 
