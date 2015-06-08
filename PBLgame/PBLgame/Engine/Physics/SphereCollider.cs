@@ -15,7 +15,7 @@ using PBLgame.Engine.Components;
 
 namespace PBLgame.Engine.Physics
 {
-    public class SphereCollider : IXmlSerializable
+    public class SphereCollider : Collider, IXmlSerializable
     {
         #region Variables
         private Collision _owner;
@@ -29,8 +29,8 @@ namespace PBLgame.Engine.Physics
         private Matrix _worldTranslation;
         private Matrix _world;
 
-        private Quaternion tmpQ = new Quaternion();
-        private Vector3 tmpV = new Vector3();
+        //private Quaternion tmpQ = new Quaternion();
+        //private Vector3 tmpV = new Vector3();
         #endregion
 
         #region Properties
@@ -80,16 +80,16 @@ namespace PBLgame.Engine.Physics
                 if (_owner.gameObject.parent != null)
                 {
                     _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
-                    _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+                    //_world.Decompose(out tmpV, out tmpQ, out _totalPosition);
                 }
                 else
                 {
                     _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
-                    _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+                    //_world.Decompose(out tmpV, out tmpQ, out _totalPosition);
                 }
+                _totalPosition = _world.Translation;
                 return _totalPosition;
             }
-            private set { }
         }
         public bool Trigger
         {
@@ -116,54 +116,13 @@ namespace PBLgame.Engine.Physics
         #endregion
 
         #region Methods
-        public SphereCollider(Collision owner)
+        public SphereCollider(Collision owner) : this(owner, false)
         {
-            _owner = owner;
-            _localPosition = Vector3.Zero;
-            _worldTranslation = Matrix.CreateTranslation(_localPosition);
-            if (owner.gameObject.parent != null)
-            {
-                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
-                Vector3 tmpV;
-                Quaternion tmpQ;
-                _world.Decompose(out tmpV,out tmpQ, out _totalPosition);
-            }
-            else
-            {
-                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
-                Vector3 tmpV;
-                Quaternion tmpQ;
-                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
-            }
-            _radius = 0.0f;
-            _trigger = false;
-            ResizeCollider();
-            _sphere = new BoundingSphere(_totalPosition,_realRadius);
         }
 
-        public SphereCollider(Collision owner,bool trigger)
+        public SphereCollider(Collision owner, bool trigger) : this(owner, 0, trigger)
         {
-            _owner = owner;
-            _localPosition = Vector3.Zero;
-            _worldTranslation = Matrix.CreateTranslation(_localPosition);
-            if (owner.gameObject.parent != null)
-            {
-                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
-                Vector3 tmpV;
-                Quaternion tmpQ;
-                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
-            }
-            else
-            {
-                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
-                Vector3 tmpV;
-                Quaternion tmpQ;
-                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
-            }
-            _radius = 0.0f;
-            _trigger = trigger;
-            GenerateCollider();
-            _sphere = new BoundingSphere(_totalPosition, _realRadius);
+            // srsly code duplication is like a ticking bomb
         }
 
         public SphereCollider(Collision owner, Vector3 position, float radius, bool trigger)
@@ -175,39 +134,22 @@ namespace PBLgame.Engine.Physics
             if (_owner.gameObject.parent != null)
             {
                 _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
-                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+                //_world.Decompose(out tmpV, out tmpQ, out _totalPosition);
             }
             else
             {
                 _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
-                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+                //_world.Decompose(out tmpV, out tmpQ, out _totalPosition);
             }
+            _totalPosition = _world.Translation;
             _trigger = trigger;
             ResizeCollider();
             _sphere = new BoundingSphere(TotalPosition, _realRadius);
         }
 
-        public SphereCollider(Collision owner, float radius, bool trigger)
+        public SphereCollider(Collision owner, float radius, bool trigger) : this(owner, Vector3.Zero, radius, trigger)
         {
-            _owner = owner;
-            _radius = radius;
-            _localPosition = Vector3.Zero;
-            _worldTranslation = Matrix.CreateTranslation(_localPosition);
-            if (_owner.gameObject.parent != null)
-            {
-                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
-                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
-            }
-            else
-            {
-                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
-                Vector3 tmpV;
-                Quaternion tmpQ;
-                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
-            }
-            _trigger = trigger;
-            ResizeCollider();
-            _sphere = new BoundingSphere(TotalPosition, _realRadius);
+            // i'm not joking
         }
 
         public void GenerateCollider()
@@ -282,13 +224,14 @@ namespace PBLgame.Engine.Physics
             if (_owner.gameObject.parent != null)
             {
                 _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
-                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+                //_world.Decompose(out tmpV, out tmpQ, out _totalPosition);
             }
             else
             {
                 _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
-                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+                //_world.Decompose(out tmpV, out tmpQ, out _totalPosition);
             }
+            _totalPosition = _world.Translation;
             _sphere.Center = _totalPosition;
             //_sphere = new BoundingSphere(_totalPosition, _radius);
         }
@@ -408,6 +351,11 @@ namespace PBLgame.Engine.Physics
                 pass.Apply();
                 gd.DrawUserIndexedPrimitives(PrimitiveType.LineList, primitiveList, 0, 1440, indicesArray, 0, 4 * 359);
             }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Trigger: {0}, R = {1}", Trigger, Radius);
         }
 
         #region Xml serialization

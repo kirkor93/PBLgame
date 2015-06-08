@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms.VisualStyles;
 using Edytejshyn.GUI;
@@ -14,6 +15,7 @@ using Microsoft.Xna.Framework.Design;
 using PBLgame.Engine;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Physics;
 using PBLgame.Engine.Scenes;
 
 namespace Edytejshyn.Model
@@ -25,6 +27,7 @@ namespace Edytejshyn.Model
         protected GameObject _gameObject;
         protected TransformWrapper _transform;
         protected RendererWrapper _renderer;
+        protected CollisionWrapper _collision;
         protected List<GameObjectWrapper> _children = new List<GameObjectWrapper>();
 
         public event PropertyChangedEventHandler ChangedEvent;
@@ -67,6 +70,18 @@ namespace Edytejshyn.Model
             {
                 _gameObject.renderer = (value == null) ? null : value.WrappedRenderer;
                 _renderer = value;
+            }
+        }
+        
+        [Category("Components")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public CollisionWrapper Collision
+        {
+            get { return _collision; }
+            private set
+            {
+                _gameObject.collision = (value == null) ? null : value.WrappedCollision;
+                _collision = value;
             }
         }
 
@@ -157,6 +172,7 @@ namespace Edytejshyn.Model
         {
             if (_gameObject.transform != null) _transform = new TransformWrapper(this, _gameObject.transform);
             if (_gameObject.renderer  != null) _renderer  = new RendererWrapper (this, _gameObject.renderer );
+            if (_gameObject.collision != null) _collision = new CollisionWrapper(this, _gameObject.collision);
         }
 
         public void FireSetter<T>(Action<T> setValue, T oldValue, T newValue, [CallerMemberName] string property = null)
@@ -208,6 +224,22 @@ namespace Edytejshyn.Model
         {
             FireSetter(x => Renderer = x, _renderer, null, "Renderer");   
         }
+
+        public void NewCollision()
+        {
+            Collision collision = new Collision(_gameObject, false, 0.0f);
+            collision.MainCollider = new SphereCollider(collision, 10f, false);
+            CollisionWrapper wrapper = new CollisionWrapper(this, collision);
+
+            FireSetter(x => Collision = x, _collision, wrapper, "Collision component");
+        }
+
+        public void RemoveCollision()
+        {
+            FireSetter(x => Collision = x, _collision, null, "Collision component");   
+        }
+
+
 
         public void Draw(IDrawerStrategy strategy, GameTime gameTime)
         {

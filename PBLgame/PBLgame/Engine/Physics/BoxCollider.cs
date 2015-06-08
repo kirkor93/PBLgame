@@ -15,7 +15,7 @@ using PBLgame.Engine.Components;
 
 namespace PBLgame.Engine.Physics
 {
-    public class BoxCollider : IXmlSerializable
+    public class BoxCollider : Collider, IXmlSerializable
     {
         #region Variables
         private Collision _owner;
@@ -42,7 +42,7 @@ namespace PBLgame.Engine.Physics
             {
                 return _owner;
             }
-            private set { }
+            //private set { }
         }
 
         public Vector3 LocalPosition
@@ -80,6 +80,7 @@ namespace PBLgame.Engine.Physics
                 _trigger = value;
             }
         }
+
         public BoundingBox Box
         {
             get
@@ -286,13 +287,14 @@ namespace PBLgame.Engine.Physics
             if (_owner.gameObject.parent != null)
             {
                 _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
-                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+                //_world.Decompose(out tmpV, out tmpQ, out _totalPosition);
             }
             else
             {
                 _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
-                _world.Decompose(out tmpV, out tmpQ, out _totalPosition);
+                //_world.Decompose(out tmpV, out tmpQ, out _totalPosition);
             }
+            _totalPosition = _world.Translation;
             InitializeVerts();
         }
 
@@ -337,6 +339,11 @@ namespace PBLgame.Engine.Physics
                     PrimitiveType.LineList, primitiveList, 0, 8,
                     bBoxIndices, 0, 12);
             }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Trigger: {0}, Size: {1}", Trigger, EdgesSize.ToShortString(" x "));
         }
 
         #region Xml Serialization
@@ -395,4 +402,5 @@ namespace PBLgame.Engine.Physics
 
 
     }
+
 }

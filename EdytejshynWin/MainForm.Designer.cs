@@ -63,7 +63,9 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.sceneTreeView = new Edytejshyn.GUI.SceneTreeView();
             this.contentTreeView = new Edytejshyn.GUI.EditorTreeView();
+            this.splitContainerProperty = new System.Windows.Forms.SplitContainer();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.collisionTreeView = new Edytejshyn.GUI.CollisionTreeView();
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.statusBarLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -92,6 +94,10 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerProperty)).BeginInit();
+            this.splitContainerProperty.Panel1.SuspendLayout();
+            this.splitContainerProperty.Panel2.SuspendLayout();
+            this.splitContainerProperty.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -383,7 +389,7 @@
             // 
             // splitContainerRightHoriz.Panel2
             // 
-            this.splitContainerRightHoriz.Panel2.Controls.Add(this.propertyGrid);
+            this.splitContainerRightHoriz.Panel2.Controls.Add(this.splitContainerProperty);
             this.splitContainerRightHoriz.Size = new System.Drawing.Size(468, 611);
             this.splitContainerRightHoriz.SplitterDistance = 264;
             this.splitContainerRightHoriz.TabIndex = 0;
@@ -437,13 +443,42 @@
             this.contentTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ContentTreeView_AfterSelect);
             this.contentTreeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ContentTreeViewObjects_KeyDown);
             // 
+            // splitContainerProperty
+            // 
+            this.splitContainerProperty.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerProperty.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerProperty.Name = "splitContainerProperty";
+            this.splitContainerProperty.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerProperty.Panel1
+            // 
+            this.splitContainerProperty.Panel1.Controls.Add(this.propertyGrid);
+            // 
+            // splitContainerProperty.Panel2
+            // 
+            this.splitContainerProperty.Panel2.Controls.Add(this.collisionTreeView);
+            this.splitContainerProperty.Size = new System.Drawing.Size(200, 611);
+            this.splitContainerProperty.SplitterDistance = 412;
+            this.splitContainerProperty.TabIndex = 0;
+            // 
             // propertyGrid
             // 
             this.propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(200, 611);
+            this.propertyGrid.Size = new System.Drawing.Size(200, 412);
             this.propertyGrid.TabIndex = 1;
+            // 
+            // collisionTreeView
+            // 
+            this.collisionTreeView.Collision = null;
+            this.collisionTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.collisionTreeView.Location = new System.Drawing.Point(0, 0);
+            this.collisionTreeView.Name = "collisionTreeView";
+            this.collisionTreeView.Size = new System.Drawing.Size(200, 195);
+            this.collisionTreeView.TabIndex = 0;
+            this.collisionTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.CollisionTreeView_AfterSelect);
+            this.collisionTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.CollisionTreeView_NodeMouseClick);
             // 
             // statusBar
             // 
@@ -619,6 +654,10 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainerProperty.Panel1.ResumeLayout(false);
+            this.splitContainerProperty.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerProperty)).EndInit();
+            this.splitContainerProperty.ResumeLayout(false);
             this.statusBar.ResumeLayout(false);
             this.statusBar.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -680,6 +719,8 @@
         private System.Windows.Forms.ToolStripMenuItem updateSceneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zeroTimeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem forward01sToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainerProperty;
+        private GUI.CollisionTreeView collisionTreeView;
     }
 }
 
