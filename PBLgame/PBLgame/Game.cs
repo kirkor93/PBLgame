@@ -115,11 +115,11 @@ namespace PBLgame
             Intro.Instance.Batch = spriteBatch;
             Intro.Instance.Start();
             _scene = new Scene();
-            _scene.Load(@"Level_1.xml");
-            //_scene.Load(@"AnimScene.xml");
+            //_scene.Load(@"Level_1.xml");
+            _scene.Load(@"AnimScene.xml");
 
             player = _scene.FindGameObject(8);
-            player.AddComponent( new AttachSlot(player, _scene.FindGameObject("Sword"), "miecz123") );
+            //player.AddComponent( new AttachSlot(player, _scene.FindGameObject("Sword"), "miecz123") );
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;

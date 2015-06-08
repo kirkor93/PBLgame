@@ -30,6 +30,12 @@
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Enemies\NJ.FBX">
+      <Name>NJ</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+    </Compile>
     <Compile Include="Models\Helmet.FBX">
       <Name>Helmet</Name>
       <Importer>FbxImporter</Importer>
@@ -1361,6 +1367,13 @@
   <ItemGroup>
     <Compile Include="Animations\Champions\Ace_shield.FBX">
       <Name>Ace_shield</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\Enemies\NJ_walk.FBX">
+      <Name>NJ_walk</Name>
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
     </Compile>
