@@ -518,6 +518,7 @@ namespace Edytejshyn
                 popup.Items.Add("Add Rendererer").Click += delegate
                 {
                     node.WrappedGameObject.NewRenderer();
+                    SceneTreeView_AfterSelect(this, new TreeViewEventArgs(node));
                 };
             }
             else
@@ -525,6 +526,7 @@ namespace Edytejshyn
                 popup.Items.Add("Remove Rendererer").Click += delegate
                 {
                     node.WrappedGameObject.RemoveRenderer();
+                    SceneTreeView_AfterSelect(this, new TreeViewEventArgs(node));
                 };
             }
 
@@ -533,6 +535,7 @@ namespace Edytejshyn
                 popup.Items.Add("Add Collision").Click += delegate
                 {
                     node.WrappedGameObject.NewCollision();
+                    SceneTreeView_AfterSelect(this, new TreeViewEventArgs(node));
                 };
             }
             else
@@ -540,6 +543,7 @@ namespace Edytejshyn
                 popup.Items.Add("Remove Collision").Click += delegate
                 {
                     node.WrappedGameObject.RemoveCollision();
+                    SceneTreeView_AfterSelect(this, new TreeViewEventArgs(node));
                 };
             }
             sceneTreeView.ContextMenuStrip = popup;
@@ -703,6 +707,20 @@ namespace Edytejshyn
                 CollisionTreeView_AfterSelect(sender, new TreeViewEventArgs(e.Node, TreeViewAction.ByMouse));
         }
 
+        private void collisionTreeView_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (collisionTreeView.HitTest(e.Location).Node == null)
+            {
+                collisionTreeView.SelectedNode = null;
+                SceneTreeNode node = sceneTreeView.SelectedNode as SceneTreeNode;
+                if (node != null)
+                {
+                    propertyGrid.SelectedObject = node.WrappedGameObject;
+                    propertyGrid.ExpandAllGridItems();
+                }
+            }
+        }
+
         #endregion
         #endregion
 
@@ -826,8 +844,6 @@ namespace Edytejshyn
         }
 
         #endregion
-
-
 
     }
 }

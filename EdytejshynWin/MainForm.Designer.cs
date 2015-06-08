@@ -479,6 +479,7 @@
             this.collisionTreeView.TabIndex = 0;
             this.collisionTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.CollisionTreeView_AfterSelect);
             this.collisionTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.CollisionTreeView_NodeMouseClick);
+            this.collisionTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.collisionTreeView_MouseDown);
             // 
             // statusBar
             // 

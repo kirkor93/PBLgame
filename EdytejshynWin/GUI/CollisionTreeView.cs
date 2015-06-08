@@ -51,7 +51,7 @@ namespace Edytejshyn.GUI
             }
             Nodes.Add(boxNode);
 
-
+            ExpandAll();
         }
 
     }
