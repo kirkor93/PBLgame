@@ -187,6 +187,13 @@ namespace Edytejshyn.Model
                 SetterEvent(new ChangeValueCommand<T>(string.Format("{0} of {1}", property, Name), setValue, oldValue, newValue));
         }
 
+        public void FireAdder<T>(Action<T> addAction, Action<T> removeAction, T value, [CallerMemberName] string property = null)
+        {
+            if (value == null) return;
+            if (SetterEvent != null)
+                SetterEvent(new AddValueCommand<T>(string.Format("{0} of {1}", property, Name), addAction, removeAction, value));
+        }
+
         public void AttachSetterHandler(SetterHandler handler)
         {
             SetterEvent += handler;

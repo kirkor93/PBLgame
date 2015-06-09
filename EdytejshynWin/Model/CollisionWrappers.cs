@@ -58,7 +58,38 @@ namespace Edytejshyn.Model
             return "Here I am";
         }
 
-        #endregion 
+        #endregion
+
+        public void AddBox()
+        {
+            BoxCollider boxCollider = new BoxCollider(WrappedCollision, new Vector3(20, 20, 20), false);
+
+            Parent.FireAdder(x =>
+                {
+                    WrappedCollision.BoxColliders.Add(x);
+                    Program.UglyStaticMain.ReSelectSceneNode();
+                },
+                x =>
+                {
+                    WrappedCollision.BoxColliders.Remove(x);
+                    Program.UglyStaticMain.ReSelectSceneNode();
+                }, 
+                boxCollider, "Box collider");
+        }
+
+        public void AddSphere()
+        {
+            //EditorLogic logic = Program.UglyStaticLogic;
+            //BoxCollider boxCollider = new BoxCollider(WrappedCollision, new Vector3(20, 20, 20), false);
+            //BoxColliderWrapper wrapper = new BoxColliderWrapper(this, boxCollider);
+
+            //Parent.FireAdder(x => WrappedCollision.BoxColliders.Add(x), x => WrappedCollision.BoxColliders.Remove(x), boxCollider, "Box collider");
+        }
+
+        public void Remove(ColliderWrapper colliderWrapper)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

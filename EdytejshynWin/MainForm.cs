@@ -691,9 +691,37 @@ namespace Edytejshyn
         private void CollisionTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             CollisionTreeNode node = e.Node as CollisionTreeNode;
-            if (node == null || node.WrappedCollider == null) return;
+            ContextMenuStrip popup = new ContextMenuStrip();
+            if (node == null || node.WrappedCollider == null)
+            {
+                if (collisionTreeView.Collision == null) return;
+
+                popup.Items.Add("Add Sphere collider").Click += delegate
+                {
+                    collisionTreeView.Collision.AddSphere();
+                };
+                popup.Items.Add("Add Box collider").Click += delegate
+                {
+                    collisionTreeView.Collision.AddBox();
+                };
+                collisionTreeView.ContextMenuStrip = popup;
+                return;
+            }
             propertyGrid.SelectedObject = node.WrappedCollider;
             propertyGrid.ExpandAllGridItems();
+
+
+            popup.Items.Add("Remove").Click += delegate
+            {
+                collisionTreeView.Collision.Remove(node.WrappedCollider);
+                ReSelectSceneNode();
+            };
+            collisionTreeView.ContextMenuStrip = popup;
+        }
+
+        public void ReSelectSceneNode()
+        {
+            SceneTreeView_AfterSelect(this, new TreeViewEventArgs(sceneTreeView.SelectedNode));
         }
 
 
