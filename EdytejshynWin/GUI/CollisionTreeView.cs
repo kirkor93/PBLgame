@@ -32,6 +32,7 @@ namespace Edytejshyn.GUI
             {
                 TreeNode empty = new TreeNode("[No colllision component]");
                 Nodes.Add(empty);
+                ContextMenuStrip = null;
                 return;
             }
             TreeNode mainColliderNode = new CollisionTreeNode("Main collider");

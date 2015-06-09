@@ -187,11 +187,18 @@ namespace Edytejshyn.Model
                 SetterEvent(new ChangeValueCommand<T>(string.Format("{0} of {1}", property, Name), setValue, oldValue, newValue));
         }
 
-        public void FireAdder<T>(Action<T> addAction, Action<T> removeAction, T value, [CallerMemberName] string property = null)
+        public void FireAdder<T>(IList<T> list, T value, Action actionAfter = null, [CallerMemberName] string property = null)
         {
             if (value == null) return;
             if (SetterEvent != null)
-                SetterEvent(new AddValueCommand<T>(string.Format("{0} of {1}", property, Name), addAction, removeAction, value));
+                SetterEvent(new AddToListCommand<T>(string.Format("{0} of {1}", property, Name), list, value, actionAfter));
+        }
+
+        public void FireRemover<T>(IList<T> list, T value, Action actionAfter = null, [CallerMemberName] string property = null)
+        {
+            if (value == null) return;
+            if (SetterEvent != null)
+                SetterEvent(new RemoveFromListCommand<T>(string.Format("{0} of {1}", property, Name), list, value, actionAfter));
         }
 
         public void AttachSetterHandler(SetterHandler handler)

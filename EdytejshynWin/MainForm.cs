@@ -710,6 +710,7 @@ namespace Edytejshyn
             propertyGrid.SelectedObject = node.WrappedCollider;
             propertyGrid.ExpandAllGridItems();
 
+            if (node.IsMainCollider) return;
 
             popup.Items.Add("Remove").Click += delegate
             {

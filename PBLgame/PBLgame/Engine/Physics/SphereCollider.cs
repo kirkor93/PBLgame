@@ -40,7 +40,7 @@ namespace PBLgame.Engine.Physics
             {
                 return _owner;
             }
-            private set { }
+            //private set { }
         }
 
         public Vector3 LocalPosition

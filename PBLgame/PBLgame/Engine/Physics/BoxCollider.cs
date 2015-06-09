@@ -57,6 +57,7 @@ namespace PBLgame.Engine.Physics
                 _totalPosition = _owner.gameObject.transform.Position + _localPosition;
                 if (_owner.gameObject.parent != null) _totalPosition += _owner.gameObject.transform.AncestorsPositionAsVector;
                 _worldTranslation = Matrix.CreateTranslation(_localPosition);
+                InitializeVerts();
             }
         }
 

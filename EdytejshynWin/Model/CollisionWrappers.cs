@@ -14,6 +14,7 @@ namespace Edytejshyn.Model
         #region Variables
 
         public readonly GameObjectWrapper Parent;
+        private Action _colliderActionAfter =() => Program.UglyStaticMain.ReSelectSceneNode();
 
         #endregion
 
@@ -63,32 +64,30 @@ namespace Edytejshyn.Model
         public void AddBox()
         {
             BoxCollider boxCollider = new BoxCollider(WrappedCollision, new Vector3(20, 20, 20), false);
-
-            Parent.FireAdder(x =>
-                {
-                    WrappedCollision.BoxColliders.Add(x);
-                    Program.UglyStaticMain.ReSelectSceneNode();
-                },
-                x =>
-                {
-                    WrappedCollision.BoxColliders.Remove(x);
-                    Program.UglyStaticMain.ReSelectSceneNode();
-                }, 
-                boxCollider, "Box collider");
+            Parent.FireAdder(WrappedCollision.BoxColliders, boxCollider, _colliderActionAfter, "Box collider");
         }
 
         public void AddSphere()
         {
-            //EditorLogic logic = Program.UglyStaticLogic;
-            //BoxCollider boxCollider = new BoxCollider(WrappedCollision, new Vector3(20, 20, 20), false);
-            //BoxColliderWrapper wrapper = new BoxColliderWrapper(this, boxCollider);
-
-            //Parent.FireAdder(x => WrappedCollision.BoxColliders.Add(x), x => WrappedCollision.BoxColliders.Remove(x), boxCollider, "Box collider");
+            SphereCollider sphereCollider = new SphereCollider(WrappedCollision, 10f, false);
+            Parent.FireAdder(WrappedCollision.SphereColliders, sphereCollider, _colliderActionAfter, "Sphere collider");
         }
 
         public void Remove(ColliderWrapper colliderWrapper)
         {
-            throw new NotImplementedException();
+            SphereColliderWrapper sphere = colliderWrapper as SphereColliderWrapper;
+            if (sphere != null)
+            {
+                Parent.FireRemover(WrappedCollision.SphereColliders, sphere.Collider, _colliderActionAfter);
+                return;
+            }
+
+            BoxColliderWrapper box = colliderWrapper as BoxColliderWrapper;
+            if (box != null)
+            {
+                Parent.FireRemover(WrappedCollision.BoxColliders, box.Collider, _colliderActionAfter);
+                return;
+            }
         }
     }
 
@@ -108,6 +107,8 @@ namespace Edytejshyn.Model
     {
         private readonly SphereCollider _collider;
 
+        [Browsable(false)]
+        public SphereCollider Collider { get { return _collider; } }
 
         [TypeConverter(typeof(Vector3ConverterEx))]
         public Vector3 LocalPosition
@@ -136,7 +137,7 @@ namespace Edytejshyn.Model
         public BoundingSphere Sphere
         {
             get { return _collider.Sphere; }
-            set { _collision.Parent.FireSetter(x => _collider.Sphere = x, _collider.Sphere, value); }
+            //set { _collision.Parent.FireSetter(x => _collider.Sphere = x, _collider.Sphere, value); }
         }
         
 
@@ -156,10 +157,9 @@ namespace Edytejshyn.Model
     {
         private readonly BoxCollider _collider;
 
-        public BoxColliderWrapper(CollisionWrapper collision, BoxCollider collider) : base(collision)
-        {
-            _collider = collider;
-        }
+        [Browsable(false)]
+        public BoxCollider Collider { get { return _collider; } }
+
 
         [TypeConverter(typeof(Vector3ConverterEx))]
         public Vector3 LocalPosition
@@ -182,7 +182,7 @@ namespace Edytejshyn.Model
         public BoundingBox Box
         {
             get { return _collider.Box; }
-            set { _collision.Parent.FireSetter(x => _collider.Box = x, _collider.Box, value); }
+            //set { _collision.Parent.FireSetter(x => _collider.Box = x, _collider.Box, value); }
         }
 
         [TypeConverter(typeof(Vector3ConverterEx))]
@@ -190,6 +190,11 @@ namespace Edytejshyn.Model
         {
             get { return _collider.EdgesSize; }
             set { _collision.Parent.FireSetter(x => _collider.EdgesSize = x, _collider.EdgesSize, value); }
+        }
+
+        public BoxColliderWrapper(CollisionWrapper collision, BoxCollider collider) : base(collision)
+        {
+            _collider = collider;
         }
 
         public override string ToString()
