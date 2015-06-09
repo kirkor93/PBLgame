@@ -293,7 +293,7 @@ namespace PBLgame.Engine.Physics
 
         public override string ToString()
         {
-            return String.Format("Trigger: {0}, Size: {1}", Trigger, EdgesSize.ToShortString(" x "));
+            return String.Format("{0}Size: {1}", Trigger ? "Trigger, " : "", EdgesSize.ToShortString(" x "));
         }
 
         #region Xml Serialization

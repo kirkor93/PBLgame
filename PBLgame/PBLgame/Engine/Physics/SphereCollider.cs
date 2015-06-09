@@ -355,7 +355,7 @@ namespace PBLgame.Engine.Physics
 
         public override string ToString()
         {
-            return String.Format("Trigger: {0}, R = {1}", Trigger, Radius);
+            return String.Format("{0}R = {1}", Trigger ? "Trigger, " : "", Radius);
         }
 
         #region Xml serialization

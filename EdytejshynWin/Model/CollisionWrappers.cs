@@ -56,7 +56,7 @@ namespace Edytejshyn.Model
 
         public override string ToString()
         {
-            return "Here I am";
+            return String.Format("{0} {1}", Rigidbody ? "Rigid" : "Nonrigid", Static ? "Static" : "Dynamic");
         }
 
         #endregion
