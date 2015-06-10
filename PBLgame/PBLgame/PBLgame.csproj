@@ -119,6 +119,7 @@
     <Compile Include="GamePlay\ButtonsActions.cs" />
     <Compile Include="GamePlay\CharacterHandler.cs" />
     <Compile Include="GamePlay\EnemyMeleeScript.cs" />
+    <Compile Include="GamePlay\EnemyRangedScript.cs" />
     <Compile Include="GamePlay\PlayerScript.cs" />
     <Compile Include="GamePlay\PlayerStatistics.cs" />
     <Compile Include="GamePlay\Translator.cs" />

@@ -45,6 +45,7 @@ namespace PBLgame.GamePlay
         #region Variables
         #region Public
         public PlayerStatistics Stats { get; private set; }
+        public AttackType AttackEnum { get; private set; }
         #endregion
         #region Private
         /// <summary>
@@ -115,15 +116,19 @@ namespace PBLgame.GamePlay
         }
         public void GetHit(Object o, ColArgs args)
         {
+            //if (args.EnemyBox != null) Console.WriteLine(args.EnemyBox.Owner.gameObject.Tag);
+            //if (args.EnemySphere != null) Console.WriteLine(args.EnemySphere.Owner.gameObject.Tag);
+
             if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "EnemyWeapon")
             {
                 Stats.Health.Decrease(5);
+                Console.WriteLine("Ace health " + Stats.Health.Value);
             }
             else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "EnemyWeapon")
             {
                 Stats.Health.Decrease(5);
+                Console.WriteLine("Ace health " + Stats.Health.Value);
             }
-            Console.WriteLine("Ace health " + Stats.Health.Value);
         }
 
         public override void Draw(GameTime gameTime)
@@ -256,7 +261,7 @@ namespace PBLgame.GamePlay
 
                     case Buttons.RightShoulder:
                         {
-                            Attack(AttackType.Ion);
+                            Attack(AttackType.Quick);
                         }
                         break;
 
@@ -274,6 +279,7 @@ namespace PBLgame.GamePlay
 
         private void Attack(AttackType attackType)
         {
+            AttackEnum = attackType;
             Locked = true;
             _postponeBuffer.SetTranslation(new MoveArgs(new Vector2(UnitVelocity.X, -UnitVelocity.Y)));
             UnitVelocity = Vector2.Zero;
@@ -296,17 +302,16 @@ namespace PBLgame.GamePlay
             // developper doesn't get responsibility for unexpected behaviour
             return new PlayerScript(newOwner);
         }
-
         #endregion
+    }
 
-        public enum AttackType
-        {
-            Quick,
-            Strong,
-            Shield,
-            Push,
-            Ion
-        }
+    public enum AttackType
+    {
+        Quick,
+        Strong,
+        Shield,
+        Push,
+        Ion
     }
 
 }
