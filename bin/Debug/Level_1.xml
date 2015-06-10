@@ -4841,7 +4841,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="12" MaterialId="11" />
     </GameObject>
-    <GameObject Name="MechaRanger001" Tag="Enemy" Id="607">
+    <GameObject Name="SmartDroid001" Tag="Enemy" Id="607">
       <Transform Enabled="True">
         <Position x="-128" y="0" z="-112" />
         <Rotation x="0" y="0" z="0" />
@@ -4856,6 +4856,22 @@
       <Animator Enabled="True" />
       <PBLgame.Engine.Components.AIComponent Enabled="True" />
       <PBLgame.GamePlay.EnemyMeleeScript Enabled="True" />
+    </GameObject>
+        <GameObject Name="MechaRanger001" Tag="Enemy" Id="1234">
+      <Transform Enabled="True">
+        <Position x="-148" y="0" z="-112" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="8" MaterialId="5" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="5" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <Animator Enabled="True" />
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.EnemyRangedScript Enabled="True" />
     </GameObject>
     <GameObject Name="Mirror" Tag="Mirror" Id="612">
       <Transform Enabled="True">

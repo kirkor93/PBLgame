@@ -160,7 +160,7 @@ namespace PBLgame.GamePlay
 
         public override string ToString()
         {
-            return string.Format("HP: {0}, Mana: {1}, Experience: {2}", Health.Value, Energy.Value, Experience.Value);
+            return string.Format("HP: {0}, Mana: {1}, Experience: {2}, LVL: {3}", Health.Value, Energy.Value, Experience.Value, TalentPoints.Value);
         }
     }
 }

@@ -186,23 +186,13 @@ namespace PBLgame.Engine.Components
             _mass = src._mass;
             _static = src._static;
             _rigidbody = src._rigidbody;
-            _mainCollider = src._mainCollider;
-            _sphereColliders = src._sphereColliders;
-        }
-        public Collision(GameObject owner) : base(owner)
-        {
-            _static = true;
-            _rigidbody = false;
-            _mainCollider = null;
-            _sphereColliders = new List<SphereCollider>();
-            _boxColliders = new List<BoxCollider>();
-            _onTerrain = false;
-            _mass = 0.0f;
-            _inContact = false;
-            PhysicsSystem.AddCollisionObject(owner);
         }
 
-        public Collision(GameObject owner,bool rigid, float mass): base(owner)
+        public Collision(GameObject owner) : this(owner, false, 0f)
+        {
+        }
+
+        public Collision(GameObject owner, bool rigid, float mass): base(owner)
         {
             _static = true;
             _rigidbody = rigid;
@@ -215,9 +205,19 @@ namespace PBLgame.Engine.Components
             PhysicsSystem.AddCollisionObject(owner);
         }
 
-        public Collision(Collision src, GameObject owner) : base(owner)
+        public Collision(Collision src, GameObject owner) : this(owner, src._rigidbody, src._mass)
         {
             CopyData(src);
+            _mainCollider = new SphereCollider(src._mainCollider, this);
+            foreach (SphereCollider srcCollider in src._sphereColliders)
+            {
+                _sphereColliders.Add(new SphereCollider(srcCollider, this));
+            }
+            foreach (BoxCollider srcCollider in src._boxColliders)
+            {
+                _boxColliders.Add(new BoxCollider(srcCollider, this));
+            }
+            PhysicsSystem.AddCollisionObject(owner);
         }
 
         public override void Update(GameTime gameTime)
