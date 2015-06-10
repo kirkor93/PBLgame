@@ -152,6 +152,11 @@ namespace PBLgame.Engine.Physics
             // i'm not joking
         }
 
+        public SphereCollider(SphereCollider src, Collision owner) : this(owner, src._localPosition, src._radius, src._trigger)
+        {
+            // should work with init list only
+        }
+
         public void GenerateCollider()
         {
             if (_owner == null || _owner.gameObject.renderer == null || _owner.gameObject.renderer.MyMesh == null || _owner.gameObject.renderer.MyMesh.Model == null) return;

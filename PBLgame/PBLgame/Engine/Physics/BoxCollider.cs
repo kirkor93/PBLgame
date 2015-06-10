@@ -146,6 +146,12 @@ namespace PBLgame.Engine.Physics
         {
         }
 
+
+        public BoxCollider(BoxCollider src, Collision owner) : this(owner, src._localPosition, src._edgesSize, src._trigger)
+        {
+            // should work with init list only
+        }
+
         public void ResizeCollider()
         {
            _edgesRealSize = EdgesSize *_owner.gameObject.transform.Scale * _owner.gameObject.transform.AncestorsScaleAsVector;       
