@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,6 +16,8 @@ namespace PBLgame.Engine.GUI
         private List<Button> _guiButtons;
         private bool _enabled;
         private PlayerStatistics _playerStatistics;
+        private string _originalAvilablePointsText;
+        private GUIObject _background;
 
         public bool Enabled
         {
@@ -34,7 +37,19 @@ namespace PBLgame.Engine.GUI
             
         }
 
-        public GUIObject Background { get; set; }
+        public GUIObject Background
+        {
+            get { return _background; }
+            set
+            {
+                _background = value;
+                if (value.Text != null)
+                {
+                    _originalAvilablePointsText = string.Copy(value.Text.Text);
+                }
+            }
+            
+        }
 
         public List<Button> GuiButtons
         {
@@ -45,7 +60,7 @@ namespace PBLgame.Engine.GUI
                 if (_guiButtons.Count > 0)
                 {
                     _selectedButton = _guiButtons.FirstOrDefault();
-                    ChangeHighlightedButton(_selectedButton);
+                    ChangeHighlightedButton(_selectedButton, Buttons.DPadDown);
                 }
             }
         }
@@ -65,6 +80,7 @@ namespace PBLgame.Engine.GUI
         {
             if (e.ButtonName == Buttons.Y)
             {
+                RefreshAvilablePointsCounter();
                 Enabled = true;
                 Background.Enabled = true;
                 foreach (Button button in _guiButtons)
@@ -78,38 +94,72 @@ namespace PBLgame.Engine.GUI
                 switch (e.ButtonName)
                 {
                     case Buttons.DPadDown:
-                        ChangeHighlightedButton(_selectedButton.DownNeighbour);
+                        ChangeHighlightedButton(_selectedButton.DownNeighbour, e.ButtonName);
                         break;
                     case Buttons.DPadLeft:
-                        ChangeHighlightedButton(_selectedButton.LeftNeighbour);
+                        ChangeHighlightedButton(_selectedButton.LeftNeighbour, e.ButtonName);
                         break;
                     case Buttons.DPadRight:
-                        ChangeHighlightedButton(_selectedButton.RightNeighbour);
+                        ChangeHighlightedButton(_selectedButton.RightNeighbour, e.ButtonName);
                         break;
                     case Buttons.DPadUp:
-                        ChangeHighlightedButton(_selectedButton.UpNeighbour);
+                        ChangeHighlightedButton(_selectedButton.UpNeighbour, e.ButtonName);
                         break;
                     case Buttons.A:
                         if (_selectedButton != null)
                         {
-                            _selectedButton.OnClick(_playerStatistics);
+                            _selectedButton.Texture = _selectedButton.PressedTexture;
                         }
                         break;
                     case Buttons.B:
                         Enabled = false;
+                        break;
+                }
+            }
+            else if(Enabled && e.ButtonName == Buttons.A)
+            {
+                _selectedButton.Texture = _selectedButton.SelectedTexture;
+                _selectedButton.OnClick(_selectedButton, _playerStatistics);
+                RefreshAvilablePointsCounter();
+            }
+        }
 
+        private void ChangeHighlightedButton(Button target, Buttons button)
+        {
+            while (target != null)
+            {
+                if (target.Texture != target.DisabledTexture)
+                {
+                    _selectedButton.Texture = _selectedButton.EnabledTexture;
+                    target.Texture = target.SelectedTexture;
+                    _selectedButton = target;
+                    return;
+                }
+                switch (button)
+                {
+                    case Buttons.DPadDown:
+                        target = target.DownNeighbour;
+                        break;
+                    case Buttons.DPadUp:
+                        target = target.UpNeighbour;
+                        break;
+                    case Buttons.DPadLeft:
+                        target = target.LeftNeighbour;
+                        break;
+                    case Buttons.DPadRight:
+                        target = target.RightNeighbour;
                         break;
                 }
             }
         }
 
-        private void ChangeHighlightedButton(Button target)
+        private void RefreshAvilablePointsCounter()
         {
-            if (target != null)
+            if (Background != null && Background.Text != null)
             {
-                _selectedButton.Texture = _selectedButton.EnabledTexture;
-                target.Texture = target.SelectedTexture;
-                _selectedButton = target;
+                Background.Text.Text = string.Format("{0}{1}", _originalAvilablePointsText,
+                    _playerStatistics.TalentPoints.Value.ToString("G", CultureInfo.InvariantCulture));
+
             }
         }
     }

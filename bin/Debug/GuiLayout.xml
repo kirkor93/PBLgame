@@ -2,13 +2,21 @@
 <HUD>
   <ReferenceWindowSize x="1920" y="1080" />
   <GUIObjects>
-    <PBLgame.Engine.GUI.GUIObject Id="11" Name="Upgrade_screen_BG" Enabled="False" Pivot="1" Texture="Textures\GUI\Upgrade_screen_BG">
-      <Position x="500" y="220" />
+    <PBLgame.Engine.GUI.GUIObject Id="32" Name="Low_hp_indicator" Enabled="True" Pivot="1" Texture="Textures\GUI\Low_hp_indicator">
+      <Position x="0" y="0" />
       <Scale x="1" y="1" />
     </PBLgame.Engine.GUI.GUIObject>
     <PBLgame.Engine.GUI.GUIObject Id="0" Name="Buttons_Layout" Enabled="True" Pivot="1" Texture="Textures\GUI\Buttons_helpers">
       <Position x="1675" y="745" />
       <Scale x="1" y="1" />
+    </PBLgame.Engine.GUI.GUIObject>
+    <PBLgame.Engine.GUI.GUIObject Id="11" Name="Upgrade_screen_BG" Enabled="False" Pivot="1" Texture="Textures\GUI\Upgrade_screen_BG">
+      <Position x="1520" y="0" />
+      <Scale x="1" y="1" />
+      <GUIText Font="Fonts\Default" Text="Avilable points: ">
+        <LocalPosition x="35" y="35" />
+        <FontColor r="0" g="0" b="0" a="255" />
+      </GUIText>
     </PBLgame.Engine.GUI.GUIObject>
     <PBLgame.Engine.GUI.GUIObject Id="1" Name="Bars_BG" Enabled="True" Pivot="1" Texture="Textures\GUI\Bars_BG">
       <Position x="50" y="70" />
@@ -39,39 +47,102 @@
       <Scale x="1" y="1" />
     </PBLgame.Engine.GUI.GUIObject>
     <PBLgame.Engine.GUI.Button Id="8" Name="Upgrade_strength_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_strength_button_highlighted">
-      <Position x="750" y="350" />
+      <Position x="1620" y="170" />
       <Scale x="1" y="1" />
-      <Button EnabledTexture="Textures\GUI\Upgrade_strength_button_enabled" DisabledTexture="Textures\GUI\Upgrade_strength_button_disabled" SelectedTexture="Textures\GUI\Upgrade_strength_button_highlighted" PressedTexture="Textures\GUI\Upgrade_strength_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeStrengthButton" Neighbour_0="9" Neighbour_1="-1" Neighbour_2="-1" Neighbour_3="14" />
+      <Button EnabledTexture="Textures\GUI\Upgrade_strength_button_enabled" DisabledTexture="Textures\GUI\Upgrade_strength_button_disabled" SelectedTexture="Textures\GUI\Upgrade_strength_button_highlighted" PressedTexture="Textures\GUI\Upgrade_strength_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeStrengthButton" Neighbour_0="9" Neighbour_1="-1" Neighbour_2="-1" Neighbour_3="14" ProgressImageId="16" ThisProgressImageId="18" />
     </PBLgame.Engine.GUI.Button>
     <PBLgame.Engine.GUI.Button Id="9" Name="Upgrade_mana_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_mana_button_enabled">
-      <Position x="1170" y="350" />
+      <Position x="1800" y="170" />
       <Scale x="1" y="1" />
-      <Button EnabledTexture="Textures\GUI\Upgrade_mana_button_enabled" DisabledTexture="Textures\GUI\Upgrade_mana_button_disabled" SelectedTexture="Textures\GUI\Upgrade_mana_button_highlighted" PressedTexture="Textures\GUI\Upgrade_mana_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeManaButton" Neighbour_0="-1" Neighbour_1="8" Neighbour_2="-1" Neighbour_3="12" />
+      <Button EnabledTexture="Textures\GUI\Upgrade_mana_button_enabled" DisabledTexture="Textures\GUI\Upgrade_mana_button_disabled" SelectedTexture="Textures\GUI\Upgrade_mana_button_highlighted" PressedTexture="Textures\GUI\Upgrade_mana_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeManaButton" Neighbour_0="-1" Neighbour_1="8" Neighbour_2="-1" Neighbour_3="12" ProgressImageId="17" ThisProgressImageId="20" />
     </PBLgame.Engine.GUI.Button>
-    <PBLgame.Engine.GUI.Button Id="10" Name="Upgrade_shield_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_shield_button_enabled">
-      <Position x="1270" y="750" />
+    <PBLgame.Engine.GUI.Button Id="10" Name="Upgrade_shield_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_shield_button_disabled">
+      <Position x="1800" y="670" />
       <Scale x="1" y="1" />
-      <Button EnabledTexture="Textures\GUI\Upgrade_shield_button_enabled" DisabledTexture="Textures\GUI\Upgrade_shield_button_disabled" SelectedTexture="Textures\GUI\Upgrade_shield_button_highlighted" PressedTexture="Textures\GUI\Upgrade_shield_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeShieldButton" Neighbour_0="-1" Neighbour_1="-1" Neighbour_2="12" Neighbour_3="-1" />
+      <Button EnabledTexture="Textures\GUI\Upgrade_shield_button_enabled" DisabledTexture="Textures\GUI\Upgrade_shield_button_disabled" SelectedTexture="Textures\GUI\Upgrade_shield_button_highlighted" PressedTexture="Textures\GUI\Upgrade_shield_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeShieldButton" Neighbour_0="-1" Neighbour_1="15" Neighbour_2="12" Neighbour_3="-1" ProgressImageId="-1" ThisProgressImageId="22" />
     </PBLgame.Engine.GUI.Button>
-    <PBLgame.Engine.GUI.Button Id="12" Name="Upgrade_telekinetic_push_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_telekinetic_push_button_enabled">
-      <Position x="1220" y="550" />
+    <PBLgame.Engine.GUI.Button Id="12" Name="Upgrade_telekinetic_push_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_telekinetic_push_button_disabled">
+      <Position x="1800" y="420" />
       <Scale x="1" y="1" />
-      <Button EnabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_enabled" DisabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_disabled" SelectedTexture="Textures\GUI\Upgrade_telekinetic_push_button_highlighted" PressedTexture="Textures\GUI\Upgrade_telekinetic_push_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeTelekineticPushButton" Neighbour_0="-1" Neighbour_1="13" Neighbour_2="9" Neighbour_3="10" />
+      <Button EnabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_enabled" DisabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_disabled" SelectedTexture="Textures\GUI\Upgrade_telekinetic_push_button_highlighted" PressedTexture="Textures\GUI\Upgrade_telekinetic_push_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeTelekineticPushButton" Neighbour_0="-1" Neighbour_1="13" Neighbour_2="9" Neighbour_3="10" ProgressImageId="19" ThisProgressImageId="23" />
     </PBLgame.Engine.GUI.Button>
-    <PBLgame.Engine.GUI.Button Id="13" Name="Upgrade_shooting_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_telekinetic_push_button_enabled">
-      <Position x="960" y="550" />
+    <PBLgame.Engine.GUI.Button Id="13" Name="Upgrade_shooting_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_telekinetic_push_button_disabled">
+      <Position x="1710" y="420" />
       <Scale x="1" y="1" />
-      <Button EnabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_enabled" DisabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_disabled" SelectedTexture="Textures\GUI\Upgrade_telekinetic_push_button_highlighted" PressedTexture="Textures\GUI\Upgrade_telekinetic_push_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeShootingButton" Neighbour_0="12" Neighbour_1="14" Neighbour_2="-1" Neighbour_3="-1" />
+      <Button EnabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_enabled" DisabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_disabled" SelectedTexture="Textures\GUI\Upgrade_telekinetic_push_button_highlighted" PressedTexture="Textures\GUI\Upgrade_telekinetic_push_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeShootingButton" Neighbour_0="12" Neighbour_1="14" Neighbour_2="-1" Neighbour_3="-1" ProgressImageId="-1" ThisProgressImageId="24" />
     </PBLgame.Engine.GUI.Button>
-    <PBLgame.Engine.GUI.Button Id="14" Name="Upgrade_fast_attack_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_fast_attack_button_enabled">
-      <Position x="700" y="550" />
+    <PBLgame.Engine.GUI.Button Id="14" Name="Upgrade_fast_attack_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_fast_attack_button_disabled">
+      <Position x="1620" y="420" />
       <Scale x="1" y="1" />
-      <Button EnabledTexture="Textures\GUI\Upgrade_fast_attack_button_enabled" DisabledTexture="Textures\GUI\Upgrade_fast_attack_button_disabled" SelectedTexture="Textures\GUI\Upgrade_fast_attack_button_highlighted" PressedTexture="Textures\GUI\Upgrade_fast_attack_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeFastAttackButton" Neighbour_0="13" Neighbour_1="-1" Neighbour_2="8" Neighbour_3="15" />
+      <Button EnabledTexture="Textures\GUI\Upgrade_fast_attack_button_enabled" DisabledTexture="Textures\GUI\Upgrade_fast_attack_button_disabled" SelectedTexture="Textures\GUI\Upgrade_fast_attack_button_highlighted" PressedTexture="Textures\GUI\Upgrade_fast_attack_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeFastAttackButton" Neighbour_0="13" Neighbour_1="-1" Neighbour_2="8" Neighbour_3="15" ProgressImageId="21" ThisProgressImageId="25" />
     </PBLgame.Engine.GUI.Button>
-    <PBLgame.Engine.GUI.Button Id="15" Name="Upgrade_strong_attack_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_strong_attack_button_enabled">
-      <Position x="650" y="750" />
+    <PBLgame.Engine.GUI.Button Id="15" Name="Upgrade_strong_attack_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_strong_attack_button_disabled">
+      <Position x="1620" y="670" />
       <Scale x="1" y="1" />
-      <Button EnabledTexture="Textures\GUI\Upgrade_strong_attack_button_enabled" DisabledTexture="Textures\GUI\Upgrade_strong_attack_button_disabled" SelectedTexture="Textures\GUI\Upgrade_strong_attack_button_highlighted" PressedTexture="Textures\GUI\Upgrade_strong_attack_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeStrongAttackButton" Neighbour_0="12" Neighbour_1="-1" Neighbour_2="14" Neighbour_3="-1" />
+      <Button EnabledTexture="Textures\GUI\Upgrade_strong_attack_button_enabled" DisabledTexture="Textures\GUI\Upgrade_strong_attack_button_disabled" SelectedTexture="Textures\GUI\Upgrade_strong_attack_button_highlighted" PressedTexture="Textures\GUI\Upgrade_strong_attack_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeStrongAttackButton" Neighbour_0="10" Neighbour_1="-1" Neighbour_2="14" Neighbour_3="-1" ProgressImageId="-1" ThisProgressImageId="26" />
     </PBLgame.Engine.GUI.Button>
+    <PBLgame.Engine.GUI.ProgressImage Id="16" Name="ProgressImage_1" Enabled="False" Pivot="0" Texture="Textures\GUI\Progress_bar_1">
+      <Position x="1620" y="300" />
+      <Scale x="0.8" y="0.8" />
+      <ProgressImage MaxProgress="3" Texture_0="Textures\GUI\Progress_bar_1" Texture_1="Textures\GUI\Progress_bar_2" Texture_2="Textures\GUI\Progress_bar_3" Texture_3="Textures\GUI\Progress_bar_4" />
+    </PBLgame.Engine.GUI.ProgressImage>
+    <PBLgame.Engine.GUI.ProgressImage Id="17" Name="GuiObject" Enabled="False" Pivot="0" Texture="Textures\GUI\Progress_bar_1">
+      <Position x="1800" y="300" />
+      <Scale x="0.8" y="0.8" />
+      <ProgressImage MaxProgress="3" Texture_0="Textures\GUI\Progress_bar_1" Texture_1="Textures\GUI\Progress_bar_2" Texture_2="Textures\GUI\Progress_bar_3" Texture_3="Textures\GUI\Progress_bar_4" />
+    </PBLgame.Engine.GUI.ProgressImage>
+    <PBLgame.Engine.GUI.ProgressImage Id="19" Name="GuiObject" Enabled="False" Pivot="0" Texture="Textures\GUI\Progress_bar_1">
+      <Position x="1800" y="550" />
+      <Scale x="0.8" y="0.8" />
+      <ProgressImage MaxProgress="3" Texture_0="Textures\GUI\Progress_bar_1" Texture_1="Textures\GUI\Progress_bar_2" Texture_2="Textures\GUI\Progress_bar_3" Texture_3="Textures\GUI\Progress_bar_4" />
+    </PBLgame.Engine.GUI.ProgressImage>
+    <PBLgame.Engine.GUI.ProgressImage Id="21" Name="GuiObject" Enabled="False" Pivot="0" Texture="Textures\GUI\Progress_bar_1">
+      <Position x="1620" y="550" />
+      <Scale x="0.8" y="0.8" />
+      <ProgressImage MaxProgress="3" Texture_0="Textures\GUI\Progress_bar_1" Texture_1="Textures\GUI\Progress_bar_2" Texture_2="Textures\GUI\Progress_bar_3" Texture_3="Textures\GUI\Progress_bar_4" />
+    </PBLgame.Engine.GUI.ProgressImage>
+    <PBLgame.Engine.GUI.GUIObject Id="31" Name="Level_up_text" Enabled="False" Pivot="1" Texture="Textures\GUI\Empty">
+      <Position x="700" y="200" />
+      <Scale x="1" y="1" />
+      <GUIText Font="Fonts\Default_big" Text="Level up!!!">
+        <LocalPosition x="0" y="0" />
+        <FontColor r="255" g="255" b="255" a="255" />
+      </GUIText>
+    </PBLgame.Engine.GUI.GUIObject>
+    <PBLgame.Engine.GUI.ProgressImage Id="18" Name="ThisSkillProgressBar" Enabled="True" Pivot="0" Texture="Textures\GUI\Empty">
+      <Position x="1620" y="170" />
+      <Scale x="1" y="1" />
+      <ProgressImage MaxProgress="5" Texture_0="Textures\GUI\Empty" Texture_1="Textures\GUI\Button_upgrade_marker_1" Texture_2="Textures\GUI\Button_upgrade_marker_2" Texture_3="Textures\GUI\Button_upgrade_marker_3" Texture_4="Textures\GUI\Button_upgrade_marker_4" Texture_5="Textures\GUI\Button_upgrade_marker_5" />
+    </PBLgame.Engine.GUI.ProgressImage>
+    <PBLgame.Engine.GUI.ProgressImage Id="20" Name="ThisSkillProgressBar" Enabled="True" Pivot="0" Texture="Textures\GUI\Empty">
+      <Position x="1800" y="170" />
+      <Scale x="1" y="1" />
+      <ProgressImage MaxProgress="5" Texture_0="Textures\GUI\Empty" Texture_1="Textures\GUI\Button_upgrade_marker_1" Texture_2="Textures\GUI\Button_upgrade_marker_2" Texture_3="Textures\GUI\Button_upgrade_marker_3" Texture_4="Textures\GUI\Button_upgrade_marker_4" Texture_5="Textures\GUI\Button_upgrade_marker_5" />
+    </PBLgame.Engine.GUI.ProgressImage>
+    <PBLgame.Engine.GUI.ProgressImage Id="22" Name="ThisSkillProgressBar" Enabled="True" Pivot="0" Texture="Textures\GUI\Empty">
+      <Position x="1800" y="670" />
+      <Scale x="1" y="1" />
+      <ProgressImage MaxProgress="5" Texture_0="Textures\GUI\Empty" Texture_1="Textures\GUI\Button_upgrade_marker_1" Texture_2="Textures\GUI\Button_upgrade_marker_2" Texture_3="Textures\GUI\Button_upgrade_marker_3" Texture_4="Textures\GUI\Button_upgrade_marker_4" Texture_5="Textures\GUI\Button_upgrade_marker_5" />
+    </PBLgame.Engine.GUI.ProgressImage>
+    <PBLgame.Engine.GUI.ProgressImage Id="23" Name="ThisSkillProgressBar" Enabled="True" Pivot="0" Texture="Textures\GUI\Empty">
+      <Position x="1800" y="420" />
+      <Scale x="1" y="1" />
+      <ProgressImage MaxProgress="5" Texture_0="Textures\GUI\Empty" Texture_1="Textures\GUI\Button_upgrade_marker_1" Texture_2="Textures\GUI\Button_upgrade_marker_2" Texture_3="Textures\GUI\Button_upgrade_marker_3" Texture_4="Textures\GUI\Button_upgrade_marker_4" Texture_5="Textures\GUI\Button_upgrade_marker_5" />
+    </PBLgame.Engine.GUI.ProgressImage>
+    <PBLgame.Engine.GUI.ProgressImage Id="24" Name="ThisSkillProgressBar" Enabled="True" Pivot="0" Texture="Textures\GUI\Empty">
+      <Position x="1710" y="420" />
+      <Scale x="1" y="1" />
+      <ProgressImage MaxProgress="5" Texture_0="Textures\GUI\Empty" Texture_1="Textures\GUI\Button_upgrade_marker_1" Texture_2="Textures\GUI\Button_upgrade_marker_2" Texture_3="Textures\GUI\Button_upgrade_marker_3" Texture_4="Textures\GUI\Button_upgrade_marker_4" Texture_5="Textures\GUI\Button_upgrade_marker_5" />
+    </PBLgame.Engine.GUI.ProgressImage>
+    <PBLgame.Engine.GUI.ProgressImage Id="25" Name="ThisSkillProgressBar" Enabled="True" Pivot="0" Texture="Textures\GUI\Empty">
+      <Position x="1620" y="420" />
+      <Scale x="1" y="1" />
+      <ProgressImage MaxProgress="5" Texture_0="Textures\GUI\Empty" Texture_1="Textures\GUI\Button_upgrade_marker_1" Texture_2="Textures\GUI\Button_upgrade_marker_2" Texture_3="Textures\GUI\Button_upgrade_marker_3" Texture_4="Textures\GUI\Button_upgrade_marker_4" Texture_5="Textures\GUI\Button_upgrade_marker_5" />
+    </PBLgame.Engine.GUI.ProgressImage>
+    <PBLgame.Engine.GUI.ProgressImage Id="26" Name="ThisSkillProgressBar" Enabled="True" Pivot="0" Texture="Textures\GUI\Empty">
+      <Position x="1620" y="670" />
+      <Scale x="1" y="1" />
+      <ProgressImage MaxProgress="5" Texture_0="Textures\GUI\Empty" Texture_1="Textures\GUI\Button_upgrade_marker_1" Texture_2="Textures\GUI\Button_upgrade_marker_2" Texture_3="Textures\GUI\Button_upgrade_marker_3" Texture_4="Textures\GUI\Button_upgrade_marker_4" Texture_5="Textures\GUI\Button_upgrade_marker_5" />
+    </PBLgame.Engine.GUI.ProgressImage>
   </GUIObjects>
 </HUD>

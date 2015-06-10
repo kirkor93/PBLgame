@@ -21,6 +21,8 @@ namespace PBLgame.Engine.GUI
         private object _onClickActionScript;
         private string _onClickMethod;
         private MethodInfo _method;
+        private ProgressImage _nextSkillProgressImage;
+        private ProgressImage _thisSkillProgressImage;
 
         private Button[] _neighbours = new Button[4];
         #endregion
@@ -97,6 +99,35 @@ namespace PBLgame.Engine.GUI
             set { _neighbours[3] = value; }
         }
 
+        public ProgressImage NextSkillProgressImage
+        {
+            get { return _nextSkillProgressImage; }
+            set { _nextSkillProgressImage = value; }
+        }
+
+        public ProgressImage ThisSkillProgressImage
+        {
+            get { return _thisSkillProgressImage; }
+            set { _thisSkillProgressImage = value; }
+        }
+
+        public override bool Enabled
+        {
+            get { return base.Enabled; }
+            set
+            {
+                base.Enabled = value;
+                if (NextSkillProgressImage != null)
+                {
+                    NextSkillProgressImage.Enabled = value;
+                }
+                if (ThisSkillProgressImage != null)
+                {
+                    ThisSkillProgressImage.Enabled = value;
+                }
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -126,15 +157,31 @@ namespace PBLgame.Engine.GUI
             _method = Array.Find(info, i => (i.Name == OnClickMethod && i.IsPublic));
         }
 
-        #region OnClick event handlers
-        public void OnClick(PlayerStatistics stats)
+        public void MakeClickable(bool value)
         {
-            if (_method != null)
+            Texture = value ? EnabledTexture : SelectedTexture;
+        }
+
+        public void SetProgressBarsValue(int value)
+        {
+            if (NextSkillProgressImage != null)
             {
-                _method.Invoke(OnClickActionScript, new object[] { stats });
+                NextSkillProgressImage.SetProgress(value);
+            }
+            if (ThisSkillProgressImage != null)
+            {
+                ThisSkillProgressImage.SetProgress(value);
             }
         }
 
+        #region OnClick event handlers
+        public void OnClick(Button button, PlayerStatistics stats)
+        {
+            if (_method != null)
+            {
+                _method.Invoke(OnClickActionScript, new object[] { button, stats });
+            }
+        }
 
         #endregion
 
@@ -169,6 +216,18 @@ namespace PBLgame.Engine.GUI
                         Id = id
                     };
                 }
+            }
+            int pimId = Convert.ToInt32(reader.GetAttribute("ProgressImageId"), CultureInfo.InvariantCulture);
+            if (pimId != -1)
+            {
+                NextSkillProgressImage = new ProgressImage();
+                NextSkillProgressImage.Id = pimId;
+            }
+            pimId = Convert.ToInt32(reader.GetAttribute("ThisProgressImageId"), CultureInfo.InvariantCulture);
+            if (pimId != -1)
+            {
+                ThisSkillProgressImage = new ProgressImage();
+                ThisSkillProgressImage.Id = pimId;
             }
             reader.Read();
         }
@@ -207,6 +266,17 @@ namespace PBLgame.Engine.GUI
                 }
                 writer.WriteAttributeString("Neighbour_" + i.ToString("G", CultureInfo.InvariantCulture), id.ToString("G", CultureInfo.InvariantCulture));
             }
+            int pimId = -1;
+            if (NextSkillProgressImage != null)
+            {
+                pimId = NextSkillProgressImage.Id;
+            }
+            writer.WriteAttributeString("ProgressImageId", pimId.ToString("G", CultureInfo.InvariantCulture));
+            if (ThisSkillProgressImage != null)
+            {
+                pimId = ThisSkillProgressImage.Id;
+            }
+            writer.WriteAttributeString("ThisProgressImageId", pimId.ToString("G", CultureInfo.InvariantCulture));
             writer.WriteEndElement();
         }
 

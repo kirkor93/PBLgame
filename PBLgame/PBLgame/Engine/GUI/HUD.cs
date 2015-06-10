@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Singleton;
+using PBLgame.GamePlay;
 
 namespace PBLgame.Engine.GUI
 {
@@ -24,6 +25,12 @@ namespace PBLgame.Engine.GUI
         private Vector2 _referenceWindowSize;
         private Vector2 _currentWindowSize;
         private TalentWindowManager _talentWindowManager;
+        private PlayerStatistics _playerStats;
+        private GUIObject _levelUpText;
+        private TimeSpan _levelUpStartTime;
+        private TimeSpan _currentTime;
+        private GUIObject _lowHpIndicator;
+
         #endregion
 
         #region Properties
@@ -63,6 +70,22 @@ namespace PBLgame.Engine.GUI
         {
             ReferenceWindowSize = Vector2.Zero;
             _guiObjects = new List<GUIObject>();
+        }
+
+        public void AssignPlayerStatisticsScript(PlayerStatistics stats)
+        {
+            _playerStats = stats;
+            (_playerStats.Experience as ExperienceStat).OnLevelUp += OnLevelUp;
+            if (_talentWindowManager != null)
+            {
+                _talentWindowManager.AssignPlayerStatisticsScript(stats);
+            }
+        }
+
+        private void OnLevelUp(object sender, EventArgs eventArgs)
+        {
+            _levelUpStartTime = _currentTime;
+            _levelUpText.Enabled = true;
         }
 
         public void AddGuiObject(GUIObject obj)
@@ -113,6 +136,17 @@ namespace PBLgame.Engine.GUI
             }
         }
 
+        public void Update(GameTime gameTime)
+        {
+            _currentTime = gameTime.TotalGameTime;
+            if (_levelUpStartTime + new TimeSpan(0, 0, 3) < gameTime.TotalGameTime)
+            {
+                _levelUpText.Enabled = false;
+            }
+            if (_lowHpIndicator == null) return;
+            _lowHpIndicator.Enabled = _playerStats.Health.Value/_playerStats.Health.MaxValue < 0.2f;
+        }
+
         public void Draw()
         {
             foreach (GUIObject guiObject in _guiObjects)
@@ -131,8 +165,12 @@ namespace PBLgame.Engine.GUI
                 _guiObjects = hud._guiObjects;
             }
 
+            _levelUpText = GetGuiObject(@"Level_up_text");
+            _lowHpIndicator = GetGuiObject(@"Low_hp_indicator");
+
             //finding buttons' neighbours
             List<Button> buttons = GetGuiObjects<Button>();
+
             _talentWindowManager = new TalentWindowManager()
             {
                 GuiButtons = buttons,
@@ -157,6 +195,34 @@ namespace PBLgame.Engine.GUI
                 {
                     button.RightNeighbour = GetGuiObject(button.RightNeighbour.Id) as Button;
                 }
+                if (button.NextSkillProgressImage != null)
+                {
+                    button.NextSkillProgressImage = GetGuiObject(button.NextSkillProgressImage.Id) as ProgressImage;
+                }
+                if (button.ThisSkillProgressImage != null)
+                {
+                    button.ThisSkillProgressImage = GetGuiObject((button.ThisSkillProgressImage.Id)) as ProgressImage;
+                }
+//                ProgressImage tmp = new ProgressImage
+//                {
+//                    Enabled = true,
+//                    MaxProgress = 5,
+//                    Name = "ThisSkillProgressBar",
+//                    Pivot = PivotPoint.Center,
+//                    Position = button.Position,
+//                    ProgressTextures = new Texture2D[]
+//                    {
+//                        ResourceManager.Instance.GetTexture(@"Textures\GUI\Empty"),
+//                        ResourceManager.Instance.GetTexture(@"Textures\GUI\Button_upgrade_marker_1"),
+//                        ResourceManager.Instance.GetTexture(@"Textures\GUI\Button_upgrade_marker_2"),
+//                        ResourceManager.Instance.GetTexture(@"Textures\GUI\Button_upgrade_marker_3"),
+//                        ResourceManager.Instance.GetTexture(@"Textures\GUI\Button_upgrade_marker_4"),
+//                        ResourceManager.Instance.GetTexture(@"Textures\GUI\Button_upgrade_marker_5")
+//                    },
+//                };
+//                tmp.SetProgress(0);
+//                button.ThisSkillProgressImage = tmp;
+//                AddGuiObject(tmp);
             }
 
             if (ReferenceWindowSize == Vector2.Zero)
@@ -164,6 +230,7 @@ namespace PBLgame.Engine.GUI
                 throw new Exception("Reference window size for GUI can't be zero");
             }
 
+//            Save();
         }
 
         public void Save(string path = GuiSavePath)

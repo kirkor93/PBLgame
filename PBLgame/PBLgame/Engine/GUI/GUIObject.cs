@@ -68,7 +68,7 @@ namespace PBLgame.Engine.GUI
             }
         }
 
-        public bool Enabled
+        public virtual bool Enabled
         {
             get { return _enabled; }
             set { _enabled = value; }
@@ -143,7 +143,7 @@ namespace PBLgame.Engine.GUI
                 {
                     Vector2 textPos = new Vector2(_boundries.Left, _boundries.Top);
                     textPos += Text.LocalPosition;
-                    batch.DrawString(Text.Font, Text.Text, textPos, Color.White);
+                    batch.DrawString(Text.Font, Text.Text, textPos, Text.FontColor);
 //                    batch.DrawString(Text.Font, Text.Text, textPos, Color.White, 0.0f, textPos, Scale, SpriteEffects.None, 0);
                 }
             }

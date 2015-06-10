@@ -161,6 +161,17 @@
       <Texture Path="Textures\GUI\Upgrade_strong_attack_button_pressed" />
       <Texture Path="Textures\GUI\Upgrade_strong_attack_button_highlighted" />
       <Texture Path="Textures\GUI\Upgrade_screen_BG" />
+      <Texture Path="Textures\GUI\Progress_bar_1" />
+      <Texture Path="Textures\GUI\Progress_bar_2" />
+      <Texture Path="Textures\GUI\Progress_bar_3" />
+      <Texture Path="Textures\GUI\Progress_bar_4" />
+      <Texture Path="Textures\GUI\Empty" />
+      <Texture Path="Textures\GUI\Low_hp_indicator" />
+      <Texture Path="Textures\GUI\Button_upgrade_marker_1" />
+      <Texture Path="Textures\GUI\Button_upgrade_marker_2" />
+      <Texture Path="Textures\GUI\Button_upgrade_marker_3" />
+      <Texture Path="Textures\GUI\Button_upgrade_marker_4" />
+      <Texture Path="Textures\GUI\Button_upgrade_marker_5" />
       <Texture Path="Textures\Intro\scene1" />
       <Texture Path="Textures\Intro\scene2" />
     </Textures>
@@ -285,6 +296,7 @@
     </Animations>
     <SpriteFonts>
       <SpriteFont Path="Fonts\Default" />
+      <SpriteFont Path="Fonts\Default_big" />
     </SpriteFonts>
   </Content>
 </XmlContent>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using PBLgame.Engine.GUI;
 
 namespace PBLgame.GamePlay
@@ -8,12 +9,37 @@ namespace PBLgame.GamePlay
     {
         public int Value { get; protected set; }
         public int MaxValue { get; set; }
+        public int Progress { get; set; }
+        public int MaxProgress { get; set; }
+        public Dictionary<Stat, int> OtherStatsRequiredProgress { get; set; }
 
-        public Stat(int value, int maxValue)
+        public bool IsUpgradable
+        {
+            get
+            {
+                if (Progress == MaxProgress)
+                {
+                    return false;
+                }
+                foreach (KeyValuePair<Stat, int> pair in OtherStatsRequiredProgress)
+                {
+                    if (pair.Key.Progress < pair.Value)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+        public Stat(int value, int maxValue, int progress = 0, int maxProgress = 5)
         {
             if (value > maxValue) value = maxValue;
             Value = value;
             MaxValue = maxValue;
+            Progress = progress;
+            MaxProgress = maxProgress;
+            OtherStatsRequiredProgress = new Dictionary<Stat, int>();
         }
 
         public bool CanDecrease(int amount)
@@ -72,6 +98,7 @@ namespace PBLgame.GamePlay
             if (Value >= MaxValue)
             {
                 Value %= MaxValue;
+                MaxValue += 50;
                 if (OnLevelUp != null)
                 {
                     OnLevelUp(this, EventArgs.Empty);
@@ -98,6 +125,7 @@ namespace PBLgame.GamePlay
 
         public PlayerStatistics(int health, int energy, int experience)
         {
+            //yup, its hard coded and ugly :<
             Health = new Stat(health, health);
             Energy = new Stat(energy, energy);
             Experience = new ExperienceStat(0, experience);
@@ -111,8 +139,18 @@ namespace PBLgame.GamePlay
             ShieldManaCost = new Stat(10, int.MaxValue);
             PushManaCost = new Stat(10, int.MaxValue);
 
+            FastAttackDamageBonus.OtherStatsRequiredProgress.Add(BasePhysicalDamage, 3);
+            StrongAttackDamageBonus.OtherStatsRequiredProgress.Add(FastAttackDamageBonus, 3);
+            PushManaCost.OtherStatsRequiredProgress.Add(Energy, 3);
+            ShieldAbsorption.OtherStatsRequiredProgress.Add(PushManaCost, 3);
+            ShieldManaCost.OtherStatsRequiredProgress.Add(PushManaCost, 3);
+            ShootDamage.OtherStatsRequiredProgress.Add(BasePhysicalDamage, 3);
+            ShootDamage.OtherStatsRequiredProgress.Add(Energy, 3);
+            ShootManaCost.OtherStatsRequiredProgress.Add(BasePhysicalDamage, 3);
+            ShootManaCost.OtherStatsRequiredProgress.Add(Energy, 3);
+
+            HUD.Instance.AssignPlayerStatisticsScript(this);
             (Experience as ExperienceStat).OnLevelUp += OnLevelUp;
-            HUD.Instance.TalentWindowManager.AssignPlayerStatisticsScript(this);
         }
 
         private void OnLevelUp(object sender, EventArgs eventArgs)

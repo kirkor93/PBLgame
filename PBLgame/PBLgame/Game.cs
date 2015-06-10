@@ -157,7 +157,8 @@ namespace PBLgame
 
             if(_isIntroFinished)
             {
-            _scene.Update(gameTime);
+                _scene.Update(gameTime);
+                HUD.Instance.Update(gameTime);
             }
             else
             {
