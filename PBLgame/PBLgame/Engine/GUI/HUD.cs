@@ -144,7 +144,7 @@ namespace PBLgame.Engine.GUI
                 _levelUpText.Enabled = false;
             }
             if (_lowHpIndicator == null) return;
-            _lowHpIndicator.Enabled = _playerStats.Health.Value/_playerStats.Health.MaxValue < 0.2f;
+            _lowHpIndicator.Enabled = (float)_playerStats.Health.Value/(float)_playerStats.Health.MaxValue < 0.2f;
         }
 
         public void Draw()
@@ -203,34 +203,12 @@ namespace PBLgame.Engine.GUI
                 {
                     button.ThisSkillProgressImage = GetGuiObject((button.ThisSkillProgressImage.Id)) as ProgressImage;
                 }
-//                ProgressImage tmp = new ProgressImage
-//                {
-//                    Enabled = true,
-//                    MaxProgress = 5,
-//                    Name = "ThisSkillProgressBar",
-//                    Pivot = PivotPoint.Center,
-//                    Position = button.Position,
-//                    ProgressTextures = new Texture2D[]
-//                    {
-//                        ResourceManager.Instance.GetTexture(@"Textures\GUI\Empty"),
-//                        ResourceManager.Instance.GetTexture(@"Textures\GUI\Button_upgrade_marker_1"),
-//                        ResourceManager.Instance.GetTexture(@"Textures\GUI\Button_upgrade_marker_2"),
-//                        ResourceManager.Instance.GetTexture(@"Textures\GUI\Button_upgrade_marker_3"),
-//                        ResourceManager.Instance.GetTexture(@"Textures\GUI\Button_upgrade_marker_4"),
-//                        ResourceManager.Instance.GetTexture(@"Textures\GUI\Button_upgrade_marker_5")
-//                    },
-//                };
-//                tmp.SetProgress(0);
-//                button.ThisSkillProgressImage = tmp;
-//                AddGuiObject(tmp);
             }
 
             if (ReferenceWindowSize == Vector2.Zero)
             {
                 throw new Exception("Reference window size for GUI can't be zero");
             }
-
-//            Save();
         }
 
         public void Save(string path = GuiSavePath)
