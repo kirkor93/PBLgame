@@ -110,6 +110,7 @@
     <Compile Include="Engine\GUI\GUIObject.cs" />
     <Compile Include="Engine\GUI\HUD.cs" />
     <Compile Include="Engine\Physics\BoxCollider.cs" />
+    <Compile Include="Engine\Physics\Collider.cs" />
     <Compile Include="Engine\Physics\PhysicsSystem.cs" />
     <Compile Include="Engine\Physics\SphereCollider.cs" />
     <Compile Include="Engine\Scenes\Scene.cs" />

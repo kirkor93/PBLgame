@@ -409,6 +409,8 @@ namespace Edytejshyn
         }
 
         #region Events
+        
+        #region MainForm & History
         private void ExitEvent(object sender, EventArgs e)
         {
             Close();
@@ -480,7 +482,9 @@ namespace Edytejshyn
         {
             viewportControl.CameraHistory.Redo();
         }
+        #endregion
 
+        #region ContentTreeView
         private void ContentTreeViewObjects_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
@@ -496,12 +500,16 @@ namespace Edytejshyn
             propertyGrid.SelectedObject = (node == null) ? null : node.Data;
             propertyGrid.ExpandAllGridItems();
         }
+        #endregion
 
+        #region SceneTreeView
         private void SceneTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             SceneTreeNode node = e.Node as SceneTreeNode;
             SelectionManager.SelectOnly((node == null) ? null : node.WrappedGameObject, false);
             propertyGrid.SelectedObject = (node == null) ? null : node.WrappedGameObject;
+            collisionTreeView.Collision = (node == null) ? null : node.WrappedGameObject.Collision;
+            collisionTreeView.ExpandAll();
             if (node == null) return;
 
             ContextMenuStrip popup = new ContextMenuStrip();
@@ -510,6 +518,7 @@ namespace Edytejshyn
                 popup.Items.Add("Add Rendererer").Click += delegate
                 {
                     node.WrappedGameObject.NewRenderer();
+                    SceneTreeView_AfterSelect(this, new TreeViewEventArgs(node));
                 };
             }
             else
@@ -517,6 +526,24 @@ namespace Edytejshyn
                 popup.Items.Add("Remove Rendererer").Click += delegate
                 {
                     node.WrappedGameObject.RemoveRenderer();
+                    SceneTreeView_AfterSelect(this, new TreeViewEventArgs(node));
+                };
+            }
+
+            if (node.WrappedGameObject.Collision == null)
+            {
+                popup.Items.Add("Add Collision").Click += delegate
+                {
+                    node.WrappedGameObject.NewCollision();
+                    SceneTreeView_AfterSelect(this, new TreeViewEventArgs(node));
+                };
+            }
+            else
+            {
+                popup.Items.Add("Remove Collision").Click += delegate
+                {
+                    node.WrappedGameObject.RemoveCollision();
+                    SceneTreeView_AfterSelect(this, new TreeViewEventArgs(node));
                 };
             }
             sceneTreeView.ContextMenuStrip = popup;
@@ -528,25 +555,7 @@ namespace Edytejshyn
         {
             if (e.Button == MouseButtons.Right)
             {
-                //SceneTreeNode node = (SceneTreeNode) e.Node;
                 sceneTreeView.SelectedNode = e.Node;
-                //ContextMenuStrip popup = new ContextMenuStrip();
-                //if (node.WrappedGameObject.Renderer == null)
-                //{
-                //    popup.Items.Add("Add Rendererer").Click += delegate 
-                //    {
-                //        node.WrappedGameObject.NewRenderer();
-                //    };
-                //}
-                //else
-                //{
-                //    popup.Items.Add("Remove Rendererer").Click += delegate
-                //    {
-                //        node.WrappedGameObject.RemoveRenderer();
-                //    };
-                //}
-                
-                //sceneTreeView.ContextMenuStrip = popup;
             }
             else if(e.Button == MouseButtons)
                 SceneTreeView_AfterSelect(sender, new TreeViewEventArgs(e.Node, TreeViewAction.ByMouse));
@@ -609,7 +618,9 @@ namespace Edytejshyn
             if (sceneTreeView.DestinationNode != null) 
                 sceneTreeView.DestinationNode.BackColor = Color.LawnGreen;
         }
+        #endregion
 
+        #region Viewport & Co.
         private void RenderingModeMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             foreach (DrawerStrategyMenuItem dsmi in renderingModeMenuItem.DropDownItems)
@@ -640,6 +651,9 @@ namespace Edytejshyn
         {
             viewportControl.Gizmo.ToggleActiveSpace();
         }
+        #endregion
+
+        #region Edit & View menu items
 
         private void duplicateMenuItem_Click(object sender, EventArgs e)
         {
@@ -671,11 +685,76 @@ namespace Edytejshyn
             Invalidate(true);
             Logic.FinishedUpdate();
         }
+        #endregion
 
+        #region CollisionTree
+        private void CollisionTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            CollisionTreeNode node = e.Node as CollisionTreeNode;
+            ContextMenuStrip popup = new ContextMenuStrip();
+            if (node == null || node.WrappedCollider == null)
+            {
+                if (collisionTreeView.Collision == null) return;
+
+                popup.Items.Add("Add Sphere collider").Click += delegate
+                {
+                    collisionTreeView.Collision.AddSphere();
+                };
+                popup.Items.Add("Add Box collider").Click += delegate
+                {
+                    collisionTreeView.Collision.AddBox();
+                };
+                collisionTreeView.ContextMenuStrip = popup;
+                return;
+            }
+            propertyGrid.SelectedObject = node.WrappedCollider;
+            propertyGrid.ExpandAllGridItems();
+
+            if (node.IsMainCollider) return;
+
+            popup.Items.Add("Remove").Click += delegate
+            {
+                collisionTreeView.Collision.Remove(node.WrappedCollider);
+                ReSelectSceneNode();
+            };
+            collisionTreeView.ContextMenuStrip = popup;
+        }
+
+        public void ReSelectSceneNode()
+        {
+            SceneTreeView_AfterSelect(this, new TreeViewEventArgs(sceneTreeView.SelectedNode));
+        }
+
+
+        private void CollisionTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                collisionTreeView.SelectedNode = e.Node;
+            }
+            else if (e.Button == MouseButtons)
+                CollisionTreeView_AfterSelect(sender, new TreeViewEventArgs(e.Node, TreeViewAction.ByMouse));
+        }
+
+        private void collisionTreeView_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (collisionTreeView.HitTest(e.Location).Node == null)
+            {
+                collisionTreeView.SelectedNode = null;
+                SceneTreeNode node = sceneTreeView.SelectedNode as SceneTreeNode;
+                if (node != null)
+                {
+                    propertyGrid.SelectedObject = node.WrappedGameObject;
+                    propertyGrid.ExpandAllGridItems();
+                }
+            }
+        }
+
+        #endregion
         #endregion
 
 
-
+        #region Materials
         private void GenerateMaterials()
         {
             Effect effect = Logic.ResourceManager.ShaderEffects.First(shaderEffect => shaderEffect.Name == @"Effects\BasicShader");
@@ -770,7 +849,7 @@ namespace Edytejshyn
             SaveContent();
             OpenContent(Logic.ContentFile); // lame way of reloading content
         }
-
+        #endregion
 
         public class DrawerStrategyMenuItem : ToolStripMenuItem
         {

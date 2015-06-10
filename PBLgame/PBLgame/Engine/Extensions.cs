@@ -43,5 +43,10 @@ namespace PBLgame.Engine
                 default: return "PhongBlinn";
             }
         }
+
+        public static string ToShortString(this Vector3 v, String separator = ", ")
+        {
+            return String.Format("{0}{3}{1}{3}{2}", v.X, v.Y, v.Z, separator);
+        }
     }
 }

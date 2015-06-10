@@ -8,7 +8,7 @@ using PBLgame.Engine.Components;
 
 namespace Edytejshyn.Model
 {
-    public class RendererWrapper
+    public class RendererWrapper : ComponentWrapper
     {
 
         public class EffectTypeConverter : TypeConverter
