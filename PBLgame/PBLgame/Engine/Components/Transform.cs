@@ -37,9 +37,17 @@ namespace PBLgame.Engine.Components
             {
                 if(gameObject.collision != null && gameObject.collision.Rigidbody)
                 {
-                    Vector3 prevPos = _position;
-                    _position = value;
-                    int flag = 0;
+                Vector3 prevPos = Vector3.Zero;
+                Matrix prevTranslation = _worldTranslation;
+                int flag = 0;
+                #region Move X axis
+                if (_position.X != value.X)
+                {
+                    prevPos.X = _position.X;
+                    prevTranslation = _worldTranslation;
+                    _position.X = value.X;
+                    _worldTranslation = Matrix.CreateTranslation(_position);
+                    flag = 0;
                     gameObject.collision.UpdatePositions();
                     foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
                     {
@@ -50,13 +58,70 @@ namespace PBLgame.Engine.Components
                     }
                     if (flag == 0)
                     {
-                        _worldTranslation = Matrix.CreateTranslation(value);
                     }
                     else
                     {
-                        _position = prevPos;
+                        _position.X = prevPos.X;
+                        _worldTranslation = prevTranslation;
                         gameObject.collision.UpdatePositions();
                     }
+                }
+                #endregion
+                #region Move Y axis
+                if (_position.Y != value.Y)
+                {
+                    prevPos.Y = _position.Y;
+                    prevTranslation = _worldTranslation;
+                    _position.Y = value.Y;
+                    _worldTranslation = Matrix.CreateTranslation(_position);
+                    flag = 0;
+                    gameObject.collision.UpdatePositions();
+                    foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
+                    {
+                        if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                        {
+                            flag += gameObject.collision.ChceckCollisionDeeper(go);
+                        }
+                    }
+                    if (flag == 0)
+                    {
+                    }
+                    else
+                    {
+                        _position.Y = prevPos.Y;
+                        _worldTranslation = prevTranslation;
+                        gameObject.collision.UpdatePositions();
+                    }
+                }
+                #endregion
+                #region Move Z axis
+                if (_position.Z != value.Z)
+                {
+                    prevPos.Z = _position.Z;
+                    prevTranslation = _worldTranslation;
+                    _position.Z = value.Z;
+                    _worldTranslation = Matrix.CreateTranslation(_position);
+                    flag = 0;
+                    gameObject.collision.UpdatePositions();
+                    foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
+                    {
+                        if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                        {
+                            flag += gameObject.collision.ChceckCollisionDeeper(go);
+                        }
+                    }
+                    if (flag == 0)
+                    {
+                    }
+                    else
+                    {
+                        _position.Z = prevPos.Z;
+                        _worldTranslation = prevTranslation;
+                        gameObject.collision.UpdatePositions();
+                    }
+                }
+                //_worldTranslation = Matrix.CreateTranslation(_position);
+                #endregion
                 }
                 else
                 {
@@ -268,25 +333,90 @@ namespace PBLgame.Engine.Components
         {
             if (gameObject.collision != null && gameObject.collision.Rigidbody)
             {
-                Vector3 prevPos = _position;
-                Matrix prevTrans = _worldTranslation;
-                _position += trans;
-                _worldTranslation *= Matrix.CreateTranslation(trans);
+                Vector3 prevPos = Vector3.Zero;
+                Matrix prevTranslation = _worldTranslation;
                 int flag = 0;
-                gameObject.collision.UpdatePositions();
-                foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
+                #region Move X axis
+                if (_position.X != trans.X)
                 {
-                    if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                    prevPos.X = _position.X;
+                    prevTranslation = _worldTranslation;
+                    _position.X += trans.X;
+                    _worldTranslation *= Matrix.CreateTranslation(new Vector3(trans.X, 0, 0));
+                    flag = 0;
+                    gameObject.collision.UpdatePositions();
+                    foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
                     {
-                        flag += gameObject.collision.ChceckCollisionDeeper(go);
+                        if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                        {
+                            flag += gameObject.collision.ChceckCollisionDeeper(go);
+                        }
+                    }
+                    if (flag == 0)
+                    {
+                    }
+                    else
+                    {
+                        _position.X = prevPos.X;
+                        _worldTranslation = prevTranslation;
+                        gameObject.collision.UpdatePositions();
                     }
                 }
-                if (flag != 0)
+                #endregion
+                #region Move Y axis
+                if (_position.Y != trans.Y)
                 {
-                    _position = prevPos;
-                    _worldTranslation = prevTrans;
+                    prevPos.Y = _position.Y;
+                    prevTranslation = _worldTranslation;
+                    _position.Y += trans.Y;
+                    _worldTranslation *= Matrix.CreateTranslation(new Vector3(0, trans.Y, 0));
+                    flag = 0;
                     gameObject.collision.UpdatePositions();
+                    foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
+                    {
+                        if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                        {
+                            flag += gameObject.collision.ChceckCollisionDeeper(go);
+                        }
+                    }
+                    if (flag == 0)
+                    {
+                    }
+                    else
+                    {
+                        _position.Y = prevPos.Y;
+                        _worldTranslation = prevTranslation;
+                        gameObject.collision.UpdatePositions();
+                    }
                 }
+                #endregion
+                #region Move Z axis
+                if (_position.Z != trans.Z)
+                {
+                    prevPos.Z = _position.Z;
+                    prevTranslation = _worldTranslation;
+                    _position.Z += trans.Z;
+                    _worldTranslation *= Matrix.CreateTranslation(new Vector3(0, 0, trans.Z));
+                    flag = 0;
+                    gameObject.collision.UpdatePositions();
+                    foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
+                    {
+                        if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                        {
+                            flag += gameObject.collision.ChceckCollisionDeeper(go);
+                        }
+                    }
+                    if (flag == 0)
+                    {
+                    }
+                    else
+                    {
+                        _position.Z = prevPos.Z;
+                        _worldTranslation = prevTranslation;
+                        gameObject.collision.UpdatePositions();
+                    }
+                }
+                #endregion
             }
             else
             {
@@ -299,26 +429,90 @@ namespace PBLgame.Engine.Components
         {
             if (gameObject.collision != null && gameObject.collision.Rigidbody)
             {
-                Vector3 prevPos = _position;
-                Matrix prevTrans = _worldTranslation;
-                _position += new Vector3(x, y, z);
-                _worldTranslation *= Matrix.CreateTranslation(new Vector3(x, y, z));
-
+                Vector3 prevPos = Vector3.Zero;
+                Matrix prevTranslation;
                 int flag = 0;
-                gameObject.collision.UpdatePositions();
-                foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
+                #region Move X axis
+                if (_position.X != x)
                 {
-                    if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                    prevPos.X = _position.X;
+                    prevTranslation = _worldTranslation;
+                    _position.X += x;
+                    _worldTranslation *= Matrix.CreateTranslation(x, 0, 0);
+                    flag = 0;
+                    gameObject.collision.UpdatePositions();
+                    foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
                     {
-                        flag += gameObject.collision.ChceckCollisionDeeper(go);
+                        if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                        {
+                            flag += gameObject.collision.ChceckCollisionDeeper(go);
+                        }
+                    }
+                    if (flag == 0)
+                    {
+                    }
+                    else
+                    {
+                        _position.X = prevPos.X;
+                        _worldTranslation = prevTranslation;
+                        gameObject.collision.UpdatePositions();
                     }
                 }
-                if (flag != 0)
+                #endregion
+                #region Move Y axis
+                if (_position.Y != y)
                 {
-                    _position = prevPos;
-                    _worldTranslation = prevTrans;
+                    prevPos.Y = _position.Y;
+                    prevTranslation = _worldTranslation;
+                    _position.Y += y;
+                    _worldTranslation *= Matrix.CreateTranslation(0, y, 0);
+                    flag = 0;
                     gameObject.collision.UpdatePositions();
+                    foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
+                    {
+                        if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                        {
+                            flag += gameObject.collision.ChceckCollisionDeeper(go);
+                        }
+                    }
+                    if (flag == 0)
+                    {
+                    }
+                    else
+                    {
+                        _position.Y = prevPos.Y;
+                        _worldTranslation = prevTranslation;
+                        gameObject.collision.UpdatePositions();
+                    }
                 }
+                #endregion
+                #region Move Z axis
+                if (_position.Z != z)
+                {
+                    prevPos.Z = _position.Z;
+                    prevTranslation = _worldTranslation;
+                    _position.Z += z;
+                    _worldTranslation *= Matrix.CreateTranslation(0, 0, z);
+                    flag = 0;
+                    gameObject.collision.UpdatePositions();
+                    foreach (GameObject go in Physics.PhysicsSystem.CollisionObjects)
+                    {
+                        if (gameObject != go && go.Enabled && go.collision.Enabled && gameObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                        {
+                            flag += gameObject.collision.ChceckCollisionDeeper(go);
+                        }
+                    }
+                    if (flag == 0)
+                    {
+                    }
+                    else
+                    {
+                        _position.Z = prevPos.Z;
+                        _worldTranslation = prevTranslation;
+                        gameObject.collision.UpdatePositions();
+                    }
+                }
+                #endregion
             }
             else
             {
