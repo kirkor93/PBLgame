@@ -19,7 +19,7 @@ namespace PBLgame.Engine.Components
         {
             get 
             {
-                return _enabled;
+                return _enabled && gameObject.Enabled;
             }
             set
             {

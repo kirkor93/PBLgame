@@ -96,6 +96,7 @@ namespace PBLgame.Engine.Components
 
         public void DrawTechnique(GameTime gameTime, Technique technique = Technique.Default)
         {
+            if (!Enabled) return;
             MyEffect.CurrentTechnique = MyEffect.Techniques[technique.GetString()];
             
             if (technique == Technique.Default || technique == Technique.CustomCamera)

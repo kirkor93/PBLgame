@@ -188,6 +188,8 @@ namespace PBLgame.Engine.Components
             _rigidbody = src._rigidbody;
         }
 
+        // ReSharper disable once IntroduceOptionalParameters.Global
+        // for a retarded serializer
         public Collision(GameObject owner) : this(owner, false, 0f)
         {
         }
@@ -217,7 +219,20 @@ namespace PBLgame.Engine.Components
             {
                 _boxColliders.Add(new BoxCollider(srcCollider, this));
             }
-            PhysicsSystem.AddCollisionObject(owner);
+        }
+
+        public override void Initialize(bool editor)
+        {
+            base.Initialize(editor);
+            MainCollider.UpdatePosition();
+            foreach (SphereCollider sc in SphereColliders)
+            {
+                sc.UpdatePosition();
+            }
+            foreach (BoxCollider bc in BoxColliders)
+            {
+                bc.UpdatePosition();
+            }
         }
 
         public override void Update(GameTime gameTime)
