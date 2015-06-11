@@ -149,7 +149,6 @@ namespace PBLgame.GamePlay
             ShootManaCost.OtherStatsRequiredProgress.Add(BasePhysicalDamage, 3);
             ShootManaCost.OtherStatsRequiredProgress.Add(Energy, 3);
 
-            HUD.Instance.AssignPlayerStatisticsScript(this);
             (Experience as ExperienceStat).OnLevelUp += OnLevelUp;
         }
 

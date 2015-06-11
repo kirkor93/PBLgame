@@ -165,6 +165,14 @@
       <Texture Path="Textures\GUI\Progress_bar_2" />
       <Texture Path="Textures\GUI\Progress_bar_3" />
       <Texture Path="Textures\GUI\Progress_bar_4" />
+      <Texture Path="Textures\GUI\Progress_bar_1_1" />
+      <Texture Path="Textures\GUI\Progress_bar_2_1" />
+      <Texture Path="Textures\GUI\Progress_bar_3_1" />
+      <Texture Path="Textures\GUI\Progress_bar_4_1" />
+      <Texture Path="Textures\GUI\Progress_bar_1_2" />
+      <Texture Path="Textures\GUI\Progress_bar_2_2" />
+      <Texture Path="Textures\GUI\Progress_bar_3_2" />
+      <Texture Path="Textures\GUI\Progress_bar_4_2" />
       <Texture Path="Textures\GUI\Empty" />
       <Texture Path="Textures\GUI\Low_hp_indicator" />
       <Texture Path="Textures\GUI\Button_upgrade_marker_1" />

@@ -49,7 +49,7 @@ namespace PBLgame.Engine.GUI
             {
                 ProgressTextures[i] = ResourceManager.Instance.GetTexture(reader.GetAttribute("Texture_" + i.ToString("G", culture)));
             }
-            Texture = ProgressTextures[0];
+//            Texture = ProgressTextures[0];
             reader.Read();
         }
 

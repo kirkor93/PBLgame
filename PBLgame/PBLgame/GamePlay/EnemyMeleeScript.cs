@@ -21,6 +21,7 @@ namespace PBLgame.GamePlay
         private float _attackDelay = 2500;
 
         private int _hp;
+        private int _maxHp;
         private int _hpEscapeValue = 15;
         private Vector3 _startingPosition;
         private Vector3 _chaseStartPosition;
@@ -49,10 +50,23 @@ namespace PBLgame.GamePlay
 
         #endregion
         #endregion
+        public int HP
+        {
+            get { return _hp; }
+            set { _hp = value; }
+        }
+
+        public int MaxHp
+        {
+            get { return _maxHp; }
+            set { _maxHp = value; }
+        }
+
         #region Methods
         public EnemyMeleeScript(GameObject owner) : base(owner)
         {
             _hp = 100;
+            MaxHp = HP;
 
             _attackTriggerObject = new GameObject();
             _attackTriggerObject.Tag = "EnemyWeapon";
@@ -113,12 +127,6 @@ namespace PBLgame.GamePlay
             #endregion  
          }
 
-        public int HP
-        {
-            get { return _hp; }
-            set { _hp = value; }
-        }
-
         public void GotPlayerMethod(Object o, ColArgs args)
         {
             if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Player")
@@ -138,7 +146,7 @@ namespace PBLgame.GamePlay
             {
                 stats = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
                 if (stats != null)
-                {                
+                {
                     Console.WriteLine(stats.AttackEnum.ToString());
                     switch(stats.AttackEnum)
                     {
@@ -153,6 +161,7 @@ namespace PBLgame.GamePlay
                         case AttackType.Ion:
                             break;
                     }
+                    stats.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                 }
             }
             else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Weapon")
@@ -174,6 +183,7 @@ namespace PBLgame.GamePlay
                         case AttackType.Ion:
                             break;
                     }
+                    stats.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                 }
             }
             if (HP <= 0)

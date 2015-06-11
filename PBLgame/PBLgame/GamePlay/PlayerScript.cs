@@ -11,7 +11,7 @@ using PBLgame.Engine.Physics;
 
 namespace PBLgame.GamePlay
 {
-    class PlayerScript : CharacterHandler
+    public class PlayerScript : CharacterHandler
     {
         private class PostponeBuffer
         {
@@ -23,7 +23,7 @@ namespace PBLgame.GamePlay
 
             private List<ButtonArgs> _buttons = new List<ButtonArgs>();
             public List<ButtonArgs> Buttons { get { return _buttons; } }
-
+            
             public void SetRotation(MoveArgs args)
             {
                 HasRotation = true;
@@ -53,10 +53,6 @@ namespace PBLgame.GamePlay
         /// </summary>
         private bool _syncAngles = true;
 
-        private Bar _healthBar;
-        private Bar _manaBar;
-        private Bar _experienceBar;
-
         private GameObject _attackTriggerObject;
         private bool _locked;
         private PostponeBuffer _postponeBuffer = new PostponeBuffer();
@@ -66,6 +62,7 @@ namespace PBLgame.GamePlay
 
         #region Properties
 
+        public Stat LastTargetedEnemyHp { get; set; }
         public bool Locked
         {
             get { return _locked;  }
@@ -149,10 +146,7 @@ namespace PBLgame.GamePlay
                 InputManager.Instance.OnMove += CharacterTranslate;
                 InputManager.Instance.OnButton += CharacterAction;
 
-                //getting controls from gui
-                _healthBar = HUD.Instance.GetGuiObject("Health_bar") as Bar;
-                _manaBar = HUD.Instance.GetGuiObject("Mana_bar") as Bar;
-                _experienceBar = HUD.Instance.GetGuiObject("Experience_bar") as Bar;
+                HUD.Instance.AssignPlayerScript(this);
             }
         }
 
@@ -160,24 +154,8 @@ namespace PBLgame.GamePlay
         {
             base.Update(gameTime);
             _attackTriggerObject.Update(gameTime);
-            if(_healthBar != null)
-            {
-                _healthBar.FillAmount = ConvertRange(Convert.ToSingle(Stats.Health.Value), 0.0f, Stats.Health.MaxValue, 0.0f, 1.0f);
-            }
-            if (_manaBar != null)
-            {
-                _manaBar.FillAmount = ConvertRange(Convert.ToSingle(Stats.Energy.Value), 0.0f, Stats.Energy.MaxValue, 0.0f, 1.0f);
-            }
-            if (_experienceBar != null)
-            {
-                _experienceBar.FillAmount = ConvertRange(Convert.ToSingle(Stats.Experience.Value), 0.0f, Stats.Experience.MaxValue, 0.0f, 1.0f);
-            }
         }
 
-        private float ConvertRange(float value, float oldMin, float oldMax, float newMin, float newMax)
-        {
-            return ((value - oldMin) / (oldMax - oldMin)) * (newMax - newMin) + newMin;
-        }
 
         private void CharacterRotation(Object obj, MoveArgs args)
         {

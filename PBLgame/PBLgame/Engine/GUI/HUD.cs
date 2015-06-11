@@ -25,11 +25,15 @@ namespace PBLgame.Engine.GUI
         private Vector2 _referenceWindowSize;
         private Vector2 _currentWindowSize;
         private TalentWindowManager _talentWindowManager;
-        private PlayerStatistics _playerStats;
+        private PlayerScript _playerScript;
         private GUIObject _levelUpText;
         private TimeSpan _levelUpStartTime;
         private TimeSpan _currentTime;
         private GUIObject _lowHpIndicator;
+        private Bar _lastTargetedEnemyHpBar;
+        private Bar _healthBar;
+        private Bar _manaBar;
+        private Bar _experienceBar;
 
         #endregion
 
@@ -72,13 +76,13 @@ namespace PBLgame.Engine.GUI
             _guiObjects = new List<GUIObject>();
         }
 
-        public void AssignPlayerStatisticsScript(PlayerStatistics stats)
+        public void AssignPlayerScript(PlayerScript script)
         {
-            _playerStats = stats;
-            (_playerStats.Experience as ExperienceStat).OnLevelUp += OnLevelUp;
+            _playerScript = script;
+            (_playerScript.Stats.Experience as ExperienceStat).OnLevelUp += OnLevelUp;
             if (_talentWindowManager != null)
             {
-                _talentWindowManager.AssignPlayerStatisticsScript(stats);
+                _talentWindowManager.AssignPlayerStatisticsScript(script.Stats);
             }
         }
 
@@ -144,7 +148,26 @@ namespace PBLgame.Engine.GUI
                 _levelUpText.Enabled = false;
             }
             if (_lowHpIndicator == null) return;
-            _lowHpIndicator.Enabled = (float)_playerStats.Health.Value/(float)_playerStats.Health.MaxValue < 0.2f;
+            _lowHpIndicator.Enabled = (float)_playerScript.Stats.Health.Value/(float)_playerScript.Stats.Health.MaxValue < 0.2f;
+            if (_playerScript == null)
+            {
+                return;
+            }
+            _healthBar.FillAmount = ConvertRange(_playerScript.Stats.Health.Value, 0.0f,
+                _playerScript.Stats.Health.MaxValue, 0.0f, 1.0f);
+            _manaBar.FillAmount = ConvertRange(_playerScript.Stats.Energy.Value, 0.0f,
+                _playerScript.Stats.Energy.MaxValue, 0.0f, 1.0f);
+            _experienceBar.FillAmount = ConvertRange(_playerScript.Stats.Experience.Value, 0.0f,
+                _playerScript.Stats.Experience.MaxValue, 0.0f, 1.0f);
+            if (_playerScript.LastTargetedEnemyHp != null)
+            {
+                _lastTargetedEnemyHpBar.FillAmount = _playerScript.LastTargetedEnemyHp.Value;
+            }
+        }
+
+        private float ConvertRange(float value, float oldMin, float oldMax, float newMin, float newMax)
+        {
+            return ((value - oldMin) / (oldMax - oldMin)) * (newMax - newMin) + newMin;
         }
 
         public void Draw()
@@ -167,6 +190,10 @@ namespace PBLgame.Engine.GUI
 
             _levelUpText = GetGuiObject(@"Level_up_text");
             _lowHpIndicator = GetGuiObject(@"Low_hp_indicator");
+            _lastTargetedEnemyHpBar = GetGuiObject(@"Enemy_Health_bar") as Bar;
+            _healthBar = GetGuiObject("Health_bar") as Bar;
+            _manaBar = GetGuiObject("Mana_bar") as Bar;
+            _experienceBar = GetGuiObject("Experience_bar") as Bar;
 
             //finding buttons' neighbours
             List<Button> buttons = GetGuiObjects<Button>();
@@ -204,6 +231,8 @@ namespace PBLgame.Engine.GUI
                     button.ThisSkillProgressImage = GetGuiObject((button.ThisSkillProgressImage.Id)) as ProgressImage;
                 }
             }
+
+//            _talentWindowManager.Enabled = true;
 
             if (ReferenceWindowSize == Vector2.Zero)
             {
