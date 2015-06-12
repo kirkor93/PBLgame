@@ -240,6 +240,7 @@
       <Mesh Id="7" Path="Models\Enemies\Katana" />
       <Mesh Id="8" Path="Models\Enemies\Mecha_Ranger" Skeleton="2" />
       <Mesh Id="9" Path="Models\Enemies\Smart_Droid" />
+      <Mesh Id="50" Path="Models\Enemies\NJ" Skeleton="4" />
       <Mesh Id="10" Path="Models\Terrain\Start_base\Barrier_1" />
       <Mesh Id="11" Path="Models\Terrain\Start_base\Bollard" />
       <Mesh Id="12" Path="Models\Terrain\Start_base\Building_1" />
@@ -300,7 +301,7 @@
       <Animation Id="306" Path="Animations\Champions\Ace_push" Skeleton="3" Type="AttackPush" />
       <Animation Id="307" Path="Animations\Champions\Ace_shield" Skeleton="3" Type="AttackShield" />
       
-      
+	  <Animation Id="401" Path="Animations\Enemies\NJ_walk" Skeleton="4" Type="Idle" Speed="1" />      
     </Animations>
     <SpriteFonts>
       <SpriteFont Path="Fonts\Default" />

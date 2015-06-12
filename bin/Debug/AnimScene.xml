@@ -7,7 +7,7 @@
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="3" MaterialId="44" />
+      <Renderer Enabled="True" MeshId="50" MaterialId="44" />
       <Animator Enabled="True" />
       <PBLgame.GamePlay.PlayerScript Enabled="True" />
     </GameObject>
