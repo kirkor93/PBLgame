@@ -46,7 +46,7 @@ namespace PBLgame
 //        private const int ResolutionY = 1080;
 //        private const bool FullScreenEnabled = true;
 
-        private bool _isIntroFinished = true;
+        private bool _isIntroFinished = false;
 
         //Sounds tetin
         AudioEngine _audioEngine; //Has to be in final version

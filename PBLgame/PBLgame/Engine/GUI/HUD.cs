@@ -31,6 +31,7 @@ namespace PBLgame.Engine.GUI
         private TimeSpan _currentTime;
         private GUIObject _lowHpIndicator;
         private Bar _lastTargetedEnemyHpBar;
+        private GUIObject _lastTargetedEnemyHpBarOutline;
         private Bar _healthBar;
         private Bar _manaBar;
         private Bar _experienceBar;
@@ -161,7 +162,9 @@ namespace PBLgame.Engine.GUI
                 _playerScript.Stats.Experience.MaxValue, 0.0f, 1.0f);
             if (_playerScript.LastTargetedEnemyHp != null)
             {
-                _lastTargetedEnemyHpBar.FillAmount = _playerScript.LastTargetedEnemyHp.Value;
+                _lastTargetedEnemyHpBarOutline.Enabled = _playerScript.LastTargetedEnemyHp.Value > 0;
+                _lastTargetedEnemyHpBar.FillAmount = ConvertRange(_playerScript.LastTargetedEnemyHp.Value, 0.0f,
+                    _playerScript.LastTargetedEnemyHp.MaxValue, 0.0f, 1.0f);
             }
         }
 
@@ -191,6 +194,7 @@ namespace PBLgame.Engine.GUI
             _levelUpText = GetGuiObject(@"Level_up_text");
             _lowHpIndicator = GetGuiObject(@"Low_hp_indicator");
             _lastTargetedEnemyHpBar = GetGuiObject(@"Enemy_Health_bar") as Bar;
+            _lastTargetedEnemyHpBarOutline = GetGuiObject(@"Enemy_Health_bar_outline");
             _healthBar = GetGuiObject("Health_bar") as Bar;
             _manaBar = GetGuiObject("Mana_bar") as Bar;
             _experienceBar = GetGuiObject("Experience_bar") as Bar;

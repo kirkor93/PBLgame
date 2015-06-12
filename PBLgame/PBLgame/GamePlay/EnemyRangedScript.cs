@@ -58,6 +58,7 @@ namespace PBLgame.GamePlay
             : base(owner)
         {
             _hp = 100;
+            MaxHp = _hp;
 
             _attackTriggerObject = new GameObject();
             _attackTriggerObject.Tag = "EnemyWeapon";
@@ -131,6 +132,8 @@ namespace PBLgame.GamePlay
             set { _hp = value; }
         }
 
+        public int MaxHp { get; set; }
+
         public void GotPlayerMethod(Object o, ColArgs args)
         {
             if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Player")
@@ -165,6 +168,7 @@ namespace PBLgame.GamePlay
                         case AttackType.Ion:
                             break;
                     }
+                    stats.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                 }
             }
             else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Weapon")
@@ -186,6 +190,7 @@ namespace PBLgame.GamePlay
                         case AttackType.Ion:
                             break;
                     }
+                    stats.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                 }
             }
             if (HP <= 0)

@@ -148,7 +148,7 @@
       <Position x="700" y="75" />
       <Scale x="1" y="1" />
     </PBLgame.Engine.GUI.Bar>
-    <PBLgame.Engine.GUI.GUIObject Id="35" Name="Enemy_Health_bar_outline" Enabled="True" Pivot="1" Texture="Textures\GUI\Enemy_health_bar_outline">
+    <PBLgame.Engine.GUI.GUIObject Id="35" Name="Enemy_Health_bar_outline" Enabled="False" Pivot="1" Texture="Textures\GUI\Enemy_health_bar_outline">
       <Position x="700" y="75" />
       <Scale x="1" y="1" />
     </PBLgame.Engine.GUI.GUIObject>

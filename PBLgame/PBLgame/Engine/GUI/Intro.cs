@@ -8,6 +8,7 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using  PBLgame.Engine.Singleton;
 
 namespace PBLgame.Engine.GUI
@@ -67,6 +68,22 @@ namespace PBLgame.Engine.GUI
             {
                 _currentScene = _scenes.GetEnumerator();
                 _currentScene.MoveNext();
+                InputManager.Instance.OnButton += OnButtonClick;
+            }
+        }
+
+        private void OnButtonClick(object sender, ButtonArgs buttonArgs)
+        {
+            if (buttonArgs.ButtonName == Buttons.B)
+            {
+                if (OnIntroFinished != null)
+                {
+                    OnIntroFinished(this, EventArgs.Empty);
+                }
+                else
+                {
+                    throw new Exception("OnIntroFInished has to have handlers for game to work properly");
+                }
             }
         }
 
