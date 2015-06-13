@@ -37,7 +37,10 @@ namespace PBLgame
         //For teting-----------------
         public GameObject player;
         public GameObject totalyTmp;
-        private Scene _scene;
+        private Scene _loadedScene;
+        private Scene _activeScene;
+        private ScreenSystem _activeScreenSystem;
+        private HUD _hud;
         private const int ResolutionX = 1280;
         private const int ResolutionY = 720;
         private const bool FullScreenEnabled = false;
@@ -45,8 +48,6 @@ namespace PBLgame
 //        private const int ResolutionX = 1920;
 //        private const int ResolutionY = 1080;
 //        private const bool FullScreenEnabled = true;
-
-        private bool _isIntroFinished = false;
 
         //Sounds tetin
         AudioEngine _audioEngine; //Has to be in final version
@@ -86,11 +87,7 @@ namespace PBLgame
 
             base.Initialize();
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            HUD.Instance.Batch = spriteBatch;
-            HUD.Instance.CurrentWindowSize = new Vector2(ResolutionX, ResolutionY);
-            Intro.Instance.Batch = spriteBatch;
-            Intro.Instance.CurrentWindowSize = new Vector2(ResolutionX, ResolutionY);
-            Intro.Instance.OnIntroFinished += (sender, args) => _isIntroFinished = true;
+
         }
 
         /// <summary>
@@ -110,22 +107,31 @@ namespace PBLgame
             ResourceManager.Instance.LoadContent();
             ResourceManager.Instance.AssignAudioBank(_soundBank);
 
-            HUD.Instance.Load();
-            Intro.Instance.Load();
-            Intro.Instance.Batch = spriteBatch;
-            Intro.Instance.Start();
-            _scene = new Scene();
-            _scene.Load(@"Level_1.xml");
+            _hud = new HUD();
+            _hud.Load();
+            _hud.CurrentWindowSize = new Vector2(ResolutionX, ResolutionY);
+            Intro intro = new Intro();
+            intro.OnIntroFinished += OnIntroFinished;
+            _activeScreenSystem = intro;
+            intro.Load();
+            intro.CurrentWindowSize = new Vector2(ResolutionX, ResolutionY);
+            intro.Start();
+            _activeScene = new Scene();
+            _loadedScene = new Scene();
+            _loadedScene.Load(@"Level_1.xml");
             //_scene.Load(@"AnimScene.xml");
 
-            player = _scene.FindGameObject(8);
-            player.AddComponent( new AttachSlot(player, _scene.FindGameObject("Sword"), "miecz123") );
+            player = _loadedScene.FindGameObject(8);
+            player.AddComponent( new AttachSlot(player, _loadedScene.FindGameObject("Sword"), "miecz123") );
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;
+        }
 
-            //_scene.FindGameObject(607).AddComponent<EnemyMeleeScript>(new EnemyMeleeScript(_scene.FindGameObject(607)));
-//            _scene.Save(@"Level_1.xml");
+        private void OnIntroFinished(object sender, EventArgs eventArgs)
+        {
+            _activeScene = _loadedScene;
+            _activeScreenSystem = _hud;
         }
 
         /// <summary>
@@ -149,21 +155,12 @@ namespace PBLgame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
             
-            //ForTetting-----------------------
             InputManager.Instance.Update(gameTime);
-//            mainCamera.Update(gameTime);
 
-            //-----------------------------
+            _activeScene.Update(gameTime);
+            _activeScreenSystem.Update(gameTime);
+            
 
-            if(_isIntroFinished)
-            {
-                _scene.Update(gameTime);
-                HUD.Instance.Update(gameTime);
-            }
-            else
-            {
-                Intro.Instance.Update(gameTime);
-            }
             _audioEngine.Update(); //Have to be in final version
             
             base.Update(gameTime);
@@ -180,20 +177,14 @@ namespace PBLgame
             //For Teting----------------
             //---------------------
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            if (_isIntroFinished)
-            {
-            _scene.Draw(gameTime);
-            }
+
+            _activeScene.Draw(gameTime);
+
             base.Draw(gameTime);
             spriteBatch.Begin();
-            if (_isIntroFinished)
-            {
-            HUD.Instance.Draw();
-            }
-            else
-            {
-                Intro.Instance.Draw();
-            }
+
+            _activeScreenSystem.Draw(spriteBatch);
+
             spriteBatch.End();
 
         }

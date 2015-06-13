@@ -10,16 +10,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using  PBLgame.Engine.Singleton;
+using PBLgame.GamePlay;
 
 namespace PBLgame.Engine.GUI
 {
-    public class Intro : Singleton<Intro>, IXmlSerializable
+    public class Intro : ScreenSystem, IXmlSerializable
     {
         #region Variables
         private List<IntroScene> _scenes;
         private TimeSpan _lastChangeTime;
         private List<IntroScene>.Enumerator _currentScene;
-        private SpriteBatch _batch;
         private Vector2 _referenceWindowSize;
         private Vector2 _currentWindowSize;
 
@@ -31,12 +31,6 @@ namespace PBLgame.Engine.GUI
 
         #endregion
         #region Properties
-
-        public SpriteBatch Batch
-        {
-            get { return _batch; }
-            set { _batch = value; }
-        }
 
         public Vector2 ReferenceWindowSize
         {
@@ -87,7 +81,7 @@ namespace PBLgame.Engine.GUI
             }
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if(_lastChangeTime + _currentScene.Current.Length < gameTime.TotalGameTime)
             {
@@ -109,11 +103,11 @@ namespace PBLgame.Engine.GUI
             }
         }
 
-        public void Draw()
+        public override void Draw(SpriteBatch batch)
         {
             if (_currentScene.Current != null)
             {
-                _currentScene.Current.Draw(Batch);
+                _currentScene.Current.Draw(batch);
             }
         }
 

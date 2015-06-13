@@ -14,13 +14,12 @@ using PBLgame.GamePlay;
 
 namespace PBLgame.Engine.GUI
 {
-    public class HUD : Singleton<HUD>, IXmlSerializable
+    public class HUD : ScreenSystem, IXmlSerializable
     {
         #region Variables
-
         public const string GuiSavePath = @"GuiLayout.xml";
 
-        private SpriteBatch _spriteBatch;
+        private static HUD _instance;
         private List<GUIObject> _guiObjects;
         private Vector2 _referenceWindowSize;
         private Vector2 _currentWindowSize;
@@ -39,12 +38,6 @@ namespace PBLgame.Engine.GUI
         #endregion
 
         #region Properties
-
-        public SpriteBatch Batch
-        {
-            get { return _spriteBatch; }
-            set { _spriteBatch = value; }
-        }
 
         public Vector2 ReferenceWindowSize
         {
@@ -68,6 +61,12 @@ namespace PBLgame.Engine.GUI
             private set { _talentWindowManager = value; }
         }
 
+        public static HUD Instance
+        {
+            get { return _instance; }
+            private set { _instance = value; }
+        }
+
         #endregion
 
         #region Methods
@@ -75,6 +74,10 @@ namespace PBLgame.Engine.GUI
         {
             ReferenceWindowSize = Vector2.Zero;
             _guiObjects = new List<GUIObject>();
+            if (Instance == null)
+            {
+                Instance = this;
+            }
         }
 
         public void AssignPlayerScript(PlayerScript script)
@@ -141,7 +144,7 @@ namespace PBLgame.Engine.GUI
             }
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             _currentTime = gameTime.TotalGameTime;
             if (_levelUpStartTime + new TimeSpan(0, 0, 3) < gameTime.TotalGameTime)
@@ -173,11 +176,11 @@ namespace PBLgame.Engine.GUI
             return ((value - oldMin) / (oldMax - oldMin)) * (newMax - newMin) + newMin;
         }
 
-        public void Draw()
+        public override void Draw(SpriteBatch batch)
         {
             foreach (GUIObject guiObject in _guiObjects)
             {
-                guiObject.Draw(Batch);
+                guiObject.Draw(batch);
             }
         }
 
