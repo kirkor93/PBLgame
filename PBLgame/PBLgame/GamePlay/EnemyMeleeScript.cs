@@ -251,6 +251,11 @@ namespace PBLgame.GamePlay
             _fieldOfView.Draw(gameTime);
         }
 
+        public override Component Copy(GameObject newOwner)
+        {
+            return new EnemyMeleeScript(newOwner);
+        }
+
         private bool EnemyClose()
         {
             if (Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) < 100.0f)

@@ -7,7 +7,7 @@ using PBLgame.Engine.GameObjects;
 
 namespace PBLgame.GamePlay
 {
-    public class CharacterHandler : Component
+    public abstract class CharacterHandler : Component
     {
         #region Variables
         private float _destAngle;
@@ -29,7 +29,7 @@ namespace PBLgame.GamePlay
 
         #region Methods
 
-        public CharacterHandler(GameObject gameObj) : base(gameObj)
+        protected CharacterHandler(GameObject gameObj) : base(gameObj)
         {
             UnitVelocity = Vector2.Zero;
             SpeedMultiplier = 100.0f;
@@ -81,6 +81,7 @@ namespace PBLgame.GamePlay
         {
 //            _gameObject.animator.Idle();
         }
+
 
         /// <summary>
         /// Sets looking direction angle of character smoothly.

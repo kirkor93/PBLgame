@@ -71,6 +71,11 @@ namespace PBLgame.Engine.Components
 
         }
 
+        public override Component Copy(GameObject newOwner)
+        {
+            return new AudioSource(this, newOwner);
+        }
+
         public void Set3D(AudioListener listener)
         {
             _trackCue.Apply3D(listener, _emitter);

@@ -7,7 +7,7 @@
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="3" MaterialId="44" />
+      <Renderer Enabled="True" MeshId="3" MaterialId="46" />
       <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
         <SphereCollider Radius="9" IsTrigger="False">
           <LocalPosition x="0" y="10" z="0" />
@@ -4847,7 +4847,7 @@
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="8" MaterialId="5" />
+      <Renderer Enabled="True" MeshId="8" MaterialId="6" />
       <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
         <SphereCollider Radius="5" IsTrigger="False">
           <LocalPosition x="0" y="10" z="0" />
@@ -4857,7 +4857,7 @@
       <PBLgame.Engine.Components.AIComponent Enabled="True" />
       <PBLgame.GamePlay.EnemyMeleeScript Enabled="True" />
     </GameObject>
-        <GameObject Name="MechaRanger001" Tag="Enemy" Id="1234">
+    <GameObject Name="MechaRanger001" Tag="Enemy" Id="1234">
       <Transform Enabled="True">
         <Position x="-148" y="0" z="-112" />
         <Rotation x="0" y="0" z="0" />
@@ -4880,6 +4880,20 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="17" MaterialId="44" />
+    </GameObject>
+    <GameObject Name="NJ" Tag="Boss" Id="614">
+      <Transform Enabled="True">
+        <Position x="-251" y="0" z="-75" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="50" MaterialId="47" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="10" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <Animator Enabled="True" />
     </GameObject>
   </GameObjects>
   <Lights>

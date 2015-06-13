@@ -49,5 +49,10 @@ namespace PBLgame.Engine.Components
 
             AttachmentTransform.PreLocalWorld = slotTransform;
         }
+
+        public override Component Copy(GameObject newOwner)
+        {
+            return new AttachSlot(newOwner, newOwner.GetChildren()[0], _slot.Name);
+        }
     }
 }

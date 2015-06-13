@@ -29,5 +29,10 @@ namespace PBLgame.Engine.Components
             _myDTree = new DecisionTree(start);
 //            AISystem.AddAIObject(gameObject);
         }
+
+        public override Component Copy(GameObject newOwner)
+        {
+            return new AIComponent(newOwner);
+        }
     }
 }

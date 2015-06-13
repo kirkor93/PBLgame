@@ -235,6 +235,11 @@ namespace PBLgame.Engine.Components
             }
         }
 
+        public override Component Copy(GameObject newOwner)
+        {
+            return new Collision(this, newOwner);
+        }
+
         public override void Update(GameTime gameTime)
         {
             if(Enabled)

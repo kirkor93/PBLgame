@@ -414,7 +414,7 @@ namespace Edytejshyn.Model
         public Vector3 Position
         {
             get { return _transform.Position; }
-            set { _parent.FireSetter(x => _transform.Position = x, _transform.Position, value); }
+            set { _parent.FireSetter(x => _transform.SetPositionDry(x), _transform.Position, value); }
         }
 
         [TypeConverter(typeof(Vector3ConverterEx))]

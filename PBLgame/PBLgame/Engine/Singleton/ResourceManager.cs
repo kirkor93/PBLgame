@@ -127,12 +127,17 @@ namespace PBLgame.Engine.Singleton
                 Meshes = _meshes, 
                 Textures = _textures, 
                 ShaderEffects = _shaderEffects,
-                Skeletons = _skeletons
+                Skeletons = _skeletons,
+                Fonts = _fonts
             };
 
-            using (FileStream writer = new FileStream(path, FileMode.Create))
+            using (MemoryStream memory = new MemoryStream())
             {
-                _serializer.Serialize(writer, content);
+                _serializer.Serialize(memory, content);
+                using (FileStream file = new FileStream(path, FileMode.Create))
+                {
+                    memory.WriteTo(file);
+                }
             }
         }
 

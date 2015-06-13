@@ -12,7 +12,7 @@ namespace PBLgame.GamePlay
     {
         public bool IsTriggered = false;
         public int TranslationTicks = 300;
-        public Translator(Component source) : base(source)
+        public Translator(Translator source, GameObject newOwner) : base(newOwner)
         {
 
         }
@@ -32,6 +32,11 @@ namespace PBLgame.GamePlay
             TranslationTicks--;
             gameObject.transform.Translate(new Vector3(0.0f, 0.0f, -0.1f));
             base.Update(gameTime);
+        }
+
+        public override Component Copy(GameObject newOwner)
+        {
+            return new Translator(this, newOwner);
         }
     }
 }

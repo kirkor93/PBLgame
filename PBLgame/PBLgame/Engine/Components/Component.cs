@@ -73,6 +73,12 @@ namespace PBLgame.Engine.Components
             
         }
 
+        /// <summary>
+        /// Call copy constructor here
+        /// </summary>
+        /// <param name="newOwner"></param>
+        /// <returns></returns>
+        public abstract Component Copy(GameObject newOwner);
 
 
 
@@ -95,14 +101,5 @@ namespace PBLgame.Engine.Components
         #endregion
         #endregion
 
-        /// <summary>
-        /// Call copy constructor here
-        /// </summary>
-        /// <param name="newOwner"></param>
-        /// <returns></returns>
-        public virtual Component Copy(GameObject newOwner)
-        {
-            return null;
-        }
     }
 }

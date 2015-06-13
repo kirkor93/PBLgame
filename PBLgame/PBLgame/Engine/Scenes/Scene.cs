@@ -530,9 +530,13 @@ namespace PBLgame.Engine.Scenes
 
         public void Save(string path)
         {
-            using (FileStream writer = new FileStream(path, FileMode.Create))
+            using (MemoryStream memory = new MemoryStream())
             {
-                _serializer.Serialize(writer, this);
+                _serializer.Serialize(memory, this);
+                using (FileStream file = new FileStream(path, FileMode.Create))
+                {
+                    memory.WriteTo(file);
+                }
             }
         }
 

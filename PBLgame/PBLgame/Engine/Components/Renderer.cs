@@ -94,6 +94,11 @@ namespace PBLgame.Engine.Components
             DrawTechnique(gameTime, Technique.Default);
         }
 
+        public override Component Copy(GameObject newOwner)
+        {
+            return new Renderer(this, newOwner);
+        }
+
         public void DrawTechnique(GameTime gameTime, Technique technique = Technique.Default)
         {
             if (!Enabled) return;

@@ -184,6 +184,7 @@ namespace PBLgame.Engine.Components
 
         public Animator(Animator src, GameObject owner) : base(owner)
         {
+            Initialize(false);
         }
 
         /// <summary>
@@ -287,6 +288,11 @@ namespace PBLgame.Engine.Components
             {
                 PlayAnimation(AnimMesh.Skeleton.Idle ?? AnimMesh.Skeleton.Walk ?? AnimMesh.Clips[0]);
             }
+        }
+
+        public override Component Copy(GameObject newOwner)
+        {
+            return new Animator(this, newOwner);
         }
 
         /// <summary>

@@ -515,7 +515,7 @@ namespace Edytejshyn.GUI.XNA
             switch (ActiveMode)
             {
                 case GizmoMode.Translate:
-                    selected.Nut.transform.Position = _oldSelectedPosition; // set old value to enable undo
+                    selected.Nut.transform.SetPositionDry(_oldSelectedPosition); // set old value to enable undo
                     selected.Transform.Position     = _oldSelectedPosition + _translationDelta; // apply new value via wrapper to save in history
                     break;
 
@@ -674,7 +674,7 @@ namespace Edytejshyn.GUI.XNA
             invertingMatrix *= Matrix.Invert(selected.Nut.transform.AncestorsScale);
 
             _translationDelta = Vector3.Transform(delta, invertingMatrix);
-            selected.Nut.transform.Position = _oldSelectedPosition + _translationDelta;
+            selected.Nut.transform.SetPositionDry(_oldSelectedPosition + _translationDelta);
         }
 
         /// <summary>

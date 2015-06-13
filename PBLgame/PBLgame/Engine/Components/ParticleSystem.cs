@@ -404,6 +404,11 @@ namespace PBLgame.Engine.Components
                 
         }
 
+        public override Component Copy(GameObject newOwner)
+        {
+            return new ParticleSystem(this, newOwner);
+        }
+
         public void AddBurst(Burst burst)
         {
             _bursts.Add(burst);

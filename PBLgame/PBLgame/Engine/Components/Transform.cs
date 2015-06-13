@@ -27,6 +27,7 @@ namespace PBLgame.Engine.Components
         #endregion
 
         #region Properties
+
         public Vector3 Position
         {
             get
@@ -522,6 +523,16 @@ namespace PBLgame.Engine.Components
 
         }
 
+        /// <summary>
+        /// Ignore collisions.
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetPositionDry(Vector3 value)
+        {
+            _position = value;
+            _worldTranslation = Matrix.CreateTranslation(value);
+        }
+
         //public void Rotate(Vector3 rot)
         //{
         //    _rotation += rot;
@@ -632,6 +643,11 @@ namespace PBLgame.Engine.Components
         public override void Draw(GameTime gameTime)
         {
             
+        }
+
+        public override Component Copy(GameObject newOwner)
+        {
+            return new Transform(this, newOwner);
         }
 
         private void RotationLimit()

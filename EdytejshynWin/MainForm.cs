@@ -762,7 +762,9 @@ namespace Edytejshyn
 
             foreach (Texture2D tex in Logic.ResourceManager.Textures)
             {
-                textures.Add(tex.Name);
+                string name = tex.Name;
+                if (name.StartsWith(@"Textures\GUI\") || name.StartsWith(@"Textures\Intro\")) continue;
+                textures.Add(name);
             }
 
             Texture2D defaultNormal   = Logic.ResourceManager.GetTexture(@"Textures\Default_n");

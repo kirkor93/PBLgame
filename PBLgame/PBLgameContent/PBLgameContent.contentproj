@@ -1090,9 +1090,7 @@
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Textures\Champions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="Effects\BasicShaderPhong.fx">
       <Name>BasicShaderPhong</Name>
@@ -1376,7 +1374,7 @@
       <Name>NJ_walk</Name>
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
-	</Compile>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\GUI\Progress_bar_1.png">
@@ -1488,6 +1486,55 @@
     </Compile>
     <Compile Include="Textures\GUI\Progress_bar_4_2.png">
       <Name>Progress_bar_4_2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Champions\Ace_d.png">
+      <Name>Ace_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Champions\Ace_n.png">
+      <Name>Ace_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Champions\Ace_s.png">
+      <Name>Ace_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Enemies\Chainsword_d.png">
+      <Name>Chainsword_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Enemies\Chainsword_n.png">
+      <Name>Chainsword_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Enemies\Chainsword_s.png">
+      <Name>Chainsword_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Enemies\NJ_d.png">
+      <Name>NJ_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Enemies\NJ_n.png">
+      <Name>NJ_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Enemies\NJ_s.png">
+      <Name>NJ_s</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

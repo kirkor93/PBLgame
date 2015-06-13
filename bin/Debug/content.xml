@@ -15,6 +15,9 @@
       <Texture Path="Textures\Helmet_s" />
       <Texture Path="Textures\Helmet_n" />
       <Texture Path="Textures\fire" />
+      <Texture Path="Textures\Champions\Ace_d" />
+      <Texture Path="Textures\Champions\Ace_n" />
+      <Texture Path="Textures\Champions\Ace_s" />
       <Texture Path="Textures\Enemies\Crossbow_d" />
       <Texture Path="Textures\Enemies\Crossbow_n" />
       <Texture Path="Textures\Enemies\Crossbow_s" />
@@ -30,6 +33,12 @@
       <Texture Path="Textures\Enemies\Smart_Droid_d" />
       <Texture Path="Textures\Enemies\Smart_Droid_n" />
       <Texture Path="Textures\Enemies\Smart_Droid_s" />
+      <Texture Path="Textures\Enemies\NJ_d" />
+      <Texture Path="Textures\Enemies\NJ_n" />
+      <Texture Path="Textures\Enemies\NJ_s" />
+      <Texture Path="Textures\Enemies\Chainsword_d" />
+      <Texture Path="Textures\Enemies\Chainsword_n" />
+      <Texture Path="Textures\Enemies\Chainsword_s" />
       <Texture Path="Textures\Terrain\Start_base\Barrel_green_d" />
       <Texture Path="Textures\Terrain\Start_base\Barrel_red_d" />
       <Texture Path="Textures\Terrain\Start_base\Barrel_red_n" />
@@ -229,6 +238,9 @@
       <Material Id="42" Name="Terrain\Desert\Mountain_2" Diffuse="Textures\Terrain\Desert\Mountain_2_d" Normal="Textures\Terrain\Desert\Mountain_2_n" Specular="Textures\Terrain\Desert\Mountain_2_s" Emissive="Textures\Terrain\Desert\Mountain_2_d" ShaderPath="Effects\BasicShader" />
       <Material Id="44" Name="Default" Diffuse="Textures\Default_s" Normal="Textures\Default_n" Specular="Textures\Default_s" Emissive="Textures\Default_s" ShaderPath="Effects\BasicShader" />
       <Material Id="45" Name="NormalHelmet" Diffuse="Textures\Default_s" Normal="Textures\Helmet_n" Specular="Textures\Default_s" Emissive="Textures\Default_s" ShaderPath="Effects\BasicShader" />
+      <Material Id="46" Name="Champions\Ace" Diffuse="Textures\Champions\Ace_d" Normal="Textures\Champions\Ace_n" Specular="Textures\Champions\Ace_s" Emissive="Textures\Champions\Ace_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="47" Name="Enemies\NJ" Diffuse="Textures\Enemies\NJ_d" Normal="Textures\Enemies\NJ_n" Specular="Textures\Enemies\NJ_s" Emissive="Textures\Enemies\NJ_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="48" Name="Enemies\Chainsword" Diffuse="Textures\Enemies\Chainsword_d" Normal="Textures\Enemies\Chainsword_n" Specular="Textures\Enemies\Chainsword_s" Emissive="Textures\Enemies\Chainsword_d" ShaderPath="Effects\BasicShader" />
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
@@ -290,9 +302,7 @@
       <Animation Id="5" Path="Animations\Gandalf_turn_left" Skeleton="1" />
       <Animation Id="6" Path="Animations\Gandalf_turn_right" Skeleton="1" />
       <Animation Id="7" Path="Animations\Gandalf_walk" Skeleton="1" Type="Walk" Speed="0.0057" />
-      
       <Animation Id="201" Path="Animations\Enemies\Mecha_Ranger_anim" Skeleton="2" Type="Idle" />
-      
       <Animation Id="301" Path="Animations\Champions\Ace_idle" Skeleton="3" Type="Idle" />
       <Animation Id="302" Path="Animations\Champions\Ace_run" Skeleton="3" Type="Walk" Speed="0.016" />
       <Animation Id="303" Path="Animations\Champions\Ace_simple_attack" Skeleton="3" Type="AttackQuick" />
@@ -300,8 +310,7 @@
       <Animation Id="305" Path="Animations\Champions\Ace_ion_missile" Skeleton="3" Type="AttackIon" />
       <Animation Id="306" Path="Animations\Champions\Ace_push" Skeleton="3" Type="AttackPush" />
       <Animation Id="307" Path="Animations\Champions\Ace_shield" Skeleton="3" Type="AttackShield" />
-      
-	  <Animation Id="401" Path="Animations\Enemies\NJ_walk" Skeleton="4" Type="Idle" Speed="1" />      
+      <Animation Id="401" Path="Animations\Enemies\NJ_walk" Skeleton="4" Type="Idle" />
     </Animations>
     <SpriteFonts>
       <SpriteFont Path="Fonts\Default" />
