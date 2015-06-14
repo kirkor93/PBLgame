@@ -1090,7 +1090,13 @@
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Models\Champions\Banan.FBX">
+      <Name>Banan</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Effects\BasicShaderPhong.fx">
       <Name>BasicShaderPhong</Name>

@@ -127,8 +127,9 @@ namespace PBLgame
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;
 
-            //_loadedScene.FindGameObject(615).AddComponent<AIComponent>(new AIComponent(_loadedScene.FindGameObject(615)));
-            //_loadedScene.FindGameObject(615).AddComponent<CuteBomberScript>(new CuteBomberScript(_loadedScene.FindGameObject(615)));
+            //_loadedScene.FindGameObject(615).AddComponent<ParticleSystem>(new ParticleSystem(_loadedScene.FindGameObject(615)));
+            //_loadedScene.FindGameObject(615).GetComponent<ParticleSystem>().Material = ResourceManager.Instance.GetMaterial(2);
+            //_loadedScene.FindGameObject(615).GetComponent<ParticleSystem>().AddBurst(new Burst(0.0f,10));
             //_loadedScene.Save(@"Level_1.xml");
         }
 

@@ -65,7 +65,6 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
 	float4 color = tex2D(texSampler, input.UV);
-
 	return color;
 }
 
@@ -73,7 +72,9 @@ technique Bilboard
 {
     pass Pass1
     {
-
+		AlphaBlendEnable = TRUE;
+		DestBlend = INVSRCALPHA;
+		SrcBlend = SRCALPHA;
         VertexShader = compile vs_3_0 VertexShaderFunction();
         PixelShader = compile ps_3_0 PixelShaderFunction();
     }

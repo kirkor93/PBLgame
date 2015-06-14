@@ -157,6 +157,7 @@ namespace PBLgame.GamePlay
                     }
                     stats.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                 }
+                gameObject.GetComponent<ParticleSystem>().Triggered = true;
             }
             else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Weapon")
             {
@@ -204,7 +205,6 @@ namespace PBLgame.GamePlay
                         _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
                         if (_attackTimer > _attackDelay)
                         {
-                            Console.WriteLine("CuteAttacked");
                             _attackTriggerObject.collision.Enabled = true;
                             _attackTimer = 0.0f;
                             foreach (GameObject go in PhysicsSystem.CollisionObjects)
@@ -214,10 +214,13 @@ namespace PBLgame.GamePlay
                                     _attackTriggerObject.collision.ChceckCollisionDeeper(go);
                                 }
                             }
+                            //gameObject.GetComponent<ParticleSystem>().Triggered = true;
                             _attackTriggerObject.collision.Enabled = false;
-                            gameObject.Enabled = false;
+                            gameObject.renderer.Enabled = false;
+                            gameObject.collision.Enabled = false;
                             _attackTriggerObject.Enabled = false;
                             _fieldOfView.Enabled = false;
+                            _hp = 0;
                         }
                         break;
                     case MeleeAction.Chase:

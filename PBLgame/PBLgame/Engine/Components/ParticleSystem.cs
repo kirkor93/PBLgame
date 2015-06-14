@@ -99,6 +99,7 @@ namespace PBLgame.Engine.Components
             set
             {
                 _size = value;
+                InitializeParticles();
             }
         }
         public Vector3 DirectionFrom
@@ -258,11 +259,11 @@ namespace PBLgame.Engine.Components
                     }
                     else
                     {
-                        if (_autoTimer >= 1.0f)
+                        //if (_autoTimer >= 1.0f)
                         {
                             int count = Convert.ToInt16(Max / Duration);
                             Emmit(count, _actualTime);
-                            _autoTimer = 0.0f;
+                            //_autoTimer = 0.0f;
                         }
                     }
                 }
@@ -282,11 +283,11 @@ namespace PBLgame.Engine.Components
                         }
                         else
                         {
-                            if (_autoTimer >= 1.0f)
+                            //if (_autoTimer >= 1.0f)
                             {
                                 int count = Convert.ToInt16(Max / Duration);
                                 Emmit(count, _timer);
-                                _autoTimer = _autoTimer % 1.0f;
+                                //_autoTimer = _autoTimer % 1.0f;
                             }
                         }
                     }
@@ -303,6 +304,11 @@ namespace PBLgame.Engine.Components
                     if(_particleTimes[i] + LifeTimeLimit < _timer)
                     {
                         _activationStates[i] = false;
+                        _verts[i * 4].Position = new Vector3((-Size.X), Size.Y, 0);
+                        _verts[i * 4 + 1].Position = new Vector3(Size.X, Size.Y, 0);
+                        _verts[i * 4 + 2].Position = new Vector3((-Size.X), (-Size.Y), 0);
+                        _verts[i * 4 + 3].Position = new Vector3(Size.X, (-Size.Y), 0);
+
                     }
                     else
                     {
@@ -335,14 +341,9 @@ namespace PBLgame.Engine.Components
 
         private void ParticleSetActive(int index, float timer)
         {
-            _verts[index * 4].Position = new Vector3((Size.X / -20), (Size.Y / 20), 0f);
-            _verts[index * 4 + 1].Position = new Vector3((Size.X / 20), (Size.Y / 20), 0f);
-            _verts[index * 4 + 2].Position = new Vector3((Size.X / -20), (Size.Y / -20), 0f);
-            _verts[index * 4 + 3].Position = new Vector3((Size.X / 20), (Size.Y / -20), 0f);
-
             for (int i = 0; i < 4; i++ )
             {
-                _verts[index * 4 + i].Position += gameObject.transform.Position;
+                _verts[index * 4 + i].Position += gameObject.transform.WorldTranslation.Translation + gameObject.transform.AncestorsTranslation.Translation;
             }
             if (DirectionFrom == DirectionTo)
             {
@@ -357,15 +358,44 @@ namespace PBLgame.Engine.Components
             _activationStates[index] = true;
         }
 
+        private void UpdateParticlesPosition()
+        {
+            //Vector3 pos = gameObject.transform.Position + gameObject.transform.AncestorsTranslation.Translation;
+            //for (int i = 0; i < Max; i++)
+            //{
+            //    if(!_activationStates[i])
+            //    {
+            //        int tmp = i * 4;
+            //        _verts[tmp].Position.X = (Size.X / -20) + pos.X;
+            //        _verts[tmp].Position.Y = (Size.Y / 20) + pos.Y;
+            //        _verts[tmp].Position.Z = pos.Z;
+            //        _verts[tmp + 1].Position.X = (Size.X / 20) + pos.X;
+            //        _verts[tmp + 1].Position.Y = (Size.Y / 20) + pos.Y;
+            //        _verts[tmp + 1].Position.Z = pos.Z;
+            //        _verts[tmp + 2].Position.X = (Size.X / -20) + pos.X;
+            //        _verts[tmp + 2].Position.Y = (Size.Y / -20) + pos.Y;
+            //        _verts[tmp + 2].Position.Z = pos.Z;
+            //        _verts[tmp + 3].Position.X = (Size.X / 20) + pos.X;
+            //        _verts[tmp + 3].Position.Y = (Size.Y / -20) + pos.Y;
+            //        _verts[tmp + 3].Position.Z = pos.Z;
+            //    }
+            //}
+        }
+
         private void InitializeParticles()
         {
+            Vector3 pos = gameObject.transform.Position + gameObject.transform.AncestorsTranslation.Translation;
             for(int i = 0 ; i < Max ; i++)
             {   
                 int tmp = i*4;
-                _verts[tmp] = new VertexPositionTexture(new Vector3((Size.X / -20), (Size.Y / 20), 0f), Vector2.Zero);
-                _verts[tmp + 1] = new VertexPositionTexture(new Vector3((Size.X / 20), (Size.Y / 20), 0f), new Vector2(1, 0)); 
-                _verts[tmp + 2] = new VertexPositionTexture(new Vector3((Size.X / -20), (Size.Y / -20), 0f), new Vector2(0, 1));
-                _verts[tmp + 3] = new VertexPositionTexture(new Vector3((Size.X / 20), (Size.Y / -20), 0f), new Vector2(1, 1));
+                _verts[tmp] = new VertexPositionTexture(new Vector3((-Size.X), Size.Y, 0), Vector2.Zero);
+                _verts[tmp + 1] = new VertexPositionTexture(new Vector3(Size.X, Size.Y, 0), new Vector2(1, 0));
+                _verts[tmp + 2] = new VertexPositionTexture(new Vector3((-Size.X), (-Size.Y), 0), new Vector2(0, 1));
+                _verts[tmp + 3] = new VertexPositionTexture(new Vector3(Size.X, (-Size.Y), 0), new Vector2(1, 1));
+                //_verts[tmp] = new VertexPositionTexture(new Vector3((Size.X / -20) + pos.X, (Size.Y / 20) + pos.Y, pos.Z), Vector2.Zero);
+                //_verts[tmp + 1] = new VertexPositionTexture(new Vector3((Size.X / 20) + pos.X, (Size.Y / 20) + pos.Y, pos.Z), new Vector2(1, 0));
+                //_verts[tmp + 2] = new VertexPositionTexture(new Vector3((Size.X / -20) + pos.X, (Size.Y / -20) + pos.Y, pos.Z), new Vector2(0, 1));
+                //_verts[tmp + 3] = new VertexPositionTexture(new Vector3((Size.X / 20) + pos.X, (Size.Y / -20) + pos.Y, pos.Z), new Vector2(1, 1));
             }
             _vertexBuffer = new VertexBuffer(GlobalInventory.Instance.GraphicsDevice,
                     typeof(VertexPositionTexture), _verts.Length, BufferUsage.None);
@@ -374,7 +404,6 @@ namespace PBLgame.Engine.Components
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice graphicsDevice = GlobalInventory.Instance.GraphicsDevice;
-            //graphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
             graphicsDevice.SetVertexBuffer(_vertexBuffer);
             // Only draw if there are live particles
             for (int i = 0; i < Max; i++ )
@@ -384,7 +413,7 @@ namespace PBLgame.Engine.Components
                     graphicsDevice.BlendState = BlendState.AlphaBlend;
                     _material.ShaderEffect.Parameters["CamPos"].SetValue(Camera.MainCamera.transform.Position);
                     _material.ShaderEffect.Parameters["AllowedRotDir"].SetValue(new Vector3(0, 1, 0));
-                    _material.ShaderEffect.Parameters["World"].SetValue(_gameObject.transform.World);
+                    _material.ShaderEffect.Parameters["World"].SetValue(Matrix.Identity);
                     _material.ShaderEffect.Parameters["View"].SetValue(Camera.MainCamera.ViewMatrix);
                     _material.ShaderEffect.Parameters["Projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
                     _material.ShaderEffect.Parameters["ParticleTexture"].SetValue(_material.Diffuse);
@@ -395,11 +424,10 @@ namespace PBLgame.Engine.Components
                         graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(
                             PrimitiveType.TriangleStrip, _verts, i * 4, 2);
                     }
-                    graphicsDevice.BlendState = BlendState.Opaque;
                 }
             }
-
-            graphicsDevice.DepthStencilState = DepthStencilState.None;
+            //graphicsDevice.BlendState = BlendState.NonPremultiplied;
+            graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
                 
         }
