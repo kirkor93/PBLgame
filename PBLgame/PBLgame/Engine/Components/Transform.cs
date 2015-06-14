@@ -203,14 +203,16 @@ namespace PBLgame.Engine.Components
         {
             get
             {
-                if (gameObject.parent == null)
+                Transform parentTrans = null;
+                if(gameObject.parent != null)parentTrans = gameObject.parent.transform;
+                Matrix ancRot = Matrix.Identity;
+                while(parentTrans != null)
                 {
-                    return Matrix.Identity;
+                    ancRot *= parentTrans.WorldRotation;
+                    if (parentTrans.gameObject.parent != null) parentTrans = parentTrans.gameObject.parent.transform;
+                    else parentTrans = null;
                 }
-                else
-                {
-                    return gameObject.parent.transform._worldRotation * gameObject.parent.transform.AncestorsRotation;
-                }
+                return ancRot;
             }
         }
 
@@ -236,14 +238,16 @@ namespace PBLgame.Engine.Components
         {
             get
             {
-                if (gameObject.parent == null)
+                Transform parentTrans = null;
+                if (gameObject.parent != null) parentTrans = gameObject.parent.transform;
+                Matrix ancTrans = Matrix.Identity;
+                while (parentTrans != null)
                 {
-                    return Matrix.Identity;
+                    ancTrans *= parentTrans.WorldTranslation;
+                    if (parentTrans.gameObject.parent != null) parentTrans = parentTrans.gameObject.parent.transform;
+                    else parentTrans = null;
                 }
-                else
-                {
-                    return gameObject.parent.transform._worldTranslation * gameObject.parent.transform.AncestorsTranslation;
-                }
+                return ancTrans;
             }
         }
 

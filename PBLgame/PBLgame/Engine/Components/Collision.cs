@@ -77,12 +77,11 @@ namespace PBLgame.Engine.Components
         #region Private
         private bool _static;
         private bool _rigidbody;
-        private bool _inContact;
         private SphereCollider _mainCollider;
         private List<SphereCollider> _sphereColliders;
         private List<BoxCollider> _boxColliders;
         private bool _onTerrain;
-        private float _mass;
+        private float _mass = 50.0f;
 
 
         private int _cnt;
@@ -161,11 +160,6 @@ namespace PBLgame.Engine.Components
             }
             private set { }
         }
-        public bool InContact
-        {
-            get { return _inContact; }
-            set { _inContact = value; }
-        }
         public override bool Enabled
         {
             get { return _enabled; }
@@ -203,7 +197,6 @@ namespace PBLgame.Engine.Components
             _boxColliders = new List<BoxCollider>();
             _onTerrain = false;
             _mass = mass;
-            _inContact = false;
             PhysicsSystem.AddCollisionObject(owner);
         }
 
@@ -257,7 +250,6 @@ namespace PBLgame.Engine.Components
                         bc.UpdatePosition();
                     }
                 }
-                _inContact = false;
             }
         }
         
@@ -316,7 +308,7 @@ namespace PBLgame.Engine.Components
        
         public int ChceckCollisionDeeper(GameObject collisionGO)
         {
-            //if (!_enabled) return 0;
+            if (!_enabled) return 0;
             _cnt = 0;
             if (collisionGO.Tag != "Terrain")
             {
@@ -333,7 +325,6 @@ namespace PBLgame.Engine.Components
                                 if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
                                 {
                                     CollisionDetected(myCol, enemyCol);
-                                    _inContact = true;
                                 }
                             }
                         }
@@ -347,7 +338,6 @@ namespace PBLgame.Engine.Components
                                 if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
                                 {
                                     CollisionDetected(myCol, enemyCol);
-                                    _inContact = true;
                                 }
                             }
                         }
@@ -359,7 +349,6 @@ namespace PBLgame.Engine.Components
                             if (myCol.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
                             {
                                 CollisionDetected(myCol, collisionGO.collision.MainCollider);
-                                _inContact = true;
                             }
                         }
                     }
@@ -375,7 +364,6 @@ namespace PBLgame.Engine.Components
                                 if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
                                 {
                                     CollisionDetected(myCol, enemyCol);
-                                    _inContact = true;
                                 }
                             }
                         }
@@ -389,7 +377,6 @@ namespace PBLgame.Engine.Components
                                 if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
                                 {
                                     CollisionDetected(myCol, enemyCol);
-                                    _inContact = true;
                                 }
                             }
                         }
@@ -401,7 +388,6 @@ namespace PBLgame.Engine.Components
                             if (myCol.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
                             {
                                 CollisionDetected(myCol, collisionGO.collision.MainCollider);
-                                _inContact = true;
                             }
                         }
                     }
@@ -415,7 +401,6 @@ namespace PBLgame.Engine.Components
                             if (MainCollider.Contains(enemyCol) != ContainmentType.Disjoint)
                             {
                                 CollisionDetected(MainCollider, enemyCol);
-                                _inContact = true;
                             }
                         }
                     }
@@ -426,7 +411,6 @@ namespace PBLgame.Engine.Components
                             if (MainCollider.Contains(enemyCol) != ContainmentType.Disjoint)
                             {
                                 CollisionDetected(MainCollider, enemyCol);
-                                _inContact = true;
                             }
                         }
                     }
@@ -435,7 +419,6 @@ namespace PBLgame.Engine.Components
                         if (MainCollider.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
                         {
                             CollisionDetected(MainCollider, collisionGO.collision.MainCollider);
-                            _inContact = true;
                         }
                     }
                 }
@@ -667,7 +650,7 @@ namespace PBLgame.Engine.Components
             if (!Enabled) return;
             if(myCol.Owner.Rigidbody)
             {
-                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
+                //myCol.Owner.gameObject.transform.Translate(0.0f, 0.01f * _mass, 0.0f);
                 ++_terrainCalls;
             }
         }
@@ -677,7 +660,7 @@ namespace PBLgame.Engine.Components
             if (!Enabled) return;
             if (myCol.Owner.Rigidbody)
             {
-                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
+                //myCol.Owner.gameObject.transform.Translate(0.0f, 0.01f * _mass, 0.0f);
                 ++_terrainCalls;
             }
         }
@@ -687,7 +670,7 @@ namespace PBLgame.Engine.Components
             if (!Enabled) return;
             if (myCol.Owner.Rigidbody)
             {
-                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
+                //myCol.Owner.gameObject.transform.Translate(0.0f, 0.01f * _mass, 0.0f);
                 ++_terrainCalls;
             }
         }
@@ -696,7 +679,7 @@ namespace PBLgame.Engine.Components
             if (!Enabled) return;
             if (myCol.Owner.Rigidbody)
             {
-                myCol.Owner.gameObject.transform.Translate(0.0f, 0.1f, 0.0f);
+                //myCol.Owner.gameObject.transform.Translate(0.0f, 0.01f * _mass, 0.0f);
                 ++_terrainCalls;
             }
         }

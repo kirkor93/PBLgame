@@ -12,7 +12,7 @@ using PBLgame.Engine.Physics;
 
 namespace PBLgame.GamePlay
 {
-    public class EnemyMeleeScript : CharacterHandler
+    public class NJChuckScript : CharacterHandler
     {
         #region Variables
         #region Enemy Vars
@@ -37,7 +37,7 @@ namespace PBLgame.GamePlay
         private GameObject _attackTriggerObject;
         private GameObject _fieldOfView;
 
-        #endregion  
+        #endregion
         #region DTNodes
 
         private DecisionNode _distanceNode = new DecisionNode();
@@ -63,14 +63,15 @@ namespace PBLgame.GamePlay
         }
 
         #region Methods
-        public EnemyMeleeScript(GameObject owner) : base(owner)
+        public NJChuckScript(GameObject owner)
+            : base(owner)
         {
-            _hp = 100;
+            _hp = 1000;
             MaxHp = HP;
 
             _attackTriggerObject = new GameObject();
             _attackTriggerObject.Tag = "EnemyWeapon";
-            _attackTriggerObject.transform.Position = new Vector3(0.0f, 10.0f, 15.0f);
+            _attackTriggerObject.transform.Position = new Vector3(15.0f, 10.0f, 0.0f);
             _attackTriggerObject.parent = this.gameObject;
 
             _attackTriggerObject.collision = new Collision(_attackTriggerObject);
@@ -83,7 +84,7 @@ namespace PBLgame.GamePlay
 
             _fieldOfView = new GameObject();
             _fieldOfView.Tag = "FOV";
-            _fieldOfView.transform.Position = new Vector3(0.0f, 10.0f, 55.0f);
+            _fieldOfView.transform.Position = new Vector3(55.0f, 10.0f, 0.0f);
             _fieldOfView.parent = this.gameObject;
 
             _fieldOfView.collision = new Collision(_fieldOfView);
@@ -124,8 +125,8 @@ namespace PBLgame.GamePlay
             _canAttackNode.FalseChild = _chaseNode;
 
             AIComponent.MyDTree.DTreeStart = _distanceNode;
-            #endregion  
-         }
+            #endregion
+        }
 
         public void GotPlayerMethod(Object o, ColArgs args)
         {
@@ -147,8 +148,7 @@ namespace PBLgame.GamePlay
                 stats = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
                 if (stats != null)
                 {
-                    Console.WriteLine(stats.AttackEnum.ToString());
-                    switch(stats.AttackEnum)
+                    switch (stats.AttackEnum)
                     {
                         case AttackType.Quick:
                             _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.FastAttackDamageBonus.Value);
@@ -169,8 +169,7 @@ namespace PBLgame.GamePlay
                 stats = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
                 if (stats != null)
                 {
-                    Console.WriteLine(stats.AttackEnum.ToString());
-                    switch(stats.AttackEnum)
+                    switch (stats.AttackEnum)
                     {
                         case AttackType.Quick:
                             _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.FastAttackDamageBonus.Value);
@@ -207,7 +206,7 @@ namespace PBLgame.GamePlay
                 {
                     case MeleeAction.Attack:
                         dir = AISystem.Player.transform.Position - gameObject.transform.Position;
-                        SetLookVector(new Vector2(dir.Z, dir.X));
+                        SetLookVector(new Vector2(dir.X, -dir.Z));
                         _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
                         if (_attackTimer > _attackDelay)
                         {
@@ -221,12 +220,12 @@ namespace PBLgame.GamePlay
                                 }
                             }
                             _attackTriggerObject.collision.Enabled = false;
-                        } 
+                        }
                         break;
                     case MeleeAction.Chase:
                         _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
                         dir = AISystem.Player.transform.Position - gameObject.transform.Position;
-                        SetLookVector(new Vector2(dir.Z, dir.X));
+                        SetLookVector(new Vector2(dir.X, -dir.Z));
                         gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
                         break;
                     case MeleeAction.Escape:
@@ -234,7 +233,7 @@ namespace PBLgame.GamePlay
                         Random rand = new Random();
                         int x = rand.Next(0, 100);
                         int y = rand.Next(0, 100);
-                        SetLookVector(new Vector2(dir.Z, dir.X));
+                        SetLookVector(new Vector2(dir.X, -dir.Z));
                         dir.X *= x / 100.0f;
                         dir.Z *= y / 100.0f;
                         gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
@@ -305,7 +304,7 @@ namespace PBLgame.GamePlay
         {
             _currentAction = MeleeAction.Escape;
         }
-#endregion
+        #endregion
 
         enum MeleeAction
         {
@@ -317,3 +316,4 @@ namespace PBLgame.GamePlay
     }
 
 }
+

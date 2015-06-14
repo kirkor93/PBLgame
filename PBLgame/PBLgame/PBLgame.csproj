@@ -120,8 +120,10 @@
     <Compile Include="Engine\Singleton\Singleton.cs" />
     <Compile Include="GamePlay\ButtonsActions.cs" />
     <Compile Include="GamePlay\CharacterHandler.cs" />
-    <Compile Include="GamePlay\EnemyMeleeScript.cs" />
-    <Compile Include="GamePlay\EnemyRangedScript.cs" />
+    <Compile Include="GamePlay\EnemyScripts\CuteBomberScript.cs" />
+    <Compile Include="GamePlay\EnemyScripts\EnemyMeleeScript.cs" />
+    <Compile Include="GamePlay\EnemyScripts\EnemyRangedScript.cs" />
+    <Compile Include="GamePlay\EnemyScripts\NJChuckScript.cs" />
     <Compile Include="GamePlay\PlayerScript.cs" />
     <Compile Include="GamePlay\PlayerStatistics.cs" />
     <Compile Include="GamePlay\ScreenSystem.cs" />

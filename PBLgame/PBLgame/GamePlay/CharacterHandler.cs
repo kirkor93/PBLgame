@@ -62,7 +62,7 @@ namespace PBLgame.GamePlay
             float v = trueVelocity.Length();
             if (Math.Abs(v) < 0.0001)
             {
-                _gameObject.animator.IdleMovement();
+                if(_gameObject.animator != null)_gameObject.animator.IdleMovement();
             }
             else
             {
@@ -72,7 +72,7 @@ namespace PBLgame.GamePlay
                 //    Console.WriteLine("current: {0}, velocity: {1}", currentAngle, velocityAngle);
                 //    v = -v;
                 //}
-                _gameObject.animator.Walk(v);
+                if (_gameObject.animator != null) _gameObject.animator.Walk(v);
             }
             
         }

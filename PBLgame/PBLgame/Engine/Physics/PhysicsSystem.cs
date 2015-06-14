@@ -18,20 +18,14 @@ namespace PBLgame.Engine.Physics
         public void Update(GameTime gameTime)
         {
             if (CollisionObjects.Count == 0) return;
-            //List<GameObject> rigidbodies = new List<GameObject>();
             foreach (GameObject go in CollisionObjects)
             {
-                if (go.collision.Rigidbody)
+                if (go.collision.Rigidbody && go.Enabled && go.collision.Enabled)
                 {
-                    if (!go.collision.OnTerrain && (go.collision.Mass != 0.0f)) go.transform.Translate(0.0f, -0.01f * go.collision.Mass, 0.0f);
+                    if (!go.collision.MainCollider.Trigger && !go.collision.OnTerrain && (go.collision.Mass != 0.0f)) go.transform.Translate(0.0f, -0.01f * go.collision.Mass, 0.0f);
                     go.collision.TerrainCalls = 0;
                 }
             }
-            //if (rigidbodies.Count == 0) return;
-            //foreach (GameObject rb in rigidbodies)
-            //{
-            //    if (!rb.collision.OnTerrain) rb.transform.Translate(0.0f, -0.01f * rb.collision.Mass, 0.0f);
-            //}
         }
 
         public static void AddCollisionObject(GameObject obj)

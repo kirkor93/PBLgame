@@ -126,6 +126,10 @@ namespace PBLgame
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;
+
+            //_loadedScene.FindGameObject(615).AddComponent<AIComponent>(new AIComponent(_loadedScene.FindGameObject(615)));
+            //_loadedScene.FindGameObject(615).AddComponent<CuteBomberScript>(new CuteBomberScript(_loadedScene.FindGameObject(615)));
+            //_loadedScene.Save(@"Level_1.xml");
         }
 
         private void OnIntroFinished(object sender, EventArgs eventArgs)

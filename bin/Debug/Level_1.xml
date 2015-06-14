@@ -4881,19 +4881,36 @@
       </Transform>
       <Renderer Enabled="True" MeshId="17" MaterialId="44" />
     </GameObject>
-    <GameObject Name="NJ" Tag="Boss" Id="614">
+    <GameObject Name="NJ" Tag="Enemy" Id="614">
       <Transform Enabled="True">
-        <Position x="-251" y="0" z="-75" />
+        <Position x="-251" y="0.1" z="-75" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="50" MaterialId="47" />
       <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
         <SphereCollider Radius="10" IsTrigger="False">
-          <LocalPosition x="0" y="10" z="0" />
+          <LocalPosition x="0" y="15" z="0" />
         </SphereCollider>
       </Collision>
       <Animator Enabled="True" />
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.NJChuckScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="CuteBomber001" Tag="Enemy" Id="615">
+      <Transform Enabled="True">
+        <Position x="-118" y="0" z="-112" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="6" MaterialId="3" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="3" IsTrigger="False">
+          <LocalPosition x="0" y="6" z="0" />
+        </SphereCollider>
+      </Collision>
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.CuteBomberScript Enabled="True" />
     </GameObject>
   </GameObjects>
   <Lights>

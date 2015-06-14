@@ -261,10 +261,10 @@ namespace PBLgame.Engine.GameObjects
             {
                 transform.Draw(gameTime);
             }
-            if (collision != null)
-            {
-                collision.Draw(gameTime);
-            }
+            //if (collision != null)
+            //{
+            //    collision.Draw(gameTime);
+            //}
             if (renderer != null)
             {
                 renderer.Draw(gameTime);

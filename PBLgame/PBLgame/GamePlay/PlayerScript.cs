@@ -118,13 +118,17 @@ namespace PBLgame.GamePlay
 
             if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "EnemyWeapon")
             {
-                Stats.Health.Decrease(5);
-                Console.WriteLine("Ace health " + Stats.Health.Value);
+                if(args.EnemyBox.Owner.gameObject.parent.GetComponent<EnemyMeleeScript>() != null) Stats.Health.Decrease(5);
+                else if (args.EnemyBox.Owner.gameObject.parent.GetComponent<EnemyRangedScript>() != null) Stats.Health.Decrease(3);
+                else if (args.EnemyBox.Owner.gameObject.parent.GetComponent<NJChuckScript>() != null) Stats.Health.Decrease(15);
+                else if (args.EnemyBox.Owner.gameObject.parent.GetComponent<CuteBomberScript>() != null) Stats.Health.Decrease(7);
             }
             else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "EnemyWeapon")
             {
-                Stats.Health.Decrease(5);
-                Console.WriteLine("Ace health " + Stats.Health.Value);
+                if (args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyMeleeScript>() != null) Stats.Health.Decrease(5);
+                else if (args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyRangedScript>() != null) Stats.Health.Decrease(3);
+                else if (args.EnemySphere.Owner.gameObject.parent.GetComponent<NJChuckScript>() != null) Stats.Health.Decrease(15);
+                else if (args.EnemySphere.Owner.gameObject.parent.GetComponent<CuteBomberScript>() != null) Stats.Health.Decrease(7);
             }
         }
 
@@ -251,7 +255,7 @@ namespace PBLgame.GamePlay
                         }
                         break;
                 }
-                Console.WriteLine(Stats.ToString());
+                //Console.WriteLine(Stats.ToString());
             }
         }
 
