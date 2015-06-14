@@ -157,7 +157,6 @@ namespace PBLgame.GamePlay
                     }
                     stats.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                 }
-                gameObject.GetComponent<ParticleSystem>().Triggered = true;
             }
             else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Weapon")
             {
@@ -214,8 +213,7 @@ namespace PBLgame.GamePlay
                                     _attackTriggerObject.collision.ChceckCollisionDeeper(go);
                                 }
                             }
-                            //gameObject.GetComponent<ParticleSystem>().Triggered = true;
-                            _attackTriggerObject.collision.Enabled = false;
+                            gameObject.GetComponent<ParticleSystem>().Triggered = true;
                             gameObject.renderer.Enabled = false;
                             gameObject.collision.Enabled = false;
                             _attackTriggerObject.Enabled = false;

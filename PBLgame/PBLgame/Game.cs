@@ -129,8 +129,9 @@ namespace PBLgame
 
             //_loadedScene.FindGameObject(615).AddComponent<ParticleSystem>(new ParticleSystem(_loadedScene.FindGameObject(615)));
             //_loadedScene.FindGameObject(615).GetComponent<ParticleSystem>().Material = ResourceManager.Instance.GetMaterial(2);
-            //_loadedScene.FindGameObject(615).GetComponent<ParticleSystem>().AddBurst(new Burst(0.0f,10));
+            //_loadedScene.FindGameObject(615).GetComponent<ParticleSystem>().AddBurst(new Burst(0.0f, 10));
             //_loadedScene.Save(@"Level_1.xml");
+            player.particleSystem.Enabled = false;
         }
 
         private void OnIntroFinished(object sender, EventArgs eventArgs)

@@ -14,7 +14,7 @@
         </SphereCollider>
       </Collision>
       <Animator Enabled="True" />
-	  <ParticleSystem Enabled="True" MaterialId="2" Duration="3" LifeTimeLimit="3" Loop="True" Max="10000" Speed="0.5" Triggered="True">
+      <ParticleSystem Enabled="True" MaterialId="2" Duration="3" LifeTimeLimit="3" Loop="True" Max="10000" Speed="0.5" Triggered="True" Height="15">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="1" y="1" />
@@ -4914,6 +4914,14 @@
           <LocalPosition x="0" y="6" z="0" />
         </SphereCollider>
       </Collision>
+      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="2" Triggered="False" Height="6">
+        <DirectionFrom x="-0.1" y="0" z="-0.1" />
+        <DirectionTo x="0.1" y="0.1" z="0.1" />
+        <Size x="1" y="1" />
+        <Bursts>
+          <Burst When="0.0" HowMany="40" />
+        </Bursts>
+      </ParticleSystem>
       <PBLgame.Engine.Components.AIComponent Enabled="True" />
       <PBLgame.GamePlay.CuteBomberScript Enabled="True" />
     </GameObject>

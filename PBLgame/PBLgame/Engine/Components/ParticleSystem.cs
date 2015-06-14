@@ -29,7 +29,7 @@ namespace PBLgame.Engine.Components
         private bool _loop;
         private List<Burst> _bursts;
 
-        private float _height = 20.0f;
+        private float _height;
 
         //Class private without properties so only for class use 
         private float _timer;
@@ -48,6 +48,15 @@ namespace PBLgame.Engine.Components
         #endregion
 
         #region Properties
+        public float Height
+        {
+            get { return _height; }
+            set 
+            {
+                _height = value;
+                InitializeParticles();
+            }
+        }
         public float Speed
         {
             get
@@ -232,19 +241,10 @@ namespace PBLgame.Engine.Components
 
         public override void Update(GameTime gameTime)
         {
-            if (Triggered)
+            if (Enabled && Triggered)
             {
 
                 float deltaTime = gameTime.ElapsedGameTime.Milliseconds/1000.0f;
-                _autoTimer += deltaTime;
-                _timer += deltaTime;
-                _actualTime += deltaTime;
-                if (_actualTime > Duration)
-                {
-                    _actualTime = _timer % Duration;
-                    _activated = 0;
-                }
-
                 ParticlesUpdate(_actualTime);
 
                 if (Loop)
@@ -293,7 +293,16 @@ namespace PBLgame.Engine.Components
                             }
                         }
                     }
-                }   
+                }
+
+                _autoTimer += deltaTime;
+                _timer += deltaTime;
+                _actualTime += deltaTime;
+                if (_actualTime > Duration)
+                {
+                    _actualTime = _timer % Duration;
+                    _activated = 0;
+                }
             }
         }
 
@@ -402,36 +411,37 @@ namespace PBLgame.Engine.Components
 
         public override void Draw(GameTime gameTime)
         {
-            GraphicsDevice graphicsDevice = GlobalInventory.Instance.GraphicsDevice;
-            graphicsDevice.SetVertexBuffer(_vertexBuffer);
-            // Only draw if there are live particles
-            graphicsDevice.BlendState = BlendState.AlphaBlend;
-            graphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
-            for (int i = 0; i < Max; i++ )
+            if(Enabled)
             {
-                if(_activationStates[i])
+                GraphicsDevice graphicsDevice = GlobalInventory.Instance.GraphicsDevice;
+                graphicsDevice.SetVertexBuffer(_vertexBuffer);
+                // Only draw if there are live particles
+                graphicsDevice.BlendState = BlendState.AlphaBlend;
+                graphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
+                for (int i = 0; i < Max; i++ )
                 {
-
-                    _material.ShaderEffect.Parameters["CamPos"].SetValue(Camera.MainCamera.transform.Position);
-                    _material.ShaderEffect.Parameters["AllowedRotDir"].SetValue(new Vector3(0, 1, 0));
-                    _material.ShaderEffect.Parameters["World"].SetValue(Matrix.Identity);
-                    _material.ShaderEffect.Parameters["View"].SetValue(Camera.MainCamera.ViewMatrix);
-                    _material.ShaderEffect.Parameters["Projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
-                    _material.ShaderEffect.Parameters["ParticleTexture"].SetValue(_material.Diffuse);
-                    // Draw particles
-                    foreach (EffectPass pass in _material.ShaderEffect.CurrentTechnique.Passes)
+                    if(_activationStates[i])
                     {
-                        pass.Apply();
-                        graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(
-                            PrimitiveType.TriangleStrip, _verts, i * 4, 2);
+
+                        _material.ShaderEffect.Parameters["CamPos"].SetValue(Camera.MainCamera.transform.Position);
+                        _material.ShaderEffect.Parameters["AllowedRotDir"].SetValue(new Vector3(0, 1, 0));
+                        _material.ShaderEffect.Parameters["World"].SetValue(Matrix.Identity);
+                        _material.ShaderEffect.Parameters["View"].SetValue(Camera.MainCamera.ViewMatrix);
+                        _material.ShaderEffect.Parameters["Projection"].SetValue(Camera.MainCamera.ProjectionMatrix);
+                        _material.ShaderEffect.Parameters["ParticleTexture"].SetValue(_material.Diffuse);
+                        // Draw particles
+                        foreach (EffectPass pass in _material.ShaderEffect.CurrentTechnique.Passes)
+                        {
+                            pass.Apply();
+                            graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(
+                                PrimitiveType.TriangleStrip, _verts, i * 4, 2);
+                        }
                     }
                 }
-            }
-            graphicsDevice.BlendState = BlendState.NonPremultiplied;
-            //graphicsDevice.BlendState = BlendState.NonPremultiplied;
-            graphicsDevice.DepthStencilState = DepthStencilState.Default;
-
-                
+                graphicsDevice.BlendState = BlendState.NonPremultiplied;
+                //graphicsDevice.BlendState = BlendState.NonPremultiplied;
+                graphicsDevice.DepthStencilState = DepthStencilState.Default;
+            }                
         }
 
         public override Component Copy(GameObject newOwner)
@@ -463,6 +473,8 @@ namespace PBLgame.Engine.Components
             Max = Convert.ToInt32(reader.GetAttribute("Max"), culture);
             Speed = Convert.ToSingle(reader.GetAttribute("Speed"), culture);
             Triggered = Convert.ToBoolean(reader.GetAttribute("Triggered"), culture);
+            Height = Convert.ToSingle(reader.GetAttribute("Height"), culture);
+
             reader.ReadStartElement();
             if (reader.Name == "DirectionFrom")
             {
@@ -518,6 +530,7 @@ namespace PBLgame.Engine.Components
             writer.WriteAttributeString("Max", Max.ToString("G", culture));
             writer.WriteAttributeString("Speed", Speed.ToString("G", culture));
             writer.WriteAttributeString("Triggered", Triggered.ToString(culture));
+            writer.WriteAttributeString("Height", Height.ToString("G", culture));
             writer.WriteStartElement("DirectionFrom");
             writer.WriteAttributeString("x", DirectionFrom.X.ToString("G", culture));
             writer.WriteAttributeString("y", DirectionFrom.Y.ToString("G", culture));
@@ -542,8 +555,8 @@ namespace PBLgame.Engine.Components
                     writer.WriteAttributeString("HowMany", burst.HowMany.ToString("G", culture));
                     writer.WriteEndElement();
                 }
+                writer.WriteEndElement();
             }
-            writer.WriteEndElement();
         }
 
         #endregion
