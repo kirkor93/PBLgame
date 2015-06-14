@@ -261,12 +261,11 @@ namespace PBLgame.Engine.Components
                     }
                     else
                     {
-                        if (_autoTimer >= (Max / Duration) * deltaTime)
+                        if (_autoTimer >= ((Duration / Max) * deltaTime))
                         {
-                            int count = Convert.ToInt16((Max / Duration) * deltaTime );
-                            if (count == 0) count = 1;
+                            int count = Convert.ToInt16(((Max / Duration) * deltaTime) + 1);
                             Emmit(count, _actualTime);
-                            _autoTimer = 0.0f;
+                            _autoTimer = _autoTimer % ((Max / Duration) * deltaTime);
                         }
                     }
                 }
@@ -286,12 +285,11 @@ namespace PBLgame.Engine.Components
                         }
                         else
                         {
-                            if (_autoTimer >= Max / Duration * deltaTime)
+                            if (_autoTimer >= ((Duration / Max) * deltaTime))
                             {
-                                int count = Convert.ToInt16(Max / Duration * deltaTime);
-                                if (count == 0) count = 1;
+                                int count = Convert.ToInt16(((Max / Duration) * deltaTime) + 1);
                                 Emmit(count, _timer);
-                                _autoTimer = _autoTimer % 1.0f;
+                                _autoTimer = _autoTimer % ((Max / Duration) * deltaTime);
                             }
                         }
                     }
@@ -356,8 +354,8 @@ namespace PBLgame.Engine.Components
             }
             else
             {
-                _directions[index] = new Vector3(_random.Next(Convert.ToInt16(DirectionFrom.X * 10), Convert.ToInt16(DirectionTo.X * 10 + 1)),
-                    _random.Next(Convert.ToInt16(DirectionFrom.Y * 10), Convert.ToInt16(DirectionTo.Y * 10 + 1)), _random.Next(Convert.ToInt16(DirectionFrom.Z * 10), Convert.ToInt16(DirectionTo.Z * 10 + 1))) * 0.1f;
+                _directions[index] = new Vector3(_random.Next(Convert.ToInt16(DirectionFrom.X * 100), Convert.ToInt16(DirectionTo.X * 100 + 1)),
+                    _random.Next(Convert.ToInt16(DirectionFrom.Y * 100), Convert.ToInt16(DirectionTo.Y * 100 + 1)), _random.Next(Convert.ToInt16(DirectionFrom.Z * 100), Convert.ToInt16(DirectionTo.Z * 100 + 1))) * 0.01f;
             }
             _particleTimes[index] = _timer;
             _activationStates[index] = true;
@@ -534,13 +532,16 @@ namespace PBLgame.Engine.Components
             writer.WriteAttributeString("x", Size.X.ToString("G", culture));
             writer.WriteAttributeString("y", Size.Y.ToString("G", culture));
             writer.WriteEndElement();
-            writer.WriteStartElement("Bursts");
-            foreach (Burst burst in Bursts)
+            if(_bursts.Count > 0)
             {
-                writer.WriteStartElement("Burst");
-                writer.WriteAttributeString("When", burst.When.ToString("G", culture));
-                writer.WriteAttributeString("HowMany", burst.HowMany.ToString("G", culture));
-                writer.WriteEndElement();
+                writer.WriteStartElement("Bursts");
+                foreach (Burst burst in Bursts)
+                {
+                    writer.WriteStartElement("Burst");
+                    writer.WriteAttributeString("When", burst.When.ToString("G", culture));
+                    writer.WriteAttributeString("HowMany", burst.HowMany.ToString("G", culture));
+                    writer.WriteEndElement();
+                }
             }
             writer.WriteEndElement();
         }
