@@ -221,6 +221,11 @@ namespace PBLgame.Engine.Scenes
                     gameObject.DrawSpecial(gameTime, technique);
             }
 
+            foreach (GameObject gameObject in GameObjects)
+            {
+                if (gameObject.particleSystem != null) gameObject.particleSystem.Draw(gameTime);
+            }
+
             _graphics.DepthStencilState = DepthStencilState.Default;
         }
 

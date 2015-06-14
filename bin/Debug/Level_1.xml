@@ -14,10 +14,10 @@
         </SphereCollider>
       </Collision>
       <Animator Enabled="True" />
-	  <ParticleSystem Enabled="True" MaterialId="2" Duration="5" LifeTimeLimit="3" Loop="True" Max="100" Speed="0.1" Triggered="True">
-        <DirectionFrom x="-1" y="-1" z="-1" />
-        <DirectionTo x="1" y="1" z="1" />
-        <Size x="10" y="10" />
+	  <ParticleSystem Enabled="True" MaterialId="2" Duration="5" LifeTimeLimit="3" Loop="True" Max="100" Speed="0.5" Triggered="True">
+        <DirectionFrom x="-0.1" y="0" z="-0.1" />
+        <DirectionTo x="0.1" y="0.1" z="0.1" />
+        <Size x="1" y="1" />
       </ParticleSystem>
       <PBLgame.GamePlay.PlayerScript Enabled="True" />
     </GameObject>

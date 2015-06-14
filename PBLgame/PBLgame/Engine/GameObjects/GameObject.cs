@@ -245,10 +245,10 @@ namespace PBLgame.Engine.GameObjects
             {
                 animator.Draw(gameTime);
             }
-            if (particleSystem != null)
-            {
-                particleSystem.Draw(gameTime);
-            }
+            //if (particleSystem != null)
+            //{
+            //    particleSystem.Draw(gameTime);
+            //}
             if (audioSource != null)
             {
                 audioSource.Draw(gameTime);

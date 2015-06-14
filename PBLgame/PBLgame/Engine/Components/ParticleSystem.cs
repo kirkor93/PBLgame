@@ -29,6 +29,8 @@ namespace PBLgame.Engine.Components
         private bool _loop;
         private List<Burst> _bursts;
 
+        private float _height = 20.0f;
+
         //Class private without properties so only for class use 
         private float _timer;
         private float _autoTimer = 1.0f;
@@ -259,11 +261,12 @@ namespace PBLgame.Engine.Components
                     }
                     else
                     {
-                        //if (_autoTimer >= 1.0f)
+                        if (_autoTimer >= (Max / Duration) * deltaTime)
                         {
-                            int count = Convert.ToInt16(Max / Duration);
+                            int count = Convert.ToInt16((Max / Duration) * deltaTime );
+                            if (count == 0) count = 1;
                             Emmit(count, _actualTime);
-                            //_autoTimer = 0.0f;
+                            _autoTimer = 0.0f;
                         }
                     }
                 }
@@ -283,11 +286,12 @@ namespace PBLgame.Engine.Components
                         }
                         else
                         {
-                            //if (_autoTimer >= 1.0f)
+                            if (_autoTimer >= Max / Duration * deltaTime)
                             {
-                                int count = Convert.ToInt16(Max / Duration);
+                                int count = Convert.ToInt16(Max / Duration * deltaTime);
+                                if (count == 0) count = 1;
                                 Emmit(count, _timer);
-                                //_autoTimer = _autoTimer % 1.0f;
+                                _autoTimer = _autoTimer % 1.0f;
                             }
                         }
                     }
@@ -304,10 +308,10 @@ namespace PBLgame.Engine.Components
                     if(_particleTimes[i] + LifeTimeLimit < _timer)
                     {
                         _activationStates[i] = false;
-                        _verts[i * 4].Position = new Vector3((-Size.X), Size.Y, 0);
-                        _verts[i * 4 + 1].Position = new Vector3(Size.X, Size.Y, 0);
-                        _verts[i * 4 + 2].Position = new Vector3((-Size.X), (-Size.Y), 0);
-                        _verts[i * 4 + 3].Position = new Vector3(Size.X, (-Size.Y), 0);
+                        _verts[i * 4].Position = new Vector3((-Size.X), Size.Y + _height, 0);
+                        _verts[i * 4 + 1].Position = new Vector3(Size.X, Size.Y + _height, 0);
+                        _verts[i * 4 + 2].Position = new Vector3((-Size.X), (-Size.Y + _height), 0);
+                        _verts[i * 4 + 3].Position = new Vector3(Size.X, (-Size.Y + _height), 0);
 
                     }
                     else
@@ -323,18 +327,19 @@ namespace PBLgame.Engine.Components
 
         private void Emmit(int count,float timer)
         {
+            
             int counter = 0;
             for(int i = _activated; i < Max ; i++)
             {
                 if(!_activationStates[i])
                 {
-                    ParticleSetActive(i,timer);
-                    _activated += 1;
-                    counter+=1;
                     if(counter == count)
                     {
                         return;
                     }
+                    ParticleSetActive(i,timer);
+                    _activated += 1;
+                    counter+=1;
                 }
             }
         }
@@ -388,14 +393,10 @@ namespace PBLgame.Engine.Components
             for(int i = 0 ; i < Max ; i++)
             {   
                 int tmp = i*4;
-                _verts[tmp] = new VertexPositionTexture(new Vector3((-Size.X), Size.Y, 0), Vector2.Zero);
-                _verts[tmp + 1] = new VertexPositionTexture(new Vector3(Size.X, Size.Y, 0), new Vector2(1, 0));
-                _verts[tmp + 2] = new VertexPositionTexture(new Vector3((-Size.X), (-Size.Y), 0), new Vector2(0, 1));
-                _verts[tmp + 3] = new VertexPositionTexture(new Vector3(Size.X, (-Size.Y), 0), new Vector2(1, 1));
-                //_verts[tmp] = new VertexPositionTexture(new Vector3((Size.X / -20) + pos.X, (Size.Y / 20) + pos.Y, pos.Z), Vector2.Zero);
-                //_verts[tmp + 1] = new VertexPositionTexture(new Vector3((Size.X / 20) + pos.X, (Size.Y / 20) + pos.Y, pos.Z), new Vector2(1, 0));
-                //_verts[tmp + 2] = new VertexPositionTexture(new Vector3((Size.X / -20) + pos.X, (Size.Y / -20) + pos.Y, pos.Z), new Vector2(0, 1));
-                //_verts[tmp + 3] = new VertexPositionTexture(new Vector3((Size.X / 20) + pos.X, (Size.Y / -20) + pos.Y, pos.Z), new Vector2(1, 1));
+                _verts[tmp] = new VertexPositionTexture(new Vector3((-Size.X), Size.Y + _height, 0), Vector2.Zero);
+                _verts[tmp + 1] = new VertexPositionTexture(new Vector3(Size.X, Size.Y + _height, 0), new Vector2(1, 0));
+                _verts[tmp + 2] = new VertexPositionTexture(new Vector3((-Size.X), (-Size.Y) + _height, 0), new Vector2(0, 1));
+                _verts[tmp + 3] = new VertexPositionTexture(new Vector3(Size.X, (-Size.Y) + _height, 0), new Vector2(1, 1));
             }
             _vertexBuffer = new VertexBuffer(GlobalInventory.Instance.GraphicsDevice,
                     typeof(VertexPositionTexture), _verts.Length, BufferUsage.None);
@@ -406,11 +407,13 @@ namespace PBLgame.Engine.Components
             GraphicsDevice graphicsDevice = GlobalInventory.Instance.GraphicsDevice;
             graphicsDevice.SetVertexBuffer(_vertexBuffer);
             // Only draw if there are live particles
+            graphicsDevice.BlendState = BlendState.AlphaBlend;
+            graphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
             for (int i = 0; i < Max; i++ )
             {
                 if(_activationStates[i])
                 {
-                    graphicsDevice.BlendState = BlendState.AlphaBlend;
+
                     _material.ShaderEffect.Parameters["CamPos"].SetValue(Camera.MainCamera.transform.Position);
                     _material.ShaderEffect.Parameters["AllowedRotDir"].SetValue(new Vector3(0, 1, 0));
                     _material.ShaderEffect.Parameters["World"].SetValue(Matrix.Identity);
@@ -426,6 +429,7 @@ namespace PBLgame.Engine.Components
                     }
                 }
             }
+            graphicsDevice.BlendState = BlendState.NonPremultiplied;
             //graphicsDevice.BlendState = BlendState.NonPremultiplied;
             graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
@@ -455,8 +459,8 @@ namespace PBLgame.Engine.Components
 
             int matId = Convert.ToInt32(reader.GetAttribute("MaterialId"), culture);
             Material = ResourceManager.Instance.GetMaterial(matId);
-            Duration = Convert.ToInt32(reader.GetAttribute("Duration"), culture);
-            LifeTimeLimit = Convert.ToInt32(reader.GetAttribute("LifeTimeLimit"), culture);
+            Duration = Convert.ToSingle(reader.GetAttribute("Duration"), culture);
+            LifeTimeLimit = Convert.ToSingle(reader.GetAttribute("LifeTimeLimit"), culture);
             Loop = Convert.ToBoolean(reader.GetAttribute("Loop"), culture);
             Max = Convert.ToInt32(reader.GetAttribute("Max"), culture);
             Speed = Convert.ToSingle(reader.GetAttribute("Speed"), culture);
@@ -465,26 +469,26 @@ namespace PBLgame.Engine.Components
             if (reader.Name == "DirectionFrom")
             {
                 Vector3 tmp = Vector3.Zero;
-                tmp.X = Convert.ToInt32(reader.GetAttribute("x"), culture);
-                tmp.Y = Convert.ToInt32(reader.GetAttribute("y"), culture);
-                tmp.Z = Convert.ToInt32(reader.GetAttribute("z"), culture);
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"), culture);
+                tmp.Z = Convert.ToSingle(reader.GetAttribute("z"), culture);
                 DirectionFrom = tmp;
             }
             reader.ReadStartElement();
             if (reader.Name == "DirectionTo")
             {
                 Vector3 tmp = Vector3.Zero;
-                tmp.X = Convert.ToInt32(reader.GetAttribute("x"), culture);
-                tmp.Y = Convert.ToInt32(reader.GetAttribute("y"), culture);
-                tmp.Z = Convert.ToInt32(reader.GetAttribute("z"), culture);
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"), culture);
+                tmp.Z = Convert.ToSingle(reader.GetAttribute("z"), culture);
                 DirectionTo = tmp;
             }
             reader.ReadStartElement();
             if (reader.Name == "Size")
             {
                 Vector2 tmp = Vector2.Zero;
-                tmp.X = Convert.ToInt32(reader.GetAttribute("x"), culture);
-                tmp.Y = Convert.ToInt32(reader.GetAttribute("y"), culture);
+                tmp.X = Convert.ToSingle(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToSingle(reader.GetAttribute("y"), culture);
                 Size = tmp;
             }
             reader.ReadStartElement();
@@ -494,7 +498,7 @@ namespace PBLgame.Engine.Components
                 reader.ReadStartElement();
                 while (reader.Name == "Burst")
                 {
-                    float when = Convert.ToInt32(reader.GetAttribute("When"), culture);
+                    float when = Convert.ToSingle(reader.GetAttribute("When"), culture);
                     int howMany = Convert.ToInt32(reader.GetAttribute("HowMany"), culture);
                     Bursts.Add(new Burst(when, howMany));
                     reader.Read();
