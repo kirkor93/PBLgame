@@ -47,6 +47,20 @@ namespace PBLgame.Engine.Singleton
             get { return _meshes; }
         }
 
+        public IList<AnimatedMesh> AnimatedMeshes
+        {
+            get
+            {
+                IList<AnimatedMesh> list = new List<AnimatedMesh>();
+                foreach (Mesh m in _meshes)
+                {
+                    AnimatedMesh anim = m as AnimatedMesh;
+                    if (anim != null) list.Add(anim);
+                }
+                return list;
+            }
+        }
+
         public IList<Texture2D> Textures
         {
             get { return _textures; }

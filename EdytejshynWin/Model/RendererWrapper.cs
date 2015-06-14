@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -45,8 +46,17 @@ namespace Edytejshyn.Model
 
             public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
             {
-                var collection = new Collection<Mesh>(Program.UglyStaticLogic.ResourceManager.Meshes);
-                return new StandardValuesCollection(collection);
+                ICollection collection;
+                if (Program.UglyStaticLogic.SelectionManager.CurrentSelection[0].Renderer.Mesh is AnimatedMesh)
+                {
+                    collection = new Collection<AnimatedMesh>(Program.UglyStaticLogic.ResourceManager.AnimatedMeshes);
+                    return new StandardValuesCollection(collection);
+                }
+                else
+                {
+                    collection = new Collection<Mesh>(Program.UglyStaticLogic.ResourceManager.Meshes);
+                    return new StandardValuesCollection(collection);
+                }
             }
 
             public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
