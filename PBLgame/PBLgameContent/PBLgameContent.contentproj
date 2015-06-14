@@ -301,7 +301,7 @@
     <Compile Include="Models\Enemies\Smart_Droid.FBX">
       <Name>Smart_Droid</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>AnimationProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
   </ItemGroup>
@@ -1090,7 +1090,23 @@
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Textures\Champions\Sword_d.png">
+      <Name>Sword_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Champions\Sword_n.png">
+      <Name>Sword_n</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Champions\Sword_s.png">
+      <Name>Sword_s</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Effects\BasicShaderPhong.fx">
       <Name>BasicShaderPhong</Name>
@@ -1103,6 +1119,7 @@
       <Name>Mecha_Ranger_anim</Name>
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_InvertRootBindTransform>False</ProcessorParameters_InvertRootBindTransform>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1537,6 +1554,25 @@
       <Name>NJ_s</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\Enemies\NJ_basic_attack.FBX">
+      <Name>NJ_basic_attack</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+    <Compile Include="Animations\Enemies\NJ_death.FBX">
+      <Name>NJ_death</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\Enemies\NJ_strong_attack.FBX">
+      <Name>NJ_strong_attack</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
