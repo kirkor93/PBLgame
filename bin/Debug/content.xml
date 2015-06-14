@@ -18,6 +18,9 @@
       <Texture Path="Textures\Champions\Ace_d" />
       <Texture Path="Textures\Champions\Ace_n" />
       <Texture Path="Textures\Champions\Ace_s" />
+      <Texture Path="Textures\Champions\Sword_d" />
+      <Texture Path="Textures\Champions\Sword_n" />
+      <Texture Path="Textures\Champions\Sword_s" />
       <Texture Path="Textures\Enemies\Crossbow_d" />
       <Texture Path="Textures\Enemies\Crossbow_n" />
       <Texture Path="Textures\Enemies\Crossbow_s" />
@@ -241,6 +244,7 @@
       <Material Id="46" Name="Champions\Ace" Diffuse="Textures\Champions\Ace_d" Normal="Textures\Champions\Ace_n" Specular="Textures\Champions\Ace_s" Emissive="Textures\Champions\Ace_d" ShaderPath="Effects\BasicShader" />
       <Material Id="47" Name="Enemies\NJ" Diffuse="Textures\Enemies\NJ_d" Normal="Textures\Enemies\NJ_n" Specular="Textures\Enemies\NJ_s" Emissive="Textures\Enemies\NJ_d" ShaderPath="Effects\BasicShader" />
       <Material Id="48" Name="Enemies\Chainsword" Diffuse="Textures\Enemies\Chainsword_d" Normal="Textures\Enemies\Chainsword_n" Specular="Textures\Enemies\Chainsword_s" Emissive="Textures\Enemies\Chainsword_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="49" Name="Champions\Sword" Diffuse="Textures\Champions\Sword_d" Normal="Textures\Champions\Sword_n" Specular="Textures\Champions\Sword_s" Emissive="Textures\Champions\Sword_d" ShaderPath="Effects\BasicShader" />
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
@@ -311,7 +315,11 @@
       <Animation Id="305" Path="Animations\Champions\Ace_ion_missile" Skeleton="3" Type="AttackIon" />
       <Animation Id="306" Path="Animations\Champions\Ace_push" Skeleton="3" Type="AttackPush" />
       <Animation Id="307" Path="Animations\Champions\Ace_shield" Skeleton="3" Type="AttackShield" />
-      <Animation Id="401" Path="Animations\Enemies\NJ_walk" Skeleton="4" Type="Idle" />
+      <Animation Id="400" Path="Models\Enemies\NJ" Skeleton="4" Type="Idle" />
+      <Animation Id="401" Path="Animations\Enemies\NJ_walk" Skeleton="4" Type="Walk" />
+      <Animation Id="402" Path="Animations\Enemies\NJ_basic_attack" Skeleton="4" Type="AttackBasic" />
+      <Animation Id="403" Path="Animations\Enemies\NJ_strong_attack" Skeleton="4" Type="AttackStrong" />
+      <Animation Id="404" Path="Animations\Enemies\NJ_death" Skeleton="4" Type="Death" Speed="0.5" />
     </Animations>
     <SpriteFonts>
       <SpriteFont Path="Fonts\Default" />

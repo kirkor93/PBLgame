@@ -780,7 +780,7 @@ namespace Edytejshyn
                 if (mat.Emissive != null) textures.Remove(mat.Emissive.Name);
             }
 
-            int id = Logic.ResourceManager.Materials.Select(material => material.Id).Max();
+            int id = Logic.ResourceManager.Materials.Select(material => material.Id).Max() + 1;
             List<string> rejectedNoDiffuse = new List<string>();
             List<string> rejectedNoSpecial = new List<string>();
 
