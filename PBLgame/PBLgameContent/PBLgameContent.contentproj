@@ -286,7 +286,6 @@
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
-      <ProcessorParameters_InvertRootBindTransform>False</ProcessorParameters_InvertRootBindTransform>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1115,14 +1114,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Animations\Enemies\Mecha_Ranger_anim.FBX">
-      <Name>Mecha_Ranger_anim</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>AnimationProcessor</Processor>
-      <ProcessorParameters_InvertRootBindTransform>False</ProcessorParameters_InvertRootBindTransform>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Animations\Champions\Ace_run.FBX">
       <Name>Ace_run</Name>
       <Importer>FbxImporter</Importer>
@@ -1576,10 +1567,73 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animations\Enemies\Mecha_Ranger_walk.FBX">
+      <Name>Mecha_Ranger_walk</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+    <Compile Include="Animations\Enemies\Mecha_Ranger_death.FBX">
+      <Name>Mecha_Ranger_death</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+    <Compile Include="Animations\Enemies\Mecha_Ranger_attack.FBX">
+      <Name>Mecha_Ranger_attack</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\Enemies\Smart_Droid_attack.FBX">
+      <Name>Smart_Droid_attack</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+    <Compile Include="Animations\Enemies\Smart_Droid_idle.FBX">
+      <Name>Smart_Droid_idle</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+    <Compile Include="Animations\Enemies\Smart_Droid_walk.FBX">
+      <Name>Smart_Droid_walk</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\Enemies\Smart_Droid_death.FBX">
+      <Name>Smart_Droid_death</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\Enemies\Mecha_Ranger_idle.FBX">
+      <Name>Mecha_Ranger_idle</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\Enemies\NJ_idle.FBX">
+      <Name>NJ_idle</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Models\Champions\Banan.FBX">
       <Name>Banan</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Enemies\Chainsword.FBX">
+      <Name>Chainsword</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

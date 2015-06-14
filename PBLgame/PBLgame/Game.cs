@@ -123,6 +123,16 @@ namespace PBLgame
 
             player = _loadedScene.FindGameObject(8);
             player.AddComponent( new AttachSlot(player, _loadedScene.FindGameObject("Sword"), "miecz123") );
+
+            GameObject smartDroid = _loadedScene.FindGameObject(607);
+            smartDroid.AddComponent( new AttachSlot(smartDroid, smartDroid.GetChild("Katana"), "katana") );
+
+            GameObject mechaRanger = _loadedScene.FindGameObject(1234);
+            mechaRanger.AddComponent( new AttachSlot(mechaRanger, mechaRanger.GetChild("Crossbow"), "kuszaMR") );
+
+            GameObject nj = _loadedScene.FindGameObject(614);
+            nj.AddComponent( new AttachSlot(nj, nj.GetChild("Chainsword"), "spalinowy") );
+
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;

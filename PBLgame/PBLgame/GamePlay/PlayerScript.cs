@@ -140,12 +140,12 @@ namespace PBLgame.GamePlay
         public override void Initialize(bool editor)
         {
             base.Initialize(editor);
+            Stats = new PlayerStatistics(100, 100, 100);
             if (editor)
             {
             }
             else
             {
-                Stats = new PlayerStatistics(100, 100, 100);
                 InputManager.Instance.OnTurn += CharacterRotation;
                 InputManager.Instance.OnMove += CharacterTranslate;
                 InputManager.Instance.OnButton += CharacterAction;

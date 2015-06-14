@@ -426,8 +426,8 @@ namespace PBLgame.Engine.Singleton
                 {
                     writer.WriteStartElement("Animation");
                     writer.WriteAttributeString("Id", animation.Id.ToString());
-                    writer.WriteAttributeString("Path", animation.Path);
                     writer.WriteAttributeString("Skeleton", skeleton.Id.ToString());
+                    writer.WriteAttributeString("Path", animation.Path);
                     if (animation.Type != null) writer.WriteAttributeString("Type", animation.Type);
                     if (animation.Speed != 1.0f) writer.WriteAttributeString("Speed", animation.Speed.ToString("G", CultureInfo.InvariantCulture));
                     writer.WriteEndElement();

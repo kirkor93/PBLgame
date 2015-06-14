@@ -251,12 +251,14 @@
       <Mesh Id="2" Path="Models\Gandalf" Skeleton="1" />
       <Mesh Id="3" Path="Models\Champions\Ace" Skeleton="3" />
       <Mesh Id="4" Path="Models\Champions\Ace_sword_v1" />
+	  <Mesh Id="51" Path="Models\Champions\Banan" />
       <Mesh Id="5" Path="Models\Enemies\Crossbow" />
       <Mesh Id="6" Path="Models\Enemies\Cute_Bomber" />
       <Mesh Id="7" Path="Models\Enemies\Katana" />
       <Mesh Id="8" Path="Models\Enemies\Mecha_Ranger" Skeleton="2" />
-      <Mesh Id="9" Path="Models\Enemies\Smart_Droid" />
+      <Mesh Id="9" Path="Models\Enemies\Smart_Droid" Skeleton="5" />
       <Mesh Id="50" Path="Models\Enemies\NJ" Skeleton="4" />
+      <Mesh Id="52" Path="Models\Enemies\Chainsword" />
       <Mesh Id="10" Path="Models\Terrain\Start_base\Barrier_1" />
       <Mesh Id="11" Path="Models\Terrain\Start_base\Bollard" />
       <Mesh Id="12" Path="Models\Terrain\Start_base\Building_1" />
@@ -297,29 +299,39 @@
       <Mesh Id="47" Path="Models\Terrain\Desert\Mountain_2" />
       <Mesh Id="48" Path="Models\Terrain\Desert\Mountain_3" />
       <Mesh Id="49" Path="Models\Terrain\Mirror" />
-	  <Mesh Id="50" Path="Models\Champions\Banan" />
     </Meshes>
     <Animations>
-      <Animation Id="1" Path="Animations\Gandalf_gangnam_style" Skeleton="1" />
-      <Animation Id="2" Path="Animations\Gandalf_idle" Skeleton="1" Type="Idle" />
-      <Animation Id="3" Path="Animations\Gandalf_strafe_left" Skeleton="1" />
-      <Animation Id="4" Path="Animations\Gandalf_strafe_right" Skeleton="1" />
-      <Animation Id="5" Path="Animations\Gandalf_turn_left" Skeleton="1" />
-      <Animation Id="6" Path="Animations\Gandalf_turn_right" Skeleton="1" />
-      <Animation Id="7" Path="Animations\Gandalf_walk" Skeleton="1" Type="Walk" Speed="0.0057" />
-      <Animation Id="201" Path="Animations\Enemies\Mecha_Ranger_anim" Skeleton="2" Type="Idle" />
-      <Animation Id="301" Path="Animations\Champions\Ace_idle" Skeleton="3" Type="Idle" />
-      <Animation Id="302" Path="Animations\Champions\Ace_run" Skeleton="3" Type="Walk" Speed="0.016" />
-      <Animation Id="303" Path="Animations\Champions\Ace_simple_attack" Skeleton="3" Type="AttackQuick" />
-      <Animation Id="304" Path="Animations\Champions\Ace_strong_attack" Skeleton="3" Type="AttackStrong" />
-      <Animation Id="305" Path="Animations\Champions\Ace_ion_missile" Skeleton="3" Type="AttackIon" />
-      <Animation Id="306" Path="Animations\Champions\Ace_push" Skeleton="3" Type="AttackPush" />
-      <Animation Id="307" Path="Animations\Champions\Ace_shield" Skeleton="3" Type="AttackShield" />
-      <Animation Id="400" Path="Models\Enemies\NJ" Skeleton="4" Type="Idle" />
-      <Animation Id="401" Path="Animations\Enemies\NJ_walk" Skeleton="4" Type="Walk" />
-      <Animation Id="402" Path="Animations\Enemies\NJ_basic_attack" Skeleton="4" Type="AttackBasic" />
-      <Animation Id="403" Path="Animations\Enemies\NJ_strong_attack" Skeleton="4" Type="AttackStrong" />
-      <Animation Id="404" Path="Animations\Enemies\NJ_death" Skeleton="4" Type="Death" Speed="0.5" />
+      <Animation Id="1" Skeleton="1" Path="Animations\Gandalf_gangnam_style" />
+      <Animation Id="2" Skeleton="1" Path="Animations\Gandalf_idle" Type="Idle" />
+      <Animation Id="3" Skeleton="1" Path="Animations\Gandalf_strafe_left" />
+      <Animation Id="4" Skeleton="1" Path="Animations\Gandalf_strafe_right" />
+      <Animation Id="5" Skeleton="1" Path="Animations\Gandalf_turn_left" />
+      <Animation Id="6" Skeleton="1" Path="Animations\Gandalf_turn_right" />
+      <Animation Id="7" Skeleton="1" Path="Animations\Gandalf_walk" Type="Walk" Speed="0.0057" />
+	  
+      <Animation Id="201" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_idle" Type="Idle" />
+      <Animation Id="202" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_attack" Type="Attack" />
+      <Animation Id="203" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_walk" Type="Walk" Speed="0.02" />
+      <Animation Id="204" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_death" Type="Death" />
+      
+	  <Animation Id="301" Skeleton="3" Path="Animations\Champions\Ace_idle" Type="Idle" />
+      <Animation Id="302" Skeleton="3" Path="Animations\Champions\Ace_run" Type="Walk" Speed="0.016" />
+      <Animation Id="303" Skeleton="3" Path="Animations\Champions\Ace_simple_attack" Type="AttackQuick" />
+      <Animation Id="304" Skeleton="3" Path="Animations\Champions\Ace_strong_attack" Type="AttackStrong" />
+      <Animation Id="305" Skeleton="3" Path="Animations\Champions\Ace_ion_missile" Type="AttackIon" />
+      <Animation Id="306" Skeleton="3" Path="Animations\Champions\Ace_push" Type="AttackPush" />
+      <Animation Id="307" Skeleton="3" Path="Animations\Champions\Ace_shield" Type="AttackShield" />
+      
+	  <Animation Id="400" Skeleton="4" Path="Animations\Enemies\NJ_idle" Type="Idle" />
+      <Animation Id="401" Skeleton="4" Path="Animations\Enemies\NJ_walk" Type="Walk" />
+      <Animation Id="402" Skeleton="4" Path="Animations\Enemies\NJ_basic_attack" Type="AttackBasic" />
+      <Animation Id="403" Skeleton="4" Path="Animations\Enemies\NJ_strong_attack" Type="AttackStrong" />
+      <Animation Id="404" Skeleton="4" Path="Animations\Enemies\NJ_death" Type="Death" Speed="0.5" />
+      
+	  <Animation Id="501" Skeleton="5" Path="Animations\Enemies\Smart_Droid_idle" Type="Idle" />
+	  <Animation Id="502" Skeleton="5" Path="Animations\Enemies\Smart_Droid_walk" Type="Walk" Speed="0.02" />
+	  <Animation Id="503" Skeleton="5" Path="Animations\Enemies\Smart_Droid_attack" Type="Attack" />
+	  <Animation Id="504" Skeleton="5" Path="Animations\Enemies\Smart_Droid_death" Type="Death" />
     </Animations>
     <SpriteFonts>
       <SpriteFont Path="Fonts\Default" />
