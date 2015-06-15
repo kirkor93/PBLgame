@@ -96,5 +96,12 @@ namespace PBLgame.GamePlay
 
 
         #endregion
+
+        protected virtual void MakeDead(PlayerScript player)
+        {
+            gameObject.animator.Death();
+            gameObject.collision.Enabled = false;
+            //gameObject.animator.OnAnimationFinish += delegate { };
+        }
     }
 }

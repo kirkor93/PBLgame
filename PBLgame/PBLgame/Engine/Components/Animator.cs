@@ -259,6 +259,15 @@ namespace PBLgame.Engine.Components
             }
         }
 
+        public void Death()
+        {
+            if (_currentType != AnimationType.Death)
+            {
+                _currentType = AnimationType.Death;
+                PlayAnimation(GetClip("Death"), false);
+            }
+        }
+
         public AnimationClip GetClip(string type)
         {
             return AnimMesh.Skeleton.Clips.Find(c => c.Type == type);
@@ -267,7 +276,8 @@ namespace PBLgame.Engine.Components
         public enum AnimationType
         {
             Idle, Walk, Other,
-            Attack
+            Attack,
+            Death
         }
 
         #region Update and Transport Controls

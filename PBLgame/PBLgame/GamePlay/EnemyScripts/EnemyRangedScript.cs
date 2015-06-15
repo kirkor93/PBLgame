@@ -148,58 +148,63 @@ namespace PBLgame.GamePlay
 
         public void GetHitMethod(Object o, ColArgs args)
         {
-            PlayerScript stats = null;
+            PlayerScript player = null;
             if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Weapon")
             {
-                stats = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
-                if (stats != null)
+                player = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                if (player != null)
                 {
-                    Console.WriteLine(stats.AttackEnum.ToString());
-                    switch (stats.AttackEnum)
+                    Console.WriteLine(player.AttackEnum.ToString());
+                    switch (player.AttackEnum)
                     {
                         case AttackType.Quick:
-                            _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.FastAttackDamageBonus.Value);
+                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.FastAttackDamageBonus.Value);
                             break;
                         case AttackType.Strong:
-                            _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.StrongAttackDamageBonus.Value);
+                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
                             break;
                         case AttackType.Push:
                             break;
                         case AttackType.Ion:
                             break;
                     }
-                    stats.LastTargetedEnemyHp = new Stat(HP, MaxHp);
+                    player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                 }
             }
             else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Weapon")
             {
-                stats = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
-                if (stats != null)
+                player = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                if (player != null)
                 {
-                    Console.WriteLine(stats.AttackEnum.ToString());
-                    switch (stats.AttackEnum)
+                    Console.WriteLine(player.AttackEnum.ToString());
+                    switch (player.AttackEnum)
                     {
                         case AttackType.Quick:
-                            _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.FastAttackDamageBonus.Value);
+                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.FastAttackDamageBonus.Value);
                             break;
                         case AttackType.Strong:
-                            _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.StrongAttackDamageBonus.Value);
+                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
                             break;
                         case AttackType.Push:
                             break;
                         case AttackType.Ion:
                             break;
                     }
-                    stats.LastTargetedEnemyHp = new Stat(HP, MaxHp);
+                    player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                 }
             }
             if (HP <= 0)
             {
-                if (stats != null) stats.Stats.Experience.Increase(100);
-                gameObject.Enabled = false;
-                _attackTriggerObject.Enabled = false;
-                _fieldOfView.Enabled = false;
+                MakeDead(player);
             }
+        }
+
+        protected override void MakeDead(PlayerScript player)
+        {
+            if (player != null) player.Stats.Experience.Increase(100);
+            _attackTriggerObject.Enabled = false;
+            _fieldOfView.Enabled = false;
+            base.MakeDead(player);
         }
 
         public override void Update(GameTime gameTime)
@@ -221,7 +226,7 @@ namespace PBLgame.GamePlay
                         else SetLookVector(new Vector2(-dir.Z, -dir.X));
                         dir.X *= x / 100.0f;
                         dir.Z *= y / 100.0f;
-                        gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
+                        //UnitVelocity = new Vector2(dir.X, dir.Z);
                         _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
                         if (_attackTimer > _attackDelay)
                         {
@@ -242,6 +247,7 @@ namespace PBLgame.GamePlay
                         break;
                     case RangeAction.Attack:
                         dir = AISystem.Player.transform.Position - gameObject.transform.Position;
+                        UnitVelocity = Vector2.Zero;
                         SetLookVector(new Vector2(dir.Z, dir.X));
                         _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
                         if (_attackTimer > _attackDelay)
@@ -265,7 +271,8 @@ namespace PBLgame.GamePlay
                         _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
                         dir = AISystem.Player.transform.Position - gameObject.transform.Position;
                         SetLookVector(new Vector2(dir.Z, dir.X));
-                        gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
+                        //Vector3 chaseDir = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
+                        UnitVelocity = new Vector2(dir.Z, dir.X) * 0.001f;
                         break;
                     case RangeAction.Escape:
                         dir = gameObject.transform.Position - AISystem.Player.transform.Position;
@@ -276,9 +283,11 @@ namespace PBLgame.GamePlay
                         else SetLookVector(new Vector2(-dir.Z, -dir.X));
                         dir.X *= x2 / 100.0f;
                         dir.Z *= y2 / 100.0f;
-                        gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
+                        //gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
+                        UnitVelocity = new Vector2(dir.X, dir.Z) * 0.02f;
                         break;
                     case RangeAction.Stay:
+                        UnitVelocity = Vector2.Zero;
                         break;
                 }
             }
