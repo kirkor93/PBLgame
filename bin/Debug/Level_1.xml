@@ -609,8 +609,8 @@
       </Transform>
       <Renderer Enabled="True" MeshId="15" MaterialId="15" />
       <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="50.5" IsTrigger="True">
-          <LocalPosition x="0" y="48.5" z="0" />
+        <SphereCollider Radius="70" IsTrigger="True">
+          <LocalPosition x="50" y="48.5" z="35" />
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
@@ -1641,6 +1641,11 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="46" MaterialId="38" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="25" IsTrigger="False">
+          <LocalPosition x="25" y="0" z="-25" />
+        </SphereCollider>
+      </Collision>
     </GameObject>
     <GameObject Name="Tower" Tag="Buildings" Id="154" Parent="160">
       <Transform Enabled="True">
@@ -1649,6 +1654,11 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="46" MaterialId="38" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="25" IsTrigger="False">
+          <LocalPosition x="25" y="0" z="-25" />
+        </SphereCollider>
+      </Collision>
     </GameObject>
     <GameObject Name="Tent" Tag="Buildings" Id="151" Parent="160">
       <Transform Enabled="True">
@@ -1703,6 +1713,11 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="46" MaterialId="38" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="25" IsTrigger="False">
+          <LocalPosition x="25" y="0" z="-25" />
+        </SphereCollider>
+      </Collision>
     </GameObject>
     <GameObject Name="Cactus" Tag="Buildings" Id="164" Parent="136">
       <Transform Enabled="True">
@@ -2097,13 +2112,21 @@
       </Transform>
       <Renderer Enabled="True" MeshId="15" MaterialId="15" />
       <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="50.5" IsTrigger="True">
-          <LocalPosition x="0" y="48.5" z="0" />
+        <SphereCollider Radius="90" IsTrigger="True">
+          <LocalPosition x="65" y="48.5" z="0" />
         </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="45" IsTrigger="False">
+            <LocalPosition x="60" y="100" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="45" IsTrigger="False">
+            <LocalPosition x="60" y="50" z="0" />
+          </SphereCollider>
+        </SphereColliders>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="48.5" z="0" />
-            <EdgesSize x="50.5" y="48.5" z="33.86667" />
+            <LocalPosition x="40" y="120" z="40" />
+            <EdgesSize x="30" y="48.5" z="60" />
           </BoxCollider>
         </BoxColliders>
       </Collision>
@@ -3579,6 +3602,11 @@
         <Scale x="1.5" y="1.5" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="46" MaterialId="38" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="25" IsTrigger="False">
+          <LocalPosition x="25" y="0" z="-25" />
+        </SphereCollider>
+      </Collision>
     </GameObject>
     <GameObject Name="Dunes" Tag="Buildings" Id="186" Parent="136">
       <Transform Enabled="True">
@@ -3865,6 +3893,11 @@
         <Scale x="1.5" y="1.5" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="46" MaterialId="38" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="25" IsTrigger="False">
+          <LocalPosition x="25" y="0" z="-25" />
+        </SphereCollider>
+      </Collision>
     </GameObject>
     <GameObject Name="Mountain" Tag="Buildings" Id="419" Parent="141">
       <Transform Enabled="True">
@@ -7962,6 +7995,11 @@
         <Scale x="5" y="5" z="5" />
       </Transform>
       <Renderer Enabled="True" MeshId="43" MaterialId="30" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="25" IsTrigger="False">
+          <LocalPosition x="25" y="0" z="-25" />
+        </SphereCollider>
+      </Collision>
     </GameObject>
     <GameObject Name="Rock" Tag="Terrain" Id="904" Parent="136">
       <Transform Enabled="True">
@@ -8341,7 +8379,7 @@
     </GameObject>
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="951">
       <Transform Enabled="True">
-        <Position x="203.7112" y="0" z="184.2331" />
+        <Position x="365.5209" y="0" z="85.60329" />
         <Rotation x="0" y="-143" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -8356,6 +8394,173 @@
       <PBLgame.GamePlay.EnemyMeleeScript Enabled="True" />
     </GameObject>
     <GameObject Name="Katana" Tag="Weapon" Id="952" Parent="951">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="90" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="7" MaterialId="4" />
+    </GameObject>
+    <GameObject Name="SmartDroid001" Tag="Enemy" Id="953">
+      <Transform Enabled="True">
+        <Position x="237.7222" y="0" z="154.7322" />
+        <Rotation x="0" y="-184" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="9" MaterialId="6" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="5" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <Animator Enabled="True" />
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.EnemyMeleeScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Katana" Tag="Weapon" Id="954" Parent="953">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="90" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="7" MaterialId="4" />
+    </GameObject>
+    <GameObject Name="SmartDroid001" Tag="Enemy" Id="955">
+      <Transform Enabled="True">
+        <Position x="343.3349" y="0" z="118.9725" />
+        <Rotation x="0" y="-107" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="9" MaterialId="6" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="5" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <Animator Enabled="True" />
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.EnemyMeleeScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Katana" Tag="Weapon" Id="956" Parent="955">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="90" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="7" MaterialId="4" />
+    </GameObject>
+    <GameObject Name="MechaRanger001" Tag="Enemy" Id="957">
+      <Transform Enabled="True">
+        <Position x="360.6302" y="0" z="60.93591" />
+        <Rotation x="0" y="-97" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="8" MaterialId="5" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="5" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <Animator Enabled="True" />
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.EnemyRangedScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Crossbow" Tag="Weapon" Id="958" Parent="957">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="90" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="5" MaterialId="43" />
+    </GameObject>
+    <GameObject Name="CuteBomber001" Tag="Enemy" Id="959">
+      <Transform Enabled="True">
+        <Position x="528.6026" y="0" z="-10.44127" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="6" MaterialId="3" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="3" IsTrigger="False">
+          <LocalPosition x="0" y="6" z="0" />
+        </SphereCollider>
+      </Collision>
+      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="2" Triggered="False" Height="0">
+        <DirectionFrom x="-0.1" y="0" z="-0.1" />
+        <DirectionTo x="0.1" y="0.1" z="0.1" />
+        <Size x="1" y="1" />
+        <Bursts>
+          <Burst When="0" HowMany="40" />
+        </Bursts>
+      </ParticleSystem>
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.EnemyMeleeScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="MechaRanger001" Tag="Enemy" Id="960">
+      <Transform Enabled="True">
+        <Position x="559.1891" y="0" z="-110.4289" />
+        <Rotation x="0" y="-97" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="8" MaterialId="5" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="5" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <Animator Enabled="True" />
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.EnemyRangedScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Crossbow" Tag="Weapon" Id="961" Parent="960">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="90" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="5" MaterialId="43" />
+    </GameObject>
+    <GameObject Name="SmartDroid001" Tag="Enemy" Id="962">
+      <Transform Enabled="True">
+        <Position x="503.7175" y="0" z="-15.06637" />
+        <Rotation x="0" y="-143" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="9" MaterialId="6" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="5" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <Animator Enabled="True" />
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.EnemyMeleeScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Katana" Tag="Weapon" Id="963" Parent="962">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="90" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="7" MaterialId="4" />
+    </GameObject>
+    <GameObject Name="SmartDroid001" Tag="Enemy" Id="964">
+      <Transform Enabled="True">
+        <Position x="519.6501" y="0" z="-7.669324" />
+        <Rotation x="0" y="-143" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="9" MaterialId="6" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="5" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <Animator Enabled="True" />
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.EnemyMeleeScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Katana" Tag="Weapon" Id="965" Parent="964">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
         <Rotation x="90" y="180" z="0" />
