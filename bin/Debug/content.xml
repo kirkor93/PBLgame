@@ -186,6 +186,7 @@
       <Texture Path="Textures\GUI\Progress_bar_3_2" />
       <Texture Path="Textures\GUI\Progress_bar_4_2" />
       <Texture Path="Textures\GUI\Empty" />
+      <Texture Path="Textures\GUI\Font_background" />
       <Texture Path="Textures\GUI\Low_hp_indicator" />
       <Texture Path="Textures\GUI\Button_upgrade_marker_1" />
       <Texture Path="Textures\GUI\Button_upgrade_marker_2" />

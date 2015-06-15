@@ -13,6 +13,7 @@ namespace PBLgame.Engine.GUI
     {
         #region Variables
         private TimeSpan _length;
+        private Texture2D _fontBg;
         #endregion
         #region Properties
         public TimeSpan Length
@@ -25,6 +26,12 @@ namespace PBLgame.Engine.GUI
         #endregion
         #region Methods
 
+        public IntroScene()
+        {
+            _fontBg = ResourceManager.Instance.GetTexture(@"Textures\GUI\Font_background");
+
+        }
+
         public override void Draw(SpriteBatch batch)
         {
             if (Enabled)
@@ -36,7 +43,10 @@ namespace PBLgame.Engine.GUI
                     Vector2 position = new Vector2(_boundries.Center.X, _boundries.Bottom);
                     position.X -= (stringSize.X / 2.0f);
                     position.Y -= (stringSize.Y + _boundries.Height * 0.05f);
-                    
+
+                    Rectangle rect = new Rectangle((int) position.X - 10, (int) position.Y - 10, (int) stringSize.X + 20,
+                        (int) stringSize.Y + 20);
+                    batch.Draw(_fontBg, rect, Color.White);
                     batch.DrawString(Text.Font, Text.Text, position, Color.White);
                 }
             }
