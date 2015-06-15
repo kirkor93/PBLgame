@@ -5588,7 +5588,7 @@
     </GameObject>
     <GameObject Name="MechaRanger001" Tag="Enemy" Id="1234">
       <Transform Enabled="True">
-        <Position x="-148" y="0" z="-113.0194" />
+        <Position x="212.2706" y="0" z="-113.0194" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -5644,7 +5644,7 @@
     </GameObject>
     <GameObject Name="CuteBomber001" Tag="Enemy" Id="615">
       <Transform Enabled="True">
-        <Position x="-337.0836" y="0" z="-130.9631" />
+        <Position x="481.6194" y="0" z="-24.8765" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -5667,7 +5667,7 @@
     </GameObject>
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="619">
       <Transform Enabled="True">
-        <Position x="226.7742" y="17.26318" z="110.9134" />
+        <Position x="226.7742" y="0" z="110.9134" />
         <Rotation x="0" y="-143" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -8338,6 +8338,30 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="SmartDroid001" Tag="Enemy" Id="951">
+      <Transform Enabled="True">
+        <Position x="203.7112" y="0" z="184.2331" />
+        <Rotation x="0" y="-143" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="9" MaterialId="6" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="5" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <Animator Enabled="True" />
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.EnemyMeleeScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Katana" Tag="Weapon" Id="952" Parent="951">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="90" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="7" MaterialId="4" />
     </GameObject>
   </GameObjects>
   <Lights>

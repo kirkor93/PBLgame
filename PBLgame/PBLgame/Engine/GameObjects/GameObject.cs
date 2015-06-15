@@ -263,7 +263,7 @@ namespace PBLgame.Engine.GameObjects
             //}
             if (collision != null && Name != null &&  Name.Contains("Gate"))
             {
-                collision.Draw(gameTime);
+//                collision.Draw(gameTime);
             }
             if (renderer != null)
             {

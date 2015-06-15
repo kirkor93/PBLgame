@@ -121,17 +121,44 @@ namespace PBLgame
             _loadedScene.Load(@"Level_1.xml");
             //_scene.Load(@"AnimScene.xml");
 
+            //sooooo hardCode
+            //LOOK AT THIS BEAUTY!!!
+            int playerMeshId = ResourceManager.Instance.GetMesh(@"Models\Champions\Ace").Id;
+            int smartDroidMeshId = ResourceManager.Instance.GetMesh(@"Models\Enemies\Smart_Droid").Id;
+            int mechaRangerMeshId = ResourceManager.Instance.GetMesh(@"Models\Enemies\Mecha_Ranger").Id;
+            int nJChuckMeshId = ResourceManager.Instance.GetMesh(@"Models\Enemies\NJ").Id;
+            
+            foreach (GameObject gameObject in _loadedScene.GameObjects.Where(gameObject => gameObject.renderer != null && gameObject.renderer.MyMesh != null))
+            {
+                if(gameObject.renderer.MyMesh.Id == playerMeshId)
+                {
+                    gameObject.AddComponent( new AttachSlot(gameObject, gameObject.GetChild("Sword"), "miecz123") );
+                }
+                else if (gameObject.renderer.MyMesh.Id == smartDroidMeshId)
+                {
+                    gameObject.AddComponent(new AttachSlot(gameObject, gameObject.GetChild("Katana"), "katana"));
+                }
+                else if (gameObject.renderer.MyMesh.Id == mechaRangerMeshId)
+                {
+                    gameObject.AddComponent(new AttachSlot(gameObject, gameObject.GetChild("Crossbow"), "kuszaMR"));
+                }
+                else if (gameObject.renderer.MyMesh.Id == nJChuckMeshId)
+                {
+                    gameObject.AddComponent(new AttachSlot(gameObject, gameObject.GetChild("Chainsword"), "spalinowy"));
+                }
+            }
+
             player = _loadedScene.FindGameObject(8);
-            player.AddComponent( new AttachSlot(player, _loadedScene.FindGameObject("Sword"), "miecz123") );
-
-            GameObject smartDroid = _loadedScene.FindGameObject(607);
-            smartDroid.AddComponent( new AttachSlot(smartDroid, smartDroid.GetChild("Katana"), "katana") );
-
-            GameObject mechaRanger = _loadedScene.FindGameObject(1234);
-            mechaRanger.AddComponent( new AttachSlot(mechaRanger, mechaRanger.GetChild("Crossbow"), "kuszaMR") );
-
-            GameObject nj = _loadedScene.FindGameObject(614);
-            nj.AddComponent( new AttachSlot(nj, nj.GetChild("Chainsword"), "spalinowy") );
+//            player.AddComponent(new AttachSlot(player, player.GetChild("Sword"), "miecz123"));
+//
+//            GameObject smartDroid = _loadedScene.FindGameObject(607);
+//            smartDroid.AddComponent( new AttachSlot(smartDroid, smartDroid.GetChild("Katana"), "katana") );
+//
+//            GameObject mechaRanger = _loadedScene.FindGameObject(1234);
+//            mechaRanger.AddComponent(new AttachSlot(mechaRanger, mechaRanger.GetChild("Crossbow"), "kuszaMR"));
+//
+//            GameObject nj = _loadedScene.FindGameObject(614);
+//            nj.AddComponent( new AttachSlot(nj, nj.GetChild("Chainsword"), "spalinowy") );
 
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
