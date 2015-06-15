@@ -18,7 +18,7 @@ namespace PBLgame.GamePlay
         #region Enemy Vars
         // TODO move this shiiiiiiiiet to motherfucking enemy base class
         public AIComponent AIComponent;
-        public float ChaseSpeed = 0.001f;
+        public float ChaseSpeed = 0.003f; //0.001f;
         private float _attackDelay = 2500;
 
         private int _hp;
@@ -204,6 +204,7 @@ namespace PBLgame.GamePlay
 
         public override void Update(GameTime gameTime)
         {
+            Random rand = new Random();
             if (_hp > 0)
             {
                 base.Update(gameTime);
@@ -213,6 +214,7 @@ namespace PBLgame.GamePlay
                 switch (_currentAction)
                 {
                     case MeleeAction.Attack:
+                        UnitVelocity = Vector2.Zero;
                         dir = AISystem.Player.transform.Position - gameObject.transform.Position;
                         SetLookVector(new Vector2(dir.X, -dir.Z));
                         _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
@@ -220,6 +222,8 @@ namespace PBLgame.GamePlay
                         {
                             _attackTriggerObject.collision.Enabled = true;
                             _attackTimer = 0.0f;
+                            // TODO only for the movie
+                            gameObject.animator.Attack((rand.NextDouble() > 0.8) ? "Basic" : "Strong");
                             foreach (GameObject go in PhysicsSystem.CollisionObjects)
                             {
                                 if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
@@ -234,19 +238,21 @@ namespace PBLgame.GamePlay
                         _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
                         dir = AISystem.Player.transform.Position - gameObject.transform.Position;
                         SetLookVector(new Vector2(dir.X, -dir.Z));
-                        gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
+                        //gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
+                        UnitVelocity = new Vector2(dir.X, -dir.Z) * ChaseSpeed;
                         break;
                     case MeleeAction.Escape:
                         dir = gameObject.transform.Position - AISystem.Player.transform.Position;
-                        Random rand = new Random();
                         int x = rand.Next(0, 100);
                         int y = rand.Next(0, 100);
                         SetLookVector(new Vector2(dir.X, -dir.Z));
                         dir.X *= x / 100.0f;
                         dir.Z *= y / 100.0f;
-                        gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
+                        //gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
+                        UnitVelocity = new Vector2(dir.X, -dir.Z) * ChaseSpeed;
                         break;
                     case MeleeAction.Stay:
+                        UnitVelocity = Vector2.Zero;
                         break;
                 }
             }

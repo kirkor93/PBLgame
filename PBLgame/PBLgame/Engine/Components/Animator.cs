@@ -71,6 +71,22 @@ namespace PBLgame.Engine.Components
                 // That doesn't have to be always true. ~piomar
                 for (int i = 0; i < BoneInfos.Length; i++)
                 {
+                    if (BoneInfos[i].ClipBone.Name != newState.BoneInfos[i].ClipBone.Name)
+                    {
+                        // hotfix when diferent bone indices
+                        string name = BoneInfos[i].ClipBone.Name;
+                        for (int bone = 0; bone < BoneCnt; bone++)
+                        {
+                            if (newState.BoneInfos[bone].ClipBone.Name == name)
+                            {
+                                BoneInfo tmp = newState.BoneInfos[bone];
+                                newState.BoneInfos[bone] = newState.BoneInfos[i];
+                                newState.BoneInfos[i] = tmp;
+                                break;
+                            }
+                        }
+                    }
+                        //Console.WriteLine("{0} != {1}", BoneInfos[i].ClipBone.Name, newState.BoneInfos[i].ClipBone.Name);
                     BoneInfos[i].rotation = Quaternion.Slerp(BoneInfos[i].rotation, newState.BoneInfos[i].rotation, amount);
                     BoneInfos[i].translation = Vector3.Lerp(BoneInfos[i].translation, newState.BoneInfos[i].translation, amount);
                     BoneInfos[i].AssignToBone();
@@ -249,7 +265,7 @@ namespace PBLgame.Engine.Components
             }
         }
 
-        public void Attack(string type)
+        public void Attack(string type = "")
         {
             if (_currentType != AnimationType.Attack)
             {
@@ -265,6 +281,7 @@ namespace PBLgame.Engine.Components
             {
                 _currentType = AnimationType.Death;
                 PlayAnimation(GetClip("Death"), false);
+                OnAnimationFinish = null;
             }
         }
 

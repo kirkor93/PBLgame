@@ -17,7 +17,7 @@ namespace PBLgame.GamePlay
         #region Variables
         #region Enemy Vars
         public AIComponent AIComponent;
-        public float ChaseSpeed = 0.0005f;
+        public float ChaseSpeed = 0.005f; //0.0005f;
         public float AttackRange = 45.0f;
         public float AttackAffectDelay;
         private float _attackDelay = 2500;
@@ -217,6 +217,7 @@ namespace PBLgame.GamePlay
                 Vector3 dir;
                 switch (_currentAction)
                 {
+                    // TODO fix border points b/w attack & idle - now is flickering
                     case RangeAction.EscapeNAttack:
                         dir = gameObject.transform.Position - AISystem.Player.transform.Position;
                         Random rand = new Random();
@@ -226,7 +227,7 @@ namespace PBLgame.GamePlay
                         else SetLookVector(new Vector2(-dir.Z, -dir.X));
                         dir.X *= x / 100.0f;
                         dir.Z *= y / 100.0f;
-                        //UnitVelocity = new Vector2(dir.X, dir.Z);
+                        UnitVelocity = new Vector2(dir.X, dir.Z) * 0.02f;
                         _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
                         if (_attackTimer > _attackDelay)
                         {
@@ -257,6 +258,7 @@ namespace PBLgame.GamePlay
                         if((_attackTimer + (gameTime.ElapsedGameTime.Milliseconds/2) > _attackDelay) && ( _attackTimer - (gameTime.ElapsedGameTime.Milliseconds/2) < _attackDelay))
                         {
                             _attackTriggerObject.collision.Enabled = true;
+                            gameObject.animator.Attack();
                             foreach (GameObject go in PhysicsSystem.CollisionObjects)
                             {
                                 if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
@@ -272,7 +274,7 @@ namespace PBLgame.GamePlay
                         dir = AISystem.Player.transform.Position - gameObject.transform.Position;
                         SetLookVector(new Vector2(dir.Z, dir.X));
                         //Vector3 chaseDir = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
-                        UnitVelocity = new Vector2(dir.Z, dir.X) * 0.001f;
+                        UnitVelocity = new Vector2(dir.X, dir.Z) * ChaseSpeed;
                         break;
                     case RangeAction.Escape:
                         dir = gameObject.transform.Position - AISystem.Player.transform.Position;
@@ -284,7 +286,7 @@ namespace PBLgame.GamePlay
                         dir.X *= x2 / 100.0f;
                         dir.Z *= y2 / 100.0f;
                         //gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
-                        UnitVelocity = new Vector2(dir.X, dir.Z) * 0.02f;
+                        UnitVelocity = new Vector2(dir.X, dir.Z) * ChaseSpeed;
                         break;
                     case RangeAction.Stay:
                         UnitVelocity = Vector2.Zero;

@@ -17,7 +17,7 @@ namespace PBLgame.GamePlay
         #region Variables
         #region Enemy Vars
         public AIComponent AIComponent;
-        public float ChaseSpeed = 0.001f;
+        public float ChaseSpeed = 0.006f; //0.001f;
         private float _attackDelay = 2500;
 
         private int _hp;
@@ -210,6 +210,7 @@ namespace PBLgame.GamePlay
                 switch (_currentAction)
                 {
                     case MeleeAction.Attack:
+                        UnitVelocity = Vector2.Zero;
                         dir = AISystem.Player.transform.Position - gameObject.transform.Position;
                         SetLookVector(new Vector2(dir.Z, dir.X));
                         _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
@@ -217,6 +218,7 @@ namespace PBLgame.GamePlay
                         {
                             _attackTriggerObject.collision.Enabled = true;
                             _attackTimer = 0.0f;
+                            gameObject.animator.Attack();
                             foreach (GameObject go in PhysicsSystem.CollisionObjects)
                             {
                                 if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
@@ -231,7 +233,8 @@ namespace PBLgame.GamePlay
                         _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
                         dir = AISystem.Player.transform.Position - gameObject.transform.Position;
                         SetLookVector(new Vector2(dir.Z, dir.X));
-                        gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
+                        //gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
+                        UnitVelocity = new Vector2(dir.X, dir.Z) * ChaseSpeed;
                         break;
                     case MeleeAction.Escape:
                         dir = gameObject.transform.Position - AISystem.Player.transform.Position;
@@ -241,9 +244,11 @@ namespace PBLgame.GamePlay
                         SetLookVector(new Vector2(dir.Z, dir.X));
                         dir.X *= x / 100.0f;
                         dir.Z *= y / 100.0f;
-                        gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
+                        //gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
+                        UnitVelocity = new Vector2(dir.X, dir.Z) * ChaseSpeed;
                         break;
                     case MeleeAction.Stay:
+                        UnitVelocity = Vector2.Zero;
                         break;
                 }
             }
