@@ -361,7 +361,7 @@ namespace PBLgame.Engine.Physics
         {
             CultureInfo culture = CultureInfo.InvariantCulture;
 
-            Radius = Convert.ToInt32(reader.GetAttribute("Radius"), culture);
+            Radius = Convert.ToSingle(reader.GetAttribute("Radius"), culture);
             Trigger = Convert.ToBoolean(reader.GetAttribute("IsTrigger"), culture);
             reader.ReadStartElement();
             if (reader.Name == "LocalPosition")

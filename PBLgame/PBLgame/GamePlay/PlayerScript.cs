@@ -109,8 +109,25 @@ namespace PBLgame.GamePlay
             _attackTriggerObject.collision.MainCollider = new SphereCollider(_attackTriggerObject.collision, 5.0f, true);
             _attackTriggerObject.collision.Enabled = false;
 
-            if (gameObject.collision != null) gameObject.collision.OnTrigger += GetHit;
+            if (gameObject.collision != null)
+            {
+                gameObject.collision.OnTrigger += GetHit;
+                gameObject.collision.OnTrigger += OnGateTrigger;
+            }
         }
+
+        private void OnGateTrigger(object sender, ColArgs colArgs)
+        {
+            if (colArgs.EnemyBox != null && colArgs.EnemyBox.Owner.gameObject.Name.Contains("Gate_"))
+            {
+                Translator t = colArgs.EnemyBox.Owner.gameObject.GetComponent<Translator>();
+                if (t != null)
+                {
+                    t.IsTriggered = true;
+                }
+            }
+        }
+
         public void GetHit(Object o, ColArgs args)
         {
             //if (args.EnemyBox != null) Console.WriteLine(args.EnemyBox.Owner.gameObject.Tag);

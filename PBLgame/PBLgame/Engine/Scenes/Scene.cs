@@ -13,6 +13,7 @@ using PBLgame.Engine.Components;
 using PBLgame.Engine.Singleton;
 using PBLgame.Engine.Physics;
 using PBLgame.Engine.AI;
+using PBLgame.GamePlay;
 
 namespace PBLgame.Engine.Scenes
 {
@@ -553,9 +554,30 @@ namespace PBLgame.Engine.Scenes
                 GameObjects = scene._gameObjects;
                 SceneLights = scene._sceneLights;
             }
+
             //finding parents for gameobjects
             foreach (GameObject gameObject in GameObjects)
             {
+                ///////////////////////////////////////////////
+                /// 
+                /// 
+                if (gameObject.collision == null)
+                {
+                    if (gameObject.Name.Contains("Barrier"))
+                    {
+                        gameObject.collision = new Collision(gameObject);
+                        gameObject.collision.MainCollider = new SphereCollider(gameObject.collision);
+                        gameObject.collision.MainCollider.GenerateCollider();
+                        gameObject.collision.MainCollider.Trigger = true;
+
+                        gameObject.collision.BoxColliders.Add(new BoxCollider(gameObject.collision));
+                        gameObject.collision.BoxColliders.First().GenerateCollider();
+                    }
+                }
+              
+
+
+                ////////////////////////////////////////////////
                 if (gameObject.parent != null)
                 {
                     gameObject.parent = GameObjects.Find(parent => parent.ID == gameObject.parent.ID);

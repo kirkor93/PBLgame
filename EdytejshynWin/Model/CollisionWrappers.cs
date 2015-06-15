@@ -64,12 +64,14 @@ namespace Edytejshyn.Model
         public void AddBox()
         {
             BoxCollider boxCollider = new BoxCollider(WrappedCollision, new Vector3(20, 20, 20), false);
+            boxCollider.GenerateCollider();
             Parent.FireAdder(WrappedCollision.BoxColliders, boxCollider, _colliderActionAfter, "Box collider");
         }
 
         public void AddSphere()
         {
             SphereCollider sphereCollider = new SphereCollider(WrappedCollision, 10f, false);
+            sphereCollider.GenerateCollider();
             Parent.FireAdder(WrappedCollision.SphereColliders, sphereCollider, _colliderActionAfter, "Sphere collider");
         }
 

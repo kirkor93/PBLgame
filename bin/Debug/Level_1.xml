@@ -3,7 +3,7 @@
   <GameObjects>
     <GameObject Name="Ace" Tag="Player" Id="8">
       <Transform Enabled="True">
-        <Position x="-48.00433" y="0" z="-64.46857" />
+        <Position x="-240.5067" y="0" z="-11.91628" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -61,6 +61,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="26" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="200" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="-20" />
+            <EdgesSize x="200" y="15.5" z="10" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="6" Parent="9">
       <Transform Enabled="True">
@@ -69,6 +80,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="26" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="15.5" y="15.5" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="4" Parent="9">
       <Transform Enabled="True">
@@ -77,6 +99,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="26" MaterialId="26" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="0" IsTrigger="True">
+          <LocalPosition x="0" y="0.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="0.5" z="0" />
+            <EdgesSize x="20.5" y="0.5" z="20.5" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="5" Parent="9">
       <Transform Enabled="True">
@@ -85,6 +118,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="26" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="15.5" y="15.5" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="3" Parent="9">
       <Transform Enabled="True">
@@ -93,6 +137,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="26" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="-10" />
+            <EdgesSize x="10" y="30" z="100" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="2" Parent="9">
       <Transform Enabled="True">
@@ -109,17 +164,24 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="18" MaterialId="19" />
-      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="False">
         <SphereCollider Radius="70" IsTrigger="True">
           <LocalPosition x="0" y="0" z="0" />
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="15" z="0" />
+            <LocalPosition x="0" y="15" z="15" />
+            <EdgesSize x="20" y="30" z="20" />
+          </BoxCollider>
+          <BoxCollider IsTrigger="True">
+            <LocalPosition x="-20" y="15" z="30" />
             <EdgesSize x="20" y="30" z="60" />
           </BoxCollider>
         </BoxColliders>
       </Collision>
+      <PBLgame.GamePlay.Translator Enabled="True" Speed="0.4" Time="1">
+        <Direction x="0" y="0" z="-1" />
+      </PBLgame.GamePlay.Translator>
     </GameObject>
     <GameObject Name="Gate_2" Tag="Buildings" Id="10" Parent="9">
       <Transform Enabled="True">
@@ -128,6 +190,24 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="19" MaterialId="20" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="False">
+        <SphereCollider Radius="70" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15" z="-15" />
+            <EdgesSize x="20" y="30" z="20" />
+          </BoxCollider>
+          <BoxCollider IsTrigger="True">
+            <LocalPosition x="-20" y="15" z="-30" />
+            <EdgesSize x="20" y="30" z="60" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+      <PBLgame.GamePlay.Translator Enabled="True" Speed="0.4" Time="1">
+        <Direction x="0" y="0" z="1" />
+      </PBLgame.GamePlay.Translator>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="11" Parent="9">
       <Transform Enabled="True">
@@ -144,6 +224,21 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="120" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="-20" />
+            <EdgesSize x="10" y="30" z="110" />
+          </BoxCollider>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="-65" y="0" z="-20" />
+            <EdgesSize x="80" y="100" z="80" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="13" Parent="9">
       <Transform Enabled="True">
@@ -152,6 +247,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="26" MaterialId="26" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="0" IsTrigger="True">
+          <LocalPosition x="0" y="0.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="0.5" z="0" />
+            <EdgesSize x="20.5" y="0.5" z="20.5" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="14" Parent="9">
       <Transform Enabled="True">
@@ -200,6 +306,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="200" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="300" y="20" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="20" Parent="9">
       <Transform Enabled="True">
@@ -216,6 +333,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="15.5" y="15.5" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="22" Parent="9">
       <Transform Enabled="True">
@@ -232,6 +360,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="90" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="20" />
+            <EdgesSize x="15.5" y="15.5" z="120" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="24" Parent="9">
       <Transform Enabled="True">
@@ -264,6 +403,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="26" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="0" IsTrigger="True">
+          <LocalPosition x="0" y="0.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="0.5" z="0" />
+            <EdgesSize x="20.5" y="0.5" z="20.5" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="28" Parent="9">
       <Transform Enabled="True">
@@ -280,6 +430,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="100" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="10" y="20" z="150" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="30" Parent="9">
       <Transform Enabled="True">
@@ -296,6 +457,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="26" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="70" IsTrigger="True">
+          <LocalPosition x="0" y="0.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="0.5" z="0" />
+            <EdgesSize x="80" y="30" z="20.5" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Column" Tag="Buildings" Id="32" Parent="9">
       <Transform Enabled="True">
@@ -328,6 +500,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="100" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="10" />
+            <EdgesSize x="170" y="15.5" z="10" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="36" Parent="9">
       <Transform Enabled="True">
@@ -360,6 +543,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="12" MaterialId="11" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="39.11892" IsTrigger="True">
+          <LocalPosition x="25" y="20" z="30" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="25" y="15" z="30" />
+            <EdgesSize x="70" y="35.73524" z="40" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Building" Tag="Buildings" Id="40" Parent="9">
       <Transform Enabled="True">
@@ -368,6 +562,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="13" MaterialId="12" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50" IsTrigger="True">
+          <LocalPosition x="15" y="10.125" z="15" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="15" y="10.125" z="15" />
+            <EdgesSize x="30" y="25" z="30" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Building" Tag="Buildings" Id="41" Parent="9">
       <Transform Enabled="True">
@@ -376,6 +581,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="13" MaterialId="12" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="40" IsTrigger="True">
+          <LocalPosition x="15" y="30" z="15" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="15" y="10.125" z="15" />
+            <EdgesSize x="30" y="40" z="30" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Building" Tag="Buildings" Id="42" Parent="9">
       <Transform Enabled="True">
@@ -392,6 +608,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="15" MaterialId="15" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50.5" IsTrigger="True">
+          <LocalPosition x="0" y="48.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="40" y="48.5" z="35" />
+            <EdgesSize x="70" y="120" z="80" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Building" Tag="Buildings" Id="45" Parent="9">
       <Transform Enabled="True">
@@ -400,6 +627,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="14" MaterialId="14" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="65" IsTrigger="True">
+          <LocalPosition x="35" y="5.736507" z="55" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="35" y="5.736507" z="50" />
+            <EdgesSize x="70" y="50" z="100" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Floors" Tag="Buildings" Id="46" Parent="9">
       <Transform Enabled="True">
@@ -928,6 +1166,19 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15.69229" IsTrigger="True">
+          <LocalPosition x="-10" y="0.9631488" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="5" IsTrigger="False">
+            <LocalPosition x="-2" y="0.9631488" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="7" IsTrigger="False">
+            <LocalPosition x="-15" y="0.9631488" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Barrier" Tag="Buildings" Id="95" Parent="9">
       <Transform Enabled="True">
@@ -936,6 +1187,19 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15.69229" IsTrigger="True">
+          <LocalPosition x="-10" y="0.9631488" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="5" IsTrigger="False">
+            <LocalPosition x="-2" y="0.9631488" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="7" IsTrigger="False">
+            <LocalPosition x="-15" y="0.9631488" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Barrier" Tag="Buildings" Id="104" Parent="9">
       <Transform Enabled="True">
@@ -944,6 +1208,19 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15.69229" IsTrigger="True">
+          <LocalPosition x="-10" y="0.9631488" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="5" IsTrigger="False">
+            <LocalPosition x="-2" y="0.9631488" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="7" IsTrigger="False">
+            <LocalPosition x="-15" y="0.9631488" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Bollard" Tag="Buildings" Id="105" Parent="9">
       <Transform Enabled="True">
@@ -992,6 +1269,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="21" MaterialId="22" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="24.0034" IsTrigger="True">
+          <LocalPosition x="0" y="23.53029" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="23.53029" z="0" />
+            <EdgesSize x="24.0034" y="23.53029" z="0.9824398" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Lantern" Tag="Buildings" Id="119" Parent="9">
       <Transform Enabled="True">
@@ -1000,6 +1288,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="21" MaterialId="22" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="24.0034" IsTrigger="True">
+          <LocalPosition x="0" y="23.53029" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="23.53029" z="0" />
+            <EdgesSize x="24.0034" y="23.53029" z="0.9824398" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Lantern" Tag="Buildings" Id="120" Parent="9">
       <Transform Enabled="True">
@@ -1008,6 +1307,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="21" MaterialId="22" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="24.0034" IsTrigger="True">
+          <LocalPosition x="0" y="23.53029" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="23.53029" z="0" />
+            <EdgesSize x="24.0034" y="23.53029" z="0.9824398" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Locker" Tag="Buildings" Id="121" Parent="9">
       <Transform Enabled="True">
@@ -1237,6 +1547,17 @@
         <Scale x="1.5" y="1.5" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="15" MaterialId="15" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50.5" IsTrigger="True">
+          <LocalPosition x="0" y="48.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="48.5" z="0" />
+            <EdgesSize x="50.5" y="48.5" z="33.86667" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Mountain" Tag="Buildings" Id="150" Parent="141">
       <Transform Enabled="True">
@@ -1253,6 +1574,17 @@
         <Scale x="1.5" y="1.5" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="15" MaterialId="15" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50.5" IsTrigger="True">
+          <LocalPosition x="0" y="48.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="48.5" z="0" />
+            <EdgesSize x="50.5" y="48.5" z="33.86667" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Dune" Tag="Buildings" Id="153" Parent="137">
       <Transform Enabled="True">
@@ -1333,6 +1665,17 @@
         <Scale x="1.5" y="1.5" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="15" MaterialId="15" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50.5" IsTrigger="True">
+          <LocalPosition x="0" y="48.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="48.5" z="0" />
+            <EdgesSize x="50.5" y="48.5" z="33.86667" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Cactus" Tag="Buildings" Id="162" Parent="136">
       <Transform Enabled="True">
@@ -1341,14 +1684,25 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="24.72237" IsTrigger="True">
+          <LocalPosition x="0" y="22.03144" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="22.03144" z="0" />
+            <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
-    <GameObject Name="Cactus" Tag="Buildings" Id="163" Parent="136">
+    <GameObject Name="Tower" Tag="Buildings" Id="163" Parent="136">
       <Transform Enabled="True">
-        <Position x="960" y="0" z="140" />
-        <Rotation x="5.008956E-06" y="-5" z="0" />
+        <Position x="873.8575" y="0" z="83.66312" />
+        <Rotation x="5.008956E-06" y="148" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+      <Renderer Enabled="True" MeshId="46" MaterialId="38" />
     </GameObject>
     <GameObject Name="Cactus" Tag="Buildings" Id="164" Parent="136">
       <Transform Enabled="True">
@@ -1357,6 +1711,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="24.72237" IsTrigger="True">
+          <LocalPosition x="0" y="22.03144" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="22.03144" z="0" />
+            <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Cactus" Tag="Buildings" Id="165" Parent="136">
       <Transform Enabled="True">
@@ -1365,6 +1730,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="24.72237" IsTrigger="True">
+          <LocalPosition x="0" y="22.03144" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="22.03144" z="0" />
+            <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Cactus" Tag="Buildings" Id="166" Parent="136">
       <Transform Enabled="True">
@@ -1373,6 +1749,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="24.72237" IsTrigger="True">
+          <LocalPosition x="0" y="22.03144" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="22.03144" z="0" />
+            <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Cactus" Tag="Buildings" Id="167" Parent="136">
       <Transform Enabled="True">
@@ -1381,6 +1768,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="24.72237" IsTrigger="True">
+          <LocalPosition x="0" y="22.03144" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="22.03144" z="0" />
+            <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Cactus" Tag="Buildings" Id="168" Parent="136">
       <Transform Enabled="True">
@@ -1389,6 +1787,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="24.72237" IsTrigger="True">
+          <LocalPosition x="0" y="22.03144" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="22.03144" z="0" />
+            <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Cactus" Tag="Buildings" Id="169" Parent="136">
       <Transform Enabled="True">
@@ -1397,6 +1806,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="24.72237" IsTrigger="True">
+          <LocalPosition x="0" y="22.03144" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="22.03144" z="0" />
+            <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Mountain" Tag="Buildings" Id="171" Parent="141">
       <Transform Enabled="True">
@@ -1421,6 +1841,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="38" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="22.95737" IsTrigger="True">
+          <LocalPosition x="0" y="15.22829" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.22829" z="0" />
+            <EdgesSize x="22.95737" y="15.22829" z="3.811388" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Cactus" Tag="Buildings" Id="174" Parent="136">
       <Transform Enabled="True">
@@ -1429,6 +1860,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="38" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="22.95737" IsTrigger="True">
+          <LocalPosition x="0" y="15.22829" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.22829" z="0" />
+            <EdgesSize x="22.95737" y="15.22829" z="3.811388" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Cactus" Tag="Buildings" Id="175" Parent="136">
       <Transform Enabled="True">
@@ -1437,6 +1879,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="38" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="22.95737" IsTrigger="True">
+          <LocalPosition x="0" y="15.22829" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.22829" z="0" />
+            <EdgesSize x="22.95737" y="15.22829" z="3.811388" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Floors" Tag="Buildings" Id="177" Parent="9">
       <Transform Enabled="True">
@@ -1485,6 +1938,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="15" MaterialId="15" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50.5" IsTrigger="True">
+          <LocalPosition x="0" y="48.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="48.5" z="0" />
+            <EdgesSize x="50.5" y="48.5" z="33.86667" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Building" Tag="Buildings" Id="182" Parent="9">
       <Transform Enabled="True">
@@ -1493,6 +1957,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="14" MaterialId="13" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="70" IsTrigger="True">
+          <LocalPosition x="35" y="5.736507" z="50" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="35" y="10" z="50" />
+            <EdgesSize x="100" y="20" z="70" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Barrier" Tag="Buildings" Id="183" Parent="9">
       <Transform Enabled="True">
@@ -1501,6 +1976,19 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15.69229" IsTrigger="True">
+          <LocalPosition x="-10" y="0.9631488" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="5" IsTrigger="False">
+            <LocalPosition x="-2" y="0.9631488" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="7" IsTrigger="False">
+            <LocalPosition x="-15" y="0.9631488" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Barrier" Tag="Buildings" Id="184" Parent="9">
       <Transform Enabled="True">
@@ -1509,6 +1997,19 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15.69229" IsTrigger="True">
+          <LocalPosition x="-10" y="0.9631488" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="5" IsTrigger="False">
+            <LocalPosition x="-2" y="0.9631488" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="7" IsTrigger="False">
+            <LocalPosition x="-15" y="0.9631488" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Mountain" Tag="Buildings" Id="185" Parent="141">
       <Transform Enabled="True">
@@ -1595,6 +2096,17 @@
         <Scale x="1.5" y="1.5" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="15" MaterialId="15" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50.5" IsTrigger="True">
+          <LocalPosition x="0" y="48.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="48.5" z="0" />
+            <EdgesSize x="50.5" y="48.5" z="33.86667" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Dune" Tag="Buildings" Id="200" Parent="137">
       <Transform Enabled="True">
@@ -3441,6 +3953,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="15.5" y="15.5" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="430" Parent="192">
       <Transform Enabled="True">
@@ -3449,6 +3972,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="15.5" y="15.5" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="431" Parent="192">
       <Transform Enabled="True">
@@ -3457,6 +3991,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="15.5" y="15.5" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Gate_archway" Tag="Buildings" Id="432" Parent="192">
       <Transform Enabled="True">
@@ -3473,6 +4018,9 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="18" MaterialId="19" />
+      <PBLgame.GamePlay.Translator Enabled="True" Speed="0" Time="0">
+        <Direction x="NaN" y="NaN" z="NaN" />
+      </PBLgame.GamePlay.Translator>
     </GameObject>
     <GameObject Name="Gate_2" Tag="Buildings" Id="434" Parent="192">
       <Transform Enabled="True">
@@ -3489,6 +4037,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="15.5" y="15.5" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="436" Parent="192">
       <Transform Enabled="True">
@@ -3497,6 +4056,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="15.5" y="15.5" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="437" Parent="192">
       <Transform Enabled="True">
@@ -3505,6 +4075,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="15.5" y="15.5" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="438" Parent="192">
       <Transform Enabled="True">
@@ -3513,6 +4094,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="15.5" y="15.5" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="439" Parent="192">
       <Transform Enabled="True">
@@ -3521,6 +4113,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="15.5" y="15.5" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Enterance_2" Tag="Buildings" Id="440" Parent="191">
       <Transform Enabled="True">
@@ -3537,6 +4140,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="40" y="40" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="442" Parent="440">
       <Transform Enabled="True">
@@ -3545,6 +4159,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="40" y="40" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="443" Parent="440">
       <Transform Enabled="True">
@@ -3553,6 +4178,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="40" y="40" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Gate_archway" Tag="Buildings" Id="444" Parent="440">
       <Transform Enabled="True">
@@ -3569,6 +4205,9 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="18" MaterialId="19" />
+      <PBLgame.GamePlay.Translator Enabled="True" Speed="0" Time="0">
+        <Direction x="NaN" y="NaN" z="NaN" />
+      </PBLgame.GamePlay.Translator>
     </GameObject>
     <GameObject Name="Gate_2" Tag="Buildings" Id="446" Parent="440">
       <Transform Enabled="True">
@@ -3585,6 +4224,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="40" y="40" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="448" Parent="440">
       <Transform Enabled="True">
@@ -3593,6 +4243,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="40" y="40" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="449" Parent="440">
       <Transform Enabled="True">
@@ -3601,6 +4262,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="40" y="40" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="450" Parent="440">
       <Transform Enabled="True">
@@ -3609,6 +4281,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="40" y="40" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="451" Parent="440">
       <Transform Enabled="True">
@@ -3617,6 +4300,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="28" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="15.5" y="15.5" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Dunes" Tag="Buildings" Id="452" Parent="136">
       <Transform Enabled="True">
@@ -4618,7 +5312,7 @@
     </GameObject>
     <GameObject Name="Road" Tag="Buildings" Id="578" Parent="193">
       <Transform Enabled="True">
-        <Position x="680" y="1.486187E-05" z="490" />
+        <Position x="680" y="1.30107E-05" z="468.8251" />
         <Rotation x="0" y="-90" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -4837,6 +5531,17 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="12" MaterialId="11" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="39.11892" IsTrigger="True">
+          <LocalPosition x="0" y="35.73524" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="35.73524" z="0" />
+            <EdgesSize x="39.11892" y="35.73524" z="1.964021" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Building" Tag="Buildings" Id="606" Parent="136">
       <Transform Enabled="True">
@@ -4845,10 +5550,21 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="12" MaterialId="11" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="39.11892" IsTrigger="True">
+          <LocalPosition x="0" y="35.73524" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="35.73524" z="0" />
+            <EdgesSize x="39.11892" y="35.73524" z="1.964021" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="607">
       <Transform Enabled="True">
-        <Position x="-128" y="0" z="-112" />
+        <Position x="129.662" y="0" z="-124.5733" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -4872,7 +5588,7 @@
     </GameObject>
     <GameObject Name="MechaRanger001" Tag="Enemy" Id="1234">
       <Transform Enabled="True">
-        <Position x="-148" y="0" z="-112" />
+        <Position x="-148" y="0" z="-113.0194" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -4904,7 +5620,7 @@
     </GameObject>
     <GameObject Name="NJ" Tag="Enemy" Id="614">
       <Transform Enabled="True">
-        <Position x="-251" y="0.1" z="-75" />
+        <Position x="-251" y="0.1" z="191.7041" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -4928,7 +5644,7 @@
     </GameObject>
     <GameObject Name="CuteBomber001" Tag="Enemy" Id="615">
       <Transform Enabled="True">
-        <Position x="-118" y="0" z="-112" />
+        <Position x="-337.0836" y="0" z="-130.9631" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -4943,25 +5659,2688 @@
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="1" y="1" />
         <Bursts>
-          <Burst When="0.0" HowMany="40" />
+          <Burst When="0" HowMany="40" />
         </Bursts>
       </ParticleSystem>
       <PBLgame.Engine.Components.AIComponent Enabled="True" />
       <PBLgame.GamePlay.CuteBomberScript Enabled="True" />
     </GameObject>
+    <GameObject Name="SmartDroid001" Tag="Enemy" Id="619">
+      <Transform Enabled="True">
+        <Position x="226.7742" y="17.26318" z="110.9134" />
+        <Rotation x="0" y="-143" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="9" MaterialId="6" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="5" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <Animator Enabled="True" />
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.EnemyMeleeScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Katana" Tag="Weapon" Id="620" Parent="619">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="90" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="7" MaterialId="4" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="608" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1040" y="0" z="450" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="621" Parent="608">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="622" Parent="608">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="623" Parent="608">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="624" Parent="608">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="625" Parent="608">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="626" Parent="608">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="627" Parent="608">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="628" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1040" y="0" z="-110" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="629" Parent="628">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="630" Parent="628">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="631" Parent="628">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="632" Parent="628">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="633" Parent="628">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="634" Parent="628">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="635" Parent="628">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="636" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1040" y="0" z="-670" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="637" Parent="636">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="638" Parent="636">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="639" Parent="636">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="640" Parent="636">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="641" Parent="636">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="642" Parent="636">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="643" Parent="636">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="644" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1120" y="0" z="-670" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="645" Parent="644">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="646" Parent="644">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="647" Parent="644">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="648" Parent="644">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="649" Parent="644">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="650" Parent="644">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="651" Parent="644">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="652" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1120" y="0" z="-110" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="653" Parent="652">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="654" Parent="652">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="655" Parent="652">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="656" Parent="652">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="657" Parent="652">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="658" Parent="652">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="659" Parent="652">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="660" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1120" y="0" z="450" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="661" Parent="660">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="662" Parent="660">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="663" Parent="660">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="664" Parent="660">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="665" Parent="660">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="666" Parent="660">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="667" Parent="660">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="668" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1200" y="0" z="450" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="669" Parent="668">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="670" Parent="668">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="671" Parent="668">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="672" Parent="668">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="673" Parent="668">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="674" Parent="668">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="675" Parent="668">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="676" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1280" y="0" z="450" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="677" Parent="676">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="678" Parent="676">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="679" Parent="676">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="680" Parent="676">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="681" Parent="676">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="682" Parent="676">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="683" Parent="676">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="684" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1360" y="0" z="450" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="685" Parent="684">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="686" Parent="684">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="687" Parent="684">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="688" Parent="684">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="689" Parent="684">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="690" Parent="684">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="691" Parent="684">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="692" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1440" y="0" z="450" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="693" Parent="692">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="694" Parent="692">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="695" Parent="692">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="696" Parent="692">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="697" Parent="692">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="698" Parent="692">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="699" Parent="692">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="700" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1520" y="0" z="450" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="701" Parent="700">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="702" Parent="700">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="703" Parent="700">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="704" Parent="700">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="705" Parent="700">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="706" Parent="700">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="707" Parent="700">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="708" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1600" y="0" z="450" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="709" Parent="708">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="710" Parent="708">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="711" Parent="708">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="712" Parent="708">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="713" Parent="708">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="714" Parent="708">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="715" Parent="708">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="716" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1680" y="0" z="450" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="717" Parent="716">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="718" Parent="716">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="719" Parent="716">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="720" Parent="716">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="721" Parent="716">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="722" Parent="716">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="723" Parent="716">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="724" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1760" y="0" z="450" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="725" Parent="724">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="726" Parent="724">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="727" Parent="724">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="728" Parent="724">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="729" Parent="724">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="730" Parent="724">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="731" Parent="724">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="732" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1840" y="0" z="450" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="733" Parent="732">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="734" Parent="732">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="735" Parent="732">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="736" Parent="732">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="737" Parent="732">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="738" Parent="732">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="739" Parent="732">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="740" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1840" y="0" z="-110" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="741" Parent="740">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="742" Parent="740">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="743" Parent="740">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="744" Parent="740">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="745" Parent="740">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="746" Parent="740">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="747" Parent="740">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="748" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1920" y="0" z="-110" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="749" Parent="748">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="750" Parent="748">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="751" Parent="748">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="752" Parent="748">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="753" Parent="748">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="754" Parent="748">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="755" Parent="748">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="756" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1760" y="0" z="-110" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="757" Parent="756">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="758" Parent="756">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="759" Parent="756">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="760" Parent="756">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="761" Parent="756">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="762" Parent="756">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="763" Parent="756">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="764" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1680" y="0" z="-110" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="765" Parent="764">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="766" Parent="764">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="767" Parent="764">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="768" Parent="764">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="769" Parent="764">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="770" Parent="764">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="771" Parent="764">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="772" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1600" y="0" z="-110" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="773" Parent="772">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="774" Parent="772">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="775" Parent="772">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="776" Parent="772">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="777" Parent="772">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="778" Parent="772">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="779" Parent="772">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="780" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1520" y="0" z="-110" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="781" Parent="780">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="782" Parent="780">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="783" Parent="780">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="784" Parent="780">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="785" Parent="780">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="786" Parent="780">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="787" Parent="780">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="788" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1440" y="0" z="-110" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="789" Parent="788">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="790" Parent="788">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="791" Parent="788">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="792" Parent="788">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="793" Parent="788">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="794" Parent="788">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="795" Parent="788">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="796" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1360" y="0" z="-110" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="797" Parent="796">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="798" Parent="796">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="799" Parent="796">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="800" Parent="796">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="801" Parent="796">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="802" Parent="796">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="803" Parent="796">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="804" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1280" y="0" z="-110" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="805" Parent="804">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="806" Parent="804">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="807" Parent="804">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="808" Parent="804">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="809" Parent="804">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="810" Parent="804">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="811" Parent="804">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="812" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1200" y="0" z="-110" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="813" Parent="812">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="814" Parent="812">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="815" Parent="812">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="816" Parent="812">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="817" Parent="812">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="818" Parent="812">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="819" Parent="812">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="820" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1200" y="0" z="-670" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="821" Parent="820">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="822" Parent="820">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="823" Parent="820">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="824" Parent="820">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="825" Parent="820">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="826" Parent="820">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="827" Parent="820">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="828" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1280" y="0" z="-670" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="829" Parent="828">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="830" Parent="828">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="831" Parent="828">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="832" Parent="828">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="833" Parent="828">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="834" Parent="828">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="835" Parent="828">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="836" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1360" y="0" z="-670" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="837" Parent="836">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="838" Parent="836">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="839" Parent="836">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="840" Parent="836">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="841" Parent="836">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="842" Parent="836">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="843" Parent="836">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="844" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1440" y="0" z="-670" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="845" Parent="844">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="846" Parent="844">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="847" Parent="844">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="848" Parent="844">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="849" Parent="844">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="850" Parent="844">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="851" Parent="844">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="852" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1520" y="0" z="-670" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="853" Parent="852">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="854" Parent="852">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="855" Parent="852">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="856" Parent="852">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="857" Parent="852">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="858" Parent="852">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="859" Parent="852">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dunes" Tag="Buildings" Id="860" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1600" y="0" z="-670" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="861" Parent="860">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="862" Parent="860">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-160" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="863" Parent="860">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="40" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="864" Parent="860">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-240" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="865" Parent="860">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-320" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="866" Parent="860">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="-400" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="41" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="867" Parent="860">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="80" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="868" Parent="136">
+      <Transform Enabled="True">
+        <Position x="641.3677" y="10.5693" z="481.4173" />
+        <Rotation x="5.008956E-06" y="-290" z="0" />
+        <Scale x="5" y="5" z="5" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="869" Parent="868">
+      <Transform Enabled="True">
+        <Position x="0.6723591" y="8.846271E-07" z="7.527612" />
+        <Rotation x="-2.124222E-05" y="79.00001" z="-2.576887E-05" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="870" Parent="868">
+      <Transform Enabled="True">
+        <Position x="2.378513" y="-5.418729E-07" z="13.02788" />
+        <Rotation x="1.068195E-05" y="152" z="2.663311E-06" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="871" Parent="868">
+      <Transform Enabled="True">
+        <Position x="2.320698" y="0.220618" z="18.97271" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="872" Parent="868">
+      <Transform Enabled="True">
+        <Position x="1.33499" y="3.79885" z="16.2645" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="873" Parent="868">
+      <Transform Enabled="True">
+        <Position x="0.7367625" y="3.798849" z="9.274302" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="874" Parent="868">
+      <Transform Enabled="True">
+        <Position x="4.932988" y="-1.008704" z="3.950932" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="875" Parent="868">
+      <Transform Enabled="True">
+        <Position x="5.467052" y="-1.008704" z="9.720399" />
+        <Rotation x="-67.99999" y="-47" z="180" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="876" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1740.359" y="10.5693" z="110.1407" />
+        <Rotation x="5.008956E-06" y="-347" z="0" />
+        <Scale x="5" y="5" z="5" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="877" Parent="876">
+      <Transform Enabled="True">
+        <Position x="0.6723591" y="8.846271E-07" z="7.527612" />
+        <Rotation x="-2.124222E-05" y="79.00001" z="-2.576887E-05" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="878" Parent="876">
+      <Transform Enabled="True">
+        <Position x="3.905003" y="0.02300063" z="13.83953" />
+        <Rotation x="1.068195E-05" y="152" z="2.663311E-06" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="879" Parent="876">
+      <Transform Enabled="True">
+        <Position x="2.142991" y="-0.7818112" z="17.70826" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="880" Parent="876">
+      <Transform Enabled="True">
+        <Position x="-1.353475" y="-1.696356" z="14.40031" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="881" Parent="876">
+      <Transform Enabled="True">
+        <Position x="-2.705313" y="-1.324549" z="10.41398" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="882" Parent="876">
+      <Transform Enabled="True">
+        <Position x="4.932988" y="-1.008704" z="3.950932" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="883" Parent="876">
+      <Transform Enabled="True">
+        <Position x="5.467052" y="-1.008704" z="9.720399" />
+        <Rotation x="-67.99999" y="-47" z="180" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="884" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1406.9" y="10.5693" z="562.8214" />
+        <Rotation x="5.008956E-06" y="-241" z="0" />
+        <Scale x="5" y="5" z="5" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="885" Parent="884">
+      <Transform Enabled="True">
+        <Position x="0.6723591" y="8.846271E-07" z="7.527612" />
+        <Rotation x="-2.124222E-05" y="79.00001" z="-2.576887E-05" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="886" Parent="884">
+      <Transform Enabled="True">
+        <Position x="3.905003" y="0.02300063" z="13.83953" />
+        <Rotation x="1.068195E-05" y="152" z="2.663311E-06" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="887" Parent="884">
+      <Transform Enabled="True">
+        <Position x="2.142991" y="-0.7818112" z="17.70826" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="888" Parent="884">
+      <Transform Enabled="True">
+        <Position x="-1.353475" y="-1.696356" z="14.40031" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="889" Parent="884">
+      <Transform Enabled="True">
+        <Position x="-2.705313" y="-1.324549" z="10.41398" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="890" Parent="884">
+      <Transform Enabled="True">
+        <Position x="4.932988" y="-1.008704" z="3.950932" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="891" Parent="884">
+      <Transform Enabled="True">
+        <Position x="5.467052" y="-1.008704" z="9.720399" />
+        <Rotation x="-67.99999" y="-47" z="180" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="892" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1665.138" y="10.5693" z="472.5242" />
+        <Rotation x="5.008956E-06" y="-141" z="0" />
+        <Scale x="5" y="5" z="5" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="893" Parent="892">
+      <Transform Enabled="True">
+        <Position x="0.6723591" y="8.846271E-07" z="7.527612" />
+        <Rotation x="-2.124222E-05" y="79.00001" z="-2.576887E-05" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="894" Parent="892">
+      <Transform Enabled="True">
+        <Position x="3.905003" y="0.02300063" z="13.83953" />
+        <Rotation x="1.068195E-05" y="152" z="2.663311E-06" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="895" Parent="892">
+      <Transform Enabled="True">
+        <Position x="2.142991" y="-0.7818112" z="17.70826" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="896" Parent="892">
+      <Transform Enabled="True">
+        <Position x="-1.353475" y="-1.696356" z="14.40031" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="897" Parent="892">
+      <Transform Enabled="True">
+        <Position x="-2.705313" y="-1.324549" z="10.41398" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="898" Parent="892">
+      <Transform Enabled="True">
+        <Position x="4.932988" y="-1.008704" z="3.950932" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="899" Parent="892">
+      <Transform Enabled="True">
+        <Position x="5.467052" y="-1.008704" z="9.720399" />
+        <Rotation x="-67.99999" y="-47" z="180" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Buildings" Id="900" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1520.973" y="0" z="96.06592" />
+        <Rotation x="5.008956E-06" y="70" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="24.72237" IsTrigger="True">
+          <LocalPosition x="0" y="22.03144" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="22.03144" z="0" />
+            <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Buildings" Id="901" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1647.214" y="0" z="-88.87558" />
+        <Rotation x="5.008956E-06" y="70" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="24.72237" IsTrigger="True">
+          <LocalPosition x="0" y="22.03144" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="22.03144" z="0" />
+            <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Buildings" Id="902" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1462.607" y="0" z="-269.0567" />
+        <Rotation x="5.008956E-06" y="70" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="37" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="24.72237" IsTrigger="True">
+          <LocalPosition x="0" y="22.03144" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="22.03144" z="0" />
+            <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Tower" Tag="Buildings" Id="903" Parent="136">
+      <Transform Enabled="True">
+        <Position x="759.2242" y="0" z="312.6834" />
+        <Rotation x="5.008956E-06" y="148" z="0" />
+        <Scale x="5" y="5" z="5" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="43" MaterialId="30" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="904" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1440.044" y="19.13934" z="535.1167" />
+        <Rotation x="5.008956E-06" y="-104" z="0" />
+        <Scale x="5" y="5" z="5" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="905" Parent="904">
+      <Transform Enabled="True">
+        <Position x="0.6723591" y="8.846271E-07" z="7.527612" />
+        <Rotation x="-2.124222E-05" y="79.00001" z="-2.576887E-05" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="906" Parent="904">
+      <Transform Enabled="True">
+        <Position x="3.905003" y="0.02300063" z="13.83953" />
+        <Rotation x="1.068195E-05" y="152" z="2.663311E-06" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="907" Parent="904">
+      <Transform Enabled="True">
+        <Position x="2.142991" y="-0.7818112" z="17.70826" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="908" Parent="904">
+      <Transform Enabled="True">
+        <Position x="-1.353475" y="-1.696356" z="14.40031" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="909" Parent="904">
+      <Transform Enabled="True">
+        <Position x="-2.705313" y="-1.324549" z="10.41398" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="910" Parent="904">
+      <Transform Enabled="True">
+        <Position x="4.932988" y="-1.008704" z="3.950932" />
+        <Rotation x="112" y="8.000005" z="-7.039635E-07" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="911" Parent="904">
+      <Transform Enabled="True">
+        <Position x="5.467052" y="-1.008704" z="9.720399" />
+        <Rotation x="-67.99999" y="-47" z="180" />
+        <Scale x="1" y="1" z="0.6" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="912" Parent="684">
+      <Transform Enabled="True">
+        <Position x="12.33118" y="0" z="140.4173" />
+        <Rotation x="0" y="16" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="913" Parent="684">
+      <Transform Enabled="True">
+        <Position x="88.07588" y="0" z="117.7405" />
+        <Rotation x="0" y="16" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="914" Parent="684">
+      <Transform Enabled="True">
+        <Position x="163.1408" y="0" z="96.21602" />
+        <Rotation x="0" y="16" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
+    </GameObject>
+    <GameObject Name="Floors" Tag="Buildings" Id="915" Parent="191">
+      <Transform Enabled="True">
+        <Position x="644.408" y="0" z="-90.98531" />
+        <Rotation x="0" y="15" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="916" Parent="915">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="917" Parent="915">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="918" Parent="915">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="919" Parent="915">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="920" Parent="915">
+      <Transform Enabled="True">
+        <Position x="240" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="921" Parent="915">
+      <Transform Enabled="True">
+        <Position x="200" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="922" Parent="915">
+      <Transform Enabled="True">
+        <Position x="280" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="923" Parent="915">
+      <Transform Enabled="True">
+        <Position x="320" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="924" Parent="915">
+      <Transform Enabled="True">
+        <Position x="360" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="925" Parent="915">
+      <Transform Enabled="True">
+        <Position x="400" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="926" Parent="915">
+      <Transform Enabled="True">
+        <Position x="430" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floors" Tag="Buildings" Id="927" Parent="191">
+      <Transform Enabled="True">
+        <Position x="654.7607" y="0" z="-52.34828" />
+        <Rotation x="0" y="15" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="928" Parent="927">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="929" Parent="927">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="930" Parent="927">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="931" Parent="927">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="932" Parent="927">
+      <Transform Enabled="True">
+        <Position x="240" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="933" Parent="927">
+      <Transform Enabled="True">
+        <Position x="200" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="934" Parent="927">
+      <Transform Enabled="True">
+        <Position x="280" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="935" Parent="927">
+      <Transform Enabled="True">
+        <Position x="320" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="936" Parent="927">
+      <Transform Enabled="True">
+        <Position x="360" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="937" Parent="927">
+      <Transform Enabled="True">
+        <Position x="400" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="938" Parent="927">
+      <Transform Enabled="True">
+        <Position x="430" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floors" Tag="Buildings" Id="939" Parent="191">
+      <Transform Enabled="True">
+        <Position x="665.1135" y="0" z="-13.71125" />
+        <Rotation x="0" y="15" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="940" Parent="939">
+      <Transform Enabled="True">
+        <Position x="40" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="941" Parent="939">
+      <Transform Enabled="True">
+        <Position x="80" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="942" Parent="939">
+      <Transform Enabled="True">
+        <Position x="120" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="943" Parent="939">
+      <Transform Enabled="True">
+        <Position x="160" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="944" Parent="939">
+      <Transform Enabled="True">
+        <Position x="240" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="945" Parent="939">
+      <Transform Enabled="True">
+        <Position x="200" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="946" Parent="939">
+      <Transform Enabled="True">
+        <Position x="280" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="947" Parent="939">
+      <Transform Enabled="True">
+        <Position x="320" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="948" Parent="939">
+      <Transform Enabled="True">
+        <Position x="360" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="949" Parent="939">
+      <Transform Enabled="True">
+        <Position x="400" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
+    <GameObject Name="Floor" Tag="Buildings" Id="950" Parent="939">
+      <Transform Enabled="True">
+        <Position x="430" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="17" MaterialId="18" />
+    </GameObject>
   </GameObjects>
   <Lights>
-    <Light Type="Point" HasShadow="False">
-      <Color r="1" g="0.5" b="1" a="1" />
-      <GameObject Name="Ranger Light" Tag="Light" Id="608" Parent="607">
-        <Transform Enabled="True">
-          <Position x="0" y="20" z="-3" />
-          <Rotation x="0" y="0" z="0" />
-          <Scale x="1" y="1" z="1" />
-        </Transform>
-      </GameObject>
-      <PointLight Attenuation="40" FallOff="10" />
-    </Light>
     <Light Type="Point" HasShadow="False">
       <Color r="0.8" g="0.8" b="0.8" a="1" />
       <GameObject Name="Light 1" Tag="Light" Id="170" Parent="118">
@@ -4985,17 +8364,17 @@
       <PointLight Attenuation="100" FallOff="50" />
     </Light>
     <Light Type="Point" HasShadow="False">
-      <Color r="0.8" g="0.8" b="0.8" a="1" />
-      <GameObject Name="Light 1" Tag="Light" Id="610" Parent="120">
+      <Color r="0.8" g="0.8" b="0.8" a="1.4" />
+      <GameObject Name="Ace of light" Tag="Light" Id="610" Parent="8">
         <Transform Enabled="True">
-          <Position x="20.40079" y="41.91799" z="-8.917472E-07" />
+          <Position x="0" y="14.51387" z="0" />
           <Rotation x="0" y="0" z="0" />
           <Scale x="1" y="1" z="1" />
         </Transform>
       </GameObject>
-      <PointLight Attenuation="100" FallOff="50" />
+      <PointLight Attenuation="120" FallOff="10" />
     </Light>
-    <Light Type="Directional" HasShadow="False">
+    <Light Type="Directional" HasShadow="True">
       <Color r="0.9" g="1" b="1" a="1" />
       <GameObject Name="Moonlight" Tag="Light" Id="611">
         <Transform Enabled="True">
