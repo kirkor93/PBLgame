@@ -314,7 +314,7 @@
 	  
       <Animation Id="201" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_idle" Type="Idle" />
       <Animation Id="202" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_attack" Type="Attack" />
-      <Animation Id="203" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_walk" Type="Walk" Speed="0.06" />
+      <Animation Id="203" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_walk" Type="Walk" Speed="0.065" />
       <Animation Id="204" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_death" Type="Death" />
       
 	  <Animation Id="301" Skeleton="3" Path="Animations\Champions\Ace_idle" Type="Idle" />
@@ -326,13 +326,13 @@
       <Animation Id="307" Skeleton="3" Path="Animations\Champions\Ace_shield" Type="AttackShield" />
       
 	  <Animation Id="400" Skeleton="4" Path="Animations\Enemies\NJ_idle" Type="Idle" />
-      <Animation Id="401" Skeleton="4" Path="Animations\Enemies\NJ_walk" Type="Walk" Speed="0.02" />
+      <Animation Id="401" Skeleton="4" Path="Animations\Enemies\NJ_walk" Type="Walk" Speed="0.05" />
       <Animation Id="402" Skeleton="4" Path="Animations\Enemies\NJ_basic_attack" Type="AttackBasic" />
       <Animation Id="403" Skeleton="4" Path="Animations\Enemies\NJ_strong_attack" Type="AttackStrong" />
       <Animation Id="404" Skeleton="4" Path="Animations\Enemies\NJ_death" Type="Death" Speed="0.5" />
       
 	  <Animation Id="501" Skeleton="5" Path="Animations\Enemies\Smart_Droid_idle" Type="Idle" />
-	  <Animation Id="502" Skeleton="5" Path="Animations\Enemies\Smart_Droid_walk" Type="Walk" Speed="0.06" />
+	  <Animation Id="502" Skeleton="5" Path="Animations\Enemies\Smart_Droid_walk" Type="Walk" Speed="0.065" />
 	  <Animation Id="503" Skeleton="5" Path="Animations\Enemies\Smart_Droid_attack" Type="Attack" />
 	  <Animation Id="504" Skeleton="5" Path="Animations\Enemies\Smart_Droid_death" Type="Death" />
     </Animations>

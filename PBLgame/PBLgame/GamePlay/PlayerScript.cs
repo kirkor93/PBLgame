@@ -97,7 +97,7 @@ namespace PBLgame.GamePlay
 
         public PlayerScript(GameObject gameObj) : base(gameObj)
         {
-            SpeedMultiplier = 70f;
+            SpeedMultiplier = 60f;
 
             _attackTriggerObject = new GameObject();
             _attackTriggerObject.Tag = "Weapon";

@@ -266,7 +266,7 @@ namespace PBLgame.GamePlay
                             dir = AISystem.Player.transform.Position - gameObject.transform.Position;
                             SetLookVector(new Vector2(dir.X, -dir.Z));
                             //gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
-                            UnitVelocity = new Vector2(dir.X, -dir.Z) * ChaseSpeed;
+                            UnitVelocity = new Vector2(dir.X, dir.Z) * ChaseSpeed;
                             break;
                         case MeleeAction.Escape:
                             dir = gameObject.transform.Position - AISystem.Player.transform.Position;

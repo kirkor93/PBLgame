@@ -63,32 +63,31 @@ namespace PBLgame.Engine.Components
             /// <summary>
             /// Blends current bones with other using given factor. Applies blending into bones.
             /// </summary>
-            /// <param name="newState">newState animation state</param>
-            /// <param name="amount">How much newState is shown more than this state [0.0 .. 1.0]</param>
-            public void Blend(AnimationState newState, float amount)
+            /// <param name="prevState">previous animation state</param>
+            /// <param name="amount">How much previous state is shown more than this state [0.0 .. 1.0]</param>
+            public void Blend(AnimationState prevState, float amount)
             {
                 // I assumed that boneInfo indices are corresponding for all animations for the Skeleton.
                 // That doesn't have to be always true. ~piomar
                 for (int i = 0; i < BoneInfos.Length; i++)
                 {
-                    if (BoneInfos[i].ClipBone.Name != newState.BoneInfos[i].ClipBone.Name)
+                    if (BoneInfos[i].ClipBone.Name != prevState.BoneInfos[i].ClipBone.Name)
                     {
-                        // hotfix when diferent bone indices
+                        // hotfix when different bone indices
                         string name = BoneInfos[i].ClipBone.Name;
                         for (int bone = 0; bone < BoneCnt; bone++)
                         {
-                            if (newState.BoneInfos[bone].ClipBone.Name == name)
+                            if (prevState.BoneInfos[bone].ClipBone.Name == name)
                             {
-                                BoneInfo tmp = newState.BoneInfos[bone];
-                                newState.BoneInfos[bone] = newState.BoneInfos[i];
-                                newState.BoneInfos[i] = tmp;
+                                BoneInfo tmp = prevState.BoneInfos[bone];
+                                prevState.BoneInfos[bone] = prevState.BoneInfos[i];
+                                prevState.BoneInfos[i] = tmp;
                                 break;
                             }
                         }
                     }
-                        //Console.WriteLine("{0} != {1}", BoneInfos[i].ClipBone.Name, newState.BoneInfos[i].ClipBone.Name);
-                    BoneInfos[i].rotation = Quaternion.Slerp(BoneInfos[i].rotation, newState.BoneInfos[i].rotation, amount);
-                    BoneInfos[i].translation = Vector3.Lerp(BoneInfos[i].translation, newState.BoneInfos[i].translation, amount);
+                    BoneInfos[i].rotation = Quaternion.Slerp(BoneInfos[i].rotation, prevState.BoneInfos[i].rotation, amount);
+                    BoneInfos[i].translation = Vector3.Lerp(BoneInfos[i].translation, prevState.BoneInfos[i].translation, amount);
                     BoneInfos[i].AssignToBone();
                 }
             }
@@ -127,7 +126,7 @@ namespace PBLgame.Engine.Components
                     BoneInfos[b].SetModel(mesh);
                 }
 
-                Position = 0;
+                Position = 0.01f;
                 ApplyBones();
             }
         }
@@ -190,6 +189,9 @@ namespace PBLgame.Engine.Components
 
         public AnimatedMesh AnimMesh { get { return (AnimatedMesh) _gameObject.renderer.MyMesh; } }
 
+        public Matrix[] BoneTransforms { get; private set; }
+        public Matrix[] SkeletonMatrix { get; private set; }
+
         #endregion
 
 
@@ -202,6 +204,15 @@ namespace PBLgame.Engine.Components
         {
             Initialize(false);
         }
+
+        //public void ApplyBones()
+        //{
+        //    _currentAnimation.Position = _currentAnimation.Position;
+        //    _currentAnimation.ApplyBones();
+        //    AnimMesh.UpdateBonesMatrices();
+        //    AttachSlot slot = gameObject.GetComponent<AttachSlot>();
+        //    if(slot != null) slot.Update(Game.Instance.Time);
+        //}
 
         /// <summary>
         /// Set new animation for playing. Allows blending with previous animation.
@@ -223,7 +234,7 @@ namespace PBLgame.Engine.Components
             }
             else
             {
-                _blendingFactor = 1.0f;
+                _blendingFactor = 1f;
                 _blendingTime = blendTime;
             }
         }
@@ -347,8 +358,14 @@ namespace PBLgame.Engine.Components
             {
                 _currentAnimation.ApplyBones();
             }
+            UpdateBoneMatrices();
+        }
 
+        private void UpdateBoneMatrices()
+        {
             AnimMesh.UpdateBonesMatrices();
+            BoneTransforms = AnimMesh.BonesTransorms;
+            SkeletonMatrix = AnimMesh.SkeletonMatrix;
         }
 
         private void UpdatePosition(AnimationState animation, GameTime gameTime)

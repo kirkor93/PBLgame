@@ -44,6 +44,11 @@ namespace PBLgame.Engine.Components
         /// </summary>
         public List<AnimationClip> Clips { get { return _modelExtra.Clips; } }
 
+        /// <summary>
+        /// Number of skinning bones with weights in skeleton.
+        /// </summary>
+        public int SkeletonCount { get { return _modelExtra.Skeleton.Count; } }
+
         public override Matrix[] BonesTransorms
         {
             get
@@ -68,7 +73,7 @@ namespace PBLgame.Engine.Components
         #endregion
 
         public void UpdateBonesMatrices()
-        {   
+        {
             _boneTransforms = new Matrix[_bones.Count];
             for (int i = 0; i < _bones.Count; i++)
             {

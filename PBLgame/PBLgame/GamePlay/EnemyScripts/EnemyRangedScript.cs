@@ -17,7 +17,7 @@ namespace PBLgame.GamePlay
         #region Variables
         #region Enemy Vars
         public AIComponent AIComponent;
-        public float ChaseSpeed = 0.005f; //0.0005f;
+        public float ChaseSpeed = 0.005f;
         public float AttackRange = 45.0f;
         public float AttackAffectDelay;
         private float _attackDelay = 2500;

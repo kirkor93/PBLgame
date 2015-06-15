@@ -43,11 +43,11 @@ namespace PBLgame
         private HUD _hud;
 //        private const int ResolutionX = 1280;
 //        private const int ResolutionY = 720;
-//        private const bool FullScreenEnabled = false;
+        private const bool FullScreenEnabled = false;
 
         private const int ResolutionX = 1920;
         private const int ResolutionY = 1080;
-        private const bool FullScreenEnabled = true;
+        //private const bool FullScreenEnabled = true;
 
         //Sounds tetin
         AudioEngine _audioEngine; //Has to be in final version
