@@ -27,6 +27,10 @@ namespace PBLgame.GamePlay
         private Vector3 _startingPosition;
         private Vector3 _chaseStartPosition;
 
+        private bool _pushed;
+        private Vector3 _pushValue;
+        private float _pushTimer;
+
         private float _attackTimer = 2000;
 
         private float _chaseTimer;
@@ -164,6 +168,13 @@ namespace PBLgame.GamePlay
                             _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
                             break;
                         case AttackType.Push:
+                            _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
+                            float biggest = Math.Abs(_pushValue.X);
+                            if (_pushValue.Z > biggest) biggest = _pushValue.Z;
+                            _pushValue /= (biggest * 3.0f) ;
+                            _pushValue.Y = gameObject.transform.Position.Y;
+                            _pushed = true;
+                            _pushTimer = 0.0f;
                             break;
                         case AttackType.Ion:
                             break;
@@ -186,6 +197,13 @@ namespace PBLgame.GamePlay
                             _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
                             break;
                         case AttackType.Push:
+                            _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
+                            float biggest = Math.Abs(_pushValue.X);
+                            if (_pushValue.Z > biggest) biggest = _pushValue.Z;
+                            _pushValue /= (biggest * 3.0f) ;
+                            _pushValue.Y = gameObject.transform.Position.Y;
+                            _pushed = true;
+                            _pushTimer = 0.0f;
                             break;
                         case AttackType.Ion:
                             break;
@@ -215,82 +233,92 @@ namespace PBLgame.GamePlay
                 _attackTriggerObject.Update(gameTime);
                 _fieldOfView.Update(gameTime);
                 Vector3 dir;
-                switch (_currentAction)
+                if (_pushed)
                 {
-                    // TODO fix border points b/w attack & idle - now is flickering
-                    case RangeAction.EscapeNAttack:
-                        dir = gameObject.transform.Position - AISystem.Player.transform.Position;
-                        Random rand = new Random();
-                        int x = rand.Next(0, 100);
-                        int y = rand.Next(0, 100);
-                        if(_hp < _hpEscapeValue) SetLookVector(new Vector2(dir.Z, dir.X));
-                        else SetLookVector(new Vector2(-dir.Z, -dir.X));
-                        dir.X *= x / 100.0f;
-                        dir.Z *= y / 100.0f;
-                        UnitVelocity = new Vector2(dir.X, dir.Z) * 0.02f;
-                        _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
-                        if (_attackTimer > _attackDelay)
-                        {
-                            _attackTimer = 0.0f;
-                        }
-                        if((_attackTimer + (gameTime.ElapsedGameTime.Milliseconds/2) > _attackDelay) && ( _attackTimer - (gameTime.ElapsedGameTime.Milliseconds/2) < _attackDelay))
-                        {
-                            _attackTriggerObject.collision.Enabled = true;
-                            foreach (GameObject go in PhysicsSystem.CollisionObjects)
+                    Console.WriteLine(gameObject.transform.Position);
+                    _pushTimer += (gameTime.ElapsedGameTime.Milliseconds / 1000f);
+                    _gameObject.transform.Position += _pushValue;
+                    if (_pushTimer > 1.0f) _pushed = false;
+                }
+                else
+                {
+                    switch (_currentAction)
+                    {
+                        // TODO fix border points b/w attack & idle - now is flickering
+                        case RangeAction.EscapeNAttack:
+                            dir = gameObject.transform.Position - AISystem.Player.transform.Position;
+                            Random rand = new Random();
+                            int x = rand.Next(0, 100);
+                            int y = rand.Next(0, 100);
+                            if (_hp < _hpEscapeValue) SetLookVector(new Vector2(dir.Z, dir.X));
+                            else SetLookVector(new Vector2(-dir.Z, -dir.X));
+                            dir.X *= x / 100.0f;
+                            dir.Z *= y / 100.0f;
+                            UnitVelocity = new Vector2(dir.X, dir.Z) * 0.02f;
+                            _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
+                            if (_attackTimer > _attackDelay)
                             {
-                                if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
-                                {
-                                    _attackTriggerObject.collision.ChceckCollisionDeeper(go);
-                                }
+                                _attackTimer = 0.0f;
                             }
-                            _attackTriggerObject.collision.Enabled = false;
-                        }
-                        break;
-                    case RangeAction.Attack:
-                        dir = AISystem.Player.transform.Position - gameObject.transform.Position;
-                        UnitVelocity = Vector2.Zero;
-                        SetLookVector(new Vector2(dir.Z, dir.X));
-                        _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
-                        if (_attackTimer > _attackDelay)
-                        {
-                            _attackTimer = 0.0f;
-                        }
-                        if((_attackTimer + (gameTime.ElapsedGameTime.Milliseconds/2) > _attackDelay) && ( _attackTimer - (gameTime.ElapsedGameTime.Milliseconds/2) < _attackDelay))
-                        {
-                            _attackTriggerObject.collision.Enabled = true;
-                            gameObject.animator.Attack();
-                            foreach (GameObject go in PhysicsSystem.CollisionObjects)
+                            if ((_attackTimer + (gameTime.ElapsedGameTime.Milliseconds / 2) > _attackDelay) && (_attackTimer - (gameTime.ElapsedGameTime.Milliseconds / 2) < _attackDelay))
                             {
-                                if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                                _attackTriggerObject.collision.Enabled = true;
+                                foreach (GameObject go in PhysicsSystem.CollisionObjects)
                                 {
-                                    _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                                    if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                                    {
+                                        _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                                    }
                                 }
+                                _attackTriggerObject.collision.Enabled = false;
                             }
-                            _attackTriggerObject.collision.Enabled = false;
-                        }
-                        break;
-                    case RangeAction.Chase:
-                        _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
-                        dir = AISystem.Player.transform.Position - gameObject.transform.Position;
-                        SetLookVector(new Vector2(dir.Z, dir.X));
-                        //Vector3 chaseDir = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
-                        UnitVelocity = new Vector2(dir.X, dir.Z) * ChaseSpeed;
-                        break;
-                    case RangeAction.Escape:
-                        dir = gameObject.transform.Position - AISystem.Player.transform.Position;
-                        Random rand2 = new Random();
-                        int x2 = rand2.Next(0, 100);
-                        int y2 = rand2.Next(0, 100);
-                        if(_hp < _hpEscapeValue) SetLookVector(new Vector2(dir.Z, dir.X));
-                        else SetLookVector(new Vector2(-dir.Z, -dir.X));
-                        dir.X *= x2 / 100.0f;
-                        dir.Z *= y2 / 100.0f;
-                        //gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
-                        UnitVelocity = new Vector2(dir.X, dir.Z) * ChaseSpeed;
-                        break;
-                    case RangeAction.Stay:
-                        UnitVelocity = Vector2.Zero;
-                        break;
+                            break;
+                        case RangeAction.Attack:
+                            dir = AISystem.Player.transform.Position - gameObject.transform.Position;
+                            UnitVelocity = Vector2.Zero;
+                            SetLookVector(new Vector2(dir.Z, dir.X));
+                            _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
+                            if (_attackTimer > _attackDelay)
+                            {
+                                _attackTimer = 0.0f;
+                            }
+                            if ((_attackTimer + (gameTime.ElapsedGameTime.Milliseconds / 2) > _attackDelay) && (_attackTimer - (gameTime.ElapsedGameTime.Milliseconds / 2) < _attackDelay))
+                            {
+                                _attackTriggerObject.collision.Enabled = true;
+                                gameObject.animator.Attack();
+                                foreach (GameObject go in PhysicsSystem.CollisionObjects)
+                                {
+                                    if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                                    {
+                                        _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                                    }
+                                }
+                                _attackTriggerObject.collision.Enabled = false;
+                            }
+                            break;
+                        case RangeAction.Chase:
+                            _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
+                            dir = AISystem.Player.transform.Position - gameObject.transform.Position;
+                            SetLookVector(new Vector2(dir.Z, dir.X));
+                            //Vector3 chaseDir = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
+                            UnitVelocity = new Vector2(dir.X, dir.Z) * ChaseSpeed;
+                            break;
+                        case RangeAction.Escape:
+                            dir = gameObject.transform.Position - AISystem.Player.transform.Position;
+                            Random rand2 = new Random();
+                            int x2 = rand2.Next(0, 100);
+                            int y2 = rand2.Next(0, 100);
+                            if (_hp < _hpEscapeValue) SetLookVector(new Vector2(dir.Z, dir.X));
+                            else SetLookVector(new Vector2(-dir.Z, -dir.X));
+                            dir.X *= x2 / 100.0f;
+                            dir.Z *= y2 / 100.0f;
+                            //gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
+                            UnitVelocity = new Vector2(dir.X, dir.Z) * ChaseSpeed;
+                            break;
+                        case RangeAction.Stay:
+                            UnitVelocity = Vector2.Zero;
+                            break;
+                    }
                 }
             }
         }

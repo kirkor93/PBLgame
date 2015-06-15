@@ -162,7 +162,7 @@ namespace PBLgame.GamePlay
                             _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
                             float biggest = Math.Abs(_pushValue.X);
                             if (_pushValue.Z > biggest) biggest = _pushValue.Z;
-                            _pushValue /= (biggest * 5.0f) ;
+                            _pushValue /= (biggest * 3.0f) ;
                             _pushValue.Y = gameObject.transform.Position.Y;
                             _pushed = true;
                             _pushTimer = 0.0f;
@@ -190,7 +190,7 @@ namespace PBLgame.GamePlay
                             _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
                             float biggest = Math.Abs(_pushValue.X);
                             if (_pushValue.Z > biggest) biggest = _pushValue.Z;
-                            _pushValue /= (biggest * 5.0f) ;
+                            _pushValue /= (biggest * 3.0f) ;
                             _pushValue.Y = gameObject.transform.Position.Y;
                             _pushed = true;
                             _pushTimer = 0.0f;
@@ -228,7 +228,7 @@ namespace PBLgame.GamePlay
                     Console.WriteLine(gameObject.transform.Position);
                     _pushTimer += (gameTime.ElapsedGameTime.Milliseconds / 1000f);
                     _gameObject.transform.Position += _pushValue;
-                    if (_pushTimer > 0.5f) _pushed = false;
+                    if (_pushTimer > 1.0f) _pushed = false;
                 }
                 else
                 {

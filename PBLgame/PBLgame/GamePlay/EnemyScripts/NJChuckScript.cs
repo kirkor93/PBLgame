@@ -27,6 +27,10 @@ namespace PBLgame.GamePlay
         private Vector3 _startingPosition;
         private Vector3 _chaseStartPosition;
 
+        private bool _pushed;
+        private Vector3 _pushValue;
+        private float _pushTimer;
+
         private float _attackTimer = 2000;
 
         private float _chaseTimer;
@@ -159,6 +163,13 @@ namespace PBLgame.GamePlay
                             _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
                             break;
                         case AttackType.Push:
+                            _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
+                            float biggest = Math.Abs(_pushValue.X);
+                            if (_pushValue.Z > biggest) biggest = _pushValue.Z;
+                            _pushValue /= (biggest * 3.0f) ;
+                            _pushValue.Y = gameObject.transform.Position.Y;
+                            _pushed = true;
+                            _pushTimer = 0.0f;
                             break;
                         case AttackType.Ion:
                             break;
@@ -180,6 +191,13 @@ namespace PBLgame.GamePlay
                             _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
                             break;
                         case AttackType.Push:
+                            _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
+                            float biggest = Math.Abs(_pushValue.X);
+                            if (_pushValue.Z > biggest) biggest = _pushValue.Z;
+                            _pushValue /= (biggest * 3.0f) ;
+                            _pushValue.Y = gameObject.transform.Position.Y;
+                            _pushed = true;
+                            _pushTimer = 0.0f;
                             break;
                         case AttackType.Ion:
                             break;
@@ -211,49 +229,59 @@ namespace PBLgame.GamePlay
                 _attackTriggerObject.Update(gameTime);
                 _fieldOfView.Update(gameTime);
                 Vector3 dir;
-                switch (_currentAction)
+                if (_pushed)
                 {
-                    case MeleeAction.Attack:
-                        UnitVelocity = Vector2.Zero;
-                        dir = AISystem.Player.transform.Position - gameObject.transform.Position;
-                        SetLookVector(new Vector2(dir.X, -dir.Z));
-                        _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
-                        if (_attackTimer > _attackDelay)
-                        {
-                            _attackTriggerObject.collision.Enabled = true;
-                            _attackTimer = 0.0f;
-                            // TODO only for the movie
-                            gameObject.animator.Attack((rand.NextDouble() > 0.8) ? "Basic" : "Strong");
-                            foreach (GameObject go in PhysicsSystem.CollisionObjects)
+                    Console.WriteLine(gameObject.transform.Position);
+                    _pushTimer += (gameTime.ElapsedGameTime.Milliseconds / 1000f);
+                    _gameObject.transform.Position += _pushValue;
+                    if (_pushTimer > 1.0f) _pushed = false;
+                }
+                else
+                {
+                    switch (_currentAction)
+                    {
+                        case MeleeAction.Attack:
+                            UnitVelocity = Vector2.Zero;
+                            dir = AISystem.Player.transform.Position - gameObject.transform.Position;
+                            SetLookVector(new Vector2(dir.X, -dir.Z));
+                            _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
+                            if (_attackTimer > _attackDelay)
                             {
-                                if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                                _attackTriggerObject.collision.Enabled = true;
+                                _attackTimer = 0.0f;
+                                // TODO only for the movie
+                                gameObject.animator.Attack((rand.NextDouble() > 0.8) ? "Basic" : "Strong");
+                                foreach (GameObject go in PhysicsSystem.CollisionObjects)
                                 {
-                                    _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                                    if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                                    {
+                                        _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                                    }
                                 }
+                                _attackTriggerObject.collision.Enabled = false;
                             }
-                            _attackTriggerObject.collision.Enabled = false;
-                        }
-                        break;
-                    case MeleeAction.Chase:
-                        _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
-                        dir = AISystem.Player.transform.Position - gameObject.transform.Position;
-                        SetLookVector(new Vector2(dir.X, -dir.Z));
-                        //gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
-                        UnitVelocity = new Vector2(dir.X, -dir.Z) * ChaseSpeed;
-                        break;
-                    case MeleeAction.Escape:
-                        dir = gameObject.transform.Position - AISystem.Player.transform.Position;
-                        int x = rand.Next(0, 100);
-                        int y = rand.Next(0, 100);
-                        SetLookVector(new Vector2(dir.X, -dir.Z));
-                        dir.X *= x / 100.0f;
-                        dir.Z *= y / 100.0f;
-                        //gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
-                        UnitVelocity = new Vector2(dir.X, -dir.Z) * ChaseSpeed;
-                        break;
-                    case MeleeAction.Stay:
-                        UnitVelocity = Vector2.Zero;
-                        break;
+                            break;
+                        case MeleeAction.Chase:
+                            _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
+                            dir = AISystem.Player.transform.Position - gameObject.transform.Position;
+                            SetLookVector(new Vector2(dir.X, -dir.Z));
+                            //gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
+                            UnitVelocity = new Vector2(dir.X, -dir.Z) * ChaseSpeed;
+                            break;
+                        case MeleeAction.Escape:
+                            dir = gameObject.transform.Position - AISystem.Player.transform.Position;
+                            int x = rand.Next(0, 100);
+                            int y = rand.Next(0, 100);
+                            SetLookVector(new Vector2(dir.X, -dir.Z));
+                            dir.X *= x / 100.0f;
+                            dir.Z *= y / 100.0f;
+                            //gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
+                            UnitVelocity = new Vector2(dir.X, -dir.Z) * ChaseSpeed;
+                            break;
+                        case MeleeAction.Stay:
+                            UnitVelocity = Vector2.Zero;
+                            break;
+                    }
                 }
             }
         }
