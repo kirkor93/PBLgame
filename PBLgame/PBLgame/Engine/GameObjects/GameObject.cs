@@ -261,10 +261,10 @@ namespace PBLgame.Engine.GameObjects
             //{
             //    particleSystem.Draw(gameTime);
             //}
-            if (collision != null && Name != null &&  Name.Contains("Gate"))
-            {
+//            if (collision != null && Name != null &&  Name.Contains("Tower"))
+//            {
 //                collision.Draw(gameTime);
-            }
+//            }
             if (renderer != null)
             {
                 renderer.Draw(gameTime);
