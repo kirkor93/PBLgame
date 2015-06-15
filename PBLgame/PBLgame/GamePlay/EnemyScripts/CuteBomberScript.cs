@@ -144,19 +144,19 @@ namespace PBLgame.GamePlay
 
         public void GetHitMethod(Object o, ColArgs args)
         {
-            PlayerScript stats = null;
+            PlayerScript player = null;
             if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Weapon")
             {
-                stats = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
-                if (stats != null)
+                player = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                if (player != null)
                 {
-                    switch (stats.AttackEnum)
+                    switch (player.AttackEnum)
                     {
                         case AttackType.Quick:
-                            _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.FastAttackDamageBonus.Value);
+                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.FastAttackDamageBonus.Value);
                             break;
                         case AttackType.Strong:
-                            _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.StrongAttackDamageBonus.Value);
+                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
                             break;
                         case AttackType.Push:
                             _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
@@ -170,21 +170,21 @@ namespace PBLgame.GamePlay
                         case AttackType.Ion:
                             break;
                     }
-                    stats.LastTargetedEnemyHp = new Stat(HP, MaxHp);
+                    player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                 }
             }
             else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Weapon")
             {
-                stats = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
-                if (stats != null)
+                player = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                if (player != null)
                 {
-                    switch (stats.AttackEnum)
+                    switch (player.AttackEnum)
                     {
                         case AttackType.Quick:
-                            _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.FastAttackDamageBonus.Value);
+                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.FastAttackDamageBonus.Value);
                             break;
                         case AttackType.Strong:
-                            _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.StrongAttackDamageBonus.Value);
+                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
                             break;
                         case AttackType.Push:
                             _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
@@ -198,16 +198,21 @@ namespace PBLgame.GamePlay
                         case AttackType.Ion:
                             break;
                     }
-                    stats.LastTargetedEnemyHp = new Stat(HP, MaxHp);
+                    player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                 }
             }
             if (HP <= 0)
             {
-                if (stats != null) stats.Stats.Experience.Increase(100);
-                gameObject.Enabled = false;
-                _attackTriggerObject.Enabled = false;
-                _fieldOfView.Enabled = false;
+                MakeDead(player);
             }
+        }
+
+        protected override void MakeDead(PlayerScript player)
+        {
+            if (player != null) player.Stats.Experience.Increase(100);
+            _attackTriggerObject.Enabled = false;
+            _fieldOfView.Enabled = false;
+            //base.MakeDead(player); no animations here
         }
 
         public override void Update(GameTime gameTime)

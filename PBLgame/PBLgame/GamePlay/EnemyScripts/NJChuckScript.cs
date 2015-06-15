@@ -16,6 +16,7 @@ namespace PBLgame.GamePlay
     {
         #region Variables
         #region Enemy Vars
+        // TODO move this shiiiiiiiiet to motherfucking enemy base class
         public AIComponent AIComponent;
         public float ChaseSpeed = 0.001f;
         private float _attackDelay = 2500;
@@ -66,7 +67,8 @@ namespace PBLgame.GamePlay
         public NJChuckScript(GameObject owner)
             : base(owner)
         {
-            _hp = 1000;
+            //_hp = 1000;
+            _hp = 100; // fixed
             MaxHp = HP;
 
             _attackTriggerObject = new GameObject();
@@ -142,56 +144,62 @@ namespace PBLgame.GamePlay
 
         public void GetHitMethod(Object o, ColArgs args)
         {
-            PlayerScript stats = null;
+            PlayerScript player = null;
             if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Weapon")
             {
-                stats = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
-                if (stats != null)
+                player = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                if (player != null)
                 {
-                    switch (stats.AttackEnum)
+                    switch (player.AttackEnum)
                     {
                         case AttackType.Quick:
-                            _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.FastAttackDamageBonus.Value);
+                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.FastAttackDamageBonus.Value);
                             break;
                         case AttackType.Strong:
-                            _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.StrongAttackDamageBonus.Value);
+                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
                             break;
                         case AttackType.Push:
                             break;
                         case AttackType.Ion:
                             break;
                     }
-                    stats.LastTargetedEnemyHp = new Stat(HP, MaxHp);
+                    player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                 }
             }
             else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Weapon")
             {
-                stats = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
-                if (stats != null)
+                player = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                if (player != null)
                 {
-                    switch (stats.AttackEnum)
+                    switch (player.AttackEnum)
                     {
                         case AttackType.Quick:
-                            _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.FastAttackDamageBonus.Value);
+                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.FastAttackDamageBonus.Value);
                             break;
                         case AttackType.Strong:
-                            _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.StrongAttackDamageBonus.Value);
+                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
                             break;
                         case AttackType.Push:
                             break;
                         case AttackType.Ion:
                             break;
                     }
-                    stats.LastTargetedEnemyHp = new Stat(HP, MaxHp);
+                    player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                 }
             }
             if (HP <= 0)
             {
-                if (stats != null) stats.Stats.Experience.Increase(100);
-                gameObject.Enabled = false;
-                _attackTriggerObject.Enabled = false;
-                _fieldOfView.Enabled = false;
+                MakeDead(player);
             }
+        }
+
+        protected override void MakeDead(PlayerScript player)
+        {
+            // TODO move as much as possible of this shiet to enemy base class
+            if (player != null) player.Stats.Experience.Increase(100);
+            _attackTriggerObject.Enabled = false;
+            _fieldOfView.Enabled = false;
+            base.MakeDead(player);
         }
 
         public override void Update(GameTime gameTime)
