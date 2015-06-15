@@ -8494,7 +8494,7 @@
         </Bursts>
       </ParticleSystem>
       <PBLgame.Engine.Components.AIComponent Enabled="True" />
-      <PBLgame.GamePlay.EnemyMeleeScript Enabled="True" />
+      <PBLgame.GamePlay.CuteBomberScript Enabled="True" />
     </GameObject>
     <GameObject Name="MechaRanger001" Tag="Enemy" Id="960">
       <Transform Enabled="True">
