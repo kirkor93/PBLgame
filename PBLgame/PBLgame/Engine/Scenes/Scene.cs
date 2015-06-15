@@ -222,6 +222,7 @@ namespace PBLgame.Engine.Scenes
                     gameObject.DrawSpecial(gameTime, technique);
             }
 
+            if (technique != Renderer.Technique.Default) return;
             foreach (GameObject gameObject in GameObjects)
             {
                 if (gameObject.particleSystem != null) gameObject.particleSystem.Draw(gameTime);
