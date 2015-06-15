@@ -27,7 +27,11 @@ namespace PBLgame.GamePlay
         private Vector3 _startingPosition;
         private Vector3 _chaseStartPosition;
 
-        private float _attackTimer = 2000;
+        private bool _pushed;
+        private Vector3 _pushValue;
+        private float _pushTimer;
+
+        private float _attackTimer = 0.0f;
 
         private float _chaseTimer;
 
@@ -67,6 +71,10 @@ namespace PBLgame.GamePlay
         {
             _hp = 30;
             MaxHp = HP;
+
+            _pushTimer = 0.0f;
+            _pushValue = Vector3.Zero;
+            _pushed = false;
 
             _attackTriggerObject = new GameObject();
             _attackTriggerObject.Tag = "EnemyWeapon";
@@ -151,6 +159,13 @@ namespace PBLgame.GamePlay
                             _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.StrongAttackDamageBonus.Value);
                             break;
                         case AttackType.Push:
+                            _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
+                            float biggest = Math.Abs(_pushValue.X);
+                            if (_pushValue.Z > biggest) biggest = _pushValue.Z;
+                            _pushValue /= (biggest * 5.0f) ;
+                            _pushValue.Y = gameObject.transform.Position.Y;
+                            _pushed = true;
+                            _pushTimer = 0.0f;
                             break;
                         case AttackType.Ion:
                             break;
@@ -172,6 +187,13 @@ namespace PBLgame.GamePlay
                             _hp -= (stats.Stats.BasePhysicalDamage.Value + stats.Stats.StrongAttackDamageBonus.Value);
                             break;
                         case AttackType.Push:
+                            _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
+                            float biggest = Math.Abs(_pushValue.X);
+                            if (_pushValue.Z > biggest) biggest = _pushValue.Z;
+                            _pushValue /= (biggest * 5.0f) ;
+                            _pushValue.Y = gameObject.transform.Position.Y;
+                            _pushed = true;
+                            _pushTimer = 0.0f;
                             break;
                         case AttackType.Ion:
                             break;
@@ -196,39 +218,49 @@ namespace PBLgame.GamePlay
                 _attackTriggerObject.Update(gameTime);
                 _fieldOfView.Update(gameTime);
                 Vector3 dir;
-                switch (_currentAction)
+                if (_pushed)
                 {
-                    case MeleeAction.Attack:
-                        dir = AISystem.Player.transform.Position - gameObject.transform.Position;
-                        SetLookVector(new Vector2(dir.X, -dir.Z));
-                        _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
-                        if (_attackTimer > _attackDelay)
-                        {
-                            _attackTriggerObject.collision.Enabled = true;
-                            _attackTimer = 0.0f;
-                            foreach (GameObject go in PhysicsSystem.CollisionObjects)
+                    Console.WriteLine(gameObject.transform.Position);
+                    _pushTimer += (gameTime.ElapsedGameTime.Milliseconds / 1000f);
+                    _gameObject.transform.Position += _pushValue;
+                    if (_pushTimer > 0.5f) _pushed = false;
+                }
+                else
+                {
+                    switch (_currentAction)
+                    {
+                        case MeleeAction.Attack:
+                            dir = AISystem.Player.transform.Position - gameObject.transform.Position;
+                            SetLookVector(new Vector2(dir.X, -dir.Z));
+                            _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
+                            if (_attackTimer > _attackDelay)
                             {
-                                if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                                _attackTriggerObject.collision.Enabled = true;
+                                _attackTimer = 0.0f;
+                                foreach (GameObject go in PhysicsSystem.CollisionObjects)
                                 {
-                                    _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                                    if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                                    {
+                                        _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                                    }
                                 }
+                                gameObject.GetComponent<ParticleSystem>().Triggered = true;
+                                gameObject.renderer.Enabled = false;
+                                gameObject.collision.Enabled = false;
+                                _attackTriggerObject.Enabled = false;
+                                _fieldOfView.Enabled = false;
+                                _hp = 0;
                             }
-                            gameObject.GetComponent<ParticleSystem>().Triggered = true;
-                            gameObject.renderer.Enabled = false;
-                            gameObject.collision.Enabled = false;
-                            _attackTriggerObject.Enabled = false;
-                            _fieldOfView.Enabled = false;
-                            _hp = 0;
-                        }
-                        break;
-                    case MeleeAction.Chase:
-                        _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
-                        dir = AISystem.Player.transform.Position - gameObject.transform.Position;
-                        SetLookVector(new Vector2(dir.X, -dir.Z));
-                        gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
-                        break;
-                    case MeleeAction.Stay:
-                        break;
+                            break;
+                        case MeleeAction.Chase:
+                            _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
+                            dir = AISystem.Player.transform.Position - gameObject.transform.Position;
+                            SetLookVector(new Vector2(dir.X, -dir.Z));
+                            gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
+                            break;
+                        case MeleeAction.Stay:
+                            break;
+                    }
                 }
             }
         }

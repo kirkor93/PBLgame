@@ -21,6 +21,7 @@
       <Texture Path="Textures\Champions\Sword_d" />
       <Texture Path="Textures\Champions\Sword_n" />
       <Texture Path="Textures\Champions\Sword_s" />
+      <Texture Path="Textures\Champions\Banan_d" />
       <Texture Path="Textures\Enemies\Crossbow_d" />
       <Texture Path="Textures\Enemies\Crossbow_n" />
       <Texture Path="Textures\Enemies\Crossbow_s" />
@@ -246,13 +247,14 @@
       <Material Id="47" Name="Enemies\NJ" Diffuse="Textures\Enemies\NJ_d" Normal="Textures\Enemies\NJ_n" Specular="Textures\Enemies\NJ_s" Emissive="Textures\Enemies\NJ_d" ShaderPath="Effects\BasicShader" />
       <Material Id="48" Name="Enemies\Chainsword" Diffuse="Textures\Enemies\Chainsword_d" Normal="Textures\Enemies\Chainsword_n" Specular="Textures\Enemies\Chainsword_s" Emissive="Textures\Enemies\Chainsword_d" ShaderPath="Effects\BasicShader" />
       <Material Id="49" Name="Champions\Sword" Diffuse="Textures\Champions\Sword_d" Normal="Textures\Champions\Sword_n" Specular="Textures\Champions\Sword_s" Emissive="Textures\Champions\Sword_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="50" Name="Champions\Banan" Diffuse="Textures\Champions\Banan_d" Emissive="Textures\Champions\Banan_d" ShaderPath="Effects\BasicShader" />
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
       <Mesh Id="2" Path="Models\Gandalf" Skeleton="1" />
       <Mesh Id="3" Path="Models\Champions\Ace" Skeleton="3" />
       <Mesh Id="4" Path="Models\Champions\Ace_sword_v1" />
-	  <Mesh Id="51" Path="Models\Champions\Banan" />
+      <Mesh Id="51" Path="Models\Champions\Banan" />
       <Mesh Id="5" Path="Models\Enemies\Crossbow" />
       <Mesh Id="6" Path="Models\Enemies\Cute_Bomber" />
       <Mesh Id="7" Path="Models\Enemies\Katana" />
