@@ -48,5 +48,15 @@ namespace PBLgame.Engine
         {
             return String.Format("{0}{3}{1}{3}{2}", v.X, v.Y, v.Z, separator);
         }
+
+        public static Vector3 GetCenter(this BoundingBox bb)
+        {
+            return (bb.Min + bb.Max) / 2;
+        }
+
+        public static Vector3 GetSize(this BoundingBox bb)
+        {
+            return bb.Max - bb.Min;
+        }
     }
 }

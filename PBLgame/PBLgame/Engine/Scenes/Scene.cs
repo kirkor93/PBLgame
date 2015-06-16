@@ -8,6 +8,7 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using PBLgame.Engine.GameObjects;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.Singleton;
@@ -157,7 +158,6 @@ namespace PBLgame.Engine.Scenes
                 Vector3 mirrorPosition = _mirror.transform.WorldPosition;
                 float d = -Vector3.Dot(mirrorNormal, mirrorPosition);
                 Plane reflectionPlane = new Plane(mirrorNormal, d);
-                // uncomment if needed:
                 reflectionPlane.Normalize();
                 Vector3 camPos = cam.transform.Position;
                 // if Normal ABC is normalized, then dist = |Ax + By + Cz + D|
@@ -560,8 +560,6 @@ namespace PBLgame.Engine.Scenes
             foreach (GameObject gameObject in GameObjects)
             {
                 ///////////////////////////////////////////////
-                /// 
-                /// 
                 if (gameObject.collision == null)
                 {
                     if (gameObject.Name.Contains("Barrier"))
@@ -575,8 +573,6 @@ namespace PBLgame.Engine.Scenes
                         gameObject.collision.BoxColliders.First().GenerateCollider();
                     }
                 }
-              
-
 
                 ////////////////////////////////////////////////
                 if (gameObject.parent != null)
@@ -626,6 +622,39 @@ namespace PBLgame.Engine.Scenes
             //Hard coded setting Ace as target xD
             AISystem.SetPlayer(FindGameObject(8));
 
+            GenerateCullingGraph();
+
+        }
+
+        /// <summary>
+        /// Creates optimization graph for view-frustum culling.
+        /// </summary>
+        private void GenerateCullingGraph()
+        {
+            List<GameObject> dynamicObjects = new List<GameObject>();
+            // generate AABB for each static mesh
+            foreach (GameObject gameObject in GameObjects)
+            {
+                if(gameObject.renderer == null) continue;
+                Collision collision = gameObject.collision;
+                bool isStatic = (collision == null) || collision.Static;
+                if (isStatic)
+                {
+                    BoundingBox aabb = gameObject.renderer.GenerateAABB();
+                    if (collision == null)
+                    {
+                        gameObject.collision = new Collision(gameObject);
+                        collision = gameObject.collision;
+                    }
+                    BoundingSphere sphere = BoundingSphere.CreateFromBoundingBox(aabb);
+                    collision.MainCollider = new SphereCollider(collision, 10f, false);
+                    collision.BoxColliders.Add(new BoxCollider(collision, aabb.GetCenter(), aabb.GetSize(), false));
+                }
+                else
+                {
+                    dynamicObjects.Add(gameObject);
+                }
+            }
         }
 
         #region XML Serialization
