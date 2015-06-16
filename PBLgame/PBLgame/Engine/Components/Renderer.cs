@@ -205,10 +205,9 @@ namespace PBLgame.Engine.Components
         /// Generates AABB using current mesh & transform.
         /// </summary>
         /// <returns></returns>
-        public BoundingBox GenerateAABB()
+        public BoundingBox GenerateAABB(Matrix worldMatrix)
         {
             ModelMeshCollection meshes = gameObject.renderer.MyMesh.Model.Meshes;
-            Matrix worldMatrix = gameObject.transform.World;
             List<Vector3> vertices = new List<Vector3>();
             foreach (ModelMesh mesh in meshes)
             {
@@ -223,7 +222,7 @@ namespace PBLgame.Engine.Components
                         // TODO check if ParentBone.Transform is necessary
                         Vector3 vertex = Vector3.Transform(
                             new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]),
-                            mesh.ParentBone.Transform// * worldMatrix
+                            mesh.ParentBone.Transform * worldMatrix
                         );
                         vertices.Add(vertex);
                     }

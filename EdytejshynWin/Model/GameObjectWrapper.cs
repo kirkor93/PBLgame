@@ -304,6 +304,12 @@ namespace Edytejshyn.Model
             if (ancestor == null || Parent == null) return false;
             return (Parent == ancestor || Parent.HasAncestor(ancestor));
         }
+
+        public void Update()
+        {
+            if (Collision == null) return;
+            Collision.UpdateColliders();
+        }
     }
 
 

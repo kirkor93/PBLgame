@@ -67,7 +67,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="15.5" z="-20" />
+            <LocalPosition x="20" y="15.5" z="8.742278E-07" />
             <EdgesSize x="200" y="15.5" z="10" />
           </BoxCollider>
         </BoxColliders>
@@ -506,7 +506,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="15.5" z="10" />
+            <LocalPosition x="10" y="15.5" z="-4.371139E-07" />
             <EdgesSize x="170" y="15.5" z="10" />
           </BoxCollider>
         </BoxColliders>
@@ -549,7 +549,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="25" y="15" z="30" />
+            <LocalPosition x="30" y="15" z="-25" />
             <EdgesSize x="70" y="35.73524" z="40" />
           </BoxCollider>
         </BoxColliders>
@@ -587,7 +587,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="15" y="10.125" z="15" />
+            <LocalPosition x="-15" y="10.125" z="-15" />
             <EdgesSize x="30" y="40" z="30" />
           </BoxCollider>
         </BoxColliders>
@@ -614,7 +614,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="40" y="48.5" z="35" />
+            <LocalPosition x="35" y="48.5" z="-40" />
             <EdgesSize x="70" y="120" z="80" />
           </BoxCollider>
         </BoxColliders>
@@ -1553,7 +1553,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="48.5" z="0" />
+            <LocalPosition x="0" y="48.5" z="-4.240005E-06" />
             <EdgesSize x="50.5" y="48.5" z="33.86667" />
           </BoxCollider>
         </BoxColliders>
@@ -1580,7 +1580,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="48.5" z="0" />
+            <LocalPosition x="-1.113614E-13" y="48.5" z="-4.240005E-06" />
             <EdgesSize x="50.5" y="48.5" z="33.86667" />
           </BoxCollider>
         </BoxColliders>
@@ -1681,7 +1681,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="48.5" z="0" />
+            <LocalPosition x="-5.192918E-15" y="48.5" z="-4.240005E-06" />
             <EdgesSize x="50.5" y="48.5" z="33.86667" />
           </BoxCollider>
         </BoxColliders>
@@ -1700,7 +1700,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="22.03144" z="0" />
+            <LocalPosition x="-4.873539E-15" y="22.03144" z="-1.92605E-06" />
             <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
           </BoxCollider>
         </BoxColliders>
@@ -1732,7 +1732,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="22.03144" z="0" />
+            <LocalPosition x="3.686507E-14" y="22.03144" z="-1.92605E-06" />
             <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
           </BoxCollider>
         </BoxColliders>
@@ -1751,7 +1751,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="22.03144" z="0" />
+            <LocalPosition x="3.686507E-14" y="22.03144" z="-1.92605E-06" />
             <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
           </BoxCollider>
         </BoxColliders>
@@ -1770,7 +1770,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="22.03144" z="0" />
+            <LocalPosition x="-1.259706E-14" y="22.03144" z="-1.92605E-06" />
             <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
           </BoxCollider>
         </BoxColliders>
@@ -1789,7 +1789,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="22.03144" z="0" />
+            <LocalPosition x="-1.259706E-14" y="22.03144" z="-1.92605E-06" />
             <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
           </BoxCollider>
         </BoxColliders>
@@ -1808,7 +1808,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="22.03144" z="0" />
+            <LocalPosition x="-1.259706E-14" y="22.03144" z="-1.92605E-06" />
             <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
           </BoxCollider>
         </BoxColliders>
@@ -1827,7 +1827,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="22.03144" z="0" />
+            <LocalPosition x="3.686507E-14" y="22.03144" z="-1.92605E-06" />
             <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
           </BoxCollider>
         </BoxColliders>
@@ -1862,7 +1862,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="15.22829" z="0" />
+            <LocalPosition x="-3.377434E-15" y="15.22829" z="-1.331299E-06" />
             <EdgesSize x="22.95737" y="15.22829" z="3.811388" />
           </BoxCollider>
         </BoxColliders>
@@ -1881,7 +1881,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="15.22829" z="0" />
+            <LocalPosition x="-3.377434E-15" y="15.22829" z="-1.331299E-06" />
             <EdgesSize x="22.95737" y="15.22829" z="3.811388" />
           </BoxCollider>
         </BoxColliders>
@@ -1900,7 +1900,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="15.22829" z="0" />
+            <LocalPosition x="2.54814E-14" y="15.22829" z="-1.331299E-06" />
             <EdgesSize x="22.95737" y="15.22829" z="3.811388" />
           </BoxCollider>
         </BoxColliders>
@@ -1978,7 +1978,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="35" y="10" z="50" />
+            <LocalPosition x="50" y="10" z="-35" />
             <EdgesSize x="100" y="20" z="70" />
           </BoxCollider>
         </BoxColliders>
@@ -2125,7 +2125,7 @@
         </SphereColliders>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="40" y="120" z="40" />
+            <LocalPosition x="-54.64102" y="14.64104" z="120" />
             <EdgesSize x="30" y="48.5" z="60" />
           </BoxCollider>
         </BoxColliders>
@@ -5570,7 +5570,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="35.73524" z="0" />
+            <LocalPosition x="2.140967E-15" y="35.73524" z="-3.124074E-06" />
             <EdgesSize x="39.11892" y="35.73524" z="1.964021" />
           </BoxCollider>
         </BoxColliders>
@@ -5589,7 +5589,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="35.73524" z="0" />
+            <LocalPosition x="2.140967E-15" y="35.73524" z="-3.124074E-06" />
             <EdgesSize x="39.11892" y="35.73524" z="1.964021" />
           </BoxCollider>
         </BoxColliders>
@@ -7944,7 +7944,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="22.03144" z="0" />
+            <LocalPosition x="3.686507E-14" y="22.03144" z="-1.92605E-06" />
             <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
           </BoxCollider>
         </BoxColliders>
@@ -7963,7 +7963,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="22.03144" z="0" />
+            <LocalPosition x="3.686507E-14" y="22.03144" z="-1.92605E-06" />
             <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
           </BoxCollider>
         </BoxColliders>
@@ -7982,7 +7982,7 @@
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="22.03144" z="0" />
+            <LocalPosition x="3.686507E-14" y="22.03144" z="-1.92605E-06" />
             <EdgesSize x="24.72237" y="22.03144" z="0.497286" />
           </BoxCollider>
         </BoxColliders>

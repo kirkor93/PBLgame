@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Physics;
 using PBLgame.Engine.Scenes;
 using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
@@ -396,6 +397,12 @@ namespace Edytejshyn
             }
             UpdateTitle();
             propertyGrid.Refresh();
+
+            if (Logic.SelectionManager == null) return;
+            foreach (GameObjectWrapper wrapper in Logic.SelectionManager.CurrentSelection)
+            {
+                wrapper.Update();
+            }
         }
 
         /// <summary>
@@ -704,6 +711,10 @@ namespace Edytejshyn
                 {
                     collisionTreeView.Collision.AddBox();
                 };
+                popup.Items.Add("Update colliders").Click += delegate
+                {
+                    collisionTreeView.Collision.UpdateColliders();
+                };
                 collisionTreeView.ContextMenuStrip = popup;
                 return;
             }
@@ -875,6 +886,33 @@ namespace Edytejshyn
         }
 
         #endregion
+
+        private void fixAllCollidersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (GameObject gameObject in Logic.CurrentScene.GameObjects)
+            {
+                if (gameObject.collision == null) continue;
+                foreach (BoxCollider box in gameObject.collision.BoxColliders)
+                {
+                    //Matrix _world;
+                    //Matrix _worldTranslation = Matrix.CreateTranslation(box.LocalPosition);
+                    //if (gameObject.parent != null)
+                    //{
+                    //    _world = (_worldTranslation * gameObject.transform.WorldTranslation * gameObject.transform.AncestorsRotation * gameObject.transform.AncestorsTranslation);
+                    //}
+                    //else
+                    //{
+                    //    _world = (_worldTranslation * gameObject.transform.WorldTranslation);
+                    //}
+
+
+                    Matrix trans = Matrix.CreateTranslation(box.LocalPosition);
+                    Matrix rotation = gameObject.transform.WorldRotation;
+                    Matrix newWorld = trans * Matrix.Invert(rotation);
+                    box.LocalPosition = newWorld.Translation;
+                }
+            }
+        }
 
     }
 }

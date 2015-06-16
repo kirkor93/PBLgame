@@ -63,8 +63,7 @@ namespace Edytejshyn.Model
 
         public void AddBox()
         {
-            BoxCollider boxCollider = new BoxCollider(WrappedCollision, new Vector3(20, 20, 20), false);
-            boxCollider.GenerateCollider();
+            BoxCollider boxCollider = WrappedCollision.GenerateBoxCollider();
             Parent.FireAdder(WrappedCollision.BoxColliders, boxCollider, _colliderActionAfter, "Box collider");
         }
 
@@ -90,6 +89,20 @@ namespace Edytejshyn.Model
                 Parent.FireRemover(WrappedCollision.BoxColliders, box.Collider, _colliderActionAfter);
                 return;
             }
+        }
+
+        public void UpdateColliders()
+        {
+            WrappedCollision.MainCollider.UpdatePosition();
+            foreach (BoxCollider box in WrappedCollision.BoxColliders)
+            {
+                box.UpdatePosition();
+            }
+            foreach (SphereCollider sphere in WrappedCollision.SphereColliders)
+            {
+                sphere.UpdatePosition();
+            }
+            Program.UglyStaticMain.Refresh();
         }
     }
 

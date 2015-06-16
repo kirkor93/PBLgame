@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("[No colllision component]");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("[No colllision component]");
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.sceneMenuBar = new System.Windows.Forms.ToolStripMenuItem();
             this.openMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,6 +59,8 @@
             this.generateMaterialsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenuBar = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.fixAllCollidersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerVert = new System.Windows.Forms.SplitContainer();
             this.viewportControl = new Edytejshyn.GUI.ViewportControl();
             this.splitContainerRightHoriz = new System.Windows.Forms.SplitContainer();
@@ -337,7 +341,9 @@
             // helpMenuBar
             // 
             this.helpMenuBar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutMenuItem});
+            this.aboutMenuItem,
+            this.toolStripMenuItem5,
+            this.fixAllCollidersToolStripMenuItem});
             this.helpMenuBar.Name = "helpMenuBar";
             this.helpMenuBar.Size = new System.Drawing.Size(44, 20);
             this.helpMenuBar.Text = "&Help";
@@ -345,9 +351,22 @@
             // aboutMenuItem
             // 
             this.aboutMenuItem.Name = "aboutMenuItem";
-            this.aboutMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutMenuItem.Text = "&About";
             this.aboutMenuItem.Click += new System.EventHandler(this.AboutMenuItem_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(149, 6);
+            // 
+            // fixAllCollidersToolStripMenuItem
+            // 
+            this.fixAllCollidersToolStripMenuItem.Enabled = false;
+            this.fixAllCollidersToolStripMenuItem.Name = "fixAllCollidersToolStripMenuItem";
+            this.fixAllCollidersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fixAllCollidersToolStripMenuItem.Text = "Fix all colliders";
+            this.fixAllCollidersToolStripMenuItem.Click += new System.EventHandler(this.fixAllCollidersToolStripMenuItem_Click);
             // 
             // splitContainerVert
             // 
@@ -475,6 +494,13 @@
             this.collisionTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.collisionTreeView.Location = new System.Drawing.Point(0, 0);
             this.collisionTreeView.Name = "collisionTreeView";
+            treeNode1.Name = "";
+            treeNode1.Text = "[No colllision component]";
+            treeNode2.Name = "";
+            treeNode2.Text = "[No colllision component]";
+            this.collisionTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2});
             this.collisionTreeView.Size = new System.Drawing.Size(200, 195);
             this.collisionTreeView.TabIndex = 0;
             this.collisionTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.CollisionTreeView_AfterSelect);
@@ -722,6 +748,8 @@
         private System.Windows.Forms.ToolStripMenuItem forward01sToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainerProperty;
         private GUI.CollisionTreeView collisionTreeView;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem fixAllCollidersToolStripMenuItem;
     }
 }
 

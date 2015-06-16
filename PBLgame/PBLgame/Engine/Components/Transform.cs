@@ -188,6 +188,7 @@ namespace PBLgame.Engine.Components
 
         public Matrix WorldRotation { get { return _worldRotation; } }
         public Matrix WorldTranslation { get { return _worldTranslation; } }
+        public Matrix WorldScale { get { return _worldScale; } }
         public Vector3 WorldPosition
         {
             get

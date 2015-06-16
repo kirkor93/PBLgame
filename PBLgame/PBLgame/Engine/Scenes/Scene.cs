@@ -138,7 +138,7 @@ namespace PBLgame.Engine.Scenes
             IEnumerable<Effect> effects = ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader"));
             effects = effects as Effect[] ?? effects.ToArray();
 
-            RasterizerState oldRasterizer = _graphics.RasterizerState;
+            //RasterizerState oldRasterizer = _graphics.RasterizerState;
             //_graphics.RasterizerState = RasterizerState.CullNone;   // [possible slowdown] more realistic shadows
             
             ParameterizeEffectsWithLightsAndShadows(gameTime, effects);
@@ -622,7 +622,7 @@ namespace PBLgame.Engine.Scenes
             //Hard coded setting Ace as target xD
             AISystem.SetPlayer(FindGameObject(8));
 
-            GenerateCullingGraph();
+            //GenerateCullingGraph();
 
         }
 
@@ -640,7 +640,7 @@ namespace PBLgame.Engine.Scenes
                 bool isStatic = (collision == null) || collision.Static;
                 if (isStatic)
                 {
-                    BoundingBox aabb = gameObject.renderer.GenerateAABB();
+                    BoundingBox aabb = gameObject.renderer.GenerateAABB(gameObject.transform.WorldRotation);
                     if (collision == null)
                     {
                         gameObject.collision = new Collision(gameObject);
