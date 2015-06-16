@@ -64,6 +64,7 @@ namespace PBLgame.Engine.Scenes
 
         private RenderTarget2D _reflectionTarget;
         private bool _editor;
+        private CullingNode _rootNode;
 
         #endregion
         #endregion
@@ -622,7 +623,7 @@ namespace PBLgame.Engine.Scenes
             //Hard coded setting Ace as target xD
             AISystem.SetPlayer(FindGameObject(8));
 
-            //GenerateCullingGraph();
+            GenerateCullingGraph();
 
         }
 
@@ -632,6 +633,7 @@ namespace PBLgame.Engine.Scenes
         private void GenerateCullingGraph()
         {
             List<GameObject> dynamicObjects = new List<GameObject>();
+            List<GameObjectAABB> staticObjects = new List<GameObjectAABB>();
             // generate AABB for each static mesh
             foreach (GameObject gameObject in GameObjects)
             {
@@ -640,21 +642,19 @@ namespace PBLgame.Engine.Scenes
                 bool isStatic = (collision == null) || collision.Static;
                 if (isStatic)
                 {
-                    BoundingBox aabb = gameObject.renderer.GenerateAABB(gameObject.transform.WorldRotation);
-                    if (collision == null)
-                    {
-                        gameObject.collision = new Collision(gameObject);
-                        collision = gameObject.collision;
-                    }
-                    BoundingSphere sphere = BoundingSphere.CreateFromBoundingBox(aabb);
-                    collision.MainCollider = new SphereCollider(collision, 10f, false);
-                    collision.BoxColliders.Add(new BoxCollider(collision, aabb.GetCenter(), aabb.GetSize(), false));
+                    BoundingBox aabb = gameObject.renderer.GenerateAABB(gameObject.transform.World);
+                    staticObjects.Add(new GameObjectAABB(gameObject, aabb));
                 }
                 else
                 {
                     dynamicObjects.Add(gameObject);
                 }
             }
+
+            // whole scene into one box
+            BoundingBox sceneBox = new BoundingBox();
+            sceneBox = staticObjects.Aggregate(sceneBox, (current, o) => BoundingBox.CreateMerged(current, o.Box));
+            _rootNode = new CullingNode(null, sceneBox, staticObjects);
         }
 
         #region XML Serialization
@@ -738,5 +738,79 @@ namespace PBLgame.Engine.Scenes
         #endregion
         #endregion
 
+    }
+
+    public struct GameObjectAABB
+    {
+        public GameObject GameObject;
+        public BoundingBox Box;
+
+        public GameObjectAABB(GameObject gameObject, BoundingBox box)
+        {
+            GameObject = gameObject;
+            Box = box;
+        }
+    }
+
+    public class CullingNode
+    {
+        private readonly CullingNode _parent; 
+        private readonly CullingNode[] _children;
+        private readonly List<GameObject> _gameObjects = new List<GameObject>();
+        private readonly BoundingBox _box;
+
+        public List<GameObject> GameObjects { get { return _gameObjects; } } 
+        public BoundingBox Box { get { return _box; } }
+
+        public CullingNode(CullingNode parent, BoundingBox box, List<GameObjectAABB> inputList)
+        {
+            _parent = parent;
+            _box = box;
+            if (inputList.Count <= 1)
+            {
+                _children = null;
+                _gameObjects.AddRange(inputList.Select(o => o.GameObject));
+                Console.WriteLine("Few gameobjects: {0}", inputList.Count);
+            }
+            else
+            {
+                _children = new CullingNode[4];
+                BoundingBox[] childBoxes = new BoundingBox[4];
+                Vector3 half = (box.Min + box.Max) / 2;
+                Vector3 halfUp   = new Vector3(half.X, box.Max.Y, half.Z);
+                Vector3 trans = (box.Max - box.Min) / 2;
+                childBoxes[0] = new BoundingBox(box.Min, halfUp);
+                childBoxes[1] = childBoxes[0].Translate(new Vector3(trans.X, 0, 0));
+                childBoxes[2] = childBoxes[0].Translate(new Vector3(0, 0, trans.Z));
+                childBoxes[3] = childBoxes[0].Translate(new Vector3(trans.X, 0, trans.Z));
+
+                List<GameObjectAABB>[] childList = new List<GameObjectAABB>[4];
+                for (int i = 0; i < childList.Length; i++)
+                {
+                    childList[i] = new List<GameObjectAABB>();
+                }
+
+                foreach (GameObjectAABB obj in inputList)
+                {
+                    ContainmentType contains = ContainmentType.Intersects;
+                    for (int i = 0; i < childBoxes.Length; i++)
+                    {
+                        contains = childBoxes[i].Contains(obj.Box);
+                        if (contains == ContainmentType.Contains)
+                        {
+                            childList[i].Add(obj);
+                            Console.WriteLine("{0}: {1} [{2}]", i, obj.GameObject.Name, obj.GameObject.ID);
+                            break;
+                        }
+                    }
+
+                    if (contains != ContainmentType.Contains)
+                    {
+                        _gameObjects.Add(obj.GameObject);
+                        Console.WriteLine("root: {0} [{1}]", obj.GameObject.Name, obj.GameObject.ID);
+                    }
+                }
+            }
+        }
     }
 }

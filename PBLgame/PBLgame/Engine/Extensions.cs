@@ -58,5 +58,13 @@ namespace PBLgame.Engine
         {
             return bb.Max - bb.Min;
         }
+
+        public static BoundingBox Translate(this BoundingBox bb, Vector3 t)
+        {
+            BoundingBox newbb = bb;
+            newbb.Min += t;
+            newbb.Max += t;
+            return newbb;
+        }
     }
 }

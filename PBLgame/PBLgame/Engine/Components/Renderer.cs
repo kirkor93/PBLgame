@@ -204,6 +204,7 @@ namespace PBLgame.Engine.Components
         /// <summary>
         /// Generates AABB using current mesh & transform.
         /// </summary>
+        /// <param name="worldMatrix">World matrix to apply to mesh before generating.</param>
         /// <returns></returns>
         public BoundingBox GenerateAABB(Matrix worldMatrix)
         {
@@ -219,7 +220,6 @@ namespace PBLgame.Engine.Components
                     part.VertexBuffer.GetData(vertexData);
                     for (int i = 0; i < bufferSize; i += vStride)
                     {
-                        // TODO check if ParentBone.Transform is necessary
                         Vector3 vertex = Vector3.Transform(
                             new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]),
                             mesh.ParentBone.Transform * worldMatrix
