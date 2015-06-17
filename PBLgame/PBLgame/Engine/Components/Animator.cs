@@ -237,6 +237,7 @@ namespace PBLgame.Engine.Components
                 _blendingFactor = 1f;
                 _blendingTime = blendTime;
             }
+            UpdateBoneMatrices();
         }
 
         public void Walk(float velocity)
