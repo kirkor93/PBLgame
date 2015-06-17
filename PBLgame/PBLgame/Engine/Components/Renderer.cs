@@ -120,7 +120,6 @@ namespace PBLgame.Engine.Components
 
             if (animatedMesh != null)
             {
-                //gameObject.animator.ApplyBones();
                 foreach (ModelMesh modelMesh in MyMesh.Model.Meshes)
                 {
                     ParameterizeEffectWithMeshWorld(modelMesh); 

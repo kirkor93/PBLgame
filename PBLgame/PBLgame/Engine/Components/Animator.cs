@@ -67,8 +67,6 @@ namespace PBLgame.Engine.Components
             /// <param name="amount">How much previous state is shown more than this state [0.0 .. 1.0]</param>
             public void Blend(AnimationState prevState, float amount)
             {
-                // I assumed that boneInfo indices are corresponding for all animations for the Skeleton.
-                // That doesn't have to be always true. ~piomar
                 for (int i = 0; i < BoneInfos.Length; i++)
                 {
                     if (BoneInfos[i].ClipBone.Name != prevState.BoneInfos[i].ClipBone.Name)
@@ -126,8 +124,8 @@ namespace PBLgame.Engine.Components
                     BoneInfos[b].SetModel(mesh);
                 }
 
-                Position = 0.01f;
-                ApplyBones();
+                Position = 0;
+                //ApplyBones();
             }
         }
 
@@ -224,9 +222,7 @@ namespace PBLgame.Engine.Components
         public void PlayAnimation(AnimationClip clip, bool loop = true, float speed = 1.0f, float blendTime = 0.3f)
         {
             _prevAnimation = _currentAnimation;
-            _currentAnimation = new AnimationState(clip, AnimMesh);
-            _currentAnimation.Looping = loop;
-            _currentAnimation.Speed = speed;
+            _currentAnimation = new AnimationState(clip, AnimMesh) {Looping = loop, Speed = speed};
 
             if (blendTime == 0f)
             {
@@ -341,6 +337,7 @@ namespace PBLgame.Engine.Components
         public override void Update(GameTime gameTime)
         {
             UpdatePosition(_currentAnimation, gameTime);
+            _currentAnimation.ApplyBones();
             if (_prevAnimation != null)
             {
                 _blendingFactor -= (float) gameTime.ElapsedGameTime.TotalSeconds / _blendingTime;
@@ -362,7 +359,7 @@ namespace PBLgame.Engine.Components
             UpdateBoneMatrices();
         }
 
-        private void UpdateBoneMatrices()
+        public void UpdateBoneMatrices()
         {
             AnimMesh.UpdateBonesMatrices();
             BoneTransforms = AnimMesh.BonesTransorms;
@@ -523,8 +520,8 @@ namespace PBLgame.Engine.Components
                 }
 
                 valid = true;
-                
-//                AssignToBone();
+
+                //AssignToBone();
             }
 
             public void AssignToBone()
