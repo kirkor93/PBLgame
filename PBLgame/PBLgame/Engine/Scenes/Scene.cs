@@ -66,6 +66,7 @@ namespace PBLgame.Engine.Scenes
         private bool _editor;
         private CullingNode _rootNode;
         private List<GameObject> _dynamicObjects;
+        private List<GameObject> _staticObjects;
 
         #endregion
         #endregion
@@ -178,7 +179,7 @@ namespace PBLgame.Engine.Scenes
                     effect.Parameters["cameraPosition"].SetValue(reflectedCamPos);
                     effect.Parameters["clipPlane"].SetValue( new Vector4(reflectionPlane.Normal, reflectionPlane.D) );
                 }
-                DrawScene(gameTime, Renderer.Technique.CustomCamera);
+                DrawScene(gameTime, Renderer.Technique.CustomCamera, reflectedView * reflectedProjection);
                 
                 _graphics.SetRenderTarget(null);
 
@@ -202,36 +203,56 @@ namespace PBLgame.Engine.Scenes
                 _mirror.DrawSpecial(gameTime, Renderer.Technique.Reflection);
             }
         }
-        
+
         /// <summary>
         /// Draws whole scene with main camera and given or default technique.
         /// </summary>
         /// <param name="gameTime">current time, nothing really uses in draw</param>
         /// <param name="technique">technique of shader</param>
-        private void DrawScene(GameTime gameTime, Renderer.Technique technique = Renderer.Technique.Default)
+        /// <param name="cameraMatrix">camera matrix: view * projection</param>
+        private void DrawScene(GameTime gameTime, Renderer.Technique technique = Renderer.Technique.Default, Matrix cameraMatrix = default(Matrix))
         {
             if (technique == Renderer.Technique.Default) 
             {
                 SetupEffectsCamera();
             }
 
-            foreach (GameObject gameObject in _rootNode.GetVisibleGameObjects(Camera.MainCamera.ViewMatrix * Camera.MainCamera.ProjectionMatrix))
+            List<GameObject> toRender = new List<GameObject>();
+            switch (technique)
             {
-                if (gameObject == _mirror) continue;
-                if (technique == Renderer.Technique.Default)
-                    gameObject.Draw(gameTime);
-                else
-                    gameObject.DrawSpecial(gameTime, technique);
-            }       
-            
-            foreach (GameObject gameObject in _dynamicObjects)
-            {
-                if (technique == Renderer.Technique.Default)
-                    gameObject.Draw(gameTime);
-                else
-                    gameObject.DrawSpecial(gameTime, technique);
-            }
+                case Renderer.Technique.Default:
+                    //toRender.AddRange(_staticObjects);
+                    toRender = _rootNode.GetVisibleGameObjects(Camera.MainCamera.ViewMatrix * Camera.MainCamera.ProjectionMatrix);
+                    break;
 
+                case Renderer.Technique.CustomCamera:
+                case Renderer.Technique.ShadowsDirectional:
+                case Renderer.Technique.ShadowsPoint:
+                    //toRender.AddRange(_staticObjects);
+                    toRender = _rootNode.GetVisibleGameObjects(cameraMatrix);
+                    break;
+
+            }
+            toRender.AddRange(_dynamicObjects);
+            toRender.Remove(_mirror);
+
+            // TODO queue transparent
+
+            if (technique == Renderer.Technique.Default)
+            {
+                foreach (GameObject gameObject in toRender)
+                {
+                    gameObject.Draw(gameTime);
+                }
+            }
+            else
+            {
+                foreach (GameObject gameObject in toRender)
+                {
+                    gameObject.DrawSpecial(gameTime, technique);
+                }
+            }
+            
             if (technique != Renderer.Technique.Default) return;
             foreach (GameObject gameObject in GameObjects)
             {
@@ -310,7 +331,7 @@ namespace PBLgame.Engine.Scenes
                                 effect.Parameters["projection"].SetValue(_shadowProjMatrices[dir]);
                             }
 
-                            DrawScene(gameTime, Renderer.Technique.ShadowsDirectional);
+                            DrawScene(gameTime, Renderer.Technique.ShadowsDirectional, _shadowViewMatrices[dir] * _shadowProjMatrices[dir]);
 
                             _graphics.SetRenderTarget(null);
                             
@@ -364,7 +385,7 @@ namespace PBLgame.Engine.Scenes
                                 effect.Parameters["projection"].SetValue(lightProjMatrix);
                             }
 
-                            DrawScene(gameTime, Renderer.Technique.ShadowsPoint);
+                            DrawScene(gameTime, Renderer.Technique.ShadowsPoint, lightViewMatrices[face] * lightProjMatrix);
                         }
 
                         _graphics.SetRenderTarget(null);
@@ -434,6 +455,9 @@ namespace PBLgame.Engine.Scenes
 
             if (obj is Light) _sceneLights.Add((Light)obj);
             else _gameObjects.Add(obj);
+
+            // Needed for editor
+            _dynamicObjects.Add(obj);
         }
 
         public void AddGameObjectWithDescendants(GameObject obj)
@@ -470,6 +494,9 @@ namespace PBLgame.Engine.Scenes
 
             if (obj is Light) _sceneLights.AddInsert(index, (Light)obj);
             else _gameObjects.AddInsert(index, obj);
+            
+            // Needed for editor
+            _dynamicObjects.Add(obj);
         }
 
         public void RemoveGameObject(GameObject obj)
@@ -523,6 +550,8 @@ namespace PBLgame.Engine.Scenes
         {
             _takenIdNumbers.RemoveAll(item => item == id);
             GameObjects.RemoveAll(item => item.ID == id);
+
+            _dynamicObjects.RemoveAll(item => item.ID == id);
         }
 
         /// <summary>
@@ -627,28 +656,27 @@ namespace PBLgame.Engine.Scenes
 
             // TODO better
             _mirror = FindGameObject("Mirror");
-            //if (_mirror != null) GameObjects.Remove(_mirror);
 
             //Hard coded setting Ace as target xD
             AISystem.SetPlayer(FindGameObject(8));
 
-            GenerateCullingGraph();
+            _rootNode = GenerateCullingGraph(4);
 
         }
 
         /// <summary>
         /// Creates optimization graph for view-frustum culling.
         /// </summary>
-        private void GenerateCullingGraph()
+        private CullingNode GenerateCullingGraph(int depth)
         {
             List<GameObject> dynamicObjects = new List<GameObject>();
             List<GameObjectAABB> staticObjects = new List<GameObjectAABB>();
             // generate AABB for each static mesh
             ClassifyObjectsRecursive(GameObjects.Where(o => o.parent == null), staticObjects, dynamicObjects, false);
-            foreach (GameObject gameObject in dynamicObjects)
-            {
-                Console.WriteLine("dynamic: [{0}] {1}", gameObject.ID, gameObject.Name);
-            }
+            //foreach (GameObject gameObject in dynamicObjects)
+            //{
+            //    Console.WriteLine("dynamic: [{0}] {1}", gameObject.ID, gameObject.Name);
+            //}
 
             // whole scene into one box
             BoundingBox sceneBox = new BoundingBox();
@@ -656,8 +684,14 @@ namespace PBLgame.Engine.Scenes
             float size = sceneBox.GetSize().GetMax();
             sceneBox.Max.X = sceneBox.Min.X + size;
             sceneBox.Max.Z = sceneBox.Min.Z + size;
-            _rootNode = new CullingNode(null, sceneBox, staticObjects, 0);
+            CullingNode rootNode = new CullingNode(null, sceneBox, staticObjects, depth);
             _dynamicObjects = dynamicObjects;
+            _staticObjects = new List<GameObject>();
+            foreach (GameObjectAABB o in staticObjects)
+            {
+                _staticObjects.Add(o.GameObject);
+            }
+            return rootNode;
         }
 
         private void ClassifyObjectsRecursive(IEnumerable<GameObject> children, List<GameObjectAABB> staticObjects, List<GameObject> dynamicObjects, bool parentIsDynamic)
@@ -725,7 +759,7 @@ namespace PBLgame.Engine.Scenes
                 if (reader.Name == "GameObject")
                 {
                     GameObject obj = new GameObject();
-                    (obj as IXmlSerializable).ReadXml(reader);
+                    obj.ReadXml(reader);
                     GameObjects.Add(obj);
                 }
                 if (reader.Name == "Light")
@@ -742,7 +776,7 @@ namespace PBLgame.Engine.Scenes
                             break;
                     }
 
-                    (l as IXmlSerializable).ReadXml(reader);
+                    l.ReadXml(reader);
                     SceneLights.Add(l);
                 }
                 reader.Read();
@@ -817,7 +851,7 @@ namespace PBLgame.Engine.Scenes
             _parent = parent;
             _box = box;
             //Console.WriteLine("==== depth: {0}, box: {1}, objs: {2} ====", depth, box.GetSize(), inputList.Count);
-            if (inputList.Count <= 1 || depth >= 5 || _box.GetSize().GetMin() <= 1f)
+            if (inputList.Count <= 1 || depth <= 0 || _box.GetSize().GetMin() <= 1f)
             {
                 _children = null;
                 _gameObjects.AddRange(inputList.Select(o => o.GameObject));
@@ -862,7 +896,7 @@ namespace PBLgame.Engine.Scenes
                 }
                 for (int i = 0; i < _children.Length; i++)
                 {
-                    _children[i] = new CullingNode(this, childBoxes[i], childList[i], depth + 1);
+                    _children[i] = new CullingNode(this, childBoxes[i], childList[i], depth - 1);
                 }
             }
         }

@@ -8570,7 +8570,7 @@
     </GameObject>
   </GameObjects>
   <Lights>
-    <Light Type="Point" HasShadow="False">
+    <Light Type="Point" HasShadow="True">
       <Color r="0.8" g="0.8" b="0.8" a="1" />
       <GameObject Name="Light 1" Tag="Light" Id="170" Parent="118">
         <Transform Enabled="True">
@@ -8579,9 +8579,9 @@
           <Scale x="1" y="1" z="1" />
         </Transform>
       </GameObject>
-      <PointLight Attenuation="50" FallOff="50" />
+      <PointLight Attenuation="100" FallOff="50" />
     </Light>
-    <Light Type="Point" HasShadow="False">
+    <Light Type="Point" HasShadow="True">
       <Color r="0.8" g="0.8" b="0.8" a="1" />
       <GameObject Name="Light 1" Tag="Light" Id="609" Parent="119">
         <Transform Enabled="True">
@@ -8613,6 +8613,17 @@
         </Transform>
       </GameObject>
       <DirectionalLight Intensity="0.5" />
+    </Light>
+    <Light Type="Point" HasShadow="True">
+      <Color r="0.8" g="0.8" b="0.8" a="1" />
+      <GameObject Name="Light 1" Tag="Light" Id="966" Parent="120">
+        <Transform Enabled="True">
+          <Position x="20.40079" y="41.91799" z="0" />
+          <Rotation x="0" y="0" z="0" />
+          <Scale x="1" y="1" z="1" />
+        </Transform>
+      </GameObject>
+      <PointLight Attenuation="100" FallOff="50" />
     </Light>
   </Lights>
 </Scene>
