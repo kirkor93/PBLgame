@@ -116,7 +116,7 @@ namespace PBLgame
             intro.Load();
             intro.CurrentWindowSize = new Vector2(ResolutionX, ResolutionY);
             intro.Start();
-            _activeScene = new Scene();
+            _activeScene = new DummyScene();
             _loadedScene = new Scene();
             _loadedScene.Load(@"Level_1.xml");
             //_scene.Load(@"AnimScene.xml");

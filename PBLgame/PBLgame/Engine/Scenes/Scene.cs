@@ -65,6 +65,7 @@ namespace PBLgame.Engine.Scenes
         private RenderTarget2D _reflectionTarget;
         private bool _editor;
         private CullingNode _rootNode;
+        private List<GameObject> _dynamicObjects;
 
         #endregion
         #endregion
@@ -134,7 +135,7 @@ namespace PBLgame.Engine.Scenes
             // ctor for stupid serializer which cannot into default parameters
         }
 
-        public void Draw(GameTime gameTime)
+        public virtual void Draw(GameTime gameTime)
         {
             IEnumerable<Effect> effects = ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader"));
             effects = effects as Effect[] ?? effects.ToArray();
@@ -201,7 +202,7 @@ namespace PBLgame.Engine.Scenes
                 _mirror.DrawSpecial(gameTime, Renderer.Technique.Reflection);
             }
         }
-
+        
         /// <summary>
         /// Draws whole scene with main camera and given or default technique.
         /// </summary>
@@ -214,9 +215,17 @@ namespace PBLgame.Engine.Scenes
                 SetupEffectsCamera();
             }
 
-            foreach (GameObject gameObject in GameObjects)
+            foreach (GameObject gameObject in _rootNode.GetVisibleGameObjects(Camera.MainCamera.ViewMatrix * Camera.MainCamera.ProjectionMatrix))
             {
                 if (gameObject == _mirror) continue;
+                if (technique == Renderer.Technique.Default)
+                    gameObject.Draw(gameTime);
+                else
+                    gameObject.DrawSpecial(gameTime, technique);
+            }       
+            
+            foreach (GameObject gameObject in _dynamicObjects)
+            {
                 if (technique == Renderer.Technique.Default)
                     gameObject.Draw(gameTime);
                 else
@@ -388,7 +397,7 @@ namespace PBLgame.Engine.Scenes
         }
 
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             AISystem.ExecuteAI();
             _physicsSystem.Update(gameTime);
@@ -635,26 +644,52 @@ namespace PBLgame.Engine.Scenes
             List<GameObject> dynamicObjects = new List<GameObject>();
             List<GameObjectAABB> staticObjects = new List<GameObjectAABB>();
             // generate AABB for each static mesh
-            foreach (GameObject gameObject in GameObjects)
+            ClassifyObjectsRecursive(GameObjects.Where(o => o.parent == null), staticObjects, dynamicObjects, false);
+            foreach (GameObject gameObject in dynamicObjects)
             {
-                if(gameObject.renderer == null) continue;
-                Collision collision = gameObject.collision;
-                bool isStatic = (collision == null) || collision.Static;
-                if (isStatic)
-                {
-                    BoundingBox aabb = gameObject.renderer.GenerateAABB(gameObject.transform.World);
-                    staticObjects.Add(new GameObjectAABB(gameObject, aabb));
-                }
-                else
-                {
-                    dynamicObjects.Add(gameObject);
-                }
+                Console.WriteLine("dynamic: [{0}] {1}", gameObject.ID, gameObject.Name);
             }
 
             // whole scene into one box
             BoundingBox sceneBox = new BoundingBox();
             sceneBox = staticObjects.Aggregate(sceneBox, (current, o) => BoundingBox.CreateMerged(current, o.Box));
-            _rootNode = new CullingNode(null, sceneBox, staticObjects);
+            float size = sceneBox.GetSize().GetMax();
+            sceneBox.Max.X = sceneBox.Min.X + size;
+            sceneBox.Max.Z = sceneBox.Min.Z + size;
+            _rootNode = new CullingNode(null, sceneBox, staticObjects, 0);
+            _dynamicObjects = dynamicObjects;
+        }
+
+        private void ClassifyObjectsRecursive(IEnumerable<GameObject> children, List<GameObjectAABB> staticObjects, List<GameObject> dynamicObjects, bool parentIsDynamic)
+        {
+            foreach (GameObject gameObject in children)
+            {
+                if (parentIsDynamic)
+                {
+                    if (gameObject.renderer != null)
+                    {
+                        dynamicObjects.Add(gameObject);
+                    }
+                    ClassifyObjectsRecursive(gameObject.GetChildren(), staticObjects, dynamicObjects, true);
+                } 
+                else if (gameObject.renderer != null)
+                {
+                    Collision collision = gameObject.collision;
+                    bool isStatic = (collision == null) || collision.Static;
+                    if (isStatic)
+                    {
+                        BoundingBox aabb = gameObject.renderer.GenerateAABB(gameObject.transform.World);
+                        staticObjects.Add(new GameObjectAABB(gameObject, aabb));
+                        ClassifyObjectsRecursive(gameObject.GetChildren(), staticObjects, dynamicObjects, false);
+                    }
+                    else
+                    {
+                        dynamicObjects.Add(gameObject);
+                        ClassifyObjectsRecursive(gameObject.GetChildren(), staticObjects, dynamicObjects, true);
+                    }
+                } 
+                else ClassifyObjectsRecursive(gameObject.GetChildren(), staticObjects, dynamicObjects, false);
+            }
         }
 
         #region XML Serialization
@@ -752,6 +787,20 @@ namespace PBLgame.Engine.Scenes
         }
     }
 
+    /// <summary>
+    /// Empty scene that does nothing.
+    /// </summary>
+    public class DummyScene : Scene
+    {
+        public override void Draw(GameTime gameTime)
+        {
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+        }
+    }
+
     public class CullingNode
     {
         private readonly CullingNode _parent; 
@@ -761,16 +810,18 @@ namespace PBLgame.Engine.Scenes
 
         public List<GameObject> GameObjects { get { return _gameObjects; } } 
         public BoundingBox Box { get { return _box; } }
+        public CullingNode[] Children { get { return _children; } }
 
-        public CullingNode(CullingNode parent, BoundingBox box, List<GameObjectAABB> inputList)
+        public CullingNode(CullingNode parent, BoundingBox box, List<GameObjectAABB> inputList, int depth)
         {
             _parent = parent;
             _box = box;
-            if (inputList.Count <= 1)
+            //Console.WriteLine("==== depth: {0}, box: {1}, objs: {2} ====", depth, box.GetSize(), inputList.Count);
+            if (inputList.Count <= 1 || depth >= 5 || _box.GetSize().GetMin() <= 1f)
             {
                 _children = null;
                 _gameObjects.AddRange(inputList.Select(o => o.GameObject));
-                Console.WriteLine("Few gameobjects: {0}", inputList.Count);
+                //Console.WriteLine("Few gameobjects: {0}", inputList.Count);
             }
             else
             {
@@ -792,24 +843,80 @@ namespace PBLgame.Engine.Scenes
 
                 foreach (GameObjectAABB obj in inputList)
                 {
-                    ContainmentType contains = ContainmentType.Intersects;
                     for (int i = 0; i < childBoxes.Length; i++)
                     {
-                        contains = childBoxes[i].Contains(obj.Box);
+                        ContainmentType contains = childBoxes[i].Contains(obj.Box);
                         if (contains == ContainmentType.Contains)
                         {
                             childList[i].Add(obj);
-                            Console.WriteLine("{0}: {1} [{2}]", i, obj.GameObject.Name, obj.GameObject.ID);
+                            //DebugOut(obj, "fully in " + i);
                             break;
                         }
+                        else if (contains == ContainmentType.Intersects)
+                        {
+                            childList[i].Add(obj);
+                            //DebugOut(obj, "intersects " + i);
+                        }
                     }
-
-                    if (contains != ContainmentType.Contains)
-                    {
-                        _gameObjects.Add(obj.GameObject);
-                        Console.WriteLine("root: {0} [{1}]", obj.GameObject.Name, obj.GameObject.ID);
-                    }
+                    _gameObjects.Add(obj.GameObject);
                 }
+                for (int i = 0; i < _children.Length; i++)
+                {
+                    _children[i] = new CullingNode(this, childBoxes[i], childList[i], depth + 1);
+                }
+            }
+        }
+
+        private void DebugOut(GameObjectAABB obj, string type)
+        {
+            Console.WriteLine("[{0}] {1} {2}", obj.GameObject.ID, obj.GameObject.Name, type);
+        }
+
+        public List<GameObject> GetVisibleGameObjects(Matrix viewProjMatrix)
+        {
+            List<GameObject> visibles = new List<GameObject>();
+            BoundingFrustum frustum = new BoundingFrustum(viewProjMatrix);
+            foreach (GameObject gameObject in _gameObjects)
+            {
+                gameObject.Processed = false;
+            }
+
+            AddVisibleRecursive(frustum, visibles);
+            return visibles;
+        }
+
+        private void AddVisibleRecursive(BoundingFrustum frustum, List<GameObject> visibles)
+        {
+            ContainmentType containment = frustum.Contains(_box);
+            switch (containment)
+            {
+                case ContainmentType.Contains:
+                    foreach (GameObject gameObject in _gameObjects)
+                    {
+                        if (gameObject.Processed) continue;
+                        gameObject.Processed = true;
+                        visibles.Add(gameObject);
+                    }
+                    break;
+
+                case ContainmentType.Intersects:
+                    if (_children == null)
+                    {
+                        foreach (GameObject gameObject in _gameObjects)
+                        {
+                            if (gameObject.Processed) continue;
+                            gameObject.Processed = true;
+                            visibles.Add(gameObject);
+                        }
+                    }
+                    else 
+                    { 
+                        foreach (CullingNode child in _children)
+                        {
+                            child.AddVisibleRecursive(frustum, visibles);
+                        }
+                    }
+                    break;
             }
         }
     }

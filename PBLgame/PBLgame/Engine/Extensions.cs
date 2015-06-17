@@ -66,5 +66,15 @@ namespace PBLgame.Engine
             newbb.Max += t;
             return newbb;
         }
+
+        public static float GetMin(this Vector3 v)
+        {
+            return Math.Min(v.X,  Math.Min(v.Y, v.Z) );
+        }
+
+        public static float GetMax(this Vector3 v)
+        {
+            return Math.Max(v.X,  Math.Max(v.Y, v.Z) );
+        }
     }
 }

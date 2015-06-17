@@ -33,6 +33,7 @@ namespace PBLgame.Engine.GameObjects
             private ParticleSystem _particleSystem;
             private AudioSource _audioSource;
             private bool _enabled;
+            private bool _processed;
             #endregion
         #endregion
 
@@ -136,6 +137,31 @@ namespace PBLgame.Engine.GameObjects
                 }
             }
         }
+
+        public IEnumerable<GameObject> Descendants
+        {
+            get
+            {
+                foreach (GameObject child in _children)
+                {
+                    yield return child;
+                    foreach (GameObject grand in child.Descendants)
+                    {
+                        yield return grand;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Used to indicate that GameObject was already processed in current pass.
+        /// </summary>
+        public bool Processed
+        {
+            get { return _processed; }
+            set { _processed = value; }
+        }
+
         #endregion  
 
         #region Methods
