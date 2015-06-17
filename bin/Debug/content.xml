@@ -338,6 +338,7 @@
     </Animations>
     <SpriteFonts>
       <SpriteFont Path="Fonts\Default" />
+      <SpriteFont Path="Fonts\Default_small" />
       <SpriteFont Path="Fonts\Default_big" />
     </SpriteFonts>
   </Content>

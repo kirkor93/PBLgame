@@ -23,10 +23,29 @@ namespace PBLgame.Engine.GUI
         private MethodInfo _method;
         private ProgressImage _nextSkillProgressImage;
         private ProgressImage _thisSkillProgressImage;
+        private GUIText _descriptionText;
 
         private Button[] _neighbours = new Button[4];
         #endregion
         #region Properties
+
+        public override Texture2D Texture
+        {
+            get { return base.Texture; }
+            set
+            {
+                base.Texture = value;
+                if (value == SelectedTexture || value == PressedTexture)
+                {
+                    Text = _descriptionText;
+                }
+                else
+                {
+                    Text = null;
+                }
+            }
+        }
+
         public Texture2D EnabledTexture
         {
             get { return _enabledTexture; }
@@ -160,6 +179,7 @@ namespace PBLgame.Engine.GUI
         public void MakeClickable(bool value)
         {
             Texture = value ? EnabledTexture : SelectedTexture;
+
         }
 
         public void SetProgressBarsValue(int value)
@@ -172,6 +192,17 @@ namespace PBLgame.Engine.GUI
             {
                 ThisSkillProgressImage.SetProgress(value);
             }
+        }
+
+        public override void Draw(SpriteBatch batch)
+        {
+            GUIText tmp = Text;
+            if (Texture != SelectedTexture && Texture != PressedTexture)
+            {
+                Text = null;
+            }
+            base.Draw(batch);
+            Text = tmp;
         }
 
         #region OnClick event handlers
@@ -190,6 +221,7 @@ namespace PBLgame.Engine.GUI
         public override void ReadXml(XmlReader reader)
         {
             base.ReadXml(reader);
+            _descriptionText = Text;
 
             EnabledTexture = ResourceManager.Instance.GetTexture(reader.GetAttribute("EnabledTexture"));
             DisabledTexture = ResourceManager.Instance.GetTexture(reader.GetAttribute("DisabledTexture"));

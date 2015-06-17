@@ -34,21 +34,22 @@ namespace PBLgame.Engine.GUI
 
         public override void Draw(SpriteBatch batch)
         {
-            if (Enabled)
+            if (!Enabled)
             {
-                batch.Draw(Texture, _boundries, Color.White);
-                if (Text != null)
-                {
-                    Vector2 stringSize = Text.Font.MeasureString(Text.Text);
-                    Vector2 position = new Vector2(_boundries.Center.X, _boundries.Bottom);
-                    position.X -= (stringSize.X / 2.0f);
-                    position.Y -= (stringSize.Y + _boundries.Height * 0.05f);
+                return;
+            }
+            batch.Draw(Texture, _boundries, Color.White);
+            if (Text != null)
+            {
+                Vector2 stringSize = Text.Font.MeasureString(Text.Text);
+                Vector2 position = new Vector2(_boundries.Center.X, _boundries.Bottom);
+                position.X -= (stringSize.X / 2.0f);
+                position.Y -= (stringSize.Y + _boundries.Height * 0.05f);
 
-                    Rectangle rect = new Rectangle((int) position.X - 10, (int) position.Y - 10, (int) stringSize.X + 20,
-                        (int) stringSize.Y + 20);
-                    batch.Draw(_fontBg, rect, Color.White);
-                    batch.DrawString(Text.Font, Text.Text, position, Color.White);
-                }
+                Rectangle rect = new Rectangle((int) position.X - 10, (int) position.Y - 10, (int) stringSize.X + 20,
+                    (int) stringSize.Y + 20);
+                batch.Draw(_fontBg, rect, Color.White);
+                batch.DrawString(Text.Font, Text.Text, position, Color.White);
             }
         }
 

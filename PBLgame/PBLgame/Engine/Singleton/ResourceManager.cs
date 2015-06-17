@@ -172,11 +172,7 @@ namespace PBLgame.Engine.Singleton
                 where mesh.Id == id
                 select mesh;
 
-            if (list.Any())
-            {
-                return list.First();
-            }
-            return null;
+            return list.FirstOrDefault();
         }
 
         public Texture2D GetTexture(string path)
@@ -186,11 +182,7 @@ namespace PBLgame.Engine.Singleton
                 where texture.Name == path
                 select texture;
 
-            if (list.Any())
-            {
-                return list.First();
-            }
-            return null;
+            return list.FirstOrDefault();
         }
 
         public MeshMaterial GetMaterial(int id)
@@ -200,12 +192,7 @@ namespace PBLgame.Engine.Singleton
                 where meshMaterial.Id == id
                 select meshMaterial;
 
-            if (list.Any())
-            {
-                return list.First();
-            }
-
-            return null;
+            return list.FirstOrDefault();
         }
         
         public Cue GetAudioCue(string audioName)
@@ -215,7 +202,12 @@ namespace PBLgame.Engine.Singleton
 
         public SpriteFont GetFont(string name)
         {
-            return _fonts[name];
+            IEnumerable<SpriteFont> list =
+                from font in _fonts
+                where font.Key == name
+                select font.Value;
+
+            return list.FirstOrDefault();
         }
         #endregion
 

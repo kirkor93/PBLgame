@@ -11,10 +11,10 @@
       <Scale x="1" y="1" />
     </PBLgame.Engine.GUI.GUIObject>
     <PBLgame.Engine.GUI.GUIObject Id="11" Name="Upgrade_screen_BG" Enabled="False" Pivot="1" Texture="Textures\GUI\Upgrade_screen_BG">
-      <Position x="1520" y="0" />
+      <Position x="1020" y="0" />
       <Scale x="1" y="1" />
       <GUIText Font="Fonts\Default" Text="Avilable points: ">
-        <LocalPosition x="35" y="35" />
+        <LocalPosition x="570" y="56" />
         <FontColor r="0" g="0" b="0" a="255" />
       </GUIText>
     </PBLgame.Engine.GUI.GUIObject>
@@ -49,36 +49,64 @@
     <PBLgame.Engine.GUI.Button Id="8" Name="Upgrade_strength_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_strength_button_highlighted">
       <Position x="1620" y="170" />
       <Scale x="1" y="1" />
+      <GUIText Font="Fonts\Default_small" Text="Zwiększa bazowe obrażenia fizyczne&#xD;&#xA;(szybki atak i silny atak):&#xD;&#xA;&#xD;&#xA;- poziom 1: +1 obrażeń&#xD;&#xA;- poziom 2: +3 obrażeń&#xD;&#xA;- poziom 3: +6 obrażeń&#xD;&#xA;- poziom 4: +10 obrażeń&#xD;&#xA;- poziom 5: +15 obrażeń">
+        <LocalPosition x="-520" y="135" />
+        <FontColor r="0" g="0" b="0" a="255" />
+      </GUIText>
       <Button EnabledTexture="Textures\GUI\Upgrade_strength_button_enabled" DisabledTexture="Textures\GUI\Upgrade_strength_button_disabled" SelectedTexture="Textures\GUI\Upgrade_strength_button_highlighted" PressedTexture="Textures\GUI\Upgrade_strength_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeStrengthButton" Neighbour_0="9" Neighbour_1="-1" Neighbour_2="-1" Neighbour_3="14" ProgressImageId="16" ThisProgressImageId="18" />
     </PBLgame.Engine.GUI.Button>
     <PBLgame.Engine.GUI.Button Id="9" Name="Upgrade_mana_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_mana_button_enabled">
       <Position x="1800" y="170" />
       <Scale x="1" y="1" />
+      <GUIText Font="Fonts\Default_small" Text="Zwiększa ilość punktów many:&#xD;&#xA;&#xD;&#xA;- poziom 1: +10 punktów&#xD;&#xA;- poziom 2: +20 punktów&#xD;&#xA;- poziom 3: +30 punktów&#xD;&#xA;- poziom 4: +40 punktów&#xD;&#xA;- poziom 5: +50 punktów">
+        <LocalPosition x="-700" y="135" />
+        <FontColor r="0" g="0" b="0" a="255" />
+      </GUIText>
       <Button EnabledTexture="Textures\GUI\Upgrade_mana_button_enabled" DisabledTexture="Textures\GUI\Upgrade_mana_button_disabled" SelectedTexture="Textures\GUI\Upgrade_mana_button_highlighted" PressedTexture="Textures\GUI\Upgrade_mana_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeManaButton" Neighbour_0="-1" Neighbour_1="8" Neighbour_2="-1" Neighbour_3="12" ProgressImageId="17" ThisProgressImageId="20" />
     </PBLgame.Engine.GUI.Button>
     <PBLgame.Engine.GUI.Button Id="10" Name="Upgrade_shield_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_shield_button_disabled">
       <Position x="1800" y="670" />
       <Scale x="1" y="1" />
+      <GUIText Font="Fonts\Default_small" Text="Zwiększa ilość obrażeń absorbowanych&#xD;&#xA;przez tarczę telekinetyczną i zmniejsza jej koszt:&#xD;&#xA;&#xD;&#xA;- poziom 1: +5 absorpcji, -1 koszt&#xD;&#xA;- poziom 2: +10 absorpcji, -2 koszt&#xD;&#xA;- poziom 3: +15 absorpcji, -3 koszt&#xD;&#xA;- poziom 4: +20 absorpcji, -4 koszt&#xD;&#xA;- poziom 5: +25 absorpcji, -5 koszt">
+        <LocalPosition x="-700" y="-365" />
+        <FontColor r="0" g="0" b="0" a="255" />
+      </GUIText>
       <Button EnabledTexture="Textures\GUI\Upgrade_shield_button_enabled" DisabledTexture="Textures\GUI\Upgrade_shield_button_disabled" SelectedTexture="Textures\GUI\Upgrade_shield_button_highlighted" PressedTexture="Textures\GUI\Upgrade_shield_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeShieldButton" Neighbour_0="-1" Neighbour_1="15" Neighbour_2="12" Neighbour_3="-1" ProgressImageId="-1" ThisProgressImageId="22" />
     </PBLgame.Engine.GUI.Button>
     <PBLgame.Engine.GUI.Button Id="12" Name="Upgrade_telekinetic_push_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_telekinetic_push_button_disabled">
       <Position x="1800" y="420" />
       <Scale x="1" y="1" />
+      <GUIText Font="Fonts\Default_small" Text="Zmniejsza koszt użycia pchnięcia telekinetycznego:&#xD;&#xA;&#xD;&#xA;- poziom 1: -1 many&#xD;&#xA;- poziom 2: -2 many&#xD;&#xA;- poziom 3: -3 many&#xD;&#xA;- poziom 4: -4 many&#xD;&#xA;- poziom 5: -5 many">
+        <LocalPosition x="-700" y="-115" />
+        <FontColor r="0" g="0" b="0" a="255" />
+      </GUIText>
       <Button EnabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_enabled" DisabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_disabled" SelectedTexture="Textures\GUI\Upgrade_telekinetic_push_button_highlighted" PressedTexture="Textures\GUI\Upgrade_telekinetic_push_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeTelekineticPushButton" Neighbour_0="-1" Neighbour_1="13" Neighbour_2="9" Neighbour_3="10" ProgressImageId="19" ThisProgressImageId="23" />
     </PBLgame.Engine.GUI.Button>
     <PBLgame.Engine.GUI.Button Id="13" Name="Upgrade_shooting_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_telekinetic_push_button_disabled">
       <Position x="1710" y="420" />
       <Scale x="1" y="1" />
+      <GUIText Font="Fonts\Default_small" Text="Zwiększa obrażenia zadawane przez pocisk jonowy&#xD;&#xA;i zmniejsza koszt jego użycia:&#xD;&#xA;&#xD;&#xA;- poziom 1: +4 obrażeń, -1 koszt&#xD;&#xA;- poziom 2: +8 obrażeń, -2 koszt&#xD;&#xA;- poziom 3: +12 obrażeń, -3 koszt&#xD;&#xA;- poziom 4: +16 obrażeń, -4 koszt&#xD;&#xA;- poziom 5: +20 obrażeń, -5 koszt">
+        <LocalPosition x="-610" y="-115" />
+        <FontColor r="0" g="0" b="0" a="255" />
+      </GUIText>
       <Button EnabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_enabled" DisabledTexture="Textures\GUI\Upgrade_telekinetic_push_button_disabled" SelectedTexture="Textures\GUI\Upgrade_telekinetic_push_button_highlighted" PressedTexture="Textures\GUI\Upgrade_telekinetic_push_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeShootingButton" Neighbour_0="12" Neighbour_1="14" Neighbour_2="-1" Neighbour_3="-1" ProgressImageId="-1" ThisProgressImageId="24" />
     </PBLgame.Engine.GUI.Button>
     <PBLgame.Engine.GUI.Button Id="14" Name="Upgrade_fast_attack_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_fast_attack_button_disabled">
       <Position x="1620" y="420" />
       <Scale x="1" y="1" />
+      <GUIText Font="Fonts\Default_small" Text="Zwiększa obrażenia zadawane przez szybki atak:&#xD;&#xA;&#xD;&#xA;- poziom 1: +1 obrażeń&#xD;&#xA;- poziom 2: +2 obrażeń&#xD;&#xA;- poziom 3: +3 obrażeń&#xD;&#xA;- poziom 4: +4 obrażeń&#xD;&#xA;- poziom 5: +5 obrażeń">
+        <LocalPosition x="-520" y="-115" />
+        <FontColor r="0" g="0" b="0" a="255" />
+      </GUIText>
       <Button EnabledTexture="Textures\GUI\Upgrade_fast_attack_button_enabled" DisabledTexture="Textures\GUI\Upgrade_fast_attack_button_disabled" SelectedTexture="Textures\GUI\Upgrade_fast_attack_button_highlighted" PressedTexture="Textures\GUI\Upgrade_fast_attack_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeFastAttackButton" Neighbour_0="13" Neighbour_1="-1" Neighbour_2="8" Neighbour_3="15" ProgressImageId="21" ThisProgressImageId="25" />
     </PBLgame.Engine.GUI.Button>
     <PBLgame.Engine.GUI.Button Id="15" Name="Upgrade_strong_attack_button" Enabled="False" Pivot="0" Texture="Textures\GUI\Upgrade_strong_attack_button_disabled">
       <Position x="1620" y="670" />
       <Scale x="1" y="1" />
+      <GUIText Font="Fonts\Default_small" Text="Zwiększa obrażenia zadawane przez silny atak:&#xD;&#xA;&#xD;&#xA;- poziom 1: +3 obrażeń&#xD;&#xA;- poziom 2: +6 obrażeń&#xD;&#xA;- poziom 3: +9 obrażeń&#xD;&#xA;- poziom 4: +12 obrażeń&#xD;&#xA;- poziom 5: +15 obrażeń">
+        <LocalPosition x="-520" y="-365" />
+        <FontColor r="0" g="0" b="0" a="255" />
+      </GUIText>
       <Button EnabledTexture="Textures\GUI\Upgrade_strong_attack_button_enabled" DisabledTexture="Textures\GUI\Upgrade_strong_attack_button_disabled" SelectedTexture="Textures\GUI\Upgrade_strong_attack_button_highlighted" PressedTexture="Textures\GUI\Upgrade_strong_attack_button_pressed" OnClickActionScript="PBLgame.GamePlay.ButtonsActions" OnClickMethod="UpgradeStrongAttackButton" Neighbour_0="10" Neighbour_1="-1" Neighbour_2="14" Neighbour_3="-1" ProgressImageId="-1" ThisProgressImageId="26" />
     </PBLgame.Engine.GUI.Button>
     <PBLgame.Engine.GUI.ProgressImage Id="16" Name="ProgressImage_1" Enabled="False" Pivot="0" Texture="Textures\GUI\Progress_bar_1_2">

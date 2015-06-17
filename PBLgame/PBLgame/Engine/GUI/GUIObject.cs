@@ -28,7 +28,7 @@ namespace PBLgame.Engine.GUI
         public string Name { get; set; }
         public int Id { get; set; }
 
-        public Texture2D Texture
+        public virtual Texture2D Texture
         {
             get { return _texture; }
             set
@@ -136,16 +136,17 @@ namespace PBLgame.Engine.GUI
 
         public virtual void Draw(SpriteBatch batch)
         {
-            if (Enabled)
+            if (!Enabled) 
             {
-                batch.Draw(Texture, _boundries, Color.White);
-                if (Text != null)
-                {
-                    Vector2 textPos = new Vector2(_boundries.Left, _boundries.Top);
-                    textPos += Text.LocalPosition;
-                    batch.DrawString(Text.Font, Text.Text, textPos, Text.FontColor);
-//                    batch.DrawString(Text.Font, Text.Text, textPos, Color.White, 0.0f, textPos, Scale, SpriteEffects.None, 0);
-                }
+                return;
+            }
+            batch.Draw(Texture, _boundries, Color.White);
+            if (Text != null)
+            {
+                Vector2 textPos = new Vector2(_boundries.Left, _boundries.Top);
+                textPos += (Text.LocalPosition * Scale);
+//                batch.DrawString(Text.Font, Text.Text, textPos, Text.FontColor);
+                batch.DrawString(Text.Font, Text.Text, textPos, Text.FontColor, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 0);
             }
         }
 

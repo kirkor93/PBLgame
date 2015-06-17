@@ -18,6 +18,7 @@ namespace PBLgame.Engine.GUI
     {
         #region Variables
         private List<IntroScene> _scenes;
+        private GameTime _currentGameTime;
         private TimeSpan _lastChangeTime;
         private List<IntroScene>.Enumerator _currentScene;
         private Vector2 _referenceWindowSize;
@@ -68,29 +69,13 @@ namespace PBLgame.Engine.GUI
 
         private void OnButtonClick(object sender, ButtonArgs buttonArgs)
         {
-            if (buttonArgs.ButtonName == Buttons.B)
+            if (!buttonArgs.IsDown)
             {
-                if (OnIntroFinished != null)
-                {
-                    OnIntroFinished(this, EventArgs.Empty);
-                }
-                else
-                {
-                    throw new Exception("OnIntroFInished has to have handlers for game to work properly");
-                }
+                return;
             }
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if(_lastChangeTime + _currentScene.Current.Length < gameTime.TotalGameTime)
+            switch (buttonArgs.ButtonName)
             {
-                if (_currentScene.MoveNext())
-                {
-                    _lastChangeTime = gameTime.TotalGameTime;
-                }
-                else
-                {
+                case Buttons.B:
                     if (OnIntroFinished != null)
                     {
                         OnIntroFinished(this, EventArgs.Empty);
@@ -99,6 +84,37 @@ namespace PBLgame.Engine.GUI
                     {
                         throw new Exception("OnIntroFInished has to have handlers for game to work properly");
                     }
+                    break;
+                case Buttons.A:
+                    ShowNextScene();
+                    break;
+            }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            _currentGameTime = gameTime;
+            if(_lastChangeTime + _currentScene.Current.Length < gameTime.TotalGameTime)
+            {
+                ShowNextScene();
+            }
+        }
+
+        private void ShowNextScene()
+        {
+            if (_currentScene.MoveNext())
+            {
+                _lastChangeTime = _currentGameTime.TotalGameTime;
+            }
+            else
+            {
+                if (OnIntroFinished != null)
+                {
+                    OnIntroFinished(this, EventArgs.Empty);
+                }
+                else
+                {
+                    throw new Exception("OnIntroFInished has to have handlers for game to work properly");
                 }
             }
         }

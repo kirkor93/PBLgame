@@ -1176,11 +1176,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\GUI\Upgrade_screen_BG.png">
-      <Name>Upgrade_screen_BG</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Textures\GUI\Upgrade_strength_button_disabled.png">
       <Name>Upgrade_strength_button_disabled</Name>
       <Importer>TextureImporter</Importer>
@@ -1646,6 +1641,20 @@
   <ItemGroup>
     <Compile Include="Textures\Champions\Banan_d.png">
       <Name>Banan_d</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Fonts\Default_small.spritefont">
+      <Name>Default_small</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\GUI\Upgrade_screen_BG.png">
+      <Name>Upgrade_screen_BG</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

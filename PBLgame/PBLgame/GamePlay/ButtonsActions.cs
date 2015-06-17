@@ -13,7 +13,7 @@ namespace PBLgame.GamePlay
             {
                 Console.WriteLine("Strength upgraded");
                 stats.TalentPoints.Decrease(1);
-                stats.BasePhysicalDamage.Increase(3);
+                stats.BasePhysicalDamage.Increase(1 + stats.BasePhysicalDamage.Progress);
                 stats.BasePhysicalDamage.Progress++;
                 button.SetProgressBarsValue(stats.BasePhysicalDamage.Progress);
                 if (button.DownNeighbour != null && stats.FastAttackDamageBonus.IsUpgradable)
@@ -56,7 +56,7 @@ namespace PBLgame.GamePlay
             {
                 Console.WriteLine("Fast attack upgraded");
                 stats.TalentPoints.Decrease(1);
-                stats.FastAttackDamageBonus.Increase(2);
+                stats.FastAttackDamageBonus.Increase(1);
                 stats.FastAttackDamageBonus.Progress++;
                 button.SetProgressBarsValue(stats.FastAttackDamageBonus.Progress);
                 if (button.DownNeighbour != null && stats.StrongAttackDamageBonus.IsUpgradable)

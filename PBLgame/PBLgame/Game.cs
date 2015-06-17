@@ -41,13 +41,13 @@ namespace PBLgame
         private Scene _activeScene;
         private ScreenSystem _activeScreenSystem;
         private HUD _hud;
-//        private const int ResolutionX = 1280;
-//        private const int ResolutionY = 720;
+        private const int ResolutionX = 1280;
+        private const int ResolutionY = 720;
         private const bool FullScreenEnabled = false;
 
-        private const int ResolutionX = 1920;
-        private const int ResolutionY = 1080;
-        //private const bool FullScreenEnabled = true;
+//        private const int ResolutionX = 1920;
+//        private const int ResolutionY = 1080;
+//        private const bool FullScreenEnabled = true;
 
         //Sounds tetin
         AudioEngine _audioEngine; //Has to be in final version
@@ -87,7 +87,6 @@ namespace PBLgame
 
             base.Initialize();
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
         }
 
         /// <summary>
@@ -149,16 +148,6 @@ namespace PBLgame
             }
 
             player = _loadedScene.FindGameObject(8);
-//            player.AddComponent(new AttachSlot(player, player.GetChild("Sword"), "miecz123"));
-//
-//            GameObject smartDroid = _loadedScene.FindGameObject(607);
-//            smartDroid.AddComponent( new AttachSlot(smartDroid, smartDroid.GetChild("Katana"), "katana") );
-//
-//            GameObject mechaRanger = _loadedScene.FindGameObject(1234);
-//            mechaRanger.AddComponent(new AttachSlot(mechaRanger, mechaRanger.GetChild("Crossbow"), "kuszaMR"));
-//
-//            GameObject nj = _loadedScene.FindGameObject(614);
-//            nj.AddComponent( new AttachSlot(nj, nj.GetChild("Chainsword"), "spalinowy") );
 
             mainCamera.transform.Position = player.transform.Position + new Vector3(0, 100f, 80f);
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
@@ -169,6 +158,8 @@ namespace PBLgame
             //_loadedScene.FindGameObject(615).GetComponent<ParticleSystem>().AddBurst(new Burst(0.0f, 10));
             //_loadedScene.Save(@"Level_1.xml");
             player.particleSystem.Enabled = false;
+
+//            OnIntroFinished(null, null);
         }
 
         private void OnIntroFinished(object sender, EventArgs eventArgs)
