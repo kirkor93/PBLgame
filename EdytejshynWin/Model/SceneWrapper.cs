@@ -85,6 +85,11 @@ namespace Edytejshyn.Model
                     wrapper.Draw(strategy, gameTime);
                 }
             }
+            foreach (GameObjectWrapper go in Logic.SelectionManager.SelectionWithDescendants)
+            {
+                var collision = go.Collision;
+                if(collision != null) collision.Draw(strategy, gameTime);
+            }
         }
 
         public GameObjectWrapper ClosestIntersector(Ray ray)

@@ -199,5 +199,35 @@ namespace PBLgame.Engine.Components
             CustomCamera,
             Reflection
         }
+
+        /// <summary>
+        /// Generates AABB using current mesh & transform.
+        /// </summary>
+        /// <param name="worldMatrix">World matrix to apply to mesh before generating.</param>
+        /// <returns></returns>
+        public BoundingBox GenerateAABB(Matrix worldMatrix)
+        {
+            ModelMeshCollection meshes = gameObject.renderer.MyMesh.Model.Meshes;
+            List<Vector3> vertices = new List<Vector3>();
+            foreach (ModelMesh mesh in meshes)
+            {
+                foreach (ModelMeshPart part in mesh.MeshParts)
+                {
+                    int vStride = part.VertexBuffer.VertexDeclaration.VertexStride / sizeof(float);
+                    int bufferSize = part.NumVertices * vStride;
+                    float[] vertexData = new float[bufferSize];
+                    part.VertexBuffer.GetData(vertexData);
+                    for (int i = 0; i < bufferSize; i += vStride)
+                    {
+                        Vector3 vertex = Vector3.Transform(
+                            new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]),
+                            mesh.ParentBone.Transform * worldMatrix
+                        );
+                        vertices.Add(vertex);
+                    }
+                }
+            }
+            return BoundingBox.CreateFromPoints(vertices);
+        }
     }
 }

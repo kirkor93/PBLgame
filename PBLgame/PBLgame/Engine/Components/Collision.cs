@@ -705,6 +705,15 @@ namespace PBLgame.Engine.Components
         }
         #endregion
 
+        public BoxCollider GenerateBoxCollider()
+        {
+            if (gameObject.renderer == null || gameObject.renderer.MyMesh == null || gameObject.renderer.MyMesh.Model == null) return null;
+            Matrix localWorld = gameObject.transform.World;
+            localWorld.Translation = Vector3.Zero;
+            BoundingBox aabb = gameObject.renderer.GenerateAABB(localWorld);
+            return new BoxCollider(this, aabb.GetCenter(), aabb.GetSize(), false);
+        }
+
         #region XML Serialization
 
         public override void ReadXml(XmlReader reader)

@@ -124,18 +124,7 @@ namespace PBLgame.Engine.Physics
             _owner = owner;
             _edgesSize = size;
             _localPosition = position;
-            _worldTranslation = Matrix.CreateTranslation(_localPosition);
-            if (_owner.gameObject.parent != null)
-            {
-                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
-                //_world.Decompose(out tmpV, out tmpQ, out _totalPosition);
-            }
-            else
-            {
-                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
-                //_world.Decompose(out tmpV, out tmpQ, out _totalPosition);
-            }
-            _totalPosition = _world.Translation;
+            UpdateTotalPosWorld();
             _trigger = trigger;
             _colVerts = new Vector3[8];
             ResizeCollider();
@@ -155,7 +144,7 @@ namespace PBLgame.Engine.Physics
 
         public void ResizeCollider()
         {
-           _edgesRealSize = EdgesSize *_owner.gameObject.transform.Scale * _owner.gameObject.transform.AncestorsScaleAsVector;       
+            _edgesRealSize = EdgesSize;// *_owner.gameObject.transform.Scale * _owner.gameObject.transform.AncestorsScaleAsVector;       
         }
 
         public void GenerateCollider()
@@ -240,19 +229,16 @@ namespace PBLgame.Engine.Physics
 
         public void UpdatePosition()
         {
-            _worldTranslation = Matrix.CreateTranslation(_localPosition);//Matrix.CreateTranslation(_localPosition);
-            if (_owner.gameObject.parent != null)
-            {
-                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation * _owner.gameObject.transform.AncestorsRotation * _owner.gameObject.transform.AncestorsTranslation);
-                //_world.Decompose(out tmpV, out tmpQ, out _totalPosition);
-            }
-            else
-            {
-                _world = (_worldTranslation * _owner.gameObject.transform.WorldRotation * _owner.gameObject.transform.WorldTranslation);
-                //_world.Decompose(out tmpV, out tmpQ, out _totalPosition);
-            }
-            _totalPosition = _world.Translation;
+            UpdateTotalPosWorld();
             InitializeVerts();
+        }
+
+        private void UpdateTotalPosWorld()
+        {
+            _worldTranslation = Matrix.CreateTranslation(_localPosition);
+            Vector3 position = _localPosition + _owner.gameObject.transform.World.Translation;
+            _world = Matrix.CreateWorld(position, Vector3.Forward, Vector3.Up);
+            _totalPosition = _world.Translation;
         }
 
         public void Update()
