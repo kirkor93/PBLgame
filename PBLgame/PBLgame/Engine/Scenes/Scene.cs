@@ -64,7 +64,7 @@ namespace PBLgame.Engine.Scenes
 
         private RenderTarget2D _reflectionTarget;
         private bool _editor;
-        private CullingNode _rootNode;
+        private CullingNode _cullingTree;
         private List<GameObject> _dynamicObjects;
         private List<GameObject> _staticObjects;
 
@@ -222,14 +222,14 @@ namespace PBLgame.Engine.Scenes
             {
                 case Renderer.Technique.Default:
                     //toRender.AddRange(_staticObjects);
-                    toRender = _rootNode.GetVisibleGameObjects(Camera.MainCamera.ViewMatrix * Camera.MainCamera.ProjectionMatrix);
+                    toRender = _cullingTree.GetVisibleGameObjects(Camera.MainCamera.ViewMatrix * Camera.MainCamera.ProjectionMatrix);
                     break;
 
                 case Renderer.Technique.CustomCamera:
                 case Renderer.Technique.ShadowsDirectional:
                 case Renderer.Technique.ShadowsPoint:
                     //toRender.AddRange(_staticObjects);
-                    toRender = _rootNode.GetVisibleGameObjects(cameraMatrix);
+                    toRender = _cullingTree.GetVisibleGameObjects(cameraMatrix);
                     break;
 
             }
@@ -660,7 +660,7 @@ namespace PBLgame.Engine.Scenes
             //Hard coded setting Ace as target xD
             AISystem.SetPlayer(FindGameObject(8));
 
-            _rootNode = GenerateCullingGraph(4);
+            _cullingTree = GenerateCullingGraph(4);
 
         }
 
