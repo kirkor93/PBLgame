@@ -194,17 +194,6 @@ namespace PBLgame.Engine.GUI
             }
         }
 
-        public override void Draw(SpriteBatch batch)
-        {
-            GUIText tmp = Text;
-            if (Texture != SelectedTexture && Texture != PressedTexture)
-            {
-                Text = null;
-            }
-            base.Draw(batch);
-            Text = tmp;
-        }
-
         #region OnClick event handlers
         public void OnClick(Button button, PlayerStatistics stats)
         {
@@ -222,6 +211,7 @@ namespace PBLgame.Engine.GUI
         {
             base.ReadXml(reader);
             _descriptionText = Text;
+            Text = null;
 
             EnabledTexture = ResourceManager.Instance.GetTexture(reader.GetAttribute("EnabledTexture"));
             DisabledTexture = ResourceManager.Instance.GetTexture(reader.GetAttribute("DisabledTexture"));
