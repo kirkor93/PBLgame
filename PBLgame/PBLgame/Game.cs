@@ -53,6 +53,9 @@ namespace PBLgame
         AudioEngine _audioEngine; //Has to be in final version
         WaveBank _waveBank; //Has to be in final version
         SoundBank _soundBank;//Hae to be in final version
+        private string _windowTitle;
+        private int _frames;
+        private TimeSpan _elapsedTime = TimeSpan.Zero;
 
         //////////////        
         //------------------------
@@ -87,6 +90,8 @@ namespace PBLgame
 
             base.Initialize();
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            _frames = 0;
+            _windowTitle = this.Window.Title;
         }
 
         /// <summary>
@@ -158,7 +163,6 @@ namespace PBLgame
             //_loadedScene.FindGameObject(615).GetComponent<ParticleSystem>().AddBurst(new Burst(0.0f, 10));
             //_loadedScene.Save(@"Level_1.xml");
             player.particleSystem.Enabled = false;
-
 //            OnIntroFinished(null, null);
         }
 
@@ -196,7 +200,15 @@ namespace PBLgame
             
 
             _audioEngine.Update(); //Have to be in final version
-            
+
+            _elapsedTime += gameTime.ElapsedGameTime;
+            if (_elapsedTime > TimeSpan.FromSeconds(1))
+            {
+                _elapsedTime -= TimeSpan.FromSeconds(1);
+                Window.Title = string.Format("{0}: {1} fps", _windowTitle, _frames);
+                _frames = 0;
+            }
+
             base.Update(gameTime);
         }
 
@@ -206,6 +218,7 @@ namespace PBLgame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            _frames++;
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //For Teting----------------
