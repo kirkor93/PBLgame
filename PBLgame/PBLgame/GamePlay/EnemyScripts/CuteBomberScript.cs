@@ -31,7 +31,7 @@ namespace PBLgame.GamePlay
         private Vector3 _pushValue;
         private float _pushTimer;
 
-        private float _attackTimer = 0.0f;
+        private float _attackTimer = 1000.0f;
 
         private float _chaseTimer;
 
@@ -212,6 +212,12 @@ namespace PBLgame.GamePlay
             if (player != null) player.Stats.Experience.Increase(100);
             _attackTriggerObject.Enabled = false;
             _fieldOfView.Enabled = false;
+            gameObject.renderer.Enabled = false;
+            gameObject.collision.Enabled = false;
+            _attackTriggerObject.Enabled = false;
+            _fieldOfView.Enabled = false;
+            _hp = 0;
+            
             //base.MakeDead(player); no animations here
         }
 
@@ -225,7 +231,6 @@ namespace PBLgame.GamePlay
                 Vector3 dir;
                 if (_pushed)
                 {
-                    Console.WriteLine(gameObject.transform.Position);
                     _pushTimer += (gameTime.ElapsedGameTime.Milliseconds / 1000f);
                     _gameObject.transform.Position += _pushValue;
                     if (_pushTimer > 1.0f) _pushed = false;

@@ -26,6 +26,10 @@ namespace PBLgame.GamePlay
         private Vector3 _startingPosition;
         private Vector3 _chaseStartPosition;
 
+        private float _affectDMGDelay = 500.0f;
+        private float _affectDMGTimer = 0.0f;
+        private bool _attackFlag = false;
+
         private bool _pushed;
         private Vector3 _pushValue;
         private float _pushTimer;
@@ -227,7 +231,6 @@ namespace PBLgame.GamePlay
                 Vector3 dir;
                 if (_pushed)
                 {
-                    Console.WriteLine(gameObject.transform.Position);
                     _pushTimer += (gameTime.ElapsedGameTime.Milliseconds / 1000f);
                     _gameObject.transform.Position += _pushValue;
                     if (_pushTimer > 1.0f) _pushed = false;
@@ -243,17 +246,27 @@ namespace PBLgame.GamePlay
                             _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
                             if (_attackTimer > _attackDelay)
                             {
-                                _attackTriggerObject.collision.Enabled = true;
                                 _attackTimer = 0.0f;
                                 gameObject.animator.Attack();
-                                foreach (GameObject go in PhysicsSystem.CollisionObjects)
+                                _attackFlag = true;
+                                _affectDMGTimer = 0.0f;
+                            }
+                            if(_attackFlag)
+                            {
+                                _affectDMGTimer += gameTime.ElapsedGameTime.Milliseconds;
+                                if(_affectDMGTimer > _affectDMGDelay)
                                 {
-                                    if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                                    _attackTriggerObject.collision.Enabled = true;
+                                    foreach (GameObject go in PhysicsSystem.CollisionObjects)
                                     {
-                                        _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                                        if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                                        {
+                                            _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                                        }
                                     }
+                                    _attackTriggerObject.collision.Enabled = false;
+                                    _attackFlag = false;
                                 }
-                                _attackTriggerObject.collision.Enabled = false;
                             }
                             break;
                         case MeleeAction.Chase:
