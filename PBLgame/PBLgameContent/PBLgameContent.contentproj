@@ -202,6 +202,8 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+      <ProcessorParameters_RotationX>90</ProcessorParameters_RotationX>
+      <ProcessorParameters_RotationY>-90</ProcessorParameters_RotationY>
     </Compile>
     <Compile Include="Models\Terrain\Start_base\Column.FBX">
       <Name>Column</Name>
@@ -286,6 +288,7 @@
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+      <ProcessorParameters_RotationY>90</ProcessorParameters_RotationY>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -294,6 +297,8 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+      <ProcessorParameters_RotationX>90</ProcessorParameters_RotationX>
+      <ProcessorParameters_RotationY>90</ProcessorParameters_RotationY>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -302,6 +307,7 @@
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
+      <ProcessorParameters_RotationY>90</ProcessorParameters_RotationY>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1118,8 +1124,6 @@
       <Name>Ace_run</Name>
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
-      <ProcessorParameters_NodeRotation>0, 180, 0</ProcessorParameters_NodeRotation>
-      <ProcessorParameters_DegreesY>180</ProcessorParameters_DegreesY>
       <ProcessorParameters_GenerateTangentFrames>True</ProcessorParameters_GenerateTangentFrames>
     </Compile>
   </ItemGroup>
@@ -1566,16 +1570,19 @@
       <Name>Mecha_Ranger_walk</Name>
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_RotationY>90</ProcessorParameters_RotationY>
     </Compile>
     <Compile Include="Animations\Enemies\Mecha_Ranger_death.FBX">
       <Name>Mecha_Ranger_death</Name>
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_RotationY>90</ProcessorParameters_RotationY>
     </Compile>
     <Compile Include="Animations\Enemies\Mecha_Ranger_attack.FBX">
       <Name>Mecha_Ranger_attack</Name>
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_RotationY>90</ProcessorParameters_RotationY>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1583,16 +1590,19 @@
       <Name>Smart_Droid_attack</Name>
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_RotationY>90</ProcessorParameters_RotationY>
     </Compile>
     <Compile Include="Animations\Enemies\Smart_Droid_idle.FBX">
       <Name>Smart_Droid_idle</Name>
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_RotationY>90</ProcessorParameters_RotationY>
     </Compile>
     <Compile Include="Animations\Enemies\Smart_Droid_walk.FBX">
       <Name>Smart_Droid_walk</Name>
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_RotationY>90</ProcessorParameters_RotationY>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1600,6 +1610,7 @@
       <Name>Smart_Droid_death</Name>
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_RotationY>90</ProcessorParameters_RotationY>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1607,6 +1618,7 @@
       <Name>Mecha_Ranger_idle</Name>
       <Importer>FbxImporter</Importer>
       <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_RotationY>90</ProcessorParameters_RotationY>
     </Compile>
   </ItemGroup>
   <ItemGroup>

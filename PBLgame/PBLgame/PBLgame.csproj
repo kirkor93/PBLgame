@@ -123,6 +123,7 @@
     <Compile Include="GamePlay\EnemyScripts\CuteBomberScript.cs" />
     <Compile Include="GamePlay\EnemyScripts\EnemyMeleeScript.cs" />
     <Compile Include="GamePlay\EnemyScripts\EnemyRangedScript.cs" />
+    <Compile Include="GamePlay\EnemyScripts\EnemyScript.cs" />
     <Compile Include="GamePlay\EnemyScripts\NJChuckScript.cs" />
     <Compile Include="GamePlay\PlayerScript.cs" />
     <Compile Include="GamePlay\PlayerStatistics.cs" />

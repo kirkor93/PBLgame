@@ -37,6 +37,13 @@ namespace Edytejshyn.Model
 
         #region Properties
      
+        [Description("ID number")]
+        [Category("0.General")]
+        public int ID
+        {
+            get { return _gameObject.ID; }
+        }     
+
         [Description("Name of the game object")]
         [Category("0.General")]
         public string Name

@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Microsoft.Xna.Framework;
-
 using PBLgame.Engine.AI;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
@@ -12,38 +7,12 @@ using PBLgame.Engine.Physics;
 
 namespace PBLgame.GamePlay
 {
-    public class EnemyMeleeScript : CharacterHandler
+    public class EnemyMeleeScript : EnemyScript
     {
         #region Variables
         #region Enemy Vars
-        public AIComponent AIComponent;
-        public float ChaseSpeed = 0.006f; //0.001f;
-        private float _attackDelay = 2500;
-
-        private int _hp;
-        private int _maxHp;
-        private int _hpEscapeValue = 15;
-        private Vector3 _startingPosition;
-        private Vector3 _chaseStartPosition;
-
-        private float _affectDMGDelay = 500.0f;
-        private float _affectDMGTimer = 0.0f;
-        private bool _attackFlag = false;
-
-        private bool _pushed;
-        private Vector3 _pushValue;
-        private float _pushTimer;
-
-        private float _attackTimer = 2000;
-
-        private float _chaseTimer;
-
-        private bool _enemySeen = false;
 
         private MeleeAction _currentAction = MeleeAction.Stay;
-
-        private GameObject _attackTriggerObject;
-        private GameObject _fieldOfView;
 
         #endregion  
         #region DTNodes
@@ -58,54 +27,19 @@ namespace PBLgame.GamePlay
 
         #endregion
         #endregion
-        public int HP
-        {
-            get { return _hp; }
-            set { _hp = value; }
-        }
-
-        public int MaxHp
-        {
-            get { return _maxHp; }
-            set { _maxHp = value; }
-        }
 
         #region Methods
-        public EnemyMeleeScript(GameObject owner) : base(owner)
+        public EnemyMeleeScript(GameObject owner) : base(owner, 100)
         {
-            _hp = 100;
-            MaxHp = HP;
-
-            _attackTriggerObject = new GameObject();
-            _attackTriggerObject.Tag = "EnemyWeapon";
-            _attackTriggerObject.transform.Position = new Vector3(0.0f, 10.0f, 15.0f);
-            _attackTriggerObject.parent = this.gameObject;
-
-            _attackTriggerObject.collision = new Collision(_attackTriggerObject);
-            _attackTriggerObject.collision.Static = false;
-            _attackTriggerObject.collision.Rigidbody = false;
-            _attackTriggerObject.collision.MainCollider = new SphereCollider(_attackTriggerObject.collision, 5.0f, true);
-            _attackTriggerObject.collision.Enabled = false;
-
-            gameObject.collision.OnTrigger += GetHitMethod;
-
-            _fieldOfView = new GameObject();
-            _fieldOfView.Tag = "FOV";
-            _fieldOfView.transform.Position = new Vector3(0.0f, 10.0f, 55.0f);
-            _fieldOfView.parent = this.gameObject;
-
-            _fieldOfView.collision = new Collision(_fieldOfView);
-            _fieldOfView.collision.Rigidbody = false;
-            _fieldOfView.collision.Static = false;
-            _fieldOfView.collision.MainCollider = new SphereCollider(_fieldOfView.collision, 70.0f, true);
-            _fieldOfView.collision.Enabled = true;
-
-            _fieldOfView.collision.OnTrigger += GotPlayerMethod;
-
-            _startingPosition = gameObject.transform.Position;
-            _chaseTimer = 0.0f;
-
+            SetupScript(new Vector3(15.0f, 10.0f, 0.0f), 5.0f);
+            ChaseSpeed = 0.006f;
+            _attackTimer = 2000;
+            _attackDelay = 2500;
+            _affectDMGDelay = 500.0f;
+            _hpEscapeValue = 15;
+            
             #region DecisionTree & AiComponentInitialize
+
             _distanceNode.DecisionEvent += EnemyClose;
             _hpNode.DecisionEvent += IsMyHP;
             _canAttackNode.DecisionEvent += CanAtack;
@@ -113,14 +47,6 @@ namespace PBLgame.GamePlay
             _chaseNode.ActionEvent += GoToPlayer;
             _standNode.ActionEvent += StandStill;
             _escapeNode.ActionEvent += Escape;
-
-            AIComponent = _gameObject.GetComponent<AIComponent>();
-            if (AIComponent == null)
-            {
-                AIComponent = new AIComponent(owner);
-                _gameObject.AddComponent<AIComponent>(AIComponent);
-            }
-
 
             _distanceNode.TrueChild = _hpNode;
             _distanceNode.FalseChild = _standNode;
@@ -135,86 +61,8 @@ namespace PBLgame.GamePlay
             #endregion  
          }
 
-        public void GotPlayerMethod(Object o, ColArgs args)
-        {
-            if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Player")
-            {
-                _enemySeen = true;
-            }
-            else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Player")
-            {
-                _enemySeen = true;
-            }
-        }
-
-        public void GetHitMethod(Object o, ColArgs args)
-        {
-            PlayerScript player = null;
-            if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Weapon")
-            {
-                player = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
-                if (player != null)
-                {
-                    switch(player.AttackEnum)
-                    {
-                        case AttackType.Quick:
-                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.FastAttackDamageBonus.Value);
-                            break;
-                        case AttackType.Strong:
-                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
-                            break;
-                        case AttackType.Push:
-                            _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
-                            float biggest = Math.Abs(_pushValue.X);
-                            if (_pushValue.Z > biggest) biggest = _pushValue.Z;
-                            _pushValue /= (biggest * 3.0f) ;
-                            _pushValue.Y = gameObject.transform.Position.Y;
-                            _pushed = true;
-                            _pushTimer = 0.0f;
-                            break;
-                        case AttackType.Ion:
-                            break;
-                    }
-                    player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
-                }
-            }
-            else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Weapon")
-            {
-                player = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
-                if (player != null)
-                {
-                    switch(player.AttackEnum)
-                    {
-                        case AttackType.Quick:
-                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.FastAttackDamageBonus.Value);
-                            break;
-                        case AttackType.Strong:
-                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
-                            break;
-                        case AttackType.Push:
-                            _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
-                            float biggest = Math.Abs(_pushValue.X);
-                            if (_pushValue.Z > biggest) biggest = _pushValue.Z;
-                            _pushValue /= (biggest * 3.0f) ;
-                            _pushValue.Y = gameObject.transform.Position.Y;
-                            _pushed = true;
-                            _pushTimer = 0.0f;
-                            break;
-                        case AttackType.Ion:
-                            break;
-                    }
-                    player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
-                }
-            }
-            if (HP <= 0)
-            {
-                MakeDead(player);
-            }
-        }
-
         protected override void MakeDead(PlayerScript player)
         {
-            // TODO move as much as possible of this shiet to enemy base class
             if (player != null) player.Stats.Experience.Increase(100);
             _attackTriggerObject.Enabled = false;
             _fieldOfView.Enabled = false;
@@ -242,7 +90,7 @@ namespace PBLgame.GamePlay
                         case MeleeAction.Attack:
                             UnitVelocity = Vector2.Zero;
                             dir = AISystem.Player.transform.Position - gameObject.transform.Position;
-                            SetLookVector(new Vector2(dir.Z, dir.X));
+                            SetLookVector(dir);
                             _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
                             if (_attackTimer > _attackDelay)
                             {
@@ -270,22 +118,22 @@ namespace PBLgame.GamePlay
                             }
                             break;
                         case MeleeAction.Chase:
-                            _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
                             dir = AISystem.Player.transform.Position - gameObject.transform.Position;
-                            SetLookVector(new Vector2(dir.Z, dir.X));
+                            SetLookVector(dir);
                             //gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
                             UnitVelocity = new Vector2(dir.X, dir.Z) * ChaseSpeed;
                             break;
                         case MeleeAction.Escape:
                             dir = gameObject.transform.Position - AISystem.Player.transform.Position;
-                            Random rand = new Random();
-                            int x = rand.Next(0, 100);
-                            int y = rand.Next(0, 100);
-                            SetLookVector(new Vector2(dir.Z, dir.X));
-                            dir.X *= x / 100.0f;
-                            dir.Z *= y / 100.0f;
-                            //gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
-                            UnitVelocity = new Vector2(dir.X, dir.Z) * ChaseSpeed;
+                            //Random rand = new Random();
+                            //int x = rand.Next(0, 100);
+                            //int y = rand.Next(0, 100);
+                            SetLookVector(dir);
+                            //dir.X *= x / 100.0f;
+                            //dir.Z *= y / 100.0f;
+                            Vector2 direction = new Vector2(dir.X, dir.Z);
+                            Vector2 maxDist = Vector2.Normalize(direction) * 140f;
+                            UnitVelocity = (maxDist - direction) * ChaseSpeed / 3f;
                             break;
                         case MeleeAction.Stay:
                             UnitVelocity = Vector2.Zero;
@@ -328,12 +176,6 @@ namespace PBLgame.GamePlay
             else return false;
         }
 
-        private bool IsMyHP()
-        {
-            if (_hp > _hpEscapeValue) return true;
-            else return false;
-        }
-
         private void AttackPlayer()
         {
             _currentAction = MeleeAction.Attack;
@@ -342,8 +184,6 @@ namespace PBLgame.GamePlay
         private void GoToPlayer()
         {
             _currentAction = MeleeAction.Chase;
-            _chaseTimer = 0.0f;
-            _chaseStartPosition = gameObject.transform.Position;
         }
 
         private void StandStill()

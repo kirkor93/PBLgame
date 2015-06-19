@@ -34,6 +34,7 @@ namespace PBLgame.GamePlay
             UnitVelocity = Vector2.Zero;
             SpeedMultiplier = 100.0f;
             RotationSpeed = 360.0f;
+            _destAngle = _gameObject.transform.Rotation.Y;
         }
 
         public override void Update(GameTime gameTime)
@@ -94,7 +95,11 @@ namespace PBLgame.GamePlay
             _destAngle = angle;
         }
 
-
+        public void SetLookVector(Vector3 direction)
+        {
+            SetLookVector(new Vector2(direction.X, -direction.Z));
+        }
+        
         #endregion
 
         protected virtual void MakeDead(PlayerScript player)

@@ -5614,7 +5614,7 @@
     <GameObject Name="Katana" Tag="Weapon" Id="617" Parent="607">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
-        <Rotation x="90" y="180" z="0" />
+        <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="7" MaterialId="4" />
@@ -5622,7 +5622,7 @@
     <GameObject Name="MechaRanger001" Tag="Enemy" Id="1234">
       <Transform Enabled="True">
         <Position x="212.2706" y="0" z="-113.0194" />
-        <Rotation x="0" y="0" z="0" />
+        <Rotation x="0" y="-142" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="8" MaterialId="5" />
@@ -5638,7 +5638,7 @@
     <GameObject Name="Crossbow" Tag="Weapon" Id="616" Parent="1234">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
-        <Rotation x="90" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="5" MaterialId="43" />
@@ -5701,7 +5701,7 @@
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="619">
       <Transform Enabled="True">
         <Position x="226.7742" y="0" z="110.9134" />
-        <Rotation x="0" y="-143" z="0" />
+        <Rotation x="0" y="-174" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="9" MaterialId="6" />
@@ -5717,7 +5717,7 @@
     <GameObject Name="Katana" Tag="Weapon" Id="620" Parent="619">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
-        <Rotation x="90" y="180" z="0" />
+        <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="7" MaterialId="4" />
@@ -8380,7 +8380,7 @@
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="951">
       <Transform Enabled="True">
         <Position x="365.5209" y="0" z="85.60329" />
-        <Rotation x="0" y="-143" z="0" />
+        <Rotation x="0" y="-233" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="9" MaterialId="6" />
@@ -8396,7 +8396,7 @@
     <GameObject Name="Katana" Tag="Weapon" Id="952" Parent="951">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
-        <Rotation x="90" y="180" z="0" />
+        <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="7" MaterialId="4" />
@@ -8420,7 +8420,7 @@
     <GameObject Name="Katana" Tag="Weapon" Id="954" Parent="953">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
-        <Rotation x="90" y="180" z="0" />
+        <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="7" MaterialId="4" />
@@ -8428,7 +8428,7 @@
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="955">
       <Transform Enabled="True">
         <Position x="343.3349" y="0" z="118.9725" />
-        <Rotation x="0" y="-107" z="0" />
+        <Rotation x="0" y="-213" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="9" MaterialId="6" />
@@ -8444,7 +8444,7 @@
     <GameObject Name="Katana" Tag="Weapon" Id="956" Parent="955">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
-        <Rotation x="90" y="180" z="0" />
+        <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="7" MaterialId="4" />
@@ -8452,7 +8452,7 @@
     <GameObject Name="MechaRanger001" Tag="Enemy" Id="957">
       <Transform Enabled="True">
         <Position x="360.6302" y="0" z="60.93591" />
-        <Rotation x="0" y="-97" z="0" />
+        <Rotation x="0" y="-164" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="8" MaterialId="5" />
@@ -8468,7 +8468,7 @@
     <GameObject Name="Crossbow" Tag="Weapon" Id="958" Parent="957">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
-        <Rotation x="90" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="5" MaterialId="43" />
@@ -8499,7 +8499,7 @@
     <GameObject Name="MechaRanger001" Tag="Enemy" Id="960">
       <Transform Enabled="True">
         <Position x="559.1891" y="0" z="-110.4289" />
-        <Rotation x="0" y="-97" z="0" />
+        <Rotation x="0" y="-174" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="8" MaterialId="5" />
@@ -8515,7 +8515,7 @@
     <GameObject Name="Crossbow" Tag="Weapon" Id="961" Parent="960">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
-        <Rotation x="90" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="5" MaterialId="43" />
@@ -8523,7 +8523,7 @@
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="962">
       <Transform Enabled="True">
         <Position x="503.7175" y="0" z="-15.06637" />
-        <Rotation x="0" y="-143" z="0" />
+        <Rotation x="0" y="-211" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="9" MaterialId="6" />
@@ -8539,7 +8539,7 @@
     <GameObject Name="Katana" Tag="Weapon" Id="963" Parent="962">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
-        <Rotation x="90" y="180" z="0" />
+        <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="7" MaterialId="4" />
@@ -8547,7 +8547,7 @@
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="964">
       <Transform Enabled="True">
         <Position x="519.6501" y="0" z="-7.669324" />
-        <Rotation x="0" y="-143" z="0" />
+        <Rotation x="0" y="-217" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="9" MaterialId="6" />
@@ -8563,7 +8563,7 @@
     <GameObject Name="Katana" Tag="Weapon" Id="965" Parent="964">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
-        <Rotation x="90" y="180" z="0" />
+        <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="7" MaterialId="4" />
