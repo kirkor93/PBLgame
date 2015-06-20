@@ -28,7 +28,7 @@ namespace PBLgame.Engine.Singleton
             }
     }
     
-    public class  ButtonArgs : EventArgs
+    public class ButtonArgs : EventArgs
     {
         public Buttons ButtonName { get; set; }
         public bool IsDown { get; set; }
@@ -57,11 +57,14 @@ namespace PBLgame.Engine.Singleton
 
             private static readonly Buttons[] ButtonsArray = { Buttons.A, Buttons.B, Buttons.X, Buttons.Y, Buttons.LeftShoulder, Buttons.RightShoulder, Buttons.LeftTrigger, Buttons.RightTrigger, Buttons.DPadDown, Buttons.DPadUp, Buttons.DPadLeft, Buttons.DPadRight };
             private bool[] _buttonsDown = new bool[ButtonsArray.Length];
+            private bool[] _buttonsProcessed = new bool[ButtonsArray.Length];
+            private TimeSpan[] _buttonsTime = new TimeSpan[ButtonsArray.Length];
             private GamePadState _gamePadState;
             private int _lastPacketNumber = 0;
             private bool _rumble;
             private double _rumbleMiliseconds;
             private Vector2 _lastLeftStick, _lastRightStick;
+            private const double BUTTON_DELAY = 0.1;
 
         #endregion
         #endregion
@@ -117,14 +120,46 @@ namespace PBLgame.Engine.Singleton
                 Buttons button = ButtonsArray[i];
                 bool down = _gamePadState.IsButtonDown(button);
                 if (down == _buttonsDown[i]) continue;
-                
-                if (OnButton != null)
+                if (!down && !_buttonsProcessed[i])
                 {
-                    OnButton(this, new ButtonArgs(button, down));
+                    if (OnButton != null) OnButton(this, new ButtonArgs(button, true));
+                    _buttonsProcessed[i] = false;
+                }
+                else
+                {
+                    _buttonsProcessed[i] = false;
                 }
                 _buttonsDown[i] = down;
+                _buttonsTime[i] = gameTime.TotalGameTime;
             }
 
+
+            for (int a = 0; a < ButtonsArray.Length; a++)
+            {
+                Buttons first = ButtonsArray[a];
+                if (!_buttonsProcessed[a] && _buttonsDown[a])
+                {
+                    for (int b = a + 1; b < ButtonsArray.Length; b++)
+                    {
+                        if (!_buttonsProcessed[b] && _buttonsDown[b])
+                        {
+                            Buttons second = ButtonsArray[b];
+                            _buttonsProcessed[a] = _buttonsProcessed[b] = true;
+                            if (OnButton != null) OnButton(this, new ButtonArgs(first | second, true));
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < ButtonsArray.Length; i++)
+            {
+                Buttons button = ButtonsArray[i];
+                double dt = (gameTime.TotalGameTime - _buttonsTime[i]).TotalSeconds;
+                if (_buttonsProcessed[i] || dt < BUTTON_DELAY) continue;
+
+                _buttonsProcessed[i] = true;
+                if (OnButton != null) OnButton(this, new ButtonArgs(button, _buttonsDown[i]));
+            }
         }
 
         private Vector2 Circularize(Vector2 input)
