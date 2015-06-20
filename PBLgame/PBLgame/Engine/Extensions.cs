@@ -21,11 +21,16 @@ namespace PBLgame.Engine
         }
 
 
-        public static float CalculateAngle(float x, float y)
+        private static float CalculateAngle(float x, float y)
         {
             return (float) (Math.Atan2(y, x));
         }
 
+        /// <summary>
+        /// Calculates angle of vector on 2D XY plane.
+        /// </summary>
+        /// <param name="vector">2D vector</param>
+        /// <returns>Angle in degrees [0 .. 360) </returns>
         public static float CalculateDegrees(Vector2 vector)
         {
             float angle = MathHelper.ToDegrees(CalculateAngle(vector.X, vector.Y));
@@ -75,6 +80,18 @@ namespace PBLgame.Engine
         public static float GetMax(this Vector3 v)
         {
             return Math.Max(v.X,  Math.Max(v.Y, v.Z) );
+        }
+        
+        /// <summary>
+        /// Normalizes angle into range (-180 .. 180] degrees.
+        /// </summary>
+        /// <param name="angle">angle in degrees</param>
+        /// <returns></returns>
+        public static float NormalizeAngle180(float angle)
+        {
+            while (angle <= -180f) angle += 360f;
+            while (angle >   180f) angle -= 360f;
+            return angle;
         }
     }
 }

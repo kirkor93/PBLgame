@@ -315,15 +315,19 @@
       <Animation Id="201" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_idle" Type="Idle" />
       <Animation Id="202" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_attack" Type="Attack" />
       <Animation Id="203" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_walk" Type="Walk" Speed="0.065" />
-      <Animation Id="204" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_death" Type="Death" />
+      <Animation Id="204" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_walk_back" Type="WalkBack" Speed="0.075" />
+      <Animation Id="205" Skeleton="2" Path="Animations\Enemies\Mecha_Ranger_death" Type="Death" />
       
 	  <Animation Id="301" Skeleton="3" Path="Animations\Champions\Ace_idle" Type="Idle" />
-      <Animation Id="302" Skeleton="3" Path="Animations\Champions\Ace_run" Type="Walk" Speed="0.016" />
-      <Animation Id="303" Skeleton="3" Path="Animations\Champions\Ace_simple_attack" Type="AttackQuick" />
-      <Animation Id="304" Skeleton="3" Path="Animations\Champions\Ace_strong_attack" Type="AttackStrong" />
-      <Animation Id="305" Skeleton="3" Path="Animations\Champions\Ace_ion_missile" Type="AttackIon" />
-      <Animation Id="306" Skeleton="3" Path="Animations\Champions\Ace_push" Type="AttackPush" />
-      <Animation Id="307" Skeleton="3" Path="Animations\Champions\Ace_shield" Type="AttackShield" />
+      <Animation Id="302" Skeleton="3" Path="Animations\Champions\Ace_run" Type="Walk" Speed="0.020" />
+      <Animation Id="303" Skeleton="3" Path="Animations\Champions\Ace_run_back" Type="WalkBack" Speed="0.020" />
+      <Animation Id="304" Skeleton="3" Path="Animations\Champions\Ace_run_left" Type="WalkLeft" Speed="0.030" />
+      <Animation Id="305" Skeleton="3" Path="Animations\Champions\Ace_run_right" Type="WalkRight" Speed="0.030" />
+      <Animation Id="306" Skeleton="3" Path="Animations\Champions\Ace_simple_attack" Type="AttackQuick" />
+      <Animation Id="307" Skeleton="3" Path="Animations\Champions\Ace_strong_attack" Type="AttackStrong" />
+      <Animation Id="308" Skeleton="3" Path="Animations\Champions\Ace_ion_missile" Type="AttackIon" />
+      <Animation Id="309" Skeleton="3" Path="Animations\Champions\Ace_push" Type="AttackPush" />
+      <Animation Id="310" Skeleton="3" Path="Animations\Champions\Ace_shield" Type="AttackShield" />
       
 	  <Animation Id="400" Skeleton="4" Path="Animations\Enemies\NJ_idle" Type="Idle" />
       <Animation Id="401" Skeleton="4" Path="Animations\Enemies\NJ_walk" Type="Walk" Speed="0.05" />

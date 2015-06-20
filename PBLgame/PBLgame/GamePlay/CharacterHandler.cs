@@ -11,6 +11,8 @@ namespace PBLgame.GamePlay
     {
         #region Variables
         private float _destAngle;
+        private Avatar _avatar;
+
         #endregion
 
         #region Properties
@@ -59,35 +61,20 @@ namespace PBLgame.GamePlay
             Vector2 movement = trueVelocity * seconds;
 
             _gameObject.transform.Translate(movement.X, 0.0f, movement.Y);
-
-            float v = trueVelocity.Length();
-            if (Math.Abs(v) < 0.0001)
-            {
-                if(_gameObject.animator != null)_gameObject.animator.IdleMovement();
-            }
-            else
-            {
-                //float velocityAngle = Extensions.CalculateDegrees(UnitVelocity);
-                //if (Math.Abs(currentAngle - velocityAngle) > 90f)
-                //{
-                //    Console.WriteLine("current: {0}, velocity: {1}", currentAngle, velocityAngle);
-                //    v = -v;
-                //}
-                if (_gameObject.animator != null) _gameObject.animator.Walk(v);
-            }
             
+            _avatar.Update(new Vector2(trueVelocity.X, -trueVelocity.Y), currentAngle);
         }
 
         public override void Initialize(bool editor)
         {
-//            _gameObject.animator.Idle();
+            Console.WriteLine("== Avatar for {0} ==", gameObject.Name);
+            _avatar = Avatar.CreateAvatar(gameObject.animator);
         }
-
 
         /// <summary>
         /// Sets looking direction angle of character smoothly.
         /// </summary>
-        /// <param name="direction"></param>
+        /// <param name="direction">2D direction vector</param>
         public void SetLookVector(Vector2 direction)
         {
             float angle = Extensions.CalculateDegrees(direction);
@@ -95,12 +82,15 @@ namespace PBLgame.GamePlay
             _destAngle = angle;
         }
 
+        /// <summary>
+        /// Sets looking angle smoothly using 2D components from a 3D vector.
+        /// Axes are converted from [+X][+Y][+Z] to [+X][-Z] to preserve ground plane orientation.
+        /// </summary>
+        /// <param name="direction">3D vector</param>
         public void SetLookVector(Vector3 direction)
         {
             SetLookVector(new Vector2(direction.X, -direction.Z));
         }
-        
-        #endregion
 
         protected virtual void MakeDead(PlayerScript player)
         {
@@ -108,5 +98,8 @@ namespace PBLgame.GamePlay
             gameObject.collision.Enabled = false;
             //gameObject.animator.OnAnimationFinish += delegate { };
         }
+        
+        #endregion
+
     }
 }

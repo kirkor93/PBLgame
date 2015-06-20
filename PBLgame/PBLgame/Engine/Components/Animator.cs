@@ -265,14 +265,6 @@ namespace PBLgame.Engine.Components
             }
         }
 
-        public void IdleMovement()
-        {
-            if (_currentType == AnimationType.Walk)
-            {
-                Idle();
-            }
-        }
-
         public void Attack(string type = "")
         {
             if (_currentType != AnimationType.Attack)
@@ -295,7 +287,7 @@ namespace PBLgame.Engine.Components
 
         public AnimationClip GetClip(string type)
         {
-            return AnimMesh.Skeleton.Clips.Find(c => c.Type == type);
+            return AnimMesh.Skeleton.FromType(type);
         }
 
         public enum AnimationType
@@ -596,20 +588,29 @@ namespace PBLgame.Engine.Components
     {
         public int Id;
         public List<AnimationClip> Clips { get; private set; }
+        public Dictionary<string, AnimationClip> ClipsDictionary { get; private set; } 
 
         public AnimationClip Idle { get { return Clips.FirstOrDefault(c => c.Type == "Idle"); } }
         public AnimationClip Walk { get { return Clips.FirstOrDefault(c => c.Type == "Walk"); } }
-
 
         public Skeleton(int id)
         {
             Id = id;
             Clips = new List<AnimationClip>();
+            ClipsDictionary = new Dictionary<string, AnimationClip>();
         }
 
         public void AddClip(AnimationClip animation)
         {
             Clips.Add(animation);
+            if (animation.Type == null) return;
+            ClipsDictionary[animation.Type] = animation;
+        }
+
+        public AnimationClip FromType(string type)
+        {
+            AnimationClip clip;
+            return ClipsDictionary.TryGetValue(type, out clip) ? clip : null;
         }
     }
 }

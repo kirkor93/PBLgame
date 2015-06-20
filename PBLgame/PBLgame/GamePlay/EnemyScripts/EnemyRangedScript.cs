@@ -97,21 +97,18 @@ namespace PBLgame.GamePlay
                     switch (_currentAction)
                     {
                         // TODO fix border points b/w attack & idle - now is flickering
-                        case RangeAction.EscapeNAttack:
+                        case RangeAction.EscapeNAttack: {
                             dir = gameObject.transform.Position - AISystem.Player.transform.Position;
-                            Random rand = new Random();
-                            int x = rand.Next(0, 100);
-                            int y = rand.Next(0, 100);
                             if (_hp < _hpEscapeValue) SetLookVector(dir);
                             else SetLookVector(-dir);
-                            dir.X *= x / 100.0f;
-                            dir.Z *= y / 100.0f;
-                            UnitVelocity = new Vector2(dir.X, dir.Z) * 0.02f;
+                            Vector2 direction = new Vector2(dir.X, dir.Z);
+                            Vector2 maxDist = Vector2.Normalize(direction) * AttackRange;
+                            UnitVelocity = (maxDist - direction) * ChaseSpeed * 1.2f;
                             _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
                             if (_attackTimer > _attackDelay)
                             {
                                 _attackTimer = 0.0f;
-                                //gameObject.animator.Attack();
+                                gameObject.animator.Attack();
                                 _attackFlag = true;
                                 _affectDMGTimer = 0.0f;
                             }
@@ -132,7 +129,7 @@ namespace PBLgame.GamePlay
                                     _attackFlag = false;
                                 }
                             }
-                            break;
+                            break ;}
                         case RangeAction.Attack:
                             dir = AISystem.Player.transform.Position - gameObject.transform.Position;
                             UnitVelocity = Vector2.Zero;
@@ -166,20 +163,16 @@ namespace PBLgame.GamePlay
                         case RangeAction.Chase:
                             dir = AISystem.Player.transform.Position - gameObject.transform.Position;
                             SetLookVector(dir);
-                            //Vector3 chaseDir = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
                             UnitVelocity = new Vector2(dir.X, dir.Z) * ChaseSpeed;
                             break;
-                        case RangeAction.Escape:
+                        case RangeAction.Escape: {
                             dir = gameObject.transform.Position - AISystem.Player.transform.Position;
-                            //Random rand2 = new Random();
-                            //int x2 = rand2.Next(0, 100);
-                            //int y2 = rand2.Next(0, 100);
                             if (_hp < _hpEscapeValue) SetLookVector(dir);
                             else SetLookVector(-dir);
-                            //dir.X *= x2 / 100.0f;
-                            //dir.Z *= y2 / 100.0f;
-                            UnitVelocity = Vector2.Normalize(new Vector2(dir.X, dir.Z)) * ChaseSpeed * 100f;
-                            break;
+                            Vector2 direction = new Vector2(dir.X, dir.Z);
+                            Vector2 maxDist = Vector2.Normalize(direction) * 140f;
+                            UnitVelocity = (maxDist - direction) * ChaseSpeed * 0.4f;
+                            break ;}
                         case RangeAction.Stay:
                             UnitVelocity = Vector2.Zero;
                             break;
