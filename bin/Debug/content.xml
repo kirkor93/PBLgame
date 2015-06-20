@@ -197,6 +197,8 @@
       <Texture Path="Textures\Intro\scene1" />
       <Texture Path="Textures\Intro\scene2" />
       <Texture Path="Textures\fire_particle" />
+	  <Texture Path="Textures\force_particle" />
+	  <Texture Path="Textures\dust_particle" />
     </Textures>
     <Materials>
       <Material Id="1" Name="Helmet" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
@@ -249,7 +251,9 @@
       <Material Id="48" Name="Enemies\Chainsword" Diffuse="Textures\Enemies\Chainsword_d" Normal="Textures\Enemies\Chainsword_n" Specular="Textures\Enemies\Chainsword_s" Emissive="Textures\Enemies\Chainsword_d" ShaderPath="Effects\BasicShader" />
       <Material Id="49" Name="Champions\Sword" Diffuse="Textures\Champions\Sword_d" Normal="Textures\Champions\Sword_n" Specular="Textures\Champions\Sword_s" Emissive="Textures\Champions\Sword_d" ShaderPath="Effects\BasicShader" />
       <Material Id="50" Name="Champions\Banan" Diffuse="Textures\Champions\Banan_d" Emissive="Textures\Champions\Banan_d" ShaderPath="Effects\BasicShader" />
-    </Materials>
+	  <Material Id="51" Name="Particle_Force" Diffuse="Textures\force_particle" ShaderPath="Effects\ParticleShader" />
+	  <Material Id="52" Name="Particle_Dust" Diffuse="Textures\dust_particle" ShaderPath="Effects\ParticleShader" />
+	</Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />
       <Mesh Id="2" Path="Models\Gandalf" Skeleton="1" />

@@ -11,6 +11,7 @@ namespace PBLgame.GamePlay
     {
         #region Variables
         private float _destAngle;
+        private Vector3 _lookVector;
         private Avatar _avatar;
 
         #endregion
@@ -21,7 +22,11 @@ namespace PBLgame.GamePlay
         /// </summary>
         public Vector2 UnitVelocity { get; set; }
         public float SpeedMultiplier { get; set; }
-
+        public Vector3 LookVector 
+        {
+            get { return _lookVector; }
+            private set{} 
+        }
         /// <summary>
         /// Degrees per second
         /// </summary>
@@ -37,6 +42,7 @@ namespace PBLgame.GamePlay
             SpeedMultiplier = 100.0f;
             RotationSpeed = 360.0f;
             _destAngle = _gameObject.transform.Rotation.Y;
+            _lookVector = new Vector3();
         }
 
         public override void Update(GameTime gameTime)
@@ -77,6 +83,8 @@ namespace PBLgame.GamePlay
         /// <param name="direction">2D direction vector</param>
         public void SetLookVector(Vector2 direction)
         {
+            _lookVector.X = direction.X;
+            _lookVector.Z = -direction.Y;
             float angle = Extensions.CalculateDegrees(direction);
             while (angle < 0) angle += 360.0f;
             _destAngle = angle;
@@ -89,6 +97,7 @@ namespace PBLgame.GamePlay
         /// <param name="direction">3D vector</param>
         public void SetLookVector(Vector3 direction)
         {
+            _lookVector = direction;
             SetLookVector(new Vector2(direction.X, -direction.Z));
         }
 

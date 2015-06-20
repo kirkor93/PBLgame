@@ -89,10 +89,13 @@ namespace PBLgame.GamePlay
                 if (_pushed)
                 {
                     _pushTimer += (gameTime.ElapsedGameTime.Milliseconds / 1000f);
-                    _gameObject.transform.Position += _pushValue;
-                    _pushValue.X *= (1.0f - _pushTimer);
-                    _pushValue.Z *= (1.0f - _pushTimer);
-                    if (_pushTimer > 1.0f) _pushed = false;
+                    if (_pushTimer > 0.0f)
+                    {
+                        _gameObject.transform.Position += _pushValue;
+                        _pushValue.X *= (1.0f - _pushTimer);
+                        _pushValue.Z *= (1.0f - _pushTimer);
+                        if (_pushTimer > 1.0f) _pushed = false;
+                    }
                 }
                 else
                 {

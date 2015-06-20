@@ -99,6 +99,19 @@ namespace PBLgame.Engine.Components
             set
             {
                 _triggered = value;
+                if(_triggered)
+                {
+                    _timer = 0.0f;
+                    _autoTimer = 0.0f;
+                    _timer = 0.0f;
+                    _actualTime = 0.0f;
+                    _activated = 0;
+                    for(int i = 0; i<_activationStates.Count(); ++i)
+                    {
+                        _activationStates[i] = false;
+                    }
+                    InitializeParticles();
+                }
             }
         }
         public Vector2 Size
@@ -243,10 +256,8 @@ namespace PBLgame.Engine.Components
         {
             if (Enabled && Triggered)
             {
-
                 float deltaTime = gameTime.ElapsedGameTime.Milliseconds/1000.0f;
                 ParticlesUpdate(_actualTime);
-
                 if (Loop)
                 {
                     if (Bursts.Count >= 1)
@@ -293,6 +304,10 @@ namespace PBLgame.Engine.Components
                             }
                         }
                     }
+                    else
+                    {
+                        Triggered = false;
+                    }
                 }
 
                 _autoTimer += deltaTime;
@@ -334,7 +349,6 @@ namespace PBLgame.Engine.Components
 
         private void Emmit(int count,float timer)
         {
-            
             int counter = 0;
             for(int i = _activated; i < Max ; i++)
             {
@@ -425,6 +439,7 @@ namespace PBLgame.Engine.Components
 
                         _material.ShaderEffect.Parameters["CamPos"].SetValue(Camera.MainCamera.transform.Position);
                         _material.ShaderEffect.Parameters["AllowedRotDir"].SetValue(new Vector3(0, 1, 0));
+                        _material.ShaderEffect.Parameters["Alpha"].SetValue(0.5f);
                         _material.ShaderEffect.Parameters["World"].SetValue(Matrix.Identity);
                         _material.ShaderEffect.Parameters["View"].SetValue(Camera.MainCamera.ViewMatrix);
                         _material.ShaderEffect.Parameters["Projection"].SetValue(Camera.MainCamera.ProjectionMatrix);

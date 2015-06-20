@@ -175,6 +175,13 @@ namespace PBLgame.GamePlay
         {
             base.Update(gameTime);
             _attackTriggerObject.Update(gameTime);
+            if (gameObject.particleSystem != null && gameObject.particleSystem.Triggered)
+            {
+                Vector3 newDirectionFrom = new Vector3(LookVector.X - 0.3f, 0.0f, LookVector.Z - 0.3f);
+                Vector3 newDirectionTo = new Vector3(LookVector.X + 0.3f, 0.0f, LookVector.Z + 0.3f);
+                gameObject.GetComponent<ParticleSystem>().DirectionFrom = newDirectionFrom;
+                gameObject.GetComponent<ParticleSystem>().DirectionTo = newDirectionTo;
+            }
         }
 
 
@@ -233,7 +240,16 @@ namespace PBLgame.GamePlay
                             const int cost = 1;
                             if (Stats.Energy.TryDecrease(cost))
                             {
-                                Attack(AttackType.Push);
+                                Attack(AttackType.Push);                               
+                                if (gameObject.particleSystem != null)
+                                {
+                                    Vector3 newDirectionFrom = new Vector3(LookVector.X - 0.3f, 0.0f, LookVector.Z - 0.3f);
+                                    Vector3 newDirectionTo = new Vector3(LookVector.X + 0.3f, 0.0f, LookVector.Z + 0.3f);
+                                    gameObject.GetComponent<ParticleSystem>().DirectionFrom = newDirectionFrom;
+                                    gameObject.GetComponent<ParticleSystem>().DirectionTo = newDirectionTo;
+                                    gameObject.GetComponent<ParticleSystem>().Enabled = true;
+                                    gameObject.GetComponent<ParticleSystem>().Triggered = true;
+                                }
                                 InputManager.Instance.RumplePad(200, 1, 0.5f);
                             }
                             else

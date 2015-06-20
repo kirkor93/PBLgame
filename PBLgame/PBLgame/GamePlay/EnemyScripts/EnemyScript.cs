@@ -138,7 +138,7 @@ namespace PBLgame.GamePlay
                             _pushValue /= (biggest * 3.0f);
                             _pushValue.Y = gameObject.transform.Position.Y;
                             _pushed = true;
-                            _pushTimer = 0.0f;
+                            _pushTimer = -0.3f;
                             break;
                         case AttackType.Ion:
                             break;
@@ -165,7 +165,7 @@ namespace PBLgame.GamePlay
                             _pushValue *= 3.0f;
                             _pushValue.Y = gameObject.transform.Position.Y;
                             _pushed = true;
-                            _pushTimer = 0.0f;
+                            _pushTimer = -0.3f;
                             break;
                         case AttackType.Ion:
                             break;

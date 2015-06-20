@@ -4,6 +4,7 @@ float4x4 Projection;
 
 float3 CamPos;
 float3 AllowedRotDir;
+float Alpha;
 
 //float2 Size;
 //float3 Up;
@@ -65,6 +66,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
 	float4 color = tex2D(texSampler, input.UV);
+	color.a = color.a * Alpha;
 	return color;
 }
 
