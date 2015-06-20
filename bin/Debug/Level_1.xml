@@ -5687,10 +5687,10 @@
           <LocalPosition x="0" y="6" z="0" />
         </SphereCollider>
       </Collision>
-      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="2" Triggered="False" Height="6">
+      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="1.3" Triggered="False" Height="6">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
-        <Size x="1" y="1" />
+        <Size x="5" y="5" />
         <Bursts>
           <Burst When="0" HowMany="40" />
         </Bursts>
@@ -8485,10 +8485,10 @@
           <LocalPosition x="0" y="6" z="0" />
         </SphereCollider>
       </Collision>
-      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="2" Triggered="False" Height="0">
+      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="1.3" Triggered="False" Height="6">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
-        <Size x="1" y="1" />
+        <Size x="5" y="5" />
         <Bursts>
           <Burst When="0" HowMany="40" />
         </Bursts>

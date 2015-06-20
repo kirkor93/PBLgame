@@ -196,10 +196,11 @@
       <Texture Path="Textures\GUI\Button_upgrade_marker_5" />
       <Texture Path="Textures\Intro\scene1" />
       <Texture Path="Textures\Intro\scene2" />
+      <Texture Path="Textures\fire_particle" />
     </Textures>
     <Materials>
       <Material Id="1" Name="Helmet" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
-      <Material Id="2" Name="Particle" Diffuse="Textures\fire" ShaderPath="Effects\ParticleShader" />
+      <Material Id="2" Name="Particle" Diffuse="Textures\fire_particle" ShaderPath="Effects\ParticleShader" />
       <Material Id="43" Name="Enemies\Crossbow" Diffuse="Textures\Enemies\Crossbow_d" Normal="Textures\Enemies\Crossbow_n" Specular="Textures\Enemies\Crossbow_s" Emissive="Textures\Enemies\Crossbow_d" ShaderPath="Effects\BasicShader" />
       <Material Id="3" Name="Enemies\Cute_Bomber" Diffuse="Textures\Enemies\Cute_Bomber_d" Normal="Textures\Enemies\Cute_Bomber_n" Specular="Textures\Enemies\Cute_Bomber_s" Emissive="Textures\Enemies\Cute_Bomber_d" ShaderPath="Effects\BasicShader" />
       <Material Id="4" Name="Enemies\Katana" Diffuse="Textures\Enemies\Katana_d" Normal="Textures\Enemies\Katana_n" Specular="Textures\Enemies\Katana_s" Emissive="Textures\Enemies\Katana_d" ShaderPath="Effects\BasicShader" />

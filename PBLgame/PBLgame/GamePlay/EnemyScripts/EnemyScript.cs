@@ -160,10 +160,9 @@ namespace PBLgame.GamePlay
                             _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
                             break;
                         case AttackType.Push:
-                            _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
-                            float biggest = Math.Abs(_pushValue.X);
-                            if (_pushValue.Z > biggest) biggest = _pushValue.Z;
-                            _pushValue /= (biggest * 3.0f);
+                            _pushValue = gameObject.transform.Position -  AISystem.Player.transform.Position;
+                            _pushValue.Normalize();
+                            _pushValue *= 3.0f;
                             _pushValue.Y = gameObject.transform.Position.Y;
                             _pushed = true;
                             _pushTimer = 0.0f;
