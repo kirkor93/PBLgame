@@ -287,6 +287,12 @@ namespace PBLgame.GamePlay
                             InputManager.Instance.RumplePad(200, 1, 1);
                         }
                         break;
+
+                    case Buttons.RightShoulder | Buttons.LeftShoulder:
+                        {
+                            Attack(AttackType.Ion);
+                        }
+                        break;
                 }
                 //Console.WriteLine(Stats.ToString());
             }
