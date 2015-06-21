@@ -14,7 +14,7 @@
         </SphereCollider>
       </Collision>
       <Animator Enabled="True" />
-	  <ParticleSystem Enabled="True" MaterialId="51" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="80" Speed="1" Triggered="False" Height="6">
+      <ParticleSystem Enabled="True" MaterialId="51" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="80" Speed="1" Triggered="False" Height="6">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="3" y="3" />
@@ -5568,13 +5568,13 @@
       </Transform>
       <Renderer Enabled="True" MeshId="12" MaterialId="11" />
       <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="39.11892" IsTrigger="True">
-          <LocalPosition x="0" y="35.73524" z="0" />
+        <SphereCollider Radius="100" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="2.140967E-15" y="35.73524" z="-3.124074E-06" />
-            <EdgesSize x="39.11892" y="35.73524" z="1.964021" />
+            <LocalPosition x="34.44145" y="19.99008" z="-12.10454" />
+            <EdgesSize x="81.25155" y="39.98017" z="63.40161" />
           </BoxCollider>
         </BoxColliders>
       </Collision>
@@ -5587,13 +5587,13 @@
       </Transform>
       <Renderer Enabled="True" MeshId="12" MaterialId="11" />
       <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="39.11892" IsTrigger="True">
-          <LocalPosition x="0" y="35.73524" z="0" />
+        <SphereCollider Radius="100" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="2.140967E-15" y="35.73524" z="-3.124074E-06" />
-            <EdgesSize x="39.11892" y="35.73524" z="1.964021" />
+            <LocalPosition x="34.44145" y="19.99008" z="-12.10454" />
+            <EdgesSize x="81.25155" y="39.98017" z="63.40161" />
           </BoxCollider>
         </BoxColliders>
       </Collision>
@@ -5635,7 +5635,7 @@
         </SphereCollider>
       </Collision>
       <Animator Enabled="True" />
-	  <ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="6">
+      <ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="6">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="5" y="5" />
@@ -5664,7 +5664,7 @@
     </GameObject>
     <GameObject Name="NJ" Tag="Enemy" Id="614">
       <Transform Enabled="True">
-        <Position x="-251" y="0.0" z="191.7041" />
+        <Position x="-251" y="0" z="191.7041" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -7999,7 +7999,7 @@
         </BoxColliders>
       </Collision>
     </GameObject>
-    <GameObject Name="Tower" Tag="Buildings" Id="903" Parent="136">
+    <GameObject Name="Rock" Tag="Terrain" Id="903" Parent="136">
       <Transform Enabled="True">
         <Position x="759.2242" y="0" z="312.6834" />
         <Rotation x="5.008956E-06" y="148" z="0" />
@@ -8007,9 +8007,14 @@
       </Transform>
       <Renderer Enabled="True" MeshId="43" MaterialId="30" />
       <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="25" IsTrigger="False">
-          <LocalPosition x="25" y="0" z="-25" />
+        <SphereCollider Radius="10" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
         </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="3.467333" IsTrigger="False">
+            <LocalPosition x="0" y="1.879598" z="0" />
+          </SphereCollider>
+        </SphereColliders>
       </Collision>
     </GameObject>
     <GameObject Name="Rock" Tag="Terrain" Id="904" Parent="136">
@@ -8019,6 +8024,16 @@
         <Scale x="5" y="5" z="5" />
       </Transform>
       <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="10" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="2.633031" IsTrigger="False">
+            <LocalPosition x="0" y="1.834594" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
     </GameObject>
     <GameObject Name="Rock" Tag="Terrain" Id="905" Parent="904">
       <Transform Enabled="True">
@@ -8473,7 +8488,7 @@
         </SphereCollider>
       </Collision>
       <Animator Enabled="True" />
-<ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="6">
+      <ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="6">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="5" y="5" />
@@ -8528,7 +8543,7 @@
         </SphereCollider>
       </Collision>
       <Animator Enabled="True" />
-	  <ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="6">
+      <ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="6">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="5" y="5" />
@@ -8594,6 +8609,14 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="7" MaterialId="4" />
+    </GameObject>
+    <GameObject Name="Dune" Tag="Buildings" Id="967" Parent="8">
+      <Transform Enabled="True">
+        <Position x="-500.2" y="-20" z="500.0024" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="10" y="1" z="10" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="39" MaterialId="32" />
     </GameObject>
   </GameObjects>
   <Lights>

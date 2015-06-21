@@ -96,7 +96,12 @@ namespace PBLgame.Engine.GUI
             _currentGameTime = gameTime;
             if(_lastChangeTime + _currentScene.Current.Length < gameTime.TotalGameTime)
             {
+                Console.WriteLine(_currentScene.Current.Position);
                 ShowNextScene();
+            }
+            if (_currentScene.Current != null)
+            {
+                _currentScene.Current.Update(gameTime);
             }
         }
 

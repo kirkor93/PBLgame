@@ -196,6 +196,8 @@
       <Texture Path="Textures\GUI\Button_upgrade_marker_5" />
       <Texture Path="Textures\Intro\scene1" />
       <Texture Path="Textures\Intro\scene2" />
+      <Texture Path="Textures\Intro\scene3" />
+      <Texture Path="Textures\Intro\scene4" />
       <Texture Path="Textures\fire_particle" />
 	  <Texture Path="Textures\force_particle" />
 	  <Texture Path="Textures\dust_particle" />

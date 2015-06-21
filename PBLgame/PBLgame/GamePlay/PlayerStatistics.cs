@@ -122,6 +122,8 @@ namespace PBLgame.GamePlay
         public Stat ShieldAbsorption { get; private set; }
         public Stat ShieldManaCost { get; private set; }
         public Stat PushManaCost { get; private set; }
+        public Stat EnergyPotions { get; private set; }
+        public Stat HealthPotions { get; private set; }
 
         public PlayerStatistics(int health, int energy, int experience)
         {
@@ -129,7 +131,7 @@ namespace PBLgame.GamePlay
             Health = new Stat(health, health);
             Energy = new Stat(energy, energy);
             Experience = new ExperienceStat(0, experience);
-            TalentPoints = new Stat(0, int.MaxValue);
+            TalentPoints = new Stat(50, int.MaxValue);
             BasePhysicalDamage = new Stat(10, int.MaxValue);
             FastAttackDamageBonus = new Stat(5, int.MaxValue);
             StrongAttackDamageBonus = new Stat(10, int.MaxValue);
@@ -138,6 +140,8 @@ namespace PBLgame.GamePlay
             ShieldAbsorption = new Stat(20, int.MaxValue);
             ShieldManaCost = new Stat(10, int.MaxValue);
             PushManaCost = new Stat(10, int.MaxValue);
+            HealthPotions = new Stat(3, int.MaxValue);
+            EnergyPotions = new Stat(3, int.MaxValue);
 
             FastAttackDamageBonus.OtherStatsRequiredProgress.Add(BasePhysicalDamage, 3);
             StrongAttackDamageBonus.OtherStatsRequiredProgress.Add(FastAttackDamageBonus, 3);

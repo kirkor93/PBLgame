@@ -4,27 +4,63 @@
   <IntroScenes>
     <PBLgame.Engine.GUI.IntroScene Id="1" Name="Scene 1-1" Enabled="True" Pivot="1" Texture="Textures\Intro\scene1">
       <Position x="0" y="0" />
-      <Scale x="1" y="1" />
-      <GUIText Font="Fonts\Default_small" Text="Gdzieś w odległym, równoległym wszechświecie ludzie nauczyli się wykorzystywać ogromne możliwości swoich umysłów.&#xD;&#xA;Cywilizacja poszła w zupełnie innym kierunku niż to, co znamy z naszego wszechświata.&#xD;&#xA;Możliwe stało się korzystanie z umiejętności telekinezy oraz manipulowanie myślami.&#xD;&#xA;Nigdy nie wynaleziono prochu strzelniczego, więc zamiast pistoletów używana jest energetyczna broń biała.">
+      <Scale x="1.4" y="1.4" />
+      <GUIText Font="Fonts\Default_small" Text="Gdzieś w odległym, równoległym wszechświecie ludzie nauczyli się wykorzystywać ogromne możliwości swoich umysłów.&#xD;&#xA;Cywilizacja poszła w zupełnie innym kierunku niż to, co znamy z naszego wszechświata.">
         <LocalPosition x="0" y="0" />
       </GUIText>
-      <IntroScene Length="12" />
+      <IntroScene Length="7">
+        <MoveDirection x="-2" y="-1" />
+      </IntroScene>
     </PBLgame.Engine.GUI.IntroScene>
     <PBLgame.Engine.GUI.IntroScene Id="2" Name="Scene 1-2" Enabled="True" Pivot="1" Texture="Textures\Intro\scene1">
-      <Position x="0" y="0" />
-      <Scale x="1" y="1" />
-      <GUIText Font="Fonts\Default_small" Text="Niemal we wszystkich dziedzinach życia ludzi zaczęły zastępować supernowoczesne komputery.&#xD;&#xA;Jednak nie wszystkim się to podobało...">
+      <Position x="-678" y="0" />
+      <Scale x="1.4" y="1.4" />
+      <GUIText Font="Fonts\Default_small" Text="Możliwe stało się korzystanie z umiejętności telekinezy oraz manipulowanie myślami.&#xD;&#xA;Niemal we wszystkich dziedzinach życia ludzi zaczęły zastępować supernowoczesne komputery.&#xD;&#xA;Jednak nie wszystkim się to podobało...">
         <LocalPosition x="0" y="0" />
       </GUIText>
-      <IntroScene Length="7" />
+      <IntroScene Length="8">
+        <MoveDirection x="2" y="-1" />
+      </IntroScene>
     </PBLgame.Engine.GUI.IntroScene>
-    <PBLgame.Engine.GUI.IntroScene Id="3" Name="Scene 2-1" Enabled="True" Pivot="1" Texture="Textures\Intro\scene2">
-      <Position x="0" y="0" />
-      <Scale x="1" y="1" />
+    <PBLgame.Engine.GUI.IntroScene Id="4" Name="Scene 2-1" Enabled="True" Pivot="1" Texture="Textures\Intro\scene2">
+      <Position x="0" y="-300" />
+      <Scale x="1.33" y="1.33" />
       <GUIText Font="Fonts\Default_small" Text="Niejaki Zespół R dowodzony przez Doktora X postanowił zniszczyć system&#xD;&#xA;poprzez wgranie wirusa do jego głównego komputera - PreachCodeOne'a.&#xD;&#xA;Niestety, sabotaż okazał się nieskuteczny, a jego skutki - tragiczne dla ludzkości...">
         <LocalPosition x="0" y="0" />
       </GUIText>
-      <IntroScene Length="10" />
+      <IntroScene Length="10">
+        <MoveDirection x="-2" y="1" />
+      </IntroScene>
+    </PBLgame.Engine.GUI.IntroScene>
+    <PBLgame.Engine.GUI.IntroScene Id="5" Name="Scene 3-1" Enabled="True" Pivot="1" Texture="Textures\Intro\scene3">
+      <Position x="0" y="0" />
+      <Scale x="1.4" y="1.4" />
+      <GUIText Font="Fonts\Default_small" Text="Sztuczna inteligencja poczuła się zagrożona przez ludzi, więc postanowiła ich wyeliminować.&#xD;&#xA;Zaskoczeni ludzie uciekali w popłochu przed szalejącym wrogiem.">
+        <LocalPosition x="0" y="0" />
+      </GUIText>
+      <IntroScene Length="6">
+        <MoveDirection x="-2" y="-1" />
+      </IntroScene>
+    </PBLgame.Engine.GUI.IntroScene>
+    <PBLgame.Engine.GUI.IntroScene Id="6" Name="Scene 3-2" Enabled="True" Pivot="1" Texture="Textures\Intro\scene3">
+      <Position x="0" y="-300" />
+      <Scale x="1.4" y="1.4" />
+      <GUIText Font="Fonts\Default_small" Text="W końcu doszło do wojny, która pochłonęła miliardy istnień...">
+        <LocalPosition x="0" y="0" />
+      </GUIText>
+      <IntroScene Length="5">
+        <MoveDirection x="-2" y="1" />
+      </IntroScene>
+    </PBLgame.Engine.GUI.IntroScene>
+    <PBLgame.Engine.GUI.IntroScene Id="7" Name="Scene 4-1" Enabled="True" Pivot="1" Texture="Textures\Intro\scene4">
+      <Position x="0" y="0" />
+      <Scale x="1.4" y="1.4" />
+      <GUIText Font="Fonts\Default_small" Text="Ostatecznie ludzkość przegrała...&#xD;&#xA;Nieliczni ocalali schronili się w specjalnych bunkrach oczekując na cud...">
+        <LocalPosition x="0" y="0" />
+      </GUIText>
+      <IntroScene Length="6">
+        <MoveDirection x="-2" y="-1" />
+      </IntroScene>
     </PBLgame.Engine.GUI.IntroScene>
   </IntroScenes>
 </Intro>

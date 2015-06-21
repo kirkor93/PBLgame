@@ -306,6 +306,12 @@ namespace PBLgame.GamePlay
                             };
                         }
                         break;
+                    case Buttons.B:
+                        UsePotion(PotionType.Health);
+                        break;
+                    case Buttons.X:
+                        UsePotion(PotionType.Energy);
+                        break;
                 }
                 //Console.WriteLine(Stats.ToString());
             }
@@ -335,6 +341,25 @@ namespace PBLgame.GamePlay
 
         }
 
+        private void UsePotion(PotionType potionType)
+        {
+            switch (potionType)
+            {
+                case PotionType.Health:
+                    if (Stats.HealthPotions.TryDecrease(1) && Stats.Health.Value < Stats.Health.MaxValue)
+                    {
+                        Stats.Health.Increase((int)(Stats.Health.MaxValue*0.2f));
+                    }
+                    break;
+                case PotionType.Energy:
+                    if (Stats.EnergyPotions.TryDecrease(1) && Stats.Energy.Value < Stats.Energy.MaxValue)
+                    {
+                        Stats.Energy.Increase((int)(Stats.Energy.MaxValue*0.2f));
+                    }
+                    break;
+            }
+        }
+
         public override Component Copy(GameObject newOwner)
         {
             // developper doesn't get responsibility for unexpected behaviour
@@ -350,6 +375,12 @@ namespace PBLgame.GamePlay
         Shield,
         Push,
         Ion
+    }
+
+    public enum PotionType
+    {
+        Health,
+        Energy
     }
 
 }

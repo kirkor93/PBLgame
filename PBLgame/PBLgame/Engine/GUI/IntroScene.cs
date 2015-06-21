@@ -14,6 +14,10 @@ namespace PBLgame.Engine.GUI
         #region Variables
         private TimeSpan _length;
         private Texture2D _fontBg;
+        private Vector2 _moveDirection;
+        private GameTime _currentGameTime;
+        private TimeSpan _lastChangeTime;
+
         #endregion
         #region Properties
         public TimeSpan Length
@@ -22,6 +26,11 @@ namespace PBLgame.Engine.GUI
             set { _length = value; }
         }
 
+        public Vector2 MoveDirection
+        {
+            get { return _moveDirection; }
+            set { _moveDirection = value; }
+        }
 
         #endregion
         #region Methods
@@ -29,7 +38,21 @@ namespace PBLgame.Engine.GUI
         public IntroScene()
         {
             _fontBg = ResourceManager.Instance.GetTexture(@"Textures\GUI\Font_background");
+        }
 
+        public void Update(GameTime gameTime)
+        {
+            if (!Enabled)
+            {
+                return;
+            }
+
+            _currentGameTime = gameTime;
+            if (_lastChangeTime + new TimeSpan(0, 0, 0, 0, 50) < gameTime.TotalGameTime)
+            {
+                _lastChangeTime = gameTime.TotalGameTime;
+                Position += MoveDirection;
+            }
         }
 
         public override void Draw(SpriteBatch batch)
@@ -42,14 +65,14 @@ namespace PBLgame.Engine.GUI
             if (Text != null)
             {
                 Vector2 stringSize = Text.Font.MeasureString(Text.Text);
-                Vector2 position = new Vector2(_boundries.Center.X, _boundries.Bottom);
-                position.X -= (stringSize.X / 2.0f);
-                position.Y -= (stringSize.Y + _boundries.Height * 0.05f);
 
-                Rectangle rect = new Rectangle((int) position.X - 10, (int) position.Y - 10, (int) stringSize.X + 20,
+                Vector2 textPosition = new Vector2(batch.GraphicsDevice.Viewport.Bounds.Center.X, batch.GraphicsDevice.Viewport.Bounds.Bottom);
+                textPosition.X -= (stringSize.X / 2.0f);
+                textPosition.Y -= (stringSize.Y + batch.GraphicsDevice.Viewport.Bounds.Height * 0.05f);
+                Rectangle rect = new Rectangle((int)textPosition.X - 10, (int)textPosition.Y - 10, (int)stringSize.X + 20,
                     (int) stringSize.Y + 20);
                 batch.Draw(_fontBg, rect, Color.White);
-                batch.DrawString(Text.Font, Text.Text, position, Color.White);
+                batch.DrawString(Text.Font, Text.Text, textPosition, Color.White);
             }
         }
 
@@ -62,6 +85,15 @@ namespace PBLgame.Engine.GUI
             base.ReadXml(reader);
             Length = new TimeSpan(0, 0, Convert.ToInt32(reader.GetAttribute("Length"), culture));
             reader.Read();
+            if (reader.Name == "MoveDirection")
+            {
+                Vector2 tmp = Vector2.Zero;
+                tmp.X = Convert.ToInt32(reader.GetAttribute("x"), culture);
+                tmp.Y = Convert.ToInt32(reader.GetAttribute("y"), culture);
+                MoveDirection = tmp;
+                reader.Read();
+            }
+            reader.Read();
         }
 
         public override void WriteXml(XmlWriter writer)
@@ -71,6 +103,10 @@ namespace PBLgame.Engine.GUI
             base.WriteXml(writer);
             writer.WriteStartElement("IntroScene");
             writer.WriteAttributeString("Length", Length.Seconds.ToString("G", culture));
+            writer.WriteStartElement("MoveDirection");
+            writer.WriteAttributeString("x", MoveDirection.X.ToString("G", culture));
+            writer.WriteAttributeString("y", MoveDirection.Y.ToString("G", culture));
+            writer.WriteEndElement();
             writer.WriteEndElement();
         }
 
