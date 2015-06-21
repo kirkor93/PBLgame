@@ -139,6 +139,7 @@ namespace PBLgame.Engine.Singleton
                 if (!down && !btn.IsProcessed)
                 {
                     if (OnButton != null) OnButton(this, new ButtonArgs(btn.Button, true));
+                    if (OnButton != null) OnButton(this, new ButtonArgs(btn.Button, false));
                     btn.IsProcessed = true;
                 }
                 else
