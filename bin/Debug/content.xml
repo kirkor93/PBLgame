@@ -331,7 +331,7 @@
       <Animation Id="304" Skeleton="3" Path="Animations\Champions\Ace_run_left" Type="WalkLeft" Speed="0.030" />
       <Animation Id="305" Skeleton="3" Path="Animations\Champions\Ace_run_right" Type="WalkRight" Speed="0.030" />
       <Animation Id="306" Skeleton="3" Path="Animations\Champions\Ace_simple_attack" Type="AttackQuick" Triggers="0.2 0.6" />
-      <Animation Id="307" Skeleton="3" Path="Animations\Champions\Ace_strong_attack" Type="AttackStrong" Triggers="0.9" />
+      <Animation Id="307" Skeleton="3" Path="Animations\Champions\Ace_strong_attack" Type="AttackStrong" Triggers="1.1" />
       <Animation Id="308" Skeleton="3" Path="Animations\Champions\Ace_ion_missile" Type="AttackIon" Triggers="0.5" />
       <Animation Id="309" Skeleton="3" Path="Animations\Champions\Ace_push" Type="AttackPush" Triggers="0.3" />
       <Animation Id="310" Skeleton="3" Path="Animations\Champions\Ace_shield" Type="AttackShield" Triggers="0.1" />
