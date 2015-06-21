@@ -102,18 +102,12 @@ namespace PBLgame.GamePlay
                             if (_attackTimer > _attackDelay)
                             {
                                 _attackTimer = 0.0f;
-                                if(rand.NextDouble() > 0.3) _attackType =  "Basic"; 
-                                else _attackType = "Strong";
+                                _attackType = (rand.NextDouble()) > 0.3 ? "Basic" : "Strong";
                                 gameObject.animator.Attack(_attackType);
-                                _attackFlag = true;
-                                _affectDMGTimer = 0.0f;
-                            }
-                            if(_attackFlag)
-                            {
-                                _affectDMGTimer += gameTime.ElapsedGameTime.Milliseconds;
-                                if(_attackType == "Basic")
+                                gameObject.animator.OnTrigger += delegate
                                 {
-                                    if(_affectDMGTimer > _affectDMGDelay)
+                                    // TODO these two look quite the same
+                                    if (_attackType == "Basic")
                                     {
                                         _attackTriggerObject.collision.Enabled = true;
                                         foreach (GameObject go in PhysicsSystem.CollisionObjects)
@@ -124,12 +118,8 @@ namespace PBLgame.GamePlay
                                             }
                                         }
                                         _attackTriggerObject.collision.Enabled = false;
-                                        _attackFlag = false;
                                     }
-                                }
-                                else if(_attackType == "Strong")
-                                {
-                                    if (_affectDMGTimer > (_affectDMGDelay + 400.0f))
+                                    else if (_attackType == "Strong")
                                     {
                                         _attackTriggerObject.collision.Enabled = true;
                                         foreach (GameObject go in PhysicsSystem.CollisionObjects)
@@ -140,25 +130,18 @@ namespace PBLgame.GamePlay
                                             }
                                         }
                                         _attackTriggerObject.collision.Enabled = false;
-                                        _attackFlag = false;
                                     }
-                                }
+                                };
                             }
                             break;
                         case MeleeAction.Chase:
                             dir = AISystem.Player.transform.Position - gameObject.transform.Position;
                             SetLookVector(dir);
-                            //gameObject.transform.Position = Vector3.Lerp(_chaseStartPosition, AISystem.Player.transform.Position, _chaseTimer * ChaseSpeed);
                             UnitVelocity = new Vector2(dir.X, dir.Z) * ChaseSpeed;
                             break;
                         case MeleeAction.Escape:
                             dir = gameObject.transform.Position - AISystem.Player.transform.Position;
-                            int x = rand.Next(0, 100);
-                            int y = rand.Next(0, 100);
                             SetLookVector(dir);
-                            dir.X *= x / 100.0f;
-                            dir.Z *= y / 100.0f;
-                            //gameObject.transform.Position += (new Vector3(dir.X, 0.0f, dir.Z) * 0.02f);
                             UnitVelocity = new Vector2(dir.X, -dir.Z) * ChaseSpeed;
                             break;
                         case MeleeAction.Stay:

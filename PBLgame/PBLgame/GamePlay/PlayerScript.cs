@@ -240,18 +240,21 @@ namespace PBLgame.GamePlay
                             const int cost = 1;
                             if (Stats.Energy.TryDecrease(cost))
                             {
-                                Attack(AttackType.Push);                               
+                                Attack(AttackType.Push);
                                 if (gameObject.particleSystem != null)
                                 {
-                                    Vector3 newDirectionFrom = new Vector3(LookVector.X - 0.3f, 0.0f, LookVector.Z - 0.3f);
-                                    Vector3 newDirectionTo = new Vector3(LookVector.X + 0.3f, 0.0f, LookVector.Z + 0.3f);
-                                    ParticleSystem sys = gameObject.GetComponent<ParticleSystem>();
-                                    sys.DirectionFrom = newDirectionFrom;
-                                    sys.DirectionTo = newDirectionTo;
-                                    sys.Enabled = true;
-                                    sys.Triggered = true;
+                                    gameObject.animator.OnTrigger += delegate
+                                    {
+                                        Vector3 newDirectionFrom = new Vector3(LookVector.X - 0.3f, 0.0f, LookVector.Z - 0.3f);
+                                        Vector3 newDirectionTo = new Vector3(LookVector.X + 0.3f, 0.0f, LookVector.Z + 0.3f);
+                                        ParticleSystem sys = gameObject.GetComponent<ParticleSystem>();
+                                        sys.DirectionFrom = newDirectionFrom;
+                                        sys.DirectionTo = newDirectionTo;
+                                        sys.Enabled = true;
+                                        sys.Triggered = true;
+                                        InputManager.Instance.RumplePad(200f, 1f, 0.5f);
+                                    };
                                 }
-                                InputManager.Instance.RumplePad(200, 1, 0.5f);
                             }
                             else
                             {
@@ -266,7 +269,10 @@ namespace PBLgame.GamePlay
                             if (Stats.Energy.TryDecrease(cost))
                             {
                                 Attack(AttackType.Shield);
-                                InputManager.Instance.RumplePad(300, 0.3f, 0.7f);
+                                gameObject.animator.OnTrigger += delegate
+                                {
+                                    InputManager.Instance.RumplePad(300f, 0.3f, 0.7f);
+                                };
                             }
                             else
                             {
@@ -284,14 +290,20 @@ namespace PBLgame.GamePlay
                     case Buttons.RightTrigger:
                         {
                             Attack(AttackType.Strong);
-                            
-                            InputManager.Instance.RumplePad(200, 1, 1);
+                            gameObject.animator.OnTrigger += delegate
+                            {
+                                InputManager.Instance.RumplePad(150f, 1f, 1f);
+                            };
                         }
                         break;
 
                     case Buttons.RightShoulder | Buttons.LeftShoulder:
                         {
                             Attack(AttackType.Ion);
+                            gameObject.animator.OnTrigger += delegate
+                            {
+                                InputManager.Instance.RumplePad(150f, 0.2f, 0.8f);
+                            };
                         }
                         break;
                 }
@@ -308,15 +320,19 @@ namespace PBLgame.GamePlay
 
             gameObject.animator.Attack(attackType.ToString());
             gameObject.animator.OnAnimationFinish += () => Locked = false;
-            _attackTriggerObject.collision.Enabled = true;
-            foreach (GameObject go in PhysicsSystem.CollisionObjects)
+            gameObject.animator.OnTrigger += delegate
             {
-                if (_attackTriggerObject != go && go != gameObject.parent && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                _attackTriggerObject.collision.Enabled = true;
+                foreach (GameObject go in PhysicsSystem.CollisionObjects)
                 {
-                    _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                    if (_attackTriggerObject != go && go != gameObject.parent && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                    {
+                        _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                    }
                 }
-            }
-            _attackTriggerObject.collision.Enabled = false;
+                _attackTriggerObject.collision.Enabled = false;
+            };
+
         }
 
         public override Component Copy(GameObject newOwner)

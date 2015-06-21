@@ -73,6 +73,8 @@ namespace AnimationAux
         public int Id { get; set; }
         public string Path { get; set; }
         public string Type { get; set; }
+        private List<float> _triggers = new List<float>();
+        public List<float> Triggers { get { return _triggers; } }
         
         /// <summary>
         /// Animation speed multiplier.

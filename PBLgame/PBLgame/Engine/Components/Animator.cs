@@ -105,7 +105,7 @@ namespace PBLgame.Engine.Components
             /// </summary>
             public float Speed = 1f;
 
-            private float _position = 0f;
+            private float _position = 0f; 
 
             public AnimationState(AnimationClip clip, AnimatedMesh mesh)
             {
@@ -147,6 +147,7 @@ namespace PBLgame.Engine.Components
         private float _blendingTime;
 
         public event Action OnAnimationFinish;
+        public event Action<int> OnTrigger;
 
         #endregion
 
@@ -234,6 +235,7 @@ namespace PBLgame.Engine.Components
                 _blendingTime = blendTime;
             }
             UpdateBoneMatrices();
+            OnTrigger = null;
         }
 
         public void Walk(float velocity)
@@ -360,7 +362,18 @@ namespace PBLgame.Engine.Components
 
         private void UpdatePosition(AnimationState animation, GameTime gameTime)
         {
-            float newPosition = animation.Position + (float) gameTime.ElapsedGameTime.TotalSeconds * animation.Clip.Speed * animation.Speed;
+            float timeDelta = (float) gameTime.ElapsedGameTime.TotalSeconds * animation.Clip.Speed * animation.Speed;
+            float newPosition = animation.Position + timeDelta;
+
+            for (int i = 0; i < animation.Clip.Triggers.Count; i++)
+            {
+                float trigger = animation.Clip.Triggers[i];
+                if ((timeDelta >= 0f && IsBetween(animation.Duration, trigger, animation.Position, newPosition)) || 
+                    (timeDelta < 0f  && IsBetween(animation.Duration, trigger, newPosition, animation.Position)))
+                {
+                    if (OnTrigger != null) OnTrigger(i);
+                }
+            }
 
             if (animation.Looping && animation.Duration > 0.0)
             {
@@ -370,7 +383,7 @@ namespace PBLgame.Engine.Components
                 }
                 while (newPosition < 0)
                 {
-                    newPosition = newPosition + animation.Duration;
+                    newPosition += animation.Duration;
                 }
             }
             else if(!animation.Looping && newPosition >= animation.Duration)
@@ -381,7 +394,15 @@ namespace PBLgame.Engine.Components
                     OnAnimationFinish = null;
                 }
             }
+
             animation.Position = newPosition;
+        }
+
+        private bool IsBetween(float duration, float needle, float low, float high)
+        {
+            if (high > duration) needle += duration;
+            if (low < 0f) needle -= duration;
+            return (low <= needle && needle <= high);
         }
 
         #endregion

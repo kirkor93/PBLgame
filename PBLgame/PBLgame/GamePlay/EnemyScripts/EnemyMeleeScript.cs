@@ -101,13 +101,7 @@ namespace PBLgame.GamePlay
                             {
                                 _attackTimer = 0.0f;
                                 gameObject.animator.Attack();
-                                _attackFlag = true;
-                                _affectDMGTimer = 0.0f;
-                            }
-                            if(_attackFlag)
-                            {
-                                _affectDMGTimer += gameTime.ElapsedGameTime.Milliseconds;
-                                if(_affectDMGTimer > _affectDMGDelay)
+                                gameObject.animator.OnTrigger += delegate
                                 {
                                     _attackTriggerObject.collision.Enabled = true;
                                     foreach (GameObject go in PhysicsSystem.CollisionObjects)
@@ -118,8 +112,7 @@ namespace PBLgame.GamePlay
                                         }
                                     }
                                     _attackTriggerObject.collision.Enabled = false;
-                                    _attackFlag = false;
-                                }
+                                };
                             }
                             break;
                         case MeleeAction.Chase:

@@ -318,6 +318,8 @@ namespace PBLgame.Engine.Singleton
                     int skeletonID = Convert.ToInt32(reader.GetAttribute("Skeleton"));
                     string type = reader.GetAttribute("Type");
                     float speed = Convert.ToSingle(reader.GetAttribute("Speed") ?? "1.0", CultureInfo.InvariantCulture);
+                    string triggers = reader.GetAttribute("Triggers");
+
                     Model model = LoadModel(path, content);
                     ModelExtra extra = model.Tag as ModelExtra;
                     AnimationClip animation = extra.Clips[0];
@@ -325,6 +327,15 @@ namespace PBLgame.Engine.Singleton
                     animation.Path = path;
                     animation.Type = type;
                     animation.Speed = speed;
+                    if (triggers != null)
+                    {
+                        string[] triggerTrim = triggers.Split(' ');
+                        foreach (string t in triggerTrim)
+                        {
+                            float time = Convert.ToSingle(t, CultureInfo.InvariantCulture);
+                            animation.Triggers.Add(time);
+                        }
+                    }
                     AddSkeletonAnimation(skeletonID, animation);
                 }
                 else if (reader.Name == "SpriteFont")
@@ -422,6 +433,10 @@ namespace PBLgame.Engine.Singleton
                     writer.WriteAttributeString("Path", animation.Path);
                     if (animation.Type != null) writer.WriteAttributeString("Type", animation.Type);
                     if (animation.Speed != 1.0f) writer.WriteAttributeString("Speed", animation.Speed.ToString("G", CultureInfo.InvariantCulture));
+                    if (animation.Triggers.Count > 0)
+                    {
+                        writer.WriteAttributeString("Triggers", string.Join(" ", animation.Triggers));
+                    }
                     writer.WriteEndElement();
                 }
             }
