@@ -16,8 +16,7 @@ namespace PBLgame.GamePlay
         
         private RangeAction _currentAction = RangeAction.Stay;
 
-        private Vector3 _attackDirection;
-        private float _basicLifeTime = 0.4f; // Hardcoded same as in xml
+        private float _basicLifeTime;
 
         #endregion
         #region DTNodes
@@ -81,6 +80,12 @@ namespace PBLgame.GamePlay
             base.MakeDead(player);
         }
 
+        public override void Initialize(bool editor)
+        {
+            base.Initialize(editor);
+            _basicLifeTime = gameObject.GetComponent<ParticleSystem>().LifeTimeLimit;
+        }
+
         public override void Update(GameTime gameTime)
         {
             if (_hp > 0)
@@ -104,48 +109,28 @@ namespace PBLgame.GamePlay
                     switch (_currentAction)
                     {
                         // TODO fix border points b/w attack & idle - now is flickering
-                        case RangeAction.EscapeNAttack: {
-                            dir = gameObject.transform.Position - AISystem.Player.transform.Position;
-                            if (_hp < _hpEscapeValue) SetLookVector(dir);
-                            else SetLookVector(-dir);
-                            Vector2 direction = new Vector2(dir.X, dir.Z);
-                            Vector2 maxDist = Vector2.Normalize(direction) * AttackRange;
-                            UnitVelocity = (maxDist - direction) * ChaseSpeed * 1.2f;
-                            _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
-                            if (_attackTimer > _attackDelay)
+                        case RangeAction.EscapeNAttack:
                             {
-                                _attackTimer = 0.0f;
-                                gameObject.animator.Attack();
-                                _attackFlag = true;
-                                _affectDMGTimer = 0.0f;
-                            }
-                            if(_attackFlag)
-                            {
-                                _affectDMGTimer += gameTime.ElapsedGameTime.Milliseconds;
-                                if(_affectDMGTimer > _affectDMGDelay)
+                                dir = gameObject.transform.Position - AISystem.Player.transform.Position;
+                                if (_hp < _hpEscapeValue) SetLookVector(dir);
+                                else SetLookVector(-dir);
+                                Vector2 direction = new Vector2(dir.X, dir.Z);
+                                Vector2 maxDist = Vector2.Normalize(direction) * AttackRange;
+                                UnitVelocity = (maxDist - direction) * ChaseSpeed * 1.2f;
+                                _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
+                                if (_attackTimer > _attackDelay)
                                 {
-                                    float distanceMulti = Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) / AttackRange;
-                                    _attackTriggerObject.collision.UpdateDisablePositions();
-                                    _attackDirection = LookVector;
-                                    ParticleSystem sys = gameObject.GetComponent<ParticleSystem>();
-                                    sys.LifeTimeLimit = _basicLifeTime * distanceMulti;
-                                    sys.DirectionFrom = _attackDirection;
-                                    sys.DirectionTo = _attackDirection;
-                                    sys.Enabled = true;
-                                    sys.Triggered = true;
-                                    _attackTriggerObject.collision.Enabled = true;
-                                    foreach (GameObject go in PhysicsSystem.CollisionObjects)
-                                    {
-                                        if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
-                                        {
-                                            _attackTriggerObject.collision.ChceckCollisionDeeper(go);
-                                        }
-                                    }
-                                    _attackTriggerObject.collision.Enabled = false;
-                                    _attackFlag = false;
+                                    _attackTimer = 0.0f;
+                                    gameObject.animator.Attack();
+                                    _attackFlag = true;
+                                    _affectDMGTimer = 0.0f;
+                                }
+                                if (_attackFlag)
+                                {
+                                    Attack(gameTime);
                                 }
                             }
-                            break ;}
+                            break;
                         case RangeAction.Attack:
                             dir = AISystem.Player.transform.Position - gameObject.transform.Position;
                             UnitVelocity = Vector2.Zero;
@@ -160,27 +145,7 @@ namespace PBLgame.GamePlay
                             }
                             if(_attackFlag)
                             {
-                                _affectDMGTimer += gameTime.ElapsedGameTime.Milliseconds;
-                                if(_affectDMGTimer > _affectDMGDelay)
-                                {
-                                    _attackTriggerObject.collision.UpdateDisablePositions();
-                                    _attackDirection = LookVector;
-                                    ParticleSystem sys = gameObject.GetComponent<ParticleSystem>();
-                                    sys.DirectionFrom = _attackDirection;
-                                    sys.DirectionTo = _attackDirection;
-                                    sys.Enabled = true;
-                                    sys.Triggered = true;
-                                    _attackTriggerObject.collision.Enabled = true;
-                                    foreach (GameObject go in PhysicsSystem.CollisionObjects)
-                                    {
-                                        if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
-                                        {
-                                            _attackTriggerObject.collision.ChceckCollisionDeeper(go);
-                                        }
-                                    }
-                                    _attackTriggerObject.collision.Enabled = false;
-                                    _attackFlag = false;
-                                }
+                                Attack(gameTime);
                             }
                             break;
                         case RangeAction.Chase:
@@ -201,6 +166,32 @@ namespace PBLgame.GamePlay
                             break;
                     }
                 }
+            }
+        }
+
+        private void Attack(GameTime gameTime)
+        {
+            _affectDMGTimer += gameTime.ElapsedGameTime.Milliseconds;
+            if (_affectDMGTimer > _affectDMGDelay)
+            {
+                float distanceMulti = Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) / AttackRange;
+                _attackTriggerObject.collision.UpdateDisablePositions();
+                ParticleSystem sys = gameObject.GetComponent<ParticleSystem>();
+                sys.LifeTimeLimit = _basicLifeTime * distanceMulti;
+                sys.DirectionFrom = LookVector;
+                sys.DirectionTo = LookVector;
+                sys.Enabled = true;
+                sys.Triggered = true;
+                _attackTriggerObject.collision.Enabled = true;
+                foreach (GameObject go in PhysicsSystem.CollisionObjects)
+                {
+                    if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                    {
+                        _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                    }
+                }
+                _attackTriggerObject.collision.Enabled = false;
+                _attackFlag = false;
             }
         }
 
