@@ -16,6 +16,9 @@ namespace PBLgame.GamePlay
         
         private RangeAction _currentAction = RangeAction.Stay;
 
+        private Vector3 _attackDirection;
+        private float _basicLifeTime = 0.4f; // Hardcoded same as in xml
+
         #endregion
         #region DTNodes
 
@@ -83,7 +86,6 @@ namespace PBLgame.GamePlay
             if (_hp > 0)
             {
                 base.Update(gameTime);
-                _attackTriggerObject.Update(gameTime);
                 _fieldOfView.Update(gameTime);
                 Vector3 dir;
                 if (_pushed)
@@ -122,6 +124,15 @@ namespace PBLgame.GamePlay
                                 _affectDMGTimer += gameTime.ElapsedGameTime.Milliseconds;
                                 if(_affectDMGTimer > _affectDMGDelay)
                                 {
+                                    float distanceMulti = Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) / AttackRange;
+                                    _attackTriggerObject.collision.UpdateDisablePositions();
+                                    _attackDirection = LookVector;
+                                    ParticleSystem sys = gameObject.GetComponent<ParticleSystem>();
+                                    sys.LifeTimeLimit = _basicLifeTime * distanceMulti;
+                                    sys.DirectionFrom = _attackDirection;
+                                    sys.DirectionTo = _attackDirection;
+                                    sys.Enabled = true;
+                                    sys.Triggered = true;
                                     _attackTriggerObject.collision.Enabled = true;
                                     foreach (GameObject go in PhysicsSystem.CollisionObjects)
                                     {
@@ -152,6 +163,13 @@ namespace PBLgame.GamePlay
                                 _affectDMGTimer += gameTime.ElapsedGameTime.Milliseconds;
                                 if(_affectDMGTimer > _affectDMGDelay)
                                 {
+                                    _attackTriggerObject.collision.UpdateDisablePositions();
+                                    _attackDirection = LookVector;
+                                    ParticleSystem sys = gameObject.GetComponent<ParticleSystem>();
+                                    sys.DirectionFrom = _attackDirection;
+                                    sys.DirectionTo = _attackDirection;
+                                    sys.Enabled = true;
+                                    sys.Triggered = true;
                                     _attackTriggerObject.collision.Enabled = true;
                                     foreach (GameObject go in PhysicsSystem.CollisionObjects)
                                     {

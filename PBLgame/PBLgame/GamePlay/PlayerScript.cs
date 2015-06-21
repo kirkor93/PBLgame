@@ -245,10 +245,11 @@ namespace PBLgame.GamePlay
                                 {
                                     Vector3 newDirectionFrom = new Vector3(LookVector.X - 0.3f, 0.0f, LookVector.Z - 0.3f);
                                     Vector3 newDirectionTo = new Vector3(LookVector.X + 0.3f, 0.0f, LookVector.Z + 0.3f);
-                                    gameObject.GetComponent<ParticleSystem>().DirectionFrom = newDirectionFrom;
-                                    gameObject.GetComponent<ParticleSystem>().DirectionTo = newDirectionTo;
-                                    gameObject.GetComponent<ParticleSystem>().Enabled = true;
-                                    gameObject.GetComponent<ParticleSystem>().Triggered = true;
+                                    ParticleSystem sys = gameObject.GetComponent<ParticleSystem>();
+                                    sys.DirectionFrom = newDirectionFrom;
+                                    sys.DirectionTo = newDirectionTo;
+                                    sys.Enabled = true;
+                                    sys.Triggered = true;
                                 }
                                 InputManager.Instance.RumplePad(200, 1, 0.5f);
                             }

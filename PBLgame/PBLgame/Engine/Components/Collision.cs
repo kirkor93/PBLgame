@@ -291,6 +291,29 @@ namespace PBLgame.Engine.Components
                 }
             }
         }
+
+        public void UpdateDisablePositions()
+        {
+            if (!Static)
+            {
+                if (MainCollider == null) return;
+                MainCollider.UpdatePosition();
+                if (SphereColliders != null)
+                {
+                    foreach (SphereCollider sc in SphereColliders)
+                    {
+                        sc.UpdatePosition();
+                    }
+                }
+                if (BoxColliders != null)
+                {
+                    foreach (BoxCollider bc in BoxColliders)
+                    {
+                        bc.UpdatePosition();
+                    }
+                }
+            }
+        }
         
         public void ResizeColliders()
         {

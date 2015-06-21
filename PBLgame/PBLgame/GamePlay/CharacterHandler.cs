@@ -85,6 +85,8 @@ namespace PBLgame.GamePlay
         {
             _lookVector.X = direction.X;
             _lookVector.Z = -direction.Y;
+            _lookVector *= 10000.0f;
+            _lookVector.Normalize();
             float angle = Extensions.CalculateDegrees(direction);
             while (angle < 0) angle += 360.0f;
             _destAngle = angle;
@@ -98,6 +100,8 @@ namespace PBLgame.GamePlay
         public void SetLookVector(Vector3 direction)
         {
             _lookVector = direction;
+            _lookVector *= 10000.0f;
+            _lookVector.Normalize();
             SetLookVector(new Vector2(direction.X, -direction.Z));
         }
 

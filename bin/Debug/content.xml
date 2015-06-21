@@ -199,6 +199,7 @@
       <Texture Path="Textures\fire_particle" />
 	  <Texture Path="Textures\force_particle" />
 	  <Texture Path="Textures\dust_particle" />
+	  <Texture Path="Textures\ranged_particle" />
     </Textures>
     <Materials>
       <Material Id="1" Name="Helmet" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
@@ -253,6 +254,7 @@
       <Material Id="50" Name="Champions\Banan" Diffuse="Textures\Champions\Banan_d" Emissive="Textures\Champions\Banan_d" ShaderPath="Effects\BasicShader" />
 	  <Material Id="51" Name="Particle_Force" Diffuse="Textures\force_particle" ShaderPath="Effects\ParticleShader" />
 	  <Material Id="52" Name="Particle_Dust" Diffuse="Textures\dust_particle" ShaderPath="Effects\ParticleShader" />
+	  <Material Id="53" Name="Particle_Dust" Diffuse="Textures\ranged_particle" ShaderPath="Effects\ParticleShader" />
 	</Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />

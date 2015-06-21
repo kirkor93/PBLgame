@@ -384,29 +384,6 @@ namespace PBLgame.Engine.Components
             _activationStates[index] = true;
         }
 
-        private void UpdateParticlesPosition()
-        {
-            //Vector3 pos = gameObject.transform.Position + gameObject.transform.AncestorsTranslation.Translation;
-            //for (int i = 0; i < Max; i++)
-            //{
-            //    if(!_activationStates[i])
-            //    {
-            //        int tmp = i * 4;
-            //        _verts[tmp].Position.X = (Size.X / -20) + pos.X;
-            //        _verts[tmp].Position.Y = (Size.Y / 20) + pos.Y;
-            //        _verts[tmp].Position.Z = pos.Z;
-            //        _verts[tmp + 1].Position.X = (Size.X / 20) + pos.X;
-            //        _verts[tmp + 1].Position.Y = (Size.Y / 20) + pos.Y;
-            //        _verts[tmp + 1].Position.Z = pos.Z;
-            //        _verts[tmp + 2].Position.X = (Size.X / -20) + pos.X;
-            //        _verts[tmp + 2].Position.Y = (Size.Y / -20) + pos.Y;
-            //        _verts[tmp + 2].Position.Z = pos.Z;
-            //        _verts[tmp + 3].Position.X = (Size.X / 20) + pos.X;
-            //        _verts[tmp + 3].Position.Y = (Size.Y / -20) + pos.Y;
-            //        _verts[tmp + 3].Position.Z = pos.Z;
-            //    }
-            //}
-        }
 
         private void InitializeParticles()
         {
