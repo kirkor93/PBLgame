@@ -131,7 +131,7 @@ namespace PBLgame.GamePlay
             Health = new Stat(health, health);
             Energy = new Stat(energy, energy);
             Experience = new ExperienceStat(0, experience);
-            TalentPoints = new Stat(50, int.MaxValue);
+            TalentPoints = new Stat(0, int.MaxValue);
             BasePhysicalDamage = new Stat(10, int.MaxValue);
             FastAttackDamageBonus = new Stat(5, int.MaxValue);
             StrongAttackDamageBonus = new Stat(10, int.MaxValue);
