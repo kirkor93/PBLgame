@@ -307,15 +307,15 @@ namespace PBLgame.GamePlay
 
                     case Buttons.LeftTrigger:
                         {            
-                            if(ShieldParticle != null)
-                            {
-                                _shieldActive = !_shieldActive;
-                                ShieldParticle.Triggered = _shieldActive;
-                                _shieldManaTimer = 0.0f;
-                            }
                             Attack(AttackType.Shield);
                             gameObject.animator.OnTrigger += delegate
                             {
+                                if (ShieldParticle != null)
+                                {
+                                    _shieldActive = !_shieldActive;
+                                    ShieldParticle.Triggered = _shieldActive;
+                                    _shieldManaTimer = 0.0f;
+                                }
                                 InputManager.Instance.RumplePad(300f, 0.3f, 0.7f);
                             };
                         }
