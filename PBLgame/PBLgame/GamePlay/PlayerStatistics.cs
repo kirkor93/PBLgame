@@ -137,7 +137,7 @@ namespace PBLgame.GamePlay
             StrongAttackDamageBonus = new Stat(10, int.MaxValue);
             ShootDamage = new Stat(13, int.MaxValue);
             ShootManaCost = new Stat(6, int.MaxValue);
-            ShieldAbsorption = new Stat(20, int.MaxValue);
+            ShieldAbsorption = new Stat(10, 50);
             ShieldManaCost = new Stat(10, int.MaxValue);
             PushManaCost = new Stat(10, int.MaxValue);
             HealthPotions = new Stat(3, int.MaxValue);

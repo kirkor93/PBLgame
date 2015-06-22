@@ -17,12 +17,16 @@ namespace PBLgame.GamePlay
         protected float _attackDelay = 2500;
         protected bool _attackFlag = false;
 
+        protected int _dmg;
         protected int _hp;
         protected int _maxHp;
         protected int _hpEscapeValue;
 
         protected float _affectDMGDelay;
         protected float _affectDMGTimer;
+
+        protected bool _ionFlag;
+        protected float _ionTimer;
 
         protected bool _pushed;
         protected Vector3 _pushValue;
@@ -48,6 +52,12 @@ namespace PBLgame.GamePlay
         {
             get { return _maxHp; }
             set { _maxHp = value; }
+        }
+
+        public int DMG
+        {
+            get { return _dmg; }
+            set { _dmg = value; }
         }
 
         protected EnemyScript(GameObject owner, int maxHp) : base(owner)
@@ -120,7 +130,8 @@ namespace PBLgame.GamePlay
             PlayerScript player = null;
             if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Weapon")
             {
-                player = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                if (args.EnemyBox.Owner.gameObject.parent != null) player = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                if (player == null && args.EnemyBox.Owner.gameObject.Name == "Banana") player = args.EnemyBox.Owner.gameObject.GetComponent<BananaScript>().Player.GetComponent<PlayerScript>();
                 if (player != null)
                 {
                     switch (player.AttackEnum)
@@ -133,14 +144,19 @@ namespace PBLgame.GamePlay
                             break;
                         case AttackType.Push:
                             _pushValue = gameObject.transform.Position - AISystem.Player.transform.Position;
-                            float biggest = Math.Abs(_pushValue.X);
-                            if (_pushValue.Z > biggest) biggest = _pushValue.Z;
-                            _pushValue /= (biggest * 3.0f);
-                            _pushValue.Y = gameObject.transform.Position.Y;
+                            _pushValue.Normalize();
+                            _pushValue *= 3.0f;
+                            _pushValue.Y = 0.0f;
                             _pushed = true;
                             _pushTimer = -0.3f;
                             break;
                         case AttackType.Ion:
+                            if(!_ionFlag)
+                            {
+                                _hp -= (player.Stats.ShootDamage.Value);
+                                _ionFlag = true;
+                                _ionTimer = 0.0f;
+                            }
                             break;
                     }
                     player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
@@ -148,7 +164,9 @@ namespace PBLgame.GamePlay
             }
             else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Weapon")
             {
-                player = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
+
+                if(args.EnemySphere.Owner.gameObject.parent != null)player = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                if (player == null && args.EnemySphere.Owner.gameObject.Name == "Banana") player = args.EnemySphere.Owner.gameObject.GetComponent<BananaScript>().Player.GetComponent<PlayerScript>();
                 if (player != null)
                 {
                     switch (player.AttackEnum)
@@ -163,11 +181,17 @@ namespace PBLgame.GamePlay
                             _pushValue = gameObject.transform.Position -  AISystem.Player.transform.Position;
                             _pushValue.Normalize();
                             _pushValue *= 3.0f;
-                            _pushValue.Y = gameObject.transform.Position.Y;
+                            _pushValue.Y = 0.0f;
                             _pushed = true;
                             _pushTimer = -0.3f;
                             break;
                         case AttackType.Ion:
+                            if (!_ionFlag)
+                            {
+                                _hp -= (player.Stats.ShootDamage.Value);
+                                _ionFlag = true;
+                                _ionTimer = 0.0f;
+                            }
                             break;
                     }
                     player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
@@ -179,6 +203,15 @@ namespace PBLgame.GamePlay
             }
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if(_ionFlag)
+            {
+                _ionTimer += gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+                if (_ionTimer > 0.3f) _ionFlag = false;
+            }
+        }
 
         protected bool IsMyHP()
         {

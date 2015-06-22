@@ -158,12 +158,15 @@ namespace PBLgame
             mainCamera.SetTarget(player.transform.Position + new Vector3(0,10,0));
             mainCamera.parent = player;
 
-            //_loadedScene.FindGameObject(615).AddComponent<ParticleSystem>(new ParticleSystem(_loadedScene.FindGameObject(615)));
-            //_loadedScene.FindGameObject(615).GetComponent<ParticleSystem>().Material = ResourceManager.Instance.GetMaterial(2);
-            //_loadedScene.FindGameObject(615).GetComponent<ParticleSystem>().AddBurst(new Burst(0.0f, 10));
+            //Shieet xD so sweeet cause GO cant find another GO xD totaly fucked up hard coding  
+            player.GetComponent<PlayerScript>().ShieldParticle = _loadedScene.FindGameObject(968).GetComponent<ParticleSystem>();
+            _loadedScene.FindGameObject(968).GetComponent<ParticleSystem>().Static = false;
+
+            player.GetComponent<PlayerScript>().BananaAttack = _loadedScene.FindGameObject(969).GetComponent<BananaScript>();
+            _loadedScene.FindGameObject(969).GetComponent<BananaScript>().Player = player;
+  
             //_loadedScene.Save(@"Level_1.xml");
-            player.particleSystem.Enabled = false;
-//            OnIntroFinished(null, null);
+            //OnIntroFinished(null, null);
         }
 
         private void OnIntroFinished(object sender, EventArgs eventArgs)

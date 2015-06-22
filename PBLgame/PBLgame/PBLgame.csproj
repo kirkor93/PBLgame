@@ -119,6 +119,7 @@
     <Compile Include="Engine\Singleton\ResourceManager.cs" />
     <Compile Include="Engine\Singleton\Singleton.cs" />
     <Compile Include="GamePlay\Avatar.cs" />
+    <Compile Include="GamePlay\BananaScript.cs" />
     <Compile Include="GamePlay\ButtonsActions.cs" />
     <Compile Include="GamePlay\CharacterHandler.cs" />
     <Compile Include="GamePlay\EnemyScripts\CuteBomberScript.cs" />
