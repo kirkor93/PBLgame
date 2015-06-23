@@ -22,6 +22,14 @@ namespace Edytejshyn.Model
         [Browsable(false)]
         public Collision WrappedCollision { get; private set; }
 
+        [DisplayName("0.Enabled")]
+        public bool Enabled
+        {
+            get { return WrappedCollision.Enabled; }
+            set { Parent.FireSetter(x => WrappedCollision.Enabled = x, WrappedCollision.Enabled, value); }
+        }
+
+
         public bool Static
         {
             get { return WrappedCollision.Static; }

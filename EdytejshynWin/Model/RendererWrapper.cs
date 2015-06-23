@@ -109,6 +109,13 @@ namespace Edytejshyn.Model
         [Browsable(false)]
         public Renderer WrappedRenderer { get; private set; }
 
+        [DisplayName("0.Enabled")]
+        public bool Enabled
+        {
+            get { return WrappedRenderer.Enabled; }
+            set { Parent.FireSetter(x => WrappedRenderer.Enabled = x, WrappedRenderer.Enabled, value); }
+        }
+
         [TypeConverter(typeof(MeshTypeConverter))]
         public Mesh Mesh
         {
