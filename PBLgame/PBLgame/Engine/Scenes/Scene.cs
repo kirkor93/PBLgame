@@ -599,19 +599,6 @@ namespace PBLgame.Engine.Scenes
             foreach (GameObject gameObject in GameObjects)
             {
                 ///////////////////////////////////////////////
-                if (gameObject.collision == null)
-                {
-                    if (gameObject.Name.Contains("Barrier"))
-                    {
-                        gameObject.collision = new Collision(gameObject);
-                        gameObject.collision.MainCollider = new SphereCollider(gameObject.collision);
-                        gameObject.collision.MainCollider.GenerateCollider();
-                        gameObject.collision.MainCollider.Trigger = true;
-
-                        gameObject.collision.BoxColliders.Add(new BoxCollider(gameObject.collision));
-                        gameObject.collision.BoxColliders.First().GenerateCollider();
-                    }
-                }
 
                 ////////////////////////////////////////////////
                 if (gameObject.parent != null)
@@ -652,6 +639,14 @@ namespace PBLgame.Engine.Scenes
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Initialize(_editor);
+//                if (gameObject.Name.Contains("Wall") && gameObject.parent != null && gameObject.parent.ID == 440 && gameObject.collision != null &&
+//                    gameObject.collision.MainCollider != null)
+//                {
+////                    gameObject.parent = null;
+//                    gameObject.collision.MainCollider.Radius = 50.0f;
+//                    gameObject.collision.MainCollider.Trigger = true;
+//                    Console.WriteLine(gameObject.collision.MainCollider.TotalPosition + " " + gameObject.collision.BoxColliders[0].TotalPosition);
+//                }
             }
 
             // TODO better
