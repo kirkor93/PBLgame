@@ -36,8 +36,11 @@ namespace PBLgame.Engine.AI
             {
                 foreach (GameObject go in _aiObjects)
                 {
-                    AIComponent comp = go.GetComponent<AIComponent>();
-                    if (comp != null) comp.MyDTree.ExecuteTree();
+                    if(go.Enabled)
+                    {
+                        AIComponent comp = go.GetComponent<AIComponent>();
+                        if (comp != null && comp.Enabled) comp.MyDTree.ExecuteTree();
+                    }
                 }
             }
 

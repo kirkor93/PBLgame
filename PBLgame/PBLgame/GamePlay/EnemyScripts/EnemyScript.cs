@@ -203,6 +203,12 @@ namespace PBLgame.GamePlay
             }
         }
 
+        protected override void MakeDead(PlayerScript player)
+        {
+            AIComponent.Enabled = false;
+            base.MakeDead(player);
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
