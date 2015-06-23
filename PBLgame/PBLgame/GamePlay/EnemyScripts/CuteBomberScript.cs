@@ -138,7 +138,7 @@ namespace PBLgame.GamePlay
 
         public override Component Copy(GameObject newOwner)
         {
-            return new EnemyMeleeScript(newOwner);
+            return new CuteBomberScript(newOwner);
         }
 
         private bool EnemyClose()
@@ -179,6 +179,8 @@ namespace PBLgame.GamePlay
         {
             _currentAction = MeleeAction.Stay;
         }
+
+
         #endregion
 
         enum MeleeAction

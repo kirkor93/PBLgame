@@ -174,6 +174,7 @@
       <Texture Path="Textures\GUI\Upgrade_strong_attack_button_pressed" />
       <Texture Path="Textures\GUI\Upgrade_strong_attack_button_highlighted" />
       <Texture Path="Textures\GUI\Upgrade_screen_BG" />
+      <Texture Path="Textures\GUI\Level_up" />
       <Texture Path="Textures\GUI\Progress_bar_1" />
       <Texture Path="Textures\GUI\Progress_bar_2" />
       <Texture Path="Textures\GUI\Progress_bar_3" />
@@ -198,6 +199,8 @@
       <Texture Path="Textures\Intro\scene2" />
       <Texture Path="Textures\Intro\scene3" />
       <Texture Path="Textures\Intro\scene4" />
+      <Texture Path="Textures\Intro\scene5" />
+      <Texture Path="Textures\Intro\scene6" />
       <Texture Path="Textures\fire_particle" />
 	  <Texture Path="Textures\force_particle" />
 	  <Texture Path="Textures\dust_particle" />

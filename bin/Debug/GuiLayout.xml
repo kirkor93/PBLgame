@@ -129,13 +129,9 @@
       <Scale x="0.8" y="0.8" />
       <ProgressImage MaxProgress="3" Texture_0="Textures\GUI\Progress_bar_1" Texture_1="Textures\GUI\Progress_bar_2" Texture_2="Textures\GUI\Progress_bar_3" Texture_3="Textures\GUI\Progress_bar_4" />
     </PBLgame.Engine.GUI.ProgressImage>
-    <PBLgame.Engine.GUI.GUIObject Id="31" Name="Level_up_text" Enabled="False" Pivot="1" Texture="Textures\GUI\Empty">
-      <Position x="700" y="200" />
+    <PBLgame.Engine.GUI.GUIObject Id="31" Name="Level_up_text" Enabled="False" Pivot="0" Texture="Textures\GUI\Level_up">
+      <Position x="960" y="250" />
       <Scale x="1" y="1" />
-      <GUIText Font="Fonts\Default_big" Text="Level up!!!">
-        <LocalPosition x="0" y="0" />
-        <FontColor r="255" g="255" b="255" a="255" />
-      </GUIText>
     </PBLgame.Engine.GUI.GUIObject>
     <PBLgame.Engine.GUI.ProgressImage Id="18" Name="ThisSkillProgressBar" Enabled="True" Pivot="0" Texture="Textures\GUI\Empty">
       <Position x="1620" y="170" />
