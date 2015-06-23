@@ -45,6 +45,7 @@ namespace PBLgame.Engine
                 case Renderer.Technique.ShadowsPoint: return "Shadows";
                 case Renderer.Technique.ShadowsDirectional: return "ShadowsDir";
                 case Renderer.Technique.Reflection: return "Reflection";
+                case Renderer.Technique.Glow: return "Glow";
                 default: return "PhongBlinn";
             }
         }

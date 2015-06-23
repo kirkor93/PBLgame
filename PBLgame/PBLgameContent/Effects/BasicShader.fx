@@ -63,6 +63,15 @@ sampler2D emissiveSampler = sampler_state{
 	AddressV = Clamp;
 };
 
+texture glowMap;
+sampler2D glowSampler = sampler_state {
+	Texture = (glowMap);
+	MinFilter = Linear;
+	MagFilter = Linear;
+	AddressU = Clamp;
+	AddressV = Clamp;
+};
+
 /// ==== SHADOWS DATA ==== ///
 
 float shadowFarPlanes[ALL_LIGHTS];
@@ -126,24 +135,17 @@ float texPointDepth(int i, float3 dir)
 
 /// ===== REFLECTION ===== ///
 
-float4x4 reflectedView;
-texture reflectionMap;
 float4 clipPlane;
-sampler2D reflectionSampler = sampler_state {
-	Texture = (reflectionMap);
-	MinFilter = Anisotropic;
-	MagFilter = Anisotropic;
-};
 
 
 float2 postProjToScreen(float4 position)
 {
 	float2 screenPos = position.xy / position.w;
-	return 0.5f * (float2(screenPos.x, -screenPos.y) + 1);
+	return 0.5f * float2(screenPos.x, -screenPos.y) + 0.5f;
 }
 
 // 0.5f / float2(viewportWidth, viewportHeight)
-float2 bias = float2(0.008f, 0.015f);
+//float2 bias = float2(0.008f, 0.015f);
 
 float shadowMult = 0.0f;
 float shadowBias = 0.015f;
@@ -170,7 +172,8 @@ struct VertexShaderOutput
 	float3 worldedTangent  : TEXCOORD3;
 	float3 worldedBinormal : TEXCOORD4;
 	float3 viewDirection   : TEXCOORD5;
-	float4 shadowScreenPos[DIR_LIGHTS] : TEXCOORD6;
+	float4 screenPos       : TEXCOORD6;
+	float4 shadowScreenPos[DIR_LIGHTS] : TEXCOORD7;
 };
 
 
@@ -209,6 +212,7 @@ VertexShaderOutput VS(VertexShaderInput input)
 
 	output.TextureCoordinate = input.TextureCoordinate;
 	output.viewDirection = normalize(cameraPosition - worldPosition);
+	output.screenPos = output.Position;
 
 	[unroll]
 	for (int i = 0; i < DIR_LIGHTS; i++)
@@ -245,7 +249,7 @@ float4 CalcSpecular(float3 lightDir, float3 normal, float3 v)
 
 float4 PS(VertexShaderOutput input) : COLOR0
 {
-	clip( dot(float4(input.WorldPos, 1), clipPlane) );
+	//clip( dot(float4(input.WorldPos, 1), clipPlane) );
 
 	//Normal calc
 	float3 normalMap = (tex2D(normalSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
@@ -258,7 +262,7 @@ float4 PS(VertexShaderOutput input) : COLOR0
 
 	[unroll]
 	// Directional lights
-	for (int i = 0; i < DIR_LIGHTS; i++)
+	for (int i = 0; i < DIR_LIGHTS-1; i++)
 	{
 		float shadow = 1;
 		if (hasShadows[i])
@@ -319,81 +323,13 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	
 	float4 ambient = 0.1f * (1, 1, 1, 0);
 	totalLight += ambient;
-	float4 color = (textureColor * totalLight + totalSpecular) + emissive;
+
+	float4 glow = tex2D(glowSampler, postProjToScreen(input.screenPos));
+	glow.a = 1.0f;
+	float4 color = (textureColor * totalLight + totalSpecular) + emissive + glow;
 	color.a = alphaValue;
 
 	return color;
-}
-
-/// ========== SHADOWS GENERATING ========== ///
-
-struct VertexShaderShadowsOutput
-{
-	float4 Position : POSITION0;
-	float4 ScreenPos : TEXCOORD0;
-	float3 WorldPos  : TEXCOORD1;
-};
-
-VertexShaderShadowsOutput VShadows(VertexShaderInput input)
-{
-	VertexShaderShadowsOutput output;
-
-#ifdef SKINNED
-	Skin(input, 4);
-#endif
-
-	float4 worldPosition = mul(input.Position, world);
-	float4 viewPosition = mul(worldPosition, view);
-	output.Position = mul(viewPosition, projection);
-	output.ScreenPos = output.Position;
-	output.WorldPos = worldPosition.xyz;
-
-	return output;
-}
-
-// ---- Pointlight Shadows ---- //
-float4 PShadows(VertexShaderShadowsOutput input) : COLOR0
-{
-	float depth = saturate(length(shadowLightPos - input.WorldPos) / shadowFarPlane);
-	return float4(depth, 0, 0, 1);
-}
-
-// ---- Directional Shadows ---- //
-float4 PShadowsDir(VertexShaderShadowsOutput input) : COLOR0
-{
-	float depth = saturate(input.ScreenPos.z / input.ScreenPos.w);
-	return float4(depth, 0, 0, 1);
-}
-
-/// =========== REFLECTIVE MAPPING ============ ///
-
-struct VertexShaderReflectOutput
-{
-	float4 Position : POSITION0;
-	float4 ReflectionPos : TEXCOORD0;
-};
-
-VertexShaderReflectOutput VSReflect(VertexShaderInput input)
-{
-	VertexShaderReflectOutput output;
-	
-	float4 worldPosition = mul(input.Position, world);
-	float4 viewPosition = mul(worldPosition, view);
-	output.Position = mul(viewPosition, projection);
-	
-	float4 reflect = mul(input.Position, world);
-	reflect = mul(reflect, reflectedView);
-	reflect = mul(reflect, projection);
-	output.ReflectionPos = reflect;
-
-	return output;
-}
-
-float4 PSReflect(VertexShaderReflectOutput input) : COLOR0
-{
-	float2 UV = postProjToScreen(input.ReflectionPos);
-	float3 reflection = tex2D(reflectionSampler, UV);
-	return float4(reflection, alphaValue);
 }
 
 technique PhongBlinn
@@ -408,33 +344,6 @@ technique PhongBlinn
 	}
 }
 
-technique Shadows
-{
-	pass Pass1
-	{
-		AlphaBlendEnable = FALSE;
-		VertexShader = compile vs_3_0 VShadows();
-		PixelShader = compile ps_3_0 PShadows();
-	}
-}
-technique ShadowsDir
-{
-	pass Pass1
-	{
-		AlphaBlendEnable = FALSE;
-		VertexShader = compile vs_3_0 VShadows();
-		PixelShader = compile ps_3_0 PShadowsDir();
-	}
-}
-
-technique Reflection
-{
-	pass Pass1
-	{
-		AlphaBlendEnable = TRUE;
-		DestBlend = INVSRCALPHA;
-		SrcBlend = SRCALPHA;
-		VertexShader = compile vs_3_0 VSReflect();
-		PixelShader = compile ps_3_0 PSReflect();
-	}
-}
+#include "Shadows.fx"
+#include "Mirror.fx"
+#include "Glow.fx"

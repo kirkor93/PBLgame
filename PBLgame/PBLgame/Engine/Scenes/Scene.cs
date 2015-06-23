@@ -63,10 +63,15 @@ namespace PBLgame.Engine.Scenes
         private const float DIR_SHADOW_SIZE = 200f;     // projection matrix dimension
 
         private RenderTarget2D _reflectionTarget;
+        private RenderTarget2D _glowTarget;
+        private GaussianBlur _gaussianBlur;
+        
         private bool _editor;
         private CullingNode _cullingTree;
         private List<GameObject> _dynamicObjects;
         private List<GameObject> _staticObjects;
+        private SpriteBatch _spriteBatch;
+        private RenderTarget2D _halfRenderTarget;
 
         #endregion
         #endregion
@@ -129,6 +134,19 @@ namespace PBLgame.Engine.Scenes
             }
 
             _reflectionTarget = new RenderTarget2D(_graphics, _graphics.Viewport.Width, _graphics.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
+            _glowTarget       = new RenderTarget2D(_graphics, _graphics.Viewport.Width / 2, _graphics.Viewport.Height / 2, false, SurfaceFormat.Color, DepthFormat.Depth24);
+
+            _gaussianBlur = new GaussianBlur(
+                ResourceManager.Instance.ShaderEffects.First(e => e.Name == @"Effects\GaussianBlur"), 
+                0.8f,
+                _glowTarget.Width,
+                _glowTarget.Height
+            );
+
+            _halfRenderTarget = new RenderTarget2D(_graphics, _glowTarget.Width, _glowTarget.Height, false,
+                _graphics.PresentationParameters.BackBufferFormat, DepthFormat.None);
+
+            _spriteBatch = new SpriteBatch(_graphics);
         }
 
         public Scene() : this(false)
@@ -138,13 +156,14 @@ namespace PBLgame.Engine.Scenes
 
         public virtual void Draw(GameTime gameTime)
         {
-            IEnumerable<Effect> effects = ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader"));
-            effects = effects as Effect[] ?? effects.ToArray();
+            IEnumerable<Effect> effects_ = ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader"));
+            Effect[] effects = effects_ as Effect[] ?? effects_.ToArray();
 
             //RasterizerState oldRasterizer = _graphics.RasterizerState;
             //_graphics.RasterizerState = RasterizerState.CullNone;   // [possible slowdown] more realistic shadows
             
             ParameterizeEffectsWithLightsAndShadows(gameTime, effects);
+            ParameterizeEffectsWithGlow(gameTime, effects);
             
             _graphics.SetRenderTarget(null);
             //_graphics.RasterizerState = oldRasterizer;
@@ -167,7 +186,7 @@ namespace PBLgame.Engine.Scenes
                 float camDistToPlane = Math.Abs(Vector3.Dot(reflectionPlane.Normal, camPos) + reflectionPlane.D);
                 Vector3 reflectedCamPos = camPos - (2 * camDistToPlane * reflectionPlane.Normal);
                 Vector3 reflectedCamDir = Vector3.Reflect(cam.Direction, reflectionPlane.Normal);
-                Vector3 reflectedCamUp  = Vector3.Reflect(Vector3.Up, reflectionPlane.Normal);
+                Vector3 reflectedCamUp = Vector3.Reflect(Vector3.Up, reflectionPlane.Normal);
                 Matrix reflectedView = Matrix.CreateLookAt(reflectedCamPos, reflectedCamPos + reflectedCamDir, reflectedCamUp);
                 Matrix reflectedProjection = Matrix.CreatePerspectiveFieldOfView(cam.FoV, cam.Aspect, cam.Near + camDistToPlane, cam.Far);
 
@@ -177,10 +196,10 @@ namespace PBLgame.Engine.Scenes
                     effect.Parameters["reflectedView"].SetValue(reflectedView);
                     effect.Parameters["projection"].SetValue(reflectedProjection);
                     effect.Parameters["cameraPosition"].SetValue(reflectedCamPos);
-                    effect.Parameters["clipPlane"].SetValue( new Vector4(reflectionPlane.Normal, reflectionPlane.D) );
+                    effect.Parameters["clipPlane"].SetValue(new Vector4(reflectionPlane.Normal, reflectionPlane.D));
                 }
                 DrawScene(gameTime, Renderer.Technique.CustomCamera, reflectedView * reflectedProjection);
-                
+
                 _graphics.SetRenderTarget(null);
 
                 foreach (Effect effect in effects)
@@ -212,15 +231,17 @@ namespace PBLgame.Engine.Scenes
         /// <param name="cameraMatrix">camera matrix: view * projection</param>
         private void DrawScene(GameTime gameTime, Renderer.Technique technique = Renderer.Technique.Default, Matrix cameraMatrix = default(Matrix))
         {
-            if (technique == Renderer.Technique.Default) 
+            if (cameraMatrix == default(Matrix)) 
             {
                 SetupEffectsCamera();
             }
 
+            // TODO that switch sucks, fixme
             List<GameObject> toRender = new List<GameObject>();
             switch (technique)
             {
                 case Renderer.Technique.Default:
+                case Renderer.Technique.Glow:
                     //toRender.AddRange(_staticObjects);
                     toRender = _cullingTree.GetVisibleGameObjects(Camera.MainCamera.ViewMatrix * Camera.MainCamera.ProjectionMatrix);
                     break;
@@ -417,6 +438,23 @@ namespace PBLgame.Engine.Scenes
             }
         }
 
+        private void ParameterizeEffectsWithGlow(GameTime gameTime, IEnumerable<Effect> effects)
+        {
+            _graphics.SetRenderTarget(_glowTarget);
+            DrawScene(gameTime, Renderer.Technique.Glow);
+            _gaussianBlur.Perform(_glowTarget, _graphics, _spriteBatch, _halfRenderTarget, _glowTarget);
+            _graphics.SetRenderTarget(null);
+
+            foreach (Effect effect in effects)
+            {
+                effect.Parameters["glowMap"].SetValue(_glowTarget);
+            }
+
+            _graphics.DepthStencilState = DepthStencilState.Default;
+            //_spriteBatch.Begin();
+            //_spriteBatch.Draw(_glowTarget, new Rectangle(0, 0, _glowTarget.Width * 2, _glowTarget.Height * 2), Color.White);
+            //_spriteBatch.End();
+        }
 
         public virtual void Update(GameTime gameTime)
         {

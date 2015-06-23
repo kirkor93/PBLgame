@@ -7,6 +7,7 @@
       <ShaderEffect Path="Effects\BasicShaderSkinned" />
       <ShaderEffect Path="Effects\BasicShaderPhong" />
       <ShaderEffect Path="Effects\ParticleShader" />
+      <ShaderEffect Path="Effects\GaussianBlur" />
     </ShaderEffects>
     <Textures>
       <Texture Path="Textures\Default_n" />
@@ -36,7 +37,8 @@
       <Texture Path="Textures\Enemies\Mecha_ranger_s" />
       <Texture Path="Textures\Enemies\Smart_Droid_d" />
       <Texture Path="Textures\Enemies\Smart_Droid_n" />
-      <Texture Path="Textures\Enemies\Smart_Droid_s" />
+      <Texture Path="Textures\Enemies\Smart_Droid_n" />
+      <Texture Path="Textures\Enemies\Smart_Droid_e" />
       <Texture Path="Textures\Enemies\NJ_d" />
       <Texture Path="Textures\Enemies\NJ_n" />
       <Texture Path="Textures\Enemies\NJ_s" />
@@ -213,7 +215,7 @@
       <Material Id="3" Name="Enemies\Cute_Bomber" Diffuse="Textures\Enemies\Cute_Bomber_d" Normal="Textures\Enemies\Cute_Bomber_n" Specular="Textures\Enemies\Cute_Bomber_s" Emissive="Textures\Enemies\Cute_Bomber_d" ShaderPath="Effects\BasicShader" />
       <Material Id="4" Name="Enemies\Katana" Diffuse="Textures\Enemies\Katana_d" Normal="Textures\Enemies\Katana_n" Specular="Textures\Enemies\Katana_s" Emissive="Textures\Enemies\Katana_d" ShaderPath="Effects\BasicShader" />
       <Material Id="5" Name="Enemies\Mecha_ranger" Diffuse="Textures\Enemies\Mecha_ranger_d" Normal="Textures\Enemies\Mecha_ranger_n" Specular="Textures\Enemies\Mecha_ranger_s" Emissive="Textures\Enemies\Mecha_ranger_d" ShaderPath="Effects\BasicShader" />
-      <Material Id="6" Name="Enemies\Smart_Droid" Diffuse="Textures\Enemies\Smart_Droid_d" Normal="Textures\Enemies\Smart_Droid_n" Specular="Textures\Enemies\Smart_Droid_s" Emissive="Textures\Enemies\Smart_Droid_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="6" Name="Enemies\Smart_Droid" Diffuse="Textures\Enemies\Smart_Droid_d" Normal="Textures\Enemies\Smart_Droid_n" Specular="Textures\Enemies\Smart_Droid_s" Emissive="Textures\Enemies\Smart_Droid_e" ShaderPath="Effects\BasicShader" />
       <Material Id="7" Name="Terrain\Start_base\Barrel_green" Diffuse="Textures\Terrain\Start_base\Barrel_green_d" Normal="Textures\Terrain\Start_base\Barrel_red_n" Specular="Textures\Terrain\Start_base\Barrel_red_s" Emissive="Textures\Terrain\Start_base\Barrel_red_d" ShaderPath="Effects\BasicShader" />
       <Material Id="8" Name="Terrain\Start_base\Barrel_red" Diffuse="Textures\Terrain\Start_base\Barrel_red_d" Normal="Textures\Terrain\Start_base\Barrel_red_n" Specular="Textures\Terrain\Start_base\Barrel_red_s" Emissive="Textures\Terrain\Start_base\Barrel_red_d" ShaderPath="Effects\BasicShader" />
       <Material Id="9" Name="Terrain\Start_base\Barrier" Diffuse="Textures\Terrain\Start_base\Barrier_d" Normal="Textures\Terrain\Start_base\Barrier_n" Specular="Textures\Terrain\Start_base\Barrier_s" Emissive="Textures\Terrain\Start_base\Barrier_d" ShaderPath="Effects\BasicShader" />
@@ -256,7 +258,7 @@
       <Material Id="47" Name="Enemies\NJ" Diffuse="Textures\Enemies\NJ_d" Normal="Textures\Enemies\NJ_n" Specular="Textures\Enemies\NJ_s" Emissive="Textures\Enemies\NJ_d" ShaderPath="Effects\BasicShader" />
       <Material Id="48" Name="Enemies\Chainsword" Diffuse="Textures\Enemies\Chainsword_d" Normal="Textures\Enemies\Chainsword_n" Specular="Textures\Enemies\Chainsword_s" Emissive="Textures\Enemies\Chainsword_d" ShaderPath="Effects\BasicShader" />
       <Material Id="49" Name="Champions\Sword" Diffuse="Textures\Champions\Sword_d" Normal="Textures\Champions\Sword_n" Specular="Textures\Champions\Sword_s" Emissive="Textures\Champions\Sword_d" ShaderPath="Effects\BasicShader" />
-      <Material Id="50" Name="Champions\Banan" Diffuse="Textures\Champions\Banan_d" Emissive="Textures\Champions\Banan_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="50" Name="Champions\Banan" Diffuse="Textures\Default_e" Emissive="Textures\Champions\Banan_d" ShaderPath="Effects\BasicShader" />
 	  <Material Id="51" Name="Particle_Force" Diffuse="Textures\force_particle" ShaderPath="Effects\ParticleShader" />
 	  <Material Id="52" Name="Particle_Dust" Diffuse="Textures\dust_particle" ShaderPath="Effects\ParticleShader" />
 	  <Material Id="53" Name="Particle_Dust" Diffuse="Textures\ranged_particle" ShaderPath="Effects\ParticleShader" />

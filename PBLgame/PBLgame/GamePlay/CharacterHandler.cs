@@ -124,6 +124,7 @@ namespace PBLgame.GamePlay
 
         protected virtual void MakeDead(PlayerScript player)
         {
+            gameObject.renderer.EmissiveValue = 0f;
             gameObject.animator.Death();
             gameObject.collision.Enabled = false;
             //gameObject.animator.OnAnimationFinish += delegate { };

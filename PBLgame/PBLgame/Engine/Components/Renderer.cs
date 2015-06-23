@@ -104,7 +104,7 @@ namespace PBLgame.Engine.Components
             if (!Enabled) return;
             MyEffect.CurrentTechnique = MyEffect.Techniques[technique.GetString()];
             
-            if (technique == Technique.Default || technique == Technique.CustomCamera)
+            if (technique == Technique.Default || technique == Technique.CustomCamera || technique == Technique.Glow)
             {
                 MyEffect.Parameters["diffuseTexture"].SetValue(_material.Diffuse);
                 MyEffect.Parameters["normalIntensity"].SetValue(1);
@@ -197,7 +197,8 @@ namespace PBLgame.Engine.Components
             ShadowsPoint,
             ShadowsDirectional,
             CustomCamera,
-            Reflection
+            Reflection,
+            Glow
         }
 
         /// <summary>
