@@ -100,9 +100,26 @@ namespace PBLgame.GamePlay
         public void SetLookVector(Vector3 direction)
         {
             _lookVector = direction;
+            SetLookVector(new Vector2(direction.X, -direction.Z));
+        }
+
+
+        public void SetLookVectorInstantly(Vector3 direction)
+        {
+            _lookVector = direction;
+            SetLookVectorInstantly(new Vector2(direction.X, -direction.Z));
+        }
+
+        public void SetLookVectorInstantly(Vector2 direction)
+        {
+            _lookVector.X = direction.X;
+            _lookVector.Z = -direction.Y;
             _lookVector *= 10000.0f;
             _lookVector.Normalize();
-            SetLookVector(new Vector2(direction.X, -direction.Z));
+            float angle = Extensions.CalculateDegrees(direction);
+            while (angle < 0) angle += 360.0f;
+            _destAngle = angle;
+            _gameObject.transform.Rotation = new Vector3(gameObject.transform.Rotation.X, angle, gameObject.transform.Rotation.Z);
         }
 
         protected virtual void MakeDead(PlayerScript player)

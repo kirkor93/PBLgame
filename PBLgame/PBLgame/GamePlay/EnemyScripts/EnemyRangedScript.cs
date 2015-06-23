@@ -43,6 +43,8 @@ namespace PBLgame.GamePlay
             _affectDMGDelay = 600.0f;
             _hpEscapeValue = 15;
 
+            _dmg = 7;
+
             #region DecisionTree & AiComponentInitialize
 
             _distanceNode.DecisionEvent += EnemyClose;

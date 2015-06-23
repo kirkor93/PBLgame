@@ -46,6 +46,8 @@ namespace PBLgame.GamePlay
         #region Public
         public PlayerStatistics Stats { get; private set; }
         public AttackType AttackEnum { get; private set; }
+        public ParticleSystem ShieldParticle { get; set; }
+        public BananaScript BananaAttack { get; set; }
         #endregion
         #region Private
         /// <summary>
@@ -54,7 +56,11 @@ namespace PBLgame.GamePlay
         private bool _syncAngles = true;
 
         private GameObject _attackTriggerObject;
+        private Vector3 _baseAttackSpherePostion;
+        private float _baseAttackSphereRadius;
+        private bool _shieldActive;
         private bool _locked;
+        private float _shieldManaTimer;
         private PostponeBuffer _postponeBuffer = new PostponeBuffer();
 
         #endregion
@@ -109,6 +115,10 @@ namespace PBLgame.GamePlay
             _attackTriggerObject.collision.MainCollider = new SphereCollider(_attackTriggerObject.collision, 5.0f, true);
             _attackTriggerObject.collision.Enabled = false;
 
+            _shieldActive = false;
+            _baseAttackSpherePostion = new Vector3(15.0f,10.0f,0.0f);
+            _baseAttackSphereRadius = 5.0f;
+
             if (gameObject.collision != null)
             {
                 gameObject.collision.OnTrigger += GetHit;
@@ -130,34 +140,53 @@ namespace PBLgame.GamePlay
 
         public void GetHit(Object o, ColArgs args)
         {
-            //if (args.EnemyBox != null) Console.WriteLine(args.EnemyBox.Owner.gameObject.Tag);
-            //if (args.EnemySphere != null) Console.WriteLine(args.EnemySphere.Owner.gameObject.Tag);
-
             if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "EnemyWeapon")
             {
-                if(args.EnemyBox.Owner.gameObject.parent.GetComponent<EnemyMeleeScript>() != null) Stats.Health.Decrease(5);
-                else if (args.EnemyBox.Owner.gameObject.parent.GetComponent<EnemyRangedScript>() != null) Stats.Health.Decrease(3);
-                else if (args.EnemyBox.Owner.gameObject.parent.GetComponent<NJChuckScript>() != null) Stats.Health.Decrease(15);
-                else if (args.EnemyBox.Owner.gameObject.parent.GetComponent<CuteBomberScript>() != null) Stats.Health.Decrease(7);
+                EnemyScript enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyMeleeScript>();
+                if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyRangedScript>();
+                if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<CuteBomberScript>();
+                if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<NJChuckScript>();
+                if(enemy != null)
+                {
+                    if(_shieldActive)
+                    {
+                        Stats.Health.Decrease(enemy.DMG * (100 - Stats.ShieldAbsorption.Value)/100);
+                    }
+                    else
+                    {
+                        Stats.Health.Decrease(enemy.DMG);
+                    }
+                }
             }
             else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "EnemyWeapon")
             {
-                if (args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyMeleeScript>() != null) Stats.Health.Decrease(5);
-                else if (args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyRangedScript>() != null) Stats.Health.Decrease(3);
-                else if (args.EnemySphere.Owner.gameObject.parent.GetComponent<NJChuckScript>() != null) Stats.Health.Decrease(15);
-                else if (args.EnemySphere.Owner.gameObject.parent.GetComponent<CuteBomberScript>() != null) Stats.Health.Decrease(7);
+                EnemyScript enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyMeleeScript>();
+                if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyRangedScript>() as EnemyScript;
+                if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<CuteBomberScript>();
+                if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<NJChuckScript>();
+                if (enemy != null)
+                {
+                    if (_shieldActive)
+                    {
+                        Stats.Health.Decrease(enemy.DMG * (100 - Stats.ShieldAbsorption.Value) / 100);
+                    }
+                    else
+                    {
+                        Stats.Health.Decrease(enemy.DMG);
+                    }
+                }
             }
         }
 
         public override void Draw(GameTime gameTime)
         {
-            _attackTriggerObject.Draw(gameTime);
+            //_attackTriggerObject.collision.MainCollider.Draw();
         }
 
         public override void Initialize(bool editor)
         {
             base.Initialize(editor);
-            Stats = new PlayerStatistics(100, 100, 100);
+            Stats = new PlayerStatistics(200, 300, 100);
             if (editor)
             {
             }
@@ -169,18 +198,32 @@ namespace PBLgame.GamePlay
 
                 HUD.Instance.AssignPlayerScript(this);
             }
+            //BananaAttack.Player = gameObject;
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            _attackTriggerObject.Update(gameTime);
             if (gameObject.particleSystem != null && gameObject.particleSystem.Triggered)
             {
                 Vector3 newDirectionFrom = new Vector3(LookVector.X - 0.3f, 0.0f, LookVector.Z - 0.3f);
                 Vector3 newDirectionTo = new Vector3(LookVector.X + 0.3f, 0.0f, LookVector.Z + 0.3f);
                 gameObject.GetComponent<ParticleSystem>().DirectionFrom = newDirectionFrom;
                 gameObject.GetComponent<ParticleSystem>().DirectionTo = newDirectionTo;
+            }
+
+            if (_shieldActive)
+            {
+                if (_shieldManaTimer > 1.0f)
+                {
+                    if(!Stats.Energy.TryDecrease(Stats.ShieldManaCost.Value))
+                    {
+                        _shieldActive = false;
+                        ShieldParticle.Triggered = false;
+                    }
+                    _shieldManaTimer = _shieldManaTimer % 1.0f;
+                }
+                _shieldManaTimer += gameTime.ElapsedGameTime.Milliseconds/1000.0f;
             }
         }
 
@@ -237,8 +280,7 @@ namespace PBLgame.GamePlay
                 {
                     case Buttons.LeftShoulder:
                         {
-                            const int cost = 1;
-                            if (Stats.Energy.TryDecrease(cost))
+                            if (Stats.Energy.TryDecrease(Stats.PushManaCost.Value))
                             {
                                 Attack(AttackType.Push);
                                 if (gameObject.particleSystem != null)
@@ -264,20 +306,18 @@ namespace PBLgame.GamePlay
                         break;
 
                     case Buttons.LeftTrigger:
-                        {
-                            const int cost = 3;
-                            if (Stats.Energy.TryDecrease(cost))
+                        {            
+                            Attack(AttackType.Shield);
+                            gameObject.animator.OnTrigger += delegate
                             {
-                                Attack(AttackType.Shield);
-                                gameObject.animator.OnTrigger += delegate
+                                if (ShieldParticle != null)
                                 {
-                                    InputManager.Instance.RumplePad(300f, 0.3f, 0.7f);
-                                };
-                            }
-                            else
-                            {
-                                Console.WriteLine("Not enough mana");
-                            }
+                                    _shieldActive = !_shieldActive;
+                                    ShieldParticle.Triggered = _shieldActive;
+                                    _shieldManaTimer = 0.0f;
+                                }
+                                InputManager.Instance.RumplePad(300f, 0.3f, 0.7f);
+                            };
                         }
                         break;
 
@@ -299,11 +339,20 @@ namespace PBLgame.GamePlay
 
                     case Buttons.RightShoulder | Buttons.LeftShoulder:
                         {
-                            Attack(AttackType.Ion);
-                            gameObject.animator.OnTrigger += delegate
+                            if(Stats.Energy.TryDecrease(Stats.ShootManaCost.Value))
                             {
-                                InputManager.Instance.RumplePad(150f, 0.2f, 0.8f);
-                            };
+                                Attack(AttackType.Ion);
+                                gameObject.animator.OnTrigger += delegate
+                                {
+                                    if(BananaAttack != null)
+                                    {
+                                        BananaAttack.Direction = LookVector;
+                                        BananaAttack.StartPosition = gameObject.transform.Position + (LookVector * 3.0f);
+                                        BananaAttack.Activated = true;
+                                    }
+                                    InputManager.Instance.RumplePad(150f, 0.2f, 0.8f);
+                                };
+                            }
                         }
                         break;
                     case Buttons.B:
@@ -328,6 +377,14 @@ namespace PBLgame.GamePlay
             gameObject.animator.OnAnimationFinish += () => Locked = false;
             gameObject.animator.OnTrigger += delegate
             {
+                _attackTriggerObject.transform.Position = _baseAttackSpherePostion;
+                _attackTriggerObject.collision.MainCollider.Radius = _baseAttackSphereRadius;
+                if(AttackEnum == AttackType.Strong)
+                {
+                    _attackTriggerObject.transform.Position = new Vector3(0.0f, 10.0f, 0.0f);
+                    _attackTriggerObject.collision.MainCollider.Radius = 14.0f;
+                    _attackTriggerObject.collision.UpdateDisablePositions();
+                }
                 _attackTriggerObject.collision.Enabled = true;
                 foreach (GameObject go in PhysicsSystem.CollisionObjects)
                 {
@@ -337,6 +394,7 @@ namespace PBLgame.GamePlay
                     }
                 }
                 _attackTriggerObject.collision.Enabled = false;
+
             };
 
         }

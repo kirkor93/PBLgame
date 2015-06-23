@@ -30,12 +30,15 @@ namespace PBLgame.Engine.Components
         private List<Burst> _bursts;
 
         private float _height;
+        private bool _static;
 
         //Class private without properties so only for class use 
         private float _timer;
         private float _autoTimer = 1.0f;
         private float _actualTime;
         private int _activated = 0;
+        private Vector3 _previousFramePosition;
+        private Vector3 _currentFramePosition;
 
         private VertexPositionTexture[] _verts;
         private Vector3[] _directions;
@@ -197,6 +200,11 @@ namespace PBLgame.Engine.Components
                 _bursts = value;
             }
         }
+        public bool Static
+        {
+            get { return _static; }
+            set { _static = value; }
+        }
         #endregion
 
         #region Methods
@@ -225,6 +233,9 @@ namespace PBLgame.Engine.Components
             _activationStates = new bool[_max];
             _particleTimes = new float[_max];
             _bursts = new List<Burst>();
+            _static = true;
+            _previousFramePosition = new Vector3();
+            _currentFramePosition = new Vector3();
         }
 
         public ParticleSystem(ParticleSystem src, GameObject owner) : base(owner)
@@ -247,7 +258,9 @@ namespace PBLgame.Engine.Components
             _actualTime       = src._actualTime;
             _activated        = src._activated;
             Max               = src.Max;
-
+            _previousFramePosition     = src._previousFramePosition;
+            Static            = src.Static;
+                
             //InitializeParticles(); // done in Max
 
         }
@@ -256,17 +269,37 @@ namespace PBLgame.Engine.Components
         {
             if (Enabled && Triggered)
             {
+                _currentFramePosition = gameObject.transform.WorldTranslation.Translation + gameObject.transform.AncestorsTranslation.Translation;
                 float deltaTime = gameTime.ElapsedGameTime.Milliseconds/1000.0f;
                 ParticlesUpdate(_actualTime);
+                if (_actualTime > Duration)
+                {
+                    _actualTime = _actualTime % Duration;
+                    _activated = 0;
+                    for (int i = 0; i < _activationStates.Count(); ++i)
+                    {
+                        _activationStates[i] = false;
+                    }
+                }
                 if (Loop)
                 {
                     if (Bursts.Count >= 1)
                     {
                         foreach (Burst burst in Bursts)
                         {
-                            if ((burst.When > _actualTime - deltaTime/2) && (burst.When < _actualTime + deltaTime/2))
+                            if(burst.When == 0.0f)
                             {
-                                Emmit(burst.HowMany, _actualTime);
+                                if ((_actualTime < deltaTime) && (burst.When < (_actualTime + deltaTime)))
+                                {
+                                    Emmit(burst.HowMany, _actualTime);
+                                }
+                            }
+                            else
+                            {
+                                if ((burst.When > (_actualTime - (deltaTime / 2.0f))) && (burst.When <= (_actualTime + (deltaTime / 2.0f))))
+                                {
+                                    Emmit(burst.HowMany, _actualTime);
+                                }
                             }
                         }
                     }
@@ -313,11 +346,8 @@ namespace PBLgame.Engine.Components
                 _autoTimer += deltaTime;
                 _timer += deltaTime;
                 _actualTime += deltaTime;
-                if (_actualTime > Duration)
-                {
-                    _actualTime = _timer % Duration;
-                    _activated = 0;
-                }
+
+                _previousFramePosition = gameObject.transform.WorldTranslation.Translation + gameObject.transform.AncestorsTranslation.Translation;
             }
         }
 
@@ -340,7 +370,11 @@ namespace PBLgame.Engine.Components
                     {
                         for(int j = 0; j < 4; j++)
                         {
-                            _verts[i * 4 + j].Position += _directions[i] * Speed;
+                            if (_static) _verts[i * 4 + j].Position += _directions[i] * Speed;
+                            else
+                            {
+                                _verts[i * 4 + j].Position += (_currentFramePosition - _previousFramePosition) + _directions[i] * Speed;
+                            }
                         }
                     }
                 }
@@ -369,7 +403,7 @@ namespace PBLgame.Engine.Components
         {
             for (int i = 0; i < 4; i++ )
             {
-                _verts[index * 4 + i].Position += gameObject.transform.WorldTranslation.Translation + gameObject.transform.AncestorsTranslation.Translation;
+                _verts[index * 4 + i].Position += _currentFramePosition;
             }
             if (DirectionFrom == DirectionTo)
             {
@@ -402,7 +436,7 @@ namespace PBLgame.Engine.Components
 
         public override void Draw(GameTime gameTime)
         {
-            if(Enabled)
+            if(Enabled && Triggered)
             {
                 GraphicsDevice graphicsDevice = GlobalInventory.Instance.GraphicsDevice;
                 graphicsDevice.SetVertexBuffer(_vertexBuffer);

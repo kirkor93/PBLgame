@@ -24,6 +24,22 @@
       </ParticleSystem>
       <PBLgame.GamePlay.PlayerScript Enabled="True" />
     </GameObject>
+    <GameObject Name="ShieldParticle" Tag="Player" Id="968" Parent="8">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <ParticleSystem Enabled="True" MaterialId="51" Duration="1" LifeTimeLimit="0.5" Loop="True" Max="200" Speed="5" Triggered="False" Height="2">
+        <DirectionFrom x="-0.1" y="0.001" z="-0.1" />
+        <DirectionTo x="0.1" y="0.005" z="0.1" />
+        <Size x="1.5" y="1.5" />
+        <Bursts>
+          <Burst When="0" HowMany="100" />
+          <Burst When="0.5" HowMany="100" />
+        </Bursts>
+      </ParticleSystem>
+    </GameObject>
     <GameObject Name="Sword" Tag="PlayerWeapon" Id="613" Parent="8">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
@@ -31,6 +47,37 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="4" MaterialId="44" />
+    </GameObject>
+    <GameObject Name="Banana" Tag="Weapon" Id="969">
+      <Transform Enabled="True">
+        <Position x="0" y="20" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="0.8" y="0.8" z="0.8" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="51" MaterialId="50" Emissive="0.1" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="False">
+        <SphereCollider Radius="10" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="3" IsTrigger="True">
+            <LocalPosition x="1" y="0" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="2" IsTrigger="True">
+            <LocalPosition x="0" y="0" z="4" />
+          </SphereCollider>
+          <SphereCollider Radius="2" IsTrigger="True">
+            <LocalPosition x="0" y="0" z="-4" />
+          </SphereCollider>
+          <SphereCollider Radius="2" IsTrigger="True">
+            <LocalPosition x="-2" y="0" z="-7" />
+          </SphereCollider>
+          <SphereCollider Radius="2" IsTrigger="True">
+            <LocalPosition x="-2" y="0" z="7" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+      <PBLgame.GamePlay.BananaScript Enabled="True" />
     </GameObject>
     <GameObject Name="Ground" Tag="Terrain" Id="999">
       <Transform Enabled="True">

@@ -104,8 +104,8 @@ namespace PBLgame.GamePlay
             {
                 Console.WriteLine("Shield upgraded");
                 stats.TalentPoints.Decrease(1);
-                stats.ShieldAbsorption.Increase(5);
-                stats.ShieldManaCost.Decrease(1);
+                stats.ShieldAbsorption.Increase(10);
+                stats.ShieldManaCost.Increase(1);
                 stats.ShieldAbsorption.Progress++;
                 stats.ShieldManaCost.Progress++;
                 button.SetProgressBarsValue(stats.ShieldAbsorption.Progress);

@@ -31,7 +31,7 @@ namespace PBLgame.GamePlay
         #endregion
 
         #region Methods
-        public NJChuckScript(GameObject owner) : base(owner, 200)
+        public NJChuckScript(GameObject owner) : base(owner, 400)
         {
             SetupScript(new Vector3(15.0f, 10.0f, 0.0f), 5.0f);
             ChaseSpeed = 0.003f;
@@ -39,6 +39,8 @@ namespace PBLgame.GamePlay
             _attackDelay = 2500;
             _affectDMGDelay = 500.0f;
             _hpEscapeValue = 15;
+
+            _dmg = 20;
             
             #region DecisionTree & AiComponentInitialize
             _distanceNode.DecisionEvent += EnemyClose;

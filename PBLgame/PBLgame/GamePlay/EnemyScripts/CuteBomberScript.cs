@@ -37,7 +37,8 @@ namespace PBLgame.GamePlay
             _attackTimer = 1000.0f;
             _attackDelay = 2500;
             _hpEscapeValue = 15;
-            
+
+            _dmg = 10;
             #region DecisionTree & AiComponentInitialize
 
             _distanceNode.DecisionEvent += EnemyClose;

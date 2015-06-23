@@ -348,6 +348,7 @@ namespace PBLgame.Engine.Components
                                 if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
                                 {
                                     CollisionDetected(myCol, enemyCol);
+                                    break;
                                 }
                             }
                         }
@@ -361,6 +362,7 @@ namespace PBLgame.Engine.Components
                                 if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
                                 {
                                     CollisionDetected(myCol, enemyCol);
+                                    break;
                                 }
                             }
                         }
@@ -372,6 +374,7 @@ namespace PBLgame.Engine.Components
                             if (myCol.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
                             {
                                 CollisionDetected(myCol, collisionGO.collision.MainCollider);
+                                break;
                             }
                         }
                     }
@@ -387,6 +390,7 @@ namespace PBLgame.Engine.Components
                                 if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
                                 {
                                     CollisionDetected(myCol, enemyCol);
+                                    break;
                                 }
                             }
                         }
@@ -400,6 +404,7 @@ namespace PBLgame.Engine.Components
                                 if (myCol.Contains(enemyCol) != ContainmentType.Disjoint)
                                 {
                                     CollisionDetected(myCol, enemyCol);
+                                    break;
                                 }
                             }
                         }
@@ -411,6 +416,7 @@ namespace PBLgame.Engine.Components
                             if (myCol.Contains(collisionGO.collision.MainCollider) != ContainmentType.Disjoint)
                             {
                                 CollisionDetected(myCol, collisionGO.collision.MainCollider);
+                                break;
                             }
                         }
                     }
@@ -424,6 +430,7 @@ namespace PBLgame.Engine.Components
                             if (MainCollider.Contains(enemyCol) != ContainmentType.Disjoint)
                             {
                                 CollisionDetected(MainCollider, enemyCol);
+                                break;
                             }
                         }
                     }
@@ -434,6 +441,7 @@ namespace PBLgame.Engine.Components
                             if (MainCollider.Contains(enemyCol) != ContainmentType.Disjoint)
                             {
                                 CollisionDetected(MainCollider, enemyCol);
+                                break;
                             }
                         }
                     }
