@@ -4,6 +4,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using PBLgame.Engine.Components;
+using PBLgame.Engine.Scenes;
 
 namespace PBLgame.Engine.GameObjects
 {
@@ -48,7 +49,7 @@ namespace PBLgame.Engine.GameObjects
             HasShadow = source.HasShadow;
         }
 
-        protected Light()
+        protected Light(Scene scene) : base(scene)
         {
             HasShadow = true;
         }

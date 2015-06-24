@@ -19,7 +19,6 @@ namespace PBLgame.Engine.Components
         private Mesh _myMesh;
         private MeshMaterial _material;
         private Effect _myEffect;
-        private Scene _scene;
         #endregion
         #endregion  
 
@@ -66,9 +65,8 @@ namespace PBLgame.Engine.Components
         #endregion
 
         #region Methods
-        public Renderer(GameObject owner, Scene scene) : base(owner)
+        public Renderer(GameObject owner) : base(owner)
         {
-            _scene = scene;
             _myMesh = null;
             AlphaValue = 1f;
             EmissiveValue = 0f;
@@ -79,7 +77,6 @@ namespace PBLgame.Engine.Components
             _myMesh   = source._myMesh;
             _material = source._material;
             _myEffect = source._myEffect;
-            _scene    = source._scene;
             AlphaValue = source.AlphaValue;
             EmissiveValue = source.EmissiveValue;
         }

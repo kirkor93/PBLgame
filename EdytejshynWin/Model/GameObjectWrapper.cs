@@ -230,7 +230,7 @@ namespace Edytejshyn.Model
         {
             // TODO unstaticate
             EditorLogic logic = Program.UglyStaticLogic;
-            Renderer renderer = new Renderer(_gameObject, logic.CurrentScene)
+            Renderer renderer = new Renderer(_gameObject)
             {
                 MyMesh   = logic.ResourceManager.Meshes[0],
                 Material = logic.ResourceManager.Materials[0],

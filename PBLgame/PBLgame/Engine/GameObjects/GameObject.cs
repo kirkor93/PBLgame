@@ -34,6 +34,7 @@ namespace PBLgame.Engine.GameObjects
             private AudioSource _audioSource;
             private bool _enabled;
             private bool _processed;
+            protected Scene _scene;
             #endregion
         #endregion
 
@@ -162,18 +163,26 @@ namespace PBLgame.Engine.GameObjects
             set { _processed = value; }
         }
 
+        public Scene Scene
+        {
+            get { return _scene; }
+            set { _scene = value; }
+        }
+
         #endregion  
 
         #region Methods
 
-        public GameObject()
+        public GameObject(Scene scene)
         {
+            _scene = scene;
             _enabled = true;
             _transform = new Transform(this);
         }
 
         public GameObject(GameObject source, GameObject parent)
         {
+            _scene = source.Scene;
             ID = 0;
             Name = source.Name;
             Tag  = source.Tag;
@@ -552,7 +561,7 @@ namespace PBLgame.Engine.GameObjects
             int parentId = Convert.ToInt32(reader.GetAttribute("Parent"));
             if (parentId != 0)
             {
-                parent = new GameObject {ID = parentId};
+                parent = new GameObject(scene) {ID = parentId};
             } 
 
             reader.ReadStartElement();
@@ -564,7 +573,7 @@ namespace PBLgame.Engine.GameObjects
 
             if (reader.Name == "Renderer")
             {
-                renderer = new Renderer(this, scene);
+                renderer = new Renderer(this);
                 renderer.ReadXml(reader);
             }
 

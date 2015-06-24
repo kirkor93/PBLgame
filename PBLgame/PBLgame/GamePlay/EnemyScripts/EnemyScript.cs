@@ -81,7 +81,7 @@ namespace PBLgame.GamePlay
 
         protected void SetupScript(Vector3 attackTriggerPos, float attackTriggerRadius, Vector3 fovPos, float fovRadius)
         {
-            _attackTriggerObject = new GameObject
+            _attackTriggerObject = new GameObject(gameObject.Scene)
             {
                 Tag = "EnemyWeapon",
                 transform = { Position = attackTriggerPos },
@@ -96,7 +96,7 @@ namespace PBLgame.GamePlay
             _attackTriggerObject.collision.MainCollider = new SphereCollider(_attackTriggerObject.collision, attackTriggerRadius, true);
             _attackTriggerObject.collision.Enabled = false;
 
-            _fieldOfView = new GameObject
+            _fieldOfView = new GameObject(gameObject.Scene)
             {
                 Tag = "FOV",
                 transform = { Position = fovPos },

@@ -105,7 +105,7 @@ namespace PBLgame.GamePlay
         {
             SpeedMultiplier = 60f;
 
-            _attackTriggerObject = new GameObject();
+            _attackTriggerObject = new GameObject(gameObject.Scene);
             _attackTriggerObject.Tag = "Weapon";
             _attackTriggerObject.transform.Position = new Vector3(15.0f, 10.0f, 0.0f);
             _attackTriggerObject.parent = this.gameObject;

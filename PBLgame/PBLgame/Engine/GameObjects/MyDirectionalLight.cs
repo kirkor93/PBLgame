@@ -4,6 +4,7 @@ using System.Xml;
 using PBLgame.Engine.Components;
 
 using Microsoft.Xna.Framework;
+using PBLgame.Engine.Scenes;
 
 namespace PBLgame.Engine.GameObjects
 {
@@ -42,7 +43,7 @@ namespace PBLgame.Engine.GameObjects
 
         #region Methods
 
-        public MyDirectionalLight() { }
+        public MyDirectionalLight(Scene scene) : base(scene) { }
 
         protected MyDirectionalLight(MyDirectionalLight source, GameObject sourceParent) : base(source, sourceParent)
         {

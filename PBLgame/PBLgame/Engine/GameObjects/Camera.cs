@@ -109,7 +109,7 @@ namespace PBLgame.Engine.GameObjects
 
         #region Methods
         public Camera(Vector3 pos, Vector3 target, Vector3 up,
-            float FoV, float screenWidth, float screenHeight, float near, float far)
+            float FoV, float screenWidth, float screenHeight, float near, float far) : base(null)
         {
             base.transform.Position = pos;
             Direction = target - pos;

@@ -18,7 +18,7 @@ using PBLgame.GamePlay;
 
 namespace PBLgame.Engine.Scenes
 {
-    public class Scene : IXmlSerializable
+    public class Scene : SceneAdapter, IXmlSerializable
     {
         #region Variables
         #region Private
@@ -115,8 +115,15 @@ namespace PBLgame.Engine.Scenes
             _takenIdNumbers = new List<int> { 0 };
             _physicsSystem = new PhysicsSystem();
             _graphics = GlobalInventory.Instance.GraphicsDevice;
+        }
 
+        public Scene() : this(false)
+        {
+            // ctor for stupid serializer which cannot into default parameters
+        }
 
+        public override void Initialize()
+        {
             for (int i = 0; i < DIR_LIGHTS; i++)
             {
                 _shadowViewMatrices[i] = Matrix.Identity;
@@ -134,10 +141,10 @@ namespace PBLgame.Engine.Scenes
             }
 
             _reflectionTarget = new RenderTarget2D(_graphics, _graphics.Viewport.Width, _graphics.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
-            _glowTarget       = new RenderTarget2D(_graphics, _graphics.Viewport.Width / 2, _graphics.Viewport.Height / 2, false, SurfaceFormat.Color, DepthFormat.Depth24);
+            _glowTarget = new RenderTarget2D(_graphics, _graphics.Viewport.Width / 2, _graphics.Viewport.Height / 2, false, SurfaceFormat.Color, DepthFormat.Depth24);
 
             _gaussianBlur = new GaussianBlur(
-                ResourceManager.Instance.ShaderEffects.First(e => e.Name == @"Effects\GaussianBlur"), 
+                ResourceManager.Instance.ShaderEffects.First(e => e.Name == @"Effects\GaussianBlur"),
                 0.8f,
                 _glowTarget.Width,
                 _glowTarget.Height
@@ -149,12 +156,7 @@ namespace PBLgame.Engine.Scenes
             _spriteBatch = new SpriteBatch(_graphics);
         }
 
-        public Scene() : this(false)
-        {
-            // ctor for stupid serializer which cannot into default parameters
-        }
-
-        public virtual void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime)
         {
             IEnumerable<Effect> effects_ = ResourceManager.Instance.ShaderEffects.Where(effect => effect.Name.Contains("BasicShader"));
             Effect[] effects = effects_ as Effect[] ?? effects_.ToArray();
@@ -456,7 +458,7 @@ namespace PBLgame.Engine.Scenes
             //_spriteBatch.End();
         }
 
-        public virtual void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             AISystem.ExecuteAI();
             _physicsSystem.Update(gameTime);
@@ -674,6 +676,8 @@ namespace PBLgame.Engine.Scenes
                 _takenIdNumbers.Add(light.ID);
             }
 
+            Initialize();
+
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Initialize(_editor);
@@ -782,6 +786,7 @@ namespace PBLgame.Engine.Scenes
 
         public void ReadXml(XmlReader reader)
         {
+            Scene scene = ((SceneXmlReader) reader).Scene;
             reader.MoveToContent();
             reader.ReadStartElement();
             reader.MoveToContent();
@@ -791,7 +796,7 @@ namespace PBLgame.Engine.Scenes
             {
                 if (reader.Name == "GameObject")
                 {
-                    GameObject obj = new GameObject();
+                    GameObject obj = new GameObject(scene);
                     obj.ReadXml(reader);
                     GameObjects.Add(obj);
                 }
@@ -802,10 +807,10 @@ namespace PBLgame.Engine.Scenes
                     switch (type)
                     {
                         case "Directional":
-                            l = new MyDirectionalLight();
+                            l = new MyDirectionalLight(scene);
                             break;
                         case "Point":
-                            l = new PointLight();
+                            l = new PointLight(scene);
                             break;
                     }
 
@@ -857,15 +862,11 @@ namespace PBLgame.Engine.Scenes
     /// <summary>
     /// Empty scene that does nothing.
     /// </summary>
-    public class DummyScene : Scene
+    public class SceneAdapter
     {
-        public override void Draw(GameTime gameTime)
-        {
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-        }
+        public virtual void Initialize() { }
+        public virtual void Draw(GameTime gameTime) { }
+        public virtual void Update(GameTime gameTime) { }
     }
 
     public class CullingNode

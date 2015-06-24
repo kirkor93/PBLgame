@@ -4,6 +4,7 @@ using System.Xml;
 using Microsoft.Xna.Framework;
 
 using PBLgame.Engine.Components;
+using PBLgame.Engine.Scenes;
 
 namespace PBLgame.Engine.GameObjects
 {
@@ -51,7 +52,7 @@ namespace PBLgame.Engine.GameObjects
 
         #region Methods
 
-        public PointLight() { }
+        public PointLight(Scene scene) : base(scene) { }
 
         protected PointLight(PointLight source, GameObject sourceParent) : base(source, sourceParent)
         {
