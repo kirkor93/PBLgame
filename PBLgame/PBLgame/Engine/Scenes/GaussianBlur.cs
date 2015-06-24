@@ -10,7 +10,7 @@ namespace PBLgame.Engine.Scenes
         /// <summary>
         /// Radius of blur. Change it equally in GaussianBlur.fx shader.
         /// </summary>
-        private const int RADIUS = 7;
+        private const int RADIUS = 10;
         private float _amount;
         private float _sigma;
         private float[] _kernel;
@@ -29,23 +29,23 @@ namespace PBLgame.Engine.Scenes
             float sigmaRoot = (float) Math.Sqrt(twoSigmaSquare * Math.PI);
             float total = 0.0f;
 
-            //float[] weights = { 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
-            //for (int i = 0; i < weights.Length; i++)
+            //float[] weights = { 0.1f, 0.2f, 0.55f, 0.8f, 0.9f, 0.95f, 0.98f };
+            //for (int i = 0; i < RADIUS; i++)
             //{
             //    _kernel[i] = weights[i];
             //    _kernel[_kernel.Length - i - 1] = weights[i];
+            //    total += _kernel[i] + _kernel[_kernel.Length - i - 1];
             //}
-
             //_kernel[RADIUS] = 1.0f;
 
             for (int i = 0; i < _kernel.Length; i++)
             {
                 int x = i - RADIUS;
                 float distance = x * x;
-                _kernel[i] = (float) Math.Exp(-distance / twoSigmaSquare) / sigmaRoot;
+                _kernel[i] = (float)Math.Exp(-distance / twoSigmaSquare) / sigmaRoot;
                 total += _kernel[i];
             }
-            //total *= 0.8f;
+            total /= 1.1f;
             for (int i = 0; i < _kernel.Length; i++)
             {
                 _kernel[i] /= total;
@@ -70,6 +70,10 @@ namespace PBLgame.Engine.Scenes
             Rectangle tmpRect = new Rectangle(0, 0, tmpTarget.Width, tmpTarget.Height);
             Rectangle outRect = new Rectangle(0, 0, output.Width, output.Height);
 
+            Matrix projection = Matrix.CreateOrthographicOffCenter(0, tmpTarget.Width, tmpTarget.Height, 0, 0, 1);
+            Matrix halfPixelOffset = Matrix.CreateTranslation(-0.5f, -0.5f, 0);
+            _effect.Parameters["MatrixTransform"].SetValue(halfPixelOffset * projection);
+
             // Horizontal blur
             graphics.SetRenderTarget(tmpTarget);
 
@@ -85,6 +89,9 @@ namespace PBLgame.Engine.Scenes
             // Vertical blur
             graphics.SetRenderTarget(output);
 
+            projection = Matrix.CreateOrthographicOffCenter(0, output.Width, output.Height, 0, 0, 1);
+            _effect.Parameters["MatrixTransform"].SetValue(halfPixelOffset * projection);
+            
             _effect.Parameters["colorMapTexture"].SetValue(tmpTarget);
             _effect.Parameters["offsets"].SetValue(_offsetsVert);
 

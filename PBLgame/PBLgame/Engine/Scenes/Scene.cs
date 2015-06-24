@@ -145,7 +145,7 @@ namespace PBLgame.Engine.Scenes
 
             _gaussianBlur = new GaussianBlur(
                 ResourceManager.Instance.ShaderEffects.First(e => e.Name == @"Effects\GaussianBlur"),
-                1.0f,
+                3f,
                 _glowTarget.Width,
                 _glowTarget.Height
             );
@@ -169,7 +169,7 @@ namespace PBLgame.Engine.Scenes
             
             _graphics.SetRenderTarget(null);
             //_graphics.RasterizerState = oldRasterizer;
-
+            
             if (_mirror != null)
             {
                 _graphics.SetRenderTarget(_reflectionTarget);
@@ -453,8 +453,9 @@ namespace PBLgame.Engine.Scenes
             }
 
             _graphics.DepthStencilState = DepthStencilState.Default;
+
             //_spriteBatch.Begin();
-            //_spriteBatch.Draw(_glowTarget, new Rectangle(0, 0, _glowTarget.Width * 2, _glowTarget.Height * 2), Color.White);
+            //_spriteBatch.Draw(_glowTarget, new Rectangle(0, 0, _glowTarget.Width, _glowTarget.Height), Color.White);
             //_spriteBatch.End();
         }
 
