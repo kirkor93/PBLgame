@@ -73,7 +73,6 @@ namespace PBLgame.GamePlay
 
         public override void Initialize(bool editor)
         {
-            Console.WriteLine("== Avatar for {0} ==", gameObject.Name);
             _avatar = Avatar.CreateAvatar(gameObject.animator);
         }
 

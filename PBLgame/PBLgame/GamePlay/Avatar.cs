@@ -139,7 +139,6 @@ namespace PBLgame.GamePlay
         {
             _left = left;
             _right = right;
-            Console.WriteLine("Quad avatar");
         }
 
         protected override AnimationClip ChooseWalkClip(float diff)

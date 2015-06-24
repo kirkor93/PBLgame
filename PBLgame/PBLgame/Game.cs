@@ -38,7 +38,7 @@ namespace PBLgame
         public GameObject player;
         public GameObject totalyTmp;
         private Scene _loadedScene;
-        private SceneAdapter _activeScene;
+        private BaseScene _activeScene;
         private ScreenSystem _activeScreenSystem;
         private HUD _hud;
         private const int ResolutionX = 1280;
@@ -120,7 +120,7 @@ namespace PBLgame
             intro.Load();
             intro.CurrentWindowSize = new Vector2(ResolutionX, ResolutionY);
             intro.Start();
-            _activeScene = new SceneAdapter();
+            _activeScene = new BaseScene();
             _loadedScene = new Scene();
             _loadedScene.Load(@"Level_1.xml");
             //_scene.Load(@"AnimScene.xml");

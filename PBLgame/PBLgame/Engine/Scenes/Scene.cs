@@ -18,7 +18,7 @@ using PBLgame.GamePlay;
 
 namespace PBLgame.Engine.Scenes
 {
-    public class Scene : SceneAdapter, IXmlSerializable
+    public class Scene : BaseScene, IXmlSerializable
     {
         #region Variables
         #region Private
@@ -862,7 +862,7 @@ namespace PBLgame.Engine.Scenes
     /// <summary>
     /// Empty scene that does nothing.
     /// </summary>
-    public class SceneAdapter
+    public class BaseScene
     {
         public virtual void Initialize() { }
         public virtual void Draw(GameTime gameTime) { }
