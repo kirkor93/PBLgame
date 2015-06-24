@@ -7,7 +7,10 @@ namespace PBLgame.Engine.Scenes
     public class GaussianBlur
     {
         private readonly Effect _effect;
-        private const int RADIUS = 4;
+        /// <summary>
+        /// Radius of blur. Change it equally in GaussianBlur.fx shader.
+        /// </summary>
+        private const int RADIUS = 7;
         private float _amount;
         private float _sigma;
         private float[] _kernel;
@@ -26,6 +29,15 @@ namespace PBLgame.Engine.Scenes
             float sigmaRoot = (float) Math.Sqrt(twoSigmaSquare * Math.PI);
             float total = 0.0f;
 
+            //float[] weights = { 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
+            //for (int i = 0; i < weights.Length; i++)
+            //{
+            //    _kernel[i] = weights[i];
+            //    _kernel[_kernel.Length - i - 1] = weights[i];
+            //}
+
+            //_kernel[RADIUS] = 1.0f;
+
             for (int i = 0; i < _kernel.Length; i++)
             {
                 int x = i - RADIUS;
@@ -33,13 +45,12 @@ namespace PBLgame.Engine.Scenes
                 _kernel[i] = (float) Math.Exp(-distance / twoSigmaSquare) / sigmaRoot;
                 total += _kernel[i];
             }
-
-            total *= 0.7f;
-
+            //total *= 0.8f;
             for (int i = 0; i < _kernel.Length; i++)
             {
                 _kernel[i] /= total;
             }
+
 
              float xOffset = 1.0f / width;
              float yOffset = 1.0f / height;

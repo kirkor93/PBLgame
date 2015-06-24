@@ -141,11 +141,11 @@ namespace PBLgame.Engine.Scenes
             }
 
             _reflectionTarget = new RenderTarget2D(_graphics, _graphics.Viewport.Width, _graphics.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
-            _glowTarget = new RenderTarget2D(_graphics, _graphics.Viewport.Width / 2, _graphics.Viewport.Height / 2, false, SurfaceFormat.Color, DepthFormat.Depth24);
+            _glowTarget = new RenderTarget2D(_graphics, _graphics.Viewport.Width, _graphics.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
 
             _gaussianBlur = new GaussianBlur(
                 ResourceManager.Instance.ShaderEffects.First(e => e.Name == @"Effects\GaussianBlur"),
-                0.8f,
+                1.0f,
                 _glowTarget.Width,
                 _glowTarget.Height
             );

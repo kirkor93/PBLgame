@@ -30,7 +30,7 @@
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
-      <Renderer Enabled="True" MeshId="4" MaterialId="44" />
+      <Renderer Enabled="True" MeshId="4" MaterialId="49" Emissive="1" />
     </GameObject>
     <GameObject Name="Ground" Tag="Terrain" Id="999">
       <Transform Enabled="True">

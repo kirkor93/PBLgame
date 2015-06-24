@@ -22,6 +22,7 @@
       <Texture Path="Textures\Champions\Sword_d" />
       <Texture Path="Textures\Champions\Sword_n" />
       <Texture Path="Textures\Champions\Sword_s" />
+      <Texture Path="Textures\Champions\Sword_e" />
       <Texture Path="Textures\Champions\Banan_d" />
       <Texture Path="Textures\Enemies\Crossbow_d" />
       <Texture Path="Textures\Enemies\Crossbow_n" />
@@ -252,12 +253,12 @@
       <Material Id="40" Name="Terrain\Desert\Asphalt_2" Diffuse="Textures\Terrain\Desert\Asphalt_2_d" Normal="Textures\Terrain\Desert\Asphalt_2_n" Specular="Textures\Terrain\Desert\Asphalt_2_s" Emissive="Textures\Terrain\Desert\Asphalt_2_d" ShaderPath="Effects\BasicShader" />
       <Material Id="41" Name="Terrain\Desert\Mountain_3" Diffuse="Textures\Terrain\Desert\Mountain_3_d" Normal="Textures\Terrain\Desert\Mountain_3_n" Specular="Textures\Terrain\Desert\Mountain_3_s" Emissive="Textures\Terrain\Desert\Mountain_3_d" ShaderPath="Effects\BasicShader" />
       <Material Id="42" Name="Terrain\Desert\Mountain_2" Diffuse="Textures\Terrain\Desert\Mountain_2_d" Normal="Textures\Terrain\Desert\Mountain_2_n" Specular="Textures\Terrain\Desert\Mountain_2_s" Emissive="Textures\Terrain\Desert\Mountain_2_d" ShaderPath="Effects\BasicShader" />
-      <Material Id="44" Name="Default" Diffuse="Textures\Default_s" Normal="Textures\Default_n" Specular="Textures\Default_s" Emissive="Textures\Default_s" ShaderPath="Effects\BasicShader" />
+      <Material Id="44" Name="Default" Diffuse="Textures\Default_s" Normal="Textures\Default_n" Specular="Textures\Default_s" Emissive="Textures\Default_e" ShaderPath="Effects\BasicShader" />
       <Material Id="45" Name="NormalHelmet" Diffuse="Textures\Default_s" Normal="Textures\Helmet_n" Specular="Textures\Default_s" Emissive="Textures\Default_s" ShaderPath="Effects\BasicShader" />
       <Material Id="46" Name="Champions\Ace" Diffuse="Textures\Champions\Ace_d" Normal="Textures\Champions\Ace_n" Specular="Textures\Champions\Ace_s" Emissive="Textures\Champions\Ace_d" ShaderPath="Effects\BasicShader" />
       <Material Id="47" Name="Enemies\NJ" Diffuse="Textures\Enemies\NJ_d" Normal="Textures\Enemies\NJ_n" Specular="Textures\Enemies\NJ_s" Emissive="Textures\Enemies\NJ_d" ShaderPath="Effects\BasicShader" />
       <Material Id="48" Name="Enemies\Chainsword" Diffuse="Textures\Enemies\Chainsword_d" Normal="Textures\Enemies\Chainsword_n" Specular="Textures\Enemies\Chainsword_s" Emissive="Textures\Enemies\Chainsword_d" ShaderPath="Effects\BasicShader" />
-      <Material Id="49" Name="Champions\Sword" Diffuse="Textures\Champions\Sword_d" Normal="Textures\Champions\Sword_n" Specular="Textures\Champions\Sword_s" Emissive="Textures\Champions\Sword_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="49" Name="Champions\Sword" Diffuse="Textures\Champions\Sword_d" Normal="Textures\Champions\Sword_n" Specular="Textures\Champions\Sword_s" Emissive="Textures\Champions\Sword_e" ShaderPath="Effects\BasicShader" />
       <Material Id="50" Name="Champions\Banan" Diffuse="Textures\Default_e" Emissive="Textures\Champions\Banan_d" ShaderPath="Effects\BasicShader" />
 	  <Material Id="51" Name="Particle_Force" Diffuse="Textures\force_particle" ShaderPath="Effects\ParticleShader" />
 	  <Material Id="52" Name="Particle_Dust" Diffuse="Textures\dust_particle" ShaderPath="Effects\ParticleShader" />

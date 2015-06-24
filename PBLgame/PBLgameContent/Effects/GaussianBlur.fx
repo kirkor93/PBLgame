@@ -1,4 +1,6 @@
-#define RADIUS 4
+
+/// Radius of blur. Change it equally in GaussianBlur class:
+#define RADIUS 7
 #define KERNEL_SIZE (RADIUS * 2 + 1)
 
 float weights[KERNEL_SIZE];
