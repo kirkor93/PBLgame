@@ -73,6 +73,7 @@ namespace PBLgame.Engine.Scenes
         private SpriteBatch _spriteBatch;
         private RenderTarget2D _halfRenderTarget;
 
+        private event Action QueueAfterUpdate;
         #endregion
         #endregion
 
@@ -469,6 +470,12 @@ namespace PBLgame.Engine.Scenes
             }
             Camera.MainCamera.Update(gameTime);
 
+            // needed when objects adds to GameObjects list
+            if (QueueAfterUpdate != null)
+            {
+                QueueAfterUpdate();
+                QueueAfterUpdate = null;
+            }
         }
 
         public GameObject FindGameObject(int id)
@@ -499,6 +506,22 @@ namespace PBLgame.Engine.Scenes
 
             // Needed for editor
             _dynamicObjects.Add(obj);
+        }
+
+        /// <summary>
+        /// Adds temporary non-serializable game object to the scene.
+        /// This is postponed after update of the scene is completed.
+        /// </summary>
+        /// <param name="obj">game object to add</param>
+        public void AddTemporary(GameObject obj)
+        {
+            QueueAfterUpdate += delegate
+            {
+                obj.Temporary = true;
+                obj.ID = (1 << 24);
+                AddGameObject(obj);
+                obj.Initialize(_editor);
+            };
         }
 
         public void AddGameObjectWithDescendants(GameObject obj)
@@ -679,6 +702,14 @@ namespace PBLgame.Engine.Scenes
 
             Initialize();
 
+            // TODO better
+            _mirror = FindGameObject("Mirror");
+
+            //Hard coded setting Ace as target xD
+            AISystem.SetPlayer(FindGameObject(8));
+
+            _cullingTree = GenerateCullingGraph(4);
+
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Initialize(_editor);
@@ -692,13 +723,6 @@ namespace PBLgame.Engine.Scenes
 //                }
             }
 
-            // TODO better
-            _mirror = FindGameObject("Mirror");
-
-            //Hard coded setting Ace as target xD
-            AISystem.SetPlayer(FindGameObject(8));
-
-            _cullingTree = GenerateCullingGraph(4);
 
         }
 
@@ -827,7 +851,7 @@ namespace PBLgame.Engine.Scenes
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteStartElement("GameObjects");
-            foreach (GameObject sceneGameObject in GameObjects)
+            foreach (GameObject sceneGameObject in GameObjects.Where(o => !o.Temporary))
             {
                 writer.WriteStartElement("GameObject");
                 (sceneGameObject as IXmlSerializable).WriteXml(writer);
@@ -835,7 +859,7 @@ namespace PBLgame.Engine.Scenes
             }
             writer.WriteEndElement();
             writer.WriteStartElement("Lights");
-            foreach (Light sceneLight in SceneLights)
+            foreach (Light sceneLight in SceneLights.Where(o => !o.Temporary))
             {
                 writer.WriteStartElement("Light");
                 (sceneLight as IXmlSerializable).WriteXml(writer);

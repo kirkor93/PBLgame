@@ -325,7 +325,7 @@ float4 PS(VertexShaderOutput input) : COLOR0
 	totalLight += ambient;
 
 	float4 glow = tex2D(glowSampler, postProjToScreen(input.screenPos));
-	glow = saturate(glow - emissive);
+	glow = saturate(glow - emissive*2);
 	glow.a = 1.0f;
 	float4 color = (textureColor * totalLight + totalSpecular) + emissive + glow;
 	color.a = alphaValue;

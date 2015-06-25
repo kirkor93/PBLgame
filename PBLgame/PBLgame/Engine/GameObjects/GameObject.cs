@@ -35,6 +35,7 @@ namespace PBLgame.Engine.GameObjects
             private bool _enabled;
             private bool _processed;
             protected Scene _scene;
+            protected bool _temporary = false;
             #endregion
         #endregion
 
@@ -167,6 +168,15 @@ namespace PBLgame.Engine.GameObjects
         {
             get { return _scene; }
             set { _scene = value; }
+        }
+
+        /// <summary>
+        /// Temporary game objects aren't serialized to file and can be created at a game runtime.
+        /// </summary>
+        public bool Temporary
+        {
+            get { return _temporary; }
+            set { _temporary = value; }
         }
 
         #endregion  
