@@ -46,6 +46,7 @@ namespace PBLgame.GamePlay
         #region Public
         public PlayerStatistics Stats { get; private set; }
         public AttackType AttackEnum { get; private set; }
+        public ParticleSystem StrongParticle { get; set; }
         public ParticleSystem ShieldParticle { get; set; }
         public BananaScript BananaAttack { get; set; }
         #endregion
@@ -62,7 +63,7 @@ namespace PBLgame.GamePlay
         private bool _locked;
         private float _shieldManaTimer;
         private PostponeBuffer _postponeBuffer = new PostponeBuffer();
-
+        private bool _goDown;
         #endregion
         #endregion
 
@@ -204,6 +205,8 @@ namespace PBLgame.GamePlay
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            StrongParticle.gameObject.Update(gameTime);
+            ShieldParticle.gameObject.Update(gameTime);
             if (gameObject.particleSystem != null && gameObject.particleSystem.Triggered)
             {
                 Vector3 newDirectionFrom = new Vector3(LookVector.X - 0.3f, 0.0f, LookVector.Z - 0.3f);
@@ -214,16 +217,24 @@ namespace PBLgame.GamePlay
 
             if (_shieldActive)
             {
+                StrongParticle.gameObject.transform.Rotation += new Vector3(0.0f, 300.0f * gameTime.ElapsedGameTime.Milliseconds / 1000.0f, 0.0f);
+                ShieldParticle.gameObject.transform.Translate(0.0f, (_goDown? -4.0f : 4.0f)  * gameTime.ElapsedGameTime.Milliseconds / 1000.0f,0.0f);
+                if (ShieldParticle.gameObject.transform.Position.Y >= 15.0f) _goDown = true;
+                if (ShieldParticle.gameObject.transform.Position.Y <= 0.0f) _goDown = false;
                 if (_shieldManaTimer > 1.0f)
                 {
                     if(!Stats.Energy.TryDecrease(Stats.ShieldManaCost.Value))
                     {
                         _shieldActive = false;
-                        ShieldParticle.Triggered = false;
+                        StrongParticle.Triggered = false;
                     }
                     _shieldManaTimer = _shieldManaTimer % 1.0f;
                 }
                 _shieldManaTimer += gameTime.ElapsedGameTime.Milliseconds/1000.0f;
+            }
+            else
+            {
+                StrongParticle.gameObject.transform.Rotation = Vector3.Zero;
             }
         }
 
@@ -384,6 +395,8 @@ namespace PBLgame.GamePlay
                     _attackTriggerObject.transform.Position = new Vector3(0.0f, 10.0f, 0.0f);
                     _attackTriggerObject.collision.MainCollider.Radius = 14.0f;
                     _attackTriggerObject.collision.UpdateDisablePositions();
+                    StrongParticle.Enabled = true;
+                    StrongParticle.Triggered = true;
                 }
                 else if(AttackEnum == AttackType.Push)
                 {

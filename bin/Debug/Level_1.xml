@@ -32,6 +32,34 @@
       </Transform>
       <Renderer Enabled="True" MeshId="4" MaterialId="49" Emissive="1" />
     </GameObject>
+    <GameObject Name="StrongAttack" Tag="Player" Id="968" Parent="8">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <ParticleSystem Enabled="True" MaterialId="51" Duration="1" LifeTimeLimit="0.6" Loop="False" Max="200" Speed="3" Triggered="False" Height="2">
+        <DirectionFrom x="-0.1" y="0.001" z="-0.1" />
+        <DirectionTo x="0.1" y="0.005" z="0.1" />
+        <Size x="2" y="2" />
+        <Bursts>
+          <Burst When="0.15" HowMany="100" />
+          <Burst When="0.4" HowMany="100" />
+        </Bursts>
+      </ParticleSystem>
+    </GameObject>
+    <GameObject Name="ShieldParticle" Tag="Player" Id="1369" Parent="968">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="6" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <ParticleSystem Enabled="True" MaterialId="51" Duration="1" LifeTimeLimit="0.5" Loop="True" Max="200" Speed="0.8" Triggered="False" Height="2">
+        <DirectionFrom x="-0.1" y="0" z="-0.1" />
+        <DirectionTo x="0.1" y="0.5" z="0.1" />
+        <Size x="1" y="1" />
+      </ParticleSystem>
+    </GameObject>
     <GameObject Name="Ground" Tag="Terrain" Id="999">
       <Transform Enabled="True">
         <Position x="0" y="0" z="0" />
@@ -8609,22 +8637,6 @@
         <Scale x="10" y="1" z="10" />
       </Transform>
       <Renderer Enabled="True" MeshId="39" MaterialId="32" />
-    </GameObject>
-    <GameObject Name="ShieldParticle" Tag="Player" Id="968" Parent="8">
-      <Transform Enabled="True">
-        <Position x="0" y="0" z="0" />
-        <Rotation x="0" y="0" z="0" />
-        <Scale x="1" y="1" z="1" />
-      </Transform>
-      <ParticleSystem Enabled="True" MaterialId="51" Duration="1" LifeTimeLimit="0.5" Loop="True" Max="200" Speed="5" Triggered="False" Height="2">
-        <DirectionFrom x="-0.1" y="0.001" z="-0.1" />
-        <DirectionTo x="0.1" y="0.005" z="0.1" />
-        <Size x="1.5" y="1.5" />
-        <Bursts>
-          <Burst When="0" HowMany="100" />
-          <Burst When="0.5" HowMany="100" />
-        </Bursts>
-      </ParticleSystem>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="100000" Parent="440">
       <Transform Enabled="True">

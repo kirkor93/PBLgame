@@ -269,17 +269,17 @@ namespace PBLgame.Engine.Components
         {
             if (Enabled && Triggered)
             {
-                _currentFramePosition = gameObject.transform.WorldTranslation.Translation + gameObject.transform.AncestorsTranslation.Translation;
+                _currentFramePosition = gameObject.transform.World.Translation;
                 float deltaTime = gameTime.ElapsedGameTime.Milliseconds/1000.0f;
                 ParticlesUpdate(_actualTime);
                 if (_actualTime > Duration)
                 {
                     _actualTime = _actualTime % Duration;
                     _activated = 0;
-                    for (int i = 0; i < _activationStates.Count(); ++i)
-                    {
-                        _activationStates[i] = false;
-                    }
+                    //for (int i = 0; i < _activationStates.Count(); ++i)
+                    //{
+                    //    _activationStates[i] = false;
+                    //}
                 }
                 if (Loop)
                 {
@@ -347,7 +347,7 @@ namespace PBLgame.Engine.Components
                 _timer += deltaTime;
                 _actualTime += deltaTime;
 
-                _previousFramePosition = gameObject.transform.WorldTranslation.Translation + gameObject.transform.AncestorsTranslation.Translation;
+                _previousFramePosition = gameObject.transform.World.Translation;
             }
         }
 
