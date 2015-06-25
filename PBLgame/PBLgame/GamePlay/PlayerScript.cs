@@ -140,7 +140,7 @@ namespace PBLgame.GamePlay
 
         public void GetHit(Object o, ColArgs args)
         {
-            if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "EnemyWeapon")
+            if (args.EnemyBox != null && (args.EnemyBox.Owner.gameObject.Tag == "EnemyWeapon" || args.EnemyBox.Owner.gameObject.Tag == "EnemyWeaponCB"))
             {
                 EnemyScript enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyMeleeScript>();
                 if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyRangedScript>();
@@ -158,7 +158,7 @@ namespace PBLgame.GamePlay
                     }
                 }
             }
-            else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "EnemyWeapon")
+            else if (args.EnemySphere != null && (args.EnemySphere.Owner.gameObject.Tag == "EnemyWeapon" || args.EnemySphere.Owner.gameObject.Tag == "EnemyWeaponCB"))
             {
                 EnemyScript enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyMeleeScript>();
                 if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyRangedScript>() as EnemyScript;
@@ -383,6 +383,11 @@ namespace PBLgame.GamePlay
                 {
                     _attackTriggerObject.transform.Position = new Vector3(0.0f, 10.0f, 0.0f);
                     _attackTriggerObject.collision.MainCollider.Radius = 14.0f;
+                    _attackTriggerObject.collision.UpdateDisablePositions();
+                }
+                else if(AttackEnum == AttackType.Push)
+                {
+                    _attackTriggerObject.collision.MainCollider.Radius = 12.0f;
                     _attackTriggerObject.collision.UpdateDisablePositions();
                 }
                 _attackTriggerObject.collision.Enabled = true;

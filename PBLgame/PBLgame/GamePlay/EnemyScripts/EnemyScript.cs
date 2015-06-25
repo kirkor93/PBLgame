@@ -128,10 +128,12 @@ namespace PBLgame.GamePlay
         protected void GetHitMethod(Object o, ColArgs args)
         {
             PlayerScript player = null;
-            if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Weapon")
+            CuteBomberScript cute = null;
+            if (args.EnemyBox != null && (args.EnemyBox.Owner.gameObject.Tag == "Weapon" || args.EnemyBox.Owner.gameObject.Tag=="EnemyWeaponCB"))
             {
                 if (args.EnemyBox.Owner.gameObject.parent != null) player = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
                 if (player == null && args.EnemyBox.Owner.gameObject.Name == "Banana") player = args.EnemyBox.Owner.gameObject.GetComponent<BananaScript>().Player.GetComponent<PlayerScript>();
+                if(player == null) cute = args.EnemyBox.Owner.gameObject.parent.GetComponent<CuteBomberScript>();
                 if (player != null)
                 {
                     switch (player.AttackEnum)
@@ -156,17 +158,29 @@ namespace PBLgame.GamePlay
                                 _hp -= (player.Stats.ShootDamage.Value);
                                 _ionFlag = true;
                                 _ionTimer = 0.0f;
+                                SetLookVector(AISystem.Player.transform.Position - gameObject.transform.Position);
                             }
                             break;
                     }
                     player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                 }
+                else if(cute != null)
+                {
+                    _hp -= (cute.DMG);
+                    _pushValue = gameObject.transform.Position - cute.gameObject.transform.Position;
+                    _pushValue.Normalize();
+                    _pushValue *= 1.5f;
+                    _pushValue.Y = 0.0f;
+                    _pushed = true;
+                    _pushTimer = -0.3f;
+                }
             }
-            else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Weapon")
+            else if (args.EnemySphere != null && (args.EnemySphere.Owner.gameObject.Tag == "Weapon" || args.EnemySphere.Owner.gameObject.Tag == "EnemyWeaponCB"))
             {
 
                 if(args.EnemySphere.Owner.gameObject.parent != null)player = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
                 if (player == null && args.EnemySphere.Owner.gameObject.Name == "Banana") player = args.EnemySphere.Owner.gameObject.GetComponent<BananaScript>().Player.GetComponent<PlayerScript>();
+                if (player == null) cute = args.EnemySphere.Owner.gameObject.parent.GetComponent<CuteBomberScript>();
                 if (player != null)
                 {
                     switch (player.AttackEnum)
@@ -191,10 +205,21 @@ namespace PBLgame.GamePlay
                                 _hp -= (player.Stats.ShootDamage.Value);
                                 _ionFlag = true;
                                 _ionTimer = 0.0f;
+                                SetLookVector(AISystem.Player.transform.Position - gameObject.transform.Position);
                             }
                             break;
                     }
                     player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
+                }
+                else if (cute != null)
+                {
+                    _hp -= (cute.DMG);
+                    _pushValue = gameObject.transform.Position - cute.gameObject.transform.Position;
+                    _pushValue.Normalize();
+                    _pushValue *= 1.5f;
+                    _pushValue.Y = 0.0f;
+                    _pushed = true;
+                    _pushTimer = -0.3f;
                 }
             }
             if (HP <= 0)

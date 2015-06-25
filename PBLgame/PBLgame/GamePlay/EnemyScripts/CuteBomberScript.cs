@@ -11,12 +11,13 @@ namespace PBLgame.GamePlay
     {
         #region Variables
         #region Enemy Vars
-        public float AttackRange = 25.0f;
+        public float AttackRange = 30.0f;
         private Vector3 _chaseStartPosition;
         private float _chaseTimer;
 
         private MeleeAction _currentAction = MeleeAction.Stay;
 
+        private bool _realAttackFlag = false;
         #endregion
         #region DTNodes
 
@@ -30,13 +31,15 @@ namespace PBLgame.GamePlay
         #endregion
 
         #region Methods
-        public CuteBomberScript(GameObject owner) : base(owner, 30)
+        public CuteBomberScript(GameObject owner) : base(owner, 10)
         {
             SetupScript(new Vector3(0.0f, 10.0f, 0.0f), AttackRange);
             ChaseSpeed = 0.0015f;
-            _attackTimer = 1000.0f;
-            _attackDelay = 2500;
+            _attackTimer = 0f;
+            _attackDelay = 1500f;
             _hpEscapeValue = 15;
+
+            _attackTriggerObject.Tag = "EnemyWeaponCB";
 
             _dmg = 10;
             #region DecisionTree & AiComponentInitialize
@@ -71,6 +74,28 @@ namespace PBLgame.GamePlay
             //base.MakeDead(player); no animations here
         }
 
+        private void Attack()
+        {
+            if (_attackTimer > _attackDelay)
+            {
+                _attackTriggerObject.collision.Enabled = true;
+                _attackTimer = 0.0f;
+                foreach (GameObject go in PhysicsSystem.CollisionObjects)
+                {
+                    if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
+                    {
+                        _attackTriggerObject.collision.ChceckCollisionDeeper(go);
+                    }
+                }
+                gameObject.GetComponent<ParticleSystem>().Triggered = true;
+                gameObject.renderer.Enabled = false;
+                gameObject.collision.Enabled = false;
+                _attackTriggerObject.Enabled = false;
+                _fieldOfView.Enabled = false;
+                _hp = 0;
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
             if (_hp > 0)
@@ -79,6 +104,15 @@ namespace PBLgame.GamePlay
                 _attackTriggerObject.Update(gameTime);
                 _fieldOfView.Update(gameTime);
                 Vector3 dir;
+                if(_realAttackFlag)
+                {
+                    _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
+                    if(_attackTimer > 0.7f * _attackDelay)
+                    {
+                        Attack();
+                        return;
+                    }
+                }
                 if (_pushed)
                 {
                     _pushTimer += (gameTime.ElapsedGameTime.Milliseconds / 1000f);
@@ -87,7 +121,11 @@ namespace PBLgame.GamePlay
                         _gameObject.transform.Position += _pushValue;
                         _pushValue.X *= (1.0f - _pushTimer);
                         _pushValue.Z *= (1.0f - _pushTimer);
-                        if (_pushTimer > 1.0f) _pushed = false;
+                        if (_pushTimer > 1.0f)
+                        {
+                            _pushed = false;
+                            Attack();
+                        }
                     }
                 }
                 else
@@ -98,24 +136,7 @@ namespace PBLgame.GamePlay
                             dir = AISystem.Player.transform.Position - gameObject.transform.Position;
                             SetLookVector(dir);
                             _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
-                            if (_attackTimer > _attackDelay)
-                            {
-                                _attackTriggerObject.collision.Enabled = true;
-                                _attackTimer = 0.0f;
-                                foreach (GameObject go in PhysicsSystem.CollisionObjects)
-                                {
-                                    if (_attackTriggerObject != go && go.collision.Enabled && _attackTriggerObject.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
-                                    {
-                                        _attackTriggerObject.collision.ChceckCollisionDeeper(go);
-                                    }
-                                }
-                                gameObject.GetComponent<ParticleSystem>().Triggered = true;
-                                gameObject.renderer.Enabled = false;
-                                gameObject.collision.Enabled = false;
-                                _attackTriggerObject.Enabled = false;
-                                _fieldOfView.Enabled = false;
-                                _hp = 0;
-                            }
+                            Attack();
                             break;
                         case MeleeAction.Chase:
                             _chaseTimer += gameTime.ElapsedGameTime.Milliseconds;
@@ -154,12 +175,20 @@ namespace PBLgame.GamePlay
                 }
                 return _enemySeen;
             }
-            else return false;
+            else
+            {
+                _realAttackFlag = false;
+                return false;
+            }
         }
 
         private bool CanAtack()
         {
-            if (Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) < AttackRange - 5.0f) return true;
+            if (Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) < AttackRange - 5.0f)
+            {
+                _realAttackFlag = true;
+                return true;
+            }
             else return false;
         }
 
