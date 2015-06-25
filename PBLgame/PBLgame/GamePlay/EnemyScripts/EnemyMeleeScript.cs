@@ -4,6 +4,7 @@ using PBLgame.Engine.AI;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
 using PBLgame.Engine.Physics;
+using PBLgame.Engine.Singleton;
 
 namespace PBLgame.GamePlay
 {
@@ -85,7 +86,10 @@ namespace PBLgame.GamePlay
                         _gameObject.transform.Position += _pushValue;
                         _pushValue.X *= (1.0f - _pushTimer);
                         _pushValue.Z *= (1.0f - _pushTimer);
-                        if (_pushTimer > 1.0f) _pushed = false;
+                        if (_pushTimer > 1.0f)
+                        {
+                            _pushed = false;
+                        }
                     }
                 }
                 else

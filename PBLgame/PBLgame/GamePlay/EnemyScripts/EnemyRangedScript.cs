@@ -109,18 +109,6 @@ namespace PBLgame.GamePlay
                         if (_pushTimer > 1.0f)
                         {
                             _pushed = false;
-                            GameObject test = new GameObject(gameObject.Scene)
-                            {
-                                transform = {Position = gameObject.transform.Position}
-                            };
-                            test.renderer = new Renderer(test)
-                            {
-                                MyMesh = ResourceManager.Instance.GetMesh(1),
-                                Material = ResourceManager.Instance.GetMaterial(44)
-                            };
-                            test.renderer.MyEffect = test.renderer.Material.ShaderEffect;
-
-                            gameObject.Scene.AddTemporary(test);
                         }
                     }
                 }

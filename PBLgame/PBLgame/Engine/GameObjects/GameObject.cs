@@ -7,6 +7,7 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using PBLgame.Engine.Components;
+using PBLgame.Engine.Physics;
 using PBLgame.Engine.Scenes;
 
 namespace PBLgame.Engine.GameObjects
@@ -15,8 +16,8 @@ namespace PBLgame.Engine.GameObjects
     {
         #region Variables
             #region Public
-            public String Name;
-            public String Tag;
+            public String Name = string.Empty;
+            public String Tag = string.Empty;
             public int ID;
             #endregion
             #region Private
@@ -30,7 +31,7 @@ namespace PBLgame.Engine.GameObjects
             private Renderer _renderer;
             private Collision _collision;
             private Animator _animator;
-            private ParticleSystem _particleSystem;
+            private BillboardBase _particleSystem;
             private AudioSource _audioSource;
             private bool _enabled;
             private bool _processed;
@@ -100,7 +101,7 @@ namespace PBLgame.Engine.GameObjects
                 _animator = value;
             }
         }
-        public ParticleSystem particleSystem
+        public BillboardBase particleSystem
         {
             get
             {
@@ -221,7 +222,7 @@ namespace PBLgame.Engine.GameObjects
             }
             if (source.particleSystem != null)
             {
-                particleSystem = new ParticleSystem(source.particleSystem, this);
+                particleSystem = (BillboardBase) source.particleSystem.Copy(this);
             }
             if (source.audioSource != null)
             {
@@ -350,9 +351,9 @@ namespace PBLgame.Engine.GameObjects
                 _animator = component as Animator;
                 return;
             }
-            if (typeof(T) == typeof(ParticleSystem))
+            if (component is BillboardBase)
             {
-                _particleSystem = component as ParticleSystem;
+                _particleSystem = component as BillboardBase;
                 return;
             }
             if (typeof(T) == typeof(AudioSource))
@@ -383,7 +384,7 @@ namespace PBLgame.Engine.GameObjects
             {
                 return _animator as T;
             }
-            if (typeof(T) == typeof(ParticleSystem))
+            if (typeof(BillboardBase).IsAssignableFrom(typeof(T)))
             {
                 return _particleSystem as T;
             }
@@ -394,15 +395,10 @@ namespace PBLgame.Engine.GameObjects
 
             IEnumerable<Component> list = 
                 from component in _components
-                where component.GetType() == typeof(T)
+                where component is T
                 select component;
 
-            if (list.Any())
-            {
-                return list.First() as T;
-            }
-
-            return null;
+            return list.FirstOrDefault() as T;
         }
 
         public void AddChild(GameObject child)
@@ -445,7 +441,21 @@ namespace PBLgame.Engine.GameObjects
 
             return null;
         }
-        
+
+        /// <summary>
+        /// Removes temporary game object.
+        /// Deletes from physics system if collider present.
+        /// </summary>
+        public void RemoveFromScene()
+        {
+            Scene.RemoveTemporary(this, WhenRemoved);
+        }
+
+        private void WhenRemoved()
+        {
+            if (collision != null) PhysicsSystem.DeleteCollisionObject(this);
+        }
+
         public void Reparent(GameObject newParent, int index)
         {
             if (_parent == newParent) return;
@@ -639,5 +649,6 @@ namespace PBLgame.Engine.GameObjects
         {
             if(renderer != null) renderer.DrawTechnique(gameTime, technique);
         }
+
     }
 }

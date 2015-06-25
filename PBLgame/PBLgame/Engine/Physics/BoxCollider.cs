@@ -18,11 +18,9 @@ namespace PBLgame.Engine.Physics
     public class BoxCollider : Collider, IXmlSerializable
     {
         #region Variables
-        private Collision _owner;
         private Vector3 _localPosition;
         private Vector3 _totalPosition;
         private Vector3 _edgesSize;
-        private bool _trigger;
         private BoundingBox _box = new BoundingBox();
 
         private Vector3 _edgesRealSize;
@@ -36,14 +34,6 @@ namespace PBLgame.Engine.Physics
         #endregion
 
         #region Properties
-        public Collision Owner
-        {
-            get
-            {
-                return _owner;
-            }
-            //private set { }
-        }
 
         public Vector3 LocalPosition
         {
@@ -70,17 +60,6 @@ namespace PBLgame.Engine.Physics
             }
         }
 
-        public bool Trigger
-        {
-            get
-            {
-                return _trigger;
-            }
-            set
-            {
-                _trigger = value;
-            }
-        }
 
         public BoundingBox Box
         {

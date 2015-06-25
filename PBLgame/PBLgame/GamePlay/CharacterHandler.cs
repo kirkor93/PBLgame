@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Design;
 using PBLgame.Engine;
 using PBLgame.Engine.Components;
 using PBLgame.Engine.GameObjects;
+using PBLgame.Engine.Physics;
+using PBLgame.Engine.Singleton;
 
 namespace PBLgame.GamePlay
 {
@@ -126,9 +128,12 @@ namespace PBLgame.GamePlay
             gameObject.renderer.EmissiveValue = 0f;
             gameObject.animator.Death();
             gameObject.collision.Enabled = false;
-            //gameObject.animator.OnAnimationFinish += delegate { };
+            gameObject.animator.OnAnimationFinish += delegate
+            {
+                ItemDropper.DropPotion(gameObject, player.gameObject);
+            };
         }
-        
+
         #endregion
 
     }

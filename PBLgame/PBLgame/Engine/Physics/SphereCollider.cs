@@ -18,11 +18,9 @@ namespace PBLgame.Engine.Physics
     public class SphereCollider : Collider, IXmlSerializable
     {
         #region Variables
-        private Collision _owner;
         private Vector3 _localPosition;
         private Vector3 _totalPosition;
         private float _radius;
-        private bool _trigger;
         private BoundingSphere _sphere = new BoundingSphere();
 
         private float _realRadius;
@@ -31,14 +29,6 @@ namespace PBLgame.Engine.Physics
         #endregion
 
         #region Properties
-        public Collision Owner
-        {
-            get
-            {
-                return _owner;
-            }
-            //private set { }
-        }
 
         public Vector3 LocalPosition
         {
@@ -82,17 +72,6 @@ namespace PBLgame.Engine.Physics
                 }
                 _totalPosition = _world.Translation;
                 return _totalPosition;
-            }
-        }
-        public bool Trigger
-        {
-            get
-            {
-                return _trigger;
-            }
-            set
-            {
-                _trigger = value;
             }
         }
         public BoundingSphere Sphere

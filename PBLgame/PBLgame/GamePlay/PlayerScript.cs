@@ -129,9 +129,10 @@ namespace PBLgame.GamePlay
 
         private void OnGateTrigger(object sender, ColArgs colArgs)
         {
-            if (colArgs.EnemyBox != null && colArgs.EnemyBox.Owner.gameObject.Name.Contains("Gate_"))
+            BoxCollider boxCollider = colArgs.EnemyCollider as BoxCollider;
+            if (boxCollider != null && boxCollider.Owner.gameObject.Name.Contains("Gate_"))
             {
-                Translator t = colArgs.EnemyBox.Owner.gameObject.GetComponent<Translator>();
+                Translator t = boxCollider.Owner.gameObject.GetComponent<Translator>();
                 if (t != null)
                 {
                     t.IsTriggered = true;
@@ -141,35 +142,15 @@ namespace PBLgame.GamePlay
 
         public void GetHit(Object o, ColArgs args)
         {
-            if (args.EnemyBox != null && (args.EnemyBox.Owner.gameObject.Tag == "EnemyWeapon" || args.EnemyBox.Owner.gameObject.Tag == "EnemyWeaponCB"))
+            if (args.EnemyCollider != null && (args.EnemyCollider.Owner.gameObject.Tag == "EnemyWeapon" || args.EnemyCollider.Owner.gameObject.Tag == "EnemyWeaponCB"))
             {
-                EnemyScript enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyMeleeScript>();
-                if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyRangedScript>();
-                if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<CuteBomberScript>();
-                if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<NJChuckScript>();
-                if(enemy != null)
+                GameObject obj = args.EnemyCollider.Owner.gameObject.parent;
+                EnemyScript enemy = obj.GetComponent<EnemyScript>();
+                if (enemy != null)
                 {
                     if(_shieldActive)
                     {
                         Stats.Health.Decrease(enemy.DMG * (100 - Stats.ShieldAbsorption.Value)/100);
-                    }
-                    else
-                    {
-                        Stats.Health.Decrease(enemy.DMG);
-                    }
-                }
-            }
-            else if (args.EnemySphere != null && (args.EnemySphere.Owner.gameObject.Tag == "EnemyWeapon" || args.EnemySphere.Owner.gameObject.Tag == "EnemyWeaponCB"))
-            {
-                EnemyScript enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyMeleeScript>();
-                if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<EnemyRangedScript>() as EnemyScript;
-                if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<CuteBomberScript>();
-                if (enemy == null) enemy = args.EnemySphere.Owner.gameObject.parent.GetComponent<NJChuckScript>();
-                if (enemy != null)
-                {
-                    if (_shieldActive)
-                    {
-                        Stats.Health.Decrease(enemy.DMG * (100 - Stats.ShieldAbsorption.Value) / 100);
                     }
                     else
                     {
