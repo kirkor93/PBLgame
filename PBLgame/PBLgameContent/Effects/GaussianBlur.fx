@@ -30,7 +30,7 @@ float4 PSGaussianBlur(float2 texCoord : TEXCOORD) : COLOR0
 
 	for (int i = 0; i < KERNEL_SIZE; i++)
 		color += float4(tex2D(colorMap, texCoord + offsets[i]).rgb, 1.0f) * weights[i];
-
+	color.a = 1.f;
 	return color;
 }
 

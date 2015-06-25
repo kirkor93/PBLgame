@@ -325,6 +325,10 @@ namespace PBLgame.Engine.Scenes
                 Vector4 color = light.Color * light.Color.W;    // use alpha as a multiplier
                 if (light.Type == LightType.Directional && dir < DIR_LIGHTS)
                 {
+                    if (!light.UseLight)
+                    {
+                        continue;
+                    }
                     MyDirectionalLight dLight = light as MyDirectionalLight;
                     pos_dir[dir] = dLight.Direction;
                     colors [dir] = color;
@@ -380,6 +384,10 @@ namespace PBLgame.Engine.Scenes
                 }
                 else if (pt < ALL_LIGHTS)
                 {
+                    if (!light.UseLight)
+                    {
+                        continue;
+                    }
                     PointLight pLight = light as PointLight;
                     pos_dir[pt] = pLight.Position;
                     colors [pt] = color;
@@ -391,7 +399,7 @@ namespace PBLgame.Engine.Scenes
                     if (light.HasShadow && _shadowFarPlanes[pt] > 0)
                     {
                         _hasShadows[pt] = true;
-                        Matrix lightProjMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 1, 1f, _shadowFarPlanes[pt]);
+                        Matrix lightProjMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 1, 10f, _shadowFarPlanes[pt]);
                         Matrix[] lightViewMatrices = new Matrix[6];
                         CreatePointLightMatrices(pLight.Position, lightViewMatrices);
 

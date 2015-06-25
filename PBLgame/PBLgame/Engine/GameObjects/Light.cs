@@ -14,6 +14,7 @@ namespace PBLgame.Engine.GameObjects
         #region Variables
         private Vector4 _color;
         private LightType _type;
+        private bool _used = true;
         #endregion
 
         #region Properites
@@ -38,6 +39,16 @@ namespace PBLgame.Engine.GameObjects
                 return _type;
             }
         }
+
+        /// <summary>
+        /// Used by simple light manager to decide when to enable this light.
+        /// </summary>
+        public bool UseLight
+        {
+            get { return Enabled & _used; }
+            set { _used = value; }
+        }
+
         #endregion
 
         #region  Methods

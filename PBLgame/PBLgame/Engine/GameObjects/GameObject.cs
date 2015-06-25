@@ -508,6 +508,8 @@ namespace PBLgame.Engine.GameObjects
             writer.WriteAttributeString("Name", Name);
             writer.WriteAttributeString("Tag", Tag);
             writer.WriteAttributeString("Id", ID.ToString());
+            if (!Enabled) writer.WriteAttributeString("Enabled", Enabled.ToString());
+
             if (parent != null)
             {
                 writer.WriteAttributeString("Parent", parent.ID.ToString());
@@ -563,6 +565,8 @@ namespace PBLgame.Engine.GameObjects
         {
             Scene scene = ((Scene.SceneXmlReader) reader).Scene;
             reader.MoveToContent();
+
+            Enabled = Convert.ToBoolean(reader.GetAttribute("Enabled") ?? "True");
             Name = reader.GetAttribute("Name");
             Tag = reader.GetAttribute("Tag");
             ID = Convert.ToInt32(reader.GetAttribute("Id"));

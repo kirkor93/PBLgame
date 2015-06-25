@@ -37,6 +37,13 @@ namespace Edytejshyn.Model
 
         #region Properties
      
+        [Category("0.General")]
+        public bool Enabled
+        {
+            get { return _gameObject.Enabled; }
+            set { FireSetter(x => _gameObject.Enabled = x, _gameObject.Enabled, value); }
+        }     
+     
         [Description("ID number")]
         [Category("0.General")]
         public int ID
