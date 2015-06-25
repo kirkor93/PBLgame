@@ -205,8 +205,6 @@ namespace PBLgame.GamePlay
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            StrongParticle.gameObject.Update(gameTime);
-            ShieldParticle.gameObject.Update(gameTime);
             if (gameObject.particleSystem != null && gameObject.particleSystem.Triggered)
             {
                 Vector3 newDirectionFrom = new Vector3(LookVector.X - 0.3f, 0.0f, LookVector.Z - 0.3f);
@@ -217,9 +215,9 @@ namespace PBLgame.GamePlay
 
             if (_shieldActive)
             {
-                StrongParticle.gameObject.transform.Rotation += new Vector3(0.0f, 300.0f * gameTime.ElapsedGameTime.Milliseconds / 1000.0f, 0.0f);
-                ShieldParticle.gameObject.transform.Translate(0.0f, (_goDown? -4.0f : 4.0f)  * gameTime.ElapsedGameTime.Milliseconds / 1000.0f,0.0f);
-                if (ShieldParticle.gameObject.transform.Position.Y >= 15.0f) _goDown = true;
+                StrongParticle.gameObject.transform.Rotation += new Vector3(0.0f, 400.0f * gameTime.ElapsedGameTime.Milliseconds / 1000.0f, 0.0f);
+                ShieldParticle.gameObject.transform.Translate(0.0f, (_goDown? -3.0f : 3.0f)  * gameTime.ElapsedGameTime.Milliseconds / 1000.0f,0.0f);
+                if (ShieldParticle.gameObject.transform.Position.Y >= 13.0f) _goDown = true;
                 if (ShieldParticle.gameObject.transform.Position.Y <= 0.0f) _goDown = false;
                 if (_shieldManaTimer > 1.0f)
                 {

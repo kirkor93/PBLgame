@@ -55,8 +55,8 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <ParticleSystem Enabled="True" MaterialId="51" Duration="1" LifeTimeLimit="0.5" Loop="True" Max="200" Speed="0.8" Triggered="False" Height="2">
-        <DirectionFrom x="-0.1" y="0" z="-0.1" />
-        <DirectionTo x="0.1" y="0.5" z="0.1" />
+        <DirectionFrom x="-0.05" y="0" z="-0.05" />
+        <DirectionTo x="0.05" y="0.4" z="0.05" />
         <Size x="1" y="1" />
       </ParticleSystem>
     </GameObject>
