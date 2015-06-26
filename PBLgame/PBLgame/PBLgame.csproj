@@ -85,6 +85,7 @@
     <Compile Include="Engine\Components\Animator.cs" />
     <Compile Include="Engine\Components\AttachSlot.cs" />
     <Compile Include="Engine\Components\AudioSource.cs" />
+    <Compile Include="Engine\Components\Billboard.cs" />
     <Compile Include="Engine\Components\Bone.cs" />
     <Compile Include="Engine\Components\Component.cs" />
     <Compile Include="Engine\Components\AIComponent.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="GamePlay\EnemyScripts\EnemyRangedScript.cs" />
     <Compile Include="GamePlay\EnemyScripts\EnemyScript.cs" />
     <Compile Include="GamePlay\EnemyScripts\NJChuckScript.cs" />
+    <Compile Include="GamePlay\ItemDropper.cs" />
     <Compile Include="GamePlay\PlayerScript.cs" />
     <Compile Include="GamePlay\PlayerStatistics.cs" />
     <Compile Include="GamePlay\ScreenSystem.cs" />

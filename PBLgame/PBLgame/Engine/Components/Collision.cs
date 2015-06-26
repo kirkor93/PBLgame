@@ -17,52 +17,22 @@ namespace PBLgame.Engine.Components
 
     public class ColArgs : EventArgs
     {
-        public SphereCollider EnemySphere
+        public Collider EnemyCollider
         {
             get;
             set;
         }
 
-        public SphereCollider MySphere
+        public Collider MyCollider
         {
             get;
             set;
         }
 
-        public BoxCollider EnemyBox
+        public ColArgs(Collider myCol, Collider enemyCol)
         {
-            get;
-            set;
-        }
-
-        public BoxCollider MyBox
-        {
-            get;
-            set;
-        }
-
-        public ColArgs(SphereCollider myCol,SphereCollider enemyCol)
-        {
-            MySphere = myCol;
-            EnemySphere = enemyCol;
-        }
-
-        public ColArgs(SphereCollider myCol, BoxCollider enemyCol)
-        {
-            MySphere = myCol;
-            EnemyBox = enemyCol;
-        }
-
-        public ColArgs(BoxCollider myCol, SphereCollider enemyCol)
-        {
-            MyBox = myCol;
-            EnemySphere = enemyCol;
-        }
-
-        public ColArgs(BoxCollider myCol, BoxCollider enemyCol)
-        {
-            MyBox = myCol;
-            EnemyBox = enemyCol;
+            MyCollider = myCol;
+            EnemyCollider = enemyCol;
         }
     }
 #endregion

@@ -208,6 +208,8 @@
 	  <Texture Path="Textures\force_particle" />
 	  <Texture Path="Textures\dust_particle" />
 	  <Texture Path="Textures\ranged_particle" />
+	  <Texture Path="Textures\hp_potion" />
+	  <Texture Path="Textures\mana_potion" />
     </Textures>
     <Materials>
       <Material Id="1" Name="Helmet" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
@@ -263,6 +265,8 @@
 	  <Material Id="51" Name="Particle_Force" Diffuse="Textures\force_particle" ShaderPath="Effects\ParticleShader" />
 	  <Material Id="52" Name="Particle_Dust" Diffuse="Textures\dust_particle" ShaderPath="Effects\ParticleShader" />
 	  <Material Id="53" Name="Particle_Dust" Diffuse="Textures\ranged_particle" ShaderPath="Effects\ParticleShader" />
+	  <Material Id="100" Name="HP_Potion" Diffuse="Textures\hp_potion" ShaderPath="Effects\ParticleShader" />
+	  <Material Id="101" Name="Mana_Potion" Diffuse="Textures\mana_potion" ShaderPath="Effects\ParticleShader" />
 	</Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />

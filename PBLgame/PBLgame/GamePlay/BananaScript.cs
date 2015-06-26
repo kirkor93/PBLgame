@@ -113,15 +113,10 @@ namespace PBLgame.GamePlay
 
         private void GetHit(Object obj, ColArgs args)
         {
-            if (args.EnemyBox != null)
+            if (args.EnemyCollider != null)
             {
-                String tag = args.EnemyBox.Owner.gameObject.Tag;
-                if (tag != "Terrain" && tag != "FOV" && tag != "EnemyWeapon" && tag != "Enemy" && tag != "Weapon" && tag != "Player") Activated = false;
-            }
-            else if (args.EnemySphere != null)
-            {
-                String tag = args.EnemySphere.Owner.gameObject.Tag;
-                if (tag != "Terrain" && tag != "FOV" && tag != "EnemyWeapon" && tag != "Enemy" && tag != "Weapon" && tag != "Player") Activated = false;
+                String tag = args.EnemyCollider.Owner.gameObject.Tag;
+                if (tag != "Terrain" && tag != "FOV" && tag != "EnemyWeapon" && tag != "Enemy" && tag != "Weapon" && tag != "Player" && tag != "Potion") Activated = false;
             }
 
         }

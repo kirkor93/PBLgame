@@ -115,11 +115,7 @@ namespace PBLgame.GamePlay
 
         protected void GotPlayerMethod(Object o, ColArgs args)
         {
-            if (args.EnemyBox != null && args.EnemyBox.Owner.gameObject.Tag == "Player")
-            {
-                _enemySeen = true;
-            }
-            else if (args.EnemySphere != null && args.EnemySphere.Owner.gameObject.Tag == "Player")
+            if (args.EnemyCollider != null && args.EnemyCollider.Owner.gameObject.Tag == "Player")
             {
                 _enemySeen = true;
             }
@@ -129,11 +125,12 @@ namespace PBLgame.GamePlay
         {
             PlayerScript player = null;
             CuteBomberScript cute = null;
-            if (args.EnemyBox != null && (args.EnemyBox.Owner.gameObject.Tag == "Weapon" || args.EnemyBox.Owner.gameObject.Tag=="EnemyWeaponCB"))
+            if (args.EnemyCollider != null && (args.EnemyCollider.Owner.gameObject.Tag == "Weapon" || args.EnemyCollider.Owner.gameObject.Tag == "EnemyWeaponCB"))
             {
-                if (args.EnemyBox.Owner.gameObject.parent != null) player = args.EnemyBox.Owner.gameObject.parent.GetComponent<PlayerScript>();
-                if (player == null && args.EnemyBox.Owner.gameObject.Name == "Banana") player = args.EnemyBox.Owner.gameObject.GetComponent<BananaScript>().Player.GetComponent<PlayerScript>();
-                if(player == null) cute = args.EnemyBox.Owner.gameObject.parent.GetComponent<CuteBomberScript>();
+                if (args.EnemyCollider.Owner.gameObject.parent != null) player = args.EnemyCollider.Owner.gameObject.parent.GetComponent<PlayerScript>();
+                if (player == null && args.EnemyCollider.Owner.gameObject.Name == "Banana") player = args.EnemyCollider.Owner.gameObject.GetComponent<BananaScript>().Player.GetComponent<PlayerScript>();
+                if (player == null && args.EnemyCollider.Owner.gameObject.parent != null)
+                    cute = args.EnemyCollider.Owner.gameObject.parent.GetComponent<CuteBomberScript>();
                 if (player != null)
                 {
                     switch (player.AttackEnum)
@@ -175,59 +172,12 @@ namespace PBLgame.GamePlay
                     _pushTimer = -0.3f;
                 }
             }
-            else if (args.EnemySphere != null && (args.EnemySphere.Owner.gameObject.Tag == "Weapon" || args.EnemySphere.Owner.gameObject.Tag == "EnemyWeaponCB"))
-            {
-
-                if(args.EnemySphere.Owner.gameObject.parent != null)player = args.EnemySphere.Owner.gameObject.parent.GetComponent<PlayerScript>();
-                if (player == null && args.EnemySphere.Owner.gameObject.Name == "Banana") player = args.EnemySphere.Owner.gameObject.GetComponent<BananaScript>().Player.GetComponent<PlayerScript>();
-                if (player == null) cute = args.EnemySphere.Owner.gameObject.parent.GetComponent<CuteBomberScript>();
-                if (player != null)
-                {
-                    switch (player.AttackEnum)
-                    {
-                        case AttackType.Quick:
-                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.FastAttackDamageBonus.Value);
-                            break;
-                        case AttackType.Strong:
-                            _hp -= (player.Stats.BasePhysicalDamage.Value + player.Stats.StrongAttackDamageBonus.Value);
-                            break;
-                        case AttackType.Push:
-                            _pushValue = gameObject.transform.Position -  AISystem.Player.transform.Position;
-                            _pushValue.Normalize();
-                            _pushValue *= 3.0f;
-                            _pushValue.Y = 0.0f;
-                            _pushed = true;
-                            _pushTimer = -0.3f;
-                            break;
-                        case AttackType.Ion:
-                            if (!_ionFlag)
-                            {
-                                _hp -= (player.Stats.ShootDamage.Value);
-                                _ionFlag = true;
-                                _ionTimer = 0.0f;
-                                SetLookVector(AISystem.Player.transform.Position - gameObject.transform.Position);
-                            }
-                            break;
-                    }
-                    player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
-                }
-                else if (cute != null)
-                {
-                    _hp -= (cute.DMG);
-                    _pushValue = gameObject.transform.Position - cute.gameObject.transform.Position;
-                    _pushValue.Normalize();
-                    _pushValue *= 1.5f;
-                    _pushValue.Y = 0.0f;
-                    _pushed = true;
-                    _pushTimer = -0.3f;
-                }
-            }
             if (HP <= 0)
             {
                 MakeDead(player);
             }
         }
-
+        
         protected override void MakeDead(PlayerScript player)
         {
             AIComponent.Enabled = false;

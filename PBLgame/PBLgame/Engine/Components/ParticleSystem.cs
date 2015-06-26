@@ -14,11 +14,9 @@ using PBLgame.Engine.Singleton;
 
 namespace PBLgame.Engine.Components
 {
-    public class ParticleSystem : Component
+    public class ParticleSystem : BillboardBase
     {
         #region Variables
-        private MeshMaterial _material;
-        private Vector2 _size;
         private Vector3 _dirFrom;
         private Vector3 _dirTo;
         private float _speed;
@@ -29,7 +27,6 @@ namespace PBLgame.Engine.Components
         private bool _loop;
         private List<Burst> _bursts;
 
-        private float _height;
         private bool _static;
 
         //Class private without properties so only for class use 
@@ -51,7 +48,7 @@ namespace PBLgame.Engine.Components
         #endregion
 
         #region Properties
-        public float Height
+        public override float Height
         {
             get { return _height; }
             set 
@@ -71,17 +68,6 @@ namespace PBLgame.Engine.Components
                 _speed = value;
             }
         }
-        public MeshMaterial Material
-        {
-            get
-            {
-                return _material;
-            }
-            set
-            {
-                _material = value;
-            }
-        }
         public float Duration
         {
             get
@@ -93,7 +79,7 @@ namespace PBLgame.Engine.Components
                 _duration = value;
             }
         }
-        public bool Triggered
+        public override bool Triggered
         {
             get
             {
@@ -117,7 +103,7 @@ namespace PBLgame.Engine.Components
                 }
             }
         }
-        public Vector2 Size
+        public override Vector2 Size
         {
             get
             {
@@ -447,7 +433,6 @@ namespace PBLgame.Engine.Components
                 {
                     if(_activationStates[i])
                     {
-
                         _material.ShaderEffect.Parameters["CamPos"].SetValue(Camera.MainCamera.transform.Position);
                         _material.ShaderEffect.Parameters["AllowedRotDir"].SetValue(new Vector3(0, 1, 0));
                         _material.ShaderEffect.Parameters["Alpha"].SetValue(0.5f);
@@ -465,7 +450,6 @@ namespace PBLgame.Engine.Components
                     }
                 }
                 graphicsDevice.BlendState = BlendState.NonPremultiplied;
-                //graphicsDevice.BlendState = BlendState.NonPremultiplied;
                 graphicsDevice.DepthStencilState = DepthStencilState.Default;
             }                
         }

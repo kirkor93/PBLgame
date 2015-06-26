@@ -532,6 +532,23 @@ namespace PBLgame.Engine.Scenes
             };
         }
 
+        /// <summary>
+        /// Removes temporary game objects.
+        /// </summary>
+        /// <param name="obj">game object to remove</param>
+        /// <param name="additionalAction">action to make after remove</param>
+        /// <returns>true if will be removed</returns>
+        public bool RemoveTemporary(GameObject obj, Action additionalAction = null)
+        {
+            if (!obj.Temporary) return false;
+            QueueAfterUpdate += delegate
+            {
+                RemoveGameObject(obj);
+            };
+            if(additionalAction != null) QueueAfterUpdate += additionalAction;
+            return true;
+        }
+
         public void AddGameObjectWithDescendants(GameObject obj)
         {
             AddGameObject(obj);
@@ -877,7 +894,6 @@ namespace PBLgame.Engine.Scenes
         }
         #endregion
         #endregion
-
     }
 
     public struct GameObjectAABB
