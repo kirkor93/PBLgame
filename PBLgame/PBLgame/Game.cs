@@ -160,7 +160,6 @@ namespace PBLgame
 
             //Shieet xD so sweeet cause GO cant find another GO xD totaly fucked up hard coding  
             player.GetComponent<PlayerScript>().StrongParticle = _loadedScene.FindGameObject(968).GetComponent<ParticleSystem>();
-            _loadedScene.FindGameObject(968).GetComponent<ParticleSystem>().Static = false;
 
             player.GetComponent<PlayerScript>().BananaAttack = _loadedScene.FindGameObject(969).GetComponent<BananaScript>();
             _loadedScene.FindGameObject(969).GetComponent<BananaScript>().Player = player;

@@ -215,7 +215,7 @@ namespace PBLgame.GamePlay
 
             if (_shieldActive)
             {
-                StrongParticle.gameObject.transform.Rotation += new Vector3(0.0f, 400.0f * gameTime.ElapsedGameTime.Milliseconds / 1000.0f, 0.0f);
+                ShieldParticle.gameObject.parent.transform.Rotation += new Vector3(0.0f, 400.0f * gameTime.ElapsedGameTime.Milliseconds / 1000.0f, 0.0f);
                 ShieldParticle.gameObject.transform.Translate(0.0f, (_goDown? -3.0f : 3.0f)  * gameTime.ElapsedGameTime.Milliseconds / 1000.0f,0.0f);
                 if (ShieldParticle.gameObject.transform.Position.Y >= 13.0f) _goDown = true;
                 if (ShieldParticle.gameObject.transform.Position.Y <= 0.0f) _goDown = false;
@@ -224,7 +224,7 @@ namespace PBLgame.GamePlay
                     if(!Stats.Energy.TryDecrease(Stats.ShieldManaCost.Value))
                     {
                         _shieldActive = false;
-                        StrongParticle.Triggered = false;
+                        ShieldParticle.Triggered = false;
                     }
                     _shieldManaTimer = _shieldManaTimer % 1.0f;
                 }
@@ -321,9 +321,12 @@ namespace PBLgame.GamePlay
                             {
                                 if (ShieldParticle != null)
                                 {
-                                    _shieldActive = !_shieldActive;
-                                    ShieldParticle.Triggered = _shieldActive;
-                                    _shieldManaTimer = 0.0f;
+                                    if (Stats.Energy.Value > Stats.ShieldManaCost.Value)
+                                    {
+                                        _shieldActive = !_shieldActive;
+                                        ShieldParticle.Triggered = _shieldActive;
+                                        _shieldManaTimer = 0.0f;
+                                    }
                                 }
                                 InputManager.Instance.RumplePad(300f, 0.3f, 0.7f);
                             };
@@ -390,8 +393,8 @@ namespace PBLgame.GamePlay
                 _attackTriggerObject.collision.MainCollider.Radius = _baseAttackSphereRadius;
                 if(AttackEnum == AttackType.Strong)
                 {
-                    _attackTriggerObject.transform.Position = new Vector3(0.0f, 10.0f, 0.0f);
-                    _attackTriggerObject.collision.MainCollider.Radius = 14.0f;
+                    _attackTriggerObject.transform.Position = new Vector3(11.0f, 10.0f, 0.0f);
+                    _attackTriggerObject.collision.MainCollider.Radius = 14.5f;
                     _attackTriggerObject.collision.UpdateDisablePositions();
                     StrongParticle.Enabled = true;
                     StrongParticle.Triggered = true;
