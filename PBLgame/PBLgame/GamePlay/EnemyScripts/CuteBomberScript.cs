@@ -17,7 +17,6 @@ namespace PBLgame.GamePlay
 
         private MeleeAction _currentAction = MeleeAction.Stay;
 
-        private bool _realAttackFlag = false;
         #endregion
         #region DTNodes
 
@@ -104,15 +103,6 @@ namespace PBLgame.GamePlay
                 _attackTriggerObject.Update(gameTime);
                 _fieldOfView.Update(gameTime);
                 Vector3 dir;
-                if(_realAttackFlag)
-                {
-                    _attackTimer += gameTime.ElapsedGameTime.Milliseconds;
-                    if(_attackTimer > 0.7f * _attackDelay)
-                    {
-                        Attack();
-                        return;
-                    }
-                }
                 if (_pushed)
                 {
                     _pushTimer += (gameTime.ElapsedGameTime.Milliseconds / 1000f);
@@ -124,6 +114,7 @@ namespace PBLgame.GamePlay
                         if (_pushTimer > 1.0f)
                         {
                             _pushed = false;
+                            _attackTimer = _attackDelay + 1.0f;
                             Attack();
                         }
                     }
@@ -177,7 +168,6 @@ namespace PBLgame.GamePlay
             }
             else
             {
-                _realAttackFlag = false;
                 return false;
             }
         }
@@ -186,7 +176,6 @@ namespace PBLgame.GamePlay
         {
             if (Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) < AttackRange - 5.0f)
             {
-                _realAttackFlag = true;
                 return true;
             }
             else return false;
