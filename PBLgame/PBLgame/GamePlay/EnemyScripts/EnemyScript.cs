@@ -172,9 +172,9 @@ namespace PBLgame.GamePlay
                     _pushTimer = -0.3f;
                 }
             }
-            if (HP <= 0)
+            if (HP <= 0 && !Dead)
             {
-                MakeDead(player);
+                MakeDead(AISystem.Player.GetComponent<PlayerScript>());
             }
         }
         
