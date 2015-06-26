@@ -34,6 +34,7 @@ namespace PBLgame.GamePlay
         /// </summary>
         public float RotationSpeed { get; set; }
 
+        protected bool Dead;
         #endregion
 
         #region Methods
@@ -125,6 +126,8 @@ namespace PBLgame.GamePlay
 
         protected virtual void MakeDead(PlayerScript player)
         {
+            if (Dead) return;
+            Dead = true;
             gameObject.renderer.EmissiveValue = 0f;
             gameObject.animator.Death();
             gameObject.collision.Enabled = false;
