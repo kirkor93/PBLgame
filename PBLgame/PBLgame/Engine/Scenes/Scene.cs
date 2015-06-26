@@ -67,9 +67,9 @@ namespace PBLgame.Engine.Scenes
         private GaussianBlur _gaussianBlur;
         
         private bool _editor;
-        private CullingNode _cullingTree;
-        private List<GameObject> _dynamicObjects;
-        private List<GameObject> _staticObjects;
+        private CullingManager _cullingManager;
+        //private List<GameObject> _dynamicObjects;
+        //private List<GameObject> _staticObjects;
         private SpriteBatch _spriteBatch;
         private RenderTarget2D _halfRenderTarget;
 
@@ -237,30 +237,12 @@ namespace PBLgame.Engine.Scenes
             if (cameraMatrix == default(Matrix)) 
             {
                 SetupEffectsCamera();
+                cameraMatrix = Camera.MainCamera.ViewMatrix*Camera.MainCamera.ProjectionMatrix;
             }
 
-            // TODO that switch sucks, fixme
-            List<GameObject> toRender = new List<GameObject>();
-            switch (technique)
-            {
-                case Renderer.Technique.Default:
-                case Renderer.Technique.Glow:
-                    //toRender.AddRange(_staticObjects);
-                    toRender = _cullingTree.GetVisibleGameObjects(Camera.MainCamera.ViewMatrix * Camera.MainCamera.ProjectionMatrix);
-                    break;
+            List<GameObject> toRender = _cullingManager.GetVisibleGameObjects(cameraMatrix);
+            //toRender.Remove(_mirror);
 
-                case Renderer.Technique.CustomCamera:
-                case Renderer.Technique.ShadowsDirectional:
-                case Renderer.Technique.ShadowsPoint:
-                    //toRender.AddRange(_staticObjects);
-                    toRender = _cullingTree.GetVisibleGameObjects(cameraMatrix);
-                    break;
-
-            }
-            toRender.AddRange(_dynamicObjects);
-            toRender.Remove(_mirror);
-
-            // TODO queue transparent
 
             if (technique == Renderer.Technique.Default)
             {
@@ -472,7 +454,7 @@ namespace PBLgame.Engine.Scenes
         {
             AISystem.ExecuteAI();
             _physicsSystem.Update(gameTime);
-            foreach (GameObject gameObject in GameObjects)
+            foreach (GameObject gameObject in _cullingManager.GameObjectsForUpdate(Camera.MainCamera.ViewMatrix * Camera.WideProjection))
             {
                 gameObject.Update(gameTime);
             }
@@ -512,8 +494,7 @@ namespace PBLgame.Engine.Scenes
             if (obj is Light) _sceneLights.Add((Light)obj);
             else _gameObjects.Add(obj);
 
-            // Needed for editor
-            _dynamicObjects.Add(obj);
+            _cullingManager.Add(obj);
         }
 
         /// <summary>
@@ -585,7 +566,7 @@ namespace PBLgame.Engine.Scenes
             else _gameObjects.AddInsert(index, obj);
             
             // Needed for editor
-            _dynamicObjects.Add(obj);
+            _cullingManager.Add(obj);
         }
 
         public void RemoveGameObject(GameObject obj)
@@ -639,8 +620,7 @@ namespace PBLgame.Engine.Scenes
         {
             _takenIdNumbers.RemoveAll(item => item == id);
             GameObjects.RemoveAll(item => item.ID == id);
-
-            _dynamicObjects.RemoveAll(item => item.ID == id);
+            _cullingManager.Remove(id);
         }
 
         /// <summary>
@@ -733,83 +713,11 @@ namespace PBLgame.Engine.Scenes
             //Hard coded setting Ace as target xD
             AISystem.SetPlayer(FindGameObject(8));
 
-            _cullingTree = GenerateCullingGraph(4);
+            _cullingManager = new CullingManager(GameObjects, 4);
 
             foreach (GameObject gameObject in GameObjects)
             {
                 gameObject.Initialize(_editor);
-//                if (gameObject.Name.Contains("Wall") && gameObject.parent != null && gameObject.parent.ID == 440 && gameObject.collision != null &&
-//                    gameObject.collision.MainCollider != null)
-//                {
-////                    gameObject.parent = null;
-//                    gameObject.collision.MainCollider.Radius = 50.0f;
-//                    gameObject.collision.MainCollider.Trigger = true;
-//                    Console.WriteLine(gameObject.collision.MainCollider.TotalPosition + " " + gameObject.collision.BoxColliders[0].TotalPosition);
-//                }
-            }
-
-
-        }
-
-        /// <summary>
-        /// Creates optimization graph for view-frustum culling.
-        /// </summary>
-        private CullingNode GenerateCullingGraph(int depth)
-        {
-            List<GameObject> dynamicObjects = new List<GameObject>();
-            List<GameObjectAABB> staticObjects = new List<GameObjectAABB>();
-            // generate AABB for each static mesh
-            ClassifyObjectsRecursive(GameObjects.Where(o => o.parent == null), staticObjects, dynamicObjects, false);
-            //foreach (GameObject gameObject in dynamicObjects)
-            //{
-            //    Console.WriteLine("dynamic: [{0}] {1}", gameObject.ID, gameObject.Name);
-            //}
-
-            // whole scene into one box
-            BoundingBox sceneBox = new BoundingBox();
-            sceneBox = staticObjects.Aggregate(sceneBox, (current, o) => BoundingBox.CreateMerged(current, o.Box));
-            float size = sceneBox.GetSize().GetMax();
-            sceneBox.Max.X = sceneBox.Min.X + size;
-            sceneBox.Max.Z = sceneBox.Min.Z + size;
-            CullingNode rootNode = new CullingNode(null, sceneBox, staticObjects, depth);
-            _dynamicObjects = dynamicObjects;
-            _staticObjects = new List<GameObject>();
-            foreach (GameObjectAABB o in staticObjects)
-            {
-                _staticObjects.Add(o.GameObject);
-            }
-            return rootNode;
-        }
-
-        private void ClassifyObjectsRecursive(IEnumerable<GameObject> children, List<GameObjectAABB> staticObjects, List<GameObject> dynamicObjects, bool parentIsDynamic)
-        {
-            foreach (GameObject gameObject in children)
-            {
-                if (parentIsDynamic)
-                {
-                    if (gameObject.renderer != null)
-                    {
-                        dynamicObjects.Add(gameObject);
-                    }
-                    ClassifyObjectsRecursive(gameObject.GetChildren(), staticObjects, dynamicObjects, true);
-                } 
-                else if (gameObject.renderer != null)
-                {
-                    Collision collision = gameObject.collision;
-                    bool isStatic = (collision == null) || collision.Static;
-                    if (isStatic)
-                    {
-                        BoundingBox aabb = gameObject.renderer.GenerateAABB(gameObject.transform.World);
-                        staticObjects.Add(new GameObjectAABB(gameObject, aabb));
-                        ClassifyObjectsRecursive(gameObject.GetChildren(), staticObjects, dynamicObjects, false);
-                    }
-                    else
-                    {
-                        dynamicObjects.Add(gameObject);
-                        ClassifyObjectsRecursive(gameObject.GetChildren(), staticObjects, dynamicObjects, true);
-                    }
-                } 
-                else ClassifyObjectsRecursive(gameObject.GetChildren(), staticObjects, dynamicObjects, false);
             }
         }
 
@@ -896,17 +804,6 @@ namespace PBLgame.Engine.Scenes
         #endregion
     }
 
-    public struct GameObjectAABB
-    {
-        public GameObject GameObject;
-        public BoundingBox Box;
-
-        public GameObjectAABB(GameObject gameObject, BoundingBox box)
-        {
-            GameObject = gameObject;
-            Box = box;
-        }
-    }
 
     /// <summary>
     /// Empty scene that does nothing.
@@ -918,123 +815,4 @@ namespace PBLgame.Engine.Scenes
         public virtual void Update(GameTime gameTime) { }
     }
 
-    public class CullingNode
-    {
-        private readonly CullingNode _parent; 
-        private readonly CullingNode[] _children;
-        private readonly List<GameObject> _gameObjects = new List<GameObject>();
-        private readonly BoundingBox _box;
-
-        public List<GameObject> GameObjects { get { return _gameObjects; } } 
-        public BoundingBox Box { get { return _box; } }
-        public CullingNode[] Children { get { return _children; } }
-
-        public CullingNode(CullingNode parent, BoundingBox box, List<GameObjectAABB> inputList, int depth)
-        {
-            _parent = parent;
-            _box = box;
-            //Console.WriteLine("==== depth: {0}, box: {1}, objs: {2} ====", depth, box.GetSize(), inputList.Count);
-            if (inputList.Count <= 1 || depth <= 0 || _box.GetSize().GetMin() <= 1f)
-            {
-                _children = null;
-                _gameObjects.AddRange(inputList.Select(o => o.GameObject));
-                //Console.WriteLine("Few gameobjects: {0}", inputList.Count);
-            }
-            else
-            {
-                _children = new CullingNode[4];
-                BoundingBox[] childBoxes = new BoundingBox[4];
-                Vector3 half = (box.Min + box.Max) / 2;
-                Vector3 halfUp   = new Vector3(half.X, box.Max.Y, half.Z);
-                Vector3 trans = (box.Max - box.Min) / 2;
-                childBoxes[0] = new BoundingBox(box.Min, halfUp);
-                childBoxes[1] = childBoxes[0].Translate(new Vector3(trans.X, 0, 0));
-                childBoxes[2] = childBoxes[0].Translate(new Vector3(0, 0, trans.Z));
-                childBoxes[3] = childBoxes[0].Translate(new Vector3(trans.X, 0, trans.Z));
-
-                List<GameObjectAABB>[] childList = new List<GameObjectAABB>[4];
-                for (int i = 0; i < childList.Length; i++)
-                {
-                    childList[i] = new List<GameObjectAABB>();
-                }
-
-                foreach (GameObjectAABB obj in inputList)
-                {
-                    for (int i = 0; i < childBoxes.Length; i++)
-                    {
-                        ContainmentType contains = childBoxes[i].Contains(obj.Box);
-                        if (contains == ContainmentType.Contains)
-                        {
-                            childList[i].Add(obj);
-                            //DebugOut(obj, "fully in " + i);
-                            break;
-                        }
-                        else if (contains == ContainmentType.Intersects)
-                        {
-                            childList[i].Add(obj);
-                            //DebugOut(obj, "intersects " + i);
-                        }
-                    }
-                    _gameObjects.Add(obj.GameObject);
-                }
-                for (int i = 0; i < _children.Length; i++)
-                {
-                    _children[i] = new CullingNode(this, childBoxes[i], childList[i], depth - 1);
-                }
-            }
-        }
-
-        private void DebugOut(GameObjectAABB obj, string type)
-        {
-            Console.WriteLine("[{0}] {1} {2}", obj.GameObject.ID, obj.GameObject.Name, type);
-        }
-
-        public List<GameObject> GetVisibleGameObjects(Matrix viewProjMatrix)
-        {
-            List<GameObject> visibles = new List<GameObject>();
-            BoundingFrustum frustum = new BoundingFrustum(viewProjMatrix);
-            foreach (GameObject gameObject in _gameObjects)
-            {
-                gameObject.Processed = false;
-            }
-
-            AddVisibleRecursive(frustum, visibles);
-            return visibles;
-        }
-
-        private void AddVisibleRecursive(BoundingFrustum frustum, List<GameObject> visibles)
-        {
-            ContainmentType containment = frustum.Contains(_box);
-            switch (containment)
-            {
-                case ContainmentType.Contains:
-                    foreach (GameObject gameObject in _gameObjects)
-                    {
-                        if (gameObject.Processed) continue;
-                        gameObject.Processed = true;
-                        visibles.Add(gameObject);
-                    }
-                    break;
-
-                case ContainmentType.Intersects:
-                    if (_children == null)
-                    {
-                        foreach (GameObject gameObject in _gameObjects)
-                        {
-                            if (gameObject.Processed) continue;
-                            gameObject.Processed = true;
-                            visibles.Add(gameObject);
-                        }
-                    }
-                    else 
-                    { 
-                        foreach (CullingNode child in _children)
-                        {
-                            child.AddVisibleRecursive(frustum, visibles);
-                        }
-                    }
-                    break;
-            }
-        }
-    }
 }

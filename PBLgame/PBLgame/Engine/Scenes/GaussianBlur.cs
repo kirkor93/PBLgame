@@ -83,7 +83,7 @@ namespace PBLgame.Engine.Scenes
             _effect.Parameters["offsets"].SetValue(_offsetsHoriz);
 
             spriteBatch.Begin(0, BlendState.Opaque, null, null, null, _effect);
-            spriteBatch.Draw(source, tmpRect, Color.White);
+            spriteBatch.Draw(source, tmpRect, Color.Black);
             spriteBatch.End();
 
             // Vertical blur
@@ -96,7 +96,7 @@ namespace PBLgame.Engine.Scenes
             _effect.Parameters["offsets"].SetValue(_offsetsVert);
 
             spriteBatch.Begin(0, BlendState.Opaque, null, null, null, _effect);
-            spriteBatch.Draw(tmpTarget, outRect, Color.White);
+            spriteBatch.Draw(tmpTarget, outRect, Color.Black);
             spriteBatch.End();
 
             graphics.SetRenderTarget(null);

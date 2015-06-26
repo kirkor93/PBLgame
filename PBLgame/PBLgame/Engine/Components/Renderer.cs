@@ -205,7 +205,22 @@ namespace PBLgame.Engine.Components
         /// <returns></returns>
         public BoundingBox GenerateAABB(Matrix worldMatrix)
         {
-            ModelMeshCollection meshes = gameObject.renderer.MyMesh.Model.Meshes;
+            List<Vector3> vertices = ExtractVertices(gameObject.renderer.MyMesh.Model.Meshes, true, worldMatrix);
+            return BoundingBox.CreateFromPoints(vertices);
+        }
+
+        /// <summary>
+        /// Generates bounding sphere using current mesh.
+        /// </summary>
+        /// <returns></returns>
+        public BoundingSphere GenerateSphere()
+        {
+            List<Vector3> vertices = ExtractVertices(gameObject.renderer.MyMesh.Model.Meshes);
+            return BoundingSphere.CreateFromPoints(vertices);
+        }
+
+        private List<Vector3> ExtractVertices(ModelMeshCollection meshes, bool transform = false, Matrix world = default(Matrix))
+        {
             List<Vector3> vertices = new List<Vector3>();
             foreach (ModelMesh mesh in meshes)
             {
@@ -217,15 +232,15 @@ namespace PBLgame.Engine.Components
                     part.VertexBuffer.GetData(vertexData);
                     for (int i = 0; i < bufferSize; i += vStride)
                     {
-                        Vector3 vertex = Vector3.Transform(
-                            new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]),
-                            mesh.ParentBone.Transform * worldMatrix
-                        );
+                        Vector3 vertex = new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]);
+                        if(transform) vertex = Vector3.Transform(vertex, mesh.ParentBone.Transform * world);
                         vertices.Add(vertex);
                     }
                 }
             }
-            return BoundingBox.CreateFromPoints(vertices);
+            return vertices;
         }
+
+
     }
 }

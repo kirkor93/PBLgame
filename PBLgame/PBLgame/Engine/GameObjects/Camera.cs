@@ -85,6 +85,9 @@ namespace PBLgame.Engine.GameObjects
             }
         }
 
+
+        public static Matrix WideProjection { get; private set; }
+
         public float Near
         {
             get { return _near; }
@@ -129,6 +132,7 @@ namespace PBLgame.Engine.GameObjects
             if (MainCamera == null)
             {
                 MainCamera = this;
+                WideProjection = Matrix.CreatePerspectiveFieldOfView(1.05f, _aspect, _near, _far);  // ~60 deg
             }
 
             _listener = new AudioListener();

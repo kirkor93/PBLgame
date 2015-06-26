@@ -115,6 +115,7 @@
     <Compile Include="Engine\Physics\Collider.cs" />
     <Compile Include="Engine\Physics\PhysicsSystem.cs" />
     <Compile Include="Engine\Physics\SphereCollider.cs" />
+    <Compile Include="Engine\Scenes\CullingManger.cs" />
     <Compile Include="Engine\Scenes\GaussianBlur.cs" />
     <Compile Include="Engine\Scenes\Scene.cs" />
     <Compile Include="Engine\Singleton\InputManager.cs" />

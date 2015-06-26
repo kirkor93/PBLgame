@@ -213,7 +213,8 @@ namespace PBLgame.GamePlay
             }
             else
             {
-                StrongParticle.gameObject.transform.Rotation = Vector3.Zero;
+                if(StrongParticle != null)
+                    StrongParticle.gameObject.transform.Rotation = Vector3.Zero;
             }
         }
 
