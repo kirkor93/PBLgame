@@ -290,6 +290,8 @@
       <Material Id="53" Name="Particle_Dust" Diffuse="Textures\ranged_particle" ShaderPath="Effects\ParticleShader" />
       <Material Id="100" Name="HP_Potion" Diffuse="Textures\hp_potion" ShaderPath="Effects\ParticleShader" />
       <Material Id="101" Name="Mana_Potion" Diffuse="Textures\mana_potion" ShaderPath="Effects\ParticleShader" />
+      <Material Id="102" Name="Items\Potion_hp" Diffuse="Textures\Items\Potion_hp_d" Normal="Textures\Items\Potion_n" Specular="Textures\Items\Potion_s" Emissive="Textures\Items\Potion_hp_e" ShaderPath="Effects\BasicShader" />
+      <Material Id="103" Name="Items\Potion_mana" Diffuse="Textures\Items\Potion_mana_d" Normal="Textures\Items\Potion_n" Specular="Textures\Items\Potion_s" Emissive="Textures\Items\Potion_mana_e" ShaderPath="Effects\BasicShader" />
     </Materials>
     <Meshes>
       <Mesh Id="1" Path="Models\Helmet" />

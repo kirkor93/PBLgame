@@ -11,8 +11,8 @@ namespace PBLgame.GamePlay
     public static class ItemDropper
     {
         private static readonly Random Rand;
-        private static double DropProbability = 0.5f;
-        private static double HPProbability = 0.5f;
+        private static double DropProbability = 0.5;
+        private static double HPProbability = 0.5;
 
         static ItemDropper()
         {
@@ -30,10 +30,18 @@ namespace PBLgame.GamePlay
                 Tag = "Potion",
                 parent = dropper
             };
-            potion.particleSystem = new Billboard(potion, new Vector2(3f, 3f), 10f)
+            potion.transform = new Transform(potion)
             {
-                Material = ResourceManager.Instance.GetMaterial((type == PotionType.Health) ? 100 : 101),
-                Alpha = 0.5f
+                Position = new Vector3(0f, 6f, 0f),
+                Scale = new Vector3(3f)
+            };
+            MeshMaterial material = ResourceManager.Instance.GetMaterial((type == PotionType.Health) ? 102 : 103);
+            potion.renderer = new Renderer(potion)
+            {
+                EmissiveValue = 1.0f,
+                MyMesh = ResourceManager.Instance.GetMesh(@"Models\Items\Potion"),
+                Material = material,
+                MyEffect = material.ShaderEffect
             };
             potion.collision = new Collision(potion)
             {
@@ -41,8 +49,9 @@ namespace PBLgame.GamePlay
                 Static = false,
                 Enabled = true
             };
-            potion.collision.MainCollider = new SphereCollider(potion.collision, 10f, true);
+            potion.collision.MainCollider = new SphereCollider(potion.collision, 3f, true);
             potion.collision.OnTrigger += PlayerGrab;
+            potion.AddComponent(new PotionAnimationComponent(potion));
 
             dropper.Scene.AddTemporary(potion);
             return true;
@@ -73,6 +82,38 @@ namespace PBLgame.GamePlay
 
             potion.Enabled = false;
             potion.RemoveFromScene();
+        }
+    }
+
+    public class PotionAnimationComponent : Component
+    {
+        private float _speed;
+        private float _position;
+        private float _t;
+        private readonly float _period;
+        private Vector3 _initPos;
+
+        public PotionAnimationComponent(GameObject owner) : base(owner)
+        {
+            _t = 0f;
+            _speed = 6.0f;
+            _position = 0f;
+            _period = MathHelper.TwoPi;
+            _initPos = _gameObject.transform.Position;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            _t += (float) gameTime.ElapsedGameTime.TotalSeconds * _speed;
+            while (_t >= _period) _t -= _period;
+            float val = (float) (0.5 * Math.Sin(_t) + 0.5);
+            _gameObject.renderer.EmissiveValue = val;
+            _gameObject.transform.Position = new Vector3(_initPos.X, _initPos.Y + 2 * val, _initPos.Z);
+        }
+
+        public override Component Copy(GameObject newOwner)
+        {
+            return new PotionAnimationComponent(newOwner);
         }
     }
 }
