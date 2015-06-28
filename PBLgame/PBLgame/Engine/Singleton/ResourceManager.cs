@@ -369,6 +369,7 @@ namespace PBLgame.Engine.Singleton
 
         public void WriteXml(XmlWriter writer)
         {
+            CultureInfo culture = CultureInfo.InvariantCulture;
             writer.WriteStartElement("Metadata");
             writer.WriteEndElement();
 
@@ -432,10 +433,10 @@ namespace PBLgame.Engine.Singleton
                     writer.WriteAttributeString("Skeleton", skeleton.Id.ToString());
                     writer.WriteAttributeString("Path", animation.Path);
                     if (animation.Type != null) writer.WriteAttributeString("Type", animation.Type);
-                    if (animation.Speed != 1.0f) writer.WriteAttributeString("Speed", animation.Speed.ToString("G", CultureInfo.InvariantCulture));
+                    if (animation.Speed != 1.0f) writer.WriteAttributeString("Speed", animation.Speed.ToString("G", culture));
                     if (animation.Triggers.Count > 0)
                     {
-                        writer.WriteAttributeString("Triggers", string.Join(" ", animation.Triggers));
+                        writer.WriteAttributeString("Triggers", string.Join(" ", animation.Triggers.Select(t => t.ToString("G", culture))));
                     }
                     writer.WriteEndElement();
                 }

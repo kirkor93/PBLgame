@@ -84,7 +84,7 @@ namespace PBLgame.Engine.GUI
         #region Methods
         public GUIObject()
         {
-            Texture = ResourceManager.Instance.GetTexture(@"Textures\fire");
+            Texture = ResourceManager.Instance.GetTexture(@"Textures\fire_particle");
             Position = Vector2.Zero;
             Scale = Vector2.One;
             Name = "GuiObject";

@@ -13145,6 +13145,19 @@
       </Transform>
       <Renderer Enabled="True" MeshId="7" MaterialId="4" />
     </GameObject>
+    <GameObject Name="Fireplace" Tag="Buildings" Id="1371" Parent="160">
+      <Transform Enabled="True">
+        <Position x="-163.1507" y="0.6702423" z="-199.346" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="2" y="2" z="2" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="55" MaterialId="56" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="20" IsTrigger="False">
+          <LocalPosition x="0" y="0" z="0" />
+        </SphereCollider>
+      </Collision>
+    </GameObject>
   </GameObjects>
   <Lights>
     <Light Type="Point" HasShadow="True">
