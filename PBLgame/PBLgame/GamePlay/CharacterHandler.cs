@@ -129,6 +129,11 @@ namespace PBLgame.GamePlay
             if (Dead) return;
             Dead = true;
             gameObject.renderer.EmissiveValue = 0f;
+            AttachSlot slot = gameObject.GetComponent<AttachSlot>();
+            if (slot != null)
+            {
+                slot.Attachment.renderer.EmissiveValue = 0f;
+            }
             gameObject.animator.Death();
             gameObject.collision.Enabled = false;
             gameObject.animator.OnAnimationFinish += delegate

@@ -27,15 +27,18 @@
       <Texture Path="Textures\Enemies\Crossbow_d" />
       <Texture Path="Textures\Enemies\Crossbow_n" />
       <Texture Path="Textures\Enemies\Crossbow_s" />
+      <Texture Path="Textures\Enemies\Crossbow_e" />
       <Texture Path="Textures\Enemies\Cute_Bomber_d" />
       <Texture Path="Textures\Enemies\Cute_Bomber_n" />
       <Texture Path="Textures\Enemies\Cute_Bomber_s" />
+      <Texture Path="Textures\Enemies\Cute_Bomber_e" />
       <Texture Path="Textures\Enemies\Katana_d" />
       <Texture Path="Textures\Enemies\Katana_n" />
       <Texture Path="Textures\Enemies\Katana_s" />
       <Texture Path="Textures\Enemies\Mecha_ranger_d" />
       <Texture Path="Textures\Enemies\Mecha_ranger_n" />
       <Texture Path="Textures\Enemies\Mecha_ranger_s" />
+      <Texture Path="Textures\Enemies\Mecha_ranger_e" />
       <Texture Path="Textures\Enemies\Smart_Droid_d" />
       <Texture Path="Textures\Enemies\Smart_Droid_n" />
       <Texture Path="Textures\Enemies\Smart_Droid_n" />
@@ -43,6 +46,7 @@
       <Texture Path="Textures\Enemies\NJ_d" />
       <Texture Path="Textures\Enemies\NJ_n" />
       <Texture Path="Textures\Enemies\NJ_s" />
+      <Texture Path="Textures\Enemies\NJ_e" />
       <Texture Path="Textures\Enemies\Chainsword_d" />
       <Texture Path="Textures\Enemies\Chainsword_n" />
       <Texture Path="Textures\Enemies\Chainsword_s" />
@@ -89,6 +93,7 @@
       <Texture Path="Textures\Terrain\Start_base\Lantern_d" />
       <Texture Path="Textures\Terrain\Start_base\Lantern_n" />
       <Texture Path="Textures\Terrain\Start_base\Lantern_s" />
+      <Texture Path="Textures\Terrain\Start_base\Lantern_e" />
       <Texture Path="Textures\Terrain\Start_base\Locker_d" />
       <Texture Path="Textures\Terrain\Start_base\Locker_n" />
       <Texture Path="Textures\Terrain\Start_base\Locker_s" />
@@ -213,6 +218,12 @@
       <Texture Path="Textures\Intro\scene4" />
       <Texture Path="Textures\Intro\scene5" />
       <Texture Path="Textures\Intro\scene6" />
+      <Texture Path="Textures\Items\Potion_hp_d" />
+      <Texture Path="Textures\Items\Potion_hp_e" />
+      <Texture Path="Textures\Items\Potion_mana_d" />
+      <Texture Path="Textures\Items\Potion_mana_e" />
+      <Texture Path="Textures\Items\Potion_n" />
+      <Texture Path="Textures\Items\Potion_s" />
       <Texture Path="Textures\fire_particle" />
       <Texture Path="Textures\force_particle" />
       <Texture Path="Textures\dust_particle" />
@@ -223,10 +234,10 @@
     <Materials>
       <Material Id="1" Name="Helmet" Diffuse="Textures\Helmet_d" Normal="Textures\Helmet_n" Specular="Textures\Helmet_s" Emissive="Textures\Helmet_d" ShaderPath="Effects\BasicShader" />
       <Material Id="2" Name="Particle" Diffuse="Textures\fire_particle" ShaderPath="Effects\ParticleShader" />
-      <Material Id="43" Name="Enemies\Crossbow" Diffuse="Textures\Enemies\Crossbow_d" Normal="Textures\Enemies\Crossbow_n" Specular="Textures\Enemies\Crossbow_s" Emissive="Textures\Enemies\Crossbow_d" ShaderPath="Effects\BasicShader" />
-      <Material Id="3" Name="Enemies\Cute_Bomber" Diffuse="Textures\Enemies\Cute_Bomber_d" Normal="Textures\Enemies\Cute_Bomber_n" Specular="Textures\Enemies\Cute_Bomber_s" Emissive="Textures\Enemies\Cute_Bomber_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="43" Name="Enemies\Crossbow" Diffuse="Textures\Enemies\Crossbow_d" Normal="Textures\Enemies\Crossbow_n" Specular="Textures\Enemies\Crossbow_s" Emissive="Textures\Enemies\Crossbow_e" ShaderPath="Effects\BasicShader" />
+      <Material Id="3" Name="Enemies\Cute_Bomber" Diffuse="Textures\Enemies\Cute_Bomber_d" Normal="Textures\Enemies\Cute_Bomber_n" Specular="Textures\Enemies\Cute_Bomber_s" Emissive="Textures\Enemies\Cute_Bomber_e" ShaderPath="Effects\BasicShader" />
       <Material Id="4" Name="Enemies\Katana" Diffuse="Textures\Enemies\Katana_d" Normal="Textures\Enemies\Katana_n" Specular="Textures\Enemies\Katana_s" Emissive="Textures\Enemies\Katana_d" ShaderPath="Effects\BasicShader" />
-      <Material Id="5" Name="Enemies\Mecha_ranger" Diffuse="Textures\Enemies\Mecha_ranger_d" Normal="Textures\Enemies\Mecha_ranger_n" Specular="Textures\Enemies\Mecha_ranger_s" Emissive="Textures\Enemies\Mecha_ranger_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="5" Name="Enemies\Mecha_ranger" Diffuse="Textures\Enemies\Mecha_ranger_d" Normal="Textures\Enemies\Mecha_ranger_n" Specular="Textures\Enemies\Mecha_ranger_s" Emissive="Textures\Enemies\Mecha_ranger_e" ShaderPath="Effects\BasicShader" />
       <Material Id="6" Name="Enemies\Smart_Droid" Diffuse="Textures\Enemies\Smart_Droid_d" Normal="Textures\Enemies\Smart_Droid_n" Emissive="Textures\Enemies\Smart_Droid_e" ShaderPath="Effects\BasicShader" />
       <Material Id="7" Name="Terrain\Start_base\Barrel_green" Diffuse="Textures\Terrain\Start_base\Barrel_green_d" Normal="Textures\Terrain\Start_base\Barrel_red_n" Specular="Textures\Terrain\Start_base\Barrel_red_s" Emissive="Textures\Terrain\Start_base\Barrel_red_d" ShaderPath="Effects\BasicShader" />
       <Material Id="8" Name="Terrain\Start_base\Barrel_red" Diffuse="Textures\Terrain\Start_base\Barrel_red_d" Normal="Textures\Terrain\Start_base\Barrel_red_n" Specular="Textures\Terrain\Start_base\Barrel_red_s" Emissive="Textures\Terrain\Start_base\Barrel_red_d" ShaderPath="Effects\BasicShader" />
@@ -243,7 +254,7 @@
       <Material Id="19" Name="Terrain\Start_base\Gate_1" Diffuse="Textures\Terrain\Start_base\Gate_1_d" Normal="Textures\Terrain\Start_base\Gate_1_n" Specular="Textures\Terrain\Start_base\Gate_1_s" Emissive="Textures\Terrain\Start_base\Gate_1_d" ShaderPath="Effects\BasicShader" />
       <Material Id="20" Name="Terrain\Start_base\Gate_2" Diffuse="Textures\Terrain\Start_base\Gate_2_d" Normal="Textures\Terrain\Start_base\Gate_2_n" Specular="Textures\Terrain\Start_base\Gate_2_s" Emissive="Textures\Terrain\Start_base\Gate_2_d" ShaderPath="Effects\BasicShader" />
       <Material Id="21" Name="Terrain\Start_base\Gate_archway" Diffuse="Textures\Terrain\Start_base\Gate_archway_d" Normal="Textures\Terrain\Start_base\Gate_archway_n" Specular="Textures\Terrain\Start_base\Gate_archway_s" Emissive="Textures\Terrain\Start_base\Gate_archway_d" ShaderPath="Effects\BasicShader" />
-      <Material Id="22" Name="Terrain\Start_base\Lantern" Diffuse="Textures\Terrain\Start_base\Lantern_d" Normal="Textures\Terrain\Start_base\Lantern_n" Specular="Textures\Terrain\Start_base\Lantern_s" Emissive="Textures\Terrain\Start_base\Lantern_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="22" Name="Terrain\Start_base\Lantern" Diffuse="Textures\Terrain\Start_base\Lantern_d" Normal="Textures\Terrain\Start_base\Lantern_n" Specular="Textures\Terrain\Start_base\Lantern_s" Emissive="Textures\Terrain\Start_base\Lantern_e" ShaderPath="Effects\BasicShader" />
       <Material Id="23" Name="Terrain\Start_base\Locker" Diffuse="Textures\Terrain\Start_base\Locker_d" Normal="Textures\Terrain\Start_base\Locker_n" Specular="Textures\Terrain\Start_base\Locker_s" Emissive="Textures\Terrain\Start_base\Locker_d" ShaderPath="Effects\BasicShader" />
       <Material Id="24" Name="Terrain\Start_base\Trash_can" Diffuse="Textures\Terrain\Start_base\Trash_can_d" Normal="Textures\Terrain\Start_base\Trash_can_n" Specular="Textures\Terrain\Start_base\Trash_can_s" Emissive="Textures\Terrain\Start_base\Trash_can_d" ShaderPath="Effects\BasicShader" />
       <Material Id="25" Name="Terrain\Start_base\Wall_1" Diffuse="Textures\Terrain\Start_base\Wall_1_d" Normal="Textures\Terrain\Start_base\Wall_1_n" Specular="Textures\Terrain\Start_base\Wall_1_s" Emissive="Textures\Terrain\Start_base\Wall_1_d" ShaderPath="Effects\BasicShader" />
@@ -270,7 +281,7 @@
       <Material Id="44" Name="Default" Diffuse="Textures\Default_s" Normal="Textures\Default_n" Specular="Textures\Default_s" Emissive="Textures\Default_e" ShaderPath="Effects\BasicShader" />
       <Material Id="45" Name="NormalHelmet" Diffuse="Textures\Default_s" Normal="Textures\Helmet_n" Specular="Textures\Default_s" Emissive="Textures\Default_s" ShaderPath="Effects\BasicShader" />
       <Material Id="46" Name="Champions\Ace" Diffuse="Textures\Champions\Ace_d" Normal="Textures\Champions\Ace_n" Specular="Textures\Champions\Ace_s" Emissive="Textures\Champions\Ace_d" ShaderPath="Effects\BasicShader" />
-      <Material Id="47" Name="Enemies\NJ" Diffuse="Textures\Enemies\NJ_d" Normal="Textures\Enemies\NJ_n" Specular="Textures\Enemies\NJ_s" Emissive="Textures\Enemies\NJ_d" ShaderPath="Effects\BasicShader" />
+      <Material Id="47" Name="Enemies\NJ" Diffuse="Textures\Enemies\NJ_d" Normal="Textures\Enemies\NJ_n" Specular="Textures\Enemies\NJ_s" Emissive="Textures\Enemies\NJ_e" ShaderPath="Effects\BasicShader" />
       <Material Id="48" Name="Enemies\Chainsword" Diffuse="Textures\Enemies\Chainsword_d" Normal="Textures\Enemies\Chainsword_n" Specular="Textures\Enemies\Chainsword_s" Emissive="Textures\Enemies\Chainsword_d" ShaderPath="Effects\BasicShader" />
       <Material Id="49" Name="Champions\Sword" Diffuse="Textures\Champions\Sword_d" Normal="Textures\Champions\Sword_n" Specular="Textures\Champions\Sword_s" Emissive="Textures\Champions\Sword_e" ShaderPath="Effects\BasicShader" />
       <Material Id="50" Name="Champions\Banan" Diffuse="Textures\Default_e" Normal="Textures\Default_n" Specular="Textures\Default_s" Emissive="Textures\Champions\Banan_d" ShaderPath="Effects\BasicShader" />
@@ -336,6 +347,7 @@
       <Mesh Id="54" Path="Models\Terrain\Desert\Curb" />
       <Mesh Id="55" Path="Models\Terrain\Desert\Fireplace" />
       <Mesh Id="49" Path="Models\Terrain\Mirror" />
+      <Mesh Id="100" Path="Models\Items\Potion" />
     </Meshes>
     <Animations>
       <Animation Id="1" Skeleton="1" Path="Animations\Gandalf_gangnam_style" />
