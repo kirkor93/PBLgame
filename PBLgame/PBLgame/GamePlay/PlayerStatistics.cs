@@ -133,13 +133,13 @@ namespace PBLgame.GamePlay
             Experience = new ExperienceStat(0, experience);
             TalentPoints = new Stat(0, int.MaxValue);
             BasePhysicalDamage = new Stat(5, int.MaxValue);
-            FastAttackDamageBonus = new Stat(10, int.MaxValue);
-            StrongAttackDamageBonus = new Stat(20, int.MaxValue);
+            FastAttackDamageBonus = new Stat(15, int.MaxValue);
+            StrongAttackDamageBonus = new Stat(30, int.MaxValue);
             ShootDamage = new Stat(20, int.MaxValue);
             ShootManaCost = new Stat(20, int.MaxValue);
             ShieldAbsorption = new Stat(10, 50);
             ShieldManaCost = new Stat(5, int.MaxValue);
-            PushManaCost = new Stat(5, int.MaxValue);
+            PushManaCost = new Stat(10, int.MaxValue);
             HealthPotions = new Stat(3, int.MaxValue);
             EnergyPotions = new Stat(3, int.MaxValue);
 

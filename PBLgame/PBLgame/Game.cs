@@ -111,7 +111,7 @@ namespace PBLgame
 
             //For Teting-----------------------
 
-            _preIntroIntro.MyVideo = Content.Load<Video>(@"Video\Gra_wstep");
+            _preIntroIntro.MyVideo = Content.Load<Video>(@"Video\pre_intro");
             _preIntroIntro.VideoRectangle = new Rectangle(0,0,ResolutionX,ResolutionY);
             //_preIntroIntro.VideoRectangle = new Rectangle(ResolutionX / 2 - _intro.Width / 2, ResolutionY / 2 - _intro.Height / 2, _intro.Width, _intro.Height);
             _preIntroIntro.OnVideoFinished += OnIntroIntroFinished;

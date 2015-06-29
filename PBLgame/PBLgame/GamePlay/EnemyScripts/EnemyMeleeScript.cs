@@ -50,7 +50,7 @@ namespace PBLgame.GamePlay
             if (_pushed) _previousAction = _currentAction;
         }
         
-        public EnemyMeleeScript(GameObject owner) : base(owner, 300)
+        public EnemyMeleeScript(GameObject owner) : base(owner, 250)
         {
             _name = "Smart Droid";
             SetupScript(new Vector3(15.0f, 10.0f, 0.0f), 5.0f);

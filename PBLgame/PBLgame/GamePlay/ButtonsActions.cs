@@ -13,7 +13,7 @@ namespace PBLgame.GamePlay
             {
                 Console.WriteLine("Strength upgraded");
                 stats.TalentPoints.Decrease(1);
-                stats.BasePhysicalDamage.Increase(1 + stats.BasePhysicalDamage.Progress);
+                stats.BasePhysicalDamage.Increase(2 + stats.BasePhysicalDamage.Progress);
                 stats.BasePhysicalDamage.Progress++;
                 button.SetProgressBarsValue(stats.BasePhysicalDamage.Progress);
                 if (button.DownNeighbour != null && stats.FastAttackDamageBonus.IsUpgradable)
@@ -35,7 +35,7 @@ namespace PBLgame.GamePlay
             {
                 Console.WriteLine("Mana upgraded");
                 stats.TalentPoints.Decrease(1);
-                stats.Energy.Increase(10);
+                stats.Energy.Increase(50);
                 stats.Energy.Progress++;
                 button.SetProgressBarsValue(stats.Energy.Progress);
                 if (button.DownNeighbour != null && stats.PushManaCost.IsUpgradable)
@@ -56,7 +56,7 @@ namespace PBLgame.GamePlay
             {
                 Console.WriteLine("Fast attack upgraded");
                 stats.TalentPoints.Decrease(1);
-                stats.FastAttackDamageBonus.Increase(1);
+                stats.FastAttackDamageBonus.Increase(5);
                 stats.FastAttackDamageBonus.Progress++;
                 button.SetProgressBarsValue(stats.FastAttackDamageBonus.Progress);
                 if (button.DownNeighbour != null && stats.StrongAttackDamageBonus.IsUpgradable)
@@ -71,7 +71,7 @@ namespace PBLgame.GamePlay
             if (stats.TalentPoints.Value > 0 && stats.StrongAttackDamageBonus.IsUpgradable)
             {
                 Console.WriteLine("Strong attack upgraded");
-                stats.TalentPoints.Decrease(1);
+                stats.TalentPoints.Decrease(10);
                 stats.StrongAttackDamageBonus.Increase(3);
                 stats.StrongAttackDamageBonus.Progress++;
                 button.SetProgressBarsValue(stats.StrongAttackDamageBonus.Progress);
@@ -105,7 +105,7 @@ namespace PBLgame.GamePlay
                 Console.WriteLine("Shield upgraded");
                 stats.TalentPoints.Decrease(1);
                 stats.ShieldAbsorption.Increase(10);
-                stats.ShieldManaCost.Increase(1);
+                stats.ShieldManaCost.Increase(2);
                 stats.ShieldAbsorption.Progress++;
                 stats.ShieldManaCost.Progress++;
                 button.SetProgressBarsValue(stats.ShieldAbsorption.Progress);
@@ -120,8 +120,8 @@ namespace PBLgame.GamePlay
             {
                 Console.WriteLine("Shooting upgraded");
                 stats.TalentPoints.Decrease(1);
-                stats.ShootDamage.Increase(4);
-                stats.ShootManaCost.Decrease(1);
+                stats.ShootDamage.Increase(10);
+                stats.ShootManaCost.Decrease(5);
                 stats.ShootDamage.Progress++;
                 stats.ShootManaCost.Progress++;
                 button.SetProgressBarsValue(stats.ShootDamage.Progress);

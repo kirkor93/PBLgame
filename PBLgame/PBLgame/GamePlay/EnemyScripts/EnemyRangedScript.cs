@@ -38,7 +38,7 @@ namespace PBLgame.GamePlay
         #endregion
         #endregion
         #region Methods
-        public EnemyRangedScript(GameObject owner) : base(owner, 200)
+        public EnemyRangedScript(GameObject owner) : base(owner, 150)
         {
             _name = "Mecha Ranger";
             SetupScript(new Vector3(AttackRange, 10.0f, 0.0f), 5.0f);
