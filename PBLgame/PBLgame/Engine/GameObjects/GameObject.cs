@@ -549,16 +549,16 @@ namespace PBLgame.Engine.GameObjects
                 (animator as IXmlSerializable).WriteXml(writer);
                 writer.WriteEndElement();
             }
-            if (particleSystem != null)
-            {
-                writer.WriteStartElement("ParticleSystem");
-                (particleSystem as IXmlSerializable).WriteXml(writer);
-                writer.WriteEndElement();
-            }
             if (audioSource != null)
             {
                 writer.WriteStartElement("AudioSource");
                 (audioSource as IXmlSerializable).WriteXml(writer);
+                writer.WriteEndElement();
+            }
+            if (particleSystem != null)
+            {
+                writer.WriteStartElement("ParticleSystem");
+                (particleSystem as IXmlSerializable).WriteXml(writer);
                 writer.WriteEndElement();
             }
 
