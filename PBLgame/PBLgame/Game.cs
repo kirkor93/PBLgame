@@ -29,13 +29,6 @@ namespace PBLgame
 
         public GameTime Time { get; private set; }
 
-        private bool _startRealIntro = false;
-        private Video _intro;
-        public VideoPlayer videoPlayer = new VideoPlayer();
-        public Rectangle _videoRectangle;
-
-        public Intro _realIntro = new Intro();
-
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -63,6 +56,9 @@ namespace PBLgame
         private string _windowTitle;
         private int _frames;
         private TimeSpan _elapsedTime = TimeSpan.Zero;
+
+        private Intro _realIntro;
+        private VideoHandler _preIntroIntro = new VideoHandler();
 
         //////////////        
         //------------------------
@@ -115,11 +111,13 @@ namespace PBLgame
 
             //For Teting-----------------------
 
-            _intro = Content.Load<Video>(@"Video\Gra_wstep");
+            _preIntroIntro.MyVideo = Content.Load<Video>(@"Video\Gra_wstep");
+            _preIntroIntro.VideoRectangle = new Rectangle(0,0,ResolutionX,ResolutionY);
+            //_preIntroIntro.VideoRectangle = new Rectangle(ResolutionX / 2 - _intro.Width / 2, ResolutionY / 2 - _intro.Height / 2, _intro.Width, _intro.Height);
+            _preIntroIntro.OnVideoFinished += OnIntroIntroFinished;
 
+            _activeScreenSystem = _preIntroIntro;
 
-            //_videoRectangle = new Rectangle(ResolutionX / 2 - _intro.Width / 2, ResolutionY / 2 - _intro.Height / 2, _intro.Width, _intro.Height);
-            _videoRectangle = new Rectangle(0,0,ResolutionX,ResolutionY);
 
             ResourceManager.Instance.LoadContent();
             ResourceManager.Instance.AssignAudioBank(_soundBank);
@@ -130,7 +128,6 @@ namespace PBLgame
             _hud.CurrentWindowSize = new Vector2(ResolutionX, ResolutionY);
             _realIntro = new Intro();
             _realIntro.OnIntroFinished += OnIntroFinished;
-            _activeScreenSystem = _realIntro;
             _realIntro.Load();
             //intro.Start();
             _activeScene = new BaseScene();
@@ -180,12 +177,15 @@ namespace PBLgame
             player.GetComponent<PlayerScript>().ShieldParticle = _loadedScene.FindGameObject(1369).GetComponent<ParticleSystem>();
             _loadedScene.FindGameObject(1369).GetComponent<ParticleSystem>().Static = false;
 
-
-            videoPlayer.Play(_intro);
+            _preIntroIntro.StartVideo();
             //_loadedScene.Save(@"Level_1.xml");
             //OnIntroFinished(null, null);
         }
-
+        private void OnIntroIntroFinished(object sender, EventArgs eventArgs)
+        {
+            _activeScreenSystem = _realIntro;
+            _realIntro.Start();
+        }
         private void OnIntroFinished(object sender, EventArgs eventArgs)
         {
             _activeScene = _loadedScene;
@@ -209,41 +209,26 @@ namespace PBLgame
         protected override void Update(GameTime gameTime)
         {
             Time = gameTime;
-         
-            if(!_startRealIntro)
+
+            // Allows the game to exit
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                this.Exit();
+            
+            InputManager.Instance.Update(gameTime);
+
+            _activeScene.Update(gameTime);
+            _activeScreenSystem.Update(gameTime);
+            
+
+            _audioEngine.Update(); //Have to be in final version
+
+            _elapsedTime += gameTime.ElapsedGameTime;
+            if (_elapsedTime > TimeSpan.FromSeconds(1))
             {
-                if(videoPlayer.State == MediaState.Stopped)
-                {
-                    videoPlayer.Stop();
-                    _startRealIntro = true;
-                    _realIntro.Start();
-                    return;
-                }
-                videoPlayer.Play(_intro);
+                _elapsedTime -= TimeSpan.FromSeconds(1);
+                Window.Title = string.Format("{0}: {1} fps", _windowTitle, _frames);
+                _frames = 0;
             }
-            else
-            {
-                // Allows the game to exit
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                    this.Exit();
-            
-                InputManager.Instance.Update(gameTime);
-
-                _activeScene.Update(gameTime);
-                _activeScreenSystem.Update(gameTime);
-            
-
-                _audioEngine.Update(); //Have to be in final version
-
-                _elapsedTime += gameTime.ElapsedGameTime;
-                if (_elapsedTime > TimeSpan.FromSeconds(1))
-                {
-                    _elapsedTime -= TimeSpan.FromSeconds(1);
-                    Window.Title = string.Format("{0}: {1} fps", _windowTitle, _frames);
-                    _frames = 0;
-                }
-
-           }
 
             base.Update(gameTime);
         }
@@ -258,27 +243,16 @@ namespace PBLgame
             _frames++;
             GraphicsDevice.Clear(Color.Black);
 
-            if(!_startRealIntro)
-            {
-                spriteBatch.Begin();
-                spriteBatch.Draw(videoPlayer.GetTexture(), _videoRectangle, Color.White);
-                spriteBatch.End(); 
-            }
-            else
-            {
-                GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
-                _activeScene.Draw(gameTime);
+            _activeScene.Draw(gameTime);
 
-            
+            base.Draw(gameTime);
+            spriteBatch.Begin();
 
-                base.Draw(gameTime);
-                spriteBatch.Begin();
+            _activeScreenSystem.Draw(spriteBatch);
 
-                _activeScreenSystem.Draw(spriteBatch);
-
-                spriteBatch.End();
-            }
+            spriteBatch.End();
         }
     }
 }
