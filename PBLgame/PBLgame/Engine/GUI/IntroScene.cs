@@ -19,7 +19,11 @@ namespace PBLgame.Engine.GUI
         private TimeSpan _lastChangeTime;
 
         #endregion
+
         #region Properties
+
+        public bool FirstScene { get; set; }
+
         public TimeSpan Length
         {
             get { return _length; }
@@ -48,7 +52,9 @@ namespace PBLgame.Engine.GUI
             }
 
             _currentGameTime = gameTime;
-            if (_lastChangeTime + new TimeSpan(0, 0, 0, 0, 50) < gameTime.TotalGameTime)
+            if (_lastChangeTime + new TimeSpan(0, 0, 0, 0, 50) < gameTime.TotalGameTime
+                && Position.X + MoveDirection.X < 0
+                && Position.Y + MoveDirection.Y < 0)
             {
                 _lastChangeTime = gameTime.TotalGameTime;
                 Position += MoveDirection;
@@ -84,6 +90,7 @@ namespace PBLgame.Engine.GUI
 
             base.ReadXml(reader);
             Length = new TimeSpan(0, 0, Convert.ToInt32(reader.GetAttribute("Length"), culture));
+            FirstScene = Convert.ToBoolean(reader.GetAttribute("FirstScene"), culture);
             reader.Read();
             if (reader.Name == "MoveDirection")
             {
@@ -103,6 +110,7 @@ namespace PBLgame.Engine.GUI
             base.WriteXml(writer);
             writer.WriteStartElement("IntroScene");
             writer.WriteAttributeString("Length", Length.Seconds.ToString("G", culture));
+            writer.WriteAttributeString("FirstScene", FirstScene.ToString(culture));
             writer.WriteStartElement("MoveDirection");
             writer.WriteAttributeString("x", MoveDirection.X.ToString("G", culture));
             writer.WriteAttributeString("y", MoveDirection.Y.ToString("G", culture));

@@ -5,10 +5,10 @@
     <PBLgame.Engine.GUI.IntroScene Id="1" Name="Scene 1-1" Enabled="True" Pivot="1" Texture="Textures\Intro\scene1">
       <Position x="0" y="0" />
       <Scale x="1.4" y="1.4" />
-      <GUIText Font="Fonts\Default_small" Text="Gdzieś w odległym, równoległym wszechświecie ludzie nauczyli się wykorzystywać ogromne możliwości swoich umysłów.&#xD;&#xA;Cywilizacja poszła w zupełnie innym kierunku niż to, co znamy z naszego wszechświata.">
+      <GUIText Font="Fonts\Default_small" Text="Gdzieś w odległym, równoległym wszechświecie ludzie nauczyli się wykorzystywać ogromne możliwości swoich umysłów.&#xD;&#xA;Cywilizacja rozwinęła się w zupełnie innym kierunku niż to, co znamy my - ludzie żyjący na 'naszej' Ziemi.">
         <LocalPosition x="0" y="0" />
       </GUIText>
-      <IntroScene Length="7">
+      <IntroScene Length="7" FirstScene="True">
         <MoveDirection x="-2" y="-1" />
       </IntroScene>
     </PBLgame.Engine.GUI.IntroScene>
@@ -18,8 +18,8 @@
       <GUIText Font="Fonts\Default_small" Text="Możliwe stało się korzystanie z umiejętności telekinezy oraz manipulowanie myślami.&#xD;&#xA;Niemal we wszystkich dziedzinach życia ludzi zaczęły zastępować supernowoczesne komputery.&#xD;&#xA;Jednak nie wszystkim się to podobało...">
         <LocalPosition x="0" y="0" />
       </GUIText>
-      <IntroScene Length="8">
-        <MoveDirection x="2" y="-1" />
+      <IntroScene Length="8" FirstScene="False">
+        <MoveDirection x="-1" y="1" />
       </IntroScene>
     </PBLgame.Engine.GUI.IntroScene>
     <PBLgame.Engine.GUI.IntroScene Id="4" Name="Scene 2-1" Enabled="True" Pivot="1" Texture="Textures\Intro\scene2">
@@ -28,7 +28,7 @@
       <GUIText Font="Fonts\Default_small" Text="Niejaki Zespół R dowodzony przez Doktora X postanowił zniszczyć system&#xD;&#xA;poprzez wgranie wirusa do jego głównego komputera - PreachCodeOne'a.&#xD;&#xA;Niestety, sabotaż okazał się nieskuteczny, a jego skutki - tragiczne dla ludzkości...">
         <LocalPosition x="0" y="0" />
       </GUIText>
-      <IntroScene Length="10">
+      <IntroScene Length="10" FirstScene="True">
         <MoveDirection x="-2" y="1" />
       </IntroScene>
     </PBLgame.Engine.GUI.IntroScene>
@@ -38,7 +38,7 @@
       <GUIText Font="Fonts\Default_small" Text="Sztuczna inteligencja poczuła się zagrożona przez ludzi, więc postanowiła ich wyeliminować.&#xD;&#xA;Zaskoczeni ludzie uciekali w popłochu przed szalejącym wrogiem.">
         <LocalPosition x="0" y="0" />
       </GUIText>
-      <IntroScene Length="6">
+      <IntroScene Length="6" FirstScene="True">
         <MoveDirection x="-2" y="-1" />
       </IntroScene>
     </PBLgame.Engine.GUI.IntroScene>
@@ -48,7 +48,7 @@
       <GUIText Font="Fonts\Default_small" Text="W końcu doszło do wojny, która pochłonęła miliardy istnień...">
         <LocalPosition x="0" y="0" />
       </GUIText>
-      <IntroScene Length="5">
+      <IntroScene Length="7" FirstScene="False">
         <MoveDirection x="-2" y="1" />
       </IntroScene>
     </PBLgame.Engine.GUI.IntroScene>
@@ -58,8 +58,48 @@
       <GUIText Font="Fonts\Default_small" Text="Ostatecznie ludzkość przegrała...&#xD;&#xA;Nieliczni ocalali schronili się w specjalnych bunkrach oczekując na cud...">
         <LocalPosition x="0" y="0" />
       </GUIText>
-      <IntroScene Length="6">
+      <IntroScene Length="8" FirstScene="True">
         <MoveDirection x="-2" y="-1" />
+      </IntroScene>
+    </PBLgame.Engine.GUI.IntroScene>
+    <PBLgame.Engine.GUI.IntroScene Id="8" Name="Scene 5-1" Enabled="True" Pivot="1" Texture="Textures\Intro\scene5">
+      <Position x="0" y="0" />
+      <Scale x="1.4" y="1.4" />
+      <GUIText Font="Fonts\Default_small" Text="Wszystko miało zmienić się w momencie, gdy młody chłopak o imieniu Ace&#xD;&#xA;odnalazł ranną dziewczynę i leżący obok niej tajemniczy miecz...">
+        <LocalPosition x="0" y="0" />
+      </GUIText>
+      <IntroScene Length="8" FirstScene="True">
+        <MoveDirection x="-2" y="-1" />
+      </IntroScene>
+    </PBLgame.Engine.GUI.IntroScene>
+    <PBLgame.Engine.GUI.IntroScene Id="9" Name="Scene 5-2" Enabled="True" Pivot="1" Texture="Textures\Intro\scene5">
+      <Position x="-100" y="-300" />
+      <Scale x="1.4" y="1.4" />
+      <GUIText Font="Fonts\Default_small" Text="Bohater postanowił przyprowadzić ranną kobietę do swego schronu wraz ze skrywającym wielki sekret ostrzem...">
+        <LocalPosition x="0" y="0" />
+      </GUIText>
+      <IntroScene Length="6" FirstScene="False">
+        <MoveDirection x="-1" y="1" />
+      </IntroScene>
+    </PBLgame.Engine.GUI.IntroScene>
+    <PBLgame.Engine.GUI.IntroScene Id="10" Name="Scene 6-1" Enabled="True" Pivot="1" Texture="Textures\Intro\scene6">
+      <Position x="-660" y="-100" />
+      <Scale x="1.4" y="1.4" />
+      <GUIText Font="Fonts\Default_small" Text="Na miejscu okazało się, że ranna kobieta nie miała pojęcia, co właśnie odnalazła,&#xD;&#xA;a moc ukryta w mieczu jest znacznie większa, niż ktokolwiek mógłby wcześniej przypuszczać...">
+        <LocalPosition x="0" y="0" />
+      </GUIText>
+      <IntroScene Length="8" FirstScene="True">
+        <MoveDirection x="2" y="-1" />
+      </IntroScene>
+    </PBLgame.Engine.GUI.IntroScene>
+    <PBLgame.Engine.GUI.IntroScene Id="11" Name="Scene 6-2" Enabled="True" Pivot="1" Texture="Textures\Intro\scene6">
+      <Position x="-100" y="-300" />
+      <Scale x="1.4" y="1.4" />
+      <GUIText Font="Fonts\Default_small" Text="Nadzieje ludzi na odzyskanie wolności w końcu powróciły,&#xD;&#xA;a legenda młodego wojownika miała właśnie się rozpocząć...">
+        <LocalPosition x="0" y="0" />
+      </GUIText>
+      <IntroScene Length="6" FirstScene="False">
+        <MoveDirection x="1" y="1" />
       </IntroScene>
     </PBLgame.Engine.GUI.IntroScene>
   </IntroScenes>

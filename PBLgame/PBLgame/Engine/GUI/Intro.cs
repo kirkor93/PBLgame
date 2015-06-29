@@ -107,9 +107,14 @@ namespace PBLgame.Engine.GUI
 
         private void ShowNextScene()
         {
+            IntroScene tmp = _currentScene.Current;
             if (_currentScene.MoveNext())
             {
                 _lastChangeTime = _currentGameTime.TotalGameTime;
+                if (!_currentScene.Current.FirstScene)
+                {
+                    _currentScene.Current.Position = tmp.Position;
+                }
             }
             else
             {
