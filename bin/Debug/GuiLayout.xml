@@ -172,7 +172,7 @@
       <Position x="700" y="75" />
       <Scale x="1" y="1" />
       <GUIText Font="Fonts\Default" Text="">
-        <LocalPosition x="100" y="30" />
+        <LocalPosition x="150" y="30" />
         <FontColor r="255" g="255" b="255" a="255" />
       </GUIText>
     </PBLgame.Engine.GUI.Bar>

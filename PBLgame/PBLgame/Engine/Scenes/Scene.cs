@@ -668,7 +668,11 @@ namespace PBLgame.Engine.Scenes
             foreach (GameObject gameObject in GameObjects)
             {
                 ///////////////////////////////////////////////
-
+//                if (gameObject.Name.Contains("Wall") && gameObject.Tag == "Terrain")
+//                {
+//                    gameObject.Tag = "Buildings";
+//
+//                }
                 ////////////////////////////////////////////////
                 if (gameObject.parent != null)
                 {

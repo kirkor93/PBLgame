@@ -3,7 +3,7 @@
   <GameObjects>
     <GameObject Name="Ace" Tag="Player" Id="8">
       <Transform Enabled="True">
-        <Position x="-240.5067" y="0" z="-11.91628" />
+        <Position x="1161.941" y="0" z="960.1221" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -1580,19 +1580,19 @@
     </GameObject>
     <GameObject Name="Building" Tag="Buildings" Id="149" Parent="136">
       <Transform Enabled="True">
-        <Position x="945" y="0" z="-425" />
-        <Rotation x="5.008956E-06" y="-135" z="0" />
-        <Scale x="1.5" y="1.5" z="1" />
+        <Position x="443.4485" y="0" z="-60.41499" />
+        <Rotation x="0" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="15" MaterialId="15" />
       <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="50.5" IsTrigger="True">
-          <LocalPosition x="0" y="48.5" z="0" />
+        <SphereCollider Radius="150" IsTrigger="True">
+          <LocalPosition x="50" y="0" z="50" />
         </SphereCollider>
         <BoxColliders>
           <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="48.5" z="-4.240005E-06" />
-            <EdgesSize x="50.5" y="48.5" z="33.86667" />
+            <LocalPosition x="-40" y="50" z="-40" />
+            <EdgesSize x="80.00001" y="100" z="80.00001" />
           </BoxCollider>
         </BoxColliders>
       </Collision>
@@ -1636,7 +1636,7 @@
       <Transform Enabled="True">
         <Position x="1179.098" y="4.371138E-05" z="46.95189" />
         <Rotation x="5.008956E-06" y="-195" z="0" />
-        <Scale x="1.5" y="1.5" z="1" />
+        <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="46" MaterialId="38" />
     </GameObject>
@@ -1752,9 +1752,15 @@
       </Transform>
       <Renderer Enabled="True" MeshId="46" MaterialId="38" />
       <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="25" IsTrigger="False">
+        <SphereCollider Radius="100" IsTrigger="True">
           <LocalPosition x="25" y="0" z="-25" />
         </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="-20.66951" y="31.4797" z="4.771929" />
+            <EdgesSize x="41.33902" y="62.9594" z="41.33903" />
+          </BoxCollider>
+        </BoxColliders>
       </Collision>
     </GameObject>
     <GameObject Name="Cactus" Tag="Buildings" Id="164" Parent="136">
@@ -1927,7 +1933,7 @@
     </GameObject>
     <GameObject Name="Cactus" Tag="Buildings" Id="175" Parent="136">
       <Transform Enabled="True">
-        <Position x="54.651" y="8.567432E-05" z="-116.1351" />
+        <Position x="21.42434" y="8.567432E-05" z="-92.46466" />
         <Rotation x="5.008956E-06" y="-200" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -2080,7 +2086,7 @@
       </Transform>
       <Renderer Enabled="True" MeshId="42" MaterialId="36" />
     </GameObject>
-    <GameObject Name="Enemy_base" Tag="Player" Id="191">
+    <GameObject Name="Enemy_base" Tag="Buildings" Id="191">
       <Transform Enabled="True">
         <Position x="715" y="0" z="720" />
         <Rotation x="0" y="0" z="0" />
@@ -3932,9 +3938,17 @@
       </Transform>
       <Renderer Enabled="True" MeshId="46" MaterialId="38" />
       <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="25" IsTrigger="False">
-          <LocalPosition x="25" y="0" z="-25" />
+        <SphereCollider Radius="75" IsTrigger="True">
+          <LocalPosition x="50" y="50" z="-25" />
         </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="25" IsTrigger="False">
+            <LocalPosition x="15" y="23" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="25" IsTrigger="False">
+            <LocalPosition x="15" y="55" z="0" />
+          </SphereCollider>
+        </SphereColliders>
       </Collision>
     </GameObject>
     <GameObject Name="Mountain" Tag="Buildings" Id="419" Parent="141">
@@ -4203,128 +4217,6 @@
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="27" MaterialId="25" />
-    </GameObject>
-    <GameObject Name="Wall" Tag="Buildings" Id="441" Parent="440">
-      <Transform Enabled="True">
-        <Position x="-2.338382E-05" y="0" z="79.99998" />
-        <Rotation x="0" y="-6.597455E-06" z="0" />
-        <Scale x="1" y="1" z="1" />
-      </Transform>
-      <Renderer Enabled="True" MeshId="27" MaterialId="26" />
-      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="50" IsTrigger="True">
-          <LocalPosition x="0" y="15.5" z="0" />
-        </SphereCollider>
-        <BoxColliders>
-          <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="15.5" z="0" />
-            <EdgesSize x="40" y="40" z="20" />
-          </BoxCollider>
-        </BoxColliders>
-      </Collision>
-    </GameObject>
-    <GameObject Name="Wall" Tag="Buildings" Id="442" Parent="440">
-      <Transform Enabled="True">
-        <Position x="-3.106503E-05" y="0" z="39.99999" />
-        <Rotation x="0" y="-6.597455E-06" z="0" />
-        <Scale x="1" y="1" z="1" />
-      </Transform>
-      <Renderer Enabled="True" MeshId="27" MaterialId="25" />
-      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="50" IsTrigger="True">
-          <LocalPosition x="0" y="15.5" z="0" />
-        </SphereCollider>
-        <BoxColliders>
-          <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="15.5" z="0" />
-            <EdgesSize x="40" y="40" z="20" />
-          </BoxCollider>
-        </BoxColliders>
-      </Collision>
-    </GameObject>
-    <GameObject Name="Wall" Tag="Buildings" Id="443" Parent="440">
-      <Transform Enabled="True">
-        <Position x="-1.570261E-05" y="0" z="120" />
-        <Rotation x="0" y="-6.597455E-06" z="0" />
-        <Scale x="1" y="1" z="1" />
-      </Transform>
-      <Renderer Enabled="True" MeshId="27" MaterialId="25" />
-      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="50" IsTrigger="True">
-          <LocalPosition x="0" y="16" z="-20" />
-        </SphereCollider>
-        <BoxColliders>
-          <BoxCollider IsTrigger="False">
-            <LocalPosition x="-20" y="15.5" z="0" />
-            <EdgesSize x="40" y="40" z="20" />
-          </BoxCollider>
-        </BoxColliders>
-      </Collision>
-    </GameObject>
-    <GameObject Name="Gate_archway" Tag="Buildings" Id="444" Parent="440">
-      <Transform Enabled="True">
-        <Position x="2.499978" y="0" z="120" />
-        <Rotation x="0" y="-6.597455E-06" z="0" />
-        <Scale x="1" y="1" z="1" />
-      </Transform>
-      <Renderer Enabled="True" MeshId="20" MaterialId="21" />
-    </GameObject>
-    <GameObject Name="Gate_1" Tag="Buildings" Id="445" Parent="440">
-      <Transform Enabled="True">
-        <Position x="-1.653713" y="-6.264454E-06" z="175.827" />
-        <Rotation x="0" y="-6.597455E-06" z="90" />
-        <Scale x="1" y="1" z="1" />
-      </Transform>
-      <Renderer Enabled="True" MeshId="18" MaterialId="19" />
-      <PBLgame.GamePlay.Translator Enabled="True" Speed="0" Time="0">
-        <Direction x="NaN" y="NaN" z="NaN" />
-      </PBLgame.GamePlay.Translator>
-    </GameObject>
-    <GameObject Name="Gate_2" Tag="Buildings" Id="446" Parent="440">
-      <Transform Enabled="True">
-        <Position x="22.49998" y="2.991615E-06" z="209" />
-        <Rotation x="0" y="-6.597455E-06" z="-60" />
-        <Scale x="1" y="1" z="1" />
-      </Transform>
-      <Renderer Enabled="True" MeshId="19" MaterialId="20" />
-    </GameObject>
-    <GameObject Name="Wall" Tag="Buildings" Id="447" Parent="440">
-      <Transform Enabled="True">
-        <Position x="-3.339919E-06" y="0" z="220" />
-        <Rotation x="0" y="-6.597455E-06" z="0" />
-        <Scale x="1" y="1" z="1" />
-      </Transform>
-      <Renderer Enabled="True" MeshId="27" MaterialId="25" />
-      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="50" IsTrigger="True">
-          <LocalPosition x="0" y="15.5" z="-20" />
-        </SphereCollider>
-        <BoxColliders>
-          <BoxCollider IsTrigger="False">
-            <LocalPosition x="-20" y="15.5" z="5" />
-            <EdgesSize x="40" y="40" z="10" />
-          </BoxCollider>
-        </BoxColliders>
-      </Collision>
-    </GameObject>
-    <GameObject Name="Wall" Tag="Buildings" Id="448" Parent="440">
-      <Transform Enabled="True">
-        <Position x="-2.513643E-05" y="0" z="260" />
-        <Rotation x="0" y="-6.597455E-06" z="0" />
-        <Scale x="1" y="1" z="1" />
-      </Transform>
-      <Renderer Enabled="True" MeshId="27" MaterialId="26" />
-      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="50" IsTrigger="True">
-          <LocalPosition x="0" y="15.5" z="0" />
-        </SphereCollider>
-        <BoxColliders>
-          <BoxCollider IsTrigger="False">
-            <LocalPosition x="0" y="15.5" z="0" />
-            <EdgesSize x="40" y="40" z="20" />
-          </BoxCollider>
-        </BoxColliders>
-      </Collision>
     </GameObject>
     <GameObject Name="Wall" Tag="Buildings" Id="449" Parent="440">
       <Transform Enabled="True">
@@ -5635,7 +5527,7 @@
     </GameObject>
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="607">
       <Transform Enabled="True">
-        <Position x="129.662" y="0" z="-124.5733" />
+        <Position x="474.529" y="0" z="7.475922" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -5659,8 +5551,8 @@
     </GameObject>
     <GameObject Name="MechaRanger001" Tag="Enemy" Id="1234">
       <Transform Enabled="True">
-        <Position x="212.2706" y="0" z="-113.0194" />
-        <Rotation x="0" y="-142" z="0" />
+        <Position x="422.3367" y="0" z="10.81921" />
+        <Rotation x="0" y="-122" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="8" MaterialId="5" Emissive="1" />
@@ -5715,7 +5607,7 @@
     </GameObject>
     <GameObject Name="CuteBomber001" Tag="Enemy" Id="615">
       <Transform Enabled="True">
-        <Position x="481.6194" y="0" z="-24.8765" />
+        <Position x="689.7023" y="0" z="296.0279" />
         <Rotation x="0" y="0" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -5738,8 +5630,8 @@
     </GameObject>
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="619">
       <Transform Enabled="True">
-        <Position x="226.7742" y="0" z="110.9134" />
-        <Rotation x="0" y="-174" z="0" />
+        <Position x="597.8038" y="0" z="-11.68996" />
+        <Rotation x="0" y="-153" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="9" MaterialId="6" Emissive="1" />
@@ -8028,7 +7920,7 @@
     </GameObject>
     <GameObject Name="Rock" Tag="Terrain" Id="903" Parent="136">
       <Transform Enabled="True">
-        <Position x="759.2242" y="0" z="312.6834" />
+        <Position x="741.8011" y="1.113381E-07" z="303.2981" />
         <Rotation x="5.008956E-06" y="148" z="0" />
         <Scale x="5" y="5" z="5" />
       </Transform>
@@ -8038,7 +7930,7 @@
           <LocalPosition x="0" y="0" z="0" />
         </SphereCollider>
         <SphereColliders>
-          <SphereCollider Radius="3.467333" IsTrigger="False">
+          <SphereCollider Radius="4" IsTrigger="False">
             <LocalPosition x="0" y="1.879598" z="0" />
           </SphereCollider>
         </SphereColliders>
@@ -8432,8 +8324,8 @@
     </GameObject>
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="951">
       <Transform Enabled="True">
-        <Position x="365.5209" y="0" z="85.60329" />
-        <Rotation x="0" y="-233" z="0" />
+        <Position x="222.4993" y="0" z="158.8603" />
+        <Rotation x="0" y="-244" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="9" MaterialId="6" Emissive="1" />
@@ -8456,8 +8348,8 @@
     </GameObject>
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="953">
       <Transform Enabled="True">
-        <Position x="237.7222" y="0" z="154.7322" />
-        <Rotation x="0" y="-184" z="0" />
+        <Position x="245.5312" y="0" z="124.1276" />
+        <Rotation x="0" y="-202" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="9" MaterialId="6" Emissive="1" />
@@ -8480,8 +8372,8 @@
     </GameObject>
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="955">
       <Transform Enabled="True">
-        <Position x="343.3349" y="0" z="118.9725" />
-        <Rotation x="0" y="-213" z="0" />
+        <Position x="414.3088" y="0" z="61.39177" />
+        <Rotation x="0" y="-137" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="9" MaterialId="6" Emissive="1" />
@@ -8504,8 +8396,8 @@
     </GameObject>
     <GameObject Name="MechaRanger001" Tag="Enemy" Id="957">
       <Transform Enabled="True">
-        <Position x="360.6302" y="0" z="60.93591" />
-        <Rotation x="0" y="-164" z="0" />
+        <Position x="760.7985" y="0" z="92.58281" />
+        <Rotation x="0" y="-191" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="8" MaterialId="5" Emissive="1" />
@@ -8536,8 +8428,8 @@
     </GameObject>
     <GameObject Name="CuteBomber001" Tag="Enemy" Id="959">
       <Transform Enabled="True">
-        <Position x="528.6026" y="0" z="-10.44127" />
-        <Rotation x="0" y="0" z="0" />
+        <Position x="137.9319" y="0" z="-11.51112" />
+        <Rotation x="0" y="-93" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="6" MaterialId="3" Emissive="1" />
@@ -8559,8 +8451,8 @@
     </GameObject>
     <GameObject Name="MechaRanger001" Tag="Enemy" Id="960">
       <Transform Enabled="True">
-        <Position x="559.1891" y="0" z="-110.4289" />
-        <Rotation x="0" y="-174" z="0" />
+        <Position x="628.8796" y="0" z="-71.19012" />
+        <Rotation x="0" y="-115" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="8" MaterialId="5" Emissive="1" />
@@ -8591,7 +8483,7 @@
     </GameObject>
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="962">
       <Transform Enabled="True">
-        <Position x="503.7175" y="0" z="-15.06637" />
+        <Position x="683.2236" y="0" z="87.59143" />
         <Rotation x="0" y="-211" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -8615,8 +8507,8 @@
     </GameObject>
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="964">
       <Transform Enabled="True">
-        <Position x="519.6501" y="0" z="-7.669324" />
-        <Rotation x="0" y="-217" z="0" />
+        <Position x="836.6656" y="0" z="189.5976" />
+        <Rotation x="0" y="-197" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="9" MaterialId="6" Emissive="1" />
@@ -8774,25 +8666,6 @@
     <GameObject Name="Wall" Tag="Buildings" Id="973" Parent="440">
       <Transform Enabled="True">
         <Position x="-75.03351" y="0" z="278.0208" />
-        <Rotation x="0" y="-105" z="0" />
-        <Scale x="1" y="1" z="1" />
-      </Transform>
-      <Renderer Enabled="True" MeshId="27" MaterialId="26" />
-      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="50" IsTrigger="True">
-          <LocalPosition x="2.5" y="15" z="-20" />
-        </SphereCollider>
-        <BoxColliders>
-          <BoxCollider IsTrigger="False">
-            <LocalPosition x="2.5" y="15" z="-20" />
-            <EdgesSize x="5" y="30" z="40" />
-          </BoxCollider>
-        </BoxColliders>
-      </Collision>
-    </GameObject>
-    <GameObject Name="Wall" Tag="Buildings" Id="974" Parent="440">
-      <Transform Enabled="True">
-        <Position x="-113.6705" y="0" z="267.668" />
         <Rotation x="0" y="-105" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -12940,7 +12813,7 @@
     </GameObject>
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="1353">
       <Transform Enabled="True">
-        <Position x="651.2626" y="0" z="289.8788" />
+        <Position x="686.8984" y="0" z="322.6803" />
         <Rotation x="0" y="-285" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -12964,7 +12837,7 @@
     </GameObject>
     <GameObject Name="MechaRanger001" Tag="Enemy" Id="1355">
       <Transform Enabled="True">
-        <Position x="710.4118" y="0" z="279.986" />
+        <Position x="697.9954" y="0" z="335.2057" />
         <Rotation x="0" y="-253" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -12996,8 +12869,8 @@
     </GameObject>
     <GameObject Name="CuteBomber001" Tag="Enemy" Id="1357">
       <Transform Enabled="True">
-        <Position x="680.0835" y="0" z="283.5414" />
-        <Rotation x="0" y="150" z="0" />
+        <Position x="680.6224" y="0" z="307.9801" />
+        <Rotation x="0" y="171" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="6" MaterialId="3" Emissive="1" />
@@ -13019,8 +12892,8 @@
     </GameObject>
     <GameObject Name="SmartDroid001" Tag="Enemy" Id="1358">
       <Transform Enabled="True">
-        <Position x="775.8926" y="0" z="164.8274" />
-        <Rotation x="0" y="-199" z="0" />
+        <Position x="854.4899" y="0" z="166.7868" />
+        <Rotation x="0" y="-145" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
       <Renderer Enabled="True" MeshId="9" MaterialId="6" Emissive="1" />
@@ -13091,7 +12964,7 @@
     </GameObject>
     <GameObject Name="MechaRanger001" Tag="Enemy" Id="1364">
       <Transform Enabled="True">
-        <Position x="675.9827" y="0" z="328.8013" />
+        <Position x="676.7014" y="0" z="334.3175" />
         <Rotation x="0" y="-272" z="0" />
         <Scale x="1" y="1" z="1" />
       </Transform>
@@ -13153,9 +13026,659 @@
       </Transform>
       <Renderer Enabled="True" MeshId="55" MaterialId="56" />
       <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
-        <SphereCollider Radius="20" IsTrigger="False">
+        <SphereCollider Radius="20" IsTrigger="True">
           <LocalPosition x="0" y="0" z="0" />
         </SphereCollider>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Rock" Tag="Buildings" Id="1372" Parent="136">
+      <Transform Enabled="True">
+        <Position x="73.42868" y="5.525776" z="-80.9298" />
+        <Rotation x="112" y="-62.99997" z="-4.390518E-05" />
+        <Scale x="5" y="5" z="3" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="5" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="3" IsTrigger="False">
+            <LocalPosition x="0" y="0" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Rock" Tag="Buildings" Id="1373" Parent="136">
+      <Transform Enabled="True">
+        <Position x="46.08919" y="5.525776" z="-81.80798" />
+        <Rotation x="252" y="23.00003" z="-4.390518E-05" />
+        <Scale x="5" y="5" z="3" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="5" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="3" IsTrigger="False">
+            <LocalPosition x="0" y="0" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Rock" Tag="Buildings" Id="1374" Parent="136">
+      <Transform Enabled="True">
+        <Position x="101.0665" y="5.525776" z="-73.56143" />
+        <Rotation x="252" y="69.00003" z="-4.390518E-05" />
+        <Scale x="5" y="5" z="3" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="5" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="3" IsTrigger="False">
+            <LocalPosition x="0" y="0" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Rock" Tag="Buildings" Id="1375" Parent="136">
+      <Transform Enabled="True">
+        <Position x="126.6542" y="5.525776" z="-65.60085" />
+        <Rotation x="252" y="69.00003" z="-4.390518E-05" />
+        <Scale x="5" y="5" z="3" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="5" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="3" IsTrigger="False">
+            <LocalPosition x="0" y="0" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Rock" Tag="Buildings" Id="1376" Parent="136">
+      <Transform Enabled="True">
+        <Position x="157.0679" y="5.525776" z="-56.25368" />
+        <Rotation x="188" y="142" z="-4.390518E-05" />
+        <Scale x="5" y="5" z="3" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="5" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="3" IsTrigger="False">
+            <LocalPosition x="0" y="0" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Rock" Tag="Buildings" Id="1377" Parent="136">
+      <Transform Enabled="True">
+        <Position x="181.6648" y="5.525776" z="-44.28339" />
+        <Rotation x="188" y="142" z="-4.390518E-05" />
+        <Scale x="5" y="5" z="3" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="44" MaterialId="31" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="5" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="3" IsTrigger="False">
+            <LocalPosition x="0" y="0" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Cactus" Tag="Buildings" Id="1378" Parent="136">
+      <Transform Enabled="True">
+        <Position x="153.5729" y="8.567432E-05" z="-88.47157" />
+        <Rotation x="5.008956E-06" y="-127" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="38" MaterialId="27" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="22.95737" IsTrigger="True">
+          <LocalPosition x="0" y="15.22829" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="2.54814E-14" y="15.22829" z="-1.331299E-06" />
+            <EdgesSize x="22.95737" y="15.22829" z="3.811388" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Building" Tag="Buildings" Id="1379" Parent="136">
+      <Transform Enabled="True">
+        <Position x="587.1632" y="0" z="-60.41499" />
+        <Rotation x="0" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="15" MaterialId="15" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="150" IsTrigger="True">
+          <LocalPosition x="50" y="0" z="50" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="-40" y="50" z="-40" />
+            <EdgesSize x="80.00001" y="100" z="80.00001" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Building" Tag="Buildings" Id="1380" Parent="136">
+      <Transform Enabled="True">
+        <Position x="978.1987" y="0" z="118.8317" />
+        <Rotation x="0" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="14" MaterialId="13" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="150" IsTrigger="True">
+          <LocalPosition x="50" y="0" z="50" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="-35" y="19.94116" z="-50.04638" />
+            <EdgesSize x="70.00001" y="40.11052" z="100" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Building" Tag="Buildings" Id="1381" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1298.942" y="0" z="114.087" />
+        <Rotation x="0" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="14" MaterialId="14" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="150" IsTrigger="True">
+          <LocalPosition x="50" y="0" z="50" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="-35" y="19.94116" z="-50.04638" />
+            <EdgesSize x="70.00001" y="40.11052" z="100" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Building" Tag="Buildings" Id="1382" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1104.927" y="0" z="114.7155" />
+        <Rotation x="0" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="13" MaterialId="12" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="150" IsTrigger="True">
+          <LocalPosition x="50" y="0" z="50" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="-15" y="28.35704" z="-15" />
+            <EdgesSize x="37.0923" y="56.74075" z="37.0923" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Building" Tag="Buildings" Id="1383" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1104.138" y="0" z="271.4828" />
+        <Rotation x="0" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="13" MaterialId="12" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="150" IsTrigger="True">
+          <LocalPosition x="50" y="0" z="50" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="-15" y="28.35704" z="-15" />
+            <EdgesSize x="37.0923" y="56.74075" z="37.0923" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Building" Tag="Buildings" Id="1384" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1446.115" y="0" z="116.7812" />
+        <Rotation x="0" y="180" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="13" MaterialId="12" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="150" IsTrigger="True">
+          <LocalPosition x="50" y="0" z="50" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="-15" y="28.35704" z="-15" />
+            <EdgesSize x="37.0923" y="56.74075" z="37.0923" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Gate_archway" Tag="Buildings" Id="444" Parent="191">
+      <Transform Enabled="True">
+        <Position x="800.61" y="0" z="-168.5181" />
+        <Rotation x="0" y="105" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="20" MaterialId="21" />
+    </GameObject>
+    <GameObject Name="Gate_1" Tag="Buildings" Id="445" Parent="191">
+      <Transform Enabled="True">
+        <Position x="855.6097" y="-6.264454E-06" z="-178.955" />
+        <Rotation x="105" y="-7.11593E-07" z="89.99998" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="18" MaterialId="19" />
+      <PBLgame.GamePlay.Translator Enabled="True" Speed="0" Time="0">
+        <Direction x="NaN" y="NaN" z="NaN" />
+      </PBLgame.GamePlay.Translator>
+    </GameObject>
+    <GameObject Name="Gate_2" Tag="Buildings" Id="446" Parent="191">
+      <Transform Enabled="True">
+        <Position x="881.401" y="2.991615E-06" z="-210.8715" />
+        <Rotation x="-107.1921" y="28.87909" z="-98.49876" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="19" MaterialId="20" />
+    </GameObject>
+    <GameObject Name="Wall" Tag="Buildings" Id="974" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1683.313" y="0" z="625.4747" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="27" MaterialId="26" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50" IsTrigger="True">
+          <LocalPosition x="2.5" y="15" z="-20" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="2.5" y="15" z="-20" />
+            <EdgesSize x="5" y="30" z="40" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Wall" Tag="Buildings" Id="448" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1646.487" y="0" z="517.6621" />
+        <Rotation x="0" y="105" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="27" MaterialId="26" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="40" y="40" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Wall" Tag="Buildings" Id="443" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1511.257" y="0" z="553.8967" />
+        <Rotation x="0" y="105" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="27" MaterialId="25" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50" IsTrigger="True">
+          <LocalPosition x="0" y="16" z="-20" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="-20" y="15.5" z="0" />
+            <EdgesSize x="40" y="40" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Wall" Tag="Buildings" Id="442" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1433.983" y="0" z="574.6023" />
+        <Rotation x="0" y="105" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="27" MaterialId="25" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="40" y="40" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Wall" Tag="Buildings" Id="447" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1607.85" y="0" z="528.0148" />
+        <Rotation x="0" y="105" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="27" MaterialId="25" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="-20" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="-20" y="15.5" z="5" />
+            <EdgesSize x="40" y="40" z="10" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Wall" Tag="Buildings" Id="441" Parent="136">
+      <Transform Enabled="True">
+        <Position x="1472.62" y="0" z="564.2495" />
+        <Rotation x="0" y="105" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="27" MaterialId="26" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="50" IsTrigger="True">
+          <LocalPosition x="0" y="15.5" z="0" />
+        </SphereCollider>
+        <BoxColliders>
+          <BoxCollider IsTrigger="False">
+            <LocalPosition x="0" y="15.5" z="0" />
+            <EdgesSize x="40" y="40" z="20" />
+          </BoxCollider>
+        </BoxColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Barrier" Tag="Buildings" Id="1385" Parent="136">
+      <Transform Enabled="True">
+        <Position x="734.3821" y="-0.688666" z="83.8304" />
+        <Rotation x="5.008956E-06" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15.69229" IsTrigger="True">
+          <LocalPosition x="-10" y="0.9631488" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-2" y="0.9631488" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-15" y="0.9631488" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Barrier" Tag="Buildings" Id="1386" Parent="136">
+      <Transform Enabled="True">
+        <Position x="734.3821" y="-0.688666" z="107.3594" />
+        <Rotation x="5.008956E-06" y="-90" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15.69229" IsTrigger="True">
+          <LocalPosition x="-10" y="0.9631488" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-2" y="0.9631488" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-15" y="0.9631488" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="MechaRanger001" Tag="Enemy" Id="1387">
+      <Transform Enabled="True">
+        <Position x="758.5782" y="0" z="104.0049" />
+        <Rotation x="0" y="-191" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="8" MaterialId="5" Emissive="1" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="5" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <Animator Enabled="True" />
+      <ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="0">
+        <DirectionFrom x="-0.1" y="0" z="-0.1" />
+        <DirectionTo x="0.1" y="0.1" z="0.1" />
+        <Size x="5" y="5" />
+        <Bursts>
+          <Burst When="0" HowMany="1" />
+        </Bursts>
+      </ParticleSystem>
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.EnemyRangedScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Crossbow" Tag="Weapon" Id="1388" Parent="1387">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="5" MaterialId="43" Emissive="1" />
+    </GameObject>
+    <GameObject Name="Barrier" Tag="Buildings" Id="1389" Parent="136">
+      <Transform Enabled="True">
+        <Position x="734.7823" y="-0.6886657" z="61.68634" />
+        <Rotation x="5.008956E-06" y="-149" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15.69229" IsTrigger="True">
+          <LocalPosition x="-10" y="0.9631488" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-2" y="0.9631488" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-15" y="0.9631488" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="1390" Parent="136">
+      <Transform Enabled="True">
+        <Position x="738.3039" y="6.040341E-06" z="421.4121" />
+        <Rotation x="5.008956E-06" y="303" z="0" />
+        <Scale x="5" y="5" z="5" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="43" MaterialId="30" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="10" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="4" IsTrigger="False">
+            <LocalPosition x="0" y="1.879598" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Rock" Tag="Terrain" Id="1391" Parent="136">
+      <Transform Enabled="True">
+        <Position x="616.8749" y="1.295801E-06" z="219.9212" />
+        <Rotation x="5.008956E-06" y="130" z="0" />
+        <Scale x="5" y="5" z="5" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="43" MaterialId="30" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="10" IsTrigger="True">
+          <LocalPosition x="0" y="0" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="4" IsTrigger="False">
+            <LocalPosition x="0" y="1.879598" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="MechaRanger001" Tag="Enemy" Id="1392">
+      <Transform Enabled="True">
+        <Position x="649.1616" y="0" z="-61.73244" />
+        <Rotation x="0" y="-128" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="8" MaterialId="5" Emissive="1" />
+      <Collision Enabled="True" IsRigidbody="True" IsStatic="False">
+        <SphereCollider Radius="5" IsTrigger="False">
+          <LocalPosition x="0" y="10" z="0" />
+        </SphereCollider>
+      </Collision>
+      <Animator Enabled="True" />
+      <ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="0">
+        <DirectionFrom x="-0.1" y="0" z="-0.1" />
+        <DirectionTo x="0.1" y="0.1" z="0.1" />
+        <Size x="5" y="5" />
+        <Bursts>
+          <Burst When="0" HowMany="1" />
+        </Bursts>
+      </ParticleSystem>
+      <PBLgame.Engine.Components.AIComponent Enabled="True" />
+      <PBLgame.GamePlay.EnemyRangedScript Enabled="True" />
+    </GameObject>
+    <GameObject Name="Crossbow" Tag="Weapon" Id="1393" Parent="1392">
+      <Transform Enabled="True">
+        <Position x="0" y="0" z="0" />
+        <Rotation x="0" y="0" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="5" MaterialId="43" Emissive="1" />
+    </GameObject>
+    <GameObject Name="Barrier" Tag="Buildings" Id="1394" Parent="136">
+      <Transform Enabled="True">
+        <Position x="585.2125" y="-0.6886782" z="-111.4629" />
+        <Rotation x="5.008956E-06" y="-171" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15.69229" IsTrigger="True">
+          <LocalPosition x="-10" y="0.9631488" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-2" y="0.9631488" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-15" y="0.9631488" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Barrier" Tag="Buildings" Id="1395" Parent="136">
+      <Transform Enabled="True">
+        <Position x="615.734" y="-0.688678" z="-115.4478" />
+        <Rotation x="5.008956E-06" y="-192" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15.69229" IsTrigger="True">
+          <LocalPosition x="-10" y="0.9631488" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-2" y="0.9631488" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-15" y="0.9631488" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Barrier" Tag="Buildings" Id="1396" Parent="136">
+      <Transform Enabled="True">
+        <Position x="646.7797" y="-0.688678" z="-109.348" />
+        <Rotation x="5.008956E-06" y="-177" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15.69229" IsTrigger="True">
+          <LocalPosition x="-10" y="0.9631488" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-2" y="0.9631488" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-15" y="0.9631488" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Barrier" Tag="Buildings" Id="1397" Parent="136">
+      <Transform Enabled="True">
+        <Position x="676.1484" y="-0.688678" z="-110.8872" />
+        <Rotation x="5.008956E-06" y="-196" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15.69229" IsTrigger="True">
+          <LocalPosition x="-10" y="0.9631488" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-2" y="0.9631488" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-15" y="0.9631488" z="0" />
+          </SphereCollider>
+        </SphereColliders>
+      </Collision>
+    </GameObject>
+    <GameObject Name="Barrier" Tag="Buildings" Id="1398" Parent="136">
+      <Transform Enabled="True">
+        <Position x="703.8585" y="-0.688678" z="-102.9415" />
+        <Rotation x="5.008956E-06" y="-226" z="0" />
+        <Scale x="1" y="1" z="1" />
+      </Transform>
+      <Renderer Enabled="True" MeshId="10" MaterialId="9" />
+      <Collision Enabled="True" IsRigidbody="False" IsStatic="True">
+        <SphereCollider Radius="15.69229" IsTrigger="True">
+          <LocalPosition x="-10" y="0.9631488" z="0" />
+        </SphereCollider>
+        <SphereColliders>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-2" y="0.9631488" z="0" />
+          </SphereCollider>
+          <SphereCollider Radius="6" IsTrigger="False">
+            <LocalPosition x="-15" y="0.9631488" z="0" />
+          </SphereCollider>
+        </SphereColliders>
       </Collision>
     </GameObject>
   </GameObjects>
