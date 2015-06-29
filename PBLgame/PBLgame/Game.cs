@@ -129,6 +129,7 @@ namespace PBLgame
             _realIntro = new Intro();
             _realIntro.OnIntroFinished += OnIntroFinished;
             _realIntro.Load();
+            _realIntro.CurrentWindowSize = new Vector2(ResolutionX, ResolutionY);
             //intro.Start();
             _activeScene = new BaseScene();
             _loadedScene = new Scene();
@@ -184,7 +185,7 @@ namespace PBLgame
         private void OnIntroIntroFinished(object sender, EventArgs eventArgs)
         {
             _activeScreenSystem = _realIntro;
-            _realIntro.Start();
+            _realIntro.Start(Time);
         }
         private void OnIntroFinished(object sender, EventArgs eventArgs)
         {

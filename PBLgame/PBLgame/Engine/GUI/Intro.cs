@@ -57,12 +57,13 @@ namespace PBLgame.Engine.GUI
             _scenes = new List<IntroScene>();
         }
 
-        public void Start()
+        public void Start(GameTime time)
         {
             if(_scenes != null && _scenes.Count != 0)
             {
                 _currentScene = _scenes.GetEnumerator();
                 _currentScene.MoveNext();
+                _lastChangeTime = time.TotalGameTime;
                 InputManager.Instance.OnButton += OnButtonClick;
             }
         }
