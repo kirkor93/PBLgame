@@ -137,7 +137,7 @@ namespace PBLgame.GamePlay
                         if (_pushTimer > 1.0f)
                         {
                             _pushed = false;
-                            _attackTimer = _attackDelay + 1.0f;
+                            _attackTimer = float.MaxValue;
                             Attack();
                         }
                     }
