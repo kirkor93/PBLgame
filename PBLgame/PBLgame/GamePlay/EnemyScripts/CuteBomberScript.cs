@@ -63,6 +63,7 @@ namespace PBLgame.GamePlay
         protected override void MakeDead(PlayerScript player)
         {
             if (player != null) player.Stats.Experience.Increase(100);
+            gameObject.GetComponent<ParticleSystem>().Triggered = true;
             _attackTriggerObject.Enabled = false;
             _fieldOfView.Enabled = false;
             gameObject.renderer.Enabled = false;
