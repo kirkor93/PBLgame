@@ -6,6 +6,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using PBLgame.Engine.Singleton;
 
 namespace PBLgame.GamePlay
 {
@@ -22,6 +24,7 @@ namespace PBLgame.GamePlay
             VideoRectangle = rect;
             MyVideo = vid;
             MyVideoPlayer = play;
+            InputManager.Instance.OnButton += OnButtonClick;
         }
 
         public VideoHandler()
@@ -29,6 +32,7 @@ namespace PBLgame.GamePlay
             VideoRectangle = new Rectangle();
             MyVideo = null;
             MyVideoPlayer = new VideoPlayer();
+            InputManager.Instance.OnButton += OnButtonClick;
         }
 
         public void StartVideo()
@@ -46,9 +50,26 @@ namespace PBLgame.GamePlay
             if (MyVideoPlayer.State == MediaState.Stopped)
             {
                 MyVideoPlayer.Stop();
+                InputManager.Instance.OnButton -= OnButtonClick;
                 OnVideoFinished(this, new EventArgs());
             }
             MyVideoPlayer.Play(MyVideo);
+        }
+
+
+        private void OnButtonClick(object sender, ButtonArgs buttonArgs)
+        {
+            if (!buttonArgs.IsDown)
+            {
+                return;
+            }
+
+            if(buttonArgs.ButtonName == Buttons.B)
+            {
+                MyVideoPlayer.Stop();
+                InputManager.Instance.OnButton -= OnButtonClick;
+                OnVideoFinished(this, new EventArgs());
+            }
         }
     }
 }
