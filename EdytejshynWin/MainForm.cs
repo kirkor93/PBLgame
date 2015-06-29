@@ -23,7 +23,7 @@ namespace Edytejshyn
     {
 
         #region Variables
-        private readonly string _appName = "Edytejszyn (Build " + Assembly.GetExecutingAssembly().GetName().Version + ")";
+        private readonly string _appName = Assembly.GetExecutingAssembly().GetName().Name + " (Build " + Assembly.GetExecutingAssembly().GetName().Version + ")";
         private OpenFileDialog _openContentDialog, _openSceneDialog;
         private SaveFileDialog _saveContentDialog, _saveSceneDialog;
         private GridSnapDialog _gridSnapDialog;

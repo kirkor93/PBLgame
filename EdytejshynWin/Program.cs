@@ -85,7 +85,7 @@ namespace Edytejshyn
 
         private static void ShowUsage()
         {
-            MessageBox.Show("Usage: Edytejszyn [OPTIONS]\n" +
+            MessageBox.Show("Usage: Edytejshyn [OPTIONS]\n" +
                             "Possible options:\n" +
                             "  -h, --help           show this help\n" +
                             "  -c, --content FILE \topen content from given FILE\n" +

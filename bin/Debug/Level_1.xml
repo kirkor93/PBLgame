@@ -13205,7 +13205,7 @@
       <PointLight Attenuation="100" FallOff="50" />
     </Light>
     <Light Type="Point" HasShadow="False">
-      <Color r="0.6" g="0.6" b="1" a="0.6" />
+      <Color r="0.6" g="0.6" b="1" a="0.7" />
       <GameObject Name="Ace of light" Tag="Light" Id="610" Parent="613">
         <Transform Enabled="True">
           <Position x="0" y="0" z="0" />
@@ -13213,7 +13213,7 @@
           <Scale x="1" y="1" z="1" />
         </Transform>
       </GameObject>
-      <PointLight Attenuation="120" FallOff="10" />
+      <PointLight Attenuation="100" FallOff="2" />
     </Light>
     <Light Type="Point" HasShadow="False">
       <Color r="0.6" g="0.6" b="1" a="0.6" />

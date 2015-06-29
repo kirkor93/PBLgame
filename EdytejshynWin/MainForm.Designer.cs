@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("[No colllision component]");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("[No colllision component]");
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.sceneMenuBar = new System.Windows.Forms.ToolStripMenuItem();
             this.openMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -494,13 +492,6 @@
             this.collisionTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.collisionTreeView.Location = new System.Drawing.Point(0, 0);
             this.collisionTreeView.Name = "collisionTreeView";
-            treeNode1.Name = "";
-            treeNode1.Text = "[No colllision component]";
-            treeNode2.Name = "";
-            treeNode2.Text = "[No colllision component]";
-            this.collisionTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
             this.collisionTreeView.Size = new System.Drawing.Size(200, 195);
             this.collisionTreeView.TabIndex = 0;
             this.collisionTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.CollisionTreeView_AfterSelect);
