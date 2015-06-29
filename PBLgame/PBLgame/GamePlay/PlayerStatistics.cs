@@ -98,7 +98,7 @@ namespace PBLgame.GamePlay
             if (Value >= MaxValue)
             {
                 Value %= MaxValue;
-                MaxValue += 50;
+                MaxValue += 100;
                 if (OnLevelUp != null)
                 {
                     OnLevelUp(this, EventArgs.Empty);
@@ -159,6 +159,8 @@ namespace PBLgame.GamePlay
         private void OnLevelUp(object sender, EventArgs eventArgs)
         {
             TalentPoints.Increase(1);
+            Health.Increase((int) (Health.MaxValue*0.5f));
+            Energy.Increase((int) (Energy.MaxValue*0.5f));
         }
 
         public override string ToString()

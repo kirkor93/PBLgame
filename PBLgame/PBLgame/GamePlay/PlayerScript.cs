@@ -169,7 +169,7 @@ namespace PBLgame.GamePlay
         public override void Initialize(bool editor)
         {
             base.Initialize(editor);
-            Stats = new PlayerStatistics(200, 300, 100);
+            Stats = new PlayerStatistics(200, 300, 110);
             if (editor)
             {
             }
