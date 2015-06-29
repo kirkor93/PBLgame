@@ -172,6 +172,15 @@ namespace PBLgame.GamePlay
                                 gameObject.animator.Attack();
                                 _attackFlag = true;
                                 _affectDMGTimer = 0.0f;
+                                float distanceMulti = Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) / AttackRange;
+                                gameObject.audioSource.Play("MechaRangerShot");
+                                _attackTriggerObject.collision.UpdateDisablePositions();             
+                                ParticleSystem sys = (ParticleSystem)gameObject.particleSystem;
+                                sys.LifeTimeLimit = _basicLifeTime * distanceMulti;
+                                sys.DirectionFrom = LookVector;
+                                sys.DirectionTo = LookVector;
+                                sys.Enabled = true;
+                                sys.Triggered = true;
                             }
                             if(_attackFlag)
                             {
@@ -201,18 +210,10 @@ namespace PBLgame.GamePlay
 
         private void Attack(GameTime gameTime)
         {
-            _affectDMGTimer += gameTime.ElapsedGameTime.Milliseconds;
-            if (_affectDMGTimer > _affectDMGDelay)
+            _affectDMGTimer += gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+            float distanceMulti = Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) / AttackRange;
+            if (_affectDMGTimer > _basicLifeTime * distanceMulti)
             {
-                gameObject.audioSource.Play("MechaRangerShot");
-                float distanceMulti = Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) / AttackRange;
-                _attackTriggerObject.collision.UpdateDisablePositions();
-                ParticleSystem sys = (ParticleSystem) gameObject.particleSystem;
-                sys.LifeTimeLimit = _basicLifeTime * distanceMulti;
-                sys.DirectionFrom = LookVector;
-                sys.DirectionTo = LookVector;
-                sys.Enabled = true;
-                sys.Triggered = true;
                 _attackTriggerObject.collision.Enabled = true;
                 foreach (GameObject go in PhysicsSystem.CollisionObjects)
                 {

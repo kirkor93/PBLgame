@@ -118,7 +118,6 @@ namespace PBLgame.GamePlay
                 String tag = args.EnemyCollider.Owner.gameObject.Tag; 
                 if (!args.EnemyCollider.Trigger && tag != "FOV" && tag != "EnemyWeapon" && tag != "EnemyWeaponCB" && tag != "Enemy" && tag != "Weapon" && tag != "Player" && tag != "Potion")
                 {
-                    Console.WriteLine(tag);
                     Activated = false;
                 }
             }
