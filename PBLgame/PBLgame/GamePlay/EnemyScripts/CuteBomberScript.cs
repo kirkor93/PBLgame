@@ -194,7 +194,7 @@ namespace PBLgame.GamePlay
             _chaseStartPosition = gameObject.transform.Position;
         }
 
-        private void StandStill()
+        protected override void StandStill()
         {
             _currentAction = MeleeAction.Stay;
         }

@@ -14,7 +14,7 @@ namespace PBLgame.GamePlay
         #region Variables
         private float _destAngle;
         private Vector3 _lookVector;
-        private Avatar _avatar;
+        protected Avatar _avatar;
 
         #endregion
 

@@ -10,6 +10,7 @@ namespace PBLgame.GamePlay
     public abstract class Avatar
     {
         protected Animator _animator;
+        protected AnimationClip _ouch;
 
         protected Avatar(Animator animator)
         {
@@ -18,13 +19,23 @@ namespace PBLgame.GamePlay
 
         public static Avatar CreateAvatar(Animator animator)
         {
-            if(animator == null) return new StillAvatar();
+            Avatar avatar = PrepareAvatar(animator);
+            if (animator == null) return avatar;
 
-            AnimationClip idle    = animator.GetClip("Idle");
+            avatar._ouch = animator.GetClip("Ouch");
+
+            return avatar;
+        }
+
+        private static Avatar PrepareAvatar(Animator animator)
+        {
+            if (animator == null) return new StillAvatar();
+
+            AnimationClip idle = animator.GetClip("Idle");
             AnimationClip forward = animator.GetClip("Walk");
-            AnimationClip back    = animator.GetClip("WalkBack");
-            AnimationClip left    = animator.GetClip("WalkLeft");
-            AnimationClip right   = animator.GetClip("WalkRight");
+            AnimationClip back = animator.GetClip("WalkBack");
+            AnimationClip left = animator.GetClip("WalkLeft");
+            AnimationClip right = animator.GetClip("WalkRight");
 
             if (idle == null) return new StillAvatar();
             if (forward == null) return new IdleAvatar(animator, idle);
@@ -33,8 +44,24 @@ namespace PBLgame.GamePlay
             return new QuadAvatar(animator, idle, forward, back, left, right);
         }
 
+
         public virtual void Update(Vector2 velocity, float lookAngle)
         {
+        }
+
+        public virtual void Ouch(Action onFinish = null)
+        {
+            if (_ouch == null)
+            {
+                if (onFinish != null) onFinish();
+                return;
+            }
+            _animator.PlayAnimation(_ouch, false, 1f, 0.2f);
+            _animator.OnAnimationFinish += delegate
+            {
+                _animator.Idle();
+                if (onFinish != null) onFinish();
+            };
         }
     }
 
@@ -51,10 +78,8 @@ namespace PBLgame.GamePlay
 
     public class StillAvatar : Avatar
     {
-        public StillAvatar() : base(null)
-        { }
-
-        public override void Update(Vector2 velocity, float lookAngle) {}
+        public StillAvatar() : base(null) { }
+        public override void Update(Vector2 velocity, float lookAngle) { }
     }
 
 

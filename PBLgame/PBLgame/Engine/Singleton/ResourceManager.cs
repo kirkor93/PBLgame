@@ -349,9 +349,38 @@ namespace PBLgame.Engine.Singleton
             // join animated meshes with skeletons
             foreach (KeyValuePair<AnimatedMesh, int> pair in _meshSkeletons)
             {
-                pair.Key.Skeleton = Skeletons[pair.Value];
+                AnimatedMesh mesh = pair.Key;
+                int skeletonID = pair.Value;
+                mesh.Skeleton = Skeletons[skeletonID];
+                //CheckBonesInSkeleton(mesh);
             }
         }
+
+        /// <summary>
+        /// Checks if bones from all clips fit mesh skeleton.
+        /// </summary>
+        /// <param name="mesh"></param>
+        //private void CheckBonesInSkeleton(AnimatedMesh mesh)
+        //{
+        //    Skeleton skeleton = mesh.Skeleton;
+        //    foreach (AnimationClip clip in skeleton.Clips)
+        //    {
+        //        int b;
+        //        for (b = 0; b < mesh.Bones.Count && b < clip.Bones.Count; b++)
+        //        {
+        //            if (clip.Bones[b].Name != mesh.Bones[b].Name)
+        //            {
+        //                // find appropriate bone or create dummy
+        //            }
+        //        }
+        //        while(clip.Bones.Count < b)
+        //        {
+        //            var dummyBone = new AnimationClip.Bone();
+        //            dummyBone.Name = 
+        //            clip.Bones.Add();
+        //        }
+        //    }
+        //}
 
         private void AddSkeletonAnimation(int id, AnimationClip animation)
         {

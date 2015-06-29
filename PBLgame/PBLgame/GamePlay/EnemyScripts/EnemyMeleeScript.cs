@@ -189,7 +189,7 @@ namespace PBLgame.GamePlay
             _currentAction = MeleeAction.Chase;
         }
 
-        private void StandStill()
+        protected override void StandStill()
         {
             _currentAction = MeleeAction.Stay;
         }
@@ -205,7 +205,7 @@ namespace PBLgame.GamePlay
             Chase = 0,
             Attack,
             Escape,
-            Stay
+            Stay,
         }
     }
 

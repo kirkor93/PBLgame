@@ -117,7 +117,6 @@ namespace PBLgame.GamePlay
                 {
                     switch (_currentAction)
                     {
-                        // TODO fix border points b/w attack & idle - now is flickering
                         case RangeAction.EscapeNAttack:
                             {
                                 dir = gameObject.transform.Position - AISystem.Player.transform.Position;
@@ -185,7 +184,7 @@ namespace PBLgame.GamePlay
             {
                 float distanceMulti = Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) / AttackRange;
                 _attackTriggerObject.collision.UpdateDisablePositions();
-                ParticleSystem sys = gameObject.GetComponent<ParticleSystem>();
+                ParticleSystem sys = (ParticleSystem) gameObject.particleSystem;
                 sys.LifeTimeLimit = _basicLifeTime * distanceMulti;
                 sys.DirectionFrom = LookVector;
                 sys.DirectionTo = LookVector;
@@ -259,7 +258,7 @@ namespace PBLgame.GamePlay
             _currentAction = RangeAction.Chase;
         }
 
-        private void StandStill()
+        protected override void StandStill()
         {
             _currentAction = RangeAction.Stay;
         }
