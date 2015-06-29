@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using PBLgame.Engine;
 using PBLgame.Engine.Components;
@@ -64,6 +65,11 @@ namespace PBLgame.GamePlay
         private float _shieldManaTimer;
         private PostponeBuffer _postponeBuffer = new PostponeBuffer();
         private bool _goDown;
+        private const string _swipeSound = "SwordSwipe";
+        private const string _bananaSwipeSound = "BananaSwipe";
+        private const string _pushSound = "Push";
+        private const string _hitSound = "SwordHit";
+
         #endregion
         #endregion
 
@@ -126,6 +132,7 @@ namespace PBLgame.GamePlay
                 gameObject.collision.OnTrigger += GetHit;
                 gameObject.collision.OnTrigger += OnGateTrigger;
             }
+            
         }
 
         private void OnGateTrigger(object sender, ColArgs colArgs)
@@ -138,6 +145,11 @@ namespace PBLgame.GamePlay
                 {
                     t.IsTriggered = true;
                 }
+                AudioSource audio = boxCollider.Owner.gameObject.audioSource;
+                if (audio != null)
+                {
+                    audio.Play(0);
+                }
             }
         }
 
@@ -149,6 +161,8 @@ namespace PBLgame.GamePlay
                 EnemyScript enemy = obj.GetComponent<EnemyScript>();
                 if (enemy != null)
                 {
+                    Console.WriteLine("Here");
+                    gameObject.audioSource.Play(enemy.GetHitSound());
                     if(_shieldActive)
                     {
                         Stats.Health.Decrease(enemy.DMG * (100 - Stats.ShieldAbsorption.Value)/100);
@@ -368,24 +382,41 @@ namespace PBLgame.GamePlay
             _postponeBuffer.SetTranslation(new MoveArgs(new Vector2(UnitVelocity.X, -UnitVelocity.Y)));
             UnitVelocity = Vector2.Zero;
 
+            switch (attackType)
+            {
+                case AttackType.Quick:
+                    gameObject.audioSource.Play(_swipeSound);
+                    break;
+
+
+            }
             gameObject.animator.Attack(attackType.ToString());
             gameObject.animator.OnAnimationFinish += () => Locked = false;
             gameObject.animator.OnTrigger += delegate
             {
+
                 _attackTriggerObject.transform.Position = _baseAttackSpherePostion;
                 _attackTriggerObject.collision.MainCollider.Radius = _baseAttackSphereRadius;
-                if(AttackEnum == AttackType.Strong)
+                switch (AttackEnum)
                 {
-                    _attackTriggerObject.transform.Position = new Vector3(11.0f, 10.0f, 0.0f);
-                    _attackTriggerObject.collision.MainCollider.Radius = 14.5f;
-                    _attackTriggerObject.collision.UpdateDisablePositions();
-                    StrongParticle.Enabled = true;
-                    StrongParticle.Triggered = true;
-                }
-                else if(AttackEnum == AttackType.Push)
-                {
-                    _attackTriggerObject.collision.MainCollider.Radius = 12.0f;
-                    _attackTriggerObject.collision.UpdateDisablePositions();
+                    case AttackType.Strong:
+                        _attackTriggerObject.transform.Position = new Vector3(11.0f, 10.0f, 0.0f);
+                        _attackTriggerObject.collision.MainCollider.Radius = 14.5f;
+                        _attackTriggerObject.collision.UpdateDisablePositions();
+                        StrongParticle.Enabled = true;
+                        StrongParticle.Triggered = true;
+                        break;
+                    
+                    case AttackType.Push:
+                        _attackTriggerObject.collision.MainCollider.Radius = 12.0f;
+                        _attackTriggerObject.collision.UpdateDisablePositions();
+                        gameObject.audioSource.Play(_pushSound);
+                        break;
+
+                    case AttackType.Ion:
+                        //gameObject.audioSource.Play(_bananaSwipeSound);
+                        gameObject.audioSource.Play("BananaShot");
+                        break;
                 }
                 _attackTriggerObject.collision.Enabled = true;
                 foreach (GameObject go in PhysicsSystem.CollisionObjects)
@@ -426,6 +457,16 @@ namespace PBLgame.GamePlay
             return new PlayerScript(newOwner);
         }
         #endregion
+
+        public string GetHitSound(AttackType type)
+        {
+            switch (type)
+            {
+                case AttackType.Quick: return _hitSound;
+                case AttackType.Ion: return "IonShock";
+            }
+            return null;
+        }
     }
 
     public enum AttackType

@@ -78,6 +78,7 @@ namespace PBLgame.GamePlay
         {
             if (player != null) player.Stats.Experience.Increase(100);
             gameObject.GetComponent<ParticleSystem>().Triggered = true;
+            gameObject.audioSource.Play("CuteExplode");
             _attackTriggerObject.Enabled = false;
             _fieldOfView.Enabled = false;
             gameObject.renderer.Enabled = false;

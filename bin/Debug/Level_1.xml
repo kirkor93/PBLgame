@@ -217,6 +217,7 @@
           </BoxCollider>
         </BoxColliders>
       </Collision>
+	  <AudioSource Enabled="True" Cue="GateOpen" />
       <PBLgame.GamePlay.Translator Enabled="True" Speed="0.4" Time="1">
         <Direction x="0" y="0" z="-1" />
       </PBLgame.GamePlay.Translator>

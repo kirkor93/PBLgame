@@ -204,6 +204,7 @@ namespace PBLgame.GamePlay
             _affectDMGTimer += gameTime.ElapsedGameTime.Milliseconds;
             if (_affectDMGTimer > _affectDMGDelay)
             {
+                gameObject.audioSource.Play("MechaRangerShot");
                 float distanceMulti = Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) / AttackRange;
                 _attackTriggerObject.collision.UpdateDisablePositions();
                 ParticleSystem sys = (ParticleSystem) gameObject.particleSystem;
@@ -235,6 +236,11 @@ namespace PBLgame.GamePlay
         {
             return new EnemyRangedScript(newOwner);
         }
+
+        //public override string GetHitSound()
+        //{
+        //    return "IonShock";
+        //}
 
         private bool EnemyClose()
         {

@@ -180,6 +180,11 @@ namespace PBLgame.GamePlay
             return new EnemyMeleeScript(newOwner);
         }
 
+        public override string GetHitSound()
+        {
+            return "SwordHit";
+        }
+
         private bool EnemyClose()
         {
             if (Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) < 130.0f)

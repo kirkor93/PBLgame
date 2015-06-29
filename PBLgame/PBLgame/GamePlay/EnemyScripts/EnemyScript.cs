@@ -161,6 +161,7 @@ namespace PBLgame.GamePlay
                             }
                             break;
                     }
+                    gameObject.audioSource.Play(player.GetHitSound(player.AttackEnum));
                     player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                     player.LastTargetedEnemyName = _name;
                     _avatar.Ouch(EnableAI);
@@ -220,5 +221,9 @@ namespace PBLgame.GamePlay
 
         protected abstract void StandStill();
 
+        public virtual string GetHitSound()
+        {
+            return null;
+        }
     }
 }

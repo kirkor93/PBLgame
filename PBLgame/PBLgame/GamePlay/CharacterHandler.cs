@@ -46,6 +46,7 @@ namespace PBLgame.GamePlay
             RotationSpeed = 360.0f;
             _destAngle = _gameObject.transform.Rotation.Y;
             _lookVector = new Vector3();
+            _gameObject.audioSource = new AudioSource(_gameObject);
         }
 
         public override void Update(GameTime gameTime)
@@ -134,6 +135,7 @@ namespace PBLgame.GamePlay
             {
                 slot.Attachment.renderer.EmissiveValue = 0f;
             }
+            gameObject.audioSource.Play("RobotDeath");
             gameObject.animator.Death();
             gameObject.collision.Enabled = false;
             gameObject.animator.OnAnimationFinish += delegate
