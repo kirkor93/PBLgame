@@ -42,7 +42,7 @@ namespace PBLgame.GamePlay
 
             _attackTriggerObject.Tag = "EnemyWeaponCB";
 
-            _dmg = 10;
+            _dmg = 50;
             #region DecisionTree & AiComponentInitialize
 
             _distanceNode.DecisionEvent += EnemyClose;

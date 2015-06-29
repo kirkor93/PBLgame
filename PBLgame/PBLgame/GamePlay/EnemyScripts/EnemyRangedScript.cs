@@ -38,7 +38,7 @@ namespace PBLgame.GamePlay
         #endregion
         #endregion
         #region Methods
-        public EnemyRangedScript(GameObject owner) : base(owner, 100)
+        public EnemyRangedScript(GameObject owner) : base(owner, 200)
         {
             _name = "Mecha Ranger";
             SetupScript(new Vector3(AttackRange, 10.0f, 0.0f), 5.0f);
@@ -46,9 +46,9 @@ namespace PBLgame.GamePlay
             _attackTimer = 1000;
             _attackDelay = 2500;
             _affectDMGDelay = 600.0f;
-            _hpEscapeValue = 15;
+            _hpEscapeValue = 35;
 
-            _dmg = 7;
+            _dmg = 25;
 
             #region DecisionTree & AiComponentInitialize
 

@@ -50,16 +50,16 @@ namespace PBLgame.GamePlay
             if (_pushed) _previousAction = _currentAction;
         }
         
-        public EnemyMeleeScript(GameObject owner) : base(owner, 100)
+        public EnemyMeleeScript(GameObject owner) : base(owner, 300)
         {
             _name = "Smart Droid";
             SetupScript(new Vector3(15.0f, 10.0f, 0.0f), 5.0f);
             ChaseSpeed = 0.006f;
-            _attackTimer = 2000;
-            _attackDelay = 2500;
+            _attackTimer = 500;
+            _attackDelay = 800;
             _affectDMGDelay = 500.0f;
-            _hpEscapeValue = 15;
-            _dmg = 8;
+            _hpEscapeValue = 35;
+            _dmg = 15;
             #region DecisionTree & AiComponentInitialize
 
             _distanceNode.DecisionEvent += EnemyClose;

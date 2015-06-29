@@ -32,7 +32,7 @@ namespace PBLgame.GamePlay
         #endregion
 
         #region Methods
-        public NJChuckScript(GameObject owner) : base(owner, 400)
+        public NJChuckScript(GameObject owner) : base(owner, 1000)
         {
             _name = "NJ Chuck";
             SetupScript(new Vector3(15.0f, 10.0f, 0.0f), 5.0f);
@@ -40,7 +40,7 @@ namespace PBLgame.GamePlay
             _attackTimer = 2000;
             _attackDelay = 2500;
             _affectDMGDelay = 500.0f;
-            _hpEscapeValue = 15;
+            _hpEscapeValue = 70;
 
             _dmg = 20;
             
