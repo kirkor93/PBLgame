@@ -238,19 +238,6 @@ namespace PBLgame.Engine.Components
             OnTrigger = null;
         }
 
-        public void Walk(float velocity)
-        {
-            if (_currentType == AnimationType.Walk)
-            {
-                Speed = velocity;
-            }
-            else
-            {
-                _currentType = AnimationType.Walk;
-                PlayAnimation(AnimMesh.Skeleton.Walk, true, velocity);
-            }
-        }
-
         public void Idle()
         {
             if (_currentType != AnimationType.Idle)
@@ -294,7 +281,7 @@ namespace PBLgame.Engine.Components
 
         public enum AnimationType
         {
-            Idle, Walk, Other,
+            Idle, Other,
             Attack,
             Death
         }

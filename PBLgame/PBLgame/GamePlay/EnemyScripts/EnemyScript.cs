@@ -163,6 +163,9 @@ namespace PBLgame.GamePlay
                     }
                     player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                     player.LastTargetedEnemyName = _name;
+                    _avatar.Ouch(EnableAI);
+                    DisableAI();
+                    StandStill();
                 }
                 else if(cute != null)
                 {
@@ -173,6 +176,9 @@ namespace PBLgame.GamePlay
                     _pushValue.Y = 0.0f;
                     _pushed = true;
                     _pushTimer = -0.3f;
+                    _avatar.Ouch(EnableAI);
+                    DisableAI();
+                    StandStill();
                 }
             }
             if (HP <= 0 && !Dead)
@@ -180,7 +186,17 @@ namespace PBLgame.GamePlay
                 MakeDead(AISystem.Player.GetComponent<PlayerScript>());
             }
         }
-        
+
+        protected void EnableAI()
+        {
+            AIComponent.Enabled = true;
+        }
+
+        protected void DisableAI()
+        {
+            AIComponent.Enabled = false;
+        }
+
         protected override void MakeDead(PlayerScript player)
         {
             AIComponent.Enabled = false;
@@ -201,5 +217,8 @@ namespace PBLgame.GamePlay
         {
             return _hp > _hpEscapeValue;
         }
+
+        protected abstract void StandStill();
+
     }
 }

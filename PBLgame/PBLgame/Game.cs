@@ -29,6 +29,13 @@ namespace PBLgame
 
         public GameTime Time { get; private set; }
 
+        private bool _startRealIntro = false;
+        private Video _intro;
+        public VideoPlayer videoPlayer = new VideoPlayer();
+        public Rectangle _videoRectangle;
+
+        public Intro _realIntro = new Intro();
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -45,9 +52,9 @@ namespace PBLgame
         private const int ResolutionY = 720;
         private const bool FullScreenEnabled = false;
 
-//        private const int ResolutionX = 1920;
-//        private const int ResolutionY = 1080;
-//        private const bool FullScreenEnabled = true;
+        //private const int ResolutionX = 1920;
+        //private const int ResolutionY = 1080;
+        //private const bool FullScreenEnabled = true;
 
         //Sounds tetin
         AudioEngine _audioEngine; //Has to be in final version
@@ -108,18 +115,24 @@ namespace PBLgame
 
             //For Teting-----------------------
 
+            _intro = Content.Load<Video>(@"Video\Gra_wstep");
+
+
+            //_videoRectangle = new Rectangle(ResolutionX / 2 - _intro.Width / 2, ResolutionY / 2 - _intro.Height / 2, _intro.Width, _intro.Height);
+            _videoRectangle = new Rectangle(0,0,ResolutionX,ResolutionY);
+
             ResourceManager.Instance.LoadContent();
             ResourceManager.Instance.AssignAudioBank(_soundBank);
 
+            
             _hud = new HUD();
             _hud.Load();
             _hud.CurrentWindowSize = new Vector2(ResolutionX, ResolutionY);
-            Intro intro = new Intro();
-            intro.OnIntroFinished += OnIntroFinished;
-            _activeScreenSystem = intro;
-            intro.Load();
-            intro.CurrentWindowSize = new Vector2(ResolutionX, ResolutionY);
-            intro.Start();
+            _realIntro = new Intro();
+            _realIntro.OnIntroFinished += OnIntroFinished;
+            _activeScreenSystem = _realIntro;
+            _realIntro.Load();
+            //intro.Start();
             _activeScene = new BaseScene();
             _loadedScene = new Scene();
             _loadedScene.Load(@"Level_1.xml");
@@ -167,6 +180,8 @@ namespace PBLgame
             player.GetComponent<PlayerScript>().ShieldParticle = _loadedScene.FindGameObject(1369).GetComponent<ParticleSystem>();
             _loadedScene.FindGameObject(1369).GetComponent<ParticleSystem>().Static = false;
 
+
+            videoPlayer.Play(_intro);
             //_loadedScene.Save(@"Level_1.xml");
             //OnIntroFinished(null, null);
         }
@@ -194,25 +209,41 @@ namespace PBLgame
         protected override void Update(GameTime gameTime)
         {
             Time = gameTime;
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-            
-            InputManager.Instance.Update(gameTime);
-
-            _activeScene.Update(gameTime);
-            _activeScreenSystem.Update(gameTime);
-            
-
-            _audioEngine.Update(); //Have to be in final version
-
-            _elapsedTime += gameTime.ElapsedGameTime;
-            if (_elapsedTime > TimeSpan.FromSeconds(1))
+         
+            if(!_startRealIntro)
             {
-                _elapsedTime -= TimeSpan.FromSeconds(1);
-                Window.Title = string.Format("{0}: {1} fps", _windowTitle, _frames);
-                _frames = 0;
+                if(videoPlayer.State == MediaState.Stopped)
+                {
+                    videoPlayer.Stop();
+                    _startRealIntro = true;
+                    _realIntro.Start();
+                    return;
+                }
+                videoPlayer.Play(_intro);
             }
+            else
+            {
+                // Allows the game to exit
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                    this.Exit();
+            
+                InputManager.Instance.Update(gameTime);
+
+                _activeScene.Update(gameTime);
+                _activeScreenSystem.Update(gameTime);
+            
+
+                _audioEngine.Update(); //Have to be in final version
+
+                _elapsedTime += gameTime.ElapsedGameTime;
+                if (_elapsedTime > TimeSpan.FromSeconds(1))
+                {
+                    _elapsedTime -= TimeSpan.FromSeconds(1);
+                    Window.Title = string.Format("{0}: {1} fps", _windowTitle, _frames);
+                    _frames = 0;
+                }
+
+           }
 
             base.Update(gameTime);
         }
@@ -223,22 +254,31 @@ namespace PBLgame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+
             _frames++;
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            //For Teting----------------
-            //---------------------
-            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            if(!_startRealIntro)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(videoPlayer.GetTexture(), _videoRectangle,Color.AntiqueWhite);
+                spriteBatch.End(); 
+            }
+            else
+            {
+                GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
-            _activeScene.Draw(gameTime);
+                _activeScene.Draw(gameTime);
 
-            base.Draw(gameTime);
-            spriteBatch.Begin();
+            
 
-            _activeScreenSystem.Draw(spriteBatch);
+                base.Draw(gameTime);
+                spriteBatch.Begin();
 
-            spriteBatch.End();
+                _activeScreenSystem.Draw(spriteBatch);
 
+                spriteBatch.End();
+            }
         }
     }
 }

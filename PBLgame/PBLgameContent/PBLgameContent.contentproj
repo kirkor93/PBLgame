@@ -30,6 +30,12 @@
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animations\Enemies\Smart_Droid_ouch.FBX">
+      <Name>Smart_Droid_ouch</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_RotationY>90</ProcessorParameters_RotationY>
+    </Compile>
     <Compile Include="Models\Enemies\NJ.FBX">
       <Name>NJ</Name>
       <Importer>FbxImporter</Importer>
@@ -1765,6 +1771,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animations\Champions\Ace_ouch.FBX">
+      <Name>Ace_ouch</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+    </Compile>
+    <Compile Include="Animations\Enemies\Mecha_Ranger_ouch.FBX">
+      <Name>Mecha_Ranger_ouch</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimationProcessor</Processor>
+      <ProcessorParameters_RotationY>90</ProcessorParameters_RotationY>
+    </Compile>
     <None Include="Effects\Shadows.fx">
       <Name>Shadows</Name>
       <Importer>EffectImporter</Importer>
@@ -1954,6 +1971,13 @@
       <Name>Crossbow_e</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Video\Gra_wstep.wmv">
+      <Name>Gra_wstep</Name>
+      <Importer>WmvImporter</Importer>
+      <Processor>VideoProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
