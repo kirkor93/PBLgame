@@ -161,7 +161,7 @@ namespace PBLgame.GamePlay
                 EnemyScript enemy = obj.GetComponent<EnemyScript>();
                 if (enemy != null)
                 {
-                    Console.WriteLine("Here");
+                    //Console.WriteLine("Here");
                     gameObject.audioSource.Play(enemy.GetHitSound());
                     if(_shieldActive)
                     {
