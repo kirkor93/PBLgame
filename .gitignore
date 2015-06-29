@@ -41,3 +41,5 @@ AnimationData/obj/
 AnimationData/bin/
 AnimationAux/obj/x86/Debug/
 AnimationPipeline/obj/x86/Debug/
+AnimationAux/obj/x86/Release/AnimationAux.csproj.FileListAbsolute.txt
+AnimationAux/obj/x86/Release/Microsoft.Xna.Framework.RuntimeProfile.txt

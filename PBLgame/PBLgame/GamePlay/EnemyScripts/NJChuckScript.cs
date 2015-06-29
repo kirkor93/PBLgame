@@ -15,6 +15,7 @@ namespace PBLgame.GamePlay
         private string _attackType = string.Empty;
 
         private MeleeAction _currentAction = MeleeAction.Stay;
+        private MeleeAction _previousAction = MeleeAction.Stay;
         
         #endregion
         #region DTNodes
@@ -64,6 +65,25 @@ namespace PBLgame.GamePlay
             AIComponent.MyDTree.DTreeStart = _distanceNode;
             #endregion
         }
+
+        protected override void EnableAI()
+        {
+            _previousAction = _currentAction;
+            base.EnableAI();
+        }
+
+
+        protected override void DisableAI()
+        {
+            _currentAction = _previousAction;
+            base.DisableAI();
+        }
+
+        protected override void GetHitMethod(object o, ColArgs args)
+        {
+            base.GetHitMethod(o, args);
+            if (_pushed) _previousAction = _currentAction;
+        }
         
         protected override void MakeDead(PlayerScript player)
         {
@@ -90,7 +110,12 @@ namespace PBLgame.GamePlay
                         _gameObject.transform.Position += _pushValue;
                         _pushValue.X *= (1.0f - _pushTimer);
                         _pushValue.Z *= (1.0f - _pushTimer);
-                        if (_pushTimer > 1.0f) _pushed = false;
+                        if (_pushTimer > 0.6f)
+                        {
+                            _pushed = false;
+                            EnableAI();
+                            _currentAction = _previousAction;
+                        }
                     }
                 }
                 else
@@ -168,16 +193,13 @@ namespace PBLgame.GamePlay
 
         private bool EnemyClose()
         {
-            if (Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) < 100.0f)
+            if (Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) < 130.0f)
             {
-                foreach (GameObject go in PhysicsSystem.CollisionObjects)
+                if (_fieldOfView.collision.MainCollider.Contains(AISystem.Player.collision.MainCollider) != ContainmentType.Disjoint)
                 {
-                    if (_fieldOfView != go && go.collision.Enabled && _fieldOfView.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
-                    {
-                        _fieldOfView.collision.ChceckCollisionDeeper(go);
-                    }
+                    return true;
                 }
-                return _enemySeen;
+                else return false;
             }
             else return false;
         }

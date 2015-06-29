@@ -17,6 +17,7 @@ namespace PBLgame.GamePlay
 
         private MeleeAction _currentAction = MeleeAction.Stay;
 
+        private MeleeAction _previousAction = MeleeAction.Stay;
         #endregion
         #region DTNodes
 
@@ -59,6 +60,19 @@ namespace PBLgame.GamePlay
             AIComponent.MyDTree.DTreeStart = _distanceNode;
             #endregion
         }
+
+        protected override void EnableAI()
+        {
+            _previousAction = _currentAction;
+            base.EnableAI();
+        }
+
+
+        protected override void DisableAI()
+        {
+            _currentAction = _previousAction;
+            base.DisableAI();
+        }
         
         protected override void MakeDead(PlayerScript player)
         {
@@ -73,6 +87,12 @@ namespace PBLgame.GamePlay
             _hp = 0;
             
             //base.MakeDead(player); no animations here
+        }
+
+        protected override void GetHitMethod(object o, ColArgs args)
+        {
+            base.GetHitMethod(o, args);
+            if (_pushed) _previousAction = _currentAction;
         }
 
         private void Attack()

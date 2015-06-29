@@ -123,7 +123,7 @@ namespace PBLgame.GamePlay
             }
         }
 
-        protected void GetHitMethod(Object o, ColArgs args)
+        protected virtual void GetHitMethod(Object o, ColArgs args)
         {
             PlayerScript player = null;
             CuteBomberScript cute = null;
@@ -187,12 +187,12 @@ namespace PBLgame.GamePlay
             }
         }
 
-        protected void EnableAI()
+        protected virtual void EnableAI()
         {
             AIComponent.Enabled = true;
         }
 
-        protected void DisableAI()
+        protected virtual void DisableAI()
         {
             AIComponent.Enabled = false;
         }

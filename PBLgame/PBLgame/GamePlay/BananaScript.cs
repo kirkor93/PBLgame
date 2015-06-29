@@ -116,7 +116,7 @@ namespace PBLgame.GamePlay
             if (args.EnemyCollider != null)
             {
                 String tag = args.EnemyCollider.Owner.gameObject.Tag;
-                if (tag != "Terrain" && tag != "FOV" && tag != "EnemyWeapon" && tag != "Enemy" && tag != "Weapon" && tag != "Player" && tag != "Potion") Activated = false;
+                if (tag != "Terrain" && tag != "FOV" && tag != "EnemyWeapon" && tag != "EnemyWeaponCB" && tag != "Enemy" && tag != "Weapon" && tag != "Player" && tag != "Potion") Activated = false;
             }
 
         }

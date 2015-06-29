@@ -39,11 +39,14 @@ namespace PBLgame.Engine.AI
                     if(go.Enabled)
                     {
                         AIComponent comp = go.GetComponent<AIComponent>();
-                        if (comp != null && comp.Enabled) comp.MyDTree.ExecuteTree();
+                        if (comp != null && comp.Enabled)
+                        {
+                            comp.MyDTree.ExecuteTree();
+                        }
+
                     }
                 }
             }
-
         }
     }
 }

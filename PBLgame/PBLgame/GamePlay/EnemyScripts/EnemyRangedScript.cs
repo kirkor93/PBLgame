@@ -18,6 +18,7 @@ namespace PBLgame.GamePlay
         public float AttackAffectDelay;
         
         private RangeAction _currentAction = RangeAction.Stay;
+        private RangeAction _previousAction = RangeAction.Stay;
 
         private float _basicLifeTime;
 
@@ -78,6 +79,25 @@ namespace PBLgame.GamePlay
             #endregion
         }
 
+        protected override void EnableAI()
+        {
+            _previousAction = _currentAction;
+            base.EnableAI();
+        }
+
+
+        protected override void DisableAI()
+        {
+            _currentAction = _previousAction;
+            base.DisableAI();
+        }
+
+        protected override void GetHitMethod(object o, ColArgs args)
+        {
+            base.GetHitMethod(o, args);
+            if (_pushed) _previousAction = _currentAction;
+        }
+
         protected override void MakeDead(PlayerScript player)
         {
             if (player != null) player.Stats.Experience.Increase(100);
@@ -110,6 +130,8 @@ namespace PBLgame.GamePlay
                         if (_pushTimer > 1.0f)
                         {
                             _pushed = false;
+                            EnableAI();
+                            _currentAction = _previousAction;
                         }
                     }
                 }
@@ -205,7 +227,7 @@ namespace PBLgame.GamePlay
 
         public override void Draw(GameTime gameTime)
         {
-            _attackTriggerObject.Draw(gameTime);
+            _fieldOfView.collision.MainCollider.Draw();
             _fieldOfView.Draw(gameTime);
         }
 
@@ -218,16 +240,16 @@ namespace PBLgame.GamePlay
         {
             if (Vector3.Distance(gameObject.transform.Position, AISystem.Player.transform.Position) < 130.0f)
             {
-                foreach (GameObject go in PhysicsSystem.CollisionObjects)
+                if (_fieldOfView.collision.MainCollider.Contains(AISystem.Player.collision.MainCollider) != ContainmentType.Disjoint)
                 {
-                    if (_fieldOfView != go && go.collision.Enabled && _fieldOfView.collision.MainCollider.Contains(go.collision.MainCollider) != ContainmentType.Disjoint)
-                    {
-                        _fieldOfView.collision.ChceckCollisionDeeper(go);
-                    }
+                    return true;
                 }
-                return _enemySeen;
+                else return false;
             }
-            else return false;
+            else
+            {
+                return false;
+            }
         }
 
         private bool CanAtack()
