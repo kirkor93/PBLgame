@@ -39,6 +39,8 @@ namespace PBLgame.GamePlay
         protected GameObject _attackTriggerObject;
         protected GameObject _fieldOfView;
 
+        protected string _name;
+
         #endregion
         #endregion
 
@@ -160,6 +162,7 @@ namespace PBLgame.GamePlay
                             break;
                     }
                     player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
+                    player.LastTargetedEnemyName = _name;
                 }
                 else if(cute != null)
                 {

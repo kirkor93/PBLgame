@@ -163,11 +163,13 @@ namespace PBLgame.Engine.GUI
                 _playerScript.Stats.Energy.MaxValue, 0.0f, 1.0f);
             _experienceBar.FillAmount = ConvertRange(_playerScript.Stats.Experience.Value, 0.0f,
                 _playerScript.Stats.Experience.MaxValue, 0.0f, 1.0f);
-            if (_playerScript.LastTargetedEnemyHp != null)
+            if (_playerScript.LastTargetedEnemyHp != null
+                && _playerScript.LastTargetedEnemyName != null)
             {
-                _lastTargetedEnemyHpBarOutline.Enabled = _playerScript.LastTargetedEnemyHp.Value > 0;
+                _lastTargetedEnemyHpBar.Enabled = _lastTargetedEnemyHpBarOutline.Enabled = _playerScript.LastTargetedEnemyHp.Value > 0;
                 _lastTargetedEnemyHpBar.FillAmount = ConvertRange(_playerScript.LastTargetedEnemyHp.Value, 0.0f,
                     _playerScript.LastTargetedEnemyHp.MaxValue, 0.0f, 1.0f);
+                _lastTargetedEnemyHpBar.Text.Text = _playerScript.LastTargetedEnemyName;
             }
         }
 

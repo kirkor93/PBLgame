@@ -55,7 +55,7 @@
     <PBLgame.Engine.GUI.IntroScene Id="7" Name="Scene 4-1" Enabled="True" Pivot="1" Texture="Textures\Intro\scene4">
       <Position x="0" y="0" />
       <Scale x="1.4" y="1.4" />
-      <GUIText Font="Fonts\Default_small" Text="Ostatecznie ludzkość przegrała...&#xD;&#xA;Nieliczni ocalali schronili się w specjalnych bunkrach oczekując na cud...">
+      <GUIText Font="Fonts\Default_small" Text="Ostatecznie ludzkość przegrała...&#xD;&#xA;Nieliczni, którzy przetwali schronili się w specjalnych bunkrach oczekując na cud...">
         <LocalPosition x="0" y="0" />
       </GUIText>
       <IntroScene Length="8" FirstScene="True">

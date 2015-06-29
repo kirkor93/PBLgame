@@ -100,7 +100,6 @@ namespace PBLgame
         /// </summary>
         protected override void LoadContent()
         {
-            Console.WriteLine(Color.CornflowerBlue.ToString());
             GlobalInventory.Instance.GraphicsDevice = GraphicsDevice;
 
             _audioEngine = new AudioEngine(@"Content\Audio\GameAudio.xgs");

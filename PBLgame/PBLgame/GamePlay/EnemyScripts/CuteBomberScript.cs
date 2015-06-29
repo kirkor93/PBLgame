@@ -32,6 +32,7 @@ namespace PBLgame.GamePlay
         #region Methods
         public CuteBomberScript(GameObject owner) : base(owner, 10)
         {
+            _name = "Cute Bomber";
             SetupScript(new Vector3(0.0f, 10.0f, 0.0f), AttackRange);
             ChaseSpeed = 0.0015f;
             _attackTimer = 0f;

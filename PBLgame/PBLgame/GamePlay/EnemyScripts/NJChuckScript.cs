@@ -33,6 +33,7 @@ namespace PBLgame.GamePlay
         #region Methods
         public NJChuckScript(GameObject owner) : base(owner, 400)
         {
+            _name = "NJ Chuck";
             SetupScript(new Vector3(15.0f, 10.0f, 0.0f), 5.0f);
             ChaseSpeed = 0.003f;
             _attackTimer = 2000;

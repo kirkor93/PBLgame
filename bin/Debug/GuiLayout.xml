@@ -171,6 +171,10 @@
     <PBLgame.Engine.GUI.Bar Id="34" Name="Enemy_Health_bar" Enabled="True" Pivot="1" Texture="Textures\GUI\Enemy_health_bar">
       <Position x="700" y="75" />
       <Scale x="1" y="1" />
+      <GUIText Font="Fonts\Default" Text="">
+        <LocalPosition x="100" y="30" />
+        <FontColor r="255" g="255" b="255" a="255" />
+      </GUIText>
     </PBLgame.Engine.GUI.Bar>
     <PBLgame.Engine.GUI.GUIObject Id="35" Name="Enemy_Health_bar_outline" Enabled="False" Pivot="1" Texture="Textures\GUI\Enemy_health_bar_outline">
       <Position x="700" y="75" />

@@ -70,6 +70,7 @@ namespace PBLgame.GamePlay
         #region Properties
 
         public Stat LastTargetedEnemyHp { get; set; }
+        public string LastTargetedEnemyName { get; set; }
         public bool Locked
         {
             get { return _locked;  }

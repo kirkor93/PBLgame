@@ -32,6 +32,7 @@ namespace PBLgame.GamePlay
         #region Methods
         public EnemyMeleeScript(GameObject owner) : base(owner, 100)
         {
+            _name = "Smart Droid";
             SetupScript(new Vector3(15.0f, 10.0f, 0.0f), 5.0f);
             ChaseSpeed = 0.006f;
             _attackTimer = 2000;
