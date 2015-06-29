@@ -261,7 +261,7 @@ namespace PBLgame
             if(!_startRealIntro)
             {
                 spriteBatch.Begin();
-                spriteBatch.Draw(videoPlayer.GetTexture(), _videoRectangle,Color.AntiqueWhite);
+                spriteBatch.Draw(videoPlayer.GetTexture(), _videoRectangle, Color.White);
                 spriteBatch.End(); 
             }
             else
