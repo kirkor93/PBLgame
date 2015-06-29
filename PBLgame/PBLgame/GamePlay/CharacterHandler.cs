@@ -46,7 +46,6 @@ namespace PBLgame.GamePlay
             RotationSpeed = 360.0f;
             _destAngle = _gameObject.transform.Rotation.Y;
             _lookVector = new Vector3();
-            _gameObject.audioSource = new AudioSource(_gameObject);
         }
 
         public override void Update(GameTime gameTime)
@@ -77,6 +76,7 @@ namespace PBLgame.GamePlay
 
         public override void Initialize(bool editor)
         {
+            if (_gameObject.audioSource == null) _gameObject.audioSource = new AudioSource(_gameObject);
             _avatar = Avatar.CreateAvatar(gameObject.animator);
         }
 

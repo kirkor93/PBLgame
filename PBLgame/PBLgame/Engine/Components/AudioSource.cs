@@ -141,14 +141,14 @@ namespace PBLgame.Engine.Components
         {
             base.ReadXml(reader);
             string cue = reader.GetAttribute("Cue");
-            TrackCues.Add(ResourceManager.Instance.GetAudioCue(cue));
+            if (cue != null) TrackCues.Add(ResourceManager.Instance.GetAudioCue(cue));
             reader.Read();
         }
 
         public override void WriteXml(XmlWriter writer)
         {
             base.WriteXml(writer);
-            writer.WriteAttributeString("Cue", TrackCues[0].Name);
+            if (TrackCues.Count > 0) writer.WriteAttributeString("Cue", TrackCues[0].Name);
         }
 
         #endregion
