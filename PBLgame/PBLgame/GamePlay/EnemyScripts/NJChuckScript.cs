@@ -32,7 +32,7 @@ namespace PBLgame.GamePlay
         #endregion
 
         #region Methods
-        public NJChuckScript(GameObject owner) : base(owner, 1000)
+        public NJChuckScript(GameObject owner) : base(owner, 1500)
         {
             _name = "NJ Chuck";
             SetupScript(new Vector3(15.0f, 10.0f, 0.0f), 5.0f);
@@ -40,9 +40,9 @@ namespace PBLgame.GamePlay
             _attackTimer = 2000;
             _attackDelay = 2500;
             _affectDMGDelay = 500.0f;
-            _hpEscapeValue = 70;
+            _hpEscapeValue = 80;
 
-            _dmg = 20;
+            _dmg = 60;
             
             #region DecisionTree & AiComponentInitialize
             _distanceNode.DecisionEvent += EnemyClose;
@@ -149,6 +149,7 @@ namespace PBLgame.GamePlay
                                     }
                                     else if (_attackType == "Strong")
                                     {
+                                        _dmg += 40;
                                         _attackTriggerObject.collision.Enabled = true;
                                         foreach (GameObject go in PhysicsSystem.CollisionObjects)
                                         {
@@ -158,6 +159,7 @@ namespace PBLgame.GamePlay
                                             }
                                         }
                                         _attackTriggerObject.collision.Enabled = false;
+                                        _dmg -= 40;
                                     }
                                 };
                             }
