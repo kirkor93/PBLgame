@@ -134,6 +134,7 @@ namespace PBLgame.GamePlay
                                 gameObject.animator.Attack(_attackType);
                                 gameObject.animator.OnTrigger += delegate
                                 {
+                                    gameObject.audioSource.Play("NJMiss");
                                     // TODO these two look quite the same
                                     if (_attackType == "Basic")
                                     {
@@ -225,6 +226,11 @@ namespace PBLgame.GamePlay
         protected override void PlayDeathSound()
         {
             gameObject.audioSource.Play("NJDeath");
+        }
+
+        public override string GetHitSound()
+        {
+            return "NJHit";
         }
 
         protected override void StandStill()

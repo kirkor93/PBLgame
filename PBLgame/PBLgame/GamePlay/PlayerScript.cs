@@ -66,7 +66,6 @@ namespace PBLgame.GamePlay
         private PostponeBuffer _postponeBuffer = new PostponeBuffer();
         private bool _goDown;
         private const string _swipeSound = "SwordSwipe";
-        private const string _bananaSwipeSound = "BananaSwipe";
         private const string _pushSound = "Push";
         private const string _hitSound = "SwordHit";
 
@@ -161,7 +160,12 @@ namespace PBLgame.GamePlay
                 EnemyScript enemy = obj.GetComponent<EnemyScript>();
                 if (enemy != null)
                 {
-                    //Console.WriteLine("Here");
+                    if (enemy is NJChuckScript)
+                    {
+                        Locked = true;
+                        gameObject.animator.Ouch();
+                        gameObject.animator.OnAnimationFinish += delegate { Locked = false; };
+                    }
                     gameObject.audioSource.Play(enemy.GetHitSound());
                     if(_shieldActive)
                     {
@@ -184,6 +188,11 @@ namespace PBLgame.GamePlay
         {
             base.Initialize(editor);
             Stats = new PlayerStatistics(300, 200, 110);
+            Stats.Experience.OnLevelUp += delegate
+            {
+                gameObject.audioSource.Play("LevelUp");
+            };
+
             if (editor)
             {
             }
@@ -310,6 +319,7 @@ namespace PBLgame.GamePlay
                             else
                             {
                                 Console.WriteLine("Not enough mana");
+                                gameObject.audioSource.Play("NoMana");
                             }
                         }
                         break;
@@ -351,19 +361,23 @@ namespace PBLgame.GamePlay
 
                     case Buttons.RightShoulder | Buttons.LeftShoulder:
                         {
-                            if(Stats.Energy.TryDecrease(Stats.ShootManaCost.Value))
+                            if (Stats.Energy.TryDecrease(Stats.ShootManaCost.Value))
                             {
                                 Attack(AttackType.Ion);
                                 gameObject.animator.OnTrigger += delegate
                                 {
-                                    if(BananaAttack != null)
+                                    if (BananaAttack != null)
                                     {
                                         BananaAttack.Direction = LookVector;
-                                        BananaAttack.StartPosition = gameObject.transform.Position + (LookVector * 3.0f);
+                                        BananaAttack.StartPosition = gameObject.transform.Position + (LookVector*3.0f);
                                         BananaAttack.Activated = true;
                                     }
                                     InputManager.Instance.RumplePad(150f, 0.2f, 0.8f);
                                 };
+                            }
+                            else
+                            {
+                                gameObject.audioSource.Play("NoMana");
                             }
                         }
                         break;
@@ -391,13 +405,16 @@ namespace PBLgame.GamePlay
                     gameObject.audioSource.Play(_swipeSound);
                     break;
 
+                case AttackType.Strong:
+                    gameObject.audioSource.Play("SwordStrong");
+                    break;
+
 
             }
             gameObject.animator.Attack(attackType.ToString());
             gameObject.animator.OnAnimationFinish += () => Locked = false;
             gameObject.animator.OnTrigger += delegate
             {
-
                 _attackTriggerObject.transform.Position = _baseAttackSpherePostion;
                 _attackTriggerObject.collision.MainCollider.Radius = _baseAttackSphereRadius;
                 switch (AttackEnum)
@@ -417,7 +434,6 @@ namespace PBLgame.GamePlay
                         break;
 
                     case AttackType.Ion:
-                        //gameObject.audioSource.Play(_bananaSwipeSound);
                         gameObject.audioSource.Play("BananaShot");
                         break;
                 }
@@ -442,13 +458,15 @@ namespace PBLgame.GamePlay
                 case PotionType.Health:
                     if (Stats.HealthPotions.TryDecrease(1) && Stats.Health.Value < Stats.Health.MaxValue)
                     {
-                        Stats.Health.Increase((int)(Stats.Health.MaxValue*0.2f));
+                        Stats.Health.Increase((int)(Stats.Health.MaxValue * 0.2f));
+                        gameObject.audioSource.Play("PotionUse");
                     }
                     break;
                 case PotionType.Energy:
                     if (Stats.EnergyPotions.TryDecrease(1) && Stats.Energy.Value < Stats.Energy.MaxValue)
                     {
-                        Stats.Energy.Increase((int)(Stats.Energy.MaxValue*0.2f));
+                        Stats.Energy.Increase((int)(Stats.Energy.MaxValue * 0.2f));
+                        gameObject.audioSource.Play("PotionUse");
                     }
                     break;
             }

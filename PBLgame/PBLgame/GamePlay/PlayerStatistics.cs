@@ -112,7 +112,7 @@ namespace PBLgame.GamePlay
     {
         public Stat Health { get; private set; }
         public Stat Energy { get; private set; }
-        public Stat Experience { get; private set ; }
+        public ExperienceStat Experience { get; private set; } // I destroyed a harmony
         public Stat TalentPoints { get; private set; }
         public Stat BasePhysicalDamage { get; private set; }
         public Stat FastAttackDamageBonus { get; private set; }

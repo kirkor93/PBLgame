@@ -222,6 +222,7 @@ namespace PBLgame.Engine.Components
         /// <param name="blendTime">blending time in seconds (use 0 to disable blending)</param>
         public void PlayAnimation(AnimationClip clip, bool loop = true, float speed = 1.0f, float blendTime = 0.3f)
         {
+            if (!Enabled) return;
             _prevAnimation = _currentAnimation;
             _currentAnimation = new AnimationState(clip, AnimMesh) {Looping = loop, Speed = speed};
 

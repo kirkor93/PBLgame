@@ -79,7 +79,7 @@ namespace PBLgame.GamePlay
                 default:
                     return;
             }
-
+            player.gameObject.audioSource.Play("PotionGrab");
             potion.Enabled = false;
             potion.RemoveFromScene();
         }

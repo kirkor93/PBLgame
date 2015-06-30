@@ -142,6 +142,7 @@ namespace PBLgame.GamePlay
             {
                 ItemDropper.DropPotion(gameObject, player.gameObject);
             };
+            gameObject.animator.Enabled = false;
         }
 
         protected abstract void PlayDeathSound();

@@ -83,7 +83,7 @@ namespace PBLgame.Engine.GUI
         public void AssignPlayerScript(PlayerScript script)
         {
             _playerScript = script;
-            (_playerScript.Stats.Experience as ExperienceStat).OnLevelUp += OnLevelUp;
+            _playerScript.Stats.Experience.OnLevelUp += OnLevelUp;
             if (_talentWindowManager != null)
             {
                 _talentWindowManager.AssignPlayerStatisticsScript(script.Stats);

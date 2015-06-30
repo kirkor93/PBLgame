@@ -172,7 +172,7 @@ namespace PBLgame.GamePlay
         public override void Draw(GameTime gameTime)
         {
             //_fieldOfView.collision.MainCollider.Draw();
-            _fieldOfView.Draw(gameTime);
+            //_fieldOfView.Draw(gameTime);
         }
 
         public override Component Copy(GameObject newOwner)

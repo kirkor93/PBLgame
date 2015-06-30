@@ -190,8 +190,10 @@ namespace PBLgame
         }
         private void OnIntroFinished(object sender, EventArgs eventArgs)
         {
+            if (_activeScene == _loadedScene && _activeScreenSystem == _hud) return;
             _activeScene = _loadedScene;
             _activeScreenSystem = _hud;
+            _soundBank.GetCue("Soundtrack").Play();
         }
 
         /// <summary>
