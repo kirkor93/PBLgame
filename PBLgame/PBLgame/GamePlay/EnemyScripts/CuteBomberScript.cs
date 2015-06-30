@@ -77,6 +77,7 @@ namespace PBLgame.GamePlay
         protected override void MakeDead(PlayerScript player)
         {
             if (player != null) player.Stats.Experience.Increase(100);
+            AIComponent.Enabled = false;
             gameObject.GetComponent<ParticleSystem>().Triggered = true;
             gameObject.audioSource.Play("CuteExplode");
             _attackTriggerObject.Enabled = false;
@@ -84,7 +85,6 @@ namespace PBLgame.GamePlay
             gameObject.renderer.Enabled = false;
             gameObject.collision.Enabled = false;
             _attackTriggerObject.Enabled = false;
-            _fieldOfView.Enabled = false;
             _hp = 0;
             
             //base.MakeDead(player); no animations here

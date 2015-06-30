@@ -185,6 +185,7 @@ namespace PBLgame
         private void OnIntroIntroFinished(object sender, EventArgs eventArgs)
         {
             _activeScreenSystem = _realIntro;
+            _preIntroIntro.MyVideoPlayer.Volume = 0;
             _realIntro.Start(Time);
         }
         private void OnIntroFinished(object sender, EventArgs eventArgs)

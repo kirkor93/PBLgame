@@ -49,20 +49,10 @@ namespace PBLgame.GamePlay
         {
         }
 
-        public virtual void Ouch(Action onFinish = null)
-        {
-            if (_ouch == null)
-            {
-                if (onFinish != null) onFinish();
-                return;
-            }
-            _animator.PlayAnimation(_ouch, false, 1f, 0.2f);
-            _animator.OnAnimationFinish += delegate
-            {
-                _animator.Idle();
-                if (onFinish != null) onFinish();
-            };
-        }
+        //public virtual void Ouch(Action onFinish = null)
+        //{
+        //    _animator.Ouch();
+        //}
     }
 
 

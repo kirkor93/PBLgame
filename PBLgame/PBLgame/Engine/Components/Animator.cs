@@ -236,12 +236,13 @@ namespace PBLgame.Engine.Components
             }
             UpdateBoneMatrices();
             OnTrigger = null;
+            OnAnimationFinish = null;
         }
 
         public void Idle()
         {
-            if (_currentType != AnimationType.Idle)
-            {
+            //if (_currentType != AnimationType.Idle)
+            //{
                 _currentType = AnimationType.Idle;
                 AnimationClip idleClip = AnimMesh.Skeleton.Idle;
                 if (idleClip != null) PlayAnimation(idleClip, true, 1.0f);
@@ -251,17 +252,17 @@ namespace PBLgame.Engine.Components
                     // fade to beginning
                     PlayAnimation(Clip, false, 0);
                 }
-            }
+            //}
         }
 
         public void Attack(string type = "")
         {
-            if (_currentType != AnimationType.Attack)
-            {
+            //if (_currentType != AnimationType.Attack)
+            //{
                 _currentType = AnimationType.Attack;
                 PlayAnimation(GetClip("Attack" + type), false);
                 OnAnimationFinish += Idle;
-            }
+            //}
         }
 
         public void Death()
@@ -270,8 +271,18 @@ namespace PBLgame.Engine.Components
             {
                 _currentType = AnimationType.Death;
                 PlayAnimation(GetClip("Death"), false);
-                OnAnimationFinish = null;
+                //OnAnimationFinish = null;
             }
+        }
+
+        public bool Ouch()
+        {
+            AnimationClip ouch = GetClip("Ouch");
+            if (ouch == null) return false;
+            _currentType = AnimationType.Ouch;
+            PlayAnimation(ouch, false, 1f, 0.2f);
+            OnAnimationFinish += Idle;
+            return true;
         }
 
         public AnimationClip GetClip(string type)
@@ -281,9 +292,11 @@ namespace PBLgame.Engine.Components
 
         public enum AnimationType
         {
-            Idle, Other,
+            Idle, 
+            Other,
             Attack,
-            Death
+            Death,
+            Ouch
         }
 
         #region Update and Transport Controls

@@ -233,6 +233,9 @@ namespace PBLgame.GamePlay
             }
         }
 
+        protected override void PlayDeathSound()
+        {
+        }
 
         private void CharacterRotation(Object obj, MoveArgs args)
         {

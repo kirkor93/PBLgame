@@ -135,7 +135,7 @@ namespace PBLgame.GamePlay
             {
                 slot.Attachment.renderer.EmissiveValue = 0f;
             }
-            gameObject.audioSource.Play("RobotDeath");
+            PlayDeathSound();
             gameObject.animator.Death();
             gameObject.collision.Enabled = false;
             gameObject.animator.OnAnimationFinish += delegate
@@ -143,6 +143,8 @@ namespace PBLgame.GamePlay
                 ItemDropper.DropPotion(gameObject, player.gameObject);
             };
         }
+
+        protected abstract void PlayDeathSound();
 
         #endregion
 
