@@ -225,7 +225,7 @@ namespace PBLgame.Engine.Components
         
         public override void Draw(GameTime gameTime)
         {
-            if(Enabled)
+            if (Enabled)
             {
                 foreach (BoxCollider box in _boxColliders)
                 {

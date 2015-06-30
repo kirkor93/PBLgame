@@ -38,6 +38,7 @@ namespace PBLgame.GamePlay
                 SetLookVectorInstantly(_direction);
                 gameObject.collision.Enabled = value;
                 gameObject.renderer.Enabled = value;
+                gameObject.GetChildren().First(c => c is Light).Enabled = value;
             }
         }
         public Vector3 StartPosition
@@ -109,6 +110,10 @@ namespace PBLgame.GamePlay
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
+        }
+
+        protected override void PlayDeathSound()
+        {
         }
 
         private void GetHit(Object obj, ColArgs args)
