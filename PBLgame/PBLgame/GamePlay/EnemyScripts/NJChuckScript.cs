@@ -220,6 +220,11 @@ namespace PBLgame.GamePlay
             _currentAction = MeleeAction.Chase;
         }
 
+        protected override void PlayDeathSound()
+        {
+            gameObject.audioSource.Play("NJDeath");
+        }
+
         protected override void StandStill()
         {
             _currentAction = MeleeAction.Stay;

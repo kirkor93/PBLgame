@@ -164,9 +164,15 @@ namespace PBLgame.GamePlay
                     gameObject.audioSource.Play(player.GetHitSound(player.AttackEnum));
                     player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                     player.LastTargetedEnemyName = _name;
-                    _avatar.Ouch(EnableAI);
-                    DisableAI();
-                    StandStill();
+                    if (gameObject.animator != null)
+                    {
+                        if (gameObject.animator.Ouch())
+                        {
+                            DisableAI();
+                            StandStill();
+                            gameObject.animator.OnAnimationFinish += EnableAI;
+                        }
+                    }
                 }
                 else if(cute != null)
                 {
@@ -177,9 +183,15 @@ namespace PBLgame.GamePlay
                     _pushValue.Y = 0.0f;
                     _pushed = true;
                     _pushTimer = -0.3f;
-                    _avatar.Ouch(EnableAI);
-                    DisableAI();
-                    StandStill();
+                    if (gameObject.animator != null)
+                    {
+                        if (gameObject.animator.Ouch())
+                        {
+                            DisableAI();
+                            StandStill();
+                            gameObject.animator.OnAnimationFinish += EnableAI;
+                        }
+                    }
                 }
             }
             if (HP <= 0 && !Dead)
@@ -212,6 +224,11 @@ namespace PBLgame.GamePlay
                 _ionTimer += gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
                 if (_ionTimer > 0.3f) _ionFlag = false;
             }
+        }
+
+        protected override void PlayDeathSound()
+        {
+            gameObject.audioSource.Play("RobotDeath");
         }
 
         protected bool IsMyHP()
