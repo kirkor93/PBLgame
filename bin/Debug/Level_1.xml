@@ -10345,7 +10345,7 @@
         </SphereCollider>
       </Collision>
       <AudioSource Enabled="True" />
-      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="1.3" Triggered="False" Height="0">
+      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="1.3" Triggered="False" Height="6">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="5" y="5" />
@@ -10393,7 +10393,7 @@
         </SphereCollider>
       </Collision>
       <AudioSource Enabled="True" />
-      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="1.3" Triggered="False" Height="0">
+      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="1.3" Triggered="False" Height="6">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="5" y="5" />
@@ -11132,7 +11132,7 @@
         </SphereCollider>
       </Collision>
       <AudioSource Enabled="True" />
-      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="1.3" Triggered="False" Height="0">
+      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="1.3" Triggered="False" Height="6">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="5" y="5" />
@@ -12308,7 +12308,7 @@
         </SphereCollider>
       </Collision>
       <AudioSource Enabled="True" />
-      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="1.3" Triggered="False" Height="0">
+      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="1.3" Triggered="False" Height="6">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="5" y="5" />
@@ -12332,7 +12332,7 @@
         </SphereCollider>
       </Collision>
       <AudioSource Enabled="True" />
-      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="1.3" Triggered="False" Height="0">
+      <ParticleSystem Enabled="True" MaterialId="2" Duration="1" LifeTimeLimit="0.5" Loop="False" Max="40" Speed="1.3" Triggered="False" Height="6">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="5" y="5" />
@@ -14592,7 +14592,7 @@
       </Collision>
       <Animator Enabled="True" />
       <AudioSource Enabled="True" />
-      <ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="0">
+      <ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="10">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="5" y="5" />
@@ -14625,7 +14625,7 @@
       </Collision>
       <Animator Enabled="True" />
       <AudioSource Enabled="True" />
-      <ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="0">
+      <ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="10">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="5" y="5" />
@@ -14658,7 +14658,7 @@
       </Collision>
       <Animator Enabled="True" />
       <AudioSource Enabled="True" />
-      <ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="0">
+      <ParticleSystem Enabled="True" MaterialId="53" Duration="1" LifeTimeLimit="0.4" Loop="False" Max="1" Speed="2" Triggered="False" Height="10">
         <DirectionFrom x="-0.1" y="0" z="-0.1" />
         <DirectionTo x="0.1" y="0.1" z="0.1" />
         <Size x="5" y="5" />

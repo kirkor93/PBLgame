@@ -134,14 +134,14 @@ namespace PBLgame.GamePlay
             TalentPoints = new Stat(0, int.MaxValue);
             BasePhysicalDamage = new Stat(5, int.MaxValue);
             FastAttackDamageBonus = new Stat(15, int.MaxValue);
-            StrongAttackDamageBonus = new Stat(30, int.MaxValue);
-            ShootDamage = new Stat(20, int.MaxValue);
+            StrongAttackDamageBonus = new Stat(45, int.MaxValue);
+            ShootDamage = new Stat(30, int.MaxValue);
             ShootManaCost = new Stat(20, int.MaxValue);
-            ShieldAbsorption = new Stat(10, 50);
+            ShieldAbsorption = new Stat(20, 60);
             ShieldManaCost = new Stat(5, int.MaxValue);
             PushManaCost = new Stat(10, int.MaxValue);
-            HealthPotions = new Stat(3, int.MaxValue);
-            EnergyPotions = new Stat(3, int.MaxValue);
+            HealthPotions = new Stat(5, int.MaxValue);
+            EnergyPotions = new Stat(5, int.MaxValue);
 
             FastAttackDamageBonus.OtherStatsRequiredProgress.Add(BasePhysicalDamage, 3);
             StrongAttackDamageBonus.OtherStatsRequiredProgress.Add(FastAttackDamageBonus, 3);
