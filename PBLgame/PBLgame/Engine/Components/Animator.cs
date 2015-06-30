@@ -224,7 +224,6 @@ namespace PBLgame.Engine.Components
         /// <param name="loop">loop animation</param>
         /// <param name="speed">speed multiplier</param>
         /// <param name="blendTime">blending time in seconds (use 0 to disable blending)</param>
-        /// <param name="eventDriven">tells whether play was called from OnAnimationFinished event</param>
         public void PlayAnimation(AnimationClip clip, bool loop = true, float speed = 1.0f, float blendTime = 0.3f)
         {
             if (!Enabled) return;
@@ -242,6 +241,7 @@ namespace PBLgame.Engine.Components
             }
             UpdateBoneMatrices();
             OnTrigger = null;
+            //Console.WriteLine("[{0}] {1}: {2}", gameObject.ID, gameObject.Name, clip.Type);
             if (OnAnimationFinish != null)
             {
                 OnAnimationFinish();
@@ -273,6 +273,7 @@ namespace PBLgame.Engine.Components
         {
             if (_currentType != AnimationType.Death)
             {
+                if(_currentType == AnimationType.Ouch) OnAnimationFinish = null;
                 _currentType = AnimationType.Death;
                 PlayAnimation(GetClip("Death"), false);
             }

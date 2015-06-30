@@ -10,19 +10,20 @@ namespace PBLgame.GamePlay
 {
     public static class ItemDropper
     {
-        private static readonly Random Rand;
+        private static readonly Random ProbabilityRand, TypeRand;
         private static double DropProbability = 0.5;
         private static double HPProbability = 0.5;
 
         static ItemDropper()
         {
-            Rand = new Random();
+            ProbabilityRand = new Random();
+            TypeRand = new Random();
         }
 
         public static bool DropPotion(GameObject dropper, GameObject player)
         {
-            if (Rand.NextDouble() < DropProbability) return false;
-            PotionType type = (Rand.NextDouble() >= HPProbability) ? PotionType.Health : PotionType.Energy;
+            if (ProbabilityRand.NextDouble() > DropProbability) return false;
+            PotionType type = (TypeRand.NextDouble() >= HPProbability) ? PotionType.Health : PotionType.Energy;
 
             GameObject potion = new GameObject(dropper.Scene)
             {

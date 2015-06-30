@@ -163,8 +163,8 @@ namespace PBLgame.GamePlay
                 {
                     if (enemy is NJChuckScript)
                     {
-                        Locked = true;
                         gameObject.animator.Ouch();
+                        Locked = true; 
                         gameObject.animator.OnAnimationFinish += delegate { Locked = false; };
                     }
                     gameObject.audioSource.Play(enemy.GetHitSound());
@@ -202,10 +202,18 @@ namespace PBLgame.GamePlay
                 InputManager.Instance.OnTurn += CharacterRotation;
                 InputManager.Instance.OnMove += CharacterTranslate;
                 InputManager.Instance.OnButton += CharacterAction;
+                InputManager.Instance.OnCheat += PlayerSucks;
 
                 HUD.Instance.AssignPlayerScript(this);
             }
             //BananaAttack.Player = gameObject;
+        }
+
+        private void PlayerSucks()
+        {
+            Stats.EnergyPotions.Increase(20);
+            Stats.HealthPotions.Increase(20);
+            Stats.TalentPoints.Increase(2);
         }
 
         public override void Update(GameTime gameTime)

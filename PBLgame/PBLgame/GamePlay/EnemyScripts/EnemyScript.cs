@@ -138,15 +138,7 @@ namespace PBLgame.GamePlay
                     if (player.AttackEnum != AttackType.Ion || !_ionFlag)
                     {
                         gameObject.audioSource.Play(player.GetHitSound(player.AttackEnum));
-                        if (gameObject.animator != null)
-                        {
-                            if (gameObject.animator.Ouch())
-                            {
-                                DisableAI();
-                                StandStill();
-                                gameObject.animator.OnAnimationFinish += EnableAI;
-                            }
-                        }
+                        MakeOuch();
                     }
                     switch (player.AttackEnum)
                     {
@@ -186,15 +178,7 @@ namespace PBLgame.GamePlay
                     _pushValue.Y = 0.0f;
                     _pushed = true;
                     _pushTimer = -0.3f;
-                    if (gameObject.animator != null)
-                    {
-                        if (gameObject.animator.Ouch())
-                        {
-                            DisableAI();
-                            StandStill();
-                            gameObject.animator.OnAnimationFinish += EnableAI;
-                        }
-                    }
+                    MakeOuch();
                 }
             }
             if (HP <= 0 && !Dead)
@@ -203,14 +187,24 @@ namespace PBLgame.GamePlay
             }
         }
 
+        private void MakeOuch()
+        {
+            if (gameObject.animator == null || !gameObject.animator.Ouch()) return;
+            DisableAI();
+            StandStill();
+            gameObject.animator.OnAnimationFinish += EnableAI;
+        }
+
         protected virtual void EnableAI()
         {
             AIComponent.Enabled = true;
+            gameObject.renderer.EmissiveValue = 1f;
         }
 
         protected virtual void DisableAI()
         {
             AIComponent.Enabled = false;
+            gameObject.renderer.EmissiveValue = 0.1f;
         }
 
         protected override void MakeDead(PlayerScript player)

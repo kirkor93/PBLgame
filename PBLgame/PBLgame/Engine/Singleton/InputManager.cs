@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Collections;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -64,6 +65,7 @@ namespace PBLgame.Engine.Singleton
             public event StickHandler OnMove;
             public event StickHandler OnTurn;
             public event ButtonHandler OnButton;
+            public event Action OnCheat;
             #endregion
 
             #region Private
@@ -76,6 +78,8 @@ namespace PBLgame.Engine.Singleton
             private double _rumbleMiliseconds;
             private Vector2 _lastLeftStick, _lastRightStick;
             private const double BUTTON_DELAY = 0.1;
+            private List<Buttons> _combo = new List<Buttons>();
+            private Buttons[] _konami = { Buttons.DPadUp, Buttons.DPadUp, Buttons.DPadDown, Buttons.DPadDown, Buttons.DPadLeft, Buttons.DPadRight, Buttons.DPadLeft, Buttons.DPadRight, Buttons.B, Buttons.A };
 
         #endregion
         #endregion
@@ -92,6 +96,42 @@ namespace PBLgame.Engine.Singleton
                 Buttons btn = ButtonsArray[i];
                 _buttonDatas[i] = new ButtonData(btn);
             }
+
+            OnButton += ListenKonamiCode;
+        }
+
+        private void ListenKonamiCode(object sender, ButtonArgs e)
+        {
+            if (!e.IsDown) return;
+            _combo.Add(e.ButtonName);
+            ComboResult result = CheckCombo(_combo, _konami);
+            switch (result)
+            {
+                case ComboResult.None:
+                    _combo.Clear();
+                    break;
+
+                case ComboResult.Full:
+                    if (OnCheat != null) OnCheat();
+                    _combo.Clear();
+                    break;
+            }
+        }
+
+        private ComboResult CheckCombo(IEnumerable<Buttons> current, IEnumerable<Buttons> expected)
+        {
+            IEnumerator<Buttons> currentEnum = current.GetEnumerator();
+            ComboResult result = ComboResult.None;
+
+            foreach (Buttons btn in expected)
+            {
+                if (currentEnum.MoveNext())
+                {
+                    if (btn == currentEnum.Current) result = ComboResult.Partial;
+                    else return ComboResult.None;
+                } else return result;
+            }
+            return ComboResult.Full;
         }
 
         public void Initialize()
@@ -214,5 +254,10 @@ namespace PBLgame.Engine.Singleton
         }
 
         #endregion
+    }
+
+    internal enum ComboResult
+    {
+        None, Partial, Full
     }
 }
