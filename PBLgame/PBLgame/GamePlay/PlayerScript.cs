@@ -81,15 +81,16 @@ namespace PBLgame.GamePlay
             get { return _locked;  }
             set
             {
+                if (_locked == value) return;
                 _locked = value;
-                if (value == false)
+                if (value)
                 {
-                    // handle postponed actions in locked-state buffer
-                    UnleashBuffer(_postponeBuffer);
+                    _postponeBuffer = new PostponeBuffer();
                 }
                 else
                 {
-                    _postponeBuffer = new PostponeBuffer();
+                    // handle postponed actions in locked-state buffer
+                    UnleashBuffer(_postponeBuffer);
                 }
             }
         }

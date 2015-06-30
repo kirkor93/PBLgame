@@ -146,7 +146,11 @@ namespace PBLgame.Engine.Components
         private float _blendingFactor;
         private float _blendingTime;
 
+        /// <summary>
+        /// Event called after animation finished. Do not attach any PlayAnimation() there unless you need stack overflow.
+        /// </summary>
         public event Action OnAnimationFinish;
+        public Action NextClip { get; set; }
         public event Action<int> OnTrigger;
 
         #endregion
@@ -220,6 +224,7 @@ namespace PBLgame.Engine.Components
         /// <param name="loop">loop animation</param>
         /// <param name="speed">speed multiplier</param>
         /// <param name="blendTime">blending time in seconds (use 0 to disable blending)</param>
+        /// <param name="eventDriven">tells whether play was called from OnAnimationFinished event</param>
         public void PlayAnimation(AnimationClip clip, bool loop = true, float speed = 1.0f, float blendTime = 0.3f)
         {
             if (!Enabled) return;
@@ -237,7 +242,11 @@ namespace PBLgame.Engine.Components
             }
             UpdateBoneMatrices();
             OnTrigger = null;
-            OnAnimationFinish = null;
+            if (OnAnimationFinish != null)
+            {
+                OnAnimationFinish();
+                OnAnimationFinish = null;
+            }
         }
 
         public void Idle()
@@ -247,23 +256,17 @@ namespace PBLgame.Engine.Components
                 _currentType = AnimationType.Idle;
                 AnimationClip idleClip = AnimMesh.Skeleton.Idle;
                 if (idleClip != null) PlayAnimation(idleClip, true, 1.0f);
-                else
-                {
-                    // TODO this is a temporary workaround
-                    // fade to beginning
-                    PlayAnimation(Clip, false, 0);
-                }
             //}
         }
 
         public void Attack(string type = "")
         {
-            //if (_currentType != AnimationType.Attack)
-            //{
+            if (_currentType != AnimationType.Attack)
+            {
                 _currentType = AnimationType.Attack;
                 PlayAnimation(GetClip("Attack" + type), false);
-                OnAnimationFinish += Idle;
-            //}
+                NextClip = Idle;
+            }
         }
 
         public void Death()
@@ -272,7 +275,6 @@ namespace PBLgame.Engine.Components
             {
                 _currentType = AnimationType.Death;
                 PlayAnimation(GetClip("Death"), false);
-                //OnAnimationFinish = null;
             }
         }
 
@@ -281,8 +283,8 @@ namespace PBLgame.Engine.Components
             AnimationClip ouch = GetClip("Ouch");
             if (ouch == null) return false;
             _currentType = AnimationType.Ouch;
-            PlayAnimation(ouch, false, 1f, 0.2f);
-            OnAnimationFinish += Idle;
+            PlayAnimation(ouch, false, 1f, 0.1f);
+            NextClip = Idle;
             return true;
         }
 
@@ -389,14 +391,24 @@ namespace PBLgame.Engine.Components
             }
             else if(!animation.Looping && newPosition >= animation.Duration)
             {
-                if (OnAnimationFinish != null)
-                {
-                    OnAnimationFinish();
-                    OnAnimationFinish = null;
-                }
+                PlayNextClip();
             }
 
             animation.Position = newPosition;
+        }
+
+        private void PlayNextClip()
+        {
+            if (NextClip != null)
+            {
+                NextClip();
+                NextClip = null;
+            }
+            if (OnAnimationFinish != null)
+            {
+                OnAnimationFinish();
+                OnAnimationFinish = null;
+            }
         }
 
         private bool IsBetween(float duration, float needle, float low, float high)

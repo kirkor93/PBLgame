@@ -135,6 +135,19 @@ namespace PBLgame.GamePlay
                     cute = args.EnemyCollider.Owner.gameObject.parent.GetComponent<CuteBomberScript>();
                 if (player != null)
                 {
+                    if (player.AttackEnum != AttackType.Ion || !_ionFlag)
+                    {
+                        gameObject.audioSource.Play(player.GetHitSound(player.AttackEnum));
+                        if (gameObject.animator != null)
+                        {
+                            if (gameObject.animator.Ouch())
+                            {
+                                DisableAI();
+                                StandStill();
+                                gameObject.animator.OnAnimationFinish += EnableAI;
+                            }
+                        }
+                    }
                     switch (player.AttackEnum)
                     {
                         case AttackType.Quick:
@@ -152,7 +165,7 @@ namespace PBLgame.GamePlay
                             _pushTimer = -0.3f;
                             break;
                         case AttackType.Ion:
-                            if(!_ionFlag)
+                            if (!_ionFlag)
                             {
                                 _hp -= (player.Stats.ShootDamage.Value);
                                 _ionFlag = true;
@@ -161,18 +174,8 @@ namespace PBLgame.GamePlay
                             }
                             break;
                     }
-                    gameObject.audioSource.Play(player.GetHitSound(player.AttackEnum));
                     player.LastTargetedEnemyHp = new Stat(HP, MaxHp);
                     player.LastTargetedEnemyName = _name;
-                    if (gameObject.animator != null)
-                    {
-                        if (gameObject.animator.Ouch())
-                        {
-                            DisableAI();
-                            StandStill();
-                            gameObject.animator.OnAnimationFinish += EnableAI;
-                        }
-                    }
                 }
                 else if(cute != null)
                 {

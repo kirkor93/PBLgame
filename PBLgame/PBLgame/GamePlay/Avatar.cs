@@ -84,6 +84,7 @@ namespace PBLgame.GamePlay
 
         public override void Update(Vector2 velocity, float lookAngle)
         {
+            if (_animator.Clip.Type == "Ouch") return;
             float v = velocity.Length();
             if (v < 0.0001)
             {
